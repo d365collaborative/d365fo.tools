@@ -1,22 +1,23 @@
-##############################
-#.SYNOPSIS
-#Invokes the Rearm of Windows license
-#
-#.DESCRIPTION
-#Function used for invoking the rearm functionality inside Windows
-#
-#.PARAMETER DropPath
-#Place where the decrypted files should be placed
-#
-#.PARAMETER AosServiceWebRootPath
-#Location of the D365 webroot folder
-#
-#.EXAMPLE
-#Get-DecrypteConfigFile -DropPath 'C:\Temp'
-#
-#.NOTES
-# Used for getting the Password for the database and other service accounts used in environment
-##############################
+<#
+.SYNOPSIS
+Invokes the Rearm of Windows license
+
+.DESCRIPTION
+Function used for invoking the rearm functionality inside Windows
+
+.PARAMETER Restart
+Instruct the cmdlet to restart the machine
+
+.EXAMPLE
+Invoke-ReArmWindows
+
+.EXAMPLE
+Invoke-ReArmWindows -Restart
+
+.NOTES
+
+#>
+
 function Invoke-ReArmWindows {
     param(
         [Parameter(Mandatory = $false, Position = 1)]        
@@ -27,7 +28,7 @@ function Invoke-ReArmWindows {
 
     (Get-WmiObject -Class SoftwareLicensingService -Namespace root/cimv2 -ComputerName .).ReArmWindows()
   
-    if ($Restart) {
+    if ($Restart.IsPresent) {
         Restart-Computer -Force
     }
 }

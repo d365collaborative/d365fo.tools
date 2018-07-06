@@ -1,70 +1,111 @@
-##############################
-#.SYNOPSIS
-# Used to import Aad users into D365FO
-#
-#.DESCRIPTION
-# Provides a method for importing a AAD UserGroup or a comma seperated list of AadUsers into D365FO.
-#
-#.PARAMETER AadGroupName
-# Azure Active directory usergroup containing users to be importet
-#
-#.PARAMETER UserList
-# A comma seperated list of Aad users to be importet into D365FO
-#
-#.PARAMETER StartupCompany
-# Startup company of users importet, Default USMF
-#
-#.PARAMETER DatabaseServer
-# Alternative SQL Database server, Default is the one provided by the DataAccess object
-#
-#.PARAMETER DatabaseName
-# Alternative SQL Database, Default is the one provieded by the DataAccess object
-#
-#.PARAMETER SqlUser
-# Alternative SQL user, Default is the one provieded by the DataAccess object
-#
-#.PARAMETER SqlPwd
-# Alternative SQL user password, Default is the one provieded by the DataAccess object
-#
-#.EXAMPLE
-# Import 2 users into D365FO
-# Import-AadUser -Userlist "user1@myCompany.com,user2@mycompany.com"
-# Import-AadUser -AadGroupName "CustomerTeam1"
-#.NOTES
-# The import is done using TSQL for copying the Admin Account,
-# The RecId is from SystemSequences
-##############################
+<#
+.SYNOPSIS
+Used to import Aad users into D365FO
+
+.DESCRIPTION
+Provides a method for importing a AAD UserGroup or a comma seperated list of AadUsers into D365FO.
+
+.PARAMETER AadGroupName
+Azure Active directory usergroup containing users to be importet
+
+.PARAMETER UserList
+A comma seperated list of Aad users to be importet into D365FO
+
+.PARAMETER StartupCompany
+Startup company of users importet.
+
+Default is DAT
+
+.PARAMETER DatabaseServer
+Alternative SQL Database server, Default is the one provided by the DataAccess object
+
+.PARAMETER DatabaseName
+Alternative SQL Database, Default is the one provieded by the DataAccess object
+
+.PARAMETER SqlUser
+Alternative SQL user, Default is the one provieded by the DataAccess object
+
+.PARAMETER SqlPwd
+Alternative SQL user password, Default is the one provieded by the DataAccess object
+
+.PARAMETER IdPrefix
+A text that will be prefixed into the ID field. E.g. -IdPrefix "EXT-" will import users and set ID starting with "EXT-..."
+
+.PARAMETER NameSuffix
+A text that will be suffixed into the NAME field. E.g. -NameSuffic "(Contoso)" will import users and append "(Contoso)"" to the NAME
+
+.PARAMETER IdValue
+Specify which field to use as ID value when importing the users.
+Available options 'Login' / 'FirstName'
+
+Default is 'Login'
+
+.PARAMETER NameValue
+Specify which field to use as NAME value when importing the users.
+Available options 'FirstName' / 'DisplayName'
+
+Default is 'DisplayName'
+
+.EXAMPLE
+Import-AadUser -Userlist "Claire@contoso.com,Allen@contoso.com"
+
+Imports Claire and Allen as users.
+
+.EXAMPLE 
+Import-AadUser -AadGroupName "CustomerTeam1"
+
+Imports all the users that is present in the AAD Group called CustomerTeam1
+
+.NOTES
+At no circumstances can this cmdlet be used to import users into a PROD environment.
+
+Only users from an Azure Active Directory that you have access to, can be imported. 
+Use AAD B2B implementation if you want to support external people.
+
+Every imported users will get the System Administration / Administrator role assigned on import
+#>
+
 function Import-AadUser {
     param (
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "GroupImport")]
         [String]$AadGroupName,
+        
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "UserListImport")]
         [string]$UserList,
+        
         [Parameter(Mandatory = $false, Position = 2, ParameterSetName = "GroupImport")]
         [Parameter(Mandatory = $false, Position = 2, ParameterSetName = "UserListImport")]
-        [string]$StartupCompany = 'USMF',
+        [string]$StartupCompany = 'DAT',
+        
         [Parameter(Mandatory = $false, Position = 3, ParameterSetName = "GroupImport")]
         [Parameter(Mandatory = $false, Position = 3, ParameterSetName = "UserListImport")]
         [string]$DatabaseServer = $Script:DatabaseServer,
+        
         [Parameter(Mandatory = $false, Position = 4, ParameterSetName = "GroupImport")]
         [Parameter(Mandatory = $false, Position = 4, ParameterSetName = "UserListImport")]
         [string]$DatabaseName = $Script:DatabaseName,
+        
         [Parameter(Mandatory = $false, Position = 5, ParameterSetName = "GroupImport")]
         [Parameter(Mandatory = $false, Position = 5, ParameterSetName = "UserListImport")]
         [string]$SqlUser = $Script:DatabaseUserName,
+        
         [Parameter(Mandatory = $false, Position = 6, ParameterSetName = "GroupImport")]
         [Parameter(Mandatory = $false, Position = 6, ParameterSetName = "UserListImport")]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
+        
         [Parameter(Mandatory = $false, Position = 7, ParameterSetName = "GroupImport")]
         [Parameter(Mandatory = $false, Position = 7, ParameterSetName = "UserListImport")]
         [string]$IdPrefix = "",
+        
         [Parameter(Mandatory = $false, Position = 8, ParameterSetName = "GroupImport")]
         [Parameter(Mandatory = $false, Position = 8, ParameterSetName = "UserListImport")]
         [string]$NameSuffix = "",
+        
         [Parameter(Mandatory = $false, Position = 9, ParameterSetName = "GroupImport")]
         [Parameter(Mandatory = $false, Position = 9, ParameterSetName = "UserListImport")]
         [ValidateSet('Login', 'FirstName')]
         [string]$IdValue = "Login",
+        
         [Parameter(Mandatory = $false, Position = 9, ParameterSetName = "GroupImport")]
         [Parameter(Mandatory = $false, Position = 9, ParameterSetName = "UserListImport")]
         [ValidateSet('FirstName', 'DisplayName')]

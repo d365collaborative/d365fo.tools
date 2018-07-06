@@ -1,3 +1,31 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER AccountId
+Parameter description
+
+.PARAMETER AccessToken
+Parameter description
+
+.PARAMETER Blobname
+Parameter description
+
+.PARAMETER Filepath
+Parameter description
+
+.PARAMETER DeleteOnUpload
+Parameter description
+
+.EXAMPLE
+Invoke-AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath c:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload
+
+.NOTES
+General notes
+#>
 function Invoke-AzureStorageUpload {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (

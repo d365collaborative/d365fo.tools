@@ -73,7 +73,7 @@ function Invoke-DBSync {
     Write-Verbose "Process Started"
     Write-Verbose $process
     
-    $StartDate = Get-Date
+    $StartTime = Get-Date
 
     
     while ($process.HasExited -eq $false)
@@ -103,11 +103,11 @@ function Invoke-DBSync {
             Write-Error $line
     }
     
-    $EndDate = Get-Date
+    $EndTime = Get-Date
 
-    $TimeSpan = NEW-TIMESPAN -End $EndDate -Start $StartDate
+    $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
 
-    Write-Host "Time Taken" -ForegroundColor Green
+    Write-Host "Time Taken for sync:" -ForegroundColor Green
     Write-Host "$TimeSpan" -ForegroundColor Green
 
 

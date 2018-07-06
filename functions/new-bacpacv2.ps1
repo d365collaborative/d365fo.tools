@@ -1,3 +1,52 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ExecutionMode
+Parameter description
+
+.PARAMETER DatabaseServer
+Parameter description
+
+.PARAMETER DatabaseName
+Parameter description
+
+.PARAMETER SqlUser
+Parameter description
+
+.PARAMETER SqlPwd
+Parameter description
+
+.PARAMETER BackupDirectory
+Parameter description
+
+.PARAMETER NewDatabaseName
+Parameter description
+
+.PARAMETER BacpacDirectory
+Parameter description
+
+.PARAMETER BacpacName
+Parameter description
+
+.PARAMETER RawBacpacOnly
+Parameter description
+
+.EXAMPLE
+New-BacPacv2 -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+
+.EXAMPLE
+New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+
+.EXAMPLE
+New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+
+.NOTES
+General notes
+#>
 function New-BacPacv2 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (

@@ -1,22 +1,23 @@
-##############################
-#.SYNOPSIS
-#Decrypts the AOS configfile
-#
-#.DESCRIPTION
-#Function used for decrypting the config file used by the D365 Finance & Operations AOS service
-#
-#.PARAMETER DropPath
-#Place where the decrypted files should be placed
-#
-#.PARAMETER AosServiceWebRootPath
-#Location of the D365 webroot folder
-#
-#.EXAMPLE
-#Get-DecrypteConfigFile -DropPath 'C:\Temp'
-#
-#.NOTES
-# Used for getting the Password for the database and other service accounts used in environment
-##############################
+<#
+.SYNOPSIS
+Decrypts the AOS configfile
+
+.DESCRIPTION
+Function used for decrypting the config file used by the D365 Finance & Operations AOS service
+
+.PARAMETER DropPath
+Place where the decrypted files should be placed
+
+.PARAMETER AosServiceWebRootPath
+Location of the D365 webroot folder
+
+.EXAMPLE
+Get-DecryptedConfigFile -DropPath 'C:\Temp'
+
+.NOTES
+Used for getting the Password for the database and other service accounts used in environment
+#>
+
 function Get-DecryptedConfigFile {
     param(
         [Parameter(Mandatory = $false, Position = 1)]

@@ -1,35 +1,67 @@
+<#
+.SYNOPSIS
+Rename as D365FO Demo/Dev box
+
+.DESCRIPTION
+The Rename function, changes the config values used by a D365FO dev box for identifying its name. Standard it is called 'usnconeboxax1aos'
+
+.PARAMETER NewName
+The new name wanted for the D365FO instance
+
+.PARAMETER AosServiceWebRootPath
+Path to the webroot folder for the AOS service 'Default value : C:\AOSService\Webroot
+
+.PARAMETER IISServerApplicationHostConfigFile
+Path to the IISService Application host file, [Where the binding configurations is stored] 'Default value : C:\Windows\System32\inetsrv\Config\applicationHost.config'
+
+.PARAMETER HostsFile
+Place of the host file on the current system [Local DNS record] ' Default value C:\Windows\System32\drivers\etc\hosts'
+
+.PARAMETER BackupExtension
+Backup name for all the files that are changed
+
+.PARAMETER MRConfigFile
+Parameter description
+
+.EXAMPLE
+Rename-D365FO -NewName 'Demo1'
+
+.NOTES
+The function restarts the IIS Service.
+Elevated privileges are requried 
+#>
+
 
 ##############################
 #.SYNOPSIS
-#Rename as D365FO Demo/Dev box
+#
 #
 #.DESCRIPTION
-#The Rename function, changes the config values used by a D365FO dev box for identitying its name. Standard it is called 'usnconeboxax1aos'
+#
 #
 #.PARAMETER NewName
-#The new name wanted for the D365FO instance
+#
 #
 #.PARAMETER OldName
-#The name the D365FO instance currently have 'Default value : usnconeboxax1aos'
+#
 #
 #.PARAMETER AosServiceWebRootPath
-# Path to the webroot folder for the AOS service 'Default value : C:\AOSService\Webroot
+# 
 #
 #.PARAMETER IISServerApplicationHostConfigFile
-#Path to the IISService Apllication host file, [Where the binding configurations is stored] 'Default value : C:\Windows\System32\inetsrv\Config\applicationHost.config'
+#
 #
 #.PARAMETER HostsFile
-#Place of the host file on the current system [Local DNS record] ' Default value C:\Windows\System32\drivers\etc\hosts'
+#
 #
 #.PARAMETER BackupExtension
-#Backup name for alle the files that are changed
+#
 #
 #.EXAMPLE
 # Rename-D365FO -NewName 'Demo1'
 # 
 #.NOTES
-# The function restarts the IIS Service.
-# Elevated priviledges are requried 
+# 
 ##############################
 function Rename-D365FO() {
     param(
@@ -118,6 +150,7 @@ function Rename-D365FO() {
     #Start IIS again
     iisreset /start
     
+    (Get-Environment).Infrastructure.FullyQualifiedDomainName
 }
 
 

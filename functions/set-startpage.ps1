@@ -1,19 +1,19 @@
-##############################
-#.SYNOPSIS
-#Sets the start page in internet explorer
-#
-#.DESCRIPTION
-#Function for setting the start page in internet explorer to the "https://$($Name).cloud.onebox.dynamics.com"
-#
-#.PARAMETER Name
-#Name of the D365 Instance
-#
-#.EXAMPLE
-#Set-StartPage -Name 'Demo1'
-#
-#.NOTES
-#Must used with the Rename-D365 Function
-##############################
+<#
+.SYNOPSIS
+Sets the start page in internet explorer
+
+.DESCRIPTION
+Function for setting the start page in internet explorer to the "https://$($Name).cloud.onebox.dynamics.com"
+
+.PARAMETER Name
+Name of the D365 Instance
+
+.EXAMPLE
+Set-StartPage -Name 'Demo1'
+
+.NOTES
+
+#>
 function Set-StartPage() {
     param(
         # Parameter help description
