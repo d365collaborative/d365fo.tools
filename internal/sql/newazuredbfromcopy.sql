@@ -1,0 +1,1 @@
+CREATE DATABASE [@NewName] AS COPY OF [@CurrentDatabase]
