@@ -5,7 +5,15 @@ Read more about D365FO on [docs.microsoft.com](https://docs.microsoft.com/en-us/
 Available on Powershellgallery
 [d365fo.tools](https://www.powershellgallery.com/packages/d365fo.tools)
 
-`install-Module -Name d365fo.tools`
+`Install-Module -Name d365fo.tools`
+
+**List all available commands / functions**
+
+`Get-Command -Module d365fo.tools`
+
+**Update the module**
+
+`Update-Module -name d365fo.tools`
 
 The tool tries to assist you with a lot of the time consuming and/or cumbersome tasks during a project. E.g.
 
