@@ -26,7 +26,7 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
 
     $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
-    $commandText = get-content "$script:PSModuleRoot\internal\sql\newazuredbfromcopy.sql"
+    $commandText = get-content "$script:PSModuleRoot\internal\sql\checkfornewazuredb.sql"
 
     $sqlCommand.CommandText = $commandText
 

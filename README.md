@@ -74,7 +74,7 @@ New-BacPacv2 -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -
 **Generate a bacpac file from a Tier2 environment. As an export / backup file only**
 
 ```
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
 ```
 
 *This will export an bacpac file directly from the db database from the Azure db instance at dbserver1.database.windows.net.*
@@ -82,7 +82,7 @@ New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows
 **Generate a bacpac file from a Tier2 environment to be ready for a Tier1 environment**
 
 ```
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory C:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 ```
 
 *This will create a copy of the db database in the Azure db instance at dbserver1.database.windows.net.*

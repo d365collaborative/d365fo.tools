@@ -1,51 +1,70 @@
 <#
 .SYNOPSIS
-Short description
+Generate a bacpac file from a database
 
 .DESCRIPTION
-Long description
+Takes care of all the details and steps that is needed to create a valid bacpac file to move between Tier 1 (onebox or Azure hosted) and Tier 2 (MS hosted), or vice versa
+
+Supports to create a raw bacpac file without prepping. Can be used to automate backup from Tier 2 (MS hosted) environment
 
 .PARAMETER ExecutionMode
-Parameter description
+Tell what source database you want to work against. Depending on whether the source database is a classic SQL or Azure DB, the script has to execute different logic.
 
 .PARAMETER DatabaseServer
-Parameter description
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+
+If Azure use the full address to the database server, e.g. server.database.windows.net
 
 .PARAMETER DatabaseName
-Parameter description
+The name of the database
 
 .PARAMETER SqlUser
-Parameter description
+The login name for the SQL Server instance
 
 .PARAMETER SqlPwd
-Parameter description
+The password for the SQL Server user.
 
 .PARAMETER BackupDirectory
-Parameter description
+The path where to store the temporary backup file when the script needs to handle that
 
 .PARAMETER NewDatabaseName
-Parameter description
+The name for the database the script is going to create when doing the restore process
 
 .PARAMETER BacpacDirectory
-Parameter description
+The path where to store the bacpac file that will be generated
 
 .PARAMETER BacpacName
-Parameter description
+The filename of the bacpac file that will be generate - without extension
 
 .PARAMETER RawBacpacOnly
-Parameter description
+Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
 
 .EXAMPLE
 New-BacPacv2 -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 
-.EXAMPLE
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+Will backup and restore the db database again the localhost server. 
+Will run the prepping process against the restored database.
+Will export a bacpac file.
+Will delete the restored database.
 
 .EXAMPLE
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+
+Will create a copy the db database on the dbserver1 in Azure.
+Will run the prepping process against the copy database.
+Will export a bacpac file.
+Will delete the copy database.
+
+.EXAMPLE
+New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
+
+Will export a bacpac file.
+The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
 
 .NOTES
-General notes
+
 #>
 function New-BacPacv2 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
@@ -72,7 +91,7 @@ function New-BacPacv2 {
         [Parameter(Mandatory = $false, ParameterSetName = 'RawBacpacOnly', Position = 5 )]        
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 6 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
         [string]$BackupDirectory = "C:\Temp",
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 7 )]        
@@ -115,12 +134,14 @@ function New-BacPacv2 {
         $azuremode = $true
     }
 
+    $bacpacPath = (Join-Path $BacpacDirectory "$BacpacName.bacpac")
+
     if ($RawBacpacOnly.IsPresent) {
         Invoke-SqlPackage $DatabaseServer $DatabaseName $SqlUser $SqlPwd (Join-Path $BacpacDirectory "$BacpacName.bacpac")
+
+        $bacpacPath
     }
     else {
-        $bacpacPath = (Join-Path $BacpacDirectory "$BacpacName.bacpac")
-
         if ($sqlmode) {
             Invoke-SqlBackupRestore $DatabaseServer $DatabaseName $SqlUser $SqlPwd $NewDatabaseName
             
