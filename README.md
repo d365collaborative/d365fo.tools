@@ -135,13 +135,16 @@ Invoke-DBSync
 
 **Update users in an environment after database migration / restore or re-provisioning**
 
+```
 Update-User -Email "claire@contoso.com"
-
+```
 *This will search for the user in the UserInfo table with "claire@contoso.com" e-mail address and update it with the needed details to get access to the environment*
 
 **Update users in an environment after database migration / restore or re-provisioning - advanced**
 
+```
 Update-User -Email "%contoso.com%"
+```
 
 *This will search for all users in the UserInfo table with the "contoso.com" text in their e-mail address and update them with the needed details to get access to the environment*
 
