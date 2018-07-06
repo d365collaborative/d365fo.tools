@@ -11,31 +11,31 @@ The tool tries to assist you with a lot of the time consuming and/or cumbersome 
 
 **Rename a local VM (onebox) to be accessible on a custom URL / URI.**
 
-Rename-D365FO -NewName 'Demo1' 
+`Rename-D365FO -NewName 'Demo1'`
 
 *Now the machine (iis) will only respond to request for https://demo1.cloud.onebox.dynamics.com*
 
 **Change the start page of the browser to another URL / URI**
 
-Set-StartPage -Name 'Demo1'
+`Set-StartPage -Name 'Demo1'`
 
 *Now when starting the browser you will start visit https://demo1.cloud.onebox.dynamics.com*
 
 **Provision a new admin for a given instance**
 
-Set-Admin "admin@contoso.com"
+`Set-Admin "admin@contoso.com"`
 
 *Please remember that the username / e-mail has to be a valid Azure Active Directory*
 
 **Import a list of users into the environment**
 
-Import-AadUser -Userlist "Claire@contoso.com,Allen@contoso.com"
+`Import-AadUser -Userlist "Claire@contoso.com,Allen@contoso.com"`
 
 *Imports Claire and Allen into the environment*
 
 **Generate a bacpac file from a Tier1 environment to be ready for a Tier2 environment**
 
-New-BacPacv2 -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+`New-BacPacv2 -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1`
 
 *This will backup the db database from the localhost server.*
 
@@ -48,13 +48,13 @@ New-BacPacv2 -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -
 *It will delete the Testing1 database on the localhost server.*
 
 **Generate a bacpac file from a Tier2 environment. As an export / backup file only**
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+`New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1`
 
 *This will export an bacpac file directly from the db database from the Azure db instance at dbserver1.database.windows.net.*
 
 **Generate a bacpac file from a Tier2 environment to be ready for a Tier1 environment**
 
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+`New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory C:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1`
 
 *This will create a copy of the db database in the Azure db instance at dbserver1.database.windows.net.*
 
@@ -65,30 +65,31 @@ New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows
 *It will delete the Testing1 database in the Azure db instance at dbserver1.database.windows.net.*
 
 **Upload a file to Azure Storage account**
-Invoke-AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath c:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload
+
+`Invoke-AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath C:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload`
 
 *This will upload the UAT_20180701.bacpac to the specified Azure Storage account and delete it when completed*
 
 **List all the database connection details for an environment**
 
-Get-DatabaseAccess
+`Get-DatabaseAccess`
 
 *This will show database connection details that D365FO is configured with.*
 
 **Decrypt and store a copy of the web.config file from the AOS**
 
-Get-DecryptedConfigFile -DropPath 'C:\Temp'
+`Get-DecryptedConfigFile -DropPath 'C:\Temp'`
 
 *This will store a decrypted web.config file at c:\temp*
 
 **Rearm the Windows license / activation counter**
 
-Invoke-ReArmWindows -Restart
+`Invoke-ReArmWindows -Restart`
 
 *This will try to rearm the Windows license and will only work if you have retries left. Will restart afterwards.*
 
 **Sync the database like Visual Studio**
 
-Invoke-DBSync
+`Invoke-DBSync`
 
 *This utilizes the same mechanism as Visual Studio just in PowerShell and runs the entire synchronization process.* 
