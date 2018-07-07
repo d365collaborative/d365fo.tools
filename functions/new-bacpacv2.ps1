@@ -135,29 +135,38 @@ function New-BacPacv2 {
     $bacpacPath = (Join-Path $BacpacDirectory "$BacpacName.bacpac")
 
     if ($RawBacpacOnly.IsPresent) {
+        Write-Verbose "Invoking the export of the bacpac file only."
         Invoke-SqlPackage $DatabaseServer $DatabaseName $SqlUser $SqlPwd (Join-Path $BacpacDirectory "$BacpacName.bacpac")
 
         $bacpacPath
     }
     else {
         if ($sqlmode) {
+            Write-Verbose "Invoking the SQL backup & restore process"
             Invoke-SqlBackupRestore $DatabaseServer $DatabaseName $SqlUser $SqlPwd $NewDatabaseName
             
+            Write-Verbose "Invoking the SQL clear objects"
             Invoke-ClearSqlSpecificObjects $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd 
 
+            Write-Verbose "Invoking the export of the bacpac file from SQL"
             Invoke-SqlPackage $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $bacpacPath
 
+            Write-Verbose "Invoking the remove database from SQL"
             Remove-Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
 
             $bacpacPath
         }
         else {
+            Write-Verbose "Invoking the creation of Azure DB copy"
             Invoke-AzureBackupRestore $DatabaseServer $DatabaseName $SqlUser $SqlPwd $NewDatabaseName
 
+            Write-Verbose "Invoking the Azure clear objects"
             Invoke-ClearAzureSpecificObjects $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd 
 
+            Write-Verbose "Invoking the export of the bacpac file from Azure"
             Invoke-SqlPackage $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $bacpacPath
 
+            Write-Verbose "Invoking the remove database from Azure"
             Remove-Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
 
             $bacpacPath
