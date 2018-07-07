@@ -24,7 +24,7 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
 
     $sqlCommand.Dispose()
 
-    $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+    $sqlCommand = Get-SQLCommand $DatabaseServer "master" $SqlUser $SqlPwd
 
     $commandText = Get-Content "$script:PSModuleRoot\internal\sql\checkfornewazuredb.sql"
 
@@ -47,7 +47,7 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
     $Reader.Close()
     $sqlCommand.Dispose()
     $Datatable.Dispose()
-    
+
     $EndTime = Get-Date
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
