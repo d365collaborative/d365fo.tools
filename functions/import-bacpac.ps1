@@ -131,7 +131,7 @@ function Import-BacPac {
 
         [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
     
-        $commandText = get-content "$script:PSModuleRoot\internal\sql\get-azureserviceobjective.sql"
+        $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-azureserviceobjective.sql") -join [Environment]::NewLine
    
         $sqlCommand.CommandText = $commandText
 
@@ -168,7 +168,7 @@ function Import-BacPac {
     if (!$ImportOnly.IsPresent) {
         $sqlCommand = Get-SQLCommand $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd
 
-        $sqlCommand.CommandText = get-content "$script:PSModuleRoot\internal\sql\get-instancevalue.sql"
+        $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-instancevalue.sql") -join [Environment]::NewLine
        
         $sqlCommand.Connection.Open()
 
@@ -187,10 +187,10 @@ function Import-BacPac {
         }    
 
         if($azureSql) {
-            $commandText = get-content "$script:PSModuleRoot\internal\sql\set-bacpacvaluesazure.sql"
+            $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-bacpacvaluesazure.sql") -join [Environment]::NewLine
         }
         else {
-            $commandText = get-content "$script:PSModuleRoot\internal\sql\set-bacpacvaluessql.sql"
+            $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-bacpacvaluessql.sql") -join [Environment]::NewLine
             
         }
 

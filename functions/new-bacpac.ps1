@@ -124,7 +124,7 @@ function New-BacPac {
     if (!$CreateBacpacOnly.IsPresent) {
         $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
-        $commandText = get-content "$script:PSModuleRoot\internal\sql\add-bacpacdatabase.sql"
+        $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\add-bacpacdatabase.sql") -join [Environment]::NewLine
    
         $sqlCommand.CommandText = $commandText
 
@@ -152,7 +152,7 @@ function New-BacPac {
 
         $sqlCommand = Get-SQLCommand $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd
 
-        $commandText = get-content "$script:PSModuleRoot\internal\sql\clear-bacpacdatabase.sql"
+        $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\clear-bacpacdatabase.sql") -join [Environment]::NewLine
 
         $sqlCommand.CommandText = $commandText
 
@@ -181,7 +181,7 @@ function New-BacPac {
 
         $sqlCommand = Get-SQLCommand $DatabaseServer "Master" $SqlUser $SqlPwd
 
-        $commandText = get-content "$script:PSModuleRoot\internal\sql\remove-database.sql"
+        $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\remove-database.sql") -join [Environment]::NewLine
     
         $sqlCommand.CommandText = $commandText.Replace("@Database", "$NewDatabaseName")
 

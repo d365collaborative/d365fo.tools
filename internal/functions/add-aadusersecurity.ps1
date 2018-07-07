@@ -1,7 +1,7 @@
 function Add-AadUserSecurity ($sqlCommand,$Id) {
     
 
-    $commandText = get-content "$script:PSModuleRoot\internal\sql\Set-AadUserSecurityInD365FO.sql"
+    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\Set-AadUserSecurityInD365FO.sql") -join [Environment]::NewLine
    
     $sqlCommand.CommandText = $commandText
 

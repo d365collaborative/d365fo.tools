@@ -1,11 +1,9 @@
 Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd, $NewDatabaseName) {
     $StartTime = Get-Date
 
-    $newAzureDbCreated = $false
-
     $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
     
-    $commandText = Get-Content "$script:PSModuleRoot\internal\sql\newazuredbfromcopy.sql"
+    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\newazuredbfromcopy.sql") -join [Environment]::NewLine
     
     $commandText = $commandText.Replace('@CurrentDatabase', $DatabaseName)
     $commandText = $commandText.Replace('@NewName', $NewDatabaseName)
@@ -26,7 +24,7 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
 
     $sqlCommand = Get-SQLCommand $DatabaseServer "master" $SqlUser $SqlPwd
 
-    $commandText = Get-Content "$script:PSModuleRoot\internal\sql\checkfornewazuredb.sql"
+    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\checkfornewazuredb.sql") -join [Environment]::NewLine
 
     $sqlCommand.CommandText = $commandText
 

@@ -2,7 +2,7 @@ Function Invoke-ClearAzureSpecificObjects ( $DatabaseServer, $DatabaseName, $Sql
     
     $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
-    $commandText = get-content "$script:PSModuleRoot\internal\sql\clear-azurebacpacdatabase.sql"
+    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\clear-azurebacpacdatabase.sql") -join [Environment]::NewLine
 
     $commandText = $commandText.Replace("@NewDatabase", "")
     

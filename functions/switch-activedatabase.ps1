@@ -49,7 +49,7 @@ function Switch-ActiveDatabase {
 
     [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SQLCommand $DatabaseServer "Master" $SqlUser $SqlPwd
 
-    $commandText = get-content "$script:PSModuleRoot\internal\sql\switch-database.sql"
+    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
    
     $sqlCommand.CommandText = $commandText
 

@@ -62,14 +62,14 @@ function Update-User {
 
     $sqlCommand.Connection.Open()
 
-    $sqlCommand.CommandText = get-content "$script:PSModuleRoot\internal\sql\get-user.sql"
+    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
     $null = $sqlCommand.Parameters.Add("@Email", $Email)
 
     [System.Data.SqlClient.SqlCommand]$sqlCommand_Update = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
     $sqlCommand_Update.Connection.Open()
 
-    $sqlCommand_Update.CommandText = get-content  "$script:PSModuleRoot\internal\sql\update-user.sql"
+    $sqlCommand_Update.CommandText = (Get-Content  "$script:PSModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
 
     $reader = $sqlCommand.ExecuteReader()
 

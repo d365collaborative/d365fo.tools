@@ -39,7 +39,7 @@ function Remove-Database
 
     [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SQLCommand $DatabaseServer "master" $SqlUser $SqlPwd
 
-    $commandText = get-content "$script:PSModuleRoot\internal\sql\remove-database.sql"
+    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\remove-database.sql") -join [Environment]::NewLine
    
     $commandText = $commandText.Replace('@Database',$DatabaseName)
 

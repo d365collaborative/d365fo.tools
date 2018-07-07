@@ -2,7 +2,7 @@ Function Invoke-ClearSqlSpecificObjects ( $DatabaseServer, $DatabaseName, $SqlUs
     
     $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
-    $commandText = get-content "$script:PSModuleRoot\internal\sql\clear-sqlbacpacdatabase.sql"
+    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\clear-sqlbacpacdatabase.sql") -join [Environment]::NewLine
 
     $sqlCommand.CommandText = $commandText
 

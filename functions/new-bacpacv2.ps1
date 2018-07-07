@@ -120,9 +120,7 @@ function New-BacPacv2 {
         Write-Host "The sqlpackage.exe is expected to be found at this location: " -ForegroundColor Yellow 
         Write-Host $sqlPackagePath -ForegroundColor Yellow 
         Write-Error "The sqlpackage.exe is missing on the system." -ErrorAction Stop
-    }
-
-    $StartTime = Get-Date
+    }    
 
     if ((Test-path $BackupDirectory) -eq $false) {$null = new-item -ItemType directory -path $BackupDirectory }
     if ((Test-path $BacpacDirectory) -eq $false) {$null = new-item -ItemType directory -path $BacpacDirectory }
