@@ -5,7 +5,7 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
 
     $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
     
-    $commandText = get-content "$script:PSModuleRoot\internal\sql\newazuredbfromcopy.sql"
+    $commandText = Get-Content "$script:PSModuleRoot\internal\sql\newazuredbfromcopy.sql"
     
     $commandText = $commandText.Replace('@CurrentDatabase', $DatabaseName)
     $commandText = $commandText.Replace('@NewName', $NewDatabaseName)
@@ -26,38 +26,28 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
 
     $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
-    $commandText = get-content "$script:PSModuleRoot\internal\sql\checkfornewazuredb.sql"
+    $commandText = Get-Content "$script:PSModuleRoot\internal\sql\checkfornewazuredb.sql"
 
     $sqlCommand.CommandText = $commandText
 
     $null = $sqlCommand.Parameters.Add("@NewName", $NewDatabaseName)
 
     $sqlCommand.Connection.Open()
-    
-    $databaseId = -1
-
-    while($newAzureDbCreated -eq $true){
-         
-        $reader = $sqlCommand.ExecuteReader()
-
-        if ($reader.read() -eq $true) {
         
-            $databaseId = $reader.GetInt(0)
-
-            if($databaseId -gt 0)
-            {
-                $newAzureDbCreated = $true
-            }
-        }
-        
-        if(!$newAzureDbCreated){
-            Write-Host "Tick"
-            Start-Sleep -Seconds 30
-        }
-
-        $reader.close()
+    $operation_row_count = 0
+    #Loop every minute until we get a row, if we get a row copy is done
+    while($operation_row_count -eq 0){
+        $Reader = $sqlCommand.ExecuteReader()
+        $Datatable = New-Object System.Data.DataTable
+        $Datatable.Load($Reader)
+        $operation_row_count = $Datatable.Rows.Count
+        Start-Sleep -s 60
     }
 
+    $Reader.Close()
+    $sqlCommand.Dispose()
+    $Datatable.Dispose()
+    
     $EndTime = Get-Date
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
