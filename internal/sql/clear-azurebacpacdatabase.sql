@@ -58,17 +58,17 @@ TRUNCATE TABLE SYSCORPNETPRINTERS
 --Remove records which could lead to accidentally sending an email externally.
 UPDATE SysEmailParameters
 SET SMTPRELAYSERVERNAME = ''
-GO
+;--GO
 UPDATE LogisticsElectronicAddress
 SET LOCATOR = ''
 WHERE Locator LIKE '%@%'
-GO
+;--GO
 TRUNCATE TABLE PrintMgmtSettings
 TRUNCATE TABLE PrintMgmtDocInstance
 --Set any waiting, executing, ready, or canceling batches to withhold.
 UPDATE BatchJob
 SET STATUS = 0
 WHERE STATUS IN (1,2,5,7)
-GO
+;--GO
 -- Clear encrypted hardware profile merchand properties
 update dbo.RETAILHARDWAREPROFILE set SECUREMERCHANTPROPERTIES = null where SECUREMERCHANTPROPERTIES is not null
