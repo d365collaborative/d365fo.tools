@@ -50,10 +50,11 @@ Set-Admin "admin@contoso.com"
 **Import a list of users into the environment**
 
 ```
-Import-AadUser -Userlist "Claire@contoso.com,Allen@contoso.com"
+Import-AadUser -Userlist "Claire@contoso.com;Allen@contoso.com"
 ```
 
 *Imports Claire and Allen into the environment*
+*Remeber that the list has to be semicolon (';') separated*
 
 **Generate a bacpac file from a Tier1 environment to be ready for a Tier2 environment**
 
