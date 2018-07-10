@@ -23,7 +23,20 @@ Update-Module -name d365fo.tools
 
 The tool tries to assist you with a lot of the time consuming and/or cumbersome tasks during a project. E.g.
 
+**Get product build numbers**
+
+```
+Get-D365ProductInformation
+```
+
+*Will list all build numbers available, application and platform*
+
 **Rename a local VM (onebox) to be accessible on a custom URL / URI.**
+
+```
+Get-D365InstanceName
+```
+*Displays the current instance registered on the machine. Run on a machine with the D365 AOS installed on to get an result*
 
 ```
 Rename-D365Instance -NewName 'Demo1'
@@ -54,6 +67,9 @@ Import-D365AadUser -Userlist "Claire@contoso.com;Allen@contoso.com"
 ```
 
 *Imports Claire and Allen into the environment*
+
+*Remeber that the list has to be semicolon (';') separated*
+
 
 **Generate a bacpac file from a Tier1 environment to be ready for a Tier2 environment**
 
@@ -107,7 +123,7 @@ Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x
 Get-D365DatabaseAccess
 ```
 
-*This will show database connection details that D365FO is configured with.*
+*This will show database connection details that D365FO is configured with*
 
 **Decrypt and store a copy of the web.config file from the AOS**
 
@@ -147,4 +163,42 @@ Update-D365User -Email "%contoso.com%"
 ```
 
 *This will search for all users in the UserInfo table with the "contoso.com" text in their e-mail address and update them with the needed details to get access to the environment*
+
+**Handling D365 environment**
+
+```
+Get-D365Environment
+```
+
+*Will list the status of all D365 services on the local machine*
+
+```
+Get-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
+```
+
+*Will list the status of all D365 services on the specified machines*
+
+```
+Stop-D365Environment
+```
+
+*Will stop all D365 services on the local machine. Will report current status for all services*
+
+```
+Stop-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
+```
+
+*Will stop all D365 services on the the specified machines. Will report current status for all services*
+
+```
+Start-D365Environment
+```
+
+*Will start all D365 services on the local machine. Will report current status for all services*
+
+```
+Start-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
+```
+
+*Will start all D365 services on the the specified machines. Will report current status for all services*
 

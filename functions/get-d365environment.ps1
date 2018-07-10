@@ -31,6 +31,12 @@ Get-D365Environment -All
 Will query all D365FO service on the machine
 
 .EXAMPLE
+Get-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
+
+Will query all D365FO service on the different machines
+
+
+.EXAMPLE
 Get-D365Environment -Aos -Batch
 
 Will query the Aos & Batch services on the machine

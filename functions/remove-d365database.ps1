@@ -48,7 +48,7 @@ function Remove-D365Database {
         
     $db = $srv.Databases["$DatabaseName"]
         
-    if ($srv.ServerType.ToLower() -ne "SqlAzureDatabase".ToLower) {
+    if ($srv.ServerType -ne "SqlAzureDatabase") {
         $srv.KillAllProcesses("$DatabaseName")
     }
 
