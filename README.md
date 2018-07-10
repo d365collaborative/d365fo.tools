@@ -67,6 +67,7 @@ Import-D365AadUser -Userlist "Claire@contoso.com;Allen@contoso.com"
 ```
 
 *Imports Claire and Allen into the environment*
+*Remeber that the list has to be semicolon (';') separated*
 
 *Remeber that the list has to be semicolon (';') separated*
 
