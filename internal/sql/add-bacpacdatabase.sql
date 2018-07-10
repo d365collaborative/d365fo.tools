@@ -16,3 +16,5 @@ Declare @RestoreCommand as varchar(4000)
 set  @RestoreCommand =  ' RESTORE DATABASE [' + @NewName + '] FROM  DISK = ''' + @BackupTo + ''' WITH  FILE = 1, ' + @MoveResult + ',  NOUNLOAD,  STATS = 5'
               
 exec (@RestoreCommand)
+
+--File should be obsolute

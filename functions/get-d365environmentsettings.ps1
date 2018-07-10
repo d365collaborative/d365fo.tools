@@ -6,12 +6,12 @@ Returns the D365FO environment settings
 Function for getting settings the D365FO environment uses.
 
 .EXAMPLE
-Get-Environment
+Get-D365EnvironmentSettings
 
 .NOTES
 General notes
 #>
-function Get-Environment
+function Get-D365EnvironmentSettings
 {
 
     Get-ApplicationEnvironment

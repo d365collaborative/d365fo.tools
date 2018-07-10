@@ -9,12 +9,12 @@ Function for setting the start page in internet explorer to the "https://$($Name
 Name of the D365 Instance
 
 .EXAMPLE
-Set-StartPage -Name 'Demo1'
+Set-D365StartPage -Name 'Demo1'
 
 .NOTES
 
 #>
-function Set-StartPage() {
+function Set-D365StartPage() {
     param(
         # Parameter help description
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = 'SetStartPage')]

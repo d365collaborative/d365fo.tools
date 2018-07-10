@@ -6,7 +6,7 @@ Removes a Database
 Removes a Database
 
 .PARAMETER DatabaseServer
-The server the database is on 
+The server the database is on
 
 .PARAMETER DatabaseName
 Name of the database to remove
@@ -18,39 +18,41 @@ The User with rights for dropping the database
 Password for the SqlUser
 
 .EXAMPLE
-Remove-Database -DatabaseName "database_original"
+Remove-D365Database -DatabaseName "database_original"
 
 .NOTES
 General notes
 #>
-function Remove-Database
-{
+function Remove-D365Database {
     param(
         [Parameter(Mandatory = $false, Position = 1)]
         [string]$DatabaseServer = $Script:DatabaseServer,
+
         [Parameter(Mandatory = $false, Position = 2)]
         [string]$DatabaseName = $Script:DatabaseName,
+
         [Parameter(Mandatory = $false, Position = 3)]
         [string]$SqlUser = $Script:DatabaseUserName,
+
         [Parameter(Mandatory = $false, Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword
-
     )
 
-    [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SQLCommand $DatabaseServer "master" $SqlUser $SqlPwd
+    $null = [System.Reflection.Assembly]::LoadWithPartialName('Microsoft.SqlServer.SMO')
 
-    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\remove-database.sql") -join [Environment]::NewLine
-   
-    $commandText = $commandText.Replace('@Database',$DatabaseName)
-
-    $sqlCommand.CommandText = $commandText
+    $srv = new-object Microsoft.SqlServer.Management.Smo.Server("$DatabaseServer")  
+        
+    $srv.ConnectionContext.LoginSecure = $false; 
+    $srv.ConnectionContext.set_Login("$SqlUser"); 
+    $srv.ConnectionContext.set_Password("$SqlPwd")  
+        
+    $db = $srv.Databases["$DatabaseName"]
+        
+    if ($srv.ServerType.ToLower() -ne "SqlAzureDatabase".ToLower) {
+        $srv.KillAllProcesses("$DatabaseName")
+    }
 
     Write-Verbose "Dropping $DatabaseName"
 
-    $sqlCommand.Connection.Open()
-
-    $null = $sqlCommand.ExecuteNonQuery()
-
-    $sqlCommand.Dispose()
-
+    $db.Drop()
 }

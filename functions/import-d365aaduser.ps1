@@ -47,12 +47,12 @@ Available options 'FirstName' / 'DisplayName'
 Default is 'DisplayName'
 
 .EXAMPLE
-Import-AadUser -Userlist "Claire@contoso.com,Allen@contoso.com"
+Import-D365AadUser -Userlist "Claire@contoso.com,Allen@contoso.com"
 
 Imports Claire and Allen as users.
 
 .EXAMPLE 
-Import-AadUser -AadGroupName "CustomerTeam1"
+Import-D365AadUser -AadGroupName "CustomerTeam1"
 
 Imports all the users that is present in the AAD Group called CustomerTeam1
 
@@ -65,7 +65,7 @@ Use AAD B2B implementation if you want to support external people.
 Every imported users will get the System Administration / Administrator role assigned on import
 #>
 
-function Import-AadUser {
+function Import-D365AadUser {
     param (
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "GroupImport")]
         [String]$AadGroupName,
@@ -119,10 +119,14 @@ function Import-AadUser {
     $canonicalProvider = Get-CanonicalIdentityProvider 
     Write-Verbose "CanonicalIdentityProvider $Provider"
 
-    $msonline = Get-Module -ListAvailable -Name msonline
-    if ($msonline -eq $null) { throw  "Import-AadUser with GroupImport requires MSOnline Please install-Module MSonline" }
+    if (Get-Module -ListAvailable -Name "MSOnline") {
+        Import-Module "MSOnline"    
+    }
+    else {
+        Write-Host "The MSOnline powershell module is not present on the system. This is an important part of making it possible to import users based on an Azure Active Directory. Please install module on the machine and run the cmdlet again. `r`nRun the following command in an elevated powershell windows :`r`nInstall-Module `"MSOnline`"" -ForegroundColor Yellow
+        Write-Error "The MSOnline powershell module is not installed on the machine. Please install the module and run the command again." -ErrorAction Stop
+    }
 
-    import-Module MSOnline -Force -ErrorAction Stop
     Connect-MsolService -ErrorAction Stop
     [System.Collections.ArrayList]$msolUsers = New-Object -TypeName "System.Collections.ArrayList"
 
@@ -186,6 +190,7 @@ function Import-AadUser {
         else {
             $name = $user.FirstName + $NameSuffix
         }
+
         Import-AadUserIntoD365FO $SqlCommand $user.SignInName $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
     }
 

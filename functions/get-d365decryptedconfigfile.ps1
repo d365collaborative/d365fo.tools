@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Decrypts the AOS configfile
+Decrypts the AOS config file
 
 .DESCRIPTION
 Function used for decrypting the config file used by the D365 Finance & Operations AOS service
@@ -12,17 +12,17 @@ Place where the decrypted files should be placed
 Location of the D365 webroot folder
 
 .EXAMPLE
-Get-DecryptedConfigFile -DropPath 'C:\Temp'
+Get-D365DecryptedConfigFile -DropPath 'C:\Temp'
 
 .NOTES
 Used for getting the Password for the database and other service accounts used in environment
 #>
 
-function Get-DecryptedConfigFile {
+function Get-D365DecryptedConfigFile {
     param(
         [Parameter(Mandatory = $false, Position = 1)]
         [Alias('ExtractFolder')]
-        [string]$DropPath = "C:\temp\D365FO-Tool\ConfigFile_Decrypted",
+        [string]$DropPath = "C:\temp\d365fo.tools\ConfigFile_Decrypted",
         [Parameter(Mandatory = $false, Position = 2)]
         [string]$AosServiceWebRootPath = $Script:AOSPath
     )
@@ -36,8 +36,9 @@ function Get-DecryptedConfigFile {
         Write-Verbose "Creating $DropPath"
         $null = New-Item -Path $DropPath -ItemType directory -Force -ErrorAction Stop
     }
+
     Write-Verbose "Decrypting"
     Write-Verbose "File $WebConfigFile - To $DropPath"
-    New-DecryptedFile $WebConfigFile $DropPath
- 
+    
+    New-DecryptedFile $WebConfigFile $DropPath 
 }

@@ -21,11 +21,11 @@ Alternative SQL user, Default is the one provieded by the DataAccess object
 Alternative SQL user password, Default is the one provieded by the DataAccess object
 
 .EXAMPLE
-Set-Admin "user@mycompany.com"
+Set-D365Admin "user@mycompany.com"
 
 .NOTES
 #>
-function Set-Admin
+function Set-D365Admin
 {
 
     param (

@@ -27,19 +27,19 @@ The search string to select which user(s) should be updated.
 Use SQL Server like syntax to get the results you expect. E.g. -Email "'%@contoso.com%'"
 
 .EXAMPLE
-Update-User -Email "claire@contoso.com"
+Update-D365User -Email "claire@contoso.com"
 
 This will search for the user with the e-mail address claire@contoso.com and update it with needed information based on the tenant owner of the environment
 
 .EXAMPLE
-Update-User -Email "%contoso.com%"
+Update-D365User -Email "%contoso.com%"
 
 This will search for all users with an e-mail address containing 'contoso.com' and update them with needed information based on the tenant owner of the environment
 
 .NOTES
 General notes
 #>
-function Update-User {
+function Update-D365User {
     param(
         [Parameter(Mandatory = $false, Position = 1)]
         [string]$DatabaseServer = $Script:DatabaseServer,
@@ -77,7 +77,7 @@ function Update-User {
         $userId = $reader.GetString(0)
         $networkAlias = $reader.GetString(1)
 
-        $userAuth = Get-UserAuthenticationDetail $networkAlias
+        $userAuth = Get-D365UserAuthenticationDetail $networkAlias
 
         $null = $sqlCommand_Update.Parameters.Add("@id", $userId)
         $null = $sqlCommand_Update.Parameters.Add("@networkDomain", $userAuth["NetworkDomain"])

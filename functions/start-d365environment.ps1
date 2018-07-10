@@ -1,0 +1,95 @@
+<#
+.SYNOPSIS
+Cmdlet to start the different services in a Dynamics 365 Finance & Operations environment
+
+.DESCRIPTION
+Can start all relevant services that is running in a D365FO environment
+
+.PARAMETER ComputerName
+An array of computers that you want to start services on.
+
+.PARAMETER All
+Set when you want to start all relevant services
+
+Includes:
+Aos
+Batch
+Financial Reporter
+
+.PARAMETER Aos
+Start the Aos (iis) service
+
+.PARAMETER Batch
+Start the batch service
+
+.PARAMETER FinancialReporter
+Start the financial reporter (Management Reporter 2012)
+
+.EXAMPLE
+Start-D365Environment -All
+
+Will start all D365FO service on the machine
+
+.EXAMPLE
+Start-D365Environment -Aos -Batch
+
+Will star Aos & Batch services  on the machine
+
+.NOTES
+
+#>
+
+
+function Start-D365Environment {
+    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    param (
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 1 )]                    
+        [string[]] $ComputerName = @($env:computername),
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]                    
+        [switch] $All,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]                    
+        [switch] $Aos,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]                    
+        [switch] $Batch,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]                    
+        [switch] $FinancialReporter
+    )
+
+    if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent) {
+        Write-Error "You have to use at least one switch when running this cmdlet. Please run the cmdlet again." -ErrorAction Stop
+    }
+
+    $aosname = "w3svc"
+    $batchname = "DynamicsAxBatch"
+    $financialname = "MR2012ProcessService"
+    
+    [System.Collections.ArrayList]$Services = New-Object -TypeName "System.Collections.ArrayList"
+
+    if ($All.IsPresent) {
+        $Services.AddRange(@($aosname, $batchname, $financialname))
+    }    
+    else {
+        if ($Aos.IsPresent) {
+            $Services.Add($aosname)
+        }
+        if ($Batch.IsPresent) {
+            $Services.Add($batchname)
+        }
+        if ($FinancialReporter.IsPresent) {
+            $Services.Add($financialname)
+        }
+    }
+    
+    Get-Service -ComputerName $ComputerName -Name $Services.ToArray() -ErrorAction SilentlyContinue | Start-Service -ErrorAction SilentlyContinue
+
+    $Results = foreach ($server in $ComputerName) {
+        Get-Service -ComputerName $server -Name $Services.ToArray() -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
+    }
+    
+    $Results | Select-Object Server,Name,Status,DisplayName
+}

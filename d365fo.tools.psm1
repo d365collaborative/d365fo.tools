@@ -27,6 +27,11 @@ foreach ($function in (Get-ChildItem "$script:PSModuleRoot\internal\functions\*.
     . Import-ModuleFile $function.FullName
 }
 
+# All public functions available within the toolset
+foreach ($function in (Get-ChildItem "$script:PSModuleRoot\functions\*.ps1")) {
+    . Import-ModuleFile $function.FullName
+}
+
 $Script:AOSPath = ""
 if (([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     $Script:AOSPath = (Get-Website -Name "AOSService" | Select-Object -Property "PhysicalPath" ).physicalpath

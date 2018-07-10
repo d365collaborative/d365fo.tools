@@ -42,7 +42,7 @@ The filename of the bacpac file that will be generate - without extension
 Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
 
 .EXAMPLE
-New-BacPacv2 -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365BacPac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 
 Will backup and restore the db database again the localhost server. 
 Will run the prepping process against the restored database.
@@ -50,15 +50,26 @@ Will export a bacpac file.
 Will delete the restored database.
 
 .EXAMPLE
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365BacPac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 
 Will create a copy the db database on the dbserver1 in Azure.
 Will run the prepping process against the copy database.
 Will export a bacpac file.
 Will delete the copy database.
 
+.EXAMPLE 
+New-D365BacPac -ExecutionMode FromAzure -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+
+Normally used for a Tier-2 export and preparation for Tier-1 import
+
+Will create a copy the registered D365 database on the registered D365 Azure SQL Server.
+Will run the prepping process against the copy database.
+Will export a bacpac file.
+Will delete the copy database.
+
+
 .EXAMPLE
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
+New-D365BacPac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
 
 Will export a bacpac file.
 The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
@@ -66,7 +77,7 @@ The bacpac should be able to restore back into the database without any preparin
 .NOTES
 
 #>
-function New-BacPacv2 {
+function New-D365BacPac {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]            
@@ -152,7 +163,7 @@ function New-BacPacv2 {
             Invoke-SqlPackage $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $bacpacPath
 
             Write-Verbose "Invoking the remove database from SQL"
-            Remove-Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
+            Remove-D365Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
 
             $bacpacPath
         }
@@ -167,7 +178,7 @@ function New-BacPacv2 {
             Invoke-SqlPackage $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $bacpacPath
 
             Write-Verbose "Invoking the remove database from Azure"
-            Remove-Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
+            Remove-D365Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
 
             $bacpacPath
         }

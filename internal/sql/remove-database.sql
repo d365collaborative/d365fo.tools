@@ -11,3 +11,4 @@ exec (@kill)
 
 DROP DATABASE [@Database]
 
+--File should be obsolute

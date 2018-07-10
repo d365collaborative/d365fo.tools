@@ -9,16 +9,16 @@ Function used for invoking the rearm functionality inside Windows
 Instruct the cmdlet to restart the machine
 
 .EXAMPLE
-Invoke-ReArmWindows
+Invoke-D365ReArmWindows
 
 .EXAMPLE
-Invoke-ReArmWindows -Restart
+Invoke-D365ReArmWindows -Restart
 
 .NOTES
 
 #>
 
-function Invoke-ReArmWindows {
+function Invoke-D365ReArmWindows {
     param(
         [Parameter(Mandatory = $false, Position = 1)]        
         [switch]$Restart

@@ -42,12 +42,12 @@ Password for the user
 Password for the user
 
 .EXAMPLE
-Import-BacPac -sqluser "sqladmin" -sqlpwd "XxXx" -BacPacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportetDatabase" -verbose
+Import-D365BacPac -sqluser "sqladmin" -sqlpwd "XxXx" -BacPacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportetDatabase" -verbose
 
 .NOTES
 General notes
 #>
-function Import-BacPac {
+function Import-D365BacPac {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]        

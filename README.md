@@ -26,7 +26,7 @@ The tool tries to assist you with a lot of the time consuming and/or cumbersome 
 **Rename a local VM (onebox) to be accessible on a custom URL / URI.**
 
 ```
-Rename-D365FO -NewName 'Demo1'
+Rename-D365Instance -NewName 'Demo1'
 ```
 
 *Now the machine (iis) will only respond to request for https://demo1.cloud.onebox.dynamics.com*
@@ -34,7 +34,7 @@ Rename-D365FO -NewName 'Demo1'
 **Change the start page of the browser to another URL / URI**
 
 ```
-Set-StartPage -Name 'Demo1'
+Set-D365StartPage -Name 'Demo1'
 ```
 
 *Now when starting the browser you will start visit https://demo1.cloud.onebox.dynamics.com*
@@ -42,7 +42,7 @@ Set-StartPage -Name 'Demo1'
 **Provision a new admin for a given instance**
 
 ```
-Set-Admin "admin@contoso.com"
+Set-D365Admin "admin@contoso.com"
 ```
 
 *Please remember that the username / e-mail has to be a valid Azure Active Directory*
@@ -50,7 +50,7 @@ Set-Admin "admin@contoso.com"
 **Import a list of users into the environment**
 
 ```
-Import-AadUser -Userlist "Claire@contoso.com,Allen@contoso.com"
+Import-D365AadUser -Userlist "Claire@contoso.com;Allen@contoso.com"
 ```
 
 *Imports Claire and Allen into the environment*
@@ -58,7 +58,7 @@ Import-AadUser -Userlist "Claire@contoso.com,Allen@contoso.com"
 **Generate a bacpac file from a Tier1 environment to be ready for a Tier2 environment**
 
 ```
-New-BacPacv2 -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365BacPac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 ```
 
 *This will backup the db database from the localhost server.*
@@ -74,7 +74,7 @@ New-BacPacv2 -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -
 **Generate a bacpac file from a Tier2 environment. As an export / backup file only**
 
 ```
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
+New-D365BacPac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
 ```
 
 *This will export an bacpac file directly from the db database from the Azure db instance at dbserver1.database.windows.net.*
@@ -82,7 +82,7 @@ New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows
 **Generate a bacpac file from a Tier2 environment to be ready for a Tier1 environment**
 
 ```
-New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365BacPac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 ```
 
 *This will create a copy of the db database in the Azure db instance at dbserver1.database.windows.net.*
@@ -96,7 +96,7 @@ New-BacPacv2 -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows
 **Upload a file to Azure Storage account**
 
 ```
-Invoke-AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath C:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload
+Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath C:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload
 ```
 
 *This will upload the UAT_20180701.bacpac to the specified Azure Storage account and delete it when completed*
@@ -104,7 +104,7 @@ Invoke-AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752x
 **List all the database connection details for an environment**
 
 ```
-Get-DatabaseAccess
+Get-D365DatabaseAccess
 ```
 
 *This will show database connection details that D365FO is configured with.*
@@ -112,7 +112,7 @@ Get-DatabaseAccess
 **Decrypt and store a copy of the web.config file from the AOS**
 
 ```
-Get-DecryptedConfigFile -DropPath 'C:\Temp'
+Get-D365DecryptedConfigFile -DropPath 'C:\Temp'
 ```
 
 *This will store a decrypted web.config file at c:\temp*
@@ -120,7 +120,7 @@ Get-DecryptedConfigFile -DropPath 'C:\Temp'
 **Rearm the Windows license / activation counter**
 
 ```
-Invoke-ReArmWindows -Restart
+Invoke-D365ReArmWindows -Restart
 ```
 
 *This will try to rearm the Windows license and will only work if you have retries left. Will restart afterwards.*
@@ -128,7 +128,7 @@ Invoke-ReArmWindows -Restart
 **Sync the database like Visual Studio**
 
 ```
-Invoke-DBSync
+Invoke-D365DBSync
 ```
 
 *This utilizes the same mechanism as Visual Studio just in PowerShell and runs the entire synchronization process.* 
@@ -136,14 +136,14 @@ Invoke-DBSync
 **Update users in an environment after database migration / restore or re-provisioning**
 
 ```
-Update-User -Email "claire@contoso.com"
+Update-D365User -Email "claire@contoso.com"
 ```
 *This will search for the user in the UserInfo table with "claire@contoso.com" e-mail address and update it with the needed details to get access to the environment*
 
 **Update users in an environment after database migration / restore or re-provisioning - advanced**
 
 ```
-Update-User -Email "%contoso.com%"
+Update-D365User -Email "%contoso.com%"
 ```
 
 *This will search for all users in the UserInfo table with the "contoso.com" text in their e-mail address and update them with the needed details to get access to the environment*

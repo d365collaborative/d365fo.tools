@@ -24,46 +24,14 @@ Backup name for all the files that are changed
 Parameter description
 
 .EXAMPLE
-Rename-D365FO -NewName 'Demo1'
+Rename-D365Instance -NewName 'Demo1'
 
 .NOTES
 The function restarts the IIS Service.
 Elevated privileges are requried 
 #>
 
-
-##############################
-#.SYNOPSIS
-#
-#
-#.DESCRIPTION
-#
-#
-#.PARAMETER NewName
-#
-#
-#.PARAMETER OldName
-#
-#
-#.PARAMETER AosServiceWebRootPath
-# 
-#
-#.PARAMETER IISServerApplicationHostConfigFile
-#
-#
-#.PARAMETER HostsFile
-#
-#
-#.PARAMETER BackupExtension
-#
-#
-#.EXAMPLE
-# Rename-D365FO -NewName 'Demo1'
-# 
-#.NOTES
-# 
-##############################
-function Rename-D365FO() {
+function Rename-D365Instance {
     param(
         [Parameter(Mandatory = $true, Position = 1)]
         [string]$NewName,
@@ -86,10 +54,10 @@ function Rename-D365FO() {
     )
 
 
-    Write-Verbose "Testing elevatedruntime"
+    Write-Verbose "Testing elevated runtime"
     Test-ElevatedRunTime
 
-    $OldName  = Get-D365FOName
+    $OldName  = Get-D365InstanceName
 
     Write-Verbose "Renaming from $OldName"
 
@@ -150,7 +118,7 @@ function Rename-D365FO() {
     #Start IIS again
     iisreset /start
     
-    (Get-Environment).Infrastructure.FullyQualifiedDomainName
+    (Get-D365EnvironmentSettings).Infrastructure.FullyQualifiedDomainName
 }
 
 

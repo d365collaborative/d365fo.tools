@@ -11,7 +11,7 @@ An example
 .NOTES
 General notes
 #>
-function Get-ProductInformation
+function Get-D365ProductInformation
 {
     return Get-ProductInfoProvider
 }

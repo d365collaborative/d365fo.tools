@@ -21,12 +21,12 @@ Password for the SqlUser
 The database that takes the DatabaseName's place
 
 .EXAMPLE
-Switch-ActiveDatabase -NewDatabaseName "GoldenConfig"
+Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
 
 .NOTES
 General notes
 #>
-function Switch-ActiveDatabase {
+function Switch-D365ActiveDatabase {
     param(
         [Parameter(Mandatory = $false, Position = 1)]
         [string]$DatabaseServer = $Script:DatabaseServer,

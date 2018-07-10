@@ -16,11 +16,11 @@ The syncmode the syncengine will use
 Used in the SyncEngine.
 
 .EXAMPLE
-Invoke-DBSync
+Invoke-D365DBSync
 
 .NOTES
 #>
-function Invoke-DBSync {
+function Invoke-D365DBSync {
     param(
         [Parameter(Mandatory = $false, Position = 1)]
         [string]$DatabaseServer = $Script:DatabaseServer,
