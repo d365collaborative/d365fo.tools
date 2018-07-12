@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-Powershell implementation of the AdminProvising Tool
+Powershell implementation of the AdminProvisioning tool
 
 .DESCRIPTION
-AdminProvising tool embeded in powershell using the AdminProvising tool from D365FO
+Cmdlet using the AdminProvisioning tool from D365FO
 
 .PARAMETER AdminSignInName
 Email for the Admin
@@ -12,13 +12,13 @@ Email for the Admin
 Alternative SQL Database server, Default is the one provided by the DataAccess object
 
 .PARAMETER DatabaseName
-Alternative SQL Database, Default is the one provieded by the DataAccess object
+Alternative SQL Database, Default is the one provided by the DataAccess object
 
 .PARAMETER SqlUser
-Alternative SQL user, Default is the one provieded by the DataAccess object
+Alternative SQL user, Default is the one provided by the DataAccess object
 
 .PARAMETER SqlPwd
-Alternative SQL user password, Default is the one provieded by the DataAccess object
+Alternative SQL user password, Default is the one provided by the DataAccess object
 
 .EXAMPLE
 Set-D365Admin "user@mycompany.com"
@@ -43,10 +43,13 @@ function Set-D365Admin
 
     [Parameter(Mandatory=$false, Position=5)]
     [string]$SqlPwd = $Script:DatabaseUserPassword
-    
+
     )
 
-    Test-ElevatedRunTime
+    if(!$Script:IsAdminRuntime){
+        Write-Host "The cmdlet needs administrator permission (Run As Administrator) to be able to update the configuration. Please start an elevated session and run the cmdlet again." -ForegroundColor Yellow
+        Write-Error "Elevated permissions needed. Please start an elevated session and run the cmdlet again." -ErrorAction Stop
+    }
 
     Set-AdminUser $AdminSignInName $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 }

@@ -4,13 +4,13 @@
 Syncs like Visual Studio
 
 .DESCRIPTION
-Uses Syncengine for syncing D365fo
+Uses SyncEngine for syncing D365fo
 
 .PARAMETER LogPath
 The path where the log file will be saved
 
 .PARAMETER SyncMode
-The syncmode the syncengine will use
+The sync mode the sync engine will use
 
 .PARAMETER Verbosity
 Used in the SyncEngine.
@@ -34,21 +34,24 @@ function Invoke-D365DBSync {
         [string]$LogPath = "C:\temp\D365FO-Tool\Sync",
         [Parameter(Mandatory = $false, Position = 6)]
         #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
-        [string]$SyncMode ='FullAll',
+        [string]$SyncMode = 'FullAll',
         [Parameter(Mandatory = $false, Position = 7)]
-        [ValidateSet('Normal','Quiet','Minimal','Normal','Detailed','Diagnostic')]
+        [ValidateSet('Normal', 'Quiet', 'Minimal', 'Normal', 'Detailed', 'Diagnostic')]
         [string]$Verbosity = 'Normal'
-        
     )
-    #Test-ElevatedRunTime
+
+    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
+        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    }
 
     $command = "$Script:BinDir\bin\SyncEngine.exe"
-    
-    $param = " -syncmode=$($SyncMode.tolower())"
-    $param += " -verbosity=$($Verbosity.tolower())"
+
+    $param = " -syncmode=$($SyncMode.ToLower())"
+    $param += " -verbosity=$($Verbosity.ToLower())"
     $param += " -metadatabinaries=`"$Script:BinDir`""
     $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName;Trusted_Connection=false; User Id=$DatabaseUserName;Password=$DatabaseUserPassword;`""
-    
+
     Write-Verbose "CommandFile $command"
     Write-Verbose "Parameters $param"
 
@@ -58,10 +61,10 @@ function Invoke-D365DBSync {
     }
 
     $syncEngine = get-process -name "SyncEngine" -ErrorAction SilentlyContinue
-    if($syncEngine -ne $null) {
+    if ($null -ne $syncEngine) {
 
-        write-Error "A instance of SyncEngine is allready running"
-        return        
+        write-Error "A instance of SyncEngine is already running"
+        return
 
     }
 
@@ -72,37 +75,36 @@ function Invoke-D365DBSync {
     $lineCount = 0
     Write-Verbose "Process Started"
     Write-Verbose $process
-    
+
     $StartTime = Get-Date
 
-    
-    while ($process.HasExited -eq $false)
-    {
-        foreach($line in Get-Content "$LogPath\output.log") {
+
+    while ($process.HasExited -eq $false) {
+        foreach ($line in Get-Content "$LogPath\output.log") {
             $lineCount++
-            if($lineCount -gt $lineTotalCount) {
+            if ($lineCount -gt $lineTotalCount) {
                 Write-Verbose $line
                 $lineTotalCount++
             }
         }
         $lineCount = 0
         Start-Sleep -Seconds 2
-            
+
     }
 
-    foreach($line in Get-Content "$LogPath\output.log") {
+    foreach ($line in Get-Content "$LogPath\output.log") {
         $lineCount++
-        if($lineCount -gt $lineTotalCount) {
+        if ($lineCount -gt $lineTotalCount) {
             Write-Verbose $line
             $lineTotalCount++
         }
     }
 
 
-    foreach($line in Get-Content "$LogPath\error.log") {
-            Write-Error $line
+    foreach ($line in Get-Content "$LogPath\error.log") {
+        Write-Error $line
     }
-    
+
     $EndTime = Get-Date
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime

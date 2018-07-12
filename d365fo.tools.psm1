@@ -9,7 +9,7 @@ function Import-ModuleFile {
         $Path
     )
     if ($doDotSource) { . $Path }
-    else { $ExecutionContext.InvokeCommand.InvokeScript($false, ([scriptblock]::Create([io.file]::ReadAllText($Path))), $null, $null) }
+    else { $ExecutionContext.InvokeCommand.InvokeScript($false, ([ScriptBlock]::Create([io.file]::ReadAllText($Path))), $null, $null) }
 }
 
 
@@ -22,26 +22,28 @@ if (($PSVersionTable.PSVersion.Major -lt 6) -or ($PSVersionTable.OS -like "*Wind
 }
 
 
-# All internal functions privately available within the toolset
+# All internal functions privately available within the tool set
 foreach ($function in (Get-ChildItem "$script:PSModuleRoot\internal\functions\*.ps1")) {
     . Import-ModuleFile $function.FullName
 }
 
-# All public functions available within the toolset
+# All public functions available within the tool set
 foreach ($function in (Get-ChildItem "$script:PSModuleRoot\functions\*.ps1")) {
     . Import-ModuleFile $function.FullName
 }
+$Script:IsAdminRuntime = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 $Script:AOSPath = ""
-if (([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    $Script:AOSPath = (Get-Website -Name "AOSService" | Select-Object -Property "PhysicalPath" ).physicalpath
+
+if ($Script:IsAdminRuntime) {
+    $Script:AOSPath = (Get-Website -Name "AOSService" | Select-Object -Property "PhysicalPath" ).PhysicalPath
 }
 else {
-    $Script:AOSPath = [System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")  +  "\AOSService\webroot"
+    $Script:AOSPath = [System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%") + "\AOSService\webroot"
 }
-$Script:WebConfig =  "web.config"
+$Script:WebConfig = "web.config"
 $Script:WifServicesConfig = "wif.services.config"
-$Script:Hosts =  'C:\Windows\System32\drivers\etc\hosts'
+$Script:Hosts = 'C:\Windows\System32\drivers\etc\hosts'
 $Script:DefaultAOSName = 'usnconeboxax1aos'
 $Script:IISHostFile = 'C:\Windows\System32\inetsrv\Config\applicationHost.config'
 $Script:MRConfigFile = 'C:\FinancialReporting\Server\ApplicationService\bin\MRServiceHost.settings.config'

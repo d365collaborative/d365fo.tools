@@ -28,7 +28,8 @@ Rename-D365Instance -NewName 'Demo1'
 
 .NOTES
 The function restarts the IIS Service.
-Elevated privileges are requried 
+
+Elevated privileges are required
 #>
 
 function Rename-D365Instance {
@@ -44,20 +45,23 @@ function Rename-D365Instance {
 
         [Parameter(Mandatory = $false, Position = 4)]
         [string]$HostsFile = $Script:Hosts,
-        
+
         [Parameter(Mandatory = $false, Position = 5)]
         [string]$BackupExtension,
 
         [Parameter(Mandatory = $false, Position = 6)]
         [string]$MRConfigFile = $Script:MRConfigFile
-        
+
     )
 
-
     Write-Verbose "Testing elevated runtime"
-    Test-ElevatedRunTime
 
-    $OldName  = Get-D365InstanceName
+    if (!$Script:IsAdminRuntime) {
+        Write-Host "The cmdlet needs administrator permission (Run As Administrator) to be able to update the configuration. Please start an elevated session and run the cmdlet again." -ForegroundColor Yellow
+        Write-Error "Elevated permissions needed. Please start an elevated session and run the cmdlet again." -ErrorAction Stop
+    }
+
+    $OldName = Get-D365InstanceName
 
     Write-Verbose "Renaming from $OldName"
 
@@ -66,17 +70,18 @@ function Rename-D365Instance {
     $NewNameDot = "$NewName."
     $replaceValueDot = "$replaceValue."
 
-        
 
-    $WebConfigFile = join-Path -path $AosServiceWebRootPath $Script:WebConfig 
-    $WifServicesFile = Join-Path -Path $AosServiceWebRootPath $Script:WifServicesConfig 
+
+    $WebConfigFile = join-Path -path $AosServiceWebRootPath $Script:WebConfig
+    $WifServicesFile = Join-Path -Path $AosServiceWebRootPath $Script:WifServicesConfig
 
     Write-Verbose "Testing files"
     Write-Verbose "WebConfig $WebConfigFile"
     Write-Verbose "WifServices $WifServicesFile"
     Write-Verbose "IISBindings $IISServerApplicationHostConfigFile"
     Write-Verbose "Management Reporter $MRConfigFile"
-    #Test files 
+
+    #Test files
     if ( (Test-Path $WebConfigFile) -eq $false) {throw [System.IO.FileNotFoundException] "$WebConfigFile not found."}
     if ( (Test-Path $WifServicesFile) -eq $false) { throw [System.IO.FileNotFoundException] "$WifServicesFile not found." }
     if ( (Test-Path $IISServerApplicationHostConfigFile) -eq $false) { throw [System.IO.FileNotFoundException] "$IISServerApplicationHostConfigFile not found." }
@@ -88,14 +93,14 @@ function Rename-D365Instance {
 
     write-verbose "BackupExtension set to $BackupExtension"
 
-    if($BackupExtension -eq '') {
+    if ($BackupExtension -eq '') {
         Write-Verbose "Settings default backup extension"
         $BackupExtension = "bak"
     }
 
     write-verbose "BackupExtension set to $BackupExtension"
     # Backup files
-    if ($BackupExtension -ne $null -and $BackupExtension -ne '') {
+    if ($null -ne $BackupExtension -and $BackupExtension -ne '') {
         Write-Verbose "Backing up files"
         Backup-File $WebConfigFile $BackupExtension
         Backup-File $WifServicesFile $BackupExtension
@@ -103,7 +108,7 @@ function Rename-D365Instance {
         Backup-File $HostsFile $BackupExtension
         Backup-File $MRConfigFile $BackupExtension
     }
-            
+
     # WebConfig - D365 web config file
     Rename-ConfigValue $WebConfigFile $NewName $replaceValue
     # Wif.Services - D365 web config file (services)
@@ -114,10 +119,10 @@ function Rename-D365Instance {
     Rename-ConfigValue $HostsFile $NewNameDot $replaceValueDot
     #Management Reporter
     Rename-ConfigValue $MRConfigFile $NewName $replaceValue
-        
+
     #Start IIS again
     iisreset /start
-    
+
     (Get-D365EnvironmentSettings).Infrastructure.FullyQualifiedDomainName
 }
 

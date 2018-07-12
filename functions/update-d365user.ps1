@@ -58,6 +58,11 @@ function Update-D365User {
 
     )
 
+    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
+        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    }
+
     [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
     $sqlCommand.Connection.Open()
@@ -69,7 +74,7 @@ function Update-D365User {
 
     $sqlCommand_Update.Connection.Open()
 
-    $sqlCommand_Update.CommandText = (Get-Content  "$script:PSModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
+    $sqlCommand_Update.CommandText = (Get-Content"$script:PSModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
 
     $reader = $sqlCommand.ExecuteReader()
 
@@ -85,7 +90,7 @@ function Update-D365User {
         $null = $sqlCommand_Update.Parameters.Add("@identityProvider", $userAuth["IdentityProvider"])
 
         write-verbose "Updating user $userId"
-        
+
         $null = $sqlCommand_Update.ExecuteNonQuery()
 
         $sqlCommand_Update.Parameters.Clear()

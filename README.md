@@ -67,7 +67,6 @@ Import-D365AadUser -Userlist "Claire@contoso.com;Allen@contoso.com"
 ```
 
 *Imports Claire and Allen into the environment*
-*Remeber that the list has to be semicolon (';') separated*
 
 *Remeber that the list has to be semicolon (';') separated*
 
@@ -203,3 +202,17 @@ Start-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" 
 
 *Will start all D365 services on the the specified machines. Will report current status for all services*
 
+**Offline Authentication Administrator Email**
+
+```
+Get-D365OfflineAuthenticationAdminEmail
+```
+
+*Will display the current registered account as Offline Authentication Administrator*
+
+```
+Set-D365OfflineAuthenticationAdminEmail -Email "admin@contoso.com"
+
+```
+
+*Will update the Offline Authentication Administrator registration to "admin@contoso.com"*

@@ -6,7 +6,7 @@ Switches the 2 databases. The Old wil be renamed _original
 Switches the 2 databases. The Old wil be renamed _original
 
 .PARAMETER DatabaseServer
-The databaseserver where the switch should occur
+The database server where the switch should occur
 
 .PARAMETER DatabaseName
 The name of the database to be switched
@@ -40,23 +40,25 @@ function Switch-D365ActiveDatabase {
         [string]$NewDatabaseName
     )
 
+    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
+        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    }
+
     Write-Host "Make sure to stop all :"
     write-Host "World wide web publishing service (on all AOS computers)"
     Write-Host "Microsoft Dynamics 365 for Finance and Operations Batch Management Service (on non-private AOS computers only)"
     Write-Host "Management Reporter 2012 Process Service (on business intelligence [BI] computers only)"
-    
-
 
     [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SQLCommand $DatabaseServer "Master" $SqlUser $SqlPwd
 
     $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
-   
+
     $sqlCommand.CommandText = $commandText
 
     write-verbose $sqlCommand.CommandText
     Write-Verbose "Rename $DatabaseName to $DatabaseName`_original"
     Write-Verbose "Rename $NewDatabaseName to $DatabaseName"
-    
 
     $var = New-Object System.Data.SqlClient.SqlParameter("@OrigName", $DatabaseName)
     $null = $sqlCommand.Parameters.Add($var)

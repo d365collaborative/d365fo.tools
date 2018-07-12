@@ -1,14 +1,13 @@
 function Set-AdminUser($SignInName, $DatabaseServerName, $DatabaseName, $SqlUser, $SqlPwd) {
 
-
     $WebConfigFile = Join-Path $Script:AOSPath $Script:WebConfig
-    
+
     $MetaDataNode = Select-Xml -XPath "/configuration/appSettings/add[@key='Aos.MetadataDirectory']/@value" -Path $WebConfigFile
-    
+
     $MetaDataNodeDirectory = $MetaDataNode.Node.Value
 
     Write-Verbose "MetaDataDirectory: $MetaDataNodeDirectory"
-    
+
     $AdminFile = "$MetaDataNodeDirectory\Bin\AdminUserProvisioning.exe"
 
     $TempFileName = New-TemporaryFile
@@ -33,6 +32,4 @@ function Set-AdminUser($SignInName, $DatabaseServerName, $DatabaseName, $SqlUser
     $params = $SignInName, $null, $null, $DatabaseServerName, $DatabaseName, $SqlUser, $SqlPwd
 
     $UpdateAdminUser.Invoke($null, $params)
-            
-
 }

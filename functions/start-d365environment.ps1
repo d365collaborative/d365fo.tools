@@ -33,7 +33,7 @@ Will start all D365FO service on the machine
 .EXAMPLE
 Start-D365Environment -Aos -Batch
 
-Will star Aos & Batch services  on the machine
+Will start Aos & Batch services on the machine
 
 .NOTES
 
@@ -43,53 +43,57 @@ Will star Aos & Batch services  on the machine
 function Start-D365Environment {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]                    
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 1 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 1 )]
         [string[]] $ComputerName = @($env:computername),
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]                    
-        [switch] $All,
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
+        [switch] $All = [switch]::Present,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [switch] $Aos,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]
         [switch] $Batch,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]
         [switch] $FinancialReporter
     )
+
+    if ($PSCmdlet.ParameterSetName -eq "Specific") {
+        $All = ![switch]::Present
+    }
 
     if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent) {
         Write-Error "You have to use at least one switch when running this cmdlet. Please run the cmdlet again." -ErrorAction Stop
     }
 
-    $aosname = "w3svc"
-    $batchname = "DynamicsAxBatch"
-    $financialname = "MR2012ProcessService"
-    
+    $aosName = "w3svc"
+    $batchName = "DynamicsAxBatch"
+    $financialName = "MR2012ProcessService"
+
     [System.Collections.ArrayList]$Services = New-Object -TypeName "System.Collections.ArrayList"
 
     if ($All.IsPresent) {
-        $Services.AddRange(@($aosname, $batchname, $financialname))
-    }    
+        $Services.AddRange(@($aosName, $batchName, $financialName))
+    }
     else {
         if ($Aos.IsPresent) {
-            $Services.Add($aosname)
+            $Services.Add($aosName)
         }
         if ($Batch.IsPresent) {
-            $Services.Add($batchname)
+            $Services.Add($batchName)
         }
         if ($FinancialReporter.IsPresent) {
-            $Services.Add($financialname)
+            $Services.Add($financialName)
         }
     }
-    
+
     Get-Service -ComputerName $ComputerName -Name $Services.ToArray() -ErrorAction SilentlyContinue | Start-Service -ErrorAction SilentlyContinue
 
     $Results = foreach ($server in $ComputerName) {
         Get-Service -ComputerName $server -Name $Services.ToArray() -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
     }
-    
-    $Results | Select-Object Server,Name,Status,DisplayName
+
+    $Results | Select-Object Server, Name, Status, DisplayName
 }

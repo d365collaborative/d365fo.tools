@@ -38,16 +38,21 @@ function Remove-D365Database {
         [string]$SqlPwd = $Script:DatabaseUserPassword
     )
 
+    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
+        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    }
+
     $null = [System.Reflection.Assembly]::LoadWithPartialName('Microsoft.SqlServer.SMO')
 
-    $srv = new-object Microsoft.SqlServer.Management.Smo.Server("$DatabaseServer")  
-        
-    $srv.ConnectionContext.LoginSecure = $false; 
-    $srv.ConnectionContext.set_Login("$SqlUser"); 
-    $srv.ConnectionContext.set_Password("$SqlPwd")  
-        
+    $srv = new-object Microsoft.SqlServer.Management.Smo.Server("$DatabaseServer")
+
+    $srv.ConnectionContext.LoginSecure = $false
+    $srv.ConnectionContext.set_Login("$SqlUser")
+    $srv.ConnectionContext.set_Password("$SqlPwd")
+
     $db = $srv.Databases["$DatabaseName"]
-        
+
     if ($srv.ServerType -ne "SqlAzureDatabase") {
         $srv.KillAllProcesses("$DatabaseName")
     }
