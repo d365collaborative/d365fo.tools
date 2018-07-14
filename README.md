@@ -249,3 +249,7 @@ Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -La
 ```
 *Gets the "@PRO505" label details from the "PRO" resource / label file from the "ApplicationSuite" package, **across all languages***
 
+```
+Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "en-US" | Get-D365Label -Value "*qty*" -IncludePath
+```
+*Gets all "en-US" labels where the value contains "*qty*" from the "ApplicationSuite" package, **across all resource / label files***
