@@ -63,16 +63,22 @@ function Get-D365PackageLabelFile {
     PROCESS {
         $Path = $PackageDirectory
 
-        $files = Get-ChildItem -Path ("$Path\Resources\$Language\*.resources.dll")
+        if (Test-Path "$Path\Resources\$Language") {
+        
+            $files = Get-ChildItem -Path ("$Path\Resources\$Language\*.resources.dll")
 
-        foreach ($obj in $files) {
-            if ($obj.Name.Replace(".resources.dll", "") -NotLike $Name) { continue }
-            [PSCustomObject]@{
-                LabelName    = ($obj.Name).Replace(".resources.dll", "")
-                LanguageName = (Get-Command $obj.FullName).FileVersionInfo.Language
-                Language     = $obj.directory.basename
-                FilePath     = $obj.FullName
+            foreach ($obj in $files) {
+                if ($obj.Name.Replace(".resources.dll", "") -NotLike $Name) { continue }
+                [PSCustomObject]@{
+                    LabelName    = ($obj.Name).Replace(".resources.dll", "")
+                    LanguageName = (Get-Command $obj.FullName).FileVersionInfo.Language
+                    Language     = $obj.directory.basename
+                    FilePath     = $obj.FullName
+                }
             }
+        }
+        else {
+            Write-Verbose "Skipping `"$("$Path\Resources\$Language")`" because it doesn't exist."
         }
     }
 
