@@ -74,7 +74,7 @@ Import-D365AadUser -Userlist "Claire@contoso.com;Allen@contoso.com"
 **Generate a bacpac file from a Tier1 environment to be ready for a Tier2 environment**
 
 ```
-New-D365BacPac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 ```
 
 *This will backup the db database from the localhost server.*
@@ -90,7 +90,7 @@ New-D365BacPac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db
 **Generate a bacpac file from a Tier2 environment. As an export / backup file only**
 
 ```
-New-D365BacPac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
+New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
 ```
 
 *This will export an bacpac file directly from the db database from the Azure db instance at dbserver1.database.windows.net.*
@@ -98,7 +98,7 @@ New-D365BacPac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windo
 **Generate a bacpac file from a Tier2 environment to be ready for a Tier1 environment**
 
 ```
-New-D365BacPac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 ```
 
 *This will create a copy of the db database in the Azure db instance at dbserver1.database.windows.net.*
@@ -216,3 +216,36 @@ Set-D365OfflineAuthenticationAdminEmail -Email "admin@contoso.com"
 ```
 
 *Will update the Offline Authentication Administrator registration to "admin@contoso.com"*
+
+**Work with packages, label files, language and labels**
+
+```
+Get-D365InstalledPackage
+```
+*Gets all installed packages on the system/machine*
+
+```
+Get-D365InstalledPackage -Name "ApplicationSuite"
+```
+*Gets the "ApplicationSuite" package*
+
+```
+Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "en-US"
+```
+*Gets all the "en-US" resource / label files from the ApplicationSuite package*
+
+```
+Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "en-US" -Name "PRO"
+```
+*Gets the PRO resource / label file from the "ApplicationSuite" package with the language "EN-US"*
+
+```
+Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "en-US" -Name "PRO" | Get-D365Label
+```
+*Gets all label details from the PRO resource / label file from the "ApplicationSuite" package with the language "EN-US"*
+
+```
+Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "*" -Name "PRO" | Get-D365Label -Name "@PRO505"
+```
+*Gets the "@PRO505" label details from the "PRO" resource / label file from the "ApplicationSuite" package, **across all languages***
+

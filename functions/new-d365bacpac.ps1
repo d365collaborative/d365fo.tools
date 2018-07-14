@@ -42,7 +42,7 @@ The filename of the bacpac file that will be generate - without extension
 Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
 
 .EXAMPLE
-New-D365BacPac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 
 Will backup and restore the db database again the localhost server.
 Will run the prepping process against the restored database.
@@ -50,7 +50,7 @@ Will export a bacpac file.
 Will delete the restored database.
 
 .EXAMPLE
-New-D365BacPac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 
 Will create a copy the db database on the dbserver1 in Azure.
 Will run the prepping process against the copy database.
@@ -58,7 +58,7 @@ Will export a bacpac file.
 Will delete the copy database.
 
 .EXAMPLE
-New-D365BacPac -ExecutionMode FromAzure -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExecutionMode FromAzure -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
 
 Normally used for a Tier-2 export and preparation for Tier-1 import
 
@@ -69,7 +69,7 @@ Will delete the copy database.
 
 
 .EXAMPLE
-New-D365BacPac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
+New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
 
 Will export a bacpac file.
 The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
@@ -77,7 +77,7 @@ The bacpac should be able to restore back into the database without any preparin
 .NOTES
 
 #>
-function New-D365BacPac {
+function New-D365Bacpac {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]

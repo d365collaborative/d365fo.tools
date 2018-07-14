@@ -12,7 +12,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.8'
+    ModuleVersion          = '0.3.12'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -74,8 +74,11 @@
                                 'Get-D365DecryptedConfigFile',
                                 'Get-D365Environment',
                                 'Get-D365EnvironmentSettings',
+                                'Get-D365InstalledPackage',
                                 'Get-D365InstanceName',
+                                'Get-D365Label',
                                 'Get-D365OfflineAuthenticationAdminEmail',
+                                'Get-D365PackageLabelFile',
                                 'Get-D365ProductInformation',
                                 'Get-D365UserAuthenticationDetail',
 
