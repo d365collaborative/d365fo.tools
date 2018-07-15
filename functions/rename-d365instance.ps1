@@ -123,7 +123,7 @@ function Rename-D365Instance {
     #Start IIS again
     iisreset /start
 
-    (Get-D365EnvironmentSettings).Infrastructure.FullyQualifiedDomainName
+    Get-D365Url
 }
 
 

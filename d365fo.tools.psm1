@@ -1,6 +1,4 @@
 $script:PSModuleRoot = $PSScriptRoot
-
-
 function Import-ModuleFile {
 
     [CmdletBinding()]
@@ -12,7 +10,6 @@ function Import-ModuleFile {
     else { $ExecutionContext.InvokeCommand.InvokeScript($false, ([ScriptBlock]::Create([io.file]::ReadAllText($Path))), $null, $null) }
 }
 
-
 $script:doDotSource = $false
 if ($psframework_dotsourcemodule) { $script:doDotSource = $true }
 if (($PSVersionTable.PSVersion.Major -lt 6) -or ($PSVersionTable.OS -like "*Windows*")) {
@@ -20,7 +17,6 @@ if (($PSVersionTable.PSVersion.Major -lt 6) -or ($PSVersionTable.OS -like "*Wind
     if ((Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsPowerShell\PSFramework\System" -Name "DoDotSource" -ErrorAction Ignore).DoDotSource) { $script:doDotSource = $true }
     if ((Get-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\WindowsPowerShell\PSFramework\System" -Name "DoDotSource" -ErrorAction Ignore).DoDotSource) { $script:doDotSource = $true }
 }
-
 
 # All internal functions privately available within the tool set
 foreach ($function in (Get-ChildItem "$script:PSModuleRoot\internal\functions\*.ps1")) {
@@ -61,4 +57,5 @@ $Script:DatabaseUserPassword = $dataAccess.SqlPwd
 $Script:BinDir = $environment.Common.BinDir
 $Script:PackageDirectory = $environment.Aos.PackageDirectory
 
-
+$FQDN = $environment.Infrastructure.FullyQualifiedDomainName
+$Script:Url = "https://$FQDN"

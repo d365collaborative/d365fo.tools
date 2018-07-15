@@ -253,3 +253,26 @@ Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -La
 Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "en-US" | Get-D365Label -Value "*qty*" -IncludePath
 ```
 *Gets all "en-US" labels where the value contains "*qty*" from the "ApplicationSuite" package, **across all resource / label files***
+
+**Execute SysFlushAod class**
+
+```
+Invoke-D365SysFlushAodCache
+```
+*Will execute a web call to the SysRunnerClass with the name SysFlushAod class and have the class executed*
+
+**Call the Table Browser**
+
+```
+Invoke-D365TableBrowser -TableName SalesTable -Company "USMF"
+
+```
+*Will call the Table Browser in the web browser and display all data from the SalesTable within the "USMF" company*
+
+**Execute runnable class**
+
+```
+Invoke-D365SysRunnerClass -ClassName SysDBInformation -Company USMF
+
+```
+*Will execute a web call to the SysRunnerClass with the SysDBInformation as the parameter and have the class executed against the USMF company*
