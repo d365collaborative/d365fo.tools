@@ -4,7 +4,7 @@ declare
 @SQL varchar(1000)
 set quoted_identifier off
 declare changeTrackingCursor CURSOR for
-select 'ALTER TABLE ' + t.name + ' DISABLE CHANGE_TRACKING'
+select 'ALTER TABLE [' + t.name + '] DISABLE CHANGE_TRACKING'
 from sys.change_tracking_tables c, sys.tables t
 where t.object_id = c.object_id
 OPEN changeTrackingCursor
@@ -28,7 +28,7 @@ declare
 @userSQL varchar(1000)
 set quoted_identifier off
 declare userCursor CURSOR for
-select 'DROP USER ' + name
+select 'DROP USER [' + name +']'
 from sys.sysusers
 where issqlrole = 0 and hasdbaccess = 1 and name <> 'dbo'
 OPEN userCursor
