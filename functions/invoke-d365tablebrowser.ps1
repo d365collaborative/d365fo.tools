@@ -29,12 +29,13 @@ Invoke-D365TableBrowser -TableName SalesTable -Company "USMF"
 Will open the table browser and show all the records in Sales Table from the "USMF" company
 
 .NOTES
-General notes
+The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+
 #>
 function Invoke-D365TableBrowser {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 1 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 1 )]
         [string] $TableName,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
@@ -43,8 +44,17 @@ function Invoke-D365TableBrowser {
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
         [string] $Url = $Script:Url
     )
+    BEGIN {}
 
-    $executingUrl = "$Url`?cmp=$Company&mi=SysTableBrowser&tablename=$TableName"
+    PROCESS {
+        Write-Verbose "Table name: $TableName"
+        $executingUrl = "$Url`?cmp=$Company&mi=SysTableBrowser&tablename=$TableName"
 
-    Start-Process $executingUrl
+        Start-Process $executingUrl
+
+        #* Allow the browser to start and process first request it it isn't running
+        Start-Sleep -Seconds 1
+    }
+
+    END {}
 }

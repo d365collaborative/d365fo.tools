@@ -276,3 +276,43 @@ Invoke-D365SysRunnerClass -ClassName SysDBInformation -Company USMF
 
 ```
 *Will execute a web call to the SysRunnerClass with the SysDBInformation as the parameter and have the class executed against the USMF company*
+
+**Look up table details, either by name or id**
+
+```
+Get-D365Table -Id 10347
+```
+*Will get the details for the table with the id 10347*
+
+```
+Get-D365Table -Name CustTable
+```
+*Will get the details for the CustTable*
+
+**Look up field details, either by name or id**
+
+```
+Get-D365TableField -TableId 10347
+```
+
+*Will get all fields and details for these fields for the table with id 10347*
+
+```
+Get-D365TableField -TableName CustTable
+```
+*Will get all fields and details for these fields for the table CustTable*
+
+```
+Get-D365TableField -TableId 10347 -FieldId 175
+```
+*Will get the details for the field with id 175 that belongs to the table with id 10347*
+
+```
+Get-D365TableField -TableId 10347 -Name "VAT*"
+```
+*Will get the details for all fields that fits the search "VAT*" that belongs to the table with id 10347*
+
+```
+Get-D365TableField -Name AccountNum -SearchAcrossTables
+```
+*Will search for the AccountNum field across all tables.*
