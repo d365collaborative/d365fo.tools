@@ -70,8 +70,9 @@ function Import-D365BacPac {
         [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly', Position = 4 )]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 5)]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnly', Position = 5 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 5)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnly', ValueFromPipelineByPropertyName = $true, Position = 5 )]        
+        [Alias('File')]
         [string]$BacpacFile,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 6)]

@@ -75,7 +75,7 @@ Will export a bacpac file.
 The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
 
 .NOTES
-
+The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 #>
 function New-D365Bacpac {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
@@ -121,67 +121,82 @@ function New-D365Bacpac {
 
     )
 
-    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
-        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    BEGIN {
+        if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+            Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
+            Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+        }
     }
+    PROCESS {
 
-    $sqlMode = $false
+        $sqlMode = $false
 
-    $sqlPackagePath = $Script:SqlPackage
+        $sqlPackagePath = $Script:SqlPackage
 
-    if ([System.IO.File]::Exists($sqlPackagePath) -ne $True) {
-        Write-Host "The sqlpackage.exe is not present on the system. This is an important part of making the bacpac file. Please install latest SQL Server Management Studio on the machine and run the cmdlet again. `r`nVisit this link:`r`ndocs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms" -ForegroundColor Yellow
-        Write-Host "The sqlpackage.exe is expected to be found at this location: " -ForegroundColor Yellow
-        Write-Host $sqlPackagePath -ForegroundColor Yellow
-        Write-Error "The sqlpackage.exe is missing on the system." -ErrorAction Stop
-    }
+        if ([System.IO.File]::Exists($sqlPackagePath) -ne $True) {
+            Write-Host "The sqlpackage.exe is not present on the system. This is an important part of making the bacpac file. Please install latest SQL Server Management Studio on the machine and run the cmdlet again. `r`nVisit this link:`r`ndocs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms" -ForegroundColor Yellow
+            Write-Host "The sqlpackage.exe is expected to be found at this location: " -ForegroundColor Yellow
+            Write-Host $sqlPackagePath -ForegroundColor Yellow
+            Write-Error "The sqlpackage.exe is missing on the system." -ErrorAction Stop
+        }
 
-    if ((Test-path $BackupDirectory) -eq $false) {$null = new-item -ItemType directory -path $BackupDirectory }
-    if ((Test-path $BacpacDirectory) -eq $false) {$null = new-item -ItemType directory -path $BacpacDirectory }
+        if ((Test-path $BackupDirectory) -eq $false) {$null = new-item -ItemType directory -path $BackupDirectory }
+        if ((Test-path $BacpacDirectory) -eq $false) {$null = new-item -ItemType directory -path $BacpacDirectory }
 
-    if ($ExecutionMode.ToLower() -eq "FromSql".ToLower()) {
-        $sqlMode = $true
-    }
+        if ($ExecutionMode.ToLower() -eq "FromSql".ToLower()) {
+            $sqlMode = $true
+        }
 
-    $bacpacPath = (Join-Path $BacpacDirectory "$BacpacName.bacpac")
+        $bacpacPath = (Join-Path $BacpacDirectory "$BacpacName.bacpac")
 
-    if ($RawBacpacOnly.IsPresent) {
-        Write-Verbose "Invoking the export of the bacpac file only."
-        Invoke-SqlPackage $DatabaseServer $DatabaseName $SqlUser $SqlPwd (Join-Path $BacpacDirectory "$BacpacName.bacpac")
+        if ($RawBacpacOnly.IsPresent) {
+            Write-Verbose "Invoking the export of the bacpac file only."
+            Invoke-SqlPackage $DatabaseServer $DatabaseName $SqlUser $SqlPwd (Join-Path $BacpacDirectory "$BacpacName.bacpac")
 
-        $bacpacPath
-    }
-    else {
-        if ($sqlMode) {
-            Write-Verbose "Invoking the SQL backup & restore process"
-            Invoke-SqlBackupRestore $DatabaseServer $DatabaseName $SqlUser $SqlPwd $NewDatabaseName
-
-            Write-Verbose "Invoking the SQL clear objects"
-            Invoke-ClearSqlSpecificObjects $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd
-
-            Write-Verbose "Invoking the export of the bacpac file from SQL"
-            Invoke-SqlPackage $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $bacpacPath
-
-            Write-Verbose "Invoking the remove database from SQL"
-            Remove-D365Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
-
-            $bacpacPath
+            [PSCustomObject]@{
+                File     = $bacpacPath
+                Filename = "$BacpacName.bacpac"
+            }
         }
         else {
-            Write-Verbose "Invoking the creation of Azure DB copy"
-            Invoke-AzureBackupRestore $DatabaseServer $DatabaseName $SqlUser $SqlPwd $NewDatabaseName
+            if ($sqlMode) {
+                Write-Verbose "Invoking the SQL backup & restore process"
+                Invoke-SqlBackupRestore $DatabaseServer $DatabaseName $SqlUser $SqlPwd $NewDatabaseName
 
-            Write-Verbose "Invoking the Azure clear objects"
-            Invoke-ClearAzureSpecificObjects $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd
+                Write-Verbose "Invoking the SQL clear objects"
+                Invoke-ClearSqlSpecificObjects $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd
 
-            Write-Verbose "Invoking the export of the bacpac file from Azure"
-            Invoke-SqlPackage $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $bacpacPath
+                Write-Verbose "Invoking the export of the bacpac file from SQL"
+                Invoke-SqlPackage $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $bacpacPath
 
-            Write-Verbose "Invoking the remove database from Azure"
-            Remove-D365Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
+                Write-Verbose "Invoking the remove database from SQL"
+                Remove-D365Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
 
-            $bacpacPath
+                [PSCustomObject]@{
+                    File     = $bacpacPath
+                    Filename = "$BacpacName.bacpac"
+                }
+            }
+            else {
+                Write-Verbose "Invoking the creation of Azure DB copy"
+                Invoke-AzureBackupRestore $DatabaseServer $DatabaseName $SqlUser $SqlPwd $NewDatabaseName
+
+                Write-Verbose "Invoking the Azure clear objects"
+                Invoke-ClearAzureSpecificObjects $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd
+
+                Write-Verbose "Invoking the export of the bacpac file from Azure"
+                Invoke-SqlPackage $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $bacpacPath
+
+                Write-Verbose "Invoking the remove database from Azure"
+                Remove-D365Database -DatabaseServer $DatabaseServer -DatabaseName $NewDatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd
+
+                [PSCustomObject]@{
+                    File     = $bacpacPath
+                    Filename = "$BacpacName.bacpac"
+                }
+            }
         }
     }
+
+    END {}
 }

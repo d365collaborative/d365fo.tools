@@ -109,13 +109,7 @@ New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windo
 
 *It will delete the Testing1 database in the Azure db instance at dbserver1.database.windows.net.*
 
-**Upload a file to Azure Storage account**
 
-```
-Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath C:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload
-```
-
-*This will upload the UAT_20180701.bacpac to the specified Azure Storage account and delete it when completed*
 
 **List all the database connection details for an environment**
 
@@ -316,3 +310,23 @@ Get-D365TableField -TableId 10347 -Name "VAT*"
 Get-D365TableField -Name AccountNum -SearchAcrossTables
 ```
 *Will search for the AccountNum field across all tables.*
+
+**Working with Azure Storage account**
+
+
+```
+Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles"
+```
+
+*Get all files stored inside the **"backupfiles"** container / blob in the **"miscfiles"** storage account*
+
+```
+Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath C:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload
+```
+
+*This will upload the **"UAT_20180701.bacpac"** file to the specified Azure Storage Account and delete it when completed*
+
+```
+Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -FileName "UAT_20180701.bacpac" -Path "c:\temp" 
+```
+*This will download the **"UAT_20180701.bacpac"** file from the Azure Storage Account and store it in "c:\temp\UAT_20180701.bacpac"*
