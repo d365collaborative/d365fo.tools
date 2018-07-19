@@ -127,13 +127,22 @@ Get-D365DecryptedConfigFile -DropPath 'C:\Temp'
 
 *This will store a decrypted web.config file at c:\temp*
 
-**Rearm the Windows license / activation counter**
+**Working with Windows license / activation**
+
+```
+Get-D365WindowsActivationStatus
+```
+
+*This will get the current Windows license and activation status for the machine. It will show how many days left before expiration and how many ReArms there is left*
+
 
 ```
 Invoke-D365ReArmWindows -Restart
 ```
 
 *This will try to rearm the Windows license and will only work if you have retries left. Will restart afterwards.*
+
+
 
 **Sync the database like Visual Studio**
 

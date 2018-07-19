@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.21'
+    ModuleVersion          = '0.3.22'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -77,9 +77,10 @@
                                 'Get-D365TableField',
                                 'Get-D365Url',
                                 'Get-D365UserAuthenticationDetail',
+                                'Get-D365WindowsActivationStatus',
 
                                 'Import-D365AadUser',
-                                'Import-D365BacPac',
+                                'Import-D365Bacpac',
 
                                 'Invoke-D365AzureStorageDownload',
                                 'Invoke-D365AzureStorageUpload',
@@ -90,7 +91,7 @@
                                 'Invoke-D365SysRunnerClass',
                                 'Invoke-D365TableBrowser',
 
-                                'New-D365BacPac',
+                                'New-D365Bacpac',
 
                                 'Remove-D365Database',
 
