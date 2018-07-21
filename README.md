@@ -339,3 +339,23 @@ Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x
 Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -FileName "UAT_20180701.bacpac" -Path "c:\temp" 
 ```
 *This will download the **"UAT_20180701.bacpac"** file from the Azure Storage Account and store it in "c:\temp\UAT_20180701.bacpac"*
+
+**Working with .NET classes and methods**
+
+```
+Get-D365DotNetClass -Name "ERText*"
+```
+
+*This will search across **all** assembly files (\*.dll) located in the package directory for any class that fits the search "**ERText\***"*
+
+```
+Get-D365DotNetClass -Name "ERText*" -Assembly "*LocalizationFrameworkForAx.dll*"
+```
+
+*This will search across assembly files (\*.dll) that fits the search "\*LocalizationFrameworkForAx.dll\*", located in the package directory for any class that fits the search "**ERText\***"*
+
+```
+Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicReporting\bin\Microsoft.Dynamics365.LocalizationFrameworkForAx.dll"
+```
+
+*This will search for all methods, across **all** classes, that exists inside the specified assembly file*
