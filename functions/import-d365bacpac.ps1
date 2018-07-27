@@ -229,6 +229,6 @@ function Import-D365Bacpac {
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
 
-    Write-Host "Time Taken" -ForegroundColor Green
-    Write-Host "$TimeSpan" -ForegroundColor Green
+        Write-Host "Time Taken" -ForegroundColor Green
+        Write-Host "$TimeSpan" -ForegroundColor Green
 }

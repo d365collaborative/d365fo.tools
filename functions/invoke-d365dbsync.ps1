@@ -109,8 +109,8 @@ function Invoke-D365DBSync {
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
 
-    Write-Host "Time Taken for sync:" -ForegroundColor Green
-    Write-Host "$TimeSpan" -ForegroundColor Green
-
-
+    if ($PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
+        Write-Host "Time Taken for sync:" -ForegroundColor Green
+        Write-Host "$TimeSpan" -ForegroundColor Green
+    }
 }

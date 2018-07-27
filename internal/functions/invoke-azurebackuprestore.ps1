@@ -37,7 +37,7 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
 
     $operation_row_count = 0
     #Loop every minute until we get a row, if we get a row copy is done
-    while($operation_row_count -eq 0){
+    while ($operation_row_count -eq 0) {
         Write-Verbose "$(Get-Date) - Waiting for the creation of the copy."
         $Reader = $sqlCommand.ExecuteReader()
         $Datatable = New-Object System.Data.DataTable
@@ -53,7 +53,7 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
     $EndTime = Get-Date
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
-
+    
     Write-Host "Time Taken inside: Invoke-AzureBackup" -ForegroundColor Green
     Write-Host "$TimeSpan" -ForegroundColor Green
 }

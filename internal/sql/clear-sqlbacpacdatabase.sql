@@ -11,6 +11,11 @@ drop procedure if exists XU_DisableEnableNonClusteredIndexes
 drop procedure if exists SP_ConfigureTablesForChangeTracking
 drop procedure if exists SP_ConfigureTablesForChangeTracking_V2
 
+IF  EXISTS(SELECT name FROM sys.schemas WHERE name = 'NT AUTHORITY\NETWORK SERVICE')
+BEGIN
+	drop schema [NT AUTHORITY\NETWORK SERVICE]
+END
+
 
 IF DATABASE_PRINCIPAL_ID('NT AUTHORITY\NETWORK SERVICE') IS NOT NULL
 BEGIN
@@ -54,7 +59,3 @@ update dbo.RETAILHARDWAREPROFILE set SECUREMERCHANTPROPERTIES = null where SECUR
 ;
 ENABLE TRIGGER ALL ON dbo.RETAILHARDWAREPROFILE
 
-IF  EXISTS(SELECT name FROM sys.schemas WHERE name = 'NT AUTHORITY\NETWORK SERVICE')
-BEGIN
-	drop schema [NT AUTHORITY\NETWORK SERVICE]
-END

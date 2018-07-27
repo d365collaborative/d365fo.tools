@@ -30,6 +30,7 @@ function Set-D365Admin
 
     param (
     [Parameter(Mandatory=$true, Position=1)]
+    [Alias('Email')]
     [String]$AdminSignInName,
 
     [Parameter(Mandatory=$false, Position=2)]

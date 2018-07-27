@@ -74,7 +74,7 @@ function Update-D365User {
 
     $sqlCommand_Update.Connection.Open()
 
-    $sqlCommand_Update.CommandText = (Get-Content"$script:PSModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
+    $sqlCommand_Update.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
 
     $reader = $sqlCommand.ExecuteReader()
 

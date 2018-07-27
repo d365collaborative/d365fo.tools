@@ -1,4 +1,4 @@
-function Invoke-SqlPackage ($DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd, $FilePath ){
+function Invoke-SqlPackage ($DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd, $FilePath ) {
 
     $StartTime = Get-Date
     
@@ -14,6 +14,8 @@ function Invoke-SqlPackage ($DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd, $
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
 
-    Write-Host "Time Taken inside: Invoke-SqlPackage" -ForegroundColor Green
-    Write-Host "$TimeSpan" -ForegroundColor Green
+    if ($PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
+        Write-Host "Time Taken inside: Invoke-SqlPackage" -ForegroundColor Green
+        Write-Host "$TimeSpan" -ForegroundColor Green
+    }
 }
