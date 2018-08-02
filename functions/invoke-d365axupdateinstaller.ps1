@@ -51,6 +51,16 @@ Invoke-D365AXUpdateInstaller -Path C:\DeployablePackages -GenerateImportExecute
 Will execute the AxUpdateInstaller.exe with generate, import and execute
 Is normally used for installation of binary hotfixes
 
+It expects folders inside C:\DeployablePackages
+
+.EXAMPLE
+Invoke-D365AXUpdateInstaller -Path C:\DeployablePackages -Action DevInstall
+
+Will execute the AxUpdateInstaller.exe with the devinstall parameter
+Is normally used for installation of 3. party ISV solutions on development machines
+
+It expects folders inside C:\DeployablePackages
+
 .NOTES
 The cmdlet wraps the execution of AXUpdateInstaller.exe and parses the parameters needed
 #>
