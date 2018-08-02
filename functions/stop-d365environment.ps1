@@ -87,9 +87,15 @@ function Stop-D365Environment {
         }
     }
 
-    Get-Service -ComputerName $ComputerName -Name $Services.ToArray() -ErrorAction SilentlyContinue | Stop-Service -Force -ErrorAction SilentlyContinue
+    $ServicesString = $Services.ToArray() -join ","
+    
+    $Results = foreach ($server in $ComputerName) {
+        Write-Verbose "Working against: $server - stopping services"
+        Get-Service -ComputerName $server -Name $Services.ToArray() -ErrorAction SilentlyContinue | Stop-Service -Force -ErrorAction SilentlyContinue
+    }
 
     $Results = foreach ($server in $ComputerName) {
+        Write-Verbose "Working against: $server - listing services"
         Get-Service -ComputerName $server -Name $Services.ToArray() -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
     }
 

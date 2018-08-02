@@ -24,7 +24,8 @@ Remove-D365Database -DatabaseName "database_original"
 General notes
 #>
 function Remove-D365Database {
-    param(
+    [CmdletBinding()]
+    param (
         [Parameter(Mandatory = $false, Position = 1)]
         [string]$DatabaseServer = $Script:DatabaseServer,
 

@@ -66,6 +66,7 @@ Every imported users will get the System Administration / Administrator role ass
 #>
 
 function Import-D365AadUser {
+    [CmdletBinding(DefaultParameterSetName = 'UserListImport')]
     param (
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "GroupImport")]
         [String]$AadGroupName,
@@ -112,7 +113,7 @@ function Import-D365AadUser {
         [string]$NameValue = "DisplayName"
     )
 
-    if(!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
         Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
         Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
     }

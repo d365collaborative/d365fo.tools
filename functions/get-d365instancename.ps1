@@ -1,21 +1,24 @@
 <#
 .SYNOPSIS
-Gets the HostedserviceName
+Gets the instance name
 
 .DESCRIPTION
-Gets the HostedserviceName
+Get the instance name that is registered in the environment
 
 .EXAMPLE
 Get-D365InstanceName
 
+This will get the service name that the environment has configured
+
 .NOTES
-General notes
+The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations. 
+The call to the dll file gets HostedServiceName that is registered in the environment.
 #>
-function Get-D365InstanceName
-{
-    $WebConfigFile = Join-Path $Script:AOSPath $Script:WebConfig
-    
-    $ServiceNameNode = Select-Xml -XPath "/configuration/appSettings/add[@key='Infrastructure.HostedServiceName']/@value" -Path $WebConfigFile
-    $ServiceName = $ServiceNameNode.Node.Value
-    $ServiceName
+function Get-D365InstanceName {
+    [CmdletBinding()]
+    param ()    
+
+    [PSCustomObject]@{
+        InstanceName = "$($(Get-D365EnvironmentSettings).Infrastructure.HostedServiceName)"
+    }
 }

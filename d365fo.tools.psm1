@@ -29,14 +29,8 @@ foreach ($function in (Get-ChildItem "$script:PSModuleRoot\functions\*.ps1")) {
 }
 $Script:IsAdminRuntime = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-$Script:AOSPath = ""
+$Script:AOSPath = [System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%") + "\AOSService\webroot"
 
-if ($Script:IsAdminRuntime) {
-    $Script:AOSPath = (Get-Website -Name "AOSService" | Select-Object -Property "PhysicalPath" ).PhysicalPath
-}
-else {
-    $Script:AOSPath = [System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%") + "\AOSService\webroot"
-}
 $Script:WebConfig = "web.config"
 $Script:WifServicesConfig = "wif.services.config"
 $Script:Hosts = 'C:\Windows\System32\drivers\etc\hosts'
@@ -56,6 +50,7 @@ $Script:DatabaseUserPassword = $dataAccess.SqlPwd
 
 $Script:BinDir = $environment.Common.BinDir
 $Script:PackageDirectory = $environment.Aos.PackageDirectory
+$Script:MetaDataDir = $environment.Aos.MetadataDirectory
 
 $FQDN = $environment.Infrastructure.FullyQualifiedDomainName
 $Script:Url = "https://$FQDN"

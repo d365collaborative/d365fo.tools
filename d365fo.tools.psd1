@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.28'
+    ModuleVersion          = '0.3.32'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -62,6 +62,10 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport      = @(
+                                'Disable-D365MaintenanceMode'
+
+                                'Enable-D365MaintenanceMode',
+
                                 'Get-D365AzureStorageFile',
                                 'Get-D365DatabaseAccess',
                                 'Get-D365DecryptedConfigFile',
@@ -86,8 +90,10 @@
 
                                 'Invoke-D365AzureStorageDownload',
                                 'Invoke-D365AzureStorageUpload',
+                                'Invoke-D365AXUpdateInstaller',
                                 'Invoke-D365DBSync',
                                 'Invoke-D365ReArmWindows',
+                                'Invoke-D365SCDPBundleInstall',
                                 'Invoke-D365SpHelp',
                                 'Invoke-D365SysFlushAodCache',
                                 'Invoke-D365SysRunnerClass',
