@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.40'
+    ModuleVersion          = '0.3.41'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -65,7 +65,8 @@
                                 'Disable-D365MaintenanceMode'
 
                                 'Enable-D365MaintenanceMode',
-
+                                'Enable-D365User',
+                                
                                 'Get-D365AzureStorageFile',
                                 'Get-D365DatabaseAccess',
                                 'Get-D365DecryptedConfigFile',
@@ -73,6 +74,7 @@
                                 'Get-D365DotNetMethod',
                                 'Get-D365Environment',
                                 'Get-D365EnvironmentSettings',
+                                'Get-D365InstalledHotfix',
                                 'Get-D365InstalledPackage',
                                 'Get-D365InstalledService',
                                 'Get-D365InstanceName',

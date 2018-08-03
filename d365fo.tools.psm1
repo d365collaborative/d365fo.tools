@@ -55,4 +55,6 @@ $Script:MetaDataDir = $environment.Aos.MetadataDirectory
 $FQDN = $environment.Infrastructure.FullyQualifiedDomainName
 $Script:Url = "https://$FQDN"
 
+$Script:IsOnebox = If ($FQDN -like "*onebox*") {$true} Else {$false}
+
 $Script:InstallationRecordsDir = Join-Path (Get-ItemPropertyValue -Path HKLM:\SOFTWARE\Microsoft\Dynamics\Deployment\ -Name InstallationInfoDirectory) "InstallationRecords"

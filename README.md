@@ -87,6 +87,22 @@ Update-D365User -Email "%contoso.com%"
 
 *This will search for all users in the UserInfo table with the "contoso.com" text in their e-mail address and update them with the needed details to get access to the environment*
 
+### **Enable users in an environment after database refresh from Prod to Sandbox**
+
+```
+Enable-D365User -Email "claire@contoso.com" 
+```
+
+*This will search for the user in the UserInfo table with "claire@contoso.com" e-mail address and set enable = 1 if they are not allready enabled, -verbose will show which users where updated*
+
+### **Enable users in an environment after database refresh from Prod to Sandbox - advanced**
+
+```
+Enable-D365User -Email "%@contoso.com%" 
+```
+
+*This will search for the user in the UserInfo table with the "@contoso.com" text in their e-mail address and set enable = 1 if they are not allready enabled, -verbose will show which users where updated*
+
 ## **Work with bacpac files**
 
 ### **Generate a bacpac file from a Tier1 environment to be ready for a Tier2 environment**
@@ -455,3 +471,21 @@ New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services $Services -
 ```
 *This will read the "DefaultTopologyData.xml" file and update it with the list of services from Get-D365InstalledService output*
 
+## **Working with hotfixes**
+### **Get all installed hotfixes**
+```
+Get-D365InstalledHotfix
+```
+*This will get all installed hotfixes on the machine and display all relevant information*
+
+### **Get all installed hotfixes for specific module**
+```
+Get-D365InstalledHotfix -Model "*retail*"
+```
+*This will get all installed hotfixes that relates to models with retail in their name on the machine and display all relevant information*
+
+### **Get all installed hotfixes for specific module and with specific KB number**
+```
+Get-D365InstalledHotfix -Model "*retail*" -KB "*43*"
+```
+*This will get all installed hotfixes that relates to models with retail in their name and where the KB number must contain **"43"** on the machine and display all relevant information*
