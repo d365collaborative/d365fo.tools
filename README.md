@@ -431,3 +431,27 @@ Disable-D365MaintenanceMode
 ```
 *This will put the environment back into operation mode / state. Normally used when changing license configuration.
 **Note: You might need to stop and start your entire environment when done.***
+
+## **Working with installed services and topology files**
+
+### **Get all installed services**
+
+```
+Get-D365InstalledService
+```
+*This will get all the installed services based on the installation logs.
+**Note: The cmdlet mimics the AxUpdateInstaller.exe -list command that also only reads the logs files***
+
+### **Create a new topology file and update it with ALMService,AOSService,BIService**
+```
+New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services "ALMService","AOSService","BIService" -NewPath C:\temp\CurrentTopology.xml
+```
+*This will read the "DefaultTopologyData.xml" file and update it with ALMService, AOSService and BIService*
+
+### **Create a new topology file based on installed services**
+```
+$Services = @(Get-D365InstalledService | ForEach-Object {$_.Servicename})
+New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services $Services -NewPath C:\temp\CurrentTopology.xml
+```
+*This will read the "DefaultTopologyData.xml" file and update it with the list of services from Get-D365InstalledService output*
+

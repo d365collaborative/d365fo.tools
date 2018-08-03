@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.33'
+    ModuleVersion          = '0.3.40'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -74,6 +74,7 @@
                                 'Get-D365Environment',
                                 'Get-D365EnvironmentSettings',
                                 'Get-D365InstalledPackage',
+                                'Get-D365InstalledService',
                                 'Get-D365InstanceName',
                                 'Get-D365Label',
                                 'Get-D365OfflineAuthenticationAdminEmail',
@@ -100,7 +101,8 @@
                                 'Invoke-D365TableBrowser',
 
                                 'New-D365Bacpac',
-
+                                'New-D365TopologyFile',
+                                
                                 'Remove-D365Database',
 
                                 'Rename-D365Instance',
