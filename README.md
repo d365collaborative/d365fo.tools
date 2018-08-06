@@ -248,6 +248,20 @@ Set-D365OfflineAuthenticationAdminEmail -Email "admin@contoso.com"
 
 *Will update the Offline Authentication Administrator registration to "admin@contoso.com"*
 
+### **Get ClickOnce configuration**
+```
+Get-D365ClickOnceTrustPrompt
+```
+
+*This will get the current ClickOnce trust prompt configuration on the machine*
+
+### **Set ClickOnce configuration**
+```
+Set-D365ClickOnceTrustPrompt
+```
+
+*This will set the necessary ClickOnce trust prompt configuration on the machine*
+
 ## **Work with packages, label files, language and labels**
 
 ### **Get all installed packages on the machine**

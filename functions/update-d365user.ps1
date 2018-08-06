@@ -59,8 +59,11 @@ function Update-D365User {
 
     )
 
+    Write-PSFMessage -Level Verbose -Message "Testing if the runtime is elevated or SqlPwd was supplied."
+
     if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter"
+
         Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
     }
 
@@ -69,6 +72,10 @@ function Update-D365User {
     $sqlCommand.Connection.Open()
 
     $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
+    
+    Write-PSFMessage -Level Verbose -Message "Building statement : $($sqlCommand.CommandText)"
+    Write-PSFMessage -Level Verbose -Message "Parameter : @Email = $Email"
+
     $null = $sqlCommand.Parameters.Add("@Email", $Email)
 
     [System.Data.SqlClient.SqlCommand]$sqlCommand_Update = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
@@ -77,11 +84,15 @@ function Update-D365User {
 
     $sqlCommand_Update.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
 
+    Write-PSFMessage -Level Verbose -Message "Executing the select statement against the database."
+
     $reader = $sqlCommand.ExecuteReader()
 
     while ($reader.Read() -eq $true) {
-        $userId = $reader.GetString(0)
-        $networkAlias = $reader.GetString(1)
+        Write-PSFMessage -Level Verbose -Message "Building the update statement with the needed details."
+
+        $userId = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
+        $networkAlias = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
 
         $userAuth = Get-D365UserAuthenticationDetail $networkAlias
 
@@ -90,7 +101,8 @@ function Update-D365User {
         $null = $sqlCommand_Update.Parameters.Add("@sid", $userAuth["SID"])
         $null = $sqlCommand_Update.Parameters.Add("@identityProvider", $userAuth["IdentityProvider"])
 
-        write-verbose "Updating user $userId"
+        Write-PSFMessage -Level Verbose -Message "Building statement : $($sqlCommand_Update.CommandText)"
+        Write-PSFMessage -Level Verbose -Message "Executing the update statement against the database."
 
         $null = $sqlCommand_Update.ExecuteNonQuery()
 

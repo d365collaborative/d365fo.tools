@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.41'
+    ModuleVersion          = '0.3.50'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -43,7 +43,10 @@
     ProcessorArchitecture  = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    RequiredModules        = @()
+    RequiredModules        = @(
+        @{ ModuleName = 'PSFramework'; ModuleVersion = '0.9.24.85' },
+        @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' } #4.3.1
+    )
 
     # Assemblies that must be loaded prior to importing this module
     RequiredAssemblies     = @()
@@ -85,6 +88,7 @@
                                 'Get-D365Table',
                                 'Get-D365TableField',
                                 'Get-D365Url',
+                                'Get-D365User',
                                 'Get-D365UserAuthenticationDetail',
                                 'Get-D365WindowsActivationStatus',
 

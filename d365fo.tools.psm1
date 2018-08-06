@@ -1,3 +1,5 @@
+Import-Module PSFramework
+
 $script:PSModuleRoot = $PSScriptRoot
 function Import-ModuleFile {
 

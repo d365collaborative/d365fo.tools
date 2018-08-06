@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-Enables the user in D365FO
+Get users from the environment
 
 .DESCRIPTION
-Sets the enabled to 1 in the userinfo table. 
+Get all relevant user details from the Dynamics 365 for Finance & Operations
 
 .PARAMETER DatabaseServer
 The name of the database server
@@ -22,32 +22,24 @@ The login name for the SQL Server instance
 The password for the SQL Server user.
 
 .PARAMETER Email
-The search string to select which user(s) should be enabled.
+The search string to select which user(s) should be updated.
 
 Use SQL Server like syntax to get the results you expect. E.g. -Email "'%@contoso.com%'"
 
-Default value is "%" to update all users
+.EXAMPLE
+Get-D365User
+
+This will get all users from the environment
 
 .EXAMPLE
-Enable-D365User
+Update-D365User -Email "%contoso.com%"
 
-This will enable all users for the environment
-
-.EXAMPLE
-Enable-D365User -Email "claire@contoso.com"
-
-This will enable the user with the email address "claire@contoso.com"
-
-.EXAMPLE
-Enable-D365User -Email "%contoso.com"
-
-This will enable all users that matches the search "%contoso.com" in their email address
+This will search for all users with an e-mail address containing 'contoso.com' from the environment
 
 .NOTES
-Implemented on request by Paul Heisterkamp
+General notes
 #>
-function Enable-D365User {
-
+function Get-D365User {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]
@@ -71,31 +63,35 @@ function Enable-D365User {
 
     if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
         Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter"
-        
-        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop        
+
+        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
     }
 
-    [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+    [System.Data.SqlClient.SqlCommand] $sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
     $sqlCommand.Connection.Open()
 
-    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\enable-user.sql") -join [Environment]::NewLine
-
+    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
+    
     Write-PSFMessage -Level Verbose -Message "Building statement : $($sqlCommand.CommandText)"
     Write-PSFMessage -Level Verbose -Message "Parameter : @Email = $Email"
-    
-    $null = $sqlCommand.Parameters.AddWithValue('@Email', $Email)
 
-    Write-PSFMessage -Level Verbose -Message "Executing the update statement against the database."
-    $reader = $sqlCommand.ExecuteReader()
+    $null = $sqlCommand.Parameters.Add("@Email", $Email)
 
+    Write-PSFMessage -Level Verbose -Message "Executing the select statement against the database."
+
+    [System.Data.SqlClient.SqlDataReader] $reader = $sqlCommand.ExecuteReader()
+
+    Write-PSFMessage -Level Verbose -Message "Building the result set."
     while ($reader.Read() -eq $true) {
-        Write-PSFMessage -Level Verbose -Message "User $($reader.GetString(0)), $($reader.GetString(1)), $($reader.GetString(2)) Updated"
+        [PSCustomObject]@{
+            UserId           = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
+            Name             = "$($reader.GetString($($reader.GetOrdinal("NAME"))))"
+            NetworkAlias     = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
+            NetworkDomain    = "$($reader.GetString($($reader.GetOrdinal("NETWORKDOMAIN"))))"
+            Sid              = "$($reader.GetString($($reader.GetOrdinal("SID"))))"
+            IdentityProvider = "$($reader.GetString($($reader.GetOrdinal("IDENTITYPROVIDER"))))"
+            Enable           = [bool][int]"$($reader.GetInt32($($reader.GetOrdinal("ENABLE"))))"
+         }
     }
-
-    $reader.Close()
-    $NumAffected = $reader.RecordsAffected
-
-    Write-PSFMessage -Level Verbose -Message "Users updated : $NumAffected"
-    $sqlCommand.Dispose();
 }
