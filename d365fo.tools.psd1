@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.50'
+    ModuleVersion          = '0.3.51'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -99,6 +99,7 @@
                                 'Invoke-D365AzureStorageUpload',
                                 'Invoke-D365AXUpdateInstaller',
                                 'Invoke-D365DBSync',
+                                'Invoke-D365ModelUtil',
                                 'Invoke-D365ReArmWindows',
                                 'Invoke-D365SCDPBundleInstall',
                                 'Invoke-D365SpHelp',
@@ -123,9 +124,7 @@
 
                                 'Switch-D365ActiveDatabase',
 
-                                'Update-D365User',
-
-                                'Enable-D365User'
+                                'Update-D365User'
                             )
 
                             # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

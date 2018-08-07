@@ -65,15 +65,18 @@ function Get-D365InstalledHotfix {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
-        [string] $Path = "$Script:BinDir\bin",
+        [string] $BinPath = "$Script:BinDir\bin",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )] 
-        [string] $Model = "*",
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
+        [string] $PackageDirectory = $Script:PackageDirectory,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )] 
-        [string] $Name = "*",
+        [string] $Model = "*",
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )] 
+        [string] $Name = "*",
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 5 )] 
         [string] $KB = "*"
 
     )
@@ -82,45 +85,69 @@ function Get-D365InstalledHotfix {
     }
 
     process {
-        $StorageAssembly = Join-Path $Path "Microsoft.Dynamics.AX.Metadata.Storage.dll"
-        $InstrumentationAssembly = Join-Path $Path "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll"
+        $StorageAssembly = Join-Path $BinPath "Microsoft.Dynamics.AX.Metadata.Storage.dll"
+        $InstrumentationAssembly = Join-Path $BinPath "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll"
 
+        Write-PSFMessage -Level Verbose -Message "Testing if the path exists or not." -Target $StorageAssembly
         if (Test-Path -Path $StorageAssembly -PathType Leaf) {
+            Write-PSFMessage -Level Verbose -Message "Loading assembly" -Target $StorageAssembly
             Add-Type -Path $StorageAssembly
         }
         else {
-            Write-Error "Unable to load necessary assembly. Ensure that the path is pointing to a valid D365FO folder" -ErrorAction Stop
+            Write-PSFMessage -Level Host -Message "Unable to <c=`"red`">load necessary assembly</c>. Please ensure that the <c=`"red`">BinPath</c> exists and you have permissions to access it."
+            Stop-PSFFunction -Message "Stopping because of missing assembly"
+            return            
         }
 
+        Write-PSFMessage -Level Verbose -Message "Testing if the path exists or not." -Target $InstrumentationAssembly
         if (Test-Path -Path $InstrumentationAssembly -PathType Leaf) {
             Add-Type -Path $InstrumentationAssembly
         }
         else {
-            Write-Error "Unable to load necessary assembly. Ensure that the path is pointing to a valid D365FO folder" -ErrorAction Stop
+            Write-PSFMessage -Level Host -Message "Unable to <c=`"red`">load necessary assembly</c>. Please ensure that the <c=`"red`">BinPath</c> exists and you have permissions to access it."
+            Stop-PSFFunction -Message "Stopping because of missing assembly"
+            return 
         }
 
+        Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
         if ($Script:IsOnebox) {
+            Write-PSFMessage -Level Verbose -Message "Machine is onebox. Will continue with DiskProvider."
+
             $diskProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.DiskProvider.DiskProviderConfiguration
-            $diskProviderConfiguration.AddMetadataPath($Script:PackageDirectory)
-            $metadataProvicerFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
-            $metadataProvider = $metadataProvicerFactory.CreateDiskProvider($diskProviderConfiguration)
+            $diskProviderConfiguration.AddMetadataPath($PackageDirectory)
+            $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
+            $metadataProvider = $metadataProviderFactory.CreateDiskProvider($diskProviderConfiguration)
+
+            Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
         }
         else {
+            Write-PSFMessage -Level Verbose -Message "Machine is NOT onebox. Will continue with RuntimeProvider."
+
             $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
-            $metadataProvicerFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
-            $metadataProvider = $metadataProvicerFactory.CreateRuntimeProvider($runtimeProviderConfiguration)
+            $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
+            $metadataProvider = $metadataProviderFactory.CreateRuntimeProvider($runtimeProviderConfiguration)
+
+            Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
         }
 
+        Write-PSFMessage -Level Verbose -Message "Initializing the UpdateProvider from the MetadataProvider."
         $updateProvider = $metadataProvider.Updates
 
+        Write-PSFMessage -Level Verbose -Message "Looping through all modules from the MetadataProvider."
         foreach ($obj in $metadataProvider.ModelManifest.ListModules()) {
+            Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
             if ($obj.Name -NotLike $Model) {continue}
 
+            Write-PSFMessage -Level Verbose -Message "Looping through all hotfixes for the module from the UpdateProvider." -Target $obj
             foreach ($objUpdate in $updateProvider.ListObjects($obj.Name)) {
+                Write-PSFMessage -Level Verbose -Message "Reading all details for the hotfix through UpdateProvider." -Target $objUpdate
+                
                 $axUpdateObject = $updateProvider.Read($objUpdate)
 
+                Write-PSFMessage -Level Verbose -Message "Filtering out all hotfixes that doesn't match the name search." -Target $axUpdateObject
                 if ($axUpdateObject.Name -NotLike $Name) {continue}
 
+                Write-PSFMessage -Level Verbose -Message "Filtering out all hotfixes that doesn't match the KB search." -Target $axUpdateObject
                 if ($axUpdateObject.KBNumbers -NotLike $KB) {continue}
 
                 [PSCustomObject]@{

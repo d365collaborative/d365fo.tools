@@ -503,3 +503,12 @@ Get-D365InstalledHotfix -Model "*retail*"
 Get-D365InstalledHotfix -Model "*retail*" -KB "*43*"
 ```
 *This will get all installed hotfixes that relates to models with retail in their name and where the KB number must contain **"43"** on the machine and display all relevant information*
+
+## **Working with models**
+### **Import a model file**
+```
+Invoke-D365ModelUtil -Path c:\temp\ApplicationSuiteModernDesigns_App73.axmodel
+```
+*This will import the **"c:\temp\ApplicationSuiteModernDesigns_App73.axmodel"** into the environment.*
+
+***Note: Please note that you have to compile the application and run a db sync afterwards.***
