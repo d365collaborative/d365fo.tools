@@ -40,7 +40,7 @@ function Invoke-D365DBSync {
         [string]$Verbosity = 'Normal'
     )
 
-    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd")) -and ($PSBoundParameters.ContainsKey("SqlUser"))) {
         Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
         Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
     }
@@ -50,7 +50,14 @@ function Invoke-D365DBSync {
     $param = " -syncmode=$($SyncMode.ToLower())"
     $param += " -verbosity=$($Verbosity.ToLower())"
     $param += " -metadatabinaries=`"$Script:BinDir`""
-    $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName;Trusted_Connection=false; User Id=$DatabaseUserName;Password=$DatabaseUserPassword;`""
+    if (($PSBoundParameters.ContainsKey("SqlUser") -and ($PSBoundParameters.ContainsKey("SqlPwd")))) 
+    {
+        $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName;Trusted_Connection=false; User Id=$DatabaseUserName;Password=$DatabaseUserPassword;`""
+    }
+    else
+    {
+        $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName;Trusted_Connection=true;`""
+    }
 
     Write-Verbose "CommandFile $command"
     Write-Verbose "Parameters $param"
@@ -69,7 +76,7 @@ function Invoke-D365DBSync {
     }
 
 
-    $process = Start-Process -FilePath $command -ArgumentList  $param -PassThru  -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"
+    $process = Start-Process -FilePath $command -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"
 
     $lineTotalCount = 0
     $lineCount = 0
