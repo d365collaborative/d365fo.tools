@@ -103,6 +103,14 @@ Enable-D365User -Email "%@contoso.com%"
 
 *This will search for the user in the UserInfo table with the "@contoso.com" text in their e-mail address and set enable = 1 if they are not allready enabled, -verbose will show which users where updated*
 
+### **Import an user as sysadmin**
+```
+Set-D365SysAdmin
+```
+*This will import the local administrator on the machine into the registered SQL Server.*
+
+**Notes:*You will have to run from an elevated console if you want to avoid supplying username and password***
+
 ## **Work with bacpac files**
 
 ### **Generate a bacpac file from a Tier1 environment to be ready for a Tier2 environment**

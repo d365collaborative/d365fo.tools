@@ -154,7 +154,8 @@ function Import-D365Bacpac {
             Write-Verbose "ServiceObjective $serviceObjective"
 
             $reader.close()
-
+            
+            $sqlCommand.Connection.Close()
             $sqlCommand.Dispose()
 
             $param = "/a:import /tsn:$DatabaseServer /tdn:$NewDatabaseName /sf:$BacpacFile /tu:$SqlUser /tp:$SqlPwd /p:CommandTimeout=1200 /p:DatabaseEdition=$edition /p:DatabaseServiceObjective=$serviceObjective"
@@ -221,7 +222,8 @@ function Import-D365Bacpac {
         write-verbose $sqlCommand.CommandText
 
         $sqlCommand.ExecuteNonQuery()
-
+        
+        $sqlCommand.Connection.Close()
         $sqlCommand.Dispose()
     }
 

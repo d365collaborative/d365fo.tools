@@ -195,6 +195,7 @@ function Import-D365AadUser {
         Import-AadUserIntoD365FO $SqlCommand $user.SignInName $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
     }
 
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose()
 }
 

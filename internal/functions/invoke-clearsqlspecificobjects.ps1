@@ -10,5 +10,6 @@ Function Invoke-ClearSqlSpecificObjects ( $DatabaseServer, $DatabaseName, $SqlUs
 
     $null = $sqlCommand.ExecuteNonQuery()
 
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose()
 }

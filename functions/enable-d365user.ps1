@@ -98,5 +98,6 @@ function Enable-D365User {
     $NumAffected = $reader.RecordsAffected
 
     Write-PSFMessage -Level Verbose -Message "Users updated : $NumAffected"
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose();
 }

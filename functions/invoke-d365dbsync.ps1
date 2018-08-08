@@ -5,6 +5,16 @@ Invoke the synchronization process used in Visual Studio
 .DESCRIPTION
 Uses the sync.exe (engine) to synchronize the database for the environment
 
+.PARAMETER BinDirTools
+Path to where the tools on the machine can be found
+
+Default value is normally the AOS Service PackagesLocalDirectory\bin
+
+.PARAMETER BinDir
+Path to where the tools on the machine can be found
+
+Default value is normally the AOS Service PackagesLocalDirectory
+
 .PARAMETER LogPath
 The path where the log file will be saved
 
@@ -12,11 +22,26 @@ The path where the log file will be saved
 The sync mode the sync engine will use
 
 Default value is: "FullAll"
-
 .PARAMETER Verbosity
 Parameter used to instruct the level of verbosity the sync engine has to report back
 
 Default value is: "Normal"
+
+.PARAMETER DatabaseServer
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+
+If Azure use the full address to the database server, e.g. server.database.windows.net
+
+.PARAMETER DatabaseName
+The name of the database
+
+.PARAMETER SqlUser
+The login name for the SQL Server instance
+
+.PARAMETER SqlPwd
+The password for the SQL Server user.
 
 .EXAMPLE
 Invoke-D365DBSync
@@ -31,62 +56,96 @@ same level of details that Visual Studio would normally do
 
 .NOTES
 #>
-
 function Invoke-D365DBSync {
     [CmdletBinding()]
     param (
+
+        [Parameter(Mandatory = $false, Position = 0)]
+        [string]$BinDirTools = $Script:BinDirTools,
+
         [Parameter(Mandatory = $false, Position = 1)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string]$MetadataDir = $Script:MetaDataDir,
 
         [Parameter(Mandatory = $false, Position = 2)]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string]$LogPath = "C:\temp\D365FO.Tools\Sync",
 
         [Parameter(Mandatory = $false, Position = 3)]
-        [string]$SqlUser = $Script:DatabaseUserName,
-
-        [Parameter(Mandatory = $false, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
-
-        [Parameter(Mandatory = $false, Position = 5)]
-        [string]$LogPath = "C:\temp\D365FO-Tool\Sync",
-
-        [Parameter(Mandatory = $false, Position = 6)]
         #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
         [string]$SyncMode = 'FullAll',
         
-        [Parameter(Mandatory = $false, Position = 7)]
+        [Parameter(Mandatory = $false, Position = 4)]
         [ValidateSet('Normal', 'Quiet', 'Minimal', 'Normal', 'Detailed', 'Diagnostic')]
-        [string]$Verbosity = 'Normal'
+        [string]$Verbosity = 'Normal',
+
+        [Parameter(Mandatory = $false, Position = 5)]
+        [string]$DatabaseServer = $Script:DatabaseServer,
+
+        [Parameter(Mandatory = $false, Position = 6)]
+        [string]$DatabaseName = $Script:DatabaseName,
+
+        [Parameter(Mandatory = $false, Position = 7)]
+        [string]$SqlUser = $Script:DatabaseUserName,
+
+        [Parameter(Mandatory = $false, Position = 8)]
+        [string]$SqlPwd = $Script:DatabaseUserPassword        
     )
 
-    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
-        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    $TrustedConnection = "false"
+
+    Write-PSFMessage -Level Debug -Message "Testing if run on onebox or running either elevated or with -SqlPwd set."
+    if ($Script:IsOnebox) {
+        $TrustedConnection = "true"
+        #* We don't need the sqlpwd and without admin it will be to long
+        $SqlPwd = ""
+    }
+    elseif (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and without the <c=`"red`">-SqlPwd parameter</c>. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) otherwise simply use the -SqlPwd parameter"
+        Stop-PSFFunction -Message "Stopping because of missing parameters"
+        return
     }
 
-    $command = "$Script:BinDir\bin\SyncEngine.exe"
+    Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $command
+    $command = Join-Path $BinDirTools "SyncEngine.exe"
+    if ((Test-Path -Path $command -PathType Leaf) -eq $false) {
+        Write-PSFMessage -Level Host -Message "Unable to locate the <c=`"red`">SyncEngine.exe</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
+            
+        Stop-PSFFunction -Message "Stopping because unable to locate SyncEngine.exe" -Target $command
+        return
+    }
 
+    Write-PSFMessage -Level Debug -Message "Testing if the SyncEngine is already running."
+    $syncEngine = Get-Process -Name "SyncEngine" -ErrorAction SilentlyContinue
+    if ($null -ne $syncEngine) {
+        Write-PSFMessage -Level Host -Message "A instance of SyncEngine is <c=`"red`">already running</c>. Please <c=`"red`">wait</c> for it to finish or <c=`"red`">kill it</c>."
+            
+        Stop-PSFFunction -Message "Stopping because SyncEngine.exe already running"
+        return
+    }
+
+    Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $MetadataDir 
+    if ((Test-Path -Path $MetadataDir -PathType Container) -eq $false) {
+        Write-PSFMessage -Level Host -Message "Unable to locate the <c=`"red`">BinDir(metadatabinaries)</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
+            
+        Stop-PSFFunction -Message "Stopping because unable to locate the BinDir path" -Target $MetadataDir
+        return
+    }
+    
+    Write-PSFMessage -Level Debug -Message "Build the parameters for the command to execute."
     $param = " -syncmode=$($SyncMode.ToLower())"
     $param += " -verbosity=$($Verbosity.ToLower())"
-    $param += " -metadatabinaries=`"$Script:BinDir`""
-    $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName;Trusted_Connection=false; User Id=$DatabaseUserName;Password=$DatabaseUserPassword;`""
+    $param += " -metadatabinaries=`"$MetadataDir`""
+    # $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName;Trusted_Connection=$TrustedConnection; User Id=$SqlUser;Password=$SqlPwd;`""
+    $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName;Integrated Security=$TrustedConnection; User Id=$SqlUser;Password=$SqlPwd;`""    
 
-    Write-Verbose "CommandFile $command"
-    Write-Verbose "Parameters $param"
-
-    if ( -not (Test-Path $LogPath.Trim())) {
-        Write-Verbose "Creating $LogPath"
+    Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $LogPath
+    if ((Test-Path -Path $LogPath.Trim() -PathType Leaf) -eq $false) {
+        Write-PSFMessage -Level Debug -Message "Creating the path." -Target $LogPath
         $null = New-Item -Path $LogPath -ItemType directory -Force -ErrorAction Stop
     }
 
-    $syncEngine = get-process -name "SyncEngine" -ErrorAction SilentlyContinue
-    if ($null -ne $syncEngine) {
-
-        Write-Error "A instance of SyncEngine is already running" -ErrorAction Stop
-    }
-
-    $process = Start-Process -FilePath $command -ArgumentList  $param -PassThru  -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"
-
+    Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
+    $process = Start-Process -FilePath $command -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"  
+    
     $lineTotalCount = 0
     $lineCount = 0
     Write-Verbose "Process Started"
@@ -115,17 +174,13 @@ function Invoke-D365DBSync {
         }
     }
 
-
-    foreach ($line in Get-Content "$LogPath\error.log") {
-        Write-Error $line
+    foreach ($line in Get-Content "$LogPath\error.log") {        
+        Write-PSFMessage -Level Critical -Message "$line"
     }
 
     $EndTime = Get-Date
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
 
-    if ($PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
-        Write-Host "Time Taken for sync:" -ForegroundColor Green
-        Write-Host "$TimeSpan" -ForegroundColor Green
-    }
+    Write-PSFMessage -Level Debug -Message "Total time for sync was $TimeSpan" -Target $TimeSpan
 }

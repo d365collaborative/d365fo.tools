@@ -1,6 +1,7 @@
 function Get-ApplicationEnvironment {
+    $AOSPath = [System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%") + "\AOSService\webroot"
     if (!$script:IsAdminRuntime) {
-        $Path = Join-Path $Script:AOSPath "bin\Microsoft.Dynamics.ApplicationPlatform.Environment.dll"
+        $Path = Join-Path $AOSPath "bin\Microsoft.Dynamics.ApplicationPlatform.Environment.dll"
 
         if(Test-Path -Path $Path -PathType Leaf) {
             Add-Type -Path $Path
@@ -13,7 +14,7 @@ function Get-ApplicationEnvironment {
 
         Write-Verbose "Shadow cloning the Microsoft.Dynamics.ApplicationPlatform.Environment.dll to avoid locking issues."
 
-        $BasePath = "$Script:AOSPath\bin\"
+        $BasePath = "$AOSPath\bin\"
         [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
         
         $null = $Files2Process.Add("Microsoft.Dynamics.AX.Authentication.Instrumentation")

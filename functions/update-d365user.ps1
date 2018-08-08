@@ -108,7 +108,8 @@ function Update-D365User {
 
         $sqlCommand_Update.Parameters.Clear()
     }
-
+    $sqlCommand_Update.Connection.Close()    
     $sqlCommand_Update.Dispose()
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose()
 }

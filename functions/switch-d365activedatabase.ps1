@@ -73,6 +73,7 @@ function Switch-D365ActiveDatabase {
     $sqlCommand.Connection.Open()
 
     $null = $sqlCommand.ExecuteNonQuery()
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose()
 
     [PSCustomObject]@{

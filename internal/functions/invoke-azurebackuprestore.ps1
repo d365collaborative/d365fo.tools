@@ -19,7 +19,8 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
     Write-Verbose $sqlCommand.CommandText
     
     $null = $sqlCommand.ExecuteNonQuery()
-
+    
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose()
 
     $sqlCommand = Get-SQLCommand $DatabaseServer "master" $SqlUser $SqlPwd
@@ -47,6 +48,7 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
     }
 
     $Reader.Close()
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose()
     $Datatable.Dispose()
 
