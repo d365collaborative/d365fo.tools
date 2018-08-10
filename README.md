@@ -151,6 +151,13 @@ New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windo
 
 *It will delete the Testing1 database in the Azure db instance at dbserver1.database.windows.net.*
 
+### **Import bacpac file into Tier1**
+```
+Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
+```
+*This will import into the registered sql server and create a new **"ImportedDatabase"** database.*
+
+*It will import the bacpac file **"C:\temp\uat.bacpac"** and prepare the database for D365.*
 
 ### **List all the database connection details for an environment**
 

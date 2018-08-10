@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.52'
+    ModuleVersion          = '0.3.54'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -94,6 +94,7 @@
 
                                 'Import-D365AadUser',
                                 'Import-D365Bacpac',
+                                'Import-D365BacpacOldVersion',
 
                                 'Invoke-D365AzureStorageDownload',
                                 'Invoke-D365AzureStorageUpload',

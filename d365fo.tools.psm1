@@ -88,12 +88,33 @@ Write-PSFMessage -Level Verbose -Message "`$Script:MetaDataDir: $Script:MetaData
 $Script:BinDirTools = $environment.Common.DevToolsBinDir
 Write-PSFMessage -Level Verbose -Message "`$Script:BinDirTools: $Script:BinDirTools"
 
-$FQDN = $environment.Infrastructure.FullyQualifiedDomainName
-$Script:Url = "https://$FQDN"
+$Script:Url = $environment.Infrastructure.HostUrl
 Write-PSFMessage -Level Verbose -Message "`$Script:Url: $Script:Url"
+
+$Script:ServerRole = [ServerRole]::Unknown
+$RoleVaule =  $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {"Development"} Else {$environment.Monitoring.MARole})  
+$Script:ServerRole = [ServerRole][Enum]::Parse([type]"ServerRole", $RoleVaule, $true);
+Write-PSFMessage -Level Verbose -Message "`$Script:ServerRole: $Script:ServerRole"
+
+$Script:EnvironmentType = [EnvironmentType]::Unknown
+if($environment.Infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
+    $Script:EnvironmentType = [EnvironmentType]::LocalHostedTier1
+}
+elseif ($environment.Infrastructure.HostName -like "*cloudax.dynamics.com*") {
+    $Script:EnvironmentType = [EnvironmentType]::AzureHostedTier1
+}
+elseif ($environment.Infrastructure.HostName -like "*sandbox.ax.dynamics.com*") {
+    $Script:EnvironmentType = [EnvironmentType]::MSHostedTier1
+}
+elseif ($environment.Infrastructure.HostName -like "*sandbox.operations.dynamics.com*") {
+    $Script:EnvironmentType = [EnvironmentType]::MSHostedTier2
+}
+Write-PSFMessage -Level Verbose -Message "`$Script:EnvironmentType: $Script:EnvironmentType"
 
 $Script:IsOnebox = $environment.Common.IsOneboxEnvironment
 Write-PSFMessage -Level Verbose -Message "`$Script:IsOnebox: $Script:IsOnebox"
 
 $Script:InstallationRecordsDir = Join-Path (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Dynamics\Deployment\" -Name "InstallationInfoDirectory") "InstallationRecords"
 Write-PSFMessage -Level Verbose -Message "`$Script:InstallationRecordsDir: $Script:InstallationRecordsDir"
+
+$Script:UserIsAdmin = $env:UserName -like "*admin*"

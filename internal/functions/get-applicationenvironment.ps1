@@ -1,50 +1,54 @@
 function Get-ApplicationEnvironment {
-    $AOSPath = [System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%") + "\AOSService\webroot"
-    if (!$script:IsAdminRuntime) {
-        $Path = Join-Path $AOSPath "bin\Microsoft.Dynamics.ApplicationPlatform.Environment.dll"
+    $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\bin"
 
-        if(Test-Path -Path $Path -PathType Leaf) {
-            Add-Type -Path $Path
-            
-            $environment = [Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory]::GetApplicationEnvironment()
+    Write-PSFMessage -Level Verbose -Message "Testing if we are running on a AOS server or not"            
+    if (!(Test-Path -Path $AOSPath -PathType Container)) {
+        $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "MRProcessService\MRInstallDirectory\Server\Services"
+
+        Write-PSFMessage -Level Verbose -Message "Testing if we are running on a BI / MR server or not"            
+        if (!(Test-Path -Path $AOSPath -PathType Container)) {
+            Write-PSFMessage -Level Verbose -Message "It seems that you ran this cmdlet on a machine that doesn't have the assemblies needed to obtain system details. Most likely you ran it on a <c=`"red`">personal workstation / personal computer</c>."            
+            return
         }
     }
-    else {
-        $break = $false
 
-        Write-Verbose "Shadow cloning the Microsoft.Dynamics.ApplicationPlatform.Environment.dll to avoid locking issues."
+    $break = $false
 
-        $BasePath = "$AOSPath\bin\"
-        [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
+    Write-PSFMessage -Level Verbose -Message "Shadow cloning all relevant assemblies to the Microsoft.Dynamics.ApplicationPlatform.Environment.dll to avoid locking issues. This enables us to install updates while having d365fo.tools loaded"
+
+    $BasePath = "$AOSPath"
+    [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
         
-        $null = $Files2Process.Add("Microsoft.Dynamics.AX.Authentication.Instrumentation")
-        $null = $Files2Process.Add("Microsoft.Dynamics.AX.Configuration.Base")
-        $null = $Files2Process.Add("Microsoft.Dynamics.BusinessPlatform.SharedTypes")
-        $null = $Files2Process.Add("Microsoft.Dynamics.AX.Framework.EncryptionEngine")
-        $null = $Files2Process.Add("Microsoft.Web.Administration")
-        $null = $Files2Process.Add("Microsoft.Dynamics.ApplicationPlatform.Environment")
+    $null = $Files2Process.Add("Microsoft.Dynamics.AX.Authentication.Instrumentation")
+    $null = $Files2Process.Add("Microsoft.Dynamics.AX.Configuration.Base")
+    $null = $Files2Process.Add("Microsoft.Dynamics.BusinessPlatform.SharedTypes")
+    $null = $Files2Process.Add("Microsoft.Dynamics.AX.Framework.EncryptionEngine")
+    $null = $Files2Process.Add("Microsoft.Web.Administration")
+    $null = $Files2Process.Add("Microsoft.Dynamics.ApplicationPlatform.Environment")
         
-        foreach ($name in $Files2Process) {
+    foreach ($name in $Files2Process) {
             
-            $ShadowClone = Join-Path $BasePath "$name`_shadow.dll"
-            $Path = Join-Path $BasePath "$name.dll"
+        $ShadowClone = Join-Path $BasePath "$name`_shadow.dll"
+        $Path = Join-Path $BasePath "$name.dll"
             
-            if (Test-Path -Path $Path -PathType Leaf) {
-                Copy-Item -Path $Path -Destination $ShadowClone -Force
+        if (Test-Path -Path $Path -PathType Leaf) {
+            Copy-Item -Path $Path -Destination $ShadowClone -Force
 
-                $null = [AppDomain]::CurrentDomain.Load(([System.IO.File]::ReadAllBytes($ShadowClone)))
+            $null = [AppDomain]::CurrentDomain.Load(([System.IO.File]::ReadAllBytes($ShadowClone)))
 
-                Remove-Item -Path $ShadowClone -Force
-            }
-            else {
-                $break = $true
-                break
-            }
+            Remove-Item -Path $ShadowClone -Force
         }
-    
-        if($break -eq $false) {
-            $environment = [Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory]::GetApplicationEnvironment()
+        else {
+            Write-PSFMessage -Level Verbose -Message "Unable to load all needed files. Setting break variable."
+
+            $break = $true
+            break
         }
+    }
+
+    if ($break -eq $false) {
+        Write-PSFMessage -Level Verbose -Message "All assemblies loaded. Getting environment details."
+        $environment = [Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory]::GetApplicationEnvironment()
     }
     
     $environment

@@ -90,16 +90,18 @@ function Invoke-D365DBSync {
         [string]$SqlPwd = $Script:DatabaseUserPassword        
     )
 
-    $TrustedConnection = "false"
+    #! The way the sync engine works is that it uses the connection string for some operations, 
+    #! but for FullSync / FullAll it depends on the database details from the same assemblies that 
+    #! we rely on. So the testing of how to run this cmdlet is a bit different than others
 
-    Write-PSFMessage -Level Debug -Message "Testing if run on onebox or running either elevated or with -SqlPwd set."
-    if ($Script:IsOnebox) {
-        $TrustedConnection = "true"
-        #* We don't need the sqlpwd and without admin it will be to long
-        $SqlPwd = ""
+    Write-PSFMessage -Level Debug -Message "Testing if run on LocalHostedTier1 and console isn't elevated"
+    if ($Script:EnvironmentType -eq [EnvironmentType]::LocalHostedTier1 -and !$script:IsAdminRuntime){
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and on a <c=`"red`">local VM / local vhd</c>. Being on a local VM / local VHD requires you to run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`""
+        Stop-PSFFunction -Message "Stopping because of missing parameters"
+        return
     }
-    elseif (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and without the <c=`"red`">-SqlPwd parameter</c>. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) otherwise simply use the -SqlPwd parameter"
+    elseif (!$script:IsAdminRuntime -and $Script:UserIsAdmin -and $Script:EnvironmentType -ne [EnvironmentType]::LocalHostedTier1) {
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and as an <c=`"red`">administrator</c>. You should either logon as a non-admin user account on this machine or run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`" or simply logon as another user"
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return
     }
@@ -134,8 +136,7 @@ function Invoke-D365DBSync {
     $param = " -syncmode=$($SyncMode.ToLower())"
     $param += " -verbosity=$($Verbosity.ToLower())"
     $param += " -metadatabinaries=`"$MetadataDir`""
-    # $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName;Trusted_Connection=$TrustedConnection; User Id=$SqlUser;Password=$SqlPwd;`""
-    $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName;Integrated Security=$TrustedConnection; User Id=$SqlUser;Password=$SqlPwd;`""    
+    $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""    
 
     Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $LogPath
     if ((Test-Path -Path $LogPath.Trim() -PathType Leaf) -eq $false) {

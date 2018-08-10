@@ -15,7 +15,7 @@ CREATE USER axretailruntimeuser FROM LOGIN axretailruntimeuser
 EXEC sp_addrolemember 'UsersRole', 'axretailruntimeuser'
 EXEC sp_addrolemember 'ReportUsersRole', 'axretailruntimeuser'
 
-CREATE USER axdeployextuser WITH PASSWORD = '@axdeployextuser'
+CREATE USER axdeployextuser FROM LOGIN axdeployextuser
 EXEC sp_addrolemember 'DeployExtensibilityRole', 'axdeployextuser'
 
 CREATE USER [NT AUTHORITY\NETWORK SERVICE] FROM LOGIN [NT AUTHORITY\NETWORK SERVICE]
@@ -29,7 +29,7 @@ SET T1.storageproviderid = 0
 FROM docuvalue T1
 WHERE T1.storageproviderid = 1 --Azure storage
 
-ALTER DATABASE [<your AX database name>] SET CHANGE_TRACKING = ON (CHANGE_RETENTION = 6 DAYS, AUTO_CLEANUP = ON)
+ALTER DATABASE [@DATABASENAME] SET CHANGE_TRACKING = ON (CHANGE_RETENTION = 6 DAYS, AUTO_CLEANUP = ON)
 ;--GO
 DROP PROCEDURE IF EXISTS SP_ConfigureTablesForChangeTracking
 DROP PROCEDURE IF EXISTS SP_ConfigureTablesForChangeTracking_V2
