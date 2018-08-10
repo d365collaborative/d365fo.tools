@@ -1,4 +1,4 @@
-Import-Module PSFramework
+# Import-Module PSFramework
 
 $script:PSModuleRoot = $PSScriptRoot
 function Import-ModuleFile {
@@ -92,12 +92,15 @@ $Script:Url = $environment.Infrastructure.HostUrl
 Write-PSFMessage -Level Verbose -Message "`$Script:Url: $Script:Url"
 
 $Script:ServerRole = [ServerRole]::Unknown
-$RoleVaule =  $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {"Development"} Else {$environment.Monitoring.MARole})  
-$Script:ServerRole = [ServerRole][Enum]::Parse([type]"ServerRole", $RoleVaule, $true);
-Write-PSFMessage -Level Verbose -Message "`$Script:ServerRole: $Script:ServerRole"
+$RoleVaule = $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {"Development"} Else {$environment.Monitoring.MARole})  
+
+if ($null -ne $RoleVaule) {
+    $Script:ServerRole = [ServerRole][Enum]::Parse([type]"ServerRole", $RoleVaule, $true);
+    Write-PSFMessage -Level Verbose -Message "`$Script:ServerRole: $Script:ServerRole"
+}
 
 $Script:EnvironmentType = [EnvironmentType]::Unknown
-if($environment.Infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
+if ($environment.Infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::LocalHostedTier1
 }
 elseif ($environment.Infrastructure.HostName -like "*cloudax.dynamics.com*") {
