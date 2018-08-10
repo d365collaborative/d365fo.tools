@@ -200,6 +200,8 @@ function Import-D365Bacpac {
 
         }
 
+        $commandText = $commandText.Replace('@axdatabasename', $NewDatabaseName)
+
         $commandText = $commandText.Replace('@axdeployextuser', $AxDeployExtUserPwd)
 
         $commandText = $commandText.Replace('@axdbadmin', $AxDbAdminPwd)
