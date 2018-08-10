@@ -138,12 +138,6 @@ function Invoke-D365DBSync {
     $param += " -metadatabinaries=`"$MetadataDir`""
     $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""    
 
-    Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $LogPath
-    if ((Test-Path -Path $LogPath.Trim() -PathType Leaf) -eq $false) {
-        Write-PSFMessage -Level Debug -Message "Creating the path." -Target $LogPath
-        $null = New-Item -Path $LogPath -ItemType directory -Force -ErrorAction Stop
-    }
-
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
     $process = Start-Process -FilePath $command -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"  
     
