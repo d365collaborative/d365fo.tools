@@ -117,7 +117,13 @@ Write-PSFMessage -Level Verbose -Message "`$Script:EnvironmentType: $Script:Envi
 $Script:IsOnebox = $environment.Common.IsOneboxEnvironment
 Write-PSFMessage -Level Verbose -Message "`$Script:IsOnebox: $Script:IsOnebox"
 
-$Script:InstallationRecordsDir = Join-Path (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Dynamics\Deployment\" -Name "InstallationInfoDirectory") "InstallationRecords"
+$RegSplat = @{
+    Path = "HKLM:\SOFTWARE\Microsoft\Dynamics\Deployment\"
+    Name = "InstallationInfoDirectory"
+}
+
+$RegValue = $( if (Test-RegistryValue @RegSplat) {Join-Path (Get-ItemPropertyValue @RegSplat) "InstallationRecords"} else {""} )
+$Script:InstallationRecordsDir = $RegValue
 Write-PSFMessage -Level Verbose -Message "`$Script:InstallationRecordsDir: $Script:InstallationRecordsDir"
 
 $Script:UserIsAdmin = $env:UserName -like "*admin*"
