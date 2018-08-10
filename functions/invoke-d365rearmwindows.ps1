@@ -11,15 +11,22 @@ Instruct the cmdlet to restart the machine
 .EXAMPLE
 Invoke-D365ReArmWindows
 
+This will re arm the Windows installation if there is any activation
+retries left
+
 .EXAMPLE
 Invoke-D365ReArmWindows -Restart
+
+This will re arm the Windows installation if there is any activation
+retries left and restart the computer
 
 .NOTES
 
 #>
 
 function Invoke-D365ReArmWindows {
-    param(
+    [CmdletBinding()]
+    param (
         [Parameter(Mandatory = $false, Position = 1)]        
         [switch]$Restart
     )

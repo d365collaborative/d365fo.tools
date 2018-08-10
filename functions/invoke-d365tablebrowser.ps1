@@ -11,7 +11,7 @@ The name of the table you want to see the rows for
 .PARAMETER Company
 The company for which you want to see the data from in the given table
 
-Default value is "DAT"
+Default value is: "DAT"
 
 .PARAMETER Url
 The URL you want to execute against
@@ -52,7 +52,7 @@ function Invoke-D365TableBrowser {
 
         Start-Process $executingUrl
 
-        #* Allow the browser to start and process first request it it isn't running
+        #* Allow the browser to start and process first request if it isn't running already
         Start-Sleep -Seconds 1
     }
 

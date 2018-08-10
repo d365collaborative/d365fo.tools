@@ -11,7 +11,7 @@ The name of the class you want to execute
 .PARAMETER Company
 The company for which you want to execute the class against
 
-Default value is "DAT"
+Default value is: "DAT"
 
 .PARAMETER Url
 The URL you want to execute against

@@ -106,8 +106,10 @@ function Get-D365DotNetClass {
         $EndTime = Get-Date
         $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
 
-        Write-Host "Time Taken inside: Get-D365DotNetClass" -ForegroundColor Green
-        Write-Host "$TimeSpan" -ForegroundColor Green
+        if ($PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
+            Write-Host "Time Taken inside: Get-D365DotNetClass" -ForegroundColor Green
+            Write-Host "$TimeSpan" -ForegroundColor Green
+        }
     }
 
     end {

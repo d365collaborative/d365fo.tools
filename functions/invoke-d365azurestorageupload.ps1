@@ -78,12 +78,15 @@ function Invoke-D365AzureStorageUpload {
             }
 
             [PSCustomObject]@{
-                File = $Filepath
+                File     = $Filepath
                 Filename = $FileName
             }
         }
         catch {
-
+            Write-Verbose "Error happend"
+            Write-Verbose "Message: $($_.Exception.Message)"
+            Write-Verbose "StackTrace: $($_.Exception.StackTrace)"
+            Write-Verbose "LoaderExceptions: $($_.Exception.LoaderExceptions)"
         }
     }
 

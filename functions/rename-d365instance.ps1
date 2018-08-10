@@ -33,7 +33,8 @@ Elevated privileges are required
 #>
 
 function Rename-D365Instance {
-    param(
+    [CmdletBinding()]
+    param (
         [Parameter(Mandatory = $true, Position = 1)]
         [string]$NewName,
 

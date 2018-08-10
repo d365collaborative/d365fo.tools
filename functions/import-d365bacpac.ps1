@@ -3,137 +3,148 @@
 Import a bacpac file
 
 .DESCRIPTION
-Function used for importing a bacpac file into a Tier 2 environment
+Import a bacpac file to either a Tier1 or Tier2 environment
+
+.PARAMETER ImportModeTier1
+Switch to instruct the cmdlet that it will import into a Tier1 environment
+
+The cmdlet will expect to work against a SQL Server instance
+
+.PARAMETER ImportModeTier2
+Switch to instruct the cmdlet that it will import into a Tier2 environment
+
+The cmdlet will expect to work against an Azure DB instance
 
 .PARAMETER DatabaseServer
-The complete server name
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+
+If Azure use the full address to the database server, e.g. server.database.windows.net
 
 .PARAMETER DatabaseName
-The original databaseName
+The name of the database
 
 .PARAMETER SqlUser
-Sql server with access to create a new Database
+The login name for the SQL Server instance
 
 .PARAMETER SqlPwd
-Password for the SqlUser
+The password for the SQL Server user
 
 .PARAMETER BacpacFile
-Location of the Bacpac file
+Path to the bacpac file you want to import into the database server
 
 .PARAMETER NewDatabaseName
-Name for the imported database
+Name of the new database that will be created while importing the bacpac file
+
+This will create a new database on the database server and import the content of the bacpac into
 
 .PARAMETER AxDeployExtUserPwd
-Password for the user
+Parameter description
 
 .PARAMETER AxDbAdminPwd
-Password for the user
+Parameter description
 
 .PARAMETER AxRuntimeUserPwd
-Password for the user
+Parameter description
 
 .PARAMETER AxMrRuntimeUserPwd
-Password for the user
+Parameter description
 
 .PARAMETER AxRetailRuntimeUserPwd
-Password for the user
+Parameter description
 
 .PARAMETER AxRetailDataSyncUserPwd
-Password for the user
+Parameter description
+
+.PARAMETER ImportOnly
+Switch to instruct the cmdlet to only import the bacpac into the new database
+
+The cmdlet will create a new database and import the content of the bacpac file into this
+
+Nothing else will be executed
 
 .EXAMPLE
-Import-D365Bacpac -SqlUser "sqladmin" -SqlPwd "XxXx" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportedDatabase" -verbose
+Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
 
 .NOTES
 General notes
-#>
+#>#
 function Import-D365Bacpac {
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [CmdletBinding(DefaultParameterSetName = 'ImportTier1')]
     param (
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnly', Position = 1 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly', Position = 1 )]
-        [Alias('AzureDB')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier1', Position = 0)]
+        [switch]$ImportModeTier1,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 0)]
+        [switch]$ImportModeTier2,
+
+        [Parameter(Mandatory = $false, Position = 1 )]
         [string]$DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnly', Position = 2 )]
+        [Parameter(Mandatory = $false, Position = 2 )]
         [string]$DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnly', Position = 3 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly', Position = 3 )]
+        [Parameter(Mandatory = $false, Position = 3 )]
         [string]$SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnly', Position = 4 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly', Position = 4 )]
+        [Parameter(Mandatory = $false, Position = 4 )]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 5)]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnly', ValueFromPipelineByPropertyName = $true, Position = 5 )]        
-        [Alias('File')]
+        [Parameter(Mandatory = $true, Position = 5 )]
         [string]$BacpacFile,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 6)]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnly', Position = 6 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly', Position = 2 )]
+        [Parameter(Mandatory = $true, Position = 6 )]
         [string]$NewDatabaseName,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 7)]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly' )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 7)]
         [string]$AxDeployExtUserPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 8)]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly' )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 8)]
         [string]$AxDbAdminPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 9)]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly' )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 9)]
         [string]$AxRuntimeUserPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 10)]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly' )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 10)]
         [string]$AxMrRuntimeUserPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 11)]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly' )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 11)]
         [string]$AxRetailRuntimeUserPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 12)]
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly' )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 12)]
         [string]$AxRetailDataSyncUserPwd,
+        
+        [switch]$ImportOnly   
+        
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnly' )]
-        [switch]$ImportOnly,
-
-        [Parameter(Mandatory = $false, ParameterSetName = 'UpdateOnly' )]
-        [switch]$UpdateOnly
     )
-
-    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
-        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    
+    Write-PSFMessage -Level Verbose -Message "Testing if run on LocalHostedTier1 and console isn't elevated"
+    if ($Script:EnvironmentType -eq [EnvironmentType]::LocalHostedTier1 -and !$script:IsAdminRuntime){
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and on a <c=`"red`">local VM / local vhd</c>. Being on a local VM / local VHD requires you to run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`""
+        Stop-PSFFunction -Message "Stopping because of missing parameters"
+        return
+    }
+    elseif (!$script:IsAdminRuntime -and $Script:UserIsAdmin -and $Script:EnvironmentType -ne [EnvironmentType]::LocalHostedTier1) {
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and as an <c=`"red`">administrator</c>. You should either logon as a non-admin user account on this machine or run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`" or simply logon as another user"
+        Stop-PSFFunction -Message "Stopping because of missing parameters"
+        return
     }
 
     $command = $Script:SqlPackage
 
     if ([System.IO.File]::Exists($command) -ne $True) {
-        Write-Host "The sqlpackage.exe is not present on the system. This is an important part of making the bacpac file. Please install latest SQL Server Management Studio on the machine and run the cmdlet again. `r`nVisit this link:`r`ndocs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms" -ForegroundColor Yellow
-        Write-Error "The sqlpackage.exe is missing on the system." -ErrorAction Stop
+        Write-PSFMessage -Level Host -Message "Unable to locate the <c=`"red`">sqlpackage.exe</c> file on the machine. Please ensure that the latest <c=`"red`">SQL Server Management Studio</c> is installed using the <c=`"red`">default location</c> and run the cmdlet again. You can visit this link to obtain the latest SSMS: <c=`"green`">http://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms</c>"
+        Stop-PSFFunction -Message "The sqlpackage.exe is missing on the system."
+        return
     }
 
     $StartTime = Get-Date
 
-    $azureSql = $false
-
-    if ($DatabaseServer -like "*.database.windows.net" ) { $azureSql = $true  } else {$azureSql = $false}
-
-    Write-Host 'Please make sure that SSMS is updated' -ForegroundColor Yellow
-
-    Write-Verbose "Restoring $BacpacFile"
-
-    if ($azureSql -eq $true -and !$UpdateOnly.IsPresent) {
+    Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB" 
+    if ($ImportModeTier2::IsPresent) {
+        Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings" 
 
         [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
@@ -154,22 +165,26 @@ function Import-D365Bacpac {
             Write-Verbose "ServiceObjective $serviceObjective"
 
             $reader.close()
-
+            
+            $sqlCommand.Connection.Close()
             $sqlCommand.Dispose()
 
+            Write-PSFMessage -Level Verbose "Building the parameter string for importing the bacpac into the Azure DB instance with a new name and current settings" 
             $param = "/a:import /tsn:$DatabaseServer /tdn:$NewDatabaseName /sf:$BacpacFile /tu:$SqlUser /tp:$SqlPwd /p:CommandTimeout=1200 /p:DatabaseEdition=$edition /p:DatabaseServiceObjective=$serviceObjective"
         }
         else {
-            Write-Error "Could not find service objectives." -ErrorAction stop
+            Write-PSFMessage -Level Host -Message "Could not find service objectives from the Azure DB instance."
+            Stop-PSFFunction -Message "Stopping because of missing parameters"
+            return
         }
     }
     else {
+        Write-PSFMessage -Level Verbose "Building the parameter string for importing the bacpac into the SQL Server instance with a new name and current settings" 
         $param = "/a:import /tsn:$DatabaseServer /tdn:$NewDatabaseName /sf:$BacpacFile /tu:$SqlUser /tp:$SqlPwd /p:CommandTimeout=1200"
     }
 
-    if (!$UpdateOnly) {
-        Start-Process -FilePath $command -ArgumentList  $param  -NoNewWindow -Wait
-    }
+    Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings" 
+    Start-Process -FilePath $command -ArgumentList  $param  -NoNewWindow -Wait
 
     if (!$ImportOnly.IsPresent) {
         $sqlCommand = Get-SQLCommand $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd
@@ -189,41 +204,37 @@ function Import-D365Bacpac {
             $reader.close()
         }
         else {
-            Write-Error "" -ErrorAction Stop
+            Write-PSFMessage -Level Host -Message "Error while fetching details from the database"
+            Stop-PSFFunction -Message "Stopping because of missing parameters"
+            return
         }
 
-        if ($azureSql) {
+        Write-PSFMessage -Level Verbose "Building sql statement to update the imported database" 
+        if ($ImportModeTier2::IsPresent) {
             $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-bacpacvaluesazure.sql") -join [Environment]::NewLine
+
+            $commandText = $commandText.Replace('@axdeployextuser', $AxDeployExtUserPwd)
+            $commandText = $commandText.Replace('@axdbadmin', $AxDbAdminPwd)
+            $commandText = $commandText.Replace('@axruntimeuser', $AxRuntimeUserPwd)
+            $commandText = $commandText.Replace('@axmrruntimeuser', $AxMrRuntimeUserPwd)
+            $commandText = $commandText.Replace('@axretailruntimeuser', $AxRetailRuntimeUserPwd)
+            $commandText = $commandText.Replace('@axretaildatasyncuser', $AxRetailDataSyncUserPwd)
         }
         else {
             $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-bacpacvaluessql.sql") -join [Environment]::NewLine
-
+            $commandText = $commandText.Replace('@DATABASENAME', $NewDatabaseName)
         }
-
-        $commandText = $commandText.Replace('@axdatabasename', $NewDatabaseName)
-
-        $commandText = $commandText.Replace('@axdeployextuser', $AxDeployExtUserPwd)
-
-        $commandText = $commandText.Replace('@axdbadmin', $AxDbAdminPwd)
-
-        $commandText = $commandText.Replace('@axruntimeuser', $AxRuntimeUserPwd)
-
-        $commandText = $commandText.Replace('@axmrruntimeuser', $AxMrRuntimeUserPwd)
-
-        $commandText = $commandText.Replace('@axretailruntimeuser', $AxRetailRuntimeUserPwd)
-
-        $commandText = $commandText.Replace('@axretaildatasyncuser', $AxRetailDataSyncUserPwd)
 
         $sqlCommand.CommandText = $commandText
 
         $null = $sqlCommand.Parameters.Add("@TenantId", $tenantId)
         $null = $sqlCommand.Parameters.Add("@PlanId", $planId)
         $null = $sqlCommand.Parameters.Add("@PlanCapability ", $planCapability)
-
-        write-verbose $sqlCommand.CommandText
-
+                
+        Write-PSFMessage -Level Verbose "Execution sql statement against database" -Target $sqlCommand.CommandText
         $sqlCommand.ExecuteNonQuery()
-
+        
+        $sqlCommand.Connection.Close()
         $sqlCommand.Dispose()
     }
 

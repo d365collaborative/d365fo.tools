@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-Updates the user details in the database
+Get users from the environment
 
 .DESCRIPTION
-Is capable of updating all the user details inside the UserInfo table to enable a user to sign in
+Get all relevant user details from the Dynamics 365 for Finance & Operations
 
 .PARAMETER DatabaseServer
 The name of the database server
@@ -27,19 +27,19 @@ The search string to select which user(s) should be updated.
 Use SQL Server like syntax to get the results you expect. E.g. -Email "'%@contoso.com%'"
 
 .EXAMPLE
-Update-D365User -Email "claire@contoso.com"
+Get-D365User
 
-This will search for the user with the e-mail address claire@contoso.com and update it with needed information based on the tenant owner of the environment
+This will get all users from the environment
 
 .EXAMPLE
 Update-D365User -Email "%contoso.com%"
 
-This will search for all users with an e-mail address containing 'contoso.com' and update them with needed information based on the tenant owner of the environment
+This will search for all users with an e-mail address containing 'contoso.com' from the environment
 
 .NOTES
 General notes
 #>
-function Update-D365User {
+function Get-D365User {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]
@@ -54,8 +54,8 @@ function Update-D365User {
         [Parameter(Mandatory = $false, Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $true, Position = 5)]
-        [string]$Email
+        [Parameter(Mandatory = $false, Position = 5)]
+        [string]$Email = "%"
 
     )
 
@@ -67,7 +67,7 @@ function Update-D365User {
         Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
     }
 
-    [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+    [System.Data.SqlClient.SqlCommand] $sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
     $sqlCommand.Connection.Open()
 
@@ -78,38 +78,20 @@ function Update-D365User {
 
     $null = $sqlCommand.Parameters.Add("@Email", $Email)
 
-    [System.Data.SqlClient.SqlCommand]$sqlCommand_Update = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
-
-    $sqlCommand_Update.Connection.Open()
-
-    $sqlCommand_Update.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
-
     Write-PSFMessage -Level Verbose -Message "Executing the select statement against the database."
 
-    $reader = $sqlCommand.ExecuteReader()
+    [System.Data.SqlClient.SqlDataReader] $reader = $sqlCommand.ExecuteReader()
 
+    Write-PSFMessage -Level Verbose -Message "Building the result set."
     while ($reader.Read() -eq $true) {
-        Write-PSFMessage -Level Verbose -Message "Building the update statement with the needed details."
-
-        $userId = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
-        $networkAlias = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
-
-        $userAuth = Get-D365UserAuthenticationDetail $networkAlias
-
-        $null = $sqlCommand_Update.Parameters.Add("@id", $userId)
-        $null = $sqlCommand_Update.Parameters.Add("@networkDomain", $userAuth["NetworkDomain"])
-        $null = $sqlCommand_Update.Parameters.Add("@sid", $userAuth["SID"])
-        $null = $sqlCommand_Update.Parameters.Add("@identityProvider", $userAuth["IdentityProvider"])
-
-        Write-PSFMessage -Level Verbose -Message "Building statement : $($sqlCommand_Update.CommandText)"
-        Write-PSFMessage -Level Verbose -Message "Executing the update statement against the database."
-
-        $null = $sqlCommand_Update.ExecuteNonQuery()
-
-        $sqlCommand_Update.Parameters.Clear()
+        [PSCustomObject]@{
+            UserId           = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
+            Name             = "$($reader.GetString($($reader.GetOrdinal("NAME"))))"
+            NetworkAlias     = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
+            NetworkDomain    = "$($reader.GetString($($reader.GetOrdinal("NETWORKDOMAIN"))))"
+            Sid              = "$($reader.GetString($($reader.GetOrdinal("SID"))))"
+            IdentityProvider = "$($reader.GetString($($reader.GetOrdinal("IDENTITYPROVIDER"))))"
+            Enable           = [bool][int]"$($reader.GetInt32($($reader.GetOrdinal("ENABLE"))))"
+         }
     }
-    $sqlCommand_Update.Connection.Close()    
-    $sqlCommand_Update.Dispose()
-    $sqlCommand.Connection.Close()
-    $sqlCommand.Dispose()
 }

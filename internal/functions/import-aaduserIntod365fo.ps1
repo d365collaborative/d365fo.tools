@@ -11,7 +11,7 @@ function Import-AadUserIntoD365FO ($SqlCommand, $SignInName, $Name,$Id, $SID, $S
         if($userAdded -eq $true) {
 
             $securityAdded = Add-AadUserSecurity $sqlCommand $Id
-            if($securityAdded = $false) {
+            if($securityAdded -eq $false) {
                 Write-Error "User $SignInName did not get securityRoles"
             }
         }

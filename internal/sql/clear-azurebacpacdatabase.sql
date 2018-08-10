@@ -72,3 +72,128 @@ WHERE STATUS IN (1,2,5,7)
 ;--GO
 -- Clear encrypted hardware profile merchand properties
 update dbo.RETAILHARDWAREPROFILE set SECUREMERCHANTPROPERTIES = null where SECUREMERCHANTPROPERTIES is not null
+
+
+--BELOW code is used to handle FULLTEXT INDEX / FULLTEST STOPLIST.
+--Provided by Paul Heisterkamp (Twitter - @braul)
+DECLARE @_SQL NVARCHAR(4000)
+
+-------------------------------------------------------------------------------------
+-- ALTER FULLTEXT INDEX ON [TableName] SET STOPLIST = SYSTEM'
+IF object_id('tempdb..#TMPSETSTOPLIST') IS NOT NULL
+	DROP TABLE #TMPSETSTOPLIST;
+CREATE TABLE #TMPSETSTOPLIST (
+	TableName [nvarchar] (250)
+	);
+
+DECLARE cur CURSOR
+FOR
+select object_NAME(sys.fulltext_indexes.object_id) as TableName from sys.fulltext_indexes where stoplist_id != 0
+
+OPEN cur;
+
+DECLARE @TableName [nvarchar](250);
+
+FETCH NEXT
+FROM cur
+INTO @TableName;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	INSERT INTO #TMPSETSTOPLIST (TableName)
+		VALUES (@TableName);		
+
+	FETCH NEXT
+		FROM cur
+		INTO @TableName;
+END;
+
+CLOSE cur;
+
+DEALLOCATE cur;
+
+DECLARE cur CURSOR
+FOR
+SELECT TableName
+FROM #TMPSETSTOPLIST;
+
+OPEN cur;
+
+FETCH NEXT
+	FROM cur
+	INTO @TableName;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	SET @_SQL = N'ALTER FULLTEXT INDEX ON ' + QUOTENAME(@TableName) + ' SET STOPLIST = SYSTEM'
+	PRINT (@_SQL)
+	EXEC SP_EXECUTESQL @_SQL
+
+	FETCH NEXT
+		FROM cur
+		INTO @TableName;
+END;
+
+CLOSE cur;
+
+DEALLOCATE cur;
+
+-------------------------------------------------------------------------------------
+-- DROP FULLTEXT STOPLIST [FullTextStopListName];
+IF object_id('tempdb..#DROPFULLTEXTSTOPLIST') IS NOT NULL
+	DROP TABLE #DROPFULLTEXTSTOPLIST;
+CREATE TABLE #DROPFULLTEXTSTOPLIST (
+	StopListName [nvarchar] (250)
+	);
+
+DECLARE cur CURSOR
+FOR
+select name from sys.fulltext_stoplists
+
+OPEN cur;
+
+DECLARE @StopListName [nvarchar](250);
+
+FETCH NEXT
+FROM cur
+INTO @StopListName;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	INSERT INTO #DROPFULLTEXTSTOPLIST (StopListName)
+		VALUES (@StopListName);		
+
+	FETCH NEXT
+		FROM cur
+		INTO @StopListName;
+END;
+
+CLOSE cur;
+
+DEALLOCATE cur;
+
+DECLARE cur CURSOR
+FOR
+SELECT StopListName
+FROM #DROPFULLTEXTSTOPLIST;
+
+OPEN cur;
+
+FETCH NEXT
+FROM cur
+INTO @StopListName;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	SET @_SQL = N'DROP FULLTEXT STOPLIST ' + QUOTENAME(@StopListName) + ';'
+	PRINT (@_SQL)
+	EXEC SP_EXECUTESQL @_SQL
+
+	FETCH NEXT
+		FROM cur
+		INTO @StopListName;
+END;
+
+CLOSE cur;
+
+DEALLOCATE cur;

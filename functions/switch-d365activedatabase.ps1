@@ -27,15 +27,20 @@ Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
 General notes
 #>
 function Switch-D365ActiveDatabase {
-    param(
+    [CmdletBinding()]
+    param (
         [Parameter(Mandatory = $false, Position = 1)]
         [string]$DatabaseServer = $Script:DatabaseServer,
+
         [Parameter(Mandatory = $false, Position = 2)]
         [string]$DatabaseName = $Script:DatabaseName,
+
         [Parameter(Mandatory = $false, Position = 3)]
         [string]$SqlUser = $Script:DatabaseUserName,
+
         [Parameter(Mandatory = $false, Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
+        
         [Parameter(Mandatory = $true, Position = 5)]
         [string]$NewDatabaseName
     )
@@ -68,8 +73,10 @@ function Switch-D365ActiveDatabase {
     $sqlCommand.Connection.Open()
 
     $null = $sqlCommand.ExecuteNonQuery()
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose()
 
-    "$DatabaseName`_original"
-
+    [PSCustomObject]@{
+        OldDatabaseNewName = "$DatabaseName`_original"
+    }
 }

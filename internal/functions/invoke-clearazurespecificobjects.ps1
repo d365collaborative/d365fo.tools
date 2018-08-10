@@ -11,6 +11,7 @@ Function Invoke-ClearAzureSpecificObjects ( $DatabaseServer, $DatabaseName, $Sql
     $sqlCommand.Connection.Open()
 
     $null = $sqlCommand.ExecuteNonQuery()
-
+    
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose()
 }

@@ -21,6 +21,8 @@ Function Invoke-SqlBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $Sql
     Write-verbose $sqlCommand.CommandText
     
     $null = $sqlCommand.ExecuteNonQuery()
+    
+    $sqlCommand.Connection.Close()
     $sqlCommand.Dispose()
 
     $EndTime = Get-Date

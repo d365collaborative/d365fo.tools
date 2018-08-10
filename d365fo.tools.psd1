@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.24'
+    ModuleVersion          = '0.3.54'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -43,7 +43,10 @@
     ProcessorArchitecture  = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    RequiredModules        = @()
+    RequiredModules        = @(
+        @{ ModuleName = 'PSFramework'; ModuleVersion = '0.9.24.85' },
+        @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' } #4.3.1
+    )
 
     # Assemblies that must be loaded prior to importing this module
     RequiredAssemblies     = @()
@@ -62,6 +65,11 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport      = @(
+                                'Disable-D365MaintenanceMode'
+
+                                'Enable-D365MaintenanceMode',
+                                'Enable-D365User',
+                                
                                 'Get-D365AzureStorageFile',
                                 'Get-D365DatabaseAccess',
                                 'Get-D365DecryptedConfigFile',
@@ -69,7 +77,9 @@
                                 'Get-D365DotNetMethod',
                                 'Get-D365Environment',
                                 'Get-D365EnvironmentSettings',
+                                'Get-D365InstalledHotfix',
                                 'Get-D365InstalledPackage',
+                                'Get-D365InstalledService',
                                 'Get-D365InstanceName',
                                 'Get-D365Label',
                                 'Get-D365OfflineAuthenticationAdminEmail',
@@ -78,23 +88,29 @@
                                 'Get-D365Table',
                                 'Get-D365TableField',
                                 'Get-D365Url',
+                                'Get-D365User',
                                 'Get-D365UserAuthenticationDetail',
                                 'Get-D365WindowsActivationStatus',
 
                                 'Import-D365AadUser',
                                 'Import-D365Bacpac',
+                                'Import-D365BacpacOldVersion',
 
                                 'Invoke-D365AzureStorageDownload',
                                 'Invoke-D365AzureStorageUpload',
+                                'Invoke-D365AXUpdateInstaller',
                                 'Invoke-D365DBSync',
+                                'Invoke-D365ModelUtil',
                                 'Invoke-D365ReArmWindows',
+                                'Invoke-D365SCDPBundleInstall',
                                 'Invoke-D365SpHelp',
                                 'Invoke-D365SysFlushAodCache',
                                 'Invoke-D365SysRunnerClass',
                                 'Invoke-D365TableBrowser',
 
                                 'New-D365Bacpac',
-
+                                'New-D365TopologyFile',
+                                
                                 'Remove-D365Database',
 
                                 'Rename-D365Instance',
@@ -102,6 +118,7 @@
                                 'Set-D365Admin',
                                 'Set-D365OfflineAuthenticationAdminEmail',
                                 'Set-D365StartPage',
+                                'Set-D365SysAdmin',
 
                                 'Start-D365Environment',
 
