@@ -94,7 +94,7 @@ function Get-D365InstalledHotfix {
             Add-Type -Path $StorageAssembly
         }
         else {
-            Write-PSFMessage -Level Host -Message "Unable to <c=`"red`">load necessary assembly</c>. Please ensure that the <c=`"red`">BinPath</c> exists and you have permissions to access it."
+            Write-PSFMessage -Level Host -Message "Unable to <c='em'>load necessary assembly</c>. Please ensure that the <c='em'>BinPath</c> exists and you have permissions to access it."
             Stop-PSFFunction -Message "Stopping because of missing assembly"
             return            
         }
@@ -104,7 +104,7 @@ function Get-D365InstalledHotfix {
             Add-Type -Path $InstrumentationAssembly
         }
         else {
-            Write-PSFMessage -Level Host -Message "Unable to <c=`"red`">load necessary assembly</c>. Please ensure that the <c=`"red`">BinPath</c> exists and you have permissions to access it."
+            Write-PSFMessage -Level Host -Message "Unable to <c='em'>load necessary assembly</c>. Please ensure that the <c='em'>BinPath</c> exists and you have permissions to access it."
             Stop-PSFFunction -Message "Stopping because of missing assembly"
             return 
         }

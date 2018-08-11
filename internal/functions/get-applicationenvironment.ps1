@@ -7,7 +7,7 @@ function Get-ApplicationEnvironment {
 
         Write-PSFMessage -Level Verbose -Message "Testing if we are running on a BI / MR server or not"            
         if (!(Test-Path -Path $AOSPath -PathType Container)) {
-            Write-PSFMessage -Level Verbose -Message "It seems that you ran this cmdlet on a machine that doesn't have the assemblies needed to obtain system details. Most likely you ran it on a <c=`"red`">personal workstation / personal computer</c>."            
+            Write-PSFMessage -Level Verbose -Message "It seems that you ran this cmdlet on a machine that doesn't have the assemblies needed to obtain system details. Most likely you ran it on a <c='em'>personal workstation / personal computer</c>."            
             return
         }
     }

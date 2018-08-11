@@ -96,23 +96,28 @@ $RoleVaule = $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monito
 
 if ($null -ne $RoleVaule) {
     $Script:ServerRole = [ServerRole][Enum]::Parse([type]"ServerRole", $RoleVaule, $true);
-    Write-PSFMessage -Level Verbose -Message "`$Script:ServerRole: $Script:ServerRole"
 }
+Write-PSFMessage -Level Verbose -Message "`$Script:ServerRole: $Script:ServerRole"
 
 $Script:EnvironmentType = [EnvironmentType]::Unknown
+$Script:CanUseTrustedConnection = $false
 if ($environment.Infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::LocalHostedTier1
+    $Script:CanUseTrustedConnection = $true
 }
 elseif ($environment.Infrastructure.HostName -like "*cloudax.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::AzureHostedTier1
+    $Script:CanUseTrustedConnection = $true
 }
 elseif ($environment.Infrastructure.HostName -like "*sandbox.ax.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::MSHostedTier1
+    $Script:CanUseTrustedConnection = $true
 }
 elseif ($environment.Infrastructure.HostName -like "*sandbox.operations.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::MSHostedTier2
 }
 Write-PSFMessage -Level Verbose -Message "`$Script:EnvironmentType: $Script:EnvironmentType"
+Write-PSFMessage -Level Verbose -Message "`$Script:CanUseTrustedConnection: $Script:CanUseTrustedConnection"
 
 $Script:IsOnebox = $environment.Common.IsOneboxEnvironment
 Write-PSFMessage -Level Verbose -Message "`$Script:IsOnebox: $Script:IsOnebox"

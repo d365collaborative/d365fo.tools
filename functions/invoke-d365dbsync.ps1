@@ -96,12 +96,12 @@ function Invoke-D365DBSync {
 
     Write-PSFMessage -Level Debug -Message "Testing if run on LocalHostedTier1 and console isn't elevated"
     if ($Script:EnvironmentType -eq [EnvironmentType]::LocalHostedTier1 -and !$script:IsAdminRuntime){
-        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and on a <c=`"red`">local VM / local vhd</c>. Being on a local VM / local VHD requires you to run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`""
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c='em'>non-elevated</c> and on a <c='em'>local VM / local vhd</c>. Being on a local VM / local VHD requires you to run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`""
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return
     }
     elseif (!$script:IsAdminRuntime -and $Script:UserIsAdmin -and $Script:EnvironmentType -ne [EnvironmentType]::LocalHostedTier1) {
-        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and as an <c=`"red`">administrator</c>. You should either logon as a non-admin user account on this machine or run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`" or simply logon as another user"
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c='em'>non-elevated</c> and as an <c='em'>administrator</c>. You should either logon as a non-admin user account on this machine or run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`" or simply logon as another user"
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return
     }
@@ -109,7 +109,7 @@ function Invoke-D365DBSync {
     Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $command
     $command = Join-Path $BinDirTools "SyncEngine.exe"
     if ((Test-Path -Path $command -PathType Leaf) -eq $false) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c=`"red`">SyncEngine.exe</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
+        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>SyncEngine.exe</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
             
         Stop-PSFFunction -Message "Stopping because unable to locate SyncEngine.exe" -Target $command
         return
@@ -118,7 +118,7 @@ function Invoke-D365DBSync {
     Write-PSFMessage -Level Debug -Message "Testing if the SyncEngine is already running."
     $syncEngine = Get-Process -Name "SyncEngine" -ErrorAction SilentlyContinue
     if ($null -ne $syncEngine) {
-        Write-PSFMessage -Level Host -Message "A instance of SyncEngine is <c=`"red`">already running</c>. Please <c=`"red`">wait</c> for it to finish or <c=`"red`">kill it</c>."
+        Write-PSFMessage -Level Host -Message "A instance of SyncEngine is <c='em'>already running</c>. Please <c='em'>wait</c> for it to finish or <c='em'>kill it</c>."
             
         Stop-PSFFunction -Message "Stopping because SyncEngine.exe already running"
         return
@@ -126,7 +126,7 @@ function Invoke-D365DBSync {
 
     Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $MetadataDir 
     if ((Test-Path -Path $MetadataDir -PathType Container) -eq $false) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c=`"red`">BinDir(metadatabinaries)</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
+        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>BinDir(metadatabinaries)</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
             
         Stop-PSFFunction -Message "Stopping because unable to locate the BinDir path" -Target $MetadataDir
         return
@@ -183,5 +183,5 @@ function Invoke-D365DBSync {
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
 
-    Write-PSFMessage -Level Debug -Message "Total time for sync was $TimeSpan" -Target $TimeSpan
+    Write-PSFMessage -Level Verbose -Message "Total time for sync was $TimeSpan" -Target $TimeSpan
 }
