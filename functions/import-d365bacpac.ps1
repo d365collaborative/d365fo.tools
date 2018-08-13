@@ -67,6 +67,17 @@ Nothing else will be executed
 .EXAMPLE
 Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
 
+This will instruct the cmdlet that the import will be working against a SQL Server instance.
+It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+
+.EXAMPLE
+Import-D365BacpacOldVersion -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
+
+This will instruct the cmdlet that the import will be working against an Azure DB instance.
+It requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2
+environment.
+It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+
 .NOTES
 General notes
 #>#
@@ -86,9 +97,11 @@ function Import-D365Bacpac {
         [string]$DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 3 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 3)]
         [string]$SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $true, Position = 5 )]
@@ -119,34 +132,34 @@ function Import-D365Bacpac {
         
 
     )
-    
-    Write-PSFMessage -Level Verbose -Message "Testing if run on LocalHostedTier1 and console isn't elevated"
-    if ($Script:EnvironmentType -eq [EnvironmentType]::LocalHostedTier1 -and !$script:IsAdminRuntime){
-        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and on a <c=`"red`">local VM / local vhd</c>. Being on a local VM / local VHD requires you to run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`""
-        Stop-PSFFunction -Message "Stopping because of missing parameters"
-        return
+
+    $UseTrustedConnection = $Script:CanUseTrustedConnection
+
+    if ($ImportModeTier2::IsPresent) {
+        $UseTrustedConnection = $false
     }
-    elseif (!$script:IsAdminRuntime -and $Script:UserIsAdmin -and $Script:EnvironmentType -ne [EnvironmentType]::LocalHostedTier1) {
-        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c=`"red`">non-elevated</c> and as an <c=`"red`">administrator</c>. You should either logon as a non-admin user account on this machine or run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`" or simply logon as another user"
-        Stop-PSFFunction -Message "Stopping because of missing parameters"
-        return
+    elseif (($PSBoundParameters.ContainsKey("SqlUser")) -or ($PSBoundParameters.ContainsKey("SqlPwd"))) {
+        $UseTrustedConnection = $false
     }
+    Write-PSFMessage -Level Verbose -Message "Trusted Connection logic executed" -Target $UseTrustedConnection
 
     $command = $Script:SqlPackage
 
     if ([System.IO.File]::Exists($command) -ne $True) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c=`"red`">sqlpackage.exe</c> file on the machine. Please ensure that the latest <c=`"red`">SQL Server Management Studio</c> is installed using the <c=`"red`">default location</c> and run the cmdlet again. You can visit this link to obtain the latest SSMS: <c=`"green`">http://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms</c>"
+        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>sqlpackage.exe</c> file on the machine. Please ensure that the latest <c='em'>SQL Server Management Studio</c> is installed using the <c='em'>default location</c> and run the cmdlet again. You can visit this link to obtain the latest SSMS: <c=`"green`">http://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms</c>"
         Stop-PSFFunction -Message "The sqlpackage.exe is missing on the system."
         return
     }
 
     $StartTime = Get-Date
 
+    [System.Collections.ArrayList]$Params = New-Object -TypeName "System.Collections.ArrayList"
+
     Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB" 
     if ($ImportModeTier2::IsPresent) {
         Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings" 
 
-        [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+        $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd $UseTrustedConnection
 
         $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-azureserviceobjective.sql") -join [Environment]::NewLine
 
@@ -161,8 +174,8 @@ function Import-D365Bacpac {
             $edition = $reader.GetString(1)
             $serviceObjective = $reader.GetString(2)
 
-            Write-Verbose "Edition $edition"
-            Write-Verbose "ServiceObjective $serviceObjective"
+            Write-PSFMessage -Level Verbose -Message "Azure DB Edition: $edition"
+            Write-PSFMessage -Level Verbose -Message "Azure DB ServiceObjective: $serviceObjective"
 
             $reader.close()
             
@@ -170,42 +183,72 @@ function Import-D365Bacpac {
             $sqlCommand.Dispose()
 
             Write-PSFMessage -Level Verbose "Building the parameter string for importing the bacpac into the Azure DB instance with a new name and current settings" 
-            $param = "/a:import /tsn:$DatabaseServer /tdn:$NewDatabaseName /sf:$BacpacFile /tu:$SqlUser /tp:$SqlPwd /p:CommandTimeout=1200 /p:DatabaseEdition=$edition /p:DatabaseServiceObjective=$serviceObjective"
+            $null = $Params.Add("/Action:import")
+            $null = $Params.Add("/TargetServerName:$DatabaseServer")
+            $null = $Params.Add("/TargetDatabaseName:$NewDatabaseName")
+            $null = $Params.Add("/SourceFile:$BacpacFile")
+            $null = $Params.Add("/Properties:CommandTimeout=1200")
+            $null = $Params.Add("/Properties:DatabaseEdition=$edition")
+            $null = $Params.Add("/Properties:DatabaseServiceObjective=$serviceObjective")
+            $null = $Params.Add("/TargetUser:$SqlUser")
+            $null = $Params.Add("/TargetPassword:$SqlPwd")
+
+            #            $param = "/a:import /tsn:$DatabaseServer /tdn:$NewDatabaseName /sf:$BacpacFile /tu:$SqlUser /tp:$SqlPwd /p:CommandTimeout=1200 /p:DatabaseEdition=$edition /p:DatabaseServiceObjective=$serviceObjective"
         }
         else {
-            Write-PSFMessage -Level Host -Message "Could not find service objectives from the Azure DB instance."
+            Write-PSFMessage -Level Host -Message "The query to detect <c='em'>edition</c> and <c='em'>service objectives</c> from the Azure DB instance <c='em'>failed</c>."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
             return
         }
     }
     else {
         Write-PSFMessage -Level Verbose "Building the parameter string for importing the bacpac into the SQL Server instance with a new name and current settings" 
-        $param = "/a:import /tsn:$DatabaseServer /tdn:$NewDatabaseName /sf:$BacpacFile /tu:$SqlUser /tp:$SqlPwd /p:CommandTimeout=1200"
+        $null = $Params.Add("/Action:import")
+        $null = $Params.Add("/TargetServerName:$DatabaseServer")
+        $null = $Params.Add("/TargetDatabaseName:$NewDatabaseName")
+        $null = $Params.Add("/SourceFile:$BacpacFile")
+        $null = $Params.Add("/Properties:CommandTimeout=1200")
+        #$null = $Params.Add("/Diagnostics:True")
+        
+        if (!$UseTrustedConnection) {
+            $null = $Params.Add("/TargetUser:$SqlUser")
+            $null = $Params.Add("/TargetPassword:$SqlPwd")
+        }    
     }
 
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings" 
-    Start-Process -FilePath $command -ArgumentList  $param  -NoNewWindow -Wait
+    Start-Process -FilePath $command -ArgumentList ($Params -join " ") -NoNewWindow -Wait
+    Write-PSFMessage -Level Verbose "Importing completed" 
 
     if (!$ImportOnly.IsPresent) {
-        $sqlCommand = Get-SQLCommand $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd
+        Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
+        $sqlCommand = Get-SQLCommand $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $UseTrustedConnection
 
         $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-instancevalue.sql") -join [Environment]::NewLine
 
-        $sqlCommand.Connection.Open()
+        try {
+            $sqlCommand.Connection.Open()
 
-        $reader = $sqlCommand.ExecuteReader()
+            $reader = $sqlCommand.ExecuteReader()
 
-        if ($reader.read() -eq $true) {
+            if ($reader.read() -eq $true) {
 
-            $tenantId = $reader.GetString(0)
-            $planId = $reader.GetGuid(1)
-            $planCapability = $reader.GetString(2)
+                $tenantId = $reader.GetString(0)
+                $planId = $reader.GetGuid(1)
+                $planCapability = $reader.GetString(2)
 
-            $reader.close()
+                $reader.close()
+            }
+            else {
+                Write-PSFMessage -Level Host -Message "The query to detect <c='em'>details</c> from the SQL Server <c='em'>failed</c>."
+                Stop-PSFFunction -Message "Stopping because of missing parameters"
+                return
+            }
         }
-        else {
-            Write-PSFMessage -Level Host -Message "Error while fetching details from the database"
-            Stop-PSFFunction -Message "Stopping because of missing parameters"
+        catch {
+            Write-PSFMessage -Level Verbose -Message "Execution of SQL failed." -Exception $_.Exception 
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database."            
+            Stop-PSFFunction -Message "Stopping because of errors while working against the database."
             return
         }
 
@@ -242,6 +285,5 @@ function Import-D365Bacpac {
 
     $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
 
-    Write-Host "Time Taken" -ForegroundColor Green
-    Write-Host "$TimeSpan" -ForegroundColor Green
+    Write-PSFMessage -Level Verbose -Message "Total time for the import operation was $TimeSpan" -Target $TimeSpan
 }

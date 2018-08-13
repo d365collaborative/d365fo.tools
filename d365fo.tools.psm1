@@ -1,4 +1,4 @@
-Import-Module PSFramework
+# Import-Module PSFramework
 
 $script:PSModuleRoot = $PSScriptRoot
 function Import-ModuleFile {
@@ -92,29 +92,43 @@ $Script:Url = $environment.Infrastructure.HostUrl
 Write-PSFMessage -Level Verbose -Message "`$Script:Url: $Script:Url"
 
 $Script:ServerRole = [ServerRole]::Unknown
-$RoleVaule =  $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {"Development"} Else {$environment.Monitoring.MARole})  
-$Script:ServerRole = [ServerRole][Enum]::Parse([type]"ServerRole", $RoleVaule, $true);
+$RoleVaule = $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {"Development"} Else {$environment.Monitoring.MARole})  
+
+if ($null -ne $RoleVaule) {
+    $Script:ServerRole = [ServerRole][Enum]::Parse([type]"ServerRole", $RoleVaule, $true);
+}
 Write-PSFMessage -Level Verbose -Message "`$Script:ServerRole: $Script:ServerRole"
 
 $Script:EnvironmentType = [EnvironmentType]::Unknown
-if($environment.Infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
+$Script:CanUseTrustedConnection = $false
+if ($environment.Infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::LocalHostedTier1
+    $Script:CanUseTrustedConnection = $true
 }
 elseif ($environment.Infrastructure.HostName -like "*cloudax.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::AzureHostedTier1
+    $Script:CanUseTrustedConnection = $true
 }
 elseif ($environment.Infrastructure.HostName -like "*sandbox.ax.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::MSHostedTier1
+    $Script:CanUseTrustedConnection = $true
 }
 elseif ($environment.Infrastructure.HostName -like "*sandbox.operations.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::MSHostedTier2
 }
 Write-PSFMessage -Level Verbose -Message "`$Script:EnvironmentType: $Script:EnvironmentType"
+Write-PSFMessage -Level Verbose -Message "`$Script:CanUseTrustedConnection: $Script:CanUseTrustedConnection"
 
 $Script:IsOnebox = $environment.Common.IsOneboxEnvironment
 Write-PSFMessage -Level Verbose -Message "`$Script:IsOnebox: $Script:IsOnebox"
 
-$Script:InstallationRecordsDir = Join-Path (Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Dynamics\Deployment\" -Name "InstallationInfoDirectory") "InstallationRecords"
+$RegSplat = @{
+    Path = "HKLM:\SOFTWARE\Microsoft\Dynamics\Deployment\"
+    Name = "InstallationInfoDirectory"
+}
+
+$RegValue = $( if (Test-RegistryValue @RegSplat) {Join-Path (Get-ItemPropertyValue @RegSplat) "InstallationRecords"} else {""} )
+$Script:InstallationRecordsDir = $RegValue
 Write-PSFMessage -Level Verbose -Message "`$Script:InstallationRecordsDir: $Script:InstallationRecordsDir"
 
 $Script:UserIsAdmin = $env:UserName -like "*admin*"

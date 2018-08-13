@@ -60,7 +60,7 @@ function Invoke-D365ModelUtil {
 
         Write-PSFMessage -Level Verbose -Message "Testing if the path exists or not." -Target $Setup
         if ((Test-Path -Path $Setup -PathType Leaf) -eq $false) {
-            Write-PSFMessage -Level Host -Message "Unable to locate the <c=`"red`">ModelUtil.exe</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
+            Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>ModelUtil.exe</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
             
             Stop-PSFFunction -Message "Stopping because unable to locate ModelUtil.exe." -Target $Setup
             return
@@ -68,7 +68,7 @@ function Invoke-D365ModelUtil {
 
         Write-PSFMessage -Level Verbose -Message "Testing if the path exists or not." -Target $Path
         if ((Test-Path -Path $Path -PathType Leaf) -eq $false) {
-            Write-PSFMessage -Level Host -Message "Unable to locate the <c=`"red`">$Path</c>path. Please ensure that the path exists and you have permissions to access it."
+            Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>$Path</c>path. Please ensure that the path exists and you have permissions to access it."
             
             Stop-PSFFunction -Message "Stopping because unable to locate $Path." -Target $Path
             return
