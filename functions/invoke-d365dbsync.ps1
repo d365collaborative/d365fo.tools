@@ -143,7 +143,7 @@ function Invoke-D365DBSync {
         Write-PSFMessage -Level Debug -Message "Creating the path." -Target $LogPath
         $null = New-Item -Path $LogPath -ItemType directory -Force -ErrorAction Stop
     }
-    
+
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
     $process = Start-Process -FilePath $command -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"  
     
