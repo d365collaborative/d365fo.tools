@@ -246,6 +246,17 @@ Start-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2" -All
 
 *Will start all D365 services on the the specified machines. Will report current status for all services*
 
+### **Get all exposed D365FO services**
+
+```
+Get-ExposedService -ClientId "YouClientIdFromAppRegistration" -ClientSecret "TheSecretFromTheAppRegistration"
+```
+Will return a json containing the exposed services of the D365FO.
+It is possible to provide 
+
+- Authority [Defaulted to current instance identity provider]
+- D365FO [Defaulted to current D365FO Enviroment]
+
 ## **Fix misc issues**
 ### **Get Offline Authentication Administrator Email**
 

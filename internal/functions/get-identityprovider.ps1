@@ -7,8 +7,8 @@ function Get-IdentityProvider {
 
     $tenant = Get-TenantFromEmail $Email
 
-    $webRequest = [System.Net.WebRequest]::Create("https://login.windows.net/$tenant/.well-known/openid-configuration")
-    $webRequest.Method = "GET"
+    $webRequest = New-WebRequest "https://login.windows.net/$tenant/.well-known/openid-configuration" $null "GET"
+
     $response = $WebRequest.GetResponse()
 
     if ($response.StatusCode -eq [System.Net.HttpStatusCode]::Ok) {

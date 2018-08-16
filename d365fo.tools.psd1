@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.60'
+    ModuleVersion          = '0.3.61'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -126,7 +126,8 @@
 
                                 'Switch-D365ActiveDatabase',
 
-                                'Update-D365User'
+                                'Update-D365User',
+                                'Get-ExposedService'
                             )
 
                             # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
