@@ -1,18 +1,18 @@
 <#
 .SYNOPSIS
-Upload a file to Azure
+Download a file to Azure
 
 .DESCRIPTION
-Upload any file to an Azure Storage Account
+Download any file to an Azure Storage Account
 
 .PARAMETER AccountId
-Storage Account Name / Storage Account Id where you want to store the file
+Storage Account Name / Storage Account Id where you want to fetch the file from
 
 .PARAMETER AccessToken
-The token that has the needed permissions for the upload action
+The token that has the needed permissions for the download action
 
 .PARAMETER Blobname
-Name of the container / blog insidse the storage account you want to store the file
+Name of the container / blog inside the storage account you where the file is
 
 .PARAMETER FileName
 Name of the file that you want to download
@@ -65,16 +65,15 @@ function Invoke-D365AzureStorageDownload {
         [switch] $GetLatest
     )
 
-    BEGIN {
-        if (Get-Module -ListAvailable -Name "Azure.Storage") {
-            Import-Module "Azure.Storage"
+    BEGIN { 
+        if ((Test-Path -Path $Path) -eq $false) {
+            $null = New-Item -ItemType directory -Path $Path
         }
-        else {
-            Write-Host "The Azure.Storage powershell module is not present on the system. This is an important part of making it possible to uplaod files to Azure Storage. Please install module on the machine and run the cmdlet again. `r`nRun the following command in an elevated powershell windows :`r`nInstall-Module `"Azure.Storage`"" -ForegroundColor Yellow
-            Write-Error "The Azure.Storage powershell module is not installed on the machine. Please install the module and run the command again." -ErrorAction Stop
-        }
+
     }
     PROCESS {
+        Invoke-TimeSignal -Start
+
         $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken
 
         $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
@@ -101,15 +100,17 @@ function Invoke-D365AzureStorageDownload {
             }
 
             [PSCustomObject]@{
-                File = $NewFile
+                File     = $NewFile
                 Filename = $FileName
             }
         }
-        catch [System.Exception] {
-            Write-Host "Message: $($_.Exception.Message)"
-            Write-Host "StackTrace: $($_.Exception.StackTrace)"
-            Write-Host "LoaderExceptions: $($_.Exception.LoaderExceptions)"
+        catch {
+            Write-PSFMessage -Level Host -Message "Something went wrong while downloading the file from Azure" -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
         }
+
+        Invoke-TimeSignal -End
     }
 
     END {}

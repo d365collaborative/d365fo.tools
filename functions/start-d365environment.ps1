@@ -57,43 +57,36 @@ function Start-D365Environment {
         [switch] $Batch,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]
-        [switch] $FinancialReporter
+        [switch] $FinancialReporter,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]                    
+        [switch] $DMF
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
         $All = ![switch]::Present
     }
 
-    if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent) {
-        Write-Error "You have to use at least one switch when running this cmdlet. Please run the cmdlet again." -ErrorAction Stop
+    if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent -and !$DMF.IsPresent) {
+        Write-PSFMessage -Level Host -Message "You have to use at least one switch when running this cmdlet. Please run the cmdlet again."
+        Stop-PSFFunction -Message "Stopping because of missing parameters"
+        return        
     }
 
-    $aosName = "w3svc"
-    $batchName = "DynamicsAxBatch"
-    $financialName = "MR2012ProcessService"
+    $Params = Get-DeepClone $PSBoundParameters
+    if($Params.ContainsKey("ComputerName")){$Params.Remove("ComputerName")}
 
-    [System.Collections.ArrayList]$Services = New-Object -TypeName "System.Collections.ArrayList"
-
-    if ($All.IsPresent) {
-        $Services.AddRange(@($aosName, $batchName, $financialName))
-    }
-    else {
-        if ($Aos.IsPresent) {
-            $Services.Add($aosName)
-        }
-        if ($Batch.IsPresent) {
-            $Services.Add($batchName)
-        }
-        if ($FinancialReporter.IsPresent) {
-            $Services.Add($financialName)
-        }
-    }
-
-    Get-Service -ComputerName $ComputerName -Name $Services.ToArray() -ErrorAction SilentlyContinue | Start-Service -ErrorAction SilentlyContinue
+    $Services = Get-ServiceList @Params
 
     $Results = foreach ($server in $ComputerName) {
-        Get-Service -ComputerName $server -Name $Services.ToArray() -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
+        Write-PSFMessage -Level Verbose -Message "Working against: $server - starting services"
+        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Start-Service -ErrorAction SilentlyContinue
     }
 
-    $Results | Select-Object Server, Name, Status, DisplayName
+    $Results = foreach ($server in $ComputerName) {
+        Write-PSFMessage -Level Verbose -Message "Working against: $server - listing services"
+        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
+    }
+
+    $Results | Select-Object Server, DisplayName, Status, Name
 }

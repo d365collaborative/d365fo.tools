@@ -1,4 +1,4 @@
-Function Invoke-ClearSqlSpecificObjects {
+Function Invoke-CustomSqlScript {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -14,21 +14,25 @@ Function Invoke-ClearSqlSpecificObjects {
         [string] $SqlPwd,
         
         [Parameter(Mandatory = $false)]
-        [bool] $TrustedConnection
-    )
-    
-    $sqlCommand = Get-SQLCommand @PsBoundParameters
+        [bool] $TrustedConnection,
 
-    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\clear-sqlbacpacdatabase.sql") -join [Environment]::NewLine
+        [Parameter(Mandatory = $false)]
+        [string] $FilePath
+    )
+
+    Invoke-TimeSignal -Start
+
+    $Params = Get-DeepClone $PsBoundParameters
+    $Params.Remove('FilePath')
+    $sqlCommand = Get-SQLCommand $Params
+
+    $commandText = (Get-Content "$FilePath") -join [Environment]::NewLine
 
     $sqlCommand.CommandText = $commandText
-
     try {
         $sqlCommand.Connection.Open()
 
         $null = $sqlCommand.ExecuteNonQuery()
-
-        $true
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
@@ -37,6 +41,8 @@ Function Invoke-ClearSqlSpecificObjects {
     }
     finally {
         $sqlCommand.Connection.Close()
-        $sqlCommand.Dispose()    
+        $sqlCommand.Dispose()
     }
+
+    Invoke-TimeSignal -End
 }

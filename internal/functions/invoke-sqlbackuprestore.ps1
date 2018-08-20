@@ -1,34 +1,59 @@
-Function Invoke-SqlBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd, $NewDatabaseName) {
-    $StartTime = Get-Date
+Function Invoke-SqlBackupRestore {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string] $DatabaseServer,
 
-    $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+        [Parameter(Mandatory = $true)]
+        [string] $DatabaseName, 
 
-    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\backuprestoredb.sql") -join [Environment]::NewLine
-   
-    $sqlCommand.CommandText = $commandText
+        [Parameter(Mandatory = $false)]
+        [string] $SqlUser, 
 
-    Write-Verbose "BackupDirectory is: $BackupDirectory"
-    Write-Verbose "NewDatabaseName: $NewDatabaseName"
+        [Parameter(Mandatory = $false)]
+        [string] $SqlPwd,
+        
+        [Parameter(Mandatory = $false)]
+        [bool] $TrustedConnection,
 
+        [Parameter(Mandatory = $true)]
+        [string] $NewDatabaseName, 
+
+        [Parameter(Mandatory = $true)]
+        [string] $BackupDirectory
+    )
+
+    Invoke-TimeSignal -Start
+
+    $Params = @{DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd; TrustedConnection = $UseTrustedConnection;
+    }
+
+    $sqlCommand = Get-SQLCommand $Params
+
+    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\backuprestoredb.sql") -join [Environment]::NewLine
     $null = $sqlCommand.Parameters.Add("@CurrentDatabase", $DatabaseName)
     $null = $sqlCommand.Parameters.Add("@NewName", $NewDatabaseName)
     $null = $sqlCommand.Parameters.Add("@BackupDirectory", $BackupDirectory)
-   
-    $sqlCommand.CommandTimeout = 0
 
-    $sqlCommand.Connection.Open()
+    try {
+        $sqlCommand.Connection.Open()
 
-    Write-verbose $sqlCommand.CommandText
-    
-    $null = $sqlCommand.ExecuteNonQuery()
-    
-    $sqlCommand.Connection.Close()
-    $sqlCommand.Dispose()
+        Write-PSFMessage -Level Verbose -Message "Executing the statement against the SQL Server" -Target $sqlCommand.CommandText
+        $null = $sqlCommand.ExecuteNonQuery()    
+        
+        $true
+    }
+    catch {
+        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
+    }
+    finally {
+        
+        $sqlCommand.Connection.Close()
+        $sqlCommand.Dispose()
+    }
 
-    $EndTime = Get-Date
-
-    $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
-
-    Write-Host "Time Taken inside: Invoke-SqlBackupRestore" -ForegroundColor Green
-    Write-Host "$TimeSpan" -ForegroundColor Green
+    Invoke-TimeSignal -End
 }

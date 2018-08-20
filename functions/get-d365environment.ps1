@@ -15,6 +15,7 @@ Includes:
 Aos
 Batch
 Financial Reporter
+DMF 
 
 .PARAMETER Aos
 Query the Aos (iis) service
@@ -24,6 +25,9 @@ Query the batch service
 
 .PARAMETER FinancialReporter
 Query the financial reporter (Management Reporter 2012)
+
+.PARAMETER DMF
+Query the DMF service
 
 .EXAMPLE
 Get-D365Environment -All
@@ -63,41 +67,30 @@ function Get-D365Environment {
         [switch] $Batch,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]                    
-        [switch] $FinancialReporter
+        [switch] $FinancialReporter,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]                    
+        [switch] $DMF
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
         $All = ![switch]::Present
     }
 
-    if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent) {
-        Write-Error "You have to use at least one switch when running this cmdlet. Please run the cmdlet again." -ErrorAction Stop
+    if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent -and !$DMF.IsPresent) {
+        Write-PSFMessage -Level Host -Message "You have to use at least one switch when running this cmdlet. Please run the cmdlet again."
+        Stop-PSFFunction -Message "Stopping because of missing parameters"
+        return        
     }
 
-    $aosname = "w3svc"
-    $batchname = "DynamicsAxBatch"
-    $financialname = "MR2012ProcessService"
-    
-    [System.Collections.ArrayList]$Services = New-Object -TypeName "System.Collections.ArrayList"
+    $Params = Get-DeepClone $PSBoundParameters
+    if($Params.ContainsKey("ComputerName")){$Params.Remove("ComputerName")}
 
-    if ($All.IsPresent) {
-        $null = $Services.AddRange(@($aosname, $batchname, $financialname))
-    }    
-    else {
-        if ($Aos.IsPresent) {
-            $null = $Services.Add($aosname)
-        }
-        if ($Batch.IsPresent) {
-            $null = $Services.Add($batchname)
-        }
-        if ($FinancialReporter.IsPresent) {
-            $null = $Services.Add($financialname)
-        }
-    }
+    $Services = Get-ServiceList @Params
 
     $Results = foreach ($server in $ComputerName) {
-        Get-Service -ComputerName $server -Name $Services.ToArray() -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
+        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
     }
     
-    $Results | Select-Object Server, Name, Status, DisplayName
+    $Results | Select-Object Server, DisplayName, Status, Name
 }

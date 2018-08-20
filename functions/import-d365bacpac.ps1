@@ -88,6 +88,7 @@ function Import-D365Bacpac {
         [switch]$ImportModeTier1,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 0)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 0)]
         [switch]$ImportModeTier2,
 
         [Parameter(Mandatory = $false, Position = 1 )]
@@ -98,192 +99,141 @@ function Import-D365Bacpac {
 
         [Parameter(Mandatory = $false, Position = 3 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 3)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 3)]
         [string]$SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 4)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $true, Position = 5 )]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5 )]
+        [Alias('File')]
         [string]$BacpacFile,
 
         [Parameter(Mandatory = $true, Position = 6 )]
         [string]$NewDatabaseName,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 7)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 7)]
         [string]$AxDeployExtUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 8)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 8)]
         [string]$AxDbAdminPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 9)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 9)]
         [string]$AxRuntimeUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 10)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 10)]
         [string]$AxMrRuntimeUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 11)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 11)]
         [string]$AxRetailRuntimeUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 12)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 12)]
         [string]$AxRetailDataSyncUserPwd,
         
-        [switch]$ImportOnly   
-        
+        [Parameter(Mandatory = $false, Position = 13 )]
+        [string]$CustomSqlFile,
 
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2')]
+        [switch]$ImportOnly   
     )
 
-    $UseTrustedConnection = $Script:CanUseTrustedConnection
+    Invoke-TimeSignal -Start
+    
+    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-    if ($ImportModeTier2::IsPresent) {
-        $UseTrustedConnection = $false
-    }
-    elseif (($PSBoundParameters.ContainsKey("SqlUser")) -or ($PSBoundParameters.ContainsKey("SqlPwd"))) {
-        $UseTrustedConnection = $false
-    }
-    Write-PSFMessage -Level Verbose -Message "Trusted Connection logic executed" -Target $UseTrustedConnection
-
-    $command = $Script:SqlPackage
-
-    if ([System.IO.File]::Exists($command) -ne $True) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>sqlpackage.exe</c> file on the machine. Please ensure that the latest <c='em'>SQL Server Management Studio</c> is installed using the <c='em'>default location</c> and run the cmdlet again. You can visit this link to obtain the latest SSMS: <c=`"green`">http://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms</c>"
-        Stop-PSFFunction -Message "The sqlpackage.exe is missing on the system."
+    if (!(Test-Path $BacpacFile -PathType Leaf)) {    
+        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>bacpac</c> file on the machine. Please make sure that the path exists and you have enough permissions."
+        Stop-PSFFunction -Message "Unable to locate the specified bacpac file."
         return
     }
 
-    $StartTime = Get-Date
+    if ($PSBoundParameters.ContainsKey("CustomSqlFile")) {
+        if ((Test-Path $CustomSqlFile -PathType Leaf) -eq $false) {
+            Write-PSFMessage -Level Host -Message "You used the <c='em'>CustomSqlFile</c> parameter, but the cmdlet is unable to locate the file on the machine. Please make sure that the path exists and you have enough permissions."
+            Stop-PSFFunction -Message "The CustomSqlFile path was not located."
+            return
+        }
+        else {
+            $ExecuteCustomSQL = $true
+        }
+    }
 
-    [System.Collections.ArrayList]$Params = New-Object -TypeName "System.Collections.ArrayList"
+    $BaseParams = @{
+        DatabaseServer = $DatabaseServer
+        DatabaseName   = $DatabaseName
+        SqlUser        = $SqlUser
+        SqlPwd         = $SqlPwd        
+    }
+
+    $ImportParams = @{
+        Action   = "import"
+        FilePath = $BacpacFile        
+    }
 
     Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB" 
     if ($ImportModeTier2::IsPresent) {
         Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings" 
 
-        $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd $UseTrustedConnection
+        $Objectives = Get-AzureServiceObjectives @BaseParams
 
-        $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-azureserviceobjective.sql") -join [Environment]::NewLine
+        if ($null -eq $Objectives) { return }
 
-        $sqlCommand.CommandText = $commandText
+        $Properties = @("DatabaseEdition=$($Objectives.DatabaseEdition)",
+            "DatabaseServiceObjective=$($Objectives.DatabaseServiceObjective)"
+        )
 
-        $sqlCommand.Connection.Open()
-
-        $reader = $sqlCommand.ExecuteReader()
-
-        if ($reader.Read() -eq $true) {
-
-            $edition = $reader.GetString(1)
-            $serviceObjective = $reader.GetString(2)
-
-            Write-PSFMessage -Level Verbose -Message "Azure DB Edition: $edition"
-            Write-PSFMessage -Level Verbose -Message "Azure DB ServiceObjective: $serviceObjective"
-
-            $reader.close()
-            
-            $sqlCommand.Connection.Close()
-            $sqlCommand.Dispose()
-
-            Write-PSFMessage -Level Verbose "Building the parameter string for importing the bacpac into the Azure DB instance with a new name and current settings" 
-            $null = $Params.Add("/Action:import")
-            $null = $Params.Add("/TargetServerName:$DatabaseServer")
-            $null = $Params.Add("/TargetDatabaseName:$NewDatabaseName")
-            $null = $Params.Add("/SourceFile:$BacpacFile")
-            $null = $Params.Add("/Properties:CommandTimeout=1200")
-            $null = $Params.Add("/Properties:DatabaseEdition=$edition")
-            $null = $Params.Add("/Properties:DatabaseServiceObjective=$serviceObjective")
-            $null = $Params.Add("/TargetUser:$SqlUser")
-            $null = $Params.Add("/TargetPassword:$SqlPwd")
-
-            #            $param = "/a:import /tsn:$DatabaseServer /tdn:$NewDatabaseName /sf:$BacpacFile /tu:$SqlUser /tp:$SqlPwd /p:CommandTimeout=1200 /p:DatabaseEdition=$edition /p:DatabaseServiceObjective=$serviceObjective"
-        }
-        else {
-            Write-PSFMessage -Level Host -Message "The query to detect <c='em'>edition</c> and <c='em'>service objectives</c> from the Azure DB instance <c='em'>failed</c>."
-            Stop-PSFFunction -Message "Stopping because of missing parameters"
-            return
-        }
+        $ImportParams.Properties = $Properties
     }
-    else {
-        Write-PSFMessage -Level Verbose "Building the parameter string for importing the bacpac into the SQL Server instance with a new name and current settings" 
-        $null = $Params.Add("/Action:import")
-        $null = $Params.Add("/TargetServerName:$DatabaseServer")
-        $null = $Params.Add("/TargetDatabaseName:$NewDatabaseName")
-        $null = $Params.Add("/SourceFile:$BacpacFile")
-        $null = $Params.Add("/Properties:CommandTimeout=1200")
-        #$null = $Params.Add("/Diagnostics:True")
-        
-        if (!$UseTrustedConnection) {
-            $null = $Params.Add("/TargetUser:$SqlUser")
-            $null = $Params.Add("/TargetPassword:$SqlPwd")
-        }    
-    }
-
+    
+    $Params = Get-DeepClone $BaseParams
+    $Params.DatabaseName = $NewDatabaseName
+    
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings" 
-    Start-Process -FilePath $command -ArgumentList ($Params -join " ") -NoNewWindow -Wait
+    $res = Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection
+
+    if (!$res) {return}
+    
     Write-PSFMessage -Level Verbose "Importing completed" 
 
     if (!$ImportOnly.IsPresent) {
         Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
-        $sqlCommand = Get-SQLCommand $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd $UseTrustedConnection
+        
+        $InstanceValues = Get-InstanceValues @Params -TrustedConnection $UseTrustedConnection
 
-        $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-instancevalue.sql") -join [Environment]::NewLine
+        if ($null -eq $InstanceValues) { return }
 
-        try {
-            $sqlCommand.Connection.Open()
-
-            $reader = $sqlCommand.ExecuteReader()
-
-            if ($reader.read() -eq $true) {
-
-                $tenantId = $reader.GetString(0)
-                $planId = $reader.GetGuid(1)
-                $planCapability = $reader.GetString(2)
-
-                $reader.close()
-            }
-            else {
-                Write-PSFMessage -Level Host -Message "The query to detect <c='em'>details</c> from the SQL Server <c='em'>failed</c>."
-                Stop-PSFFunction -Message "Stopping because of missing parameters"
-                return
-            }
-        }
-        catch {
-            Write-PSFMessage -Level Verbose -Message "Execution of SQL failed." -Exception $_.Exception 
-            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database."            
-            Stop-PSFFunction -Message "Stopping because of errors while working against the database."
-            return
-        }
-
-        Write-PSFMessage -Level Verbose "Building sql statement to update the imported database" 
         if ($ImportModeTier2::IsPresent) {
-            $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-bacpacvaluesazure.sql") -join [Environment]::NewLine
+            Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database" 
 
-            $commandText = $commandText.Replace('@axdeployextuser', $AxDeployExtUserPwd)
-            $commandText = $commandText.Replace('@axdbadmin', $AxDbAdminPwd)
-            $commandText = $commandText.Replace('@axruntimeuser', $AxRuntimeUserPwd)
-            $commandText = $commandText.Replace('@axmrruntimeuser', $AxMrRuntimeUserPwd)
-            $commandText = $commandText.Replace('@axretailruntimeuser', $AxRetailRuntimeUserPwd)
-            $commandText = $commandText.Replace('@axretaildatasyncuser', $AxRetailDataSyncUserPwd)
+            $AzureParams = @{AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd; AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd; AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd}
+            $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
+
+            if (!$res) {return}
         }
         else {
-            $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-bacpacvaluessql.sql") -join [Environment]::NewLine
-            $commandText = $commandText.Replace('@DATABASENAME', $NewDatabaseName)
+            Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database" 
+
+            $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection @InstanceValues
+            
+            if (!$res) {return}
         }
 
-        $sqlCommand.CommandText = $commandText
+        if ($ExecuteCustomSQL) {
+            Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
+            $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
-        $null = $sqlCommand.Parameters.Add("@TenantId", $tenantId)
-        $null = $sqlCommand.Parameters.Add("@PlanId", $planId)
-        $null = $sqlCommand.Parameters.Add("@PlanCapability ", $planCapability)
-                
-        Write-PSFMessage -Level Verbose "Execution sql statement against database" -Target $sqlCommand.CommandText
-        $sqlCommand.ExecuteNonQuery()
-        
-        $sqlCommand.Connection.Close()
-        $sqlCommand.Dispose()
+            if (!$res) {return}
+        }
     }
 
-    $EndTime = Get-Date
-
-    $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
-
-    Write-PSFMessage -Level Verbose -Message "Total time for the import operation was $TimeSpan" -Target $TimeSpan
+    Invoke-TimeSignal -End
 }

@@ -1,12 +1,29 @@
-function Get-SQLCommand ($DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd, $UseTrustedConnection) {
-    Write-PSFMessage -Level Debug -Message "Trusted connection" -Target $UseTrustedConnection
+function Get-SQLCommand {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string] $DatabaseServer,
+
+        [Parameter(Mandatory = $true)]
+        [string] $DatabaseName, 
+
+        [Parameter(Mandatory = $false)]
+        [string] $SqlUser, 
+
+        [Parameter(Mandatory = $false)]
+        [string] $SqlPwd,
+
+        [Parameter(Mandatory = $false)]
+        [bool] $TrustedConnection
+    )
+
     Write-PSFMessage -Level Debug -Message "Writing the bound parameters" -Target $PsBoundParameters
     [System.Collections.ArrayList]$Params = New-Object -TypeName "System.Collections.ArrayList"
 
     $null = $Params.Add("Server=$DatabaseServer;")
     $null = $Params.Add("Database=$DatabaseName;")
 
-    if ($null -eq $UseTrustedConnection -or !$UseTrustedConnection) {
+    if ($null -eq $TrustedConnection -or !$TrustedConnection) {
         $null = $Params.Add("User=$SqlUser;")
         $null = $Params.Add("Password=$SqlPwd;")
     }
@@ -22,6 +39,7 @@ function Get-SQLCommand ($DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd, $Use
 
     $sqlCommand = New-Object System.Data.SqlClient.SqlCommand
     $sqlCommand.Connection = $sqlConnection
-
+    $sqlCommand.CommandTimeout = 0
+    
     $sqlCommand
 }

@@ -1,7 +1,26 @@
-Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd, $NewDatabaseName) {
-    $StartTime = Get-Date
+Function Invoke-AzureBackupRestore  {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string] $DatabaseServer,
 
-    $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+        [Parameter(Mandatory = $true)]
+        [string] $DatabaseName, 
+
+        [Parameter(Mandatory = $true)]
+        [string] $SqlUser, 
+
+        [Parameter(Mandatory = $true)]
+        [string] $SqlPwd,
+
+        [Parameter(Mandatory = $true)]
+        [string] $NewDatabaseName
+    )
+
+    Invoke-TimeSignal -Start
+
+    $SqlConParams = @{DatabaseServer = $DatabaseServer; SqlUser = $SqlUser; SqlPwd = $SqlPwd; TrustedConnection = $false}
+    $sqlCommand = Get-SQLCommand @SqlConParams -DatabaseName $DatabaseName
     
     $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\newazuredbfromcopy.sql") -join [Environment]::NewLine
     
@@ -10,20 +29,24 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
 
     $sqlCommand.CommandText = $commandText
 
-    Write-Verbose "NewDatabaseName: $NewDatabaseName"
+    try {
+        $sqlCommand.Connection.Open()
 
-    $sqlCommand.CommandTimeout = 0
-
-    $sqlCommand.Connection.Open()
-
-    Write-Verbose $sqlCommand.CommandText
-    
-    $null = $sqlCommand.ExecuteNonQuery()
-    
-    $sqlCommand.Connection.Close()
-    $sqlCommand.Dispose()
-
-    $sqlCommand = Get-SQLCommand $DatabaseServer "master" $SqlUser $SqlPwd
+        Write-Verbose $sqlCommand.CommandText
+        
+        $null = $sqlCommand.ExecuteNonQuery()       
+    }
+    catch {
+        Write-PSFMessage -Level Host -Message "Something went wrong while creating the copy of the Azure DB" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
+    }
+    finally {
+        $sqlCommand.Connection.Close()
+        $sqlCommand.Dispose()
+    }
+   
+    $sqlCommand = Get-SQLCommand @SqlConParams -DatabaseName "master"
 
     $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\checkfornewazuredb.sql") -join [Environment]::NewLine
 
@@ -32,30 +55,33 @@ Function Invoke-AzureBackupRestore ($DatabaseServer, $DatabaseName, $SqlUser, $S
     $null = $sqlCommand.Parameters.Add("@NewName", $NewDatabaseName)
     $null = $sqlCommand.Parameters.Add("@Time", $StartTime)
 
-    $sqlCommand.Connection.Open()
-        
-    Write-Verbose $sqlCommand.CommandText
+    try {
+        $sqlCommand.Connection.Open()
 
-    $operation_row_count = 0
-    #Loop every minute until we get a row, if we get a row copy is done
-    while ($operation_row_count -eq 0) {
-        Write-Verbose "$(Get-Date) - Waiting for the creation of the copy."
-        $Reader = $sqlCommand.ExecuteReader()
-        $Datatable = New-Object System.Data.DataTable
-        $Datatable.Load($Reader)
-        $operation_row_count = $Datatable.Rows.Count
-        Start-Sleep -s 60
+        $operation_row_count = 0
+        #Loop every minute until we get a row, if we get a row copy is done
+        while ($operation_row_count -eq 0) {
+            Write-PSFMessage -Level Verbose -Message "Waiting for the creation of the copy."
+            $Reader = $sqlCommand.ExecuteReader()
+            $Datatable = New-Object System.Data.DataTable
+            $Datatable.Load($Reader)
+            $operation_row_count = $Datatable.Rows.Count
+            Start-Sleep -s 60
+        }
+
+        $true
+    }
+    catch {
+        Write-PSFMessage -Level Host -Message "Something went wrong while checking for the new copy of the Azure DB" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
+    }
+    finally {
+        $Reader.Close()
+        $sqlCommand.Connection.Close()
+        $sqlCommand.Dispose()
+        $Datatable.Dispose()
     }
 
-    $Reader.Close()
-    $sqlCommand.Connection.Close()
-    $sqlCommand.Dispose()
-    $Datatable.Dispose()
-
-    $EndTime = Get-Date
-
-    $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
-    
-    Write-Host "Time Taken inside: Invoke-AzureBackup" -ForegroundColor Green
-    Write-Host "$TimeSpan" -ForegroundColor Green
+    Invoke-TimeSignal -End
 }

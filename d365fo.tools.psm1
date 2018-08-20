@@ -1,4 +1,4 @@
-# Import-Module PSFramework
+$Script:TimeSignals = @{}
 
 $script:PSModuleRoot = $PSScriptRoot
 function Import-ModuleFile {

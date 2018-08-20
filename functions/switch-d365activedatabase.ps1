@@ -45,37 +45,32 @@ function Switch-D365ActiveDatabase {
         [string]$NewDatabaseName
     )
 
-    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
-        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
-    }
-
-    Write-Host "Make sure to stop all :"
-    write-Host "World wide web publishing service (on all AOS computers)"
-    Write-Host "Microsoft Dynamics 365 for Finance and Operations Batch Management Service (on non-private AOS computers only)"
-    Write-Host "Management Reporter 2012 Process Service (on business intelligence [BI] computers only)"
-
-    [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SQLCommand $DatabaseServer "Master" $SqlUser $SqlPwd
+    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+    
+    $sqlCommand = Get-SQLCommand -DatabaseServer $DatabaseServer -DatabaseName "Master" -SqlUser $SqlUser -SqlPwd $SqlPwd -UseTrustedConnection $UseTrustedConnection
 
     $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
 
     $sqlCommand.CommandText = $commandText
 
-    write-verbose $sqlCommand.CommandText
-    Write-Verbose "Rename $DatabaseName to $DatabaseName`_original"
-    Write-Verbose "Rename $NewDatabaseName to $DatabaseName"
+    $null = $sqlCommand.Parameters.AddWithValue("@OrigName", $DatabaseName)
+    $null = $sqlCommand.Parameters.AddWithValue("@NewName", $NewDatabaseName)
 
-    $var = New-Object System.Data.SqlClient.SqlParameter("@OrigName", $DatabaseName)
-    $null = $sqlCommand.Parameters.Add($var)
-    $var = New-Object System.Data.SqlClient.SqlParameter("@NewName", $NewDatabaseName)
-    $null = $sqlCommand.Parameters.Add($var)
+    try {
+        $sqlCommand.Connection.Open()
 
-    $sqlCommand.Connection.Open()
-
-    $null = $sqlCommand.ExecuteNonQuery()
-    $sqlCommand.Connection.Close()
-    $sqlCommand.Dispose()
-
+        $null = $sqlCommand.ExecuteNonQuery()    
+    }
+    catch {
+        Write-PSFMessage -Level Host -Message "Something went wrong while working against the DB" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
+    }
+    finally {
+        $sqlCommand.Connection.Close()
+        $sqlCommand.Dispose()
+    }
+    
     [PSCustomObject]@{
         OldDatabaseNewName = "$DatabaseName`_original"
     }
