@@ -38,10 +38,10 @@ function Invoke-D365TableBrowser {
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 1 )]
         [string] $TableName,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [string] $Company = "DAT",
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 2 )]
+        [string] $Company = $Script:Company,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 3 )]
         [string] $Url = $Script:Url
     )
     BEGIN {}

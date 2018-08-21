@@ -70,12 +70,6 @@ Write-PSFMessage -Level Verbose -Message "`$Script:DatabaseServer: $Script:Datab
 $Script:DatabaseName = $dataAccess.Database
 Write-PSFMessage -Level Verbose -Message "`$Script:DatabaseName: $Script:DatabaseName"
 
-$Script:DatabaseUserName = $dataAccess.SqlUser
-Write-PSFMessage -Level Verbose -Message "`$Script:DatabaseUserName: $Script:DatabaseUserName"
-
-$Script:DatabaseUserPassword = $dataAccess.SqlPwd
-Write-PSFMessage -Level Verbose -Message "`$Script:DatabaseUserPassword: $Script:DatabaseUserPassword"
-
 $Script:BinDir = $environment.Common.BinDir
 Write-PSFMessage -Level Verbose -Message "`$Script:BinDir: $Script:BinDir"
 
@@ -87,9 +81,6 @@ Write-PSFMessage -Level Verbose -Message "`$Script:MetaDataDir: $Script:MetaData
 
 $Script:BinDirTools = $environment.Common.DevToolsBinDir
 Write-PSFMessage -Level Verbose -Message "`$Script:BinDirTools: $Script:BinDirTools"
-
-$Script:Url = $environment.Infrastructure.HostUrl
-Write-PSFMessage -Level Verbose -Message "`$Script:Url: $Script:Url"
 
 $Script:ServerRole = [ServerRole]::Unknown
 $RoleVaule = $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {"Development"} Else {$environment.Monitoring.MARole})  
@@ -118,6 +109,31 @@ elseif ($environment.Infrastructure.HostName -like "*sandbox.operations.dynamics
 }
 Write-PSFMessage -Level Verbose -Message "`$Script:EnvironmentType: $Script:EnvironmentType"
 Write-PSFMessage -Level Verbose -Message "`$Script:CanUseTrustedConnection: $Script:CanUseTrustedConnection"
+
+if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and (Get-PSFConfigValue -FullName "d365fo.tools.workstation.mode") -eq $true) {
+    $Script:Url = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").URL
+    $Script:DatabaseUserName = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlUser
+    $Script:DatabaseUserPassword = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlPwd
+    $Script:Company = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").Company
+}
+else {
+    $Script:Url = $environment.Infrastructure.HostUrl
+    $Script:DatabaseUserName = $dataAccess.SqlUser
+    $Script:DatabaseUserPassword = $dataAccess.SqlPwd
+    $Script:Company = "DAT"
+
+    if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and 
+        ($Script:EnvironmentType -eq [EnvironmentType]::MSHostedTier2)) {
+
+        Write-PSFMessage -Level Verbose -Message "We are on a Tier 2 MS hosted Environment. We have and active environment configured. We will load the SqlUser and SqlPwd from that configuration."
+        $Script:DatabaseUserName = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlUser
+        $Script:DatabaseUserPassword = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlPwd
+    }
+}
+Write-PSFMessage -Level Verbose -Message "`$Script:Url: $Script:Url"
+Write-PSFMessage -Level Verbose -Message "`$Script:DatabaseUserName: $Script:DatabaseUserName"
+Write-PSFMessage -Level Verbose -Message "`$Script:DatabaseUserPassword: $Script:DatabaseUserPassword"
+Write-PSFMessage -Level Verbose -Message "`$Script:Company: $Script:Company"
 
 $Script:IsOnebox = $environment.Common.IsOneboxEnvironment
 Write-PSFMessage -Level Verbose -Message "`$Script:IsOnebox: $Script:IsOnebox"

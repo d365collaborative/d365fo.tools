@@ -43,8 +43,8 @@ function Invoke-D365SysRunnerClass {
         [string] $ClassName,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [string] $Company = "DAT",
-
+        
+        [string] $Company = $Script:Company,
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
         [string] $Url = $Script:Url
     )

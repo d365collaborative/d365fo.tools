@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.70'
+    ModuleVersion          = '0.3.71'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -65,17 +65,20 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport      = @(
+                                'Add-D365EnvironmentConfig',
                                 'Disable-D365MaintenanceMode'
 
                                 'Enable-D365MaintenanceMode',
                                 'Enable-D365User',
                                 
+                                'Get-D365ActiveEnvironmentConfig',
                                 'Get-D365AzureStorageFile',
                                 'Get-D365DatabaseAccess',
                                 'Get-D365DecryptedConfigFile',
                                 'Get-D365DotNetClass',
                                 'Get-D365DotNetMethod',
                                 'Get-D365Environment',
+                                'Get-D365EnvironmentConfig',
                                 'Get-D365EnvironmentSettings',
                                 'Get-D365InstalledHotfix',
                                 'Get-D365InstalledPackage',
@@ -95,6 +98,8 @@
                                 'Import-D365AadUser',
                                 'Import-D365Bacpac',
                                 'Import-D365BacpacOldVersion',
+
+                                'Initialize-D365Config',
 
                                 'Invoke-D365AzureStorageDownload',
                                 'Invoke-D365AzureStorageUpload',
@@ -116,10 +121,12 @@
 
                                 'Rename-D365Instance',
 
+                                'Set-D365ActiveEnvironmentConfig',
                                 'Set-D365Admin',
                                 'Set-D365OfflineAuthenticationAdminEmail',
                                 'Set-D365StartPage',
                                 'Set-D365SysAdmin',
+                                'Set-D365WorkstationMode',
 
                                 'Start-D365Environment',
 

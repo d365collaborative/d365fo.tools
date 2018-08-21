@@ -48,66 +48,57 @@ function Rename-D365Instance {
         [string]$HostsFile = $Script:Hosts,
 
         [Parameter(Mandatory = $false, Position = 5)]
-        [string]$BackupExtension,
+        [string]$BackupExtension = "bak",
 
         [Parameter(Mandatory = $false, Position = 6)]
         [string]$MRConfigFile = $Script:MRConfigFile
 
     )
 
-    Write-Verbose "Testing elevated runtime"
+    Write-PSFMessage -Level Verbose -Message "Testing for elevated runtime"
 
-    if (!$Script:IsAdminRuntime) {
-        Write-Host "The cmdlet needs administrator permission (Run As Administrator) to be able to update the configuration. Please start an elevated session and run the cmdlet again." -ForegroundColor Yellow
-        Write-Error "Elevated permissions needed. Please start an elevated session and run the cmdlet again." -ErrorAction Stop
+    if ($Script:EnvironmentType -ne [EnvironmentType]::LocalHostedTier1) {
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet on a machine that is not a local hosted tier 1 / one box. This cmdlet is only supporting on a <c='em'>onebox / local tier 1</c> machine."
+        Stop-PSFFunction -Message "Stopping because machine isn't a onebox"
+        return
+    }
+    elseif (!$script:IsAdminRuntime) {
+        Write-PSFMessage -Level Host -Message "The cmdlet needs <c='em'>administrator permission</c> (Run As Administrator) to be able to update the configuration. Please start an <c='em'>elevated</c> session and run the cmdlet again."
+        Stop-PSFFunction -Message "Stopping because machine isn't a onebox"
+        return
     }
 
     $OldName = Get-D365InstanceName
 
-    Write-Verbose "Renaming from $OldName"
+    Write-PSFMessage -Level Verbose -Message "Old name collected and will be used to rename." -Target $OldName
 
     # Variables
     $replaceValue = $OldName
     $NewNameDot = "$NewName."
     $replaceValueDot = "$replaceValue."
 
-
-
     $WebConfigFile = join-Path -path $AosServiceWebRootPath $Script:WebConfig
     $WifServicesFile = Join-Path -Path $AosServiceWebRootPath $Script:WifServicesConfig
 
-    Write-Verbose "Testing files"
-    Write-Verbose "WebConfig $WebConfigFile"
-    Write-Verbose "WifServices $WifServicesFile"
-    Write-Verbose "IISBindings $IISServerApplicationHostConfigFile"
-    Write-Verbose "Management Reporter $MRConfigFile"
+    $Files = @($WebConfigFile, $WifServicesFile, $IISServerApplicationHostConfigFile, $HostsFile, $MRConfigFile)
+    foreach ($item in $Files) {
+        Write-PSFMessage -Level Verbose -Message "Testing file path." -Target $item
 
-    #Test files
-    if ( (Test-Path $WebConfigFile) -eq $false) {throw [System.IO.FileNotFoundException] "$WebConfigFile not found."}
-    if ( (Test-Path $WifServicesFile) -eq $false) { throw [System.IO.FileNotFoundException] "$WifServicesFile not found." }
-    if ( (Test-Path $IISServerApplicationHostConfigFile) -eq $false) { throw [System.IO.FileNotFoundException] "$IISServerApplicationHostConfigFile not found." }
-    if ( (Test-Path $HostsFile) -eq $false) { throw [System.IO.FileNotFoundException] "$HostsFile not found." }
-    if ( (Test-Path $MRConfigFile) -eq $false) { throw [System.IO.FileNotFoundException] "$MRConfigFile not found." }
-
-    #IIS stop required before file changes
-    iisreset /stop
-
-    write-verbose "BackupExtension set to $BackupExtension"
-
-    if ($BackupExtension -eq '') {
-        Write-Verbose "Settings default backup extension"
-        $BackupExtension = "bak"
+        if ((Test-Path $item -PathType Leaf) -eq $false) {
+            Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> file wasn't found. Please ensure the file <c='em'>exists </c> and you have enough <c='em'>permission/c> to access the file."
+            Stop-PSFFunction -Message "Stopping because a file is missing."
+            return
+        }    
     }
 
-    write-verbose "BackupExtension set to $BackupExtension"
+    Write-PSFMessage -Level Verbose -Message "Stopping the IIS."
+    iisreset /stop
+
     # Backup files
     if ($null -ne $BackupExtension -and $BackupExtension -ne '') {
-        Write-Verbose "Backing up files"
-        Backup-File $WebConfigFile $BackupExtension
-        Backup-File $WifServicesFile $BackupExtension
-        Backup-File $IISServerApplicationHostConfigFile $BackupExtension
-        Backup-File $HostsFile $BackupExtension
-        Backup-File $MRConfigFile $BackupExtension
+        foreach ($item in $Files) {   
+            Backup-File $item $BackupExtension
+        }
     }
 
     # WebConfig - D365 web config file
@@ -122,9 +113,10 @@ function Rename-D365Instance {
     Rename-ConfigValue $MRConfigFile $NewName $replaceValue
 
     #Start IIS again
+    Write-PSFMessage -Level Verbose -Message "Starting the IIS."
     iisreset /start
 
-    Get-D365Url
+    Get-D365Url -Force
 }
 
 

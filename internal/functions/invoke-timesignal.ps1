@@ -22,7 +22,7 @@ function Invoke-TimeSignal {
         if($Script:TimeSignals.ContainsKey($Command)) {
             $TimeSpan = New-TimeSpan -End (Get-Date) -Start (($Script:TimeSignals)[$Command])
 
-            Write-PSFMessage -Level Verbose -Message "Total time spent inside the function was $TimeSpan" -Target $TimeSpan -FunctionName $Command
+            Write-PSFMessage -Level Verbose -Message "Total time spent inside the function was $TimeSpan" -Target $TimeSpan -FunctionName $Command -Tag "TimeSignal"
         }
     }
 }

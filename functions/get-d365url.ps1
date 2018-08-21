@@ -5,6 +5,10 @@ Get the url for accessing the instance
 .DESCRIPTION
 Get the complete URL for accessing the Dynamics 365 Finance & Operations instance running on this machine
 
+.PARAMETER Force 
+Switch to instruct the cmdlet to retrieve the name from the system files
+instead of the name stored in memory after loading this module.
+
 .EXAMPLE
 Get-D365Url
 
@@ -16,9 +20,18 @@ The call to the dll file gets all registered URL for the environment.
 #>
 function Get-D365Url {
     [CmdletBinding()]
-    param ()
+    param (
+        [switch] $Force
+    )
     
+    if ($Force.IsPresent) {
+        $Url = "https://$($(Get-D365EnvironmentSettings).Infrastructure.FullyQualifiedDomainName)"
+    }
+    else {
+        $Url = $Script:Url
+        
+    }
     [PSCustomObject]@{
-        Url = "https://$($(Get-D365EnvironmentSettings).Infrastructure.FullyQualifiedDomainName)"
+        Url = $Url
     }
 }

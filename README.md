@@ -538,3 +538,54 @@ Invoke-D365ModelUtil -Path c:\temp\ApplicationSuiteModernDesigns_App73.axmodel
 *This will import the **"c:\temp\ApplicationSuiteModernDesigns_App73.axmodel"** into the environment.*
 
 ***Note: Please note that you have to compile the application and run a db sync afterwards.***
+
+## **Working with environment configurations**
+### **Initialize the D365FO.Tools configuration store**
+```
+Initialize-D365Config
+```
+*This will create the default configuration objects and set them to default values*
+
+### **Add an environment configuration**
+```
+Add-D365EnvironmentConfig -Name "UAT" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF" -Company "USMF"
+```
+*This will add en entry named **"UAT"** with the **URL** and **Company** parameters.*
+
+***Notes: This is the minimum you need to enabled a personal workstation to utilize Invoke-D365TableBrowser or Invoke-D365SysRunnerClass***
+
+### **Select an environment configuration as active**
+```
+Set-D365ActiveEnvironmentConfig -Name "UAT"
+```
+*This will get the environment details that is named UAT and put that into the active environment configuration.*
+
+***Notes: You **MUST** restart the powershell session before using any cmdlets that depend on the configuration change.***
+
+### **Enabling the workstation mode**
+```
+Set-D365WorkstationMode -Enabled $true
+```
+*This will configure the module to be capable of running some of the cmdlets from a personal workstation tha is not an D365 environment*
+
+***Notes: You **MUST** restart the powershell session before using any cmdlets that depend on the configuration change.***
+
+### **List all environment configurations**
+```
+Get-D365EnvironmentConfig
+```
+*This will show all stored environment configurations*
+
+### **Get the active environment configuration**
+```
+Get-D365ActiveEnvironmentConfig
+```
+*This will the entire hashtable containing all the environment details*
+
+### **Get the SqlPassword from the active environment configuration**
+```
+(Get-D365ActiveEnvironmentConfig).SqlPwd
+```
+*This will only return the SqlPwd value from the active configuration*
+
+***Notes: On a Tier 2 MS hosted environment we actually load the SqlUser and SqlPassword into memory. So when calling cmdlets that require SqlUser and SqlPassword it is already filled out.***
