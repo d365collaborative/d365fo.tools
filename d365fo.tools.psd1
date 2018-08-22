@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.77'
+    ModuleVersion          = '0.3.78'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -94,6 +94,7 @@
                                 'Get-D365OfflineAuthenticationAdminEmail',
                                 'Get-D365PackageLabelFile',
                                 'Get-D365ProductInformation',
+                                'Get-D365SDPCleanUp',
                                 'Get-D365Table',
                                 'Get-D365TableField',
                                 'Get-D365Url',
@@ -132,6 +133,7 @@
                                 'Set-D365ActiveEnvironmentConfig',
                                 'Set-D365Admin',
                                 'Set-D365OfflineAuthenticationAdminEmail',
+                                'Set-D365SDPCleanUp',
                                 'Set-D365StartPage',
                                 'Set-D365SysAdmin',
                                 'Set-D365WorkstationMode',

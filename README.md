@@ -294,6 +294,22 @@ Set-D365ClickOnceTrustPrompt
 
 *This will set the necessary ClickOnce trust prompt configuration on the machine*
 
+### **Get the Deployable Packages cleanup retention **
+```
+Get-D365SDPCleanUp
+```
+*This will display the current retention that is configured on the server. 
+If the result is empty it means that this has never been configured.*
+
+### **Set the Deployable Packages cleanup retention **
+```
+Set-D365SDPCleanUp -NumberOfDays 10
+```
+*This either create or update the cleanup retention in the registry and set 
+it to 10 days.*
+
+***Notes: Please note that the Set-D365SDPCleanUp requires elevated permissions to work.***
+
 ## **Work with packages, label files, language and labels**
 
 ### **Get all installed packages on the machine**
