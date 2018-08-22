@@ -77,6 +77,8 @@ function Add-D365EnvironmentConfig {
 
         $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
 
+        if($null -eq $Environments) {$Environments = @{}}
+        
         if ($Environments.ContainsKey($Name)) {
             if ($Force.IsPresent) {
                 $Environments[$Name] = $Details

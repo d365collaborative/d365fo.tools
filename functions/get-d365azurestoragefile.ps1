@@ -21,6 +21,9 @@ Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
 
 Default value is "*" which will search for all packages
 
+.PARAMETER GetLatest
+Switch to instruct the cmdlet to only fetch the latest file from the Azure Storage Account
+
 .EXAMPLE
 Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles"
 
@@ -37,33 +40,35 @@ Will get all files in the blob / container that fits the "*UAT*" search value
 function Get-D365AzureStorageFile {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 1 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 1 )]
-        [string] $AccountId,
+        [Parameter(Mandatory = $false, Position = 1 )]
+        [string] $AccountId = $Script:AccountId,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 2 )]
-        [string] $AccessToken,
+        [Parameter(Mandatory = $false, Position = 2 )]
+        [string] $AccessToken = $Script:AccessToken,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 3 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 3 )]
-        [string] $Blobname,
+        [Parameter(Mandatory = $false, Position = 3 )]        
+        [string] $Blobname = $Script:Blobname,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )] 
-        [string] $Name = "*"
+        [string] $Name = "*",
+
+        [switch] $GetLatest
     )
 
-    BEGIN {
-        if (Get-Module -ListAvailable -Name "Azure.Storage") {
-            Import-Module "Azure.Storage"
-        }
-        else {
-            Write-Host "The Azure.Storage powershell module is not present on the system. This is an important part of making it possible to uplaod files to Azure Storage. Please install module on the machine and run the cmdlet again. `r`nRun the following command in an elevated powershell windows :`r`nInstall-Module `"Azure.Storage`"" -ForegroundColor Yellow
-            Write-Error "The Azure.Storage powershell module is not installed on the machine. Please install the module and run the command again." -ErrorAction Stop
+    BEGIN { 
+        if ( ([string]::IsNullOrEmpty($AccountId) -eq $true) -or 
+            ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Blobname))) {
+            Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
+            Stop-PSFFunction -Message "Stopping because of missing parameters"
+            return
         }
     }
 
-    PROCESS {    $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken
+
+    PROCESS {
+        if (Test-PSFFunctionInterrupt) {return}    
+
+        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken
 
         $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
 
@@ -72,12 +77,18 @@ function Get-D365AzureStorageFile {
         $blobcontainer = $blobClient.GetContainerReference($Blobname);
 
         try {
-            $files = $blobcontainer.ListBlobs()
+            $files = $blobcontainer.ListBlobs() | Sort-Object -Descending { $_.Properties.LastModified }
 
-            foreach ($obj in $files) {
-                if ($obj.Name -NotLike $Name) { continue }
+            if ($GetLatest.IsPresent) {
+                $files | Select-Object -First 1
+            }
+            else {
+    
+                foreach ($obj in $files) {
+                    if ($obj.Name -NotLike $Name) { continue }
 
-                $obj
+                    $obj
+                }
             }
         }
         catch [System.Exception] {
