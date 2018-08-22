@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Set the active D365 environment configuration
+Set the active environment configuration
 
 .DESCRIPTION
 Updates the current active environment configuration with a new one

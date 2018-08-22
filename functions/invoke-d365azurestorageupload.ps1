@@ -23,6 +23,12 @@ Switch to tell the cmdlet if you want the local file to be deleted after the upl
 .EXAMPLE
 Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath c:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload
 
+.EXAMPLE
+$AzureParams = Get-D365ActiveAzureStorageConfig
+New-D365Bacpac | Invoke-D365AzureStorageUpload @AzureParams
+
+This will get the current Azure Storage Account configuration details
+and use them as parameters to upload the file to an Azure Storage Account
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 
@@ -50,16 +56,10 @@ function Invoke-D365AzureStorageUpload {
         [switch] $DeleteOnUpload
     )
     BEGIN {
-
-        if (Get-Module -ListAvailable -Name "Azure.Storage") {
-            Import-Module "Azure.Storage"
-        }
-        else {
-            Write-Host "The Azure.Storage powershell module is not present on the system. This is an important part of making it possible to uplaod files to Azure Storage. Please install module on the machine and run the cmdlet again. `r`nRun the following command in an elevated powershell windows :`r`nInstall-Module `"Azure.Storage`"" -ForegroundColor Yellow
-            Write-Error "The Azure.Storage powershell module is not installed on the machine. Please install the module and run the command again." -ErrorAction Stop
-        }
     }
     PROCESS {
+        Invoke-TimeSignal -Start
+
         $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken
 
         $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
@@ -69,8 +69,10 @@ function Invoke-D365AzureStorageUpload {
         $blobcontainer = $blobClient.GetContainerReference($Blobname);
 
         try {
+            Write-PSFMessage -Level Verbose -Message "Start uploading the file to Azure" -Exception $PSItem.Exception
+
             $FileName = Split-Path $Filepath -Leaf
-            $blockBlob = $blobcontainer.GetBlockBlobReference($FileName);
+            $blockBlob = $blobcontainer.GetBlockBlobReference($FileName);            
             $blockBlob.UploadFromFile($Filepath)
 
             if ($DeleteOnUpload.IsPresent) {
@@ -83,10 +85,12 @@ function Invoke-D365AzureStorageUpload {
             }
         }
         catch {
-            Write-Verbose "Error happend"
-            Write-Verbose "Message: $($_.Exception.Message)"
-            Write-Verbose "StackTrace: $($_.Exception.StackTrace)"
-            Write-Verbose "LoaderExceptions: $($_.Exception.LoaderExceptions)"
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
+        }
+        finally {
+            Invoke-TimeSignal -End
         }
     }
 

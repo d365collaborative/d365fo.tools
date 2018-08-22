@@ -1,21 +1,21 @@
 <#
 .SYNOPSIS
-Get active environment configuration
+Get active Azure Storage Account configuration
 
 .DESCRIPTION
-Get active environment configuration object from the configuration store
+Get active Azure Storage Account configuration object from the configuration store
 
 .EXAMPLE
-Get-D365ActiveEnvironmentConfig
+Get-D365ActiveAzureStorageConfig
 
-This will get the active environment configuration
+This will get the active Azure Storage configuration
 
 .NOTES
 
 You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
 
 #>
-function Get-D365ActiveEnvironmentConfig {
+function Get-D365ActiveAzureStorageConfig {
     [CmdletBinding()]
     param ()
 
@@ -25,6 +25,6 @@ function Get-D365ActiveEnvironmentConfig {
         return
     }
     else {
-        (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")
+        (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account")
     }
 } 

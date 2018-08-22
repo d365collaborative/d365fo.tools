@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-Initialize D365FO.Tools configuration
+Save an environment config
 
 .DESCRIPTION
-Creates all the configuration objects on the system
+Adds an environment config to the configuration store
 
 .PARAMETER Name
 The logical name of the environment you are about to registered in the configuration

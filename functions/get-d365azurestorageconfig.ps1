@@ -1,38 +1,38 @@
 <#
 .SYNOPSIS
-Get environment configs
+Get Azure Storage Account configs
 
 .DESCRIPTION
-Get all environment configuration objects from the configuration store
+Get all Azure Storage Account configuration objects from the configuration store
 
 .PARAMETER Name
-The name of the environment you are looking for
+The name of the Azure Storage Account you are looking for
 
-Default value is "*" to display all environment configs
+Default value is "*" to display all Azure Storage Account configs
 
 .EXAMPLE
-Get-D365EnvironmentConfig
+Get-D365AzureStorageConfig
 
-This will show all environment configs
+This will show all Azure Storage Account configs
 
 .NOTES
 
 You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
 
 #>
-function Get-D365EnvironmentConfig {
+function Get-D365AzureStorageConfig {
     [CmdletBinding()]
     param (
         [string] $Name = "*"
 
-    )
+    )    
     if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
         Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
         Stop-PSFFunction -Message "Stopping because unable to locate configuration objects."
         return
     }
     else {
-        $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
+        $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
         
         foreach ($item in $Environments.Keys) {
             if ($item -NotLike $Name) { continue }

@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.72'
+    ModuleVersion          = '0.3.74'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -65,13 +65,17 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport      = @(
+                                'Add-D365AzureStorageConfig',
                                 'Add-D365EnvironmentConfig',
+
                                 'Disable-D365MaintenanceMode'
 
                                 'Enable-D365MaintenanceMode',
                                 'Enable-D365User',
                                 
+                                'Get-D365ActiveAzureStorageConfig',
                                 'Get-D365ActiveEnvironmentConfig',
+                                'Get-D365AzureStorageConfig',
                                 'Get-D365AzureStorageFile',
                                 'Get-D365DatabaseAccess',
                                 'Get-D365DecryptedConfigFile',
@@ -121,6 +125,7 @@
 
                                 'Rename-D365Instance',
 
+                                'Set-D365ActiveAzureStorageConfig',
                                 'Set-D365ActiveEnvironmentConfig',
                                 'Set-D365Admin',
                                 'Set-D365OfflineAuthenticationAdminEmail',

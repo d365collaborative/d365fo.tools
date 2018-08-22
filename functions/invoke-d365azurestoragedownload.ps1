@@ -34,6 +34,16 @@ Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx6381
 Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\". 
 The complete path to the file will returned as output from the cmdlet.
 
+.EXAMPLE
+$AzureParams = Get-D365ActiveAzureStorageConfig
+Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
+
+This will get the current Azure Storage Account configuration details
+and use them as parameters to download the latest file from an Azure Storage Account
+
+Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\". 
+The complete path to the file will returned as output from the cmdlet.
+
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 
@@ -109,8 +119,9 @@ function Invoke-D365AzureStorageDownload {
             Stop-PSFFunction -Message "Stopping because of errors"
             return
         }
-
-        Invoke-TimeSignal -End
+        finally {
+            Invoke-TimeSignal -End
+        }
     }
 
     END {}

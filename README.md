@@ -589,3 +589,30 @@ Get-D365ActiveEnvironmentConfig
 *This will only return the SqlPwd value from the active configuration*
 
 ***Notes: On a Tier 2 MS hosted environment we actually load the SqlUser and SqlPassword into memory. So when calling cmdlets that require SqlUser and SqlPassword it is already filled out.***
+
+## **Working with Azure Storage Account configuration**
+### **Add an Azure Storage Account configuration**
+```
+Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
+```
+*This will add en entry named **"UAT-Exports"** with the AccountId **1234**, AccessToken **dafdfasdfasdf** and Blob **testblob** parameters.*
+
+### **Select an Azure Storage Account configuration as active**
+```
+Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
+```
+*This will get the environment details that is named **UAT-Exports** and put that into the active Azure Storage Account configuration.*
+
+***Notes: You **MUST** restart the powershell session before using any cmdlets that depend on the configuration change.***
+
+### **List all Azure Storage Account configurations**
+```
+Get-D365AzureStorageConfig
+```
+*This will show all stored Azure Storage Account configurations*
+
+### **Get the active Azure Storage Account configuration**
+```
+Get-D365ActiveAzureStorageConfig
+```
+*This will the entire hashtable containing all the Azure Storage Account details*
