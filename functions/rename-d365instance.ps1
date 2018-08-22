@@ -68,7 +68,7 @@ function Rename-D365Instance {
         return
     }
 
-    $OldName = Get-D365InstanceName
+    $OldName = (Get-D365InstanceName).Instancename
 
     Write-PSFMessage -Level Verbose -Message "Old name collected and will be used to rename." -Target $OldName
 
