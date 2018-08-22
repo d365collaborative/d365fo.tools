@@ -46,7 +46,7 @@
     RequiredModules        = @(
         @{ ModuleName = 'PSFramework'; ModuleVersion = '0.9.24.85' },
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
-        @{ ModuleName = 'MSOnline'; ModuleVersion = '1.1.183.17' } #4.3.1
+        @{ ModuleName = 'MSOnline'; ModuleVersion = '1.1.183.17' } 
         
     )
 
