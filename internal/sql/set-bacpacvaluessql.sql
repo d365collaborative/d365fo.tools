@@ -1,3 +1,11 @@
+DROP USER IF EXISTS [axretailruntimeuser]
+DROP USER IF EXISTS [axretaildatasyncuser]
+DROP USER IF EXISTS [axmrruntimeuser]
+DROP USER IF EXISTS [axdeployuser]
+DROP USER IF EXISTS [axdbadmin]
+DROP USER IF EXISTS [axdeployextuser]
+DROP USER IF EXISTS [NT AUTHORITY\NETWORK SERVICE]
+
 CREATE USER axdeployuser FROM LOGIN axdeployuser
 EXEC sp_addrolemember 'db_owner', 'axdeployuser'
 
@@ -29,7 +37,10 @@ SET T1.storageproviderid = 0
 FROM docuvalue T1
 WHERE T1.storageproviderid = 1 --Azure storage
 
+
+IF(0=(SELECT 1 FROM SYS.CHANGE_TRACKING_DATABASES WHERE DATABASE_ID = DB_ID('[@DATABASENAME]')))
 ALTER DATABASE [@DATABASENAME] SET CHANGE_TRACKING = ON (CHANGE_RETENTION = 6 DAYS, AUTO_CLEANUP = ON)
+
 ;--GO
 DROP PROCEDURE IF EXISTS SP_ConfigureTablesForChangeTracking
 DROP PROCEDURE IF EXISTS SP_ConfigureTablesForChangeTracking_V2
