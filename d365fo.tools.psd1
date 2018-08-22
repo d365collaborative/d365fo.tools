@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.76'
+    ModuleVersion          = '0.3.77'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -46,6 +46,8 @@
     RequiredModules        = @(
         @{ ModuleName = 'PSFramework'; ModuleVersion = '0.9.24.85' },
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' } #4.3.1
+        @{ ModuleName = 'MSOnline'; ModuleVersion = '1.1.183.17' } #4.3.1
+        
     )
 
     # Assemblies that must be loaded prior to importing this module
@@ -122,6 +124,7 @@
                                 'New-D365TopologyFile',
                                 
                                 'Remove-D365Database',
+                                'Remove-D365User',
 
                                 'Rename-D365Instance',
 

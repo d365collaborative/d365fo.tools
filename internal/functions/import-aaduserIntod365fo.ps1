@@ -20,7 +20,7 @@ function Import-AadUserIntoD365FO ($SqlCommand, $SignInName, $Name,$Id, $SID, $S
         }
     }
     else {
-        Write-Error "User $SignInName allready exists in D365FO"
+        Write-Error "User $SignInName already exists in D365FO"
     }
     
 

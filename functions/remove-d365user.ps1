@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-Get users from the environment
+Delete an user from the environment
 
 .DESCRIPTION
-Get all relevant user details from the Dynamics 365 for Finance & Operations
+Deletes the user from the database, including security configuration
 
 .PARAMETER DatabaseServer
 The name of the database server
@@ -24,22 +24,21 @@ The password for the SQL Server user.
 .PARAMETER Email
 The search string to select which user(s) should be updated.
 
-Use SQL Server like syntax to get the results you expect. E.g. -Email "'%@contoso.com%'"
+You have to specific the explicit email address of the user you want to remove
+
+The cmdlet will not be able to delete the ADMIN user, this is to prevent you
+from being locked out of the system.
 
 .EXAMPLE
-Get-D365User
+Remove-D365User -Email "Claire@contoso.com"
 
-This will get all users from the environment
-
-.EXAMPLE
-Update-D365User -Email "%contoso.com%"
-
-This will search for all users with an e-mail address containing 'contoso.com' from the environment
+This will move all security and user details from the user with the email address
+"Claire@contoso.com"
 
 .NOTES
 General notes
 #>
-function Get-D365User {
+function Remove-D365User {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]
@@ -54,8 +53,8 @@ function Get-D365User {
         [Parameter(Mandatory = $false, Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $false, Position = 5)]
-        [string]$Email = "%"
+        [Parameter(Mandatory = $true, Position = 5)]
+        [string]$Email
 
     )
 
@@ -67,28 +66,15 @@ function Get-D365User {
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
-
-    $null = $sqlCommand.Parameters.Add("@Email", $Email)
+    $SqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\remove-user.sql") -join [Environment]::NewLine
+    
+    $null = $SqlCommand.Parameters.AddWithValue("@Email", $Email)
 
     try {
-        Write-PSFMessage -Level Verbose -Message "Executing the select statement against the database."
+        Write-PSFMessage -Level Verbose -Message "Executing the delete statement against the database."
 
-        $sqlCommand.Connection.Open()
-    
-        $reader = $sqlCommand.ExecuteReader()
-
-        while ($reader.Read() -eq $true) {
-            [PSCustomObject]@{
-                UserId           = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
-                Name             = "$($reader.GetString($($reader.GetOrdinal("NAME"))))"
-                NetworkAlias     = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
-                NetworkDomain    = "$($reader.GetString($($reader.GetOrdinal("NETWORKDOMAIN"))))"
-                Sid              = "$($reader.GetString($($reader.GetOrdinal("SID"))))"
-                IdentityProvider = "$($reader.GetString($($reader.GetOrdinal("IDENTITYPROVIDER"))))"
-                Enable           = [bool][int]"$($reader.GetInt32($($reader.GetOrdinal("ENABLE"))))"
-             }
-        }
+        $SqlCommand.Connection.Open()
+        $null = $SqlCommand.ExecuteNonQuery()
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
@@ -96,14 +82,10 @@ function Get-D365User {
         return
     }
     finally {
-        $reader.close()
-
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
             $sqlCommand.Connection.Close()    
         }
 
         $sqlCommand.Dispose()
     }
-    
-
 }

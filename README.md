@@ -52,7 +52,7 @@ Set-D365StartPage -Name 'Demo1'
 
 *Now when starting the browser you will start visit https://demo1.cloud.onebox.dynamics.com*
 
-## **Work with users**
+## **Working with users**
 ### **Provision a new admin for a given instance**
 
 ```
@@ -110,6 +110,12 @@ Set-D365SysAdmin
 *This will import the local administrator on the machine into the registered SQL Server.*
 
 **Notes:*You will have to run from an elevated console if you want to avoid supplying username and password***
+
+### **Delete an user**
+```
+Remove-D365User -Email "Claire@contoso.com"
+```
+*This will remove the user with the email address "Claire@contoso.com" and all the configured security roles.*
 
 ## **Work with bacpac files**
 
