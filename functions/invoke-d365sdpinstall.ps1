@@ -49,6 +49,7 @@ Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -Runboo
 Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step
 
 .NOTES
+Author: Tommy Skaue (@skaue)
 Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/ 
 #>
 function Invoke-D365SDPInstall {
