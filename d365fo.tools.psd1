@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.75'
+    ModuleVersion          = '0.3.82'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -45,7 +45,9 @@
     # Modules that must be imported into the global environment prior to importing this module
     RequiredModules        = @(
         @{ ModuleName = 'PSFramework'; ModuleVersion = '0.9.24.85' },
-        @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' } #4.3.1
+        @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
+        @{ ModuleName = 'MSOnline'; ModuleVersion = '1.1.183.17' } 
+        
     )
 
     # Assemblies that must be loaded prior to importing this module
@@ -69,31 +71,44 @@
                                 'Add-D365EnvironmentConfig',
 
                                 'Disable-D365MaintenanceMode'
+                                'Disable-D365User',
 
                                 'Enable-D365MaintenanceMode',
                                 'Enable-D365User',
                                 
                                 'Get-D365ActiveAzureStorageConfig',
                                 'Get-D365ActiveEnvironmentConfig',
+
+                                'Get-D365AOTObjects',
+                                
                                 'Get-D365AzureStorageConfig',
                                 'Get-D365AzureStorageFile',
+
                                 'Get-D365DatabaseAccess',
                                 'Get-D365DecryptedConfigFile',
                                 'Get-D365DotNetClass',
                                 'Get-D365DotNetMethod',
+
                                 'Get-D365Environment',
                                 'Get-D365EnvironmentConfig',
                                 'Get-D365EnvironmentSettings',
+                                'Get-D365ExposedService',
+
                                 'Get-D365InstalledHotfix',
                                 'Get-D365InstalledPackage',
                                 'Get-D365InstalledService',
                                 'Get-D365InstanceName',
+
                                 'Get-D365Label',
                                 'Get-D365OfflineAuthenticationAdminEmail',
+
                                 'Get-D365PackageLabelFile',
                                 'Get-D365ProductInformation',
+
+                                'Get-D365SDPCleanUp',
                                 'Get-D365Table',
                                 'Get-D365TableField',
+
                                 'Get-D365Url',
                                 'Get-D365User',
                                 'Get-D365UserAuthenticationDetail',
@@ -106,16 +121,22 @@
                                 'Initialize-D365Config',
 
                                 'Invoke-D365AzureStorageDownload',
-                                'Invoke-D365AzureStorageUpload',
+                                'Invoke-D365AzureStorageUpload',                                
                                 'Invoke-D365AXUpdateInstaller',
+
                                 'Invoke-D365DBSync',
                                 'Invoke-D365ModelUtil',
                                 'Invoke-D365ReArmWindows',
+<<<<<<< HEAD
                                 'Invoke-D365SDPInstall',
+=======
+
+>>>>>>> upstream/master
                                 'Invoke-D365SCDPBundleInstall',
                                 'Invoke-D365SpHelp',
                                 'Invoke-D365SysFlushAodCache',
                                 'Invoke-D365SysRunnerClass',
+
                                 'Invoke-D365TableBrowser',
 
                                 'New-D365Bacpac',
@@ -123,6 +144,7 @@
                                 'New-D365TopologyFile',
                                 
                                 'Remove-D365Database',
+                                'Remove-D365User',
 
                                 'Rename-D365Instance',
 
@@ -130,6 +152,7 @@
                                 'Set-D365ActiveEnvironmentConfig',
                                 'Set-D365Admin',
                                 'Set-D365OfflineAuthenticationAdminEmail',
+                                'Set-D365SDPCleanUp',
                                 'Set-D365StartPage',
                                 'Set-D365SysAdmin',
                                 'Set-D365WorkstationMode',
@@ -140,8 +163,9 @@
 
                                 'Switch-D365ActiveDatabase',
 
-                                'Update-D365User',
-                                'Get-ExposedService'
+                                'Update-D365User'
+                                
+                                
                             )
 
                             # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
