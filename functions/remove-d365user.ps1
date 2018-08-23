@@ -72,20 +72,26 @@ function Remove-D365User {
         }
 
         $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
+
+        try {
+            $SqlCommand.Connection.Open()
+        }
+        catch {
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
+        }
     }
     
     PROCESS {
+        if(Test-PSFFunctionInterrupt) {return}
+
         $SqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\remove-user.sql") -join [Environment]::NewLine
     
         $null = $SqlCommand.Parameters.AddWithValue("@Email", $Email)
     
         try {
             Write-PSFMessage -Level Verbose -Message "Executing the delete statement against the database."
-    
-            if($sqlCommand.Connection.State -eq [System.Data.ConnectionState]::Closed) {
-                $SqlCommand.Connection.Open()
-            }
-
             $null = $SqlCommand.ExecuteNonQuery()
         }
         catch {
@@ -93,20 +99,21 @@ function Remove-D365User {
             Stop-PSFFunction -Message "Stopping because of errors"
             return
         }
-        finally {
-            if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
-                $sqlCommand.Connection.Close()    
-            }
-    
-            $sqlCommand.Dispose()
-        }
 
         $SqlCommand.Parameters.Clear()
     }
     
     END {
-        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
-            $sqlCommand.Connection.Close()    
+        try {
+            if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+                $sqlCommand.Connection.Close()    
+            }
+            $sqlCommand.Dispose()
+        }
+        catch {
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
         }
     }
 }

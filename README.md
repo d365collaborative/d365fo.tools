@@ -638,3 +638,16 @@ Get-D365AzureStorageConfig
 Get-D365ActiveAzureStorageConfig
 ```
 *This will the entire hashtable containing all the Azure Storage Account details*
+
+## **Working with AOT objects**
+### **Search for all AxClasses in a package**
+```
+Get-D365AOTObjects -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+```
+*This will search for all AxClasses in the ApplicationFoundation package*
+
+### **Search for specific AxClass in a package**
+```
+Get-D365AOTObjects -Name "*flush*" -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+```
+*This will search for all AxClasses in the ApplicationFoundation package that matches the search "\*flush\*"*

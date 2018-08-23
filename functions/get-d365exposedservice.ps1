@@ -18,13 +18,14 @@ Url fro the D365 including Https://
 The Authority to issue the token
 
 .EXAMPLE
-An example
-Get-ExposedService -ClientId "MyClientId" -ClientSecret "MyClientSecret"
+
+Get-D365ExposedService -ClientId "MyClientId" -ClientSecret "MyClientSecret"
+
 .NOTES
 Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
 
 #>
-function Get-ExposedService
+function Get-D365ExposedService
 {
     param (
         [Parameter(Mandatory = $true, Position = 1 )]
