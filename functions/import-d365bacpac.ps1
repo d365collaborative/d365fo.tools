@@ -214,7 +214,11 @@ function Import-D365Bacpac {
         if ($ImportModeTier2.IsPresent) {
             Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database" 
 
-            $AzureParams = @{AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd; AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd; AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd}
+            $AzureParams = @{
+                AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd; 
+                AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd; 
+                AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd
+            }
             $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
 
             if (!$res) {return}
