@@ -14,7 +14,7 @@ The account id for the Azure Storage Account you want to register in the configu
 .PARAMETER AccessToken
 The access token for the Azure Storage Account you want to register in the configuration store
 
-.PARAMETER Blob
+.PARAMETER Blobname
 The name of the blob inside the Azure Storage Account you want to register in the configuration store
 
 .PARAMETER Force
@@ -44,7 +44,8 @@ function Add-D365AzureStorageConfig {
         [string] $AccessToken,
 
         [Parameter(Mandatory = $true)]
-        [string] $Blob,      
+        [Alias('Blob')]
+        [string] $Blobname,      
 
         [switch] $Force
     )
@@ -56,11 +57,13 @@ function Add-D365AzureStorageConfig {
     }
     else {
         $Details = @{AccountId = $AccountId; AccessToken = $AccessToken;
-            Blob = $Blob;
+            Blobname = $Blobname;
         }
 
         $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
 
+        if($null -eq $Accounts) {$Accounts = @{}}
+        
         if ($Accounts.ContainsKey($Name)) {
             if ($Force.IsPresent) {
                 $Accounts[$Name] = $Details

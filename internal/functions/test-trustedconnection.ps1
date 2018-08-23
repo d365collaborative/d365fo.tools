@@ -9,7 +9,7 @@ function Test-TrustedConnection {
         $false
     }
     elseif (($Inputs.ContainsKey("SqlUser")) -or ($Inputs.ContainsKey("SqlPwd"))) {
-        Write-PSFMessage -Level Verbose -Message "Not capable of using Trusted Connection on supplied SQL login details."
+        Write-PSFMessage -Level Verbose -Message "Not capable of using Trusted Connection based on supplied SQL login details."
         $false
     }
     else {

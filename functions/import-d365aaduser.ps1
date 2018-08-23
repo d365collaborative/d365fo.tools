@@ -72,130 +72,140 @@ function Import-D365AadUser {
         [String]$AadGroupName,
 
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "UserListImport")]
-        [string]$UserList,
+        [string[]]$Users,
 
-        [Parameter(Mandatory = $false, Position = 2, ParameterSetName = "GroupImport")]
-        [Parameter(Mandatory = $false, Position = 2, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 2)]
         [string]$StartupCompany = 'DAT',
 
-        [Parameter(Mandatory = $false, Position = 3, ParameterSetName = "GroupImport")]
-        [Parameter(Mandatory = $false, Position = 3, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 3)]
         [string]$DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 4, ParameterSetName = "GroupImport")]
-        [Parameter(Mandatory = $false, Position = 4, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 4)]
         [string]$DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 5, ParameterSetName = "GroupImport")]
-        [Parameter(Mandatory = $false, Position = 5, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 5)]
         [string]$SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 6, ParameterSetName = "GroupImport")]
-        [Parameter(Mandatory = $false, Position = 6, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 6)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $false, Position = 7, ParameterSetName = "GroupImport")]
-        [Parameter(Mandatory = $false, Position = 7, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 7)]
         [string]$IdPrefix = "",
 
-        [Parameter(Mandatory = $false, Position = 8, ParameterSetName = "GroupImport")]
-        [Parameter(Mandatory = $false, Position = 8, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 8)]
         [string]$NameSuffix = "",
 
-        [Parameter(Mandatory = $false, Position = 9, ParameterSetName = "GroupImport")]
-        [Parameter(Mandatory = $false, Position = 9, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 9)]
         [ValidateSet('Login', 'FirstName')]
         [string]$IdValue = "Login",
 
-        [Parameter(Mandatory = $false, Position = 9, ParameterSetName = "GroupImport")]
-        [Parameter(Mandatory = $false, Position = 9, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 10)]
         [ValidateSet('FirstName', 'DisplayName')]
         [string]$NameValue = "DisplayName"
     )
 
-    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-        Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
-        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+
+    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
     }
+
+    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
     $instanceProvider = Get-InstanceIdentityProvider
     $canonicalProvider = Get-CanonicalIdentityProvider
-    Write-Verbose "CanonicalIdentityProvider $Provider"
 
-    if (Get-Module -ListAvailable -Name "MSOnline") {
-        Import-Module "MSOnline"
-    }
-    else {
-        Write-Host "The MSOnline powershell module is not present on the system. This is an important part of making it possible to import users based on an Azure Active Directory. Please install module on the machine and run the cmdlet again. `r`nRun the following command in an elevated powershell windows :`r`nInstall-Module `"MSOnline`"" -ForegroundColor Yellow
-        Write-Error "The MSOnline powershell module is not installed on the machine. Please install the module and run the command again." -ErrorAction Stop
-    }
+    Write-PSFMessage -Level Verbose -Message "CanonicalIdentityProvider: $Provider"
 
-    Connect-MsolService -ErrorAction Stop
-    [System.Collections.ArrayList]$msolUsers = New-Object -TypeName "System.Collections.ArrayList"
+    try {
+        Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory"
+
+        Connect-MsolService -ErrorAction Stop
+    }
+    catch {
+        Write-PSFMessage -Level Host -Message "Something went wrong while connecting to Azure Active Directory" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
+    }
+    
+
+    $msolUsers = New-Object -TypeName "System.Collections.ArrayList"
 
     if ( $PSCmdlet.ParameterSetName -eq "GroupImport") {
 
         $group = Get-MsolGroup -SearchString $AadGroupName
 
-        if ($null -eq $group) { Write-Error "Group not found $group" -ErrorAction Stop }
+        if ($null -eq $group) {
+            Write-PSFMessage -Level Host -Message "Unable to find the specified group in the AAD. Please ensure the group exists and that you have enough permissions to access it."
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
+        }
 
-        $users = Get-MsolGroupMember -GroupObjectId $group[0].ObjectId
+        $userlist = Get-MsolGroupMember -GroupObjectId $group[0].ObjectId
 
-        foreach ($user in $users) {
+        foreach ($user in $userlist) {
             if ($user.GroupMemberType -eq "User") {
                 $null = $msolUsers.Add((Get-MsolUser -ObjectId $user.ObjectId))
             }
         }
     }
     else {
-        $usersFromList = $UserList.Split(";")
-
-        foreach ($str in $usersFromList) {
-            $null = $msolUsers.Add((Get-MsolUser -SearchString $str))
+        foreach ($user in $Users) {
+            $null = $msolUsers.Add((Get-MsolUser -SearchString $user))
         }
     }
-    try {
 
-        $sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+    try {
         $sqlCommand.Connection.Open()
+
+        foreach ($user in $msolUsers) {
+
+            $identityProvider = $canonicalProvider
+
+            Write-PSFMessage -Level Verbose -Message "Getting tenant from sign in name."
+            $tenant = Get-TenantFromEmail $user.SignInName
+
+            Write-PSFMessage -Level Verbose -Message "Getting domain from sign in name."
+            $networkDomain = get-NetworkDomain $user.SignInName
+    
+            if ($instanceProvider.ToLower().Contains($tenant.ToLower()) -ne $True) {
+                Write-PSFMessage -Level Verbose -Message "Getting identity provider from sign in name."
+                $identityProvider = Get-IdentityProvider $user.SignInName
+            }
+    
+            Write-PSFMessage -Level Verbose -Message "Getting sig from sign in name and identity provider."
+            $sid = Get-UserSIDFromAad $user.SignInName $identityProvider
+
+            $id = ""
+            if ($IdValue -eq 'Login') {
+                $id = $IdPrefix + $(Get-LoginFromEmail $user.SignInName)
+            }
+            else {
+                $id = $IdPrefix + $user.FirstName
+            }
+    
+            $name = ""
+            if ($NameValue -eq 'DisplayName') {
+                $name = $user.DisplayName + $NameSuffix
+            }
+            else {
+                $name = $user.FirstName + $NameSuffix
+            }
+    
+            Write-PSFMessage -Level Verbose -Message "Importing $($user.SignInName) - SID $sid - Provider $identityProvider"
+            Import-AadUserIntoD365FO $SqlCommand $user.SignInName $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
+        }
     }
     catch {
-        Write-Error $_ -ErrorAction Stop
+        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
     }
-
-    foreach ($user in $msolUsers) {
-
-        $identityProvider = $canonicalProvider
-        $tenant = Get-TenantFromEmail $user.SignInName
-        $networkDomain = get-NetworkDomain $user.SignInName
-
-        if ($instanceProvider.ToLower().Contains($tenant.ToLower()) -ne $True) {
-            $identityProvider = Get-IdentityProvider $user.SignInName
+    finally {
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()    
         }
-
-        $sid = Get-UserSIDFromAad $user.SignInName $identityProvider
-        Write-Verbose "Importing $($user.SignInName) - SID $sid - Provider $identityProvider"
-
-        $id = ""
-        if ($IdValue -eq 'Login') {
-            $id = $IdPrefix + $(Get-LoginFromEmail $user.SignInName)
-        }
-        else {
-            $id = $IdPrefix + $user.FirstName
-        }
-
-        $name = ""
-        if ($NameValue -eq 'DisplayName') {
-            $name = $user.DisplayName + $NameSuffix
-        }
-        else {
-            $name = $user.FirstName + $NameSuffix
-        }
-
-        Import-AadUserIntoD365FO $SqlCommand $user.SignInName $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
+        $sqlCommand.Dispose()
     }
-
-    $sqlCommand.Connection.Close()
-    $sqlCommand.Dispose()
 }
 

@@ -52,7 +52,7 @@ Set-D365StartPage -Name 'Demo1'
 
 *Now when starting the browser you will start visit https://demo1.cloud.onebox.dynamics.com*
 
-## **Work with users**
+## **Working with users**
 ### **Provision a new admin for a given instance**
 
 ```
@@ -82,7 +82,7 @@ Update-D365User -Email "claire@contoso.com"
 ### **Update users in an environment after database migration / restore or re-provisioning - advanced**
 
 ```
-Update-D365User -Email "%contoso.com%"
+Update-D365User -Email "*contoso.com"
 ```
 
 *This will search for all users in the UserInfo table with the "contoso.com" text in their e-mail address and update them with the needed details to get access to the environment*
@@ -98,7 +98,7 @@ Enable-D365User -Email "claire@contoso.com"
 ### **Enable users in an environment after database refresh from Prod to Sandbox - advanced**
 
 ```
-Enable-D365User -Email "%@contoso.com%" 
+Enable-D365User -Email "*@contoso.com" 
 ```
 
 *This will search for the user in the UserInfo table with the "@contoso.com" text in their e-mail address and set enable = 1 if they are not allready enabled, -verbose will show which users where updated*
@@ -110,6 +110,12 @@ Set-D365SysAdmin
 *This will import the local administrator on the machine into the registered SQL Server.*
 
 **Notes:*You will have to run from an elevated console if you want to avoid supplying username and password***
+
+### **Delete an user**
+```
+Remove-D365User -Email "Claire@contoso.com"
+```
+*This will remove the user with the email address "Claire@contoso.com" and all the configured security roles.*
 
 ## **Work with bacpac files**
 
@@ -287,6 +293,22 @@ Set-D365ClickOnceTrustPrompt
 ```
 
 *This will set the necessary ClickOnce trust prompt configuration on the machine*
+
+### **Get the Deployable Packages cleanup retention **
+```
+Get-D365SDPCleanUp
+```
+*This will display the current retention that is configured on the server. 
+If the result is empty it means that this has never been configured.*
+
+### **Set the Deployable Packages cleanup retention **
+```
+Set-D365SDPCleanUp -NumberOfDays 10
+```
+*This either create or update the cleanup retention in the registry and set 
+it to 10 days.*
+
+***Notes: Please note that the Set-D365SDPCleanUp requires elevated permissions to work.***
 
 ## **Work with packages, label files, language and labels**
 
@@ -616,3 +638,16 @@ Get-D365AzureStorageConfig
 Get-D365ActiveAzureStorageConfig
 ```
 *This will the entire hashtable containing all the Azure Storage Account details*
+
+## **Working with AOT objects**
+### **Search for all AxClasses in a package**
+```
+Get-D365AOTObjects -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+```
+*This will search for all AxClasses in the ApplicationFoundation package*
+
+### **Search for specific AxClass in a package**
+```
+Get-D365AOTObjects -Name "*flush*" -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+```
+*This will search for all AxClasses in the ApplicationFoundation package that matches the search "\*flush\*"*

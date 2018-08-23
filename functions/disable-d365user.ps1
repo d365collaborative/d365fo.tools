@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-Get users from the environment
+Disables the user in D365FO
 
 .DESCRIPTION
-Get all relevant user details from the Dynamics 365 for Finance & Operations
+Sets the enabled to 0 in the userinfo table. 
 
 .PARAMETER DatabaseServer
 The name of the database server
@@ -22,26 +22,30 @@ The login name for the SQL Server instance
 The password for the SQL Server user.
 
 .PARAMETER Email
-The search string to select which user(s) should be updated.
+The search string to select which user(s) should be disabled.
 
 The parameter supports wildcards. E.g. -Email "*@contoso.com*"
 
-Default value is "*" to get all users
+.EXAMPLE
+Enable-D365User
+
+This will enable all users for the environment
 
 .EXAMPLE
-Get-D365User
+Enable-D365User -Email "claire@contoso.com"
 
-This will get all users from the environment
+This will enable the user with the email address "claire@contoso.com"
 
 .EXAMPLE
-Update-D365User -Email "*contoso.com"
+Enable-D365User -Email "*contoso.com"
 
-This will search for all users with an e-mail address containing 'contoso.com' from the environment
+This will enable all users that matches the search "*contoso.com" in their email address
 
 .NOTES
-General notes
+
 #>
-function Get-D365User {
+function Disable-D365User {
+
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]
@@ -57,7 +61,7 @@ function Get-D365User {
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $false, Position = 5)]
-        [string]$Email = "*"
+        [string]$Email
 
     )
 
@@ -69,29 +73,23 @@ function Get-D365User {
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
-
-    $null = $sqlCommand.Parameters.Add("@Email", $Email.Replace("*", "%"))
+    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\disable-user.sql") -join [Environment]::NewLine
+    
+    $null = $sqlCommand.Parameters.AddWithValue('@Email', $Email.Replace("*", "%"))
 
     try {
-        Write-PSFMessage -Level Verbose -Message "Executing the select statement against the database."
-
+        Write-PSFMessage -Level Verbose -Message "Executing the update statement against the database."
         $sqlCommand.Connection.Open()
-    
+
         $reader = $sqlCommand.ExecuteReader()
 
         while ($reader.Read() -eq $true) {
-            [PSCustomObject]@{
-                UserId           = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
-                Name             = "$($reader.GetString($($reader.GetOrdinal("NAME"))))"
-                NetworkAlias     = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
-                NetworkDomain    = "$($reader.GetString($($reader.GetOrdinal("NETWORKDOMAIN"))))"
-                Sid              = "$($reader.GetString($($reader.GetOrdinal("SID"))))"
-                IdentityProvider = "$($reader.GetString($($reader.GetOrdinal("IDENTITYPROVIDER"))))"
-                Enable           = [bool][int]"$($reader.GetInt32($($reader.GetOrdinal("ENABLE"))))"
-                Email            = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
-            }
+            Write-PSFMessage -Level Verbose -Message "User $($reader.GetString(0)), $($reader.GetString(1)), $($reader.GetString(2)) Updated"
         }
+
+        $reader.Close()
+        $NumAffected = $reader.RecordsAffected
+        Write-PSFMessage -Level Verbose -Message "Users updated : $NumAffected"
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
@@ -107,6 +105,4 @@ function Get-D365User {
 
         $sqlCommand.Dispose()
     }
-    
-
 }

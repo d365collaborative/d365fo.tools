@@ -24,7 +24,7 @@ The password for the SQL Server user.
 .PARAMETER Email
 The search string to select which user(s) should be updated.
 
-Use SQL Server like syntax to get the results you expect. E.g. -Email "'%@contoso.com%'"
+The parameter supports wildcards. E.g. -Email "*@contoso.com*"
 
 .EXAMPLE
 Update-D365User -Email "claire@contoso.com"
@@ -32,7 +32,7 @@ Update-D365User -Email "claire@contoso.com"
 This will search for the user with the e-mail address claire@contoso.com and update it with needed information based on the tenant owner of the environment
 
 .EXAMPLE
-Update-D365User -Email "%contoso.com%"
+Update-D365User -Email "*contoso.com"
 
 This will search for all users with an e-mail address containing 'contoso.com' and update them with needed information based on the tenant owner of the environment
 
@@ -59,57 +59,67 @@ function Update-D365User {
 
     )
 
-    Write-PSFMessage -Level Verbose -Message "Testing if the runtime is elevated or SqlPwd was supplied."
+    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter"
-
-        Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
     }
 
-    [System.Data.SqlClient.SqlCommand]$sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
-
-    $sqlCommand.Connection.Open()
+    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
     $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
-    
-    Write-PSFMessage -Level Verbose -Message "Building statement : $($sqlCommand.CommandText)"
-    Write-PSFMessage -Level Verbose -Message "Parameter : @Email = $Email"
 
-    $null = $sqlCommand.Parameters.Add("@Email", $Email)
+    $null = $sqlCommand.Parameters.Add("@Email", $Email.Replace("*", "%"))
 
-    [System.Data.SqlClient.SqlCommand]$sqlCommand_Update = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
-
-    $sqlCommand_Update.Connection.Open()
+    $sqlCommand_Update = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
     $sqlCommand_Update.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
 
-    Write-PSFMessage -Level Verbose -Message "Executing the select statement against the database."
+    try {
+        Write-PSFMessage -Level Verbose -Message "Executing the select statement against the database."
+        $sqlCommand.Connection.Open()
+        
+        $reader = $sqlCommand.ExecuteReader()
 
-    $reader = $sqlCommand.ExecuteReader()
+        $sqlCommand_Update.Connection.Open()
 
-    while ($reader.Read() -eq $true) {
-        Write-PSFMessage -Level Verbose -Message "Building the update statement with the needed details."
+        while ($reader.Read() -eq $true) {
+            Write-PSFMessage -Level Verbose -Message "Building the update statement with the needed details."
 
-        $userId = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
-        $networkAlias = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
+            $userId = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
+            $networkAlias = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
 
-        $userAuth = Get-D365UserAuthenticationDetail $networkAlias
+            $userAuth = Get-D365UserAuthenticationDetail $networkAlias
 
-        $null = $sqlCommand_Update.Parameters.Add("@id", $userId)
-        $null = $sqlCommand_Update.Parameters.Add("@networkDomain", $userAuth["NetworkDomain"])
-        $null = $sqlCommand_Update.Parameters.Add("@sid", $userAuth["SID"])
-        $null = $sqlCommand_Update.Parameters.Add("@identityProvider", $userAuth["IdentityProvider"])
+            $null = $sqlCommand_Update.Parameters.Add("@id", $userId)
+            $null = $sqlCommand_Update.Parameters.Add("@networkDomain", $userAuth["NetworkDomain"])
+            $null = $sqlCommand_Update.Parameters.Add("@sid", $userAuth["SID"])
+            $null = $sqlCommand_Update.Parameters.Add("@identityProvider", $userAuth["IdentityProvider"])
 
-        Write-PSFMessage -Level Verbose -Message "Building statement : $($sqlCommand_Update.CommandText)"
-        Write-PSFMessage -Level Verbose -Message "Executing the update statement against the database."
+            Write-PSFMessage -Level Verbose -Message "Executing the update statement against the database."
+            $null = $sqlCommand_Update.ExecuteNonQuery()
 
-        $null = $sqlCommand_Update.ExecuteNonQuery()
-
-        $sqlCommand_Update.Parameters.Clear()
+            $sqlCommand_Update.Parameters.Clear()
+        }
     }
-    $sqlCommand_Update.Connection.Close()    
-    $sqlCommand_Update.Dispose()
-    $sqlCommand.Connection.Close()
-    $sqlCommand.Dispose()
+    catch {
+        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
+    }
+    finally {
+        $reader.close()
+
+        if ($sqlCommand_Update.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand_Update.Connection.Close()    
+        }
+
+        $sqlCommand_Update.Dispose()
+        
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()    
+        }
+
+        $sqlCommand.Dispose()
+    }
 }

@@ -46,8 +46,12 @@ function Switch-D365ActiveDatabase {
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
-    
-    $sqlCommand = Get-SQLCommand -DatabaseServer $DatabaseServer -DatabaseName "Master" -SqlUser $SqlUser -SqlPwd $SqlPwd -UseTrustedConnection $UseTrustedConnection
+
+    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = "Master";
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+    }
+
+    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
     $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
 
@@ -67,7 +71,10 @@ function Switch-D365ActiveDatabase {
         return
     }
     finally {
-        $sqlCommand.Connection.Close()
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()    
+        }
+        
         $sqlCommand.Dispose()
     }
     

@@ -51,24 +51,20 @@ The cmdlet supports piping and can be used in advanced scenarios. See more on gi
 function Invoke-D365AzureStorageDownload {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 1 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 1 )]
-        [string] $AccountId,
+        [Parameter(Mandatory = $false, Position = 1 )]
+        [string] $AccountId = $Script:AccountId,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 2 )]
-        [string] $AccessToken,
+        [Parameter(Mandatory = $false, Position = 2 )]
+        [string] $AccessToken = $Script:AccessToken,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 3 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 3 )]
-        [string] $Blobname,
+        [Parameter(Mandatory = $false, Position = 3 )]        
+        [string] $Blobname = $Script:Blobname,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 4 )] 
         [Alias('Name')]
         [string] $FileName,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 5 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 5 )]
+        [Parameter(Mandatory = $true, Position = 5 )]
         [string] $Path,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 4 )]
@@ -80,8 +76,16 @@ function Invoke-D365AzureStorageDownload {
             $null = New-Item -ItemType directory -Path $Path
         }
 
+        if ( ([string]::IsNullOrEmpty($AccountId) -eq $true) -or 
+            ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Blobname))) {
+            Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
+            Stop-PSFFunction -Message "Stopping because of missing parameters"
+            return
+        }
     }
     PROCESS {
+        if (Test-PSFFunctionInterrupt) {return}    
+
         Invoke-TimeSignal -Start
 
         $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken

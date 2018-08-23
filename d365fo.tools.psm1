@@ -148,3 +148,12 @@ $Script:InstallationRecordsDir = $RegValue
 Write-PSFMessage -Level Verbose -Message "`$Script:InstallationRecordsDir: $Script:InstallationRecordsDir"
 
 $Script:UserIsAdmin = $env:UserName -like "*admin*"
+
+if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account")) {
+    $Script:AccountId = (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account").AccountId
+    $Script:AccessToken = (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account").AccessToken
+    $Script:Blobname = (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account").Blobname
+    Write-PSFMessage -Level Verbose -Message "`$Script:AccountId: Value configured - not shown on purpose."
+    Write-PSFMessage -Level Verbose -Message "`$Script:AccessToken: Value configured - not shown on purpose."
+    Write-PSFMessage -Level Verbose -Message "`$Script:Blobname: Value configured - not shown on purpose."
+}

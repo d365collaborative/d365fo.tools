@@ -34,6 +34,8 @@ function Set-D365ActiveEnvironmentConfig {
     else {
         $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
 
+        if($null -eq $Environments) {$Environments = @{}}
+        
         if (!($Environments.ContainsKey($Name))) {
             Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>doesn't exists</c>."
             Stop-PSFFunction -Message "Stopping because an environment with that name doesn't exists."
