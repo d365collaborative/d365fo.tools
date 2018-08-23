@@ -96,7 +96,7 @@ function Invoke-D365SDPInstall {
             }    
         }
         
-        if ($QuickInstallAll::IsPresent) {
+        if ($QuickInstallAll.IsPresent) {
             Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"
             $param = "quickinstallall"            
             Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
