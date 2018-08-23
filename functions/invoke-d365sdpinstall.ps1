@@ -81,12 +81,18 @@ function Invoke-D365SDPInstall {
     
     process {
         
-        $Util = $('{0}\AXUpdateInstaller.exe' -f $Path)
+        $Util = Join-Path $Path "AXUpdateInstaller.exe"
         
-        if (!(Test-Path $Util -PathType Leaf)) {    
-            Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>AxUpdateInstaller.exe</c> file. Please make sure that the path exists and you have enough permissions."
-            Stop-PSFFunction -Message "Unable to locate the Update Installer executable."
-            return
+        $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
+        $Files = @($topologyFile, $Util)
+        foreach ($item in $Files) {
+            Write-PSFMessage -Level Verbose -Message "Testing file path." -Target $item
+
+            if ((Test-Path $item -PathType Leaf) -eq $false) {
+                Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> file wasn't found. Please ensure the file <c='em'>exists </c> and you have enough <c='em'>permission/c> to access the file."
+                Stop-PSFFunction -Message "Stopping because a file is missing."
+                return
+            }    
         }
         
         if ($QuickInstallAll::IsPresent) {
@@ -94,8 +100,7 @@ function Invoke-D365SDPInstall {
             $param = "quickinstallall"            
             Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
         }
-        else
-        {
+        else {
             $Command = $Command.ToLowerInvariant()            
             $runbookFile = Join-Path $Path "$runbookId.xml"
             $serviceModelFile = Join-Path $Path 'DefaultServiceModelData.xml'
@@ -106,8 +111,7 @@ function Invoke-D365SDPInstall {
                 Write-PSFMessage -Level Verbose "Running all manual steps in one single operation"
 
                 $ok = Update-TopologyFile -Path $Path
-                if ($ok)
-                {
+                if ($ok) {
                     $param = @(
                         "-runbookId=$runbookId" 
                         "-topologyFile=$topologyFile" 
@@ -121,14 +125,12 @@ function Invoke-D365SDPInstall {
                 }
                 Write-PSFMessage -Level Verbose "All manual steps complete."
             }
-            else
-            {   
-                if ($Command -eq 'settopology')
-                {
+            else {   
+                if ($Command -eq 'settopology') {
                     Write-PSFMessage -Level Verbose "Updating topology file xml."
 
                     $ok = Update-TopologyFile -Path $Path                
-                }
+                } 
                 elseif($Command -eq 'generate')
                 {                    
                     Write-PSFMessage -Level Verbose "Generating runbook file."
