@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.82'
+    ModuleVersion          = '0.3.83'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -127,11 +127,7 @@
                                 'Invoke-D365DBSync',
                                 'Invoke-D365ModelUtil',
                                 'Invoke-D365ReArmWindows',
-<<<<<<< HEAD
                                 'Invoke-D365SDPInstall',
-=======
-
->>>>>>> upstream/master
                                 'Invoke-D365SCDPBundleInstall',
                                 'Invoke-D365SpHelp',
                                 'Invoke-D365SysFlushAodCache',
