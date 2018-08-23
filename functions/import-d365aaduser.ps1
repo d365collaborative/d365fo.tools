@@ -72,7 +72,7 @@ function Import-D365AadUser {
         [String]$AadGroupName,
 
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "UserListImport")]
-        [string]$UserList,
+        [string[]]$Users,
 
         [Parameter(Mandatory = $false, Position = 2)]
         [string]$StartupCompany = 'DAT',
@@ -141,19 +141,17 @@ function Import-D365AadUser {
             return
         }
 
-        $users = Get-MsolGroupMember -GroupObjectId $group[0].ObjectId
+        $userlist = Get-MsolGroupMember -GroupObjectId $group[0].ObjectId
 
-        foreach ($user in $users) {
+        foreach ($user in $userlist) {
             if ($user.GroupMemberType -eq "User") {
                 $null = $msolUsers.Add((Get-MsolUser -ObjectId $user.ObjectId))
             }
         }
     }
     else {
-        $usersFromList = $UserList.Split(";")
-
-        foreach ($str in $usersFromList) {
-            $null = $msolUsers.Add((Get-MsolUser -SearchString $str))
+        foreach ($user in $Users) {
+            $null = $msolUsers.Add((Get-MsolUser -SearchString $user))
         }
     }
 

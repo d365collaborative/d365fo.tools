@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.78'
+    ModuleVersion          = '0.3.79'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -71,6 +71,7 @@
                                 'Add-D365EnvironmentConfig',
 
                                 'Disable-D365MaintenanceMode'
+                                'Disable-D365User',
 
                                 'Enable-D365MaintenanceMode',
                                 'Enable-D365User',

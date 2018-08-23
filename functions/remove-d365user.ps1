@@ -35,6 +35,12 @@ Remove-D365User -Email "Claire@contoso.com"
 This will move all security and user details from the user with the email address
 "Claire@contoso.com"
 
+.EXAMPLE
+Get-D365User -Email *contoso.com | Remove-D365User
+
+This will first get all users from the database that matches the *contoso.com
+search and pipe their emails to Remove-D365User for it to delete them.
+
 .NOTES
 General notes
 #>
@@ -42,50 +48,65 @@ function Remove-D365User {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
         [Parameter(Mandatory = $false, Position = 2)]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string] $DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 3)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $true, Position = 5)]
-        [string]$Email
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5)]
+        [string] $Email
 
     )
 
-    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+    BEGIN {
+        $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+        $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+            SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+        }
+
+        $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
     }
-
-    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
-
-    $SqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\remove-user.sql") -join [Environment]::NewLine
     
-    $null = $SqlCommand.Parameters.AddWithValue("@Email", $Email)
+    PROCESS {
+        $SqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\remove-user.sql") -join [Environment]::NewLine
+    
+        $null = $SqlCommand.Parameters.AddWithValue("@Email", $Email)
+    
+        try {
+            Write-PSFMessage -Level Verbose -Message "Executing the delete statement against the database."
+    
+            if($sqlCommand.Connection.State -eq [System.Data.ConnectionState]::Closed) {
+                $SqlCommand.Connection.Open()
+            }
 
-    try {
-        Write-PSFMessage -Level Verbose -Message "Executing the delete statement against the database."
+            $null = $SqlCommand.ExecuteNonQuery()
+        }
+        catch {
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
+        }
+        finally {
+            if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+                $sqlCommand.Connection.Close()    
+            }
+    
+            $sqlCommand.Dispose()
+        }
 
-        $SqlCommand.Connection.Open()
-        $null = $SqlCommand.ExecuteNonQuery()
+        $SqlCommand.Parameters.Clear()
     }
-    catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
-        return
-    }
-    finally {
+    
+    END {
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
             $sqlCommand.Connection.Close()    
         }
-
-        $sqlCommand.Dispose()
     }
 }

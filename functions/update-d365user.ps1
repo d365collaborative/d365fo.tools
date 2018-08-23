@@ -24,7 +24,7 @@ The password for the SQL Server user.
 .PARAMETER Email
 The search string to select which user(s) should be updated.
 
-Use SQL Server like syntax to get the results you expect. E.g. -Email "'%@contoso.com%'"
+The parameter supports wildcards. E.g. -Email "*@contoso.com*"
 
 .EXAMPLE
 Update-D365User -Email "claire@contoso.com"
@@ -32,7 +32,7 @@ Update-D365User -Email "claire@contoso.com"
 This will search for the user with the e-mail address claire@contoso.com and update it with needed information based on the tenant owner of the environment
 
 .EXAMPLE
-Update-D365User -Email "%contoso.com%"
+Update-D365User -Email "*contoso.com"
 
 This will search for all users with an e-mail address containing 'contoso.com' and update them with needed information based on the tenant owner of the environment
 
@@ -69,7 +69,7 @@ function Update-D365User {
 
     $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
 
-    $null = $sqlCommand.Parameters.Add("@Email", $Email)
+    $null = $sqlCommand.Parameters.Add("@Email", $Email.Replace("*", "%"))
 
     $sqlCommand_Update = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 

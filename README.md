@@ -82,7 +82,7 @@ Update-D365User -Email "claire@contoso.com"
 ### **Update users in an environment after database migration / restore or re-provisioning - advanced**
 
 ```
-Update-D365User -Email "%contoso.com%"
+Update-D365User -Email "*contoso.com"
 ```
 
 *This will search for all users in the UserInfo table with the "contoso.com" text in their e-mail address and update them with the needed details to get access to the environment*
@@ -98,7 +98,7 @@ Enable-D365User -Email "claire@contoso.com"
 ### **Enable users in an environment after database refresh from Prod to Sandbox - advanced**
 
 ```
-Enable-D365User -Email "%@contoso.com%" 
+Enable-D365User -Email "*@contoso.com" 
 ```
 
 *This will search for the user in the UserInfo table with the "@contoso.com" text in their e-mail address and set enable = 1 if they are not allready enabled, -verbose will show which users where updated*
