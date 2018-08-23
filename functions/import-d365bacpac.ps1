@@ -180,7 +180,7 @@ function Import-D365Bacpac {
     }
 
     Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB" 
-    if ($ImportModeTier2::IsPresent) {
+    if ($ImportModeTier2.IsPresent) {
         Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings" 
 
         $Objectives = Get-AzureServiceObjectives @BaseParams
@@ -211,7 +211,7 @@ function Import-D365Bacpac {
 
         if ($null -eq $InstanceValues) { return }
 
-        if ($ImportModeTier2::IsPresent) {
+        if ($ImportModeTier2.IsPresent) {
             Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database" 
 
             $AzureParams = @{AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd; AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd; AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd}
