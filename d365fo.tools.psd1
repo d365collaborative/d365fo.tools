@@ -111,6 +111,7 @@
                                 'Invoke-D365DBSync',
                                 'Invoke-D365ModelUtil',
                                 'Invoke-D365ReArmWindows',
+                                'Invoke-D365SDPInstall',
                                 'Invoke-D365SCDPBundleInstall',
                                 'Invoke-D365SpHelp',
                                 'Invoke-D365SysFlushAodCache',
