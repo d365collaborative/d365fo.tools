@@ -65,36 +65,43 @@ function Set-D365SysAdmin {
         [Parameter(Mandatory = $false, Position = 5)]
         [string] $SqlPwd = $Script:DatabaseUserPassword   
     )
-    
-    begin {
+
+    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
     }
     
-    process {
+    Write-PSFMessage -Level Debug -Message "Testing if running either elevated or with -SqlPwd set."
+    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+        Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c='em'>non-elevated</c> and without the <c='em'>-SqlPwd parameter</c>. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) otherwise simply use the -SqlPwd parameter"
+        Stop-PSFFunction -Message "Stopping because of missing parameters"
+        return
+    }
 
-        Write-PSFMessage -Level Debug -Message "Testing if running either elevated or with -SqlPwd set."
-        if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-            Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c='em'>non-elevated</c> and without the <c='em'>-SqlPwd parameter</c>. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) otherwise simply use the -SqlPwd parameter"
-            Stop-PSFFunction -Message "Stopping because of missing parameters"
-            return
-        }
+    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-sysadmin.sql") -join [Environment]::NewLine
+    $commandText = $commandText.Replace('@USER', $User)
 
-        Write-PSFMessage -Level Debug -Message "Building the sql statement."
-        $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-sysadmin.sql") -join [Environment]::NewLine
-        $commandText = $commandText.Replace('@USER', $User)
+    $sqlCommand = Get-SQLCommand @SqlParams
 
-        $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+    $sqlCommand.CommandText = $commandText
 
-        $sqlCommand.CommandText = $commandText
-
+    try {
         $sqlCommand.Connection.Open()
 
         Write-PSFMessage -Level Debug -Message "Execution the sql statement." -Target $commandText
         $null = $sqlCommand.ExecuteNonQuery()
-        
-        $sqlCommand.Connection.Close()
-        $sqlCommand.Dispose()
     }
-    
-    end {
+    catch {
+        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
+    }
+    finally {
+        $reader.close()
+
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()    
+        }
+
+        $sqlCommand.Dispose()
     }
 }

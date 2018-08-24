@@ -20,6 +20,9 @@ Default path is the same as the aos service packageslocaldirectory
 .PARAMETER QuickInstallAll
 Use this switch to let the runbook reside in memory. You will not get a runbook on disc which you can examine for steps
 
+.PARAMETER DevInstall
+Use this when running on developer box without administrator privileges (Run As Administrator)
+
 .EXAMPLE
 Invoke-D365SDPInstall -Path "c:\temp\" -QuickInstallAll
 
@@ -66,8 +69,11 @@ function Invoke-D365SDPInstall {
         [Parameter(Mandatory = $false, ParameterSetName = 'QuickInstall', Position = 3 )]
         [switch] $QuickInstallAll,
 
+        [Parameter(Mandatory = $false, ParameterSetName = 'DevInstall', Position = 3 )]
+        [switch] $DevInstall,
+
         [Parameter(Mandatory = $true, ParameterSetName = 'Manual', Position = 3 )]
-        [ValidateSet('SetTopology', 'Generate', 'Import', 'Execute','RunAll', 'ReRunStep', 'SetStepComplete', 'Export', 'VersionCheck')]
+        [ValidateSet('SetTopology', 'Generate', 'Import', 'Execute', 'RunAll', 'ReRunStep', 'SetStepComplete', 'Export', 'VersionCheck')]
         [string] $Command = 'SetTopology',
 
         [Parameter(Mandatory = $false, Position = 4 )]        
@@ -77,107 +83,134 @@ function Invoke-D365SDPInstall {
         [string] $RunbookId = "Runbook"
     )
     
-    begin {
+    if ((Get-Process -Name "devenv").Count -gt 0) {
+        Write-PSFMessage -Level Host -Message "It seems that you have a <c='em'>Visual Studio</c> running. Please ensure <c='em'>exit</c> Visual Studio and run the cmdlet again."
+        Stop-PSFFunction -Message "Stopping because of running Visual Studio."
+        return
     }
-    
-    process {
-        
-        $Util = Join-Path $Path "AXUpdateInstaller.exe"
-        
-        $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
-        $Files = @($topologyFile, $Util)
-        foreach ($item in $Files) {
-            Write-PSFMessage -Level Verbose -Message "Testing file path." -Target $item
 
-            if ((Test-Path $item -PathType Leaf) -eq $false) {
-                Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> file wasn't found. Please ensure the file <c='em'>exists </c> and you have enough <c='em'>permission/c> to access the file."
-                Stop-PSFFunction -Message "Stopping because a file is missing."
-                return
-            }    
-        }
+    Invoke-TimeSignal -Start
+
+    $Util = Join-Path $Path "AXUpdateInstaller.exe"
         
-        if ($QuickInstallAll.IsPresent) {
-            Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"
-            $param = "quickinstallall"            
-            Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
+    $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
+    $Files = @($topologyFile, $Util)
+    foreach ($item in $Files) {
+        Write-PSFMessage -Level Verbose -Message "Testing file path." -Target $item
+
+        if ((Test-Path $item -PathType Leaf) -eq $false) {
+            Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> file wasn't found. Please ensure the file <c='em'>exists </c> and you have enough <c='em'>permission/c> to access the file."
+            Stop-PSFFunction -Message "Stopping because a file is missing."
+            return
+        }    
+    }
+        
+    if ($QuickInstallAll.IsPresent) {
+        Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"
+        $param = "quickinstallall"            
+        Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
+    }
+    elseif ($DevInstall.IsPresent) {
+        Write-PSFMessage -Level Verbose "Using DevInstall mode"
+        $param = "devinstall"            
+        Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
+    }
+    else {
+        $Command = $Command.ToLowerInvariant()            
+        $runbookFile = Join-Path $Path "$runbookId.xml"
+        $serviceModelFile = Join-Path $Path 'DefaultServiceModelData.xml'
+        $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
+                        
+        if ($Command -eq 'runall') {
+            Write-PSFMessage -Level Verbose "Running all manual steps in one single operation"
+
+            $ok = Update-TopologyFile -Path $Path
+            if ($ok) {
+                $param = @(
+                    "-runbookId=$runbookId" 
+                    "-topologyFile=$topologyFile" 
+                    "-serviceModelFile=`"$serviceModelFile`"" 
+                    "-runbookFile=`"$runbookFile`""
+                )
+                & $Util generate $param
+                & $Util execute "-runbookId=$runbookId"
+                & $Util import "-runbookfile=`"$runbookFile`""
+                & $Util execute "-runbookId=$runbookId"
+            }
+            Write-PSFMessage -Level Verbose "All manual steps complete."
         }
         else {
-            $Command = $Command.ToLowerInvariant()            
-            $runbookFile = Join-Path $Path "$runbookId.xml"
-            $serviceModelFile = Join-Path $Path 'DefaultServiceModelData.xml'
-            $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
-                        
-            if ($Command -eq 'runall')
-            {
-                Write-PSFMessage -Level Verbose "Running all manual steps in one single operation"
-
-                $ok = Update-TopologyFile -Path $Path
-                if ($ok) {
-                    $param = @(
-                        "-runbookId=$runbookId" 
-                        "-topologyFile=$topologyFile" 
-                        "-serviceModelFile=`"$serviceModelFile`"" 
-                        "-runbookFile=`"$runbookFile`""
-                    )
-                    & $Util generate $param
-                    & $Util execute "-runbookId=$runbookId"
-                    & $Util import "-runbookfile=`"$runbookFile`""
-                    & $Util execute "-runbookId=$runbookId"
-                }
-                Write-PSFMessage -Level Verbose "All manual steps complete."
-            }
-            else {   
-                if ($Command -eq 'settopology') {
+            $RunCommand = $true
+            switch ($Command) {
+                'settopology' {  
                     Write-PSFMessage -Level Verbose "Updating topology file xml."
-
                     $ok = Update-TopologyFile -Path $Path                
-                } 
-                elseif($Command -eq 'generate')
-                {                    
+                    $RunCommand = $false
+                }
+                'generate' {                    
                     Write-PSFMessage -Level Verbose "Generating runbook file."
                     $param = @(
+                        "generate"
                         "-runbookId=`"$runbookId`"" 
                         "-topologyFile=`"$topologyFile`"" 
                         "-serviceModelFile=`"$serviceModelFile`"" 
                         "-runbookFile=`"$runbookFile`""
                     )
-                    & $Util generate $param
                 }
-                elseif($Command -eq 'import')
-                {                    
+                'import' {                    
                     Write-PSFMessage -Level Verbose "Importing runbook file."
-                    & $Util import "-runbookfile=`"$runbookFile`""
+                    $param = @(
+                        "import"
+                        "-runbookfile=`"$runbookFile`""
+                    )
                 }
-                elseif($Command -eq 'execute')
-                {
+                'execute' {
                     Write-PSFMessage -Level Verbose "Executing runbook file."
-                    & $Util execute "-runbookId=`"$runbookId`""
+                    $param = @(
+                        "execute"
+                        "-runbookId=`"$runbookId`""
+                    )
                 }
-                elseif($Command -eq 'rerunstep')
-                {
+                'rerunstep' {
                     Write-PSFMessage -Level Verbose "Rerunning runbook step number $step."
-                    & $Util execute "-runbookId=`"$runbookId`"" "-rerunstep=$step"
+                    $param = @(
+                        "execute"
+                        "-runbookId=`"$runbookId`""
+                        "-rerunstep=$step"
+                    )
                 }
-                elseif($Command -eq 'setstepcomplete')
-                {
+                'setstepcomplete' {
                     Write-PSFMessage -Level Verbose "Marking step $step complete and continuing from next step."
-                    & $Util execute "-runbookId=`"$runbookId`"" "-setstepcomplete=$step"
+                    $param = @(
+                        "execute"
+                        "-runbookId=`"$runbookId`""
+                        "-setstepcomplete=$step"
+                    )
                 }
-                elseif($Command -eq 'export')
-                {
+                'export' {
                     Write-PSFMessage -Level Verbose "Exporting runbook for reuse."
-                    & $Util export "-runbookId=`"$runbookId`"" "-runbookfile=`"$runbookFile`""
+                    & $Util export 
+                    $param = @(
+                        "export"
+                        "-runbookId=`"$runbookId`"" 
+                        "-runbookfile=`"$runbookFile`""
+                    )
                 }
-                elseif($Command -eq 'versioncheck')
-                {
+                'versioncheck' {
                     Write-PSFMessage -Level Verbose "Running version check on runbook."
-                    & $Util execute "-runbookId=`"$runbookId`"" "-versioncheck=true"
-                }                      
+                    $param = @(
+                        "execute"
+                        "-runbookId=`"$runbookId`""
+                        "-versioncheck=true"
+                    )
+                }     
             }
+
+            if ($RunCommand) { & $Util $param }
         }
     }
+
+    Invoke-TimeSignal -End
     
-    end {
-    }
 }
 

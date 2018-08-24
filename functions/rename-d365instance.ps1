@@ -23,6 +23,9 @@ Backup name for all the files that are changed
 .PARAMETER MRConfigFile
 Parameter description
 
+.PARAMETER RenameMachine
+Switch to instruct the cmdlet to rename the windows machine as well
+
 .EXAMPLE
 Rename-D365Instance -NewName 'Demo1'
 
@@ -51,7 +54,9 @@ function Rename-D365Instance {
         [string]$BackupExtension = "bak",
 
         [Parameter(Mandatory = $false, Position = 6)]
-        [string]$MRConfigFile = $Script:MRConfigFile
+        [string]$MRConfigFile = $Script:MRConfigFile,
+
+        [switch] $RenameMachine
 
     )
 
@@ -115,6 +120,10 @@ function Rename-D365Instance {
     #Start IIS again
     Write-PSFMessage -Level Verbose -Message "Starting the IIS."
     iisreset /start
+
+    if($RenameMachine.IsPresent) {
+        Rename-Computer -NewName $NewName -Force       
+    }
 
     Get-D365Url -Force
 }
