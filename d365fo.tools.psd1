@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.83'
+    ModuleVersion          = '0.3.84'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -46,7 +46,7 @@
     RequiredModules        = @(
         @{ ModuleName = 'PSFramework'; ModuleVersion = '0.9.24.85' },
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
-        @{ ModuleName = 'MSOnline'; ModuleVersion = '1.1.183.17' } 
+        @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' } 
         
     )
 

@@ -120,7 +120,7 @@ function Import-D365AadUser {
     try {
         Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory"
 
-        Connect-MsolService -ErrorAction Stop
+        $null = Connect-AzureAD  -ErrorAction Stop
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while connecting to Azure Active Directory" -Exception $PSItem.Exception
@@ -129,11 +129,11 @@ function Import-D365AadUser {
     }
     
 
-    $msolUsers = New-Object -TypeName "System.Collections.ArrayList"
+    $azureAdUsers = New-Object -TypeName "System.Collections.ArrayList"
 
     if ( $PSCmdlet.ParameterSetName -eq "GroupImport") {
 
-        $group = Get-MsolGroup -SearchString $AadGroupName
+        $group = Get-AzureADGroup -SearchString $AadGroupName
 
         if ($null -eq $group) {
             Write-PSFMessage -Level Host -Message "Unable to find the specified group in the AAD. Please ensure the group exists and that you have enough permissions to access it."
@@ -141,59 +141,71 @@ function Import-D365AadUser {
             return
         }
 
-        $userlist = Get-MsolGroupMember -GroupObjectId $group[0].ObjectId
+        if($group.Length -gt 1)
+        {
+            Write-PSFMessage -Level Host -Message "More than one group found"
+            foreach ($foundGroup in $group)
+            {
+                Write-PSFMessage -Level Host -Message "Group found $($foundGroup.DisplayName)"
+            }
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
+        }
+
+        $userlist = Get-AzureADGroupMember -ObjectId $group[0].ObjectId
 
         foreach ($user in $userlist) {
-            if ($user.GroupMemberType -eq "User") {
-                $null = $msolUsers.Add((Get-MsolUser -ObjectId $user.ObjectId))
+            if ($user.ObjectType -eq "User") {
+                $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))
             }
         }
     }
     else {
         foreach ($user in $Users) {
-            $null = $msolUsers.Add((Get-MsolUser -SearchString $user))
+            $null = $azureAdUsers.Add((Get-AzureADUser -SearchString $user))
         }
     }
 
     try {
         $sqlCommand.Connection.Open()
 
-        foreach ($user in $msolUsers) {
+        foreach ($user in $azureAdUsers) {
 
             $identityProvider = $canonicalProvider
 
-            Write-PSFMessage -Level Verbose -Message "Getting tenant from sign in name."
-            $tenant = Get-TenantFromEmail $user.SignInName
+            Write-PSFMessage -Level Verbose -Message "Getting tenant from $($user.Mail)."
+            $tenant = Get-TenantFromEmail $user.Mail
 
-            Write-PSFMessage -Level Verbose -Message "Getting domain from sign in name."
-            $networkDomain = get-NetworkDomain $user.SignInName
+            Write-PSFMessage -Level Verbose -Message "Getting domain from $($user.Mail)."
+            $networkDomain = get-NetworkDomain $user.Mail
     
             if ($instanceProvider.ToLower().Contains($tenant.ToLower()) -ne $True) {
-                Write-PSFMessage -Level Verbose -Message "Getting identity provider from sign in name."
-                $identityProvider = Get-IdentityProvider $user.SignInName
+                Write-PSFMessage -Level Verbose -Message "Getting identity provider from  $($user.Mail)."
+                $identityProvider = Get-IdentityProvider $user.Mail
             }
     
-            Write-PSFMessage -Level Verbose -Message "Getting sig from sign in name and identity provider."
-            $sid = Get-UserSIDFromAad $user.SignInName $identityProvider
+            Write-PSFMessage -Level Verbose -Message "Getting sid from  $($user.Mail) and identity provider : $identityProvider."
+            $sid = Get-UserSIDFromAad $user.Mail $identityProvider
 
             $id = ""
             if ($IdValue -eq 'Login') {
-                $id = $IdPrefix + $(Get-LoginFromEmail $user.SignInName)
+                $id = $IdPrefix + $(Get-LoginFromEmail $user.Mail)
             }
             else {
-                $id = $IdPrefix + $user.FirstName
+                $id = $IdPrefix + $user.GivenName
             }
     
             $name = ""
             if ($NameValue -eq 'DisplayName') {
                 $name = $user.DisplayName + $NameSuffix
             }
+            
             else {
-                $name = $user.FirstName + $NameSuffix
+                $name = $user.GivenName + $NameSuffix
             }
     
-            Write-PSFMessage -Level Verbose -Message "Importing $($user.SignInName) - SID $sid - Provider $identityProvider"
-            Import-AadUserIntoD365FO $SqlCommand $user.SignInName $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
+            Write-PSFMessage -Level Verbose -Message "Importing $($user.Mail) - SID $sid - Provider $identityProvider"
+            Import-AadUserIntoD365FO $SqlCommand $user.Mail $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
         }
     }
     catch {
