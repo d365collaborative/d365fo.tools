@@ -82,7 +82,7 @@ function Set-D365SysAdmin {
         $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-sysadmin.sql") -join [Environment]::NewLine
         $commandText = $commandText.Replace('@USER', $User)
 
-        $sqlCommand = Get-SQLCommand $DatabaseServer $NewDatabaseName $SqlUser $SqlPwd
+        $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
         $sqlCommand.CommandText = $commandText
 
