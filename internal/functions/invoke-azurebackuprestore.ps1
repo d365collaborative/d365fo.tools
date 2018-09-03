@@ -19,6 +19,8 @@ Function Invoke-AzureBackupRestore  {
 
     Invoke-TimeSignal -Start
 
+    $StartTime = Get-Date
+    
     $SqlConParams = @{DatabaseServer = $DatabaseServer; SqlUser = $SqlUser; SqlPwd = $SqlPwd; TrustedConnection = $false}
     $sqlCommand = Get-SQLCommand @SqlConParams -DatabaseName $DatabaseName
     
