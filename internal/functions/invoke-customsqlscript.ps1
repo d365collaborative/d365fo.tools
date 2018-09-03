@@ -24,7 +24,7 @@ Function Invoke-CustomSqlScript {
 
     $Params = Get-DeepClone $PsBoundParameters
     $Params.Remove('FilePath')
-    $sqlCommand = Get-SQLCommand $Params
+    $sqlCommand = Get-SQLCommand @Params
 
     $commandText = (Get-Content "$FilePath") -join [Environment]::NewLine
 
