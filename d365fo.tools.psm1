@@ -111,6 +111,8 @@ Write-PSFMessage -Level Verbose -Message "`$Script:EnvironmentType: $Script:Envi
 Write-PSFMessage -Level Verbose -Message "`$Script:CanUseTrustedConnection: $Script:CanUseTrustedConnection"
 
 if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and (Get-PSFConfigValue -FullName "d365fo.tools.workstation.mode") -eq $true) {
+    Write-PSFMessage -Level Verbose -Message "Workstation mode is enabled. We have an active environment configured. We will load the SqlUser and SqlPwd from that configuration."
+    
     $Script:Url = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").URL
     $Script:DatabaseUserName = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlUser
     $Script:DatabaseUserPassword = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlPwd
@@ -125,7 +127,7 @@ else {
     if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and 
         ($Script:EnvironmentType -eq [EnvironmentType]::MSHostedTier2)) {
 
-        Write-PSFMessage -Level Verbose -Message "We are on a Tier 2 MS hosted Environment. We have and active environment configured. We will load the SqlUser and SqlPwd from that configuration."
+        Write-PSFMessage -Level Verbose -Message "We are on a Tier 2 MS hosted Environment. We have an active environment configured. We will load the SqlUser and SqlPwd from that configuration."
         $Script:DatabaseUserName = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlUser
         $Script:DatabaseUserPassword = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlPwd
     }
@@ -157,3 +159,11 @@ if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.a
     Write-PSFMessage -Level Verbose -Message "`$Script:AccessToken: Value configured - not shown on purpose."
     Write-PSFMessage -Level Verbose -Message "`$Script:Blobname: Value configured - not shown on purpose."
 }
+
+$Script:TfDir = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\"
+Write-PSFMessage -Level Verbose -Message "`$Script:TfDir: $Script:TfDir"
+
+if($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) {
+    $Script:TfsUri = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").TfsUri
+}
+Write-PSFMessage -Level Verbose -Message "`$Script:TfsUri: $Script:TfsUri"

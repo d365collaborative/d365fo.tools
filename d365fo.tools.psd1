@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.89'
+    ModuleVersion          = '0.3.90'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -70,6 +70,8 @@
                                 'Add-D365AzureStorageConfig',
                                 'Add-D365EnvironmentConfig',
 
+                                'Backup-D365MetaDataDir',
+
                                 'Disable-D365MaintenanceMode'
                                 'Disable-D365User',
 
@@ -102,12 +104,15 @@
                                 'Get-D365Label',
                                 'Get-D365OfflineAuthenticationAdminEmail',
 
+                                'Get-D365PackageBundleDetail',
                                 'Get-D365PackageLabelFile',
                                 'Get-D365ProductInformation',
 
                                 'Get-D365SDPCleanUp',
                                 'Get-D365Table',
                                 'Get-D365TableField',
+                                'Get-D365TfsUri',
+                                'Get-D365TfsWorkspace',
 
                                 'Get-D365Url',
                                 'Get-D365User',

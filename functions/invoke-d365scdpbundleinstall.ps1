@@ -31,34 +31,70 @@ PackagesLocalDirectory location on the machine
 General notes
 #>
 function Invoke-D365SCDPBundleInstall {
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [CmdletBinding(DefaultParameterSetName = 'InstallOnly')]
     param (
-        [Parameter(Mandatory = $True, ParameterSetName = 'Default', Position = 1 )]
+        [Parameter(Mandatory = $True, ParameterSetName = 'InstallOnly', Position = 0 )]
+        [switch] $InstallOnly,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'Tfs', Position = 0 )]
+        [ValidateSet('Prepare', 'Install')]
+        [string] $Command = 'Prepare',
+
+        [Parameter(Mandatory = $True, Position = 1 )]
         [Alias('Hotfix')]
         [Alias('File')]
         [string] $Path,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
+        [Parameter(Mandatory = $false, Position = 2 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
-        [switch] $InstallOnly = [switch]::Present
+        [Parameter(Mandatory = $false, ParameterSetName = 'Tfs', Position = 3 )]
+        [string] $TfsWorkspaceDir = "$Script:MetaDataDir",
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Tfs', Position = 4 )]
+        [string] $TfsUri = "$Script:TfsUri",
+
+        [Parameter(Mandatory = $false, Position = 4 )]
+        [switch] $ShowModifiedFiles
 
     )
     
-    begin {
-    }
-    
-    process {
-        $Setup = Join-Path $Script:BinDir "\bin\SCDPBundleInstall.exe"
+    Invoke-TimeSignal -Start
+    $StartTime = Get-Date
+    $executable = Join-Path $Script:BinDir "\bin\SCDPBundleInstall.exe"
 
-        if($InstallOnly.IsPresent) {
-            $param = "-install -packagepath=$Path -metadatastorepath=$MetaDataDir"
+    if ($InstallOnly.IsPresent) {
+        $param = @("-install", 
+        "-packagepath=$Path", 
+        "-metadatastorepath=$MetaDataDir")
+    }
+    else{
+        switch($Command){
+            "Prepare" {
+                $param = @("-prepare")
+            }
+            "Install"{
+                $param = @("-install")
+            }
+        }
+        $param = $param + @("-packagepath=`"$Path`"",
+                            "-metadatastorepath=`"$MetaDataDir`"",
+                            "-tfsworkspacepath=`"$TfsWorkspaceDir`"",
+                            "-tfsprojecturi=`"$TfsUri`"")
+    }
+
+    Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe" -Target $param
+    Start-Process -FilePath $executable -ArgumentList  $param  -NoNewWindow -Wait
+    
+    if ($ShowModifiedFiles.IsPresent) {
+        $res = Get-ChildItem -Path $MetaDataDir -Recurse | Where-Object {$_.LastWriteTime -gt $StartTime}
+
+        $res | ForEach-Object {
+            Write-PSFMessage -Level Verbose -Message "Object modified by the install: $($_.FullName)"
         }
 
-        Start-Process -FilePath $Setup -ArgumentList  $param  -NoNewWindow -Wait
+        $res
     }
-    
-    end {
-    }
+
+    Invoke-TimeSignal -End
 }

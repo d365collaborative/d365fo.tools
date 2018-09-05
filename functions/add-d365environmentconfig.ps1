@@ -21,6 +21,8 @@ The password for the SQL Server user
 The company you want to work against when calling any browser based cmdlets
 
 The default value is "DAT"
+.PARAMETER TfsUri
+The URI for the TFS / VSTS account that you are working against.
 
 .PARAMETER Force
 Switch to instruct the cmdlet to overwrite already registered environment entry
@@ -62,6 +64,8 @@ function Add-D365EnvironmentConfig {
 
         [string] $Company = "DAT",
 
+        [string] $TfsUri,
+
         [switch] $Force
     )
 
@@ -72,7 +76,8 @@ function Add-D365EnvironmentConfig {
     }
     else {
         $Details = @{URL = $URL; Company = $Company;
-            SqlUser = $SqlUser; SqlPwd = $SqlPwd;           
+            SqlUser = $SqlUser; SqlPwd = $SqlPwd;
+            TfsUri = $TfsUri;
         }
 
         $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")

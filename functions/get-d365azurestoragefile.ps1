@@ -56,7 +56,7 @@ function Get-D365AzureStorageFile {
     )
 
     BEGIN { 
-        if ( ([string]::IsNullOrEmpty($AccountId) -eq $true) -or 
+        if (([string]::IsNullOrEmpty($AccountId)) -or 
             ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Blobname))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
