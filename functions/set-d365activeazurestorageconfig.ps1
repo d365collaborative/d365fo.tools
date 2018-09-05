@@ -35,7 +35,7 @@ function Set-D365ActiveAzureStorageConfig {
     else {
         $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
 
-        if($null -eq $Accounts) {$Accounts = @{}}
+        if(($null -eq $Accounts) -or ($Accounts.ContainsKey("Dummy"))) {$Accounts = @{}}
 
         if (!($Accounts.ContainsKey($Name))) {
             Write-PSFMessage -Level Host -Message "An Azure Storage Account with that name <c='em'>doesn't exists</c>."
