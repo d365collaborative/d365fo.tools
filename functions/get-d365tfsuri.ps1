@@ -34,11 +34,15 @@ function Get-D365TfsUri {
 
     Write-PSFMessage -Level Verbose -Message "Invoking tf.exe"
     #* Small hack to get the output from the execution into a variable.
-    $res = & $executable "settings" "connections"
+    $res = & $executable "settings" "connections" 2>$null
+    Write-PSFMessage -Level Verbose -Message "Result from tf.exe: $res" -Target $res
 
     if (![string]::IsNullOrEmpty($res)) {
         [PSCustomObject]@{
             TfsUri = $res[2].Split(" ")[0]
         }
+    }
+    else {
+        Write-PSFMessage -Level Host -Message "No TFS / VSTS connections found. It looks like you haven't configured the server connection and workspace yet."
     }
 }

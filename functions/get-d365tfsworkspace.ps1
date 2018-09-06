@@ -43,11 +43,14 @@ function Get-D365TfsWorkspace {
 
     Write-PSFMessage -Level Verbose -Message "Invoking tf.exe"
     #* Small hack to get the output from the execution into a variable.
-    $res = & $executable "vc" "workspaces" "/collection:$TfsUri" "/format:detailed"
+    $res = & $executable "vc" "workspaces" "/collection:$TfsUri" "/format:detailed" 2>$null
 
     if (![string]::IsNullOrEmpty($res)) {
         [PSCustomObject]@{
             TfsWorkspacePath = ($res | select-string "meta").ToString().Trim().Split(" ")[1]
         }
+    }
+    else {
+        Write-PSFMessage -Level Host -Message "No matching workspace configuration found for the specified URI. Either the URI is wrong or you haven't configured the server connection / workspace details correctly."
     }
 }

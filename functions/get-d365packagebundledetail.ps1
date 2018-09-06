@@ -15,11 +15,30 @@ Path where you want the cmdlet to work with extraction of all the files
 
 Default value is: C:\Users\Username\AppData\Local\Temp
 
+.PARAMETER KB
+KB number of the hotfix that you are looking for
+
+Accepts wildcards for searching. E.g. -KB "4045*"
+
+Default value is "*" which will search for all KB's
+
+.PARAMETER Hotfix
+Package Id / Hotfix number the hotfix that you are looking for
+
+Accepts wildcards for searching. E.g. -Hotfix "7045*"
+
+Default value is "*" which will search for all hotfixes
+
 .PARAMETER Traverse
 Switch to instruct the cmdlet to traverse the inner packages and extract their details
 
-.PARAMETER Keepfiles
+.PARAMETER KeepFiles
 Switch to instruct the cmdlet to keep the files for further manual analyze
+
+.PARAMETER IncludeRawManifest
+Switch to instruct the cmdlet to include the raw content of the manifest file
+
+Only works with the -Traverse option
 
 .EXAMPLE
 Get-D365PackageBundleDetail -Path "c:\temp\HotfixPackageBundle.axscdppkg" -Traverse
@@ -38,7 +57,7 @@ keep the files after completion.
 .EXAMPLE 
 Advanced scenario
 
-Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
+Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
 
 This will traverse the "HotfixPackageBundle.axscdppkg" file and save the 
 manifest files into c:\temp. Everything else is omitted and cleaned up. 
@@ -51,16 +70,21 @@ function Get-D365PackageBundleDetail {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
-        [Alias('Hotfix')]
         [Alias('File')]
         [string] $Path,
 
         [Parameter(Mandatory = $false, Position = 2 )]
         [string] $ExtractionPath = ([System.IO.Path]::GetTempPath()),
 
+        [string] $KB = "*",
+
+        [string] $Hotfix = "*",
+
         [switch] $Traverse,
 
-        [switch] $Keepfiles
+        [switch] $KeepFiles,
+
+        [switch] $IncludeRawManifest
     )
     
     begin {
@@ -71,6 +95,8 @@ function Get-D365PackageBundleDetail {
             Stop-PSFFunction -Message "Stopping because a file is missing."
             return
         }
+
+        Unblock-File -Path $Path
 
         if(!(Test-Path -Path $ExtractionPath)) {
             Write-PSFMessage -Level Verbose -Message "The extract path didn't exists. Creating it." -Target $ExtractionPath
@@ -128,9 +154,16 @@ function Get-D365PackageBundleDetail {
                 $kbs = Select-Xml -Xml $xmlDoc -XPath "//ns:UpdatePackageManifest/ns:KBNumbers/nsKB:string" -Namespace $namespace
                 $packageId = Select-Xml -Xml $xmlDoc -XPath "//ns:UpdatePackageManifest/ns:PackageId/ns:PackageId" -Namespace $namespace
                 
-                $Obj = [PSCustomObject]@{PackageId = $packageId.Node.InnerText
-                KBs = ($kbs.node.InnerText -Join ";")
-                RawManifest = $raw}
+                $strPackage = $packageId.Node.InnerText
+                $arrKbs = $kbs.node.InnerText
+
+                if($packageId.Node.InnerText -notlike $Hotfix) {continue}
+                if(@($arrKbs) -notlike $KB) {continue}
+
+                $Obj = [PSCustomObject]@{Hotfix = $strPackage
+                KBs = ($arrKbs -Join ";")}
+
+                if($IncludeRawManifest.IsPresent) {$Obj.RawManifest = $raw}
 
                 $Obj | Select-PSFObject -TypeName "D365FO.TOOLS.PackageBundleManifestDetail"
             }

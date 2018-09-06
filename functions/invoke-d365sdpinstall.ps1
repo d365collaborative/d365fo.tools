@@ -83,7 +83,7 @@ function Invoke-D365SDPInstall {
         [string] $RunbookId = "Runbook"
     )
     
-    if ((Get-Process -Name "devenv").Count -gt 0) {
+    if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
         Write-PSFMessage -Level Host -Message "It seems that you have a <c='em'>Visual Studio</c> running. Please ensure <c='em'>exit</c> Visual Studio and run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of running Visual Studio."
         return
