@@ -53,8 +53,26 @@ function Switch-D365ActiveDatabase {
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
+    $SqlCommand.CommandText = "SELECT COUNT(1) FROM $NewDatabaseName.dbo.USERINFO WHERE ID = 'Admin'"
 
+
+    try {
+        $sqlCommand.Connection.Open()
+        $null = $sqlCommand.ExecuteScalar()
+    }
+    catch {
+        Write-PSFMessage -Level Host -Message "It seems that the new database either doesn't exists, isn't a valid AxDB database or your don't have enough permissions." -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
+    }
+    finally {
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()    
+        }
+    }
+    
+    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
+    
     $sqlCommand.CommandText = $commandText
 
     $null = $sqlCommand.Parameters.AddWithValue("@OrigName", $DatabaseName)

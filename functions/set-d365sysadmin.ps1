@@ -96,8 +96,6 @@ function Set-D365SysAdmin {
         return
     }
     finally {
-        $reader.close()
-
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
             $sqlCommand.Connection.Close()    
         }
