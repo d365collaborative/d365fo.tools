@@ -46,10 +46,23 @@ Available options 'FirstName' / 'DisplayName'
 
 Default is 'DisplayName'
 
+.PARAMETER AzureAdCredential
+Use a PSCredential object for connecting with AzureAd
+
 .EXAMPLE
-Import-D365AadUser -Userlist "Claire@contoso.com,Allen@contoso.com"
+Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
 
 Imports Claire and Allen as users.
+
+
+.EXAMPLE
+$myPassword = ConvertTo-SecureString "MyPasswordIsSecret" -AsPlainText -Force
+$myCredentials = New-Object System.Management.Automation.PSCredential ("MyEmailIsAlso", $myPassword)
+
+Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -AzureAdCredential $myCredentials
+
+Imports Claire and Allen as users.
+
 
 .EXAMPLE
 Import-D365AadUser -AadGroupName "CustomerTeam1"
@@ -101,7 +114,10 @@ function Import-D365AadUser {
 
         [Parameter(Mandatory = $false, Position = 10)]
         [ValidateSet('FirstName', 'DisplayName')]
-        [string]$NameValue = "DisplayName"
+        [string]$NameValue = "DisplayName",
+
+        [Parameter(Mandatory = $false, Position = 11)]
+        [PSCredential]$AzureAdCredential
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -120,7 +136,16 @@ function Import-D365AadUser {
     try {
         Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory"
 
-        $null = Connect-AzureAD  -ErrorAction Stop
+        if($PSBoundParameters.ContainsKey("AzureAdCredential") -eq $true)
+        {
+            $null = Connect-AzureAD  -ErrorAction Stop -Credential $AzureAdCredential
+        }
+        else 
+        {
+            $null = Connect-AzureAD  -ErrorAction Stop
+        }
+
+
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while connecting to Azure Active Directory" -Exception $PSItem.Exception

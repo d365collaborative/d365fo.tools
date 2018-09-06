@@ -64,12 +64,10 @@ Set-D365Admin "admin@contoso.com"
 ### **Import a list of users into the environment**
 
 ```
-Import-D365AadUser -Userlist "Claire@contoso.com;Allen@contoso.com"
+Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
 ```
 
 *Imports Claire and Allen into the environment*
-
-*Remeber that the list has to be semicolon (';') separated*
 
 
 ### **Update users in an environment after database migration / restore or re-provisioning**
