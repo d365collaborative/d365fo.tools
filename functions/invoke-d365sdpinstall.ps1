@@ -92,18 +92,8 @@ function Invoke-D365SDPInstall {
     Invoke-TimeSignal -Start
 
     $Util = Join-Path $Path "AXUpdateInstaller.exe"
-        
     $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
-    $Files = @($topologyFile, $Util)
-    foreach ($item in $Files) {
-        Write-PSFMessage -Level Verbose -Message "Testing file path." -Target $item
-
-        if ((Test-Path $item -PathType Leaf) -eq $false) {
-            Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> file wasn't found. Please ensure the file <c='em'>exists </c> and you have enough <c='em'>permission/c> to access the file."
-            Stop-PSFFunction -Message "Stopping because a file is missing."
-            return
-        }    
-    }
+    if (!(Test-PathExists -Path $topologyFile, $Util -Type Leaf)) {return}
         
     if ($QuickInstallAll.IsPresent) {
         Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"

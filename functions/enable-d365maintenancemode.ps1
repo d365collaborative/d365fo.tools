@@ -39,6 +39,9 @@ that was pulled from the environment and put the environment into the operate / 
 
 .NOTES
 The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
+
+Author: Mötz Jensen (@splaxi)
+
 #>
 function Enable-D365MaintenanceMode {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
@@ -62,18 +65,20 @@ function Enable-D365MaintenanceMode {
         [string] $SqlPwd = $Script:DatabaseUserPassword
     )
     
-    begin {        
-    }
-    
-    process {
+    $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
 
-        $Setup = Join-Path $BinDir "\bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
+    if (!(Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
+    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
 
-        $param = "--metadatadir $MetaDataDir --bindir $BinDir\bin --sqlserver $DatabaseServer --sqldatabase $DatabaseName --sqluser $SqlUser --sqlpwd $SqlPwd --setupmode maintenancemode --isinmaintenancemode true"
+    $params = @("-isemulated", "true", 
+        "-sqluser", "$SqlUser", 
+        "-sqlpwd", "$SqlPwd",
+        "-sqlserver", "$DatabaseServer", 
+        "-sqldatabase", "$DatabaseName", 
+        "-metadatadir", "$MetaDataDir", 
+        "-bindir", "$BinDir",
+        "-setupmode", "maintenancemode", 
+        "-isinmaintenancemode", "true")
 
-        Start-Process -FilePath $Setup -ArgumentList  $param  -NoNewWindow -Wait
-    }
-    
-    end {
-    }
+    Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
 }

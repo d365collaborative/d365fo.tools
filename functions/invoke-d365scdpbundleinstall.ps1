@@ -28,7 +28,7 @@ This will install the "HotfixPackageBundle.axscdppkg" into the default
 PackagesLocalDirectory location on the machine
 
 .NOTES
-General notes
+Author: Mötz Jensen (@splaxi)
 #>
 function Invoke-D365SCDPBundleInstall {
     [CmdletBinding(DefaultParameterSetName = 'InstallOnly')]
@@ -63,6 +63,9 @@ function Invoke-D365SCDPBundleInstall {
     $StartTime = Get-Date
     $executable = Join-Path $Script:BinDir "\bin\SCDPBundleInstall.exe"
 
+    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
+    if (!(Test-PathExists -Path $Path,$MetaDataDir -Type Container)) {return}
+    
     if ($InstallOnly.IsPresent) {
         $param = @("-install", 
         "-packagepath=$Path", 
@@ -84,7 +87,7 @@ function Invoke-D365SCDPBundleInstall {
     }
 
     Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe" -Target $param
-    Start-Process -FilePath $executable -ArgumentList  $param  -NoNewWindow -Wait
+    Start-Process -FilePath $executable -ArgumentList $param -NoNewWindow -Wait
     
     if ($ShowModifiedFiles.IsPresent) {
         $res = Get-ChildItem -Path $MetaDataDir -Recurse | Where-Object {$_.LastWriteTime -gt $StartTime}

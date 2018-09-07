@@ -1,6 +1,62 @@
+<#
+.SYNOPSIS
+Invoke the sqlpackage executable
+
+.DESCRIPTION
+Invoke the sqlpackage executable and pass the necessary parameters to it
+
+.PARAMETER Action
+Can either be import or export
+
+.PARAMETER DatabaseServer
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+
+If Azure use the full address to the database server, e.g. server.database.windows.net
+
+.PARAMETER DatabaseName
+The name of the database
+
+.PARAMETER SqlUser
+The login name for the SQL Server instance
+
+.PARAMETER SqlPwd
+The password for the SQL Server user.
+
+.PARAMETER TrustedConnection
+Should the sqlpackage work with TrustedConnection or not
+
+.PARAMETER FilePath
+Path to the file, used for either import or export
+
+.PARAMETER Properties
+Array of all the properties that needs to be parsed to the sqlpackage.exe
+
+.EXAMPLE
+$BaseParams = @{
+    DatabaseServer = $DatabaseServer
+    DatabaseName   = $DatabaseName
+    SqlUser        = $SqlUser
+    SqlPwd         = $SqlPwd        
+}
+
+$ImportParams = @{
+    Action   = "import"
+    FilePath = $BacpacFile        
+}
+    
+Invoke-SqlPackage @BaseParams @ImportParams
+
+This will start the sqlpackage.exe file and pass all the needed parameters.
+
+.NOTES
+Author: Mötz Jensen (@splaxi)
+#>
 function Invoke-SqlPackage {
     [CmdletBinding()]
     param (
+        [ValidateSet('Import', 'Export')]
         [string]$Action, 
         
         [string]$DatabaseServer,
@@ -16,17 +72,13 @@ function Invoke-SqlPackage {
         [string]$FilePath,
         
         [string[]]$Properties
-        ) 
+    ) 
               
-    $sqlPackagePath = $Script:SqlPackage
+    $executable = $Script:SqlPackage
 
     Invoke-TimeSignal -Start
 
-    if (!(Test-Path $sqlPackagePath -PathType Leaf)) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>sqlpackage.exe</c> file on the machine. Please ensure that the latest <c='em'>SQL Server Management Studio</c> is installed using the <c='em'>default location</c> and run the cmdlet again. You can visit this link to obtain the latest SSMS: <c=`"green`">http://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms</c>"
-        Stop-PSFFunction -Message "The sqlpackage.exe is missing on the system."
-        return
-    }
+    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
 
     Write-PSFMessage -Level Verbose -Message "Starting to prepare the parameters for sqlpackage.exe"
 
@@ -66,7 +118,7 @@ function Invoke-SqlPackage {
     Write-PSFMessage -Level Verbose "Start sqlpackage.exe with parameters" -Target $Params
     
     #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    Start-Process -FilePath $sqlPackagePath -ArgumentList ($Params -join " ") -NoNewWindow -Wait
+    Start-Process -FilePath $executable -ArgumentList ($Params -join " ") -NoNewWindow -Wait
     
     Invoke-TimeSignal -End
     

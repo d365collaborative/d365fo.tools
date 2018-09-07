@@ -28,12 +28,7 @@ function Get-D365TfsWorkspace {
     )
     
     $executable = Join-Path $Path "tf.exe"
-
-    if ((Test-Path $executable -PathType Leaf) -eq $false) {
-        Write-PSFMessage -Level Host -Message "The <c='em'>$executable</c> file wasn't found. Please ensure the file <c='em'>exists </c> and you have enough <c='em'>permission/c> to access the file."
-        Stop-PSFFunction -Message "Stopping because a file is missing."
-        return
-    }
+    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
 
     if([system.string]::IsNullOrEmpty($TfsUri)){
         Write-PSFMessage -Level Host -Message "The supplied uri <c='em'>was empty</c>. Please update the active d365 environment configuration or simply supply the -TfsUri to the cmdlet."

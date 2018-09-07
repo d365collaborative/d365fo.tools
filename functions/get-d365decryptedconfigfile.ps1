@@ -23,22 +23,16 @@ function Get-D365DecryptedConfigFile {
         [Parameter(Mandatory = $false, Position = 1)]
         [Alias('ExtractFolder')]
         [string]$DropPath = "C:\temp\d365fo.tools\ConfigFile_Decrypted",
+
         [Parameter(Mandatory = $false, Position = 2)]
         [string]$AosServiceWebRootPath = $Script:AOSPath
     )
 
-    Write-Verbose $Script:AOSPath
-
     $WebConfigFile = Join-Path $AosServiceWebRootPath $Script:WebConfig
-  
-    Write-Verbose "Checking if the extract folder exists"
-    if ( -not (Test-Path $DropPath.Trim())) {
-        Write-Verbose "Creating $DropPath"
-        $null = New-Item -Path $DropPath -ItemType directory -Force -ErrorAction Stop
-    }
 
-    Write-Verbose "Decrypting"
-    Write-Verbose "File $WebConfigFile - To $DropPath"
-    
+    if (!(Test-PathExists -Path $WebConfigFile, $Util -Type Leaf)) {return}
+    if (!(Test-PathExists -Path $DropPath -Type Container -Create)) {return}
+
+    Write-PSFMessage -Level Verbose -Message "Starting the decryption logic"
     New-DecryptedFile $WebConfigFile $DropPath 
 }

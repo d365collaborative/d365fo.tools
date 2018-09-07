@@ -1,20 +1,18 @@
-function New-DecryptedFile ($File,$DropPath)
-{
-    if ( (Test-Path $File) -eq $false) {
-        throw [System.IO.FileNotFoundException] "$File not found."
-    }
+function New-DecryptedFile ($File, $DropPath) {
+    
+    $Decrypter = Join-Path  $AosServiceWebRootPath -ChildPath "bin\Microsoft.Dynamics.AX.Framework.ConfigEncryptor.exe"
+
+    if (!(Test-PathExists -Path $Decrypter -Type Leaf)) {return}
 
     $fileInfo = [System.IO.FileInfo]::new($File)
+    $DropFile = Join-Path $DropPath $FileInfo.Name
     
-    $DropFile = Join-Path $DropPath  $FileInfo.Name
-    Write-Verbose "Dropfile $DropFile"
+    Write-PSFMessage -Level Verbose -Message "Extracted file path is: $DropFile" -Target $DropFile
+    Copy-Item $File $DropFile -Force -ErrorAction Stop
 
-    Copy-Item $File $DropFile -Force
+    if (!(Test-PathExists -Path $DropFile -Type Leaf)) {return}
 
-    if (Test-Path $DropFile.Trim()) {
-
-        Write-Verbose "Decrypting the $DropFile"
-        $Decrypter = Join-Path  $AosServiceWebRootPath -ChildPath "bin\Microsoft.Dynamics.AX.Framework.ConfigEncryptor.exe"
-        & $Decrypter -decrypt $DropFile
-    }
+    Write-Verbose "Decrypting the $DropFile"
+    
+    & $Decrypter -decrypt $DropFile
 }

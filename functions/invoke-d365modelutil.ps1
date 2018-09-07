@@ -32,7 +32,6 @@ This will execute the import functionality of ModelUtil.exe and have it import t
 c:\temp\ApplicationSuiteModernDesigns_App73.axmodel file
 
 .NOTES
-General notes
 #>
 function Invoke-D365ModelUtil {
     [CmdletBinding()]
@@ -52,38 +51,19 @@ function Invoke-D365ModelUtil {
         [switch] $Import = [switch]::Present
     )
     
-    begin {
+    if (!(Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
+
+    $executable = Join-Path $BinDir "ModelUtil.exe"
+    if (!(Test-PathExists -Path $executable, $Path -Type Leaf)) {return}
+
+    Write-PSFMessage -Level Verbose -Message "Testing the execution mode" -Target $Import
+    if ($Import.IsPresent) {
+        Write-PSFMessage -Level Verbose -Message "Building the parameter options."
+        $param = @("-import",
+            "-metadatastorepath=`"$MetaDataDir`"",
+            "-file=`"$Path`"")
     }
-    
-    process {
-        $Setup = Join-Path $BinDir "ModelUtil.exe"
 
-        Write-PSFMessage -Level Verbose -Message "Testing if the path exists or not." -Target $Setup
-        if ((Test-Path -Path $Setup -PathType Leaf) -eq $false) {
-            Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>ModelUtil.exe</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
-            
-            Stop-PSFFunction -Message "Stopping because unable to locate ModelUtil.exe." -Target $Setup
-            return
-        }
-
-        Write-PSFMessage -Level Verbose -Message "Testing if the path exists or not." -Target $Path
-        if ((Test-Path -Path $Path -PathType Leaf) -eq $false) {
-            Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>$Path</c>path. Please ensure that the path exists and you have permissions to access it."
-            
-            Stop-PSFFunction -Message "Stopping because unable to locate $Path." -Target $Path
-            return
-        }
-
-        Write-PSFMessage -Level Verbose -Message "Testing the execution mode" -Target $Import
-        if ($Import.IsPresent) {
-            Write-PSFMessage -Level Verbose -Message "Building the parameter options."
-            $param = "-import -metadatastorepath=`"$MetaDataDir`" -file=`"$Path`""
-        }
-
-        Write-PSFMessage -Level Verbose -Message "Starting the $Setup with the parameter options." -Target $param
-        Start-Process -FilePath $Setup -ArgumentList  $param  -NoNewWindow -Wait
-    }
-    
-    end {
-    }
+    Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
+    Start-Process -FilePath $executable -ArgumentList  ($param -join " ") -NoNewWindow -Wait
 }

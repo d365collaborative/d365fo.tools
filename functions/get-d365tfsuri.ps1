@@ -25,12 +25,7 @@ function Get-D365TfsUri {
     )
     
     $executable = Join-Path $Path "tf.exe"
-
-    if ((Test-Path $executable -PathType Leaf) -eq $false) {
-        Write-PSFMessage -Level Host -Message "The <c='em'>$executable</c> file wasn't found. Please ensure the file <c='em'>exists </c> and you have enough <c='em'>permission/c> to access the file."
-        Stop-PSFFunction -Message "Stopping because a file is missing."
-        return
-    }
+    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
 
     Write-PSFMessage -Level Verbose -Message "Invoking tf.exe"
     #* Small hack to get the output from the execution into a variable.

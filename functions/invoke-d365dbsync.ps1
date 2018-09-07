@@ -106,29 +106,16 @@ function Invoke-D365DBSync {
         return
     }
 
-    Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $command
-    $command = Join-Path $BinDirTools "SyncEngine.exe"
-    if ((Test-Path -Path $command -PathType Leaf) -eq $false) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>SyncEngine.exe</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
-            
-        Stop-PSFFunction -Message "Stopping because unable to locate SyncEngine.exe" -Target $command
-        return
-    }
+    $executable = Join-Path $BinDirTools "SyncEngine.exe"
+    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
+    if (!(Test-PathExists -Path $MetadataDir -Type Container)) {return}
+    if (!(Test-PathExists -Path $LogPath -Type Container -Create)) {return}
 
     Write-PSFMessage -Level Debug -Message "Testing if the SyncEngine is already running."
     $syncEngine = Get-Process -Name "SyncEngine" -ErrorAction SilentlyContinue
     if ($null -ne $syncEngine) {
         Write-PSFMessage -Level Host -Message "A instance of SyncEngine is <c='em'>already running</c>. Please <c='em'>wait</c> for it to finish or <c='em'>kill it</c>."
-            
         Stop-PSFFunction -Message "Stopping because SyncEngine.exe already running"
-        return
-    }
-
-    Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $MetadataDir 
-    if ((Test-Path -Path $MetadataDir -PathType Container) -eq $false) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>BinDir(metadatabinaries)</c> in the specified path. Please ensure that the path exists and you have permissions to access it."
-            
-        Stop-PSFFunction -Message "Stopping because unable to locate the BinDir path" -Target $MetadataDir
         return
     }
     
@@ -138,14 +125,8 @@ function Invoke-D365DBSync {
     $param += " -metadatabinaries=`"$MetadataDir`""
     $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""    
 
-    Write-PSFMessage -Level Debug -Message "Testing if the path exists or not." -Target $LogPath
-    if ((Test-Path -Path $LogPath.Trim() -PathType Leaf) -eq $false) {
-        Write-PSFMessage -Level Debug -Message "Creating the path." -Target $LogPath
-        $null = New-Item -Path $LogPath -ItemType directory -Force -ErrorAction Stop
-    }
-
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
-    $process = Start-Process -FilePath $command -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"  
+    $process = Start-Process -FilePath $executable -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"  
     
     $lineTotalCount = 0
     $lineCount = 0
