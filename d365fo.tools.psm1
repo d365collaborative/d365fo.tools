@@ -113,10 +113,11 @@ Write-PSFMessage -Level Verbose -Message "`$Script:CanUseTrustedConnection: $Scr
 if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and (Get-PSFConfigValue -FullName "d365fo.tools.workstation.mode") -eq $true) {
     Write-PSFMessage -Level Verbose -Message "Workstation mode is enabled. We have an active environment configured. We will load the SqlUser and SqlPwd from that configuration."
     
-    $Script:Url = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").URL
-    $Script:DatabaseUserName = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlUser
-    $Script:DatabaseUserPassword = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlPwd
-    $Script:Company = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").Company
+    $d365env = Get-PSFConfigValue -FullName "d365fo.tools.active.environment"
+    $Script:Url = $d365env.URL
+    $Script:DatabaseUserName = $d365env.SqlUser
+    $Script:DatabaseUserPassword = $d365env.SqlPwd
+    $Script:Company = $d365env.Company
 }
 else {
     $Script:Url = $environment.Infrastructure.HostUrl
@@ -126,10 +127,11 @@ else {
 
     if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and 
         ($Script:EnvironmentType -eq [EnvironmentType]::MSHostedTier2)) {
-
         Write-PSFMessage -Level Verbose -Message "We are on a Tier 2 MS hosted Environment. We have an active environment configured. We will load the SqlUser and SqlPwd from that configuration."
-        $Script:DatabaseUserName = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlUser
-        $Script:DatabaseUserPassword = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").SqlPwd
+
+        $d365db = Get-PSFConfigValue -FullName "d365fo.tools.active.environment"
+        $Script:DatabaseUserName = $d365db.SqlUser
+        $Script:DatabaseUserPassword = $d365db.SqlPwd
     }
 }
 Write-PSFMessage -Level Verbose -Message "`$Script:Url: $Script:Url"
@@ -152,9 +154,10 @@ Write-PSFMessage -Level Verbose -Message "`$Script:InstallationRecordsDir: $Scri
 $Script:UserIsAdmin = $env:UserName -like "*admin*"
 
 if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account")) {
-    $Script:AccountId = (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account").AccountId
-    $Script:AccessToken = (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account").AccessToken
-    $Script:Blobname = (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account").Blobname
+    $azure = Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account"
+    $Script:AccountId = $azure.AccountId
+    $Script:AccessToken = $azure.AccessToken
+    $Script:Blobname = $azure.Blobname
     Write-PSFMessage -Level Verbose -Message "`$Script:AccountId: Value configured - not shown on purpose."
     Write-PSFMessage -Level Verbose -Message "`$Script:AccessToken: Value configured - not shown on purpose."
     Write-PSFMessage -Level Verbose -Message "`$Script:Blobname: Value configured - not shown on purpose."
@@ -167,3 +170,14 @@ if($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) {
     $Script:TfsUri = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").TfsUri
 }
 Write-PSFMessage -Level Verbose -Message "`$Script:TfsUri: $Script:TfsUri"
+
+if($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")) {
+    $logicApp = Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app"
+    $Script:LogicAppEmail = $logicApp.Email
+    $Script:LogicAppSubject = $logicApp.Subject
+    $Script:LogicAppUrl = $logicApp.Url
+}
+Write-PSFMessage -Level Verbose -Message "`$Script:LogicAppEmail: $Script:LogicAppEmail"
+Write-PSFMessage -Level Verbose -Message "`$Script:LogicAppSubject: $Script:LogicAppSubject"
+Write-PSFMessage -Level Verbose -Message "`$Script:LogicAppUrl: $Script:LogicAppUrl"
+

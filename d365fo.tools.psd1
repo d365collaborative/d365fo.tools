@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.3.100'
+    ModuleVersion          = '0.4.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -102,6 +102,7 @@
                                 'Get-D365InstanceName',
 
                                 'Get-D365Label',
+                                'Get-D365LogicAppConfig',
                                 'Get-D365OfflineAuthenticationAdminEmail',
 
                                 'Get-D365PackageBundleDetail',
@@ -127,11 +128,14 @@
 
                                 'Invoke-D365AzureStorageDownload',
                                 'Invoke-D365AzureStorageUpload',                                                                
-
+                                
                                 'Invoke-D365DBSync',
                                 'Invoke-D365InstallLicense',
+                                'Invoke-D365LogicApp',
+                                
                                 'Invoke-D365ModelUtil',
                                 'Invoke-D365ReArmWindows',
+
                                 'Invoke-D365SDPInstall',
                                 'Invoke-D365SCDPBundleInstall',
                                 'Invoke-D365SpHelp',
@@ -152,6 +156,8 @@
                                 'Set-D365ActiveAzureStorageConfig',
                                 'Set-D365ActiveEnvironmentConfig',
                                 'Set-D365Admin',
+
+                                'Set-D365LogicAppConfig',
                                 'Set-D365OfflineAuthenticationAdminEmail',
                                 'Set-D365SDPCleanUp',
                                 'Set-D365StartPage',
