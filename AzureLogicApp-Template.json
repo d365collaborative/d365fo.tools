@@ -1,0 +1,132 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "connections_office365_name": {
+            "defaultValue": "office365",
+            "type": "String"
+        },
+        "workflows_NotifyWhenDone_name": {
+            "defaultValue": "NotifyWhenDone",
+            "type": "String"
+        }
+    },
+    "variables": {"ConnectionName": "administrator@contoso.com"},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/ee4bc22b-1de8-4b0a-a606-ebb2da90c06d/resourceGroups/LogicApps/providers/Microsoft.Logic/workflows/NotifyWhenDone'.",
+            "type": "Microsoft.Logic/workflows",
+            "name": "[parameters('workflows_NotifyWhenDone_name')]",
+            "apiVersion": "2017-07-01",
+            "location": "westeurope",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "method": "POST",
+                                "schema": {
+                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                    "properties": {
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "subject": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "email",
+                                        "subject",
+                                        "message"
+                                    ],
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "Response": {
+                            "runAfter": {
+                                "Send_an_email": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "body": "OK!",
+                                "statusCode": 200
+                            }
+                        },
+                        "Send_an_email": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "body": {
+                                    "Body": "@triggerBody()['message']",
+                                    "Subject": "@triggerBody()['subject']",
+                                    "To": "@triggerBody()['email']"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['office365']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/Mail"
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "office365": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_office365_name'))]",
+                                "connectionName": "office365",
+                                "id": "/subscriptions/ee4bc22b-1de8-4b0a-a606-ebb2da90c06d/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+                            }
+                        }
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/connections', parameters('connections_office365_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/ee4bc22b-1de8-4b0a-a606-ebb2da90c06d/resourceGroups/LogicApps/providers/Microsoft.Web/connections/office365'.",
+            "type": "Microsoft.Web/connections",
+            "name": "[parameters('connections_office365_name')]",
+            "apiVersion": "2016-06-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "displayName": "[variables('ConnectionName')]",
+                "customParameterValues": {},
+                "api": {
+                    "id": "[concat('/subscriptions/ee4bc22b-1de8-4b0a-a606-ebb2da90c06d/providers/Microsoft.Web/locations/westeurope/managedApis/', parameters('connections_office365_name'))]"
+                }
+            },
+            "dependsOn": []
+        }
+    ]
+}
