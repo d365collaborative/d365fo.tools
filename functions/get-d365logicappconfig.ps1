@@ -25,7 +25,7 @@ function Get-D365LogicAppConfig {
         $Details = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")
         
         $temp = [ordered]@{Email = $Details.Email;
-        Subject = $Details.Subject; URL = $Details.Url}
+        Subject = $Details.Subject; URL = $Details.URL}
         [PSCustomObject]$temp
     }
 }
