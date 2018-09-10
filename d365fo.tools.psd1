@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.4.0'
+    ModuleVersion          = '0.4.01'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -152,6 +152,7 @@
                                 'Remove-D365User',
 
                                 'Rename-D365Instance',
+                                'Rename-D365ComputerName',
 
                                 'Set-D365ActiveAzureStorageConfig',
                                 'Set-D365ActiveEnvironmentConfig',

@@ -181,3 +181,6 @@ Write-PSFMessage -Level Verbose -Message "`$Script:LogicAppEmail: $Script:LogicA
 Write-PSFMessage -Level Verbose -Message "`$Script:LogicAppSubject: $Script:LogicAppSubject"
 Write-PSFMessage -Level Verbose -Message "`$Script:LogicAppUrl: $Script:LogicAppUrl"
 
+$Script:SQLTools = "C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn"
+
+Write-PSFMessage -Level Verbose -Message "`$Script:SQLTools: $Script:SQLTools"
