@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.4.03'
+    ModuleVersion          = '0.4.04'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -112,6 +112,7 @@
                                 'Get-D365SDPCleanUp',
                                 'Get-D365Table',
                                 'Get-D365TableField',
+                                'Get-D365TableSequence',
                                 'Get-D365TfsUri',
                                 'Get-D365TfsWorkspace',
 
