@@ -63,8 +63,8 @@ function Invoke-D365SCDPBundleInstall {
     $StartTime = Get-Date
     $executable = Join-Path $Script:BinDir "\bin\SCDPBundleInstall.exe"
 
-    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
-    if (!(Test-PathExists -Path $Path,$MetaDataDir -Type Container)) {return}
+    if (!(Test-PathExists -Path $Path,$executable -Type Leaf)) {return}
+    if (!(Test-PathExists -Path $MetaDataDir -Type Container)) {return}
     
     if ($InstallOnly.IsPresent) {
         $param = @("-install", 

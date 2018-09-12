@@ -158,7 +158,7 @@ function Get-D365PackageBundleDetail {
                 $arrKbs = $kbs.node.InnerText
 
                 if($packageId.Node.InnerText -notlike $Hotfix) {continue}
-                if(@($arrKbs) -notlike $KB) {continue}
+                if(@($arrKbs) -notlike $KB) {continue} #* Search across an array with like 
 
                 $Obj = [PSCustomObject]@{Hotfix = $strPackage
                 KBs = ($arrKbs -Join ";")}
