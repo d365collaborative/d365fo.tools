@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.4.07'
+    ModuleVersion          = '0.4.08'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -130,6 +130,7 @@
                                 'Invoke-D365AzureStorageDownload',
                                 'Invoke-D365AzureStorageUpload',                                                                
                                 
+                                'Invoke-D365DataFlush',
                                 'Invoke-D365DBSync',
                                 'Invoke-D365InstallLicense',
                                 'Invoke-D365LogicApp',
