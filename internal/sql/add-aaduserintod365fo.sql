@@ -1,9 +1,5 @@
  /*Variable input @Id,@SignInName,@Name,@SID, @StartUpCompany, @NetworkDomain, @IdentityProvider */
 
-BEGIN TRANSACTION
-
-begin TRY
-
 DROP TABLE IF EXISTS #TempUser 
 
 SET Nocount ON;
@@ -40,7 +36,7 @@ UPDATE #TempUser
 	  ,RECVERSION = 1
     ,[NETWORKDOMAIN] = @NetworkDomain
     ,[IDENTITYPROVIDER] = @IdentityProvider
-    ,[OBJECTID] = @ObjectId
+    ,[OBJECTID] = iif(@ObjectId = '',[OBJECTID],@ObjectId)
     ,[EXTERNALID] = ''
     
 
@@ -52,14 +48,7 @@ INSERT INTO userinfo(ID, NAME, ENABLE, DEL_STARTUPMENU, STATUSLINEINFO, TOOLBARI
 
 DROP TABLE #TempUser
 
-COMMIT TRANSACTION
 
-end TRY
-
-begin CATCH 
-ROLLBACK TRANSACTION
-
-end CATCH
 
 SET Nocount OFF;
 select count(1) from userinfo

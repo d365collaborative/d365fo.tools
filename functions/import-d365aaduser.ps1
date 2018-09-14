@@ -117,7 +117,9 @@ function Import-D365AadUser {
         [string]$NameValue = "DisplayName",
 
         [Parameter(Mandatory = $false, Position = 11)]
-        [PSCredential]$AzureAdCredential
+        [PSCredential]$AzureAdCredential,
+        [Parameter(Mandatory = $false, Position = 12, ParameterSetName = "UserListImport")]
+        [switch]$SkipAzureAd
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -125,6 +127,7 @@ function Import-D365AadUser {
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
         SqlUser = $SqlUser; SqlPwd = $SqlPwd 
     }
+
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
@@ -134,13 +137,13 @@ function Import-D365AadUser {
     try {
         Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory"
 
-        if($PSBoundParameters.ContainsKey("AzureAdCredential") -eq $true)
-        {
+        if ($PSBoundParameters.ContainsKey("AzureAdCredential") -eq $true) {
             $null = Connect-AzureAD  -ErrorAction Stop -Credential $AzureAdCredential
         }
-        else 
-        {
-            $null = Connect-AzureAD  -ErrorAction Stop
+        else {
+            if($SkipAzureAd -eq $false) {
+                $null = Connect-AzureAD  -ErrorAction Stop
+            }
         }
 
 
@@ -164,11 +167,9 @@ function Import-D365AadUser {
             return
         }
 
-        if($group.Length -gt 1)
-        {
+        if ($group.Length -gt 1) {
             Write-PSFMessage -Level Host -Message "More than one group found"
-            foreach ($foundGroup in $group)
-            {
+            foreach ($foundGroup in $group) {
                 Write-PSFMessage -Level Host -Message "Group found $($foundGroup.DisplayName)"
             }
             Stop-PSFFunction -Message "Stopping because of errors"
@@ -185,7 +186,32 @@ function Import-D365AadUser {
     }
     else {
         foreach ($user in $Users) {
-            $null = $azureAdUsers.Add((Get-AzureADUser -SearchString $user))
+        
+            if($SkipAzureAd -eq $true)
+            {
+                $name = Get-LoginFromEmail $user
+                $azureAdUsers.Add([PSCustomObject]@{
+                    Mail = $user
+                    GivenName = $name
+                    DisplayName = $name
+                    ObjectId = ''
+                })
+            }
+            else
+            {
+                $aadUser = Get-AzureADUser -SearchString $user
+
+                if ($null -eq $aadUser) {
+                    Write-PSFMessage -Level Critical "Could not find user $user in AzureAAd"
+                }
+                else {
+                    $null = $azureAdUsers.Add($aadUser)
+                }
+    
+
+            }
+        
+            
         }
     }
 
@@ -205,9 +231,15 @@ function Import-D365AadUser {
             Write-PSFMessage -Level Verbose -Message "InstanceProvider : $InstanceProvider"
             Write-PSFMessage -Level Verbose -Message "Tenant : $Tenant"
     
-            if ($instanceProvider.ToLower().Contains($tenant.ToLower()) -ne $True) {
-                Write-PSFMessage -Level Verbose -Message "Getting identity provider from  $($user.Mail)."
-                $identityProvider = Get-IdentityProvider $user.Mail
+            if($user.Mail.ToLower().Contains("outlook.com") -eq $true) {
+                $identityProvider = "live.com"
+            }
+            else
+            {
+                if ($instanceProvider.ToLower().Contains($tenant.ToLower()) -ne $True) {
+                    Write-PSFMessage -Level Verbose -Message "Getting identity provider from  $($user.Mail)."
+                    $identityProvider = Get-IdentityProvider $user.Mail
+                }
             }
     
             Write-PSFMessage -Level Verbose -Message "Getting sid from  $($user.Mail) and identity provider : $identityProvider."
