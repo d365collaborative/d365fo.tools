@@ -67,24 +67,21 @@ function Get-D365DotNetClass {
     }
     
     process {
-        $StartTime = Get-Date
+        Invoke-TimeSignal -Start
 
         $files = (Get-ChildItem -Path $PackageDirectory -Filter $Assembly -Recurse -Exclude "*Resources*" | Where-Object Fullname -Notlike "*Resources*" )
 
         $files | ForEach-Object {
             $path = $_.Fullname
             try {
-                Write-Verbose "Loading the file"
+                Write-PSFMessage -Level Verbose -Message "Loading the dll file: $path" -Target $path
+                
                 [Reflection.Assembly]$ass = [Reflection.Assembly]::LoadFile($path)
 
-                Write-Host "`r`n$path`r`n"
-
-                Write-Verbose "Getting all the types"
                 $res = $ass.GetTypes()
 
-                Write-Verbose "Looping all the types"
+                Write-PSFMessage -Level Verbose -Message "Looping through all types from the assembly"
                 foreach ($obj in $res) {
-                    Write-Verbose "$($obj.Name)"
                     if ($obj.Name -NotLike $Name) { continue }
                     [PSCustomObject]@{
                         IsPublic = $obj.IsPublic
@@ -103,13 +100,7 @@ function Get-D365DotNetClass {
             } 
         }
 
-        $EndTime = Get-Date
-        $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
-
-        if ($PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
-            Write-Host "Time Taken inside: Get-D365DotNetClass" -ForegroundColor Green
-            Write-Host "$TimeSpan" -ForegroundColor Green
-        }
+        Invoke-TimeSignal -End
     }
 
     end {

@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.4.06'
+    ModuleVersion          = '0.4.07'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -159,6 +159,7 @@
                                 'Set-D365ActiveEnvironmentConfig',
                                 'Set-D365Admin',
 
+                                'Set-D365FavoriteBookmark',
                                 'Set-D365LogicAppConfig',
                                 'Set-D365OfflineAuthenticationAdminEmail',
                                 'Set-D365SDPCleanUp',
