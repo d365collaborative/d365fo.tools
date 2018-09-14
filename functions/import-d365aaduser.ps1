@@ -131,8 +131,6 @@ function Import-D365AadUser {
     $instanceProvider = Get-InstanceIdentityProvider
     $canonicalProvider = Get-CanonicalIdentityProvider
 
-    Write-PSFMessage -Level Verbose -Message "CanonicalIdentityProvider: $Provider"
-
     try {
         Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory"
 
@@ -203,6 +201,9 @@ function Import-D365AadUser {
 
             Write-PSFMessage -Level Verbose -Message "Getting domain from $($user.Mail)."
             $networkDomain = get-NetworkDomain $user.Mail
+
+            Write-PSFMessage -Level Verbose -Message "InstanceProvider : $InstanceProvider"
+            Write-PSFMessage -Level Verbose -Message "Tenant : $Tenant"
     
             if ($instanceProvider.ToLower().Contains($tenant.ToLower()) -ne $True) {
                 Write-PSFMessage -Level Verbose -Message "Getting identity provider from  $($user.Mail)."
@@ -211,7 +212,7 @@ function Import-D365AadUser {
     
             Write-PSFMessage -Level Verbose -Message "Getting sid from  $($user.Mail) and identity provider : $identityProvider."
             $sid = Get-UserSIDFromAad $user.Mail $identityProvider
-
+            Write-PSFMessage -Level Verbose -Message "Generated SID : $sid"
             $id = ""
             if ($IdValue -eq 'Login') {
                 $id = $IdPrefix + $(Get-LoginFromEmail $user.Mail)
@@ -219,6 +220,7 @@ function Import-D365AadUser {
             else {
                 $id = $IdPrefix + $user.GivenName
             }
+            Write-PSFMessage -Level Verbose -Message "Id for user $($user.Mail) : $id"
     
             $name = ""
             if ($NameValue -eq 'DisplayName') {
@@ -228,8 +230,9 @@ function Import-D365AadUser {
             else {
                 $name = $user.GivenName + $NameSuffix
             }
-    
+            Write-PSFMessage -Level Verbose -Message "Name for user $($user.Mail) : $name"
             Write-PSFMessage -Level Verbose -Message "Importing $($user.Mail) - SID $sid - Provider $identityProvider"
+
             Import-AadUserIntoD365FO $SqlCommand $user.Mail $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
         }
     }
