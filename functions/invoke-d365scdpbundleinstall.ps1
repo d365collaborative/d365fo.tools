@@ -66,6 +66,8 @@ function Invoke-D365SCDPBundleInstall {
     if (!(Test-PathExists -Path $Path,$executable -Type Leaf)) {return}
     if (!(Test-PathExists -Path $MetaDataDir -Type Container)) {return}
     
+    Unblock-File -Path $Path #File is typically downloaded and extracted
+
     if ($InstallOnly.IsPresent) {
         $param = @("-install", 
         "-packagepath=$Path", 
