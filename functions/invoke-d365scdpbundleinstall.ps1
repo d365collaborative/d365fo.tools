@@ -76,7 +76,7 @@ function Invoke-D365SCDPBundleInstall {
     else{
 
         if ($TfsUri -eq ""){
-            Write-PSFMessage -Level Host -Message "No TFS URI provided. Unable to complete the command"
+            Write-PSFMessage -Level Host -Message "No TFS URI provided. Unable to complete the command."
             Stop-PSFFunction -Message "Stopping because missing TFS URI parameter."
             return
         }
