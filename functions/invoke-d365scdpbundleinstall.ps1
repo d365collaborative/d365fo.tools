@@ -111,7 +111,7 @@ function Invoke-D365SCDPBundleInstall {
             $stopwatch = [Diagnostics.StopWatch]::StartNew();
             $bundleRoot = "$env:localappdata\temp\SCDPBundleInstall"
             
-            $bundleTotalCount = (Get-ChildItem "$bundleRoot\*.axscdp").Count
+            $bundleTotalCount = (Get-ChildItem "$bundleRoot\*.axscdp" -ErrorAction SilentlyContinue).Count
             $bundleCounter = 0
             
             while ($keepLooking -and $stopwatch.elapsed -lt $timeout)
@@ -131,7 +131,7 @@ function Invoke-D365SCDPBundleInstall {
                         {
                             $announcedBundle = $currentBundle
                             $bundleCounter = $bundleCounter + 1
-                            Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle [$(Get-Date)]"                            
+                            Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"                            
                         }
                     }
                 }
