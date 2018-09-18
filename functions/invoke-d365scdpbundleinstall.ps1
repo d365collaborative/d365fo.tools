@@ -55,7 +55,10 @@ function Invoke-D365SCDPBundleInstall {
         [string] $TfsUri = "$Script:TfsUri",
 
         [Parameter(Mandatory = $false, Position = 4 )]
-        [switch] $ShowModifiedFiles
+        [switch] $ShowModifiedFiles,
+
+        [Parameter(Mandatory = $false, Position = 5 )]
+        [switch] $ShowProgress
 
     )
     
@@ -95,8 +98,50 @@ function Invoke-D365SCDPBundleInstall {
                             "-tfsprojecturi=`"$TfsUri`"")
     }
 
-    Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe" -Target $param
-    Start-Process -FilePath $executable -ArgumentList $param -NoNewWindow -Wait
+    Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe" -Target $param    
+    
+    if ($ShowProgress.IsPresent) {
+        
+        $process = Start-Process -FilePath $executable -ArgumentList $param -PassThru
+
+        while (!$process.HasExited) {
+            
+            $keepLooking = $true
+            $timeout = New-TimeSpan -Days 1
+            $stopwatch = [Diagnostics.StopWatch]::StartNew();
+            $bundleRoot = "$env:localappdata\temp\SCDPBundleInstall"
+            
+            $bundleTotalCount = (Get-ChildItem "$bundleRoot\*.axscdp").Count
+            $bundleCounter = 0
+            
+            while ($keepLooking -and $stopwatch.elapsed -lt $timeout)
+            {    
+                if(!(Test-Path -Path $bundleRoot)){
+                    $keepLooking = $false
+                }
+                else
+                {
+                    $currentBundleFolder = Get-ChildItem $bundleRoot -Directory
+            
+                    if ($currentBundleFolder)
+                    {
+                        $currentBundle = $currentBundleFolder.Name
+            
+                        if ($announcedBundle -ne $currentBundle)
+                        {
+                            $announcedBundle = $currentBundle
+                            $bundleCounter = $bundleCounter + 1
+                            Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle [$(Get-Date)]"                            
+                        }
+                    }
+                }
+                Start-Sleep -Seconds 1
+            } 
+        }         
+    }
+    else {
+        Start-Process -FilePath $executable -ArgumentList $param -NoNewWindow -Wait
+    }
     
     if ($ShowModifiedFiles.IsPresent) {
         $res = Get-ChildItem -Path $MetaDataDir -Recurse | Where-Object {$_.LastWriteTime -gt $StartTime}
