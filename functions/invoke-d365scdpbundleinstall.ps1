@@ -106,37 +106,34 @@ function Invoke-D365SCDPBundleInstall {
 
         while (!$process.HasExited) {
             
-            $keepLooking = $true
             $timeout = New-TimeSpan -Days 1
             $stopwatch = [Diagnostics.StopWatch]::StartNew();
             $bundleRoot = "$env:localappdata\temp\SCDPBundleInstall"
-            
-            $bundleTotalCount = (Get-ChildItem "$bundleRoot\*.axscdp" -ErrorAction SilentlyContinue).Count
+            [xml]$manifest = Get-Content $(join-path $bundleRoot "PackageDependencies.dgml") -ErrorAction SilentlyContinue
             $bundleCounter = 0
             
-            while ($keepLooking -and $stopwatch.elapsed -lt $timeout)
+            if ($manifest)
+            {
+                $bundleTotalCount = $manifest.DirectedGraph.Nodes.ChildNodes.Count
+            }            
+            
+            while ($manifest -and $stopwatch.elapsed -lt $timeout)
             {    
-                if(!(Test-Path -Path $bundleRoot)){
-                    $keepLooking = $false
-                }
-                else
+                $currentBundleFolder = Get-ChildItem $bundleRoot -Directory
+        
+                if ($currentBundleFolder)
                 {
-                    $currentBundleFolder = Get-ChildItem $bundleRoot -Directory
-            
-                    if ($currentBundleFolder)
+                    $currentBundle = $currentBundleFolder.Name
+        
+                    if ($announcedBundle -ne $currentBundle)
                     {
-                        $currentBundle = $currentBundleFolder.Name
-            
-                        if ($announcedBundle -ne $currentBundle)
-                        {
-                            $announcedBundle = $currentBundle
-                            $bundleCounter = $bundleCounter + 1
-                            Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"                            
-                        }
+                        $announcedBundle = $currentBundle
+                        $bundleCounter = $bundleCounter + 1
+                        Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"                            
                     }
                 }
-                Start-Sleep -Seconds 1
-            } 
+            }
+            Start-Sleep -Milliseconds 500             
         }         
     }
     else {
