@@ -120,7 +120,7 @@ Remove-D365User -Email "Claire@contoso.com"
 ### **Generate a bacpac file from a Tier1 environment to be ready for a Tier2 environment**
 
 ```
-New-D365Bacpac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExportModeTier1 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
 ```
 
 *This will backup the db database from the localhost server.*
@@ -136,7 +136,7 @@ New-D365Bacpac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db
 ### **Generate a bacpac file from a Tier2 environment. As an export / backup file only**
 
 ```
-New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
+New-D365Bacpac -ExportModeTier2 -DatabaseServer dbserver1.database.windows.net -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BacpacFile C:\Temp\Bacpac\Testing1.bacpac -ExportOnly
 ```
 
 *This will export an bacpac file directly from the db database from the Azure db instance at dbserver1.database.windows.net.*
@@ -144,7 +144,7 @@ New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windo
 ### **Generate a bacpac file from a Tier2 environment to be ready for a Tier1 environment**
 
 ```
-New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExportModeTier2 -DatabaseServer dbserver1.database.windows.net -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
 ```
 
 *This will create a copy of the db database in the Azure db instance at dbserver1.database.windows.net.*
