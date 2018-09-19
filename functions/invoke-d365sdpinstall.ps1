@@ -123,9 +123,8 @@ function Invoke-D365SDPInstall {
                     "-runbookFile=`"$runbookFile`""
                 )
                 & $Util generate $param
-                & $Util execute "-runbookId=$runbookId"
                 & $Util import "-runbookfile=`"$runbookFile`""
-                & $Util execute "-runbookId=$runbookId"
+                & $Util execute "-runbookId=`"$runbookId`""
             }
             Write-PSFMessage -Level Verbose "All manual steps complete."
         }
