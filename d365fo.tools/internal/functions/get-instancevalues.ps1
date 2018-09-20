@@ -19,7 +19,7 @@ function Get-InstanceValues {
         
     $sqlCommand = Get-SQLCommand @PsBoundParameters
 
-    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-instancevalue.sql") -join [Environment]::NewLine
+    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\get-instancevalue.sql") -join [Environment]::NewLine
 
     $sqlCommand.CommandText = $commandText
 

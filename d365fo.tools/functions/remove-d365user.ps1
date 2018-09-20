@@ -86,7 +86,7 @@ function Remove-D365User {
     PROCESS {
         if(Test-PSFFunctionInterrupt) {return}
 
-        $SqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\remove-user.sql") -join [Environment]::NewLine
+        $SqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\remove-user.sql") -join [Environment]::NewLine
     
         $null = $SqlCommand.Parameters.AddWithValue("@Email", $Email)
     

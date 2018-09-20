@@ -71,7 +71,7 @@ function Switch-D365ActiveDatabase {
         }
     }
     
-    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
+    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
     
     $sqlCommand.CommandText = $commandText
 

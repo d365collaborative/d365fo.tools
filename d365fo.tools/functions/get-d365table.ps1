@@ -81,7 +81,7 @@ function Get-D365Table {
 
         $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
-        $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-tables.sql") -join [Environment]::NewLine
+        $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-tables.sql") -join [Environment]::NewLine
 
         $datatable = New-Object system.Data.DataSet
         $dataadapter = New-Object system.Data.SqlClient.SqlDataAdapter($sqlcommand)

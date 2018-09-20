@@ -42,7 +42,7 @@ function Invoke-D365SpHelp {
 
         $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
-        $strQuery = (Get-Content "$script:PSModuleRoot\internal\sql\invoke-sphelp.sql") -join [Environment]::NewLine
+        $strQuery = (Get-Content "$script:ModuleRoot\internal\sql\invoke-sphelp.sql") -join [Environment]::NewLine
 
         $sqlCommand.CommandText = $strQuery.Replace('@schema', $Schema).Replace('@table', $TableName)
 

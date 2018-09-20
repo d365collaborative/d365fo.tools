@@ -141,10 +141,10 @@ function Get-D365TableField {
         $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
         if ($SearchAcrossTables.IsPresent) {
-            $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-alltablefields.sql") -join [Environment]::NewLine
+            $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-alltablefields.sql") -join [Environment]::NewLine
         }
         else {
-            $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-tablefields.sql") -join [Environment]::NewLine
+            $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-tablefields.sql") -join [Environment]::NewLine
             $null = $sqlCommand.Parameters.Add("@TableId", $TableId)    
         }
 

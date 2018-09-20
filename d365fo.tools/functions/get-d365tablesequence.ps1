@@ -86,7 +86,7 @@ function Get-D365TableSequence {
         }
 
         $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
-        $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-tablesequence.sql") -join [Environment]::NewLine
+        $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-tablesequence.sql") -join [Environment]::NewLine
         $null = $sqlCommand.Parameters.AddWithValue('@TableName', $TableName.Replace("*", "%"))
         
         $datatable = New-Object system.Data.DataSet

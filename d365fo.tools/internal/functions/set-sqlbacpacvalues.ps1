@@ -28,7 +28,7 @@ function Set-SqlBacpacValues {
     
     $sqlCommand = Get-SQLCommand -DatabaseServer $DatabaseServer -DatabaseName $DatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd -TrustedConnection $TrustedConnection
 
-    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-bacpacvaluessql.sql") -join [Environment]::NewLine
+    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\set-bacpacvaluessql.sql") -join [Environment]::NewLine
     $commandText = $commandText.Replace('@DATABASENAME', $DatabaseName)
 
     $sqlCommand.CommandText = $commandText

@@ -31,7 +31,7 @@ Function Invoke-SqlBackupRestore {
 
     $sqlCommand = Get-SQLCommand @Params
 
-    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\backuprestoredb.sql") -join [Environment]::NewLine
+    $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\backuprestoredb.sql") -join [Environment]::NewLine
     $null = $sqlCommand.Parameters.Add("@CurrentDatabase", $DatabaseName)
     $null = $sqlCommand.Parameters.Add("@NewName", $NewDatabaseName)
     $null = $sqlCommand.Parameters.Add("@BackupDirectory", $BackupDirectory)

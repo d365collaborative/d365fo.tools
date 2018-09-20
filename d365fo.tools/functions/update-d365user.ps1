@@ -67,13 +67,13 @@ function Update-D365User {
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
+    $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
 
     $null = $sqlCommand.Parameters.Add("@Email", $Email.Replace("*", "%"))
 
     $sqlCommand_Update = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-    $sqlCommand_Update.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
+    $sqlCommand_Update.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
 
     try {
         Write-PSFMessage -Level Verbose -Message "Executing the select statement against the database."

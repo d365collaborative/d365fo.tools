@@ -46,7 +46,7 @@ function Get-D365ExposedService
     }
 
     Write-PSFMessage -Level Verbose -Message "Importing type 'Microsoft.IdentityModel.Clients.ActiveDirectory.dll'"
-    $null = add-type -path "$script:PSModuleRoot\internal\dll\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" -ErrorAction Stop
+    $null = add-type -path "$script:ModuleRoot\internal\dll\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" -ErrorAction Stop
     
 
     $url = $D365FO + "/api/services"

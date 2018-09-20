@@ -75,7 +75,7 @@ function Enable-D365User {
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-    $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\enable-user.sql") -join [Environment]::NewLine
+    $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\enable-user.sql") -join [Environment]::NewLine
     
     $null = $sqlCommand.Parameters.AddWithValue('@Email', $Email.Replace("*", "%"))
 

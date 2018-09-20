@@ -52,7 +52,7 @@ function Set-D365FavoriteBookmark {
 
         $null = New-Item -Path $filePath -Force -ErrorAction SilentlyContinue
 
-        $LinkContent = (Get-Content "$script:PSModuleRoot\internal\misc\$fileName") -Join [Environment]::NewLine
+        $LinkContent = (Get-Content "$script:ModuleRoot\internal\misc\$fileName") -Join [Environment]::NewLine
         $LinkContent.Replace("##URL##", $URL) | Out-File $filePath
     }
     

@@ -1,7 +1,7 @@
 function Test-AadUserIdInD365FO ($SqlCommand, $Id) {
 
 
-    $commandText =(Get-Content "$script:PSModuleRoot\internal\sql\test-aaduseridind365fo.sql") -join [Environment]::NewLine
+    $commandText =(Get-Content "$script:ModuleRoot\internal\sql\test-aaduseridind365fo.sql") -join [Environment]::NewLine
   
     $sqlCommand.CommandText = $commandText
 

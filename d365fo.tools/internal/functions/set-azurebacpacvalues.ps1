@@ -43,7 +43,7 @@ function Set-AzureBacpacValues {
         
     $sqlCommand = Get-SQLCommand -DatabaseServer $DatabaseServer -DatabaseName $DatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd -TrustedConnection $false
 
-    $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\set-bacpacvaluesazure.sql") -join [Environment]::NewLine
+    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\set-bacpacvaluesazure.sql") -join [Environment]::NewLine
 
     $commandText = $commandText.Replace('@axdeployextuser', $AxDeployExtUserPwd)
     $commandText = $commandText.Replace('@axdbadmin', $AxDbAdminPwd)
