@@ -135,7 +135,7 @@ function New-D365Bacpac {
         return
     }
 
-    if ($PSBoundParameters.ContainsKey("BackupDirectory")) {
+    if ($PSBoundParameters.ContainsKey("BackupDirectory") -or $ExportModeTier1) {
         Test-PathExists -Path $BackupDirectory -Type Container -Create
     }
 
