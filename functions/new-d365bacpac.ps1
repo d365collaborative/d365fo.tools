@@ -206,7 +206,7 @@ function New-D365Bacpac {
             if (!$res) {return}
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Remove database from SQL"
-            Remove-D365Database @Params -TrustedConnection $UseTrustedConnection
+            Remove-D365Database @Params
 
             [PSCustomObject]@{
                 File     = $BacpacFile
