@@ -28,11 +28,11 @@ Author: Mötz Jensen (@Splaxi)
 #>
 function Invoke-D365LogicApp {
     param (
-        [string] $Url = $logicApp.Url,
+        [string] $Url = (Get-D365LogicAppConfig).Url,
 
-        [string] $Email = $logicApp.Email,
+        [string] $Email = (Get-D365LogicAppConfig).Email,
 
-        [string] $Subject = $logicApp.Subject,
+        [string] $Subject = (Get-D365LogicAppConfig).Subject,
 
         [switch] $IncludeAll
     )
