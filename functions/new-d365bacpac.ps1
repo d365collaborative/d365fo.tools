@@ -7,8 +7,11 @@ Takes care of all the details and steps that is needed to create a valid bacpac 
 
 Supports to create a raw bacpac file without prepping. Can be used to automate backup from Tier 2 (MS hosted) environment
 
-.PARAMETER ExecutionMode
-Tell what source database you want to work against. Depending on whether the source database is a classic SQL or Azure DB, the script has to execute different logic.
+.PARAMETER ExportModeTier1
+Switch to instruct the cmdlet that the export will be done against a classic SQL Server installation
+
+.PARAMETER ExportModeTier2
+Switch to instruct the cmdlet that the export will be done against an Azure SQL DB instance
 
 .PARAMETER DatabaseServer
 The name of the database server
@@ -32,17 +35,17 @@ The path where to store the temporary backup file when the script needs to handl
 .PARAMETER NewDatabaseName
 The name for the database the script is going to create when doing the restore process
 
-.PARAMETER BacpacDirectory
-The path where to store the bacpac file that will be generated
+.PARAMETER BacpacFile
+The path where you want the cmdlet to store the bacpac file that will be generated
 
-.PARAMETER BacpacName
-The filename of the bacpac file that will be generate - without extension
+.PARAMETER CustomSqlFile
+The path to a custom sql server script file that you want executed against the database
 
-.PARAMETER RawBacpacOnly
+.PARAMETER ExportOnly
 Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
 
 .EXAMPLE
-New-D365Bacpac -ExecutionMode FromSql -DatabaseServer localhost -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExportModeTier1 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
 
 Will backup and restore the db database again the localhost server.
 Will run the prepping process against the restored database.
@@ -50,7 +53,7 @@ Will export a bacpac file.
 Will delete the restored database.
 
 .EXAMPLE
-New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExportModeTier2 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
 
 Will create a copy the db database on the dbserver1 in Azure.
 Will run the prepping process against the copy database.
@@ -58,18 +61,18 @@ Will export a bacpac file.
 Will delete the copy database.
 
 .EXAMPLE
-New-D365Bacpac -ExecutionMode FromAzure -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1
+New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BackupDirectory c:\Temp\backup\ -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
 
 Normally used for a Tier-2 export and preparation for Tier-1 import
 
-Will create a copy the registered D365 database on the registered D365 Azure SQL Server.
+Will create a copy of the registered D365 database on the registered D365 Azure SQL DB instance.
 Will run the prepping process against the copy database.
 Will export a bacpac file.
 Will delete the copy database.
 
 
 .EXAMPLE
-New-D365Bacpac -ExecutionMode FromAzure -DatabaseServer dbserver1.database.windows.net -DatabaseName db -SqlUser User123 -SqlPwd "Password123" -BacpacDirectory C:\Temp\Bacpac\ -BacpacName Testing1 -RawBacpacOnly
+New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BackupDirectory c:\Temp\backup\ -BacpacFile C:\Temp\Bacpac\Testing1.bacpac -ExportOnly
 
 Will export a bacpac file.
 The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
@@ -100,7 +103,7 @@ function New-D365Bacpac {
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $false, Position = 5 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ExportTier1', Position = 5 )]
         [string]$BackupDirectory = "C:\Temp\d365fo.tools\SqlBackups",
 
         [Parameter(Mandatory = $false, Position = 6 )]
@@ -120,30 +123,23 @@ function New-D365Bacpac {
     Invoke-TimeSignal -Start
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
-    $ExecuteCustomSQL = $false
-
+    
     if ($PSBoundParameters.ContainsKey("CustomSqlFile")) {
-        if ((Test-Path $CustomSqlFile -PathType Leaf) -eq $false) {
-            Write-PSFMessage -Level Host -Message "You used the <c='em'>CustomSqlFile</c> parameter, but the cmdlet is unable to locate the file on the machine. Please make sure that the path exists and you have enough permissions."
-            Stop-PSFFunction -Message "The CustomSqlFile path was not located."
-            return
-        }
-        else {
-            $ExecuteCustomSQL = $true
-        }
+        if (-not (Test-PathExists -Path $CustomSqlFile -Type Leaf)) {return}
+        $ExecuteCustomSQL = $true
     }
 
-    if($BacpacFile -notlike "*.bacpac") {
+    if ($BacpacFile -notlike "*.bacpac") {
         Write-PSFMessage -Level Host -Message "The path for the bacpac file must contain the <c='em'>.bacpac</c> extension. Please update the <c='em'>BacpacFile</c> parameter and try again."
         Stop-PSFFunction -Message "The BacpacFile path was not correct."
         return
     }
 
-    if ((Test-path $BackupDirectory -PathType Container) -eq $false) { $null = new-item -ItemType directory -path $BackupDirectory }
-    if ((Test-path (Split-Path $BacpacFile -Parent) -PathType Container) -eq $false) { 
-        $null = new-item -ItemType directory -path (Split-Path $BacpacFile -Parent) 
+    if ($PSBoundParameters.ContainsKey("BackupDirectory") -or $ExportModeTier1) {
+        Test-PathExists -Path $BackupDirectory -Type Container -Create
     }
-    
+
+    Test-PathExists -Path (Split-Path $BacpacFile -Parent) -Type Container -Create
 
     $Properties = @("VerifyFullTextDocumentTypesSupported=false",
         "Storage=File"
@@ -162,7 +158,7 @@ function New-D365Bacpac {
         Properties = $Properties
     }
 
-    if ($ExportOnly.IsPresent) {
+    if ($ExportOnly) {
         
         Write-PSFMessage -Level Verbose -Message "Invoking the export of the bacpac file only."
 
@@ -187,7 +183,7 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - SQL backup & restore process"
             $res = Invoke-SqlBackupRestore @BaseParams @Params
 
-            if(!$res) {return}
+            if (!$res) {return}
 
             $Params = Get-DeepClone $BaseParams
             $Params.DatabaseName = $NewDatabaseName
@@ -195,13 +191,13 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Clear SQL objects"
             $res = Invoke-ClearSqlSpecificObjects @Params -TrustedConnection $UseTrustedConnection
 
-            if(!$res) {return}
+            if (!$res) {return}
 
             if ($ExecuteCustomSQL) {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Execution of custom SQL script"
                 $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
-                if(!$res) {return}
+                if (!$res) {return}
             }
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Export of the bacpac file from SQL"
@@ -210,7 +206,7 @@ function New-D365Bacpac {
             if (!$res) {return}
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Remove database from SQL"
-            Remove-D365Database @Params -TrustedConnection $UseTrustedConnection
+            Remove-D365Database @Params
 
             [PSCustomObject]@{
                 File     = $BacpacFile
@@ -238,7 +234,7 @@ function New-D365Bacpac {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Execution of custom SQL script"
                 $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $false
 
-                if(!$res) {return}
+                if (!$res) {return}
             }
             
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Export of the bacpac file from Azure DB"

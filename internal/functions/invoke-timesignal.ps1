@@ -13,7 +13,8 @@ function Invoke-TimeSignal {
 
     if($Start.IsPresent) {
         if($Script:TimeSignals.ContainsKey($Command)) {
-            Write-PSFMessage -Level Verbose -Message "The command '$Command' is already taking part in time measurement."        
+            Write-PSFMessage -Level Verbose -Message "The command '$Command' was already taking part in time measurement. The entry has been update with current date and time."
+            $Script:TimeSignals[$Command] = $Time
         }
         else{
             $Script:TimeSignals.Add($Command, $Time)
