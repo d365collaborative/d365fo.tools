@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.4.09'
+    ModuleVersion          = '0.4.10'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -46,8 +46,8 @@
     RequiredModules        = @(
         @{ ModuleName = 'PSFramework'; ModuleVersion = '0.9.24.85' },
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
-        @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' } 
-        
+        @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' },
+        @{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
     )
 
     # Assemblies that must be loaded prior to importing this module
