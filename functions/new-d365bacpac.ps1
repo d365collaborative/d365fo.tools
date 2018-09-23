@@ -103,7 +103,7 @@ function New-D365Bacpac {
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $false, Position = 5 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ExportTier1', Position = 5 )]
         [string]$BackupDirectory = "C:\Temp\d365fo.tools\SqlBackups",
 
         [Parameter(Mandatory = $false, Position = 6 )]
@@ -123,30 +123,23 @@ function New-D365Bacpac {
     Invoke-TimeSignal -Start
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
-    $ExecuteCustomSQL = $false
-
+    
     if ($PSBoundParameters.ContainsKey("CustomSqlFile")) {
-        if ((Test-Path $CustomSqlFile -PathType Leaf) -eq $false) {
-            Write-PSFMessage -Level Host -Message "You used the <c='em'>CustomSqlFile</c> parameter, but the cmdlet is unable to locate the file on the machine. Please make sure that the path exists and you have enough permissions."
-            Stop-PSFFunction -Message "The CustomSqlFile path was not located."
-            return
-        }
-        else {
-            $ExecuteCustomSQL = $true
-        }
+        if (-not (Test-PathExists -Path $CustomSqlFile -Type Leaf)) {return}
+        $ExecuteCustomSQL = $true
     }
 
-    if($BacpacFile -notlike "*.bacpac") {
+    if ($BacpacFile -notlike "*.bacpac") {
         Write-PSFMessage -Level Host -Message "The path for the bacpac file must contain the <c='em'>.bacpac</c> extension. Please update the <c='em'>BacpacFile</c> parameter and try again."
         Stop-PSFFunction -Message "The BacpacFile path was not correct."
         return
     }
 
-    if ((Test-path $BackupDirectory -PathType Container) -eq $false) { $null = new-item -ItemType directory -path $BackupDirectory }
-    if ((Test-path (Split-Path $BacpacFile -Parent) -PathType Container) -eq $false) { 
-        $null = new-item -ItemType directory -path (Split-Path $BacpacFile -Parent) 
+    if ($PSBoundParameters.ContainsKey("BackupDirectory")) {
+        Test-PathExists -Path $BackupDirectory -Type Container -Create
     }
-    
+
+    Test-PathExists -Path (Split-Path $BacpacFile -Parent) -Type Container -Create
 
     $Properties = @("VerifyFullTextDocumentTypesSupported=false",
         "Storage=File"
@@ -165,7 +158,7 @@ function New-D365Bacpac {
         Properties = $Properties
     }
 
-    if ($ExportOnly.IsPresent) {
+    if ($ExportOnly) {
         
         Write-PSFMessage -Level Verbose -Message "Invoking the export of the bacpac file only."
 
@@ -190,7 +183,7 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - SQL backup & restore process"
             $res = Invoke-SqlBackupRestore @BaseParams @Params
 
-            if(!$res) {return}
+            if (!$res) {return}
 
             $Params = Get-DeepClone $BaseParams
             $Params.DatabaseName = $NewDatabaseName
@@ -198,13 +191,13 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Clear SQL objects"
             $res = Invoke-ClearSqlSpecificObjects @Params -TrustedConnection $UseTrustedConnection
 
-            if(!$res) {return}
+            if (!$res) {return}
 
             if ($ExecuteCustomSQL) {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Execution of custom SQL script"
                 $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
-                if(!$res) {return}
+                if (!$res) {return}
             }
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Export of the bacpac file from SQL"
@@ -241,7 +234,7 @@ function New-D365Bacpac {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Execution of custom SQL script"
                 $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $false
 
-                if(!$res) {return}
+                if (!$res) {return}
             }
             
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Export of the bacpac file from Azure DB"
