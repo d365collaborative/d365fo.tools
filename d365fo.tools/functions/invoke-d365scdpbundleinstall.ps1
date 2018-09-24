@@ -36,7 +36,7 @@ function Invoke-D365SCDPBundleInstall {
         [Parameter(Mandatory = $True, ParameterSetName = 'InstallOnly', Position = 0 )]
         [switch] $InstallOnly,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Tfs', Position = 0 )]
+        [Parameter(Mandatory = $False, ParameterSetName = 'Tfs', Position = 0 )]
         [ValidateSet('Prepare', 'Install')]
         [string] $Command = 'Prepare',
 
@@ -45,19 +45,19 @@ function Invoke-D365SCDPBundleInstall {
         [Alias('File')]
         [string] $Path,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
+        [Parameter(Mandatory = $False, Position = 2 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Tfs', Position = 3 )]
+        [Parameter(Mandatory = $False, ParameterSetName = 'Tfs', Position = 3 )]
         [string] $TfsWorkspaceDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Tfs', Position = 4 )]
+        [Parameter(Mandatory = $False, ParameterSetName = 'Tfs', Position = 4 )]
         [string] $TfsUri = "$Script:TfsUri",
 
-        [Parameter(Mandatory = $false, Position = 4 )]
+        [Parameter(Mandatory = $False, Position = 4 )]
         [switch] $ShowModifiedFiles,
 
-        [Parameter(Mandatory = $false, Position = 5 )]
+        [Parameter(Mandatory = $False, Position = 5 )]
         [switch] $ShowProgress
 
     )
@@ -71,7 +71,7 @@ function Invoke-D365SCDPBundleInstall {
     
     Unblock-File -Path $Path #File is typically downloaded and extracted
 
-    if ($InstallOnly.IsPresent) {
+    if ($InstallOnly) {
         $param = @("-install", 
         "-packagepath=$Path", 
         "-metadatastorepath=$MetaDataDir")
@@ -100,7 +100,7 @@ function Invoke-D365SCDPBundleInstall {
 
     Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe" -Target $param    
     
-    if ($ShowProgress.IsPresent) {
+    if ($ShowProgress) {
         
         $process = Start-Process -FilePath $executable -ArgumentList $param -PassThru
 
@@ -116,7 +116,7 @@ function Invoke-D365SCDPBundleInstall {
             
             while ($keepLooking -and $stopwatch.elapsed -lt $timeout)
             {    
-                if(!(Test-Path -Path $bundleRoot)){
+                if(!(Test-PathExists -Path $bundleRoot -Type Container)){
                     $keepLooking = $false
                 }
                 else
@@ -143,7 +143,7 @@ function Invoke-D365SCDPBundleInstall {
         Start-Process -FilePath $executable -ArgumentList $param -NoNewWindow -Wait
     }
     
-    if ($ShowModifiedFiles.IsPresent) {
+    if ($ShowModifiedFiles) {
         $res = Get-ChildItem -Path $MetaDataDir -Recurse | Where-Object {$_.LastWriteTime -gt $StartTime}
 
         $res | ForEach-Object {
