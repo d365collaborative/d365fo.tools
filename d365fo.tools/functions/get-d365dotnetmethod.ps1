@@ -69,18 +69,17 @@ function Get-D365DotNetMethod {
     }
     
     process {
-        $StartTime = Get-Date
+        Invoke-TimeSignal -Start
 
         try {
-            Write-Verbose "Loading the file"
+            Write-PSFMessage -Level Verbose -Message "Loading the file" -Target $Assembly
             [Reflection.Assembly]$ass = [Reflection.Assembly]::LoadFile($Assembly)
 
-            Write-Verbose "Getting all the types"
             $types = $ass.GetTypes()
 
-            Write-Verbose "Looping all the types"
             foreach ($obj in $types) {
                 Write-Verbose "$($obj.Name)"
+                Write-PSFMessage -Level Verbose -Message "Type name loaded" -Target $obj.Name
 
                 if ($obj.Name -NotLike $TypeName) {continue}
 
@@ -98,19 +97,10 @@ function Get-D365DotNetMethod {
             }
         }
         catch {
-            # write-Error $_.Exception.Message
-            # Write-Error $_.Exception
-
-            Write-Verbose "Failed to load: $path"
+            Write-PSFMessage -Level Warning -Message "Something went wrong while working on: $Assembly" -ErrorRecord $_
         } 
-
-        $EndTime = Get-Date
-        $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
         
-        if ($PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
-            Write-Host "Time Taken inside: Get-D365DotNetMethod" -ForegroundColor Green
-            Write-Host "$TimeSpan" -ForegroundColor Green
-        }
+        Invoke-TimeSignal -End
     }
 
     end {
