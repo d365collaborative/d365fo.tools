@@ -25,14 +25,11 @@ function Get-D365OfflineAuthenticationAdminEmail {
 
     $filePath = Join-Path (Join-Path $Script:PackageDirectory "bin") "DynamicsDevConfig.xml"
 
-    if ([System.IO.File]::Exists($filePath) -ne $True) {
-        Write-Host "The DynamicsDevConfig.xml is not present on the system. Please make sure that the following path exists and you have enough permissions: `r`n$filePath " -ForegroundColor Yellow
-        Write-Error "The DynamicsDevConfig.xml is missing on the system." -ErrorAction Stop
-    }
+    if(-not (Test-PathExists -Path $filePath -Type Leaf)) {return}
 
     $namespace = @{ns="http://schemas.microsoft.com/dynamics/2012/03/development/configuration"}
     $OfflineAuthAdminEmail = Select-Xml -XPath "/ns:DynamicsDevConfig/ns:OfflineAuthenticationAdminEmail" -Path $filePath -Namespace $namespace
 
     $AdminEmail = $OfflineAuthAdminEmail.Node.InnerText
-    $AdminEmail
+    [Hashtable] @{Email = $AdminEmail}
 }
