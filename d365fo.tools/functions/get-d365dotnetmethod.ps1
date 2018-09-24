@@ -78,7 +78,6 @@ function Get-D365DotNetMethod {
             $types = $ass.GetTypes()
 
             foreach ($obj in $types) {
-                Write-Verbose "$($obj.Name)"
                 Write-PSFMessage -Level Verbose -Message "Type name loaded" -Target $obj.Name
 
                 if ($obj.Name -NotLike $TypeName) {continue}

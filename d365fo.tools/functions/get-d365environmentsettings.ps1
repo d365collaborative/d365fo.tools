@@ -6,12 +6,12 @@ Get the D365FO environment settings
 Gets all settings the Dynamics 365 for Finance & Operations environment uses.
 
 .EXAMPLE
-Get-D365EnvironmentSettings
+Get-D365EnvironmentSetting
 
 This will get all details available for the environment
 
 .EXAMPLE
-Get-D365EnvironmentSettings | Format-Custom -Property *
+Get-D365EnvironmentSetting | Format-Custom -Property *
 
 This will get all details available for the environment and format it to show all details in a long 
 custom object.
@@ -20,7 +20,7 @@ custom object.
 The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations. 
 The call to the dll file gets all relevant details for the installation.
 #>
-function Get-D365EnvironmentSettings {
+function Get-D365EnvironmentSetting {
     [CmdletBinding()]
     param ()
 
