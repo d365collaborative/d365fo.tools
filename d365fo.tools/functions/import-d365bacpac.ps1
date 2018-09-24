@@ -71,7 +71,7 @@ This will instruct the cmdlet that the import will be working against a SQL Serv
 It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
 
 .EXAMPLE
-Import-D365BacpacOldVersion -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
+Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
 
 This will instruct the cmdlet that the import will be working against an Azure DB instance.
 It requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2

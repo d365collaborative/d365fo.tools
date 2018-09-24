@@ -98,7 +98,6 @@
 
 						'Import-D365AadUser',
 						'Import-D365Bacpac',
-						'Import-D365BacpacOldVersion',
 
 						'Initialize-D365Config',
 
