@@ -31,5 +31,5 @@ function Get-D365OfflineAuthenticationAdminEmail {
     $OfflineAuthAdminEmail = Select-Xml -XPath "/ns:DynamicsDevConfig/ns:OfflineAuthenticationAdminEmail" -Path $filePath -Namespace $namespace
 
     $AdminEmail = $OfflineAuthAdminEmail.Node.InnerText
-    [Hashtable] @{Email = $AdminEmail}
+    [PSCustomObject] @{Email = $AdminEmail}
 }

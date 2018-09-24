@@ -89,7 +89,7 @@ function Get-D365TableField {
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [Parameter(Mandatory = $false, ParameterSetName = 'TableName', Position = 2 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'SearchByNameForce', Position = 1 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'SearchByNameForce', Position = 1 )]
         [string] $Name = "*",
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 3 )]
@@ -126,21 +126,23 @@ function Get-D365TableField {
         [Parameter(Mandatory = $true, ParameterSetName = 'SearchByNameForce', Position = 2 )]
         [switch] $SearchAcrossTables
     )
-    BEGIN {}
-    
-    PROCESS {
-        if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-            Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
-            Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+    BEGIN {
+        $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+
+        $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+            SqlUser = $SqlUser; SqlPwd = $SqlPwd 
         }
 
+        $sqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
+
+    }
+    
+    PROCESS {
         if ($PSCmdlet.ParameterSetName -eq "TableName") {
             $TableId = (Get-D365Table -Name $TableName | Select-Object -First 1).TableId
         }
 
-        $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
-
-        if ($SearchAcrossTables.IsPresent) {
+        if ($SearchAcrossTables) {
             $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-alltablefields.sql") -join [Environment]::NewLine
         }
         else {
@@ -171,11 +173,11 @@ function Get-D365TableField {
                 SqlName   = $obj.SqlName
             }
 
-            if ($IncludeTableDetails.IsPresent) {
+            if ($IncludeTableDetails) {
                 $res | Add-Member -MemberType NoteProperty -Name 'TableId' -Value $obj.TableId
                 $res | Add-Member -MemberType NoteProperty -Name 'TableName' -Value $TableName
             }
-            if ($SearchAcrossTables.IsPresent) {
+            if ($SearchAcrossTables) {
                 $res | Add-Member -MemberType NoteProperty -Name 'TableId' -Value $obj.TableId
             }
 
