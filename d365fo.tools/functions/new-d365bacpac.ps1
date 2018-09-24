@@ -81,6 +81,7 @@ The bacpac should be able to restore back into the database without any preparin
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 #>
 function New-D365Bacpac {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding(DefaultParameterSetName = 'ExportTier2')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier1', Position = 0)]
