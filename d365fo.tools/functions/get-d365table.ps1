@@ -51,35 +51,33 @@ function Get-D365Table {
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
         [string[]] $Name = "*",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'TableId', Position = 2 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'TableId', Position = 1 )]
+        [int] $Id,
+
+        [Parameter(Mandatory = $false, Position = 2 )]
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'TableId', Position = 3 )]
+        [Parameter(Mandatory = $false, Position = 3 )]
         [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'TableId', Position = 4 )]
+        [Parameter(Mandatory = $false, Position = 4 )]
         [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 5 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'TableId', Position = 5 )]
-        [string] $SqlPwd = $Script:DatabaseUserPassword,
-
-        [Parameter(Mandatory = $true, ParameterSetName = 'TableId', Position = 1 )]
-        [int] $Id
+        [Parameter(Mandatory = $false, Position = 5 )]
+        [string] $SqlPwd = $Script:DatabaseUserPassword
     )
 
     BEGIN {}
 
     PROCESS {
-        if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
-            Write-Host "It seems that you ran this cmdlet non-elevated and without the -SqlPwd parameter. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) or simply use the -SqlPwd parameter" -ForegroundColor Yellow
-            Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
+
+        $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+
+        $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+            SqlUser = $SqlUser; SqlPwd = $SqlPwd 
         }
 
-        $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+        $sqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
         $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-tables.sql") -join [Environment]::NewLine
 
