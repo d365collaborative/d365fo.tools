@@ -46,12 +46,19 @@ function Remove-D365Database {
     $srv = new-object Microsoft.SqlServer.Management.Smo.Server("$DatabaseServer")
 
     if (!$UseTrustedConnection) {
+        $srv.ConnectionContext.set_LoginSecure($false)
         $srv.ConnectionContext.set_Login("$SqlUser")
         $srv.ConnectionContext.set_Password("$SqlPwd")
     }
     
     try {
         $db = $srv.Databases["$DatabaseName"]
+
+        if (!$db)
+        {
+            Write-PSFMessage -Level Verbose -Message "Database $DatabaseName not found. Nothing to remove."
+            return
+        }
 
         if ($srv.ServerType -ne "SqlAzureDatabase") {
             $srv.KillAllProcesses("$DatabaseName")
