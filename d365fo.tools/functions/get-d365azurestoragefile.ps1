@@ -79,7 +79,7 @@ function Get-D365AzureStorageFile {
         try {
             $files = $blobcontainer.ListBlobs() | Sort-Object -Descending { $_.Properties.LastModified }
 
-            if ($GetLatest.IsPresent) {
+            if ($GetLatest) {
                 $files | Select-Object -First 1
             }
             else {
@@ -91,10 +91,8 @@ function Get-D365AzureStorageFile {
                 }
             }
         }
-        catch [System.Exception] {
-            Write-Host "Message: $($_.Exception.Message)"
-            Write-Host "StackTrace: $($_.Exception.StackTrace)"
-            Write-Host "LoaderExceptions: $($_.Exception.LoaderExceptions)"
+        catch {
+            Write-PSFMessage -Level Warning -Message "Something broke" -ErrorRecord $_
         }
     }
     END {}
