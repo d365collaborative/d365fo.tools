@@ -56,7 +56,7 @@
 						'Get-D365ActiveAzureStorageConfig',
 						'Get-D365ActiveEnvironmentConfig',
 
-						'Get-D365AOTObjects',
+						'Get-D365AOTObject',
 						
 						'Get-D365AzureStorageConfig',
 						'Get-D365AzureStorageFile',

@@ -640,12 +640,12 @@ Get-D365ActiveAzureStorageConfig
 ## **Working with AOT objects**
 ### **Search for all AxClasses in a package**
 ```
-Get-D365AOTObjects -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+Get-D365AOTObject -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
 ```
 *This will search for all AxClasses in the ApplicationFoundation package*
 
 ### **Search for specific AxClass in a package**
 ```
-Get-D365AOTObjects -Name "*flush*" -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+Get-D365AOTObject -Name "*flush*" -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
 ```
 *This will search for all AxClasses in the ApplicationFoundation package that matches the search "\*flush\*"*
