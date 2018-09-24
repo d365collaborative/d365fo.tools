@@ -190,7 +190,7 @@ function Import-D365AadUser {
             if($SkipAzureAd -eq $true)
             {
                 $name = Get-LoginFromEmail $user
-                $azureAdUsers.Add([PSCustomObject]@{
+                $null = $azureAdUsers.Add([PSCustomObject]@{
                     Mail = $user
                     GivenName = $name
                     DisplayName = $name
