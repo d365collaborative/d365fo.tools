@@ -1,4 +1,4 @@
-enum EnvironmentType {
+﻿enum EnvironmentType {
     Unknown
     LocalHostedTier1
     AzureHostedTier1

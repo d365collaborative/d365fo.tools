@@ -1,4 +1,4 @@
-function New-DecryptedFile ($File, $DropPath) {
+﻿function New-DecryptedFile ($File, $DropPath) {
     
     $Decrypter = Join-Path  $AosServiceWebRootPath -ChildPath "bin\Microsoft.Dynamics.AX.Framework.ConfigEncryptor.exe"
 

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Cmdlet used to get authentication details about a user
 

@@ -1,4 +1,4 @@
-CREATE USER axdeployuser FROM LOGIN axdeployuser
+﻿CREATE USER axdeployuser FROM LOGIN axdeployuser
 EXEC sp_addrolemember 'db_owner', 'axdeployuser'
 
 CREATE USER axdeployextuser WITH PASSWORD = '@axdeployextuser'

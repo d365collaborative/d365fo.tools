@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Upload a file to Azure
 

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Download a file to Azure
 

@@ -1,4 +1,4 @@
-DROP USER IF EXISTS [axretailruntimeuser]
+﻿DROP USER IF EXISTS [axretailruntimeuser]
 DROP USER IF EXISTS [axretaildatasyncuser]
 DROP USER IF EXISTS [axmrruntimeuser]
 DROP USER IF EXISTS [axdeployuser]

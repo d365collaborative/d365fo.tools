@@ -1,4 +1,4 @@
-Function Invoke-CustomSqlScript {
+﻿Function Invoke-CustomSqlScript {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

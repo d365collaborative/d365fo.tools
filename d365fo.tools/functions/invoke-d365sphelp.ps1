@@ -1,4 +1,4 @@
-function Invoke-D365SpHelp {
+﻿function Invoke-D365SpHelp {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 1 )]

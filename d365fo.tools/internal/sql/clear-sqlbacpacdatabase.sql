@@ -1,4 +1,4 @@
-
+﻿
 update sysglobalconfiguration
 set value = 'SQLAZURE'
 where name = 'BACKENDDB'

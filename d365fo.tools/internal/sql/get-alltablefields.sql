@@ -1,4 +1,4 @@
-SELECT TABLEID AS TableId
+﻿SELECT TABLEID AS TableId
 , FIELDID AS FieldId
 , Name AS AotName
 , SQLNAME AS SqlName

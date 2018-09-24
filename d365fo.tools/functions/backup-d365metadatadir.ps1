@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Create a backup of the Metadata directory
 

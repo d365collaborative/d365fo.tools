@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get active Azure Storage Account configuration
 

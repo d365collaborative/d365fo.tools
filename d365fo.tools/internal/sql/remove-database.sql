@@ -1,4 +1,4 @@
-
+﻿
 DECLARE @kill varchar(8000) = '';
 
 SELECT @kill = @kill + 'KILL ' + CONVERT(varchar(5), c.session_id) + ';'

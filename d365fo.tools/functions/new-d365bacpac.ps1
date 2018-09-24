@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Generate a bacpac file from a database
 

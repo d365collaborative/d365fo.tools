@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Switches the 2 databases. The Old wil be renamed _original
 

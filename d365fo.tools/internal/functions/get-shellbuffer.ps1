@@ -1,4 +1,4 @@
-function Get-ShellBuffer {
+﻿function Get-ShellBuffer {
     [CmdletBinding()]
     param ()
 			

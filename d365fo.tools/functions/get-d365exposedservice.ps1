@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Returns Exposed services
 

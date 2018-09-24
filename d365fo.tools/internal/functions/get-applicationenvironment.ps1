@@ -1,4 +1,4 @@
-function Get-ApplicationEnvironment {
+﻿function Get-ApplicationEnvironment {
     $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\bin"
 
     Write-PSFMessage -Level Verbose -Message "Testing if we are running on a AOS server or not"            

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Returns information about D365FO
 

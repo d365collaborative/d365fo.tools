@@ -1,4 +1,4 @@
-function Add-AadUserSecurity ($sqlCommand,$Id) {
+﻿function Add-AadUserSecurity ($sqlCommand,$Id) {
     
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\Set-AadUserSecurityInD365FO.sql") -join [Environment]::NewLine

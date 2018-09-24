@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Set a user to sysadmin
 

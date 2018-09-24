@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Install a license for a 3. party solution 
 

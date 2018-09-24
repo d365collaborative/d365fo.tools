@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Initialize D365FO.Tools configuration
 

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get the cleanup retention period
 

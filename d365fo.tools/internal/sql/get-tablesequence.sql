@@ -1,4 +1,4 @@
-SELECT 
+﻿SELECT 
 --s.object_id AS sequence_object_id,
 s.name AS sequence_name,
 SCHEMA_NAME(oParent.schema_id) +'.'+ oParent.name AS table_name,

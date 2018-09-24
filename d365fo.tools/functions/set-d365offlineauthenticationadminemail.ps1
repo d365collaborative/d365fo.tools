@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Sets the offline administrator e-mail
 

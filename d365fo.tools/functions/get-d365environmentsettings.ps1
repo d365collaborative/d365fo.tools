@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get the D365FO environment settings
 

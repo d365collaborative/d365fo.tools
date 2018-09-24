@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get users from the environment
 

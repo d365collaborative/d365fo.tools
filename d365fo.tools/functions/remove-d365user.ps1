@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Delete an user from the environment
 

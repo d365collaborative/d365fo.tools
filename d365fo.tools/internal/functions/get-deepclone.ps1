@@ -1,4 +1,4 @@
-function Get-DeepClone
+﻿function Get-DeepClone
 {
     [cmdletbinding()]
     param(

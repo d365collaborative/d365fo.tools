@@ -1,4 +1,4 @@
-# bin folder
+﻿# bin folder
 
 The bin folder exists to store binary data. And scripts related to the type system.
 

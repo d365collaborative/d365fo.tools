@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get installed package from Dynamics 365 Finance & Operations environment
 

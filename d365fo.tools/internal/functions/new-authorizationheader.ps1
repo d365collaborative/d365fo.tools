@@ -1,4 +1,4 @@
-function New-AuthorizationHeader($Authority, $ClientId, $ClientSecret, $D365FO )
+﻿function New-AuthorizationHeader($Authority, $ClientId, $ClientSecret, $D365FO )
 {
     
     $authContext = new-Object Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext ($Authority,$false)

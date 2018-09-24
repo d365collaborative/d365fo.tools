@@ -1,4 +1,4 @@
-function Get-UserSIDFromAad($SignInName, $Provider) {
+﻿function Get-UserSIDFromAad($SignInName, $Provider) {
 
     try {
 

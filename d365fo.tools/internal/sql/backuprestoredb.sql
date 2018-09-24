@@ -1,4 +1,4 @@
-Declare @BackupTo as varchar(404) = @BackupDirectory + '\' + @NewName + '.bak'
+﻿Declare @BackupTo as varchar(404) = @BackupDirectory + '\' + @NewName + '.bak'
 Declare @BackupName as varchar(150) = @NewName + 'Bacpac full database backup'
 Declare @BackupCommand as varchar(1000)
 

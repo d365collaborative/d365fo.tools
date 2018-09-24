@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get the url for accessing the instance
 

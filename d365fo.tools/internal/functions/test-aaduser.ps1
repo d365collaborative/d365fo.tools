@@ -1,4 +1,4 @@
-function Test-AadUser ( $UserSignInName )
+﻿function Test-AadUser ( $UserSignInName )
 {
 
     #Method missing implementation

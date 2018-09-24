@@ -1,4 +1,4 @@
-/*Variable input @Id */
+﻿/*Variable input @Id */
 DROP TABLE IF EXISTS #TempSecurityUserRole
 DROP TABLE IF EXISTS #TempRecIds
 

@@ -1,4 +1,4 @@
-SELECT  d.name,   
+﻿SELECT  d.name,   
    slo.edition,slo.service_objective  
 FROM sys.databases d   
 JOIN sys.database_service_objectives slo    

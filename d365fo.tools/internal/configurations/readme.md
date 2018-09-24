@@ -1,4 +1,4 @@
-# Configurations
+﻿# Configurations
 
 Through the `PSFramework` you have a simple method that allows you to ...
 

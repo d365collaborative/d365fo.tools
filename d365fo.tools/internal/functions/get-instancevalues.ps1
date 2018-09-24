@@ -1,4 +1,4 @@
-function Get-InstanceValues {
+﻿function Get-InstanceValues {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

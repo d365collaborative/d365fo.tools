@@ -1,4 +1,4 @@
---Prepare a database in Azure SQL Database for export to SQL Server.
+﻿--Prepare a database in Azure SQL Database for export to SQL Server.
 --Disable change tracking on tables where it is enabled.
 declare
 @SQL varchar(1000)

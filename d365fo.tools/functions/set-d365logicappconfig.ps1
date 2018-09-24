@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Set the details for the logic app invoke cmdlet 
 

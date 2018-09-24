@@ -1,4 +1,4 @@
-function Set-SqlBacpacValues {
+﻿function Set-SqlBacpacValues {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Create a new topology file
 

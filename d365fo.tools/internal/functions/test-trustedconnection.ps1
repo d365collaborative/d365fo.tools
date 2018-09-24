@@ -1,4 +1,4 @@
-function Test-TrustedConnection {
+﻿function Test-TrustedConnection {
     [CmdletBinding()]
     param (
         [HashTable] $Inputs

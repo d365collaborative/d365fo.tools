@@ -1,4 +1,4 @@
-function Get-SQLCommand {
+﻿function Get-SQLCommand {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

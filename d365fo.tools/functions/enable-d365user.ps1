@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Enables the user in D365FO
 

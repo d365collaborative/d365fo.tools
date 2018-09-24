@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Invoke the one of the data flush classes
 

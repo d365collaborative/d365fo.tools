@@ -1,4 +1,4 @@
-function Import-AadUserIntoD365FO ($SqlCommand, $SignInName, $Name, $Id, $SID, $StartUpCompany, $IdentityProvider, $NetworkDomain, $ObjectId) {
+﻿function Import-AadUserIntoD365FO ($SqlCommand, $SignInName, $Name, $Id, $SID, $StartUpCompany, $IdentityProvider, $NetworkDomain, $ObjectId) {
     Write-Verbose "Testing the Email $signInName"
 
     $UserFound = Test-AadUserInD365FO $sqlCommand $SignInName

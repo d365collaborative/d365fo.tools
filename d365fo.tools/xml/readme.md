@@ -1,4 +1,4 @@
-# XML
+﻿# XML
 
 This is the folder where project XML files go, notably:
 

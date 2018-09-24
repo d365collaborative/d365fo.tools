@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Sets the environment back into operating state 
 

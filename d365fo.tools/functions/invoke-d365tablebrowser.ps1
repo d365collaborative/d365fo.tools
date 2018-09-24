@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Start a browser session that will show the table browser
 

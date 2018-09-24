@@ -1,4 +1,4 @@
-# PSFModule guidance
+﻿# PSFModule guidance
 
 This is a finished module layout optimized for implementing the PSFramework.
 

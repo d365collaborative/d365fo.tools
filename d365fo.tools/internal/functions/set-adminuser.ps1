@@ -1,4 +1,4 @@
-function Set-AdminUser($SignInName, $DatabaseServerName, $DatabaseName, $SqlUser, $SqlPwd) {
+﻿function Set-AdminUser($SignInName, $DatabaseServerName, $DatabaseName, $SqlUser, $SqlPwd) {
 
     $WebConfigFile = Join-Path $Script:AOSPath $Script:WebConfig
 

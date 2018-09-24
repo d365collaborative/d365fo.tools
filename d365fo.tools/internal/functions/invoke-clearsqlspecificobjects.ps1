@@ -1,4 +1,4 @@
-Function Invoke-ClearSqlSpecificObjects {
+﻿Function Invoke-ClearSqlSpecificObjects {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Decrypts the AOS config file
 

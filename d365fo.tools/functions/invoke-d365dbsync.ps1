@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Invoke the synchronization process used in Visual Studio
 

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get label file from a package
 

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Invokes the Rearm of Windows license
 

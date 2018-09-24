@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Search for AOT objects 
 

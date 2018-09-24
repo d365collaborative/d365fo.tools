@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get a .NET class from the Dynamics 365 for Finance and Operations installation
 

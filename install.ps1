@@ -1,4 +1,4 @@
-<#
+﻿<#
 	.SYNOPSIS
 		Installs the d365fo.tools Module from github
 		

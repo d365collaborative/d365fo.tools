@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Shows the Database Access information for the D365 Environment
 

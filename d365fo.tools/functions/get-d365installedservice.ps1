@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get installed D365 services
 

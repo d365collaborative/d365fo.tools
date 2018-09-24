@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Disables the user in D365FO
 

@@ -1,4 +1,4 @@
-function New-WebRequest ($RequestUrl, $AuthorizationHeader, $Action) {
+﻿function New-WebRequest ($RequestUrl, $AuthorizationHeader, $Action) {
 
     
     Write-PSFMessage -Level Verbose -Message "New Request $RequestUrl, $Action"        

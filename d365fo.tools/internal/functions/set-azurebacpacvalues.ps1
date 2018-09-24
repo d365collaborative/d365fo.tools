@@ -1,4 +1,4 @@
-function Set-AzureBacpacValues {
+﻿function Set-AzureBacpacValues {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

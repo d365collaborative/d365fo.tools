@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Sets the start page in internet explorer
 

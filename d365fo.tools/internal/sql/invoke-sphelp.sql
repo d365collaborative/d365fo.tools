@@ -1,1 +1,1 @@
-exec sp_help '@schema.@table'
+﻿exec sp_help '@schema.@table'

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Cmdlet to stop the different services in a Dynamics 365 Finance & Operations environment
 

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get the registered details for Azure Logic App
 

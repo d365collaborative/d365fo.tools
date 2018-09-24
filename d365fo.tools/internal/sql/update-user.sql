@@ -1,4 +1,4 @@
-update userinfo
+﻿update userinfo
 set [sid] = @sid,
 NETWORKDOMAIN = @networkDomain,
 IDENTITYPROVIDER = @identityProvider

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Invoke a http request for a Logic App
 

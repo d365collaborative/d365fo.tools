@@ -1,4 +1,4 @@
- /*Variable input @Id,@SignInName,@Name,@SID, @StartUpCompany, @NetworkDomain, @IdentityProvider */
+﻿ /*Variable input @Id,@SignInName,@Name,@SID, @StartUpCompany, @NetworkDomain, @IdentityProvider */
 
 DROP TABLE IF EXISTS #TempUser 
 

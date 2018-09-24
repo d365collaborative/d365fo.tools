@@ -1,4 +1,4 @@
-function Test-AadUserIdInD365FO ($SqlCommand, $Id) {
+﻿function Test-AadUserIdInD365FO ($SqlCommand, $Id) {
 
 
     $commandText =(Get-Content "$script:ModuleRoot\internal\sql\test-aaduseridind365fo.sql") -join [Environment]::NewLine

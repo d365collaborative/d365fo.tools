@@ -1,4 +1,4 @@
-function New-D365FOUser ($SqlCommand, $SignInName, $Name, $Id, $SID, $StartUpCompany, $IdentityProvider, $NetworkDomain, $ObjectId) {
+﻿function New-D365FOUser ($SqlCommand, $SignInName, $Name, $Id, $SID, $StartUpCompany, $IdentityProvider, $NetworkDomain, $ObjectId) {
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\Add-AadUserIntoD365FO.sql") -join [Environment]::NewLine
    

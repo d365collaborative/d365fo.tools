@@ -1,4 +1,4 @@
-Function Invoke-SqlBackupRestore {
+﻿Function Invoke-SqlBackupRestore {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

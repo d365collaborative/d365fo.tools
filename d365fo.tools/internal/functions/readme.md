@@ -1,4 +1,4 @@
-# Functions
+﻿# Functions
 
 This is the folder where the internal functions go.
 

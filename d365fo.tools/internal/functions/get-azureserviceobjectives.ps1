@@ -1,4 +1,4 @@
-function Get-AzureServiceObjectives {
+﻿function Get-AzureServiceObjectives {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get active environment configuration
 

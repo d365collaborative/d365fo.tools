@@ -1,4 +1,4 @@
-Function Get-ServiceList {
+﻿Function Get-ServiceList {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]                    

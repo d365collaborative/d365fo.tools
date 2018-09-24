@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get a file from Azure
 

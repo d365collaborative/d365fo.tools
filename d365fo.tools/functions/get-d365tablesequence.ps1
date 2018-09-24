@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get the sequence object for table
 

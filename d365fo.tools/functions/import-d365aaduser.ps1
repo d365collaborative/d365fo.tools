@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Used to import Aad users into D365FO
 

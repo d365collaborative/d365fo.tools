@@ -1,4 +1,4 @@
-function Get-IdentityProvider {
+﻿function Get-IdentityProvider {
     param(
         [Parameter(Mandatory = $true, Position = 1)]
         [string]$Email

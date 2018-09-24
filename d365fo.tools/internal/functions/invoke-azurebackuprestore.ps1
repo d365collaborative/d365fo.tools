@@ -1,4 +1,4 @@
-Function Invoke-AzureBackupRestore  {
+﻿Function Invoke-AzureBackupRestore  {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

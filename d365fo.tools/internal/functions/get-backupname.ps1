@@ -1,4 +1,4 @@
-
+﻿
 function Get-BackupName($File, $Backup) {
     write-verbose $File
     $FileInfo = [System.IO.FileInfo]::new($File)

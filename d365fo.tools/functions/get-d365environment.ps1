@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Cmdlet to get the current status for the different services in a Dynamics 365 Finance & Operations environment
 

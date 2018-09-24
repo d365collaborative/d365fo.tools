@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Updates the user details in the database
 

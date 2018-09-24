@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 The multiple paths
 

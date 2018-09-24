@@ -1,4 +1,4 @@
-Function Invoke-ClearAzureSpecificObjects {
+﻿Function Invoke-ClearAzureSpecificObjects {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

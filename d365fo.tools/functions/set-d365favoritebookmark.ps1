@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Enable the favorite bar and add an URL
 

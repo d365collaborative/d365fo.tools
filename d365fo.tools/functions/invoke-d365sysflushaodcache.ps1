@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Invoke the SysFlushAos class
 

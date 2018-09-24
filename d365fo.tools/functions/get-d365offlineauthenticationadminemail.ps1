@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Gets the registered offline administrator e-mail configured
 

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Save an environment config
 

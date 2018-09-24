@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Set the active Azure Storage Account configuration
 

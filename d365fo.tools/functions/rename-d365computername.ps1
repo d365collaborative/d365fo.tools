@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Function for renaming computer.
 Renames Computer and changes the SSRS Configration

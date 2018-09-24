@@ -1,4 +1,4 @@
-function Invoke-TimeSignal {
+﻿function Invoke-TimeSignal {
     [CmdletBinding(DefaultParameterSetName = 'Start')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'Start', Position = 1 )]                    

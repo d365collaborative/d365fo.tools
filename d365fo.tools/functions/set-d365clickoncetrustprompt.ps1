@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Set the ClickOnce needed configuration
 

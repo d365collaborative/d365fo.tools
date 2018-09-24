@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get the TFS / VSTS registered URL / URI
 
