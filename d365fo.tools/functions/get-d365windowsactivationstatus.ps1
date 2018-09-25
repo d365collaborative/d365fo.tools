@@ -19,8 +19,8 @@ function Get-D365WindowsActivationStatus {
     begin {}
 
     process {
-        $a = Get-WmiObject -Class SoftwareLicensingProduct -Namespace root/cimv2 -ComputerName . -Filter "Name LIKE '%Windows%'" 
-        $b = Get-WmiObject -Class SoftwareLicensingService -Namespace root/cimv2 -ComputerName . 
+        $a = Get-CimInstance -Class SoftwareLicensingProduct -Namespace root/cimv2 -ComputerName . -Filter "Name LIKE '%Windows%'"
+        $b = Get-CimInstance -Class SoftwareLicensingService -Namespace root/cimv2 -ComputerName . 
 
         $res = [PSCustomObject]@{ Name = $a.Name 
             Description = $a.Description 
