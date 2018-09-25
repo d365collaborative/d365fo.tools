@@ -34,8 +34,9 @@ function Invoke-D365ReArmWindows {
 
     Write-Verbose "Invoking the rearm process."
 
-    (Get-WmiObject -Class SoftwareLicensingService -Namespace root/cimv2 -ComputerName .).ReArmWindows()
-  
+    $instance = Get-CimInstance -Class SoftwareLicensingService -Namespace root/cimv2 -ComputerName .
+    Invoke-CimMethod -InputObject $instance -MethodName ReArmWindows
+    
     if ($Restart.IsPresent) {
         Restart-Computer -Force
     }
