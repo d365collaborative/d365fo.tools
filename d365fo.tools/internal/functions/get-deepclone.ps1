@@ -1,6 +1,7 @@
 ﻿function Get-DeepClone
 {
     [cmdletbinding()]
+    [OutputType('System.Collections.Hashtable')]
     param(
         $InputObject
     )

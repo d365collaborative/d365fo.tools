@@ -47,6 +47,7 @@ This can be run from a non-elevated console
 General notes
 #>
 function Set-D365SysAdmin {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
 
@@ -71,7 +72,7 @@ function Set-D365SysAdmin {
     }
     
     Write-PSFMessage -Level Debug -Message "Testing if running either elevated or with -SqlPwd set."
-    if (!$script:IsAdminRuntime -and !($PSBoundParameters.ContainsKey("SqlPwd"))) {
+    if ((-not ($script:IsAdminRuntime)) -and (-not ($PSBoundParameters.ContainsKey("SqlPwd")))) {
         Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c='em'>non-elevated</c> and without the <c='em'>-SqlPwd parameter</c>. If you don't want to supply the -SqlPwd you must run the cmdlet elevated (Run As Administrator) otherwise simply use the -SqlPwd parameter"
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return

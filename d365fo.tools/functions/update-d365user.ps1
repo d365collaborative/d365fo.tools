@@ -40,6 +40,7 @@ This will search for all users with an e-mail address containing 'contoso.com' a
 General notes
 #>
 function Update-D365User {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]

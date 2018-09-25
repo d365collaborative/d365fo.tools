@@ -1,5 +1,7 @@
 ﻿function Get-InstanceValues {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns')]
     [CmdletBinding()]
+    [OutputType('System.Collections.Hashtable')]
     param (
         [Parameter(Mandatory = $true)]
         [string] $DatabaseServer,
@@ -19,7 +21,7 @@
         
     $sqlCommand = Get-SQLCommand @PsBoundParameters
 
-    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\get-instancevalue.sql") -join [Environment]::NewLine
+    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\get-instancevalues.sql") -join [Environment]::NewLine
 
     $sqlCommand.CommandText = $commandText
 

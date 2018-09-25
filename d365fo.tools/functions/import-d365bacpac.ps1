@@ -183,7 +183,7 @@ function Import-D365Bacpac {
     if ($ImportModeTier2.IsPresent) {
         Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings" 
 
-        $Objectives = Get-AzureServiceObjectives @BaseParams
+        $Objectives = Get-AzureServiceObjective @BaseParams
 
         if ($null -eq $Objectives) { return }
 
@@ -200,18 +200,18 @@ function Import-D365Bacpac {
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings" 
     $res = Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection
 
-    if (!$res) {return}
+    if (-not ($res)) {return}
     
     Write-PSFMessage -Level Verbose "Importing completed" 
 
-    if (!$ImportOnly.IsPresent) {
+    if (-not ($ImportOnly)) {
         Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
         
         $InstanceValues = Get-InstanceValues @Params -TrustedConnection $UseTrustedConnection
 
         if ($null -eq $InstanceValues) { return }
 
-        if ($ImportModeTier2.IsPresent) {
+        if ($ImportModeTier2) {
             Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database" 
 
             $AzureParams = @{
@@ -221,21 +221,21 @@ function Import-D365Bacpac {
             }
             $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
 
-            if (!$res) {return}
+            if (-not ($res)) {return}
         }
         else {
             Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database" 
 
             $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection @InstanceValues
             
-            if (!$res) {return}
+            if (-not ($res)) {return}
         }
 
         if ($ExecuteCustomSQL) {
             Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
             $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
-            if (!$res) {return}
+            if (-not ($res)) {return}
         }
     }
 

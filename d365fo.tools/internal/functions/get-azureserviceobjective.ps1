@@ -1,5 +1,5 @@
-﻿function Get-AzureServiceObjectives {
-    [CmdletBinding()]
+﻿function Get-AzureServiceObjective {
+    [CmdletBinding()]    
     param (
         [Parameter(Mandatory = $true)]
         [string] $DatabaseServer,

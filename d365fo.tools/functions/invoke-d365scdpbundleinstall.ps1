@@ -36,7 +36,7 @@ function Invoke-D365SCDPBundleInstall {
         [Parameter(Mandatory = $True, ParameterSetName = 'InstallOnly', Position = 0 )]
         [switch] $InstallOnly,
 
-        [Parameter(Mandatory = $False, ParameterSetName = 'Tfs', Position = 0 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Tfs', Position = 0 )]
         [ValidateSet('Prepare', 'Install')]
         [string] $Command = 'Prepare',
 
@@ -45,19 +45,19 @@ function Invoke-D365SCDPBundleInstall {
         [Alias('File')]
         [string] $Path,
 
-        [Parameter(Mandatory = $False, Position = 2 )]
+        [Parameter(Mandatory = $false, Position = 2 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $False, ParameterSetName = 'Tfs', Position = 3 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Tfs', Position = 3 )]
         [string] $TfsWorkspaceDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $False, ParameterSetName = 'Tfs', Position = 4 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Tfs', Position = 4 )]
         [string] $TfsUri = "$Script:TfsUri",
 
-        [Parameter(Mandatory = $False, Position = 4 )]
+        [Parameter(Mandatory = $false, Position = 4 )]
         [switch] $ShowModifiedFiles,
 
-        [Parameter(Mandatory = $False, Position = 5 )]
+        [Parameter(Mandatory = $false, Position = 5 )]
         [switch] $ShowProgress
 
     )

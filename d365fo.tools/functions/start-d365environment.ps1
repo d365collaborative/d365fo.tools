@@ -41,6 +41,7 @@ Will start Aos & Batch services on the machine
 
 
 function Start-D365Environment {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
@@ -67,14 +68,14 @@ function Start-D365Environment {
         $All = ![switch]::Present
     }
 
-    if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent -and !$DMF.IsPresent) {
+    if ( (-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF))) {
         Write-PSFMessage -Level Host -Message "You have to use at least one switch when running this cmdlet. Please run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return        
     }
 
     $Params = Get-DeepClone $PSBoundParameters
-    if($Params.ContainsKey("ComputerName")){$Params.Remove("ComputerName")}
+    if ($Params.ContainsKey("ComputerName")) {$Params.Remove("ComputerName")}
 
     $Services = Get-ServiceList @Params
 

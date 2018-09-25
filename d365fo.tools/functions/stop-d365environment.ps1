@@ -39,6 +39,7 @@ Will stop Aos & Batch services on the machine
 
 #>
 function Stop-D365Environment {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
@@ -62,10 +63,10 @@ function Stop-D365Environment {
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
-        $All = ![switch]::Present
+        $All = $false
     }
 
-    if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent -and !$DMF.IsPresent) {
+    if ((-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF))) {
         Write-PSFMessage -Level Host -Message "You have to use at least <c='em'>one switch</c> when running this cmdlet. Please run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return        

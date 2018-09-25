@@ -24,6 +24,7 @@ You will have to run the Initialize-D365Config cmdlet first, before this will be
 
 #>
 function Set-D365WorkstationMode {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

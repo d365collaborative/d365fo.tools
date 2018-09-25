@@ -21,6 +21,7 @@ This will update the start page for the current user to "https://uat.sandbox.ope
 
 #>
 function Set-D365StartPage() {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param(
         
