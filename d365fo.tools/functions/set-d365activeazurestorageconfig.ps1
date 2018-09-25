@@ -22,6 +22,7 @@ You will have to run the Initialize-D365Config cmdlet first, before this will be
 You will have to run the Add-D365AzureStorageConfig cmdlet at least once, before this will be capable of working.
 #>
 function Set-D365ActiveAzureStorageConfig {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [string] $Name
@@ -37,7 +38,7 @@ function Set-D365ActiveAzureStorageConfig {
 
         if(($null -eq $Accounts) -or ($Accounts.ContainsKey("Dummy"))) {$Accounts = @{}}
 
-        if (!($Accounts.ContainsKey($Name))) {
+        if (-not ($Accounts.ContainsKey($Name))) {
             Write-PSFMessage -Level Host -Message "An Azure Storage Account with that name <c='em'>doesn't exists</c>."
             Stop-PSFFunction -Message "Stopping because an Azure Storage Account with that name doesn't exists."
             return

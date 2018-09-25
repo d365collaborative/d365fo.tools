@@ -1,4 +1,6 @@
 ﻿function New-D365ISVLicense {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    
     [CmdletBinding()]
     param (
         [Alias('Template')]

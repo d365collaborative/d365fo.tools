@@ -21,6 +21,7 @@ You will have to run the Initialize-D365Config cmdlet first, before this will be
 You will have to run the Add-D365EnvironmentConfig cmdlet at least once, before this will be capable of working.
 #>
 function Set-D365ActiveEnvironmentConfig {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [string] $Name
@@ -36,7 +37,7 @@ function Set-D365ActiveEnvironmentConfig {
 
         if(($null -eq $Environments) -or ($Environments.ContainsKey("Dummy"))) {$Environments = @{}}
         
-        if (!($Environments.ContainsKey($Name))) {
+        if (-not ($Environments.ContainsKey($Name))) {
             Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>doesn't exists</c>."
             Stop-PSFFunction -Message "Stopping because an environment with that name doesn't exists."
             return

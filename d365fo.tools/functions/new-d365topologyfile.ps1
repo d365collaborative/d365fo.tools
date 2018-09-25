@@ -30,6 +30,7 @@ to New-D365TopologyFile where all services are import into the new topology file
 General notes
 #>
 function New-D365TopologyFile {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 1 )]
@@ -49,7 +50,7 @@ function New-D365TopologyFile {
     
     process {
 
-        if (Test-Path -Path $Path -PathType Leaf) {
+        if (Test-PathExists -Path $Path -Type Leaf) {
             Remove-Item -Path $NewPath -Force -ErrorAction SilentlyContinue
             
             [xml]$topology = [xml](Get-Content -Path $Path)

@@ -45,6 +45,7 @@ search and pipe their emails to Remove-D365User for it to delete them.
 General notes
 #>
 function Remove-D365User {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]

@@ -24,6 +24,7 @@ enable the favorite bar and lock it.
 Author: Mötz Jensen (@Splaxi)
 #>
 function Set-D365FavoriteBookmark {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(ValueFromPipelineByPropertyName = $true)]

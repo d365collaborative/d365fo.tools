@@ -28,6 +28,7 @@ This will provision claire@contoso.com as administrator for the environment
 .NOTES
 #>
 function Set-D365Admin {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         
@@ -49,9 +50,10 @@ function Set-D365Admin {
 
     )
 
-    if (!$Script:IsAdminRuntime) {
-        Write-Host "The cmdlet needs administrator permission (Run As Administrator) to be able to update the configuration. Please start an elevated session and run the cmdlet again." -ForegroundColor Yellow
-        Write-Error "Elevated permissions needed. Please start an elevated session and run the cmdlet again." -ErrorAction Stop
+    if (-not ($script:IsAdminRuntime)) {
+        Write-PSFMessage -Level Host -Message "The cmdlet needs <c='em'>administrator permission</c> (Run As Administrator) to be able to update the configuration. Please start an <c='em'>elevated</c> session and run the cmdlet again."
+        Stop-PSFFunction -Message "Stopping because the function is not run elevated"
+        return
     }
 
     Set-AdminUser $AdminSignInName $DatabaseServer $DatabaseName $SqlUser $SqlPwd

@@ -24,6 +24,7 @@ Remove-D365Database -DatabaseName "database_original"
 General notes
 #>
 function Remove-D365Database {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]
@@ -45,7 +46,7 @@ function Remove-D365Database {
 
     $srv = new-object Microsoft.SqlServer.Management.Smo.Server("$DatabaseServer")
 
-    if (!$UseTrustedConnection) {
+    if (-not ($UseTrustedConnection)) {
         $srv.ConnectionContext.set_Login("$SqlUser")
         $srv.ConnectionContext.set_Password("$SqlPwd")
     }

@@ -13,6 +13,7 @@ This will create / or update the current ClickOnce configuration
 General notes
 #>
 function Set-D365ClickOnceTrustPrompt {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param ( )
     

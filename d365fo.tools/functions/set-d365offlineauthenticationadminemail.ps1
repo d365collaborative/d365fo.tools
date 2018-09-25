@@ -23,24 +23,22 @@ The specific blog post that we based this cmdlet on can be found here:
 http://d365technext.blogspot.com/2018/07/offline-authentication-admin-email.html
 #>
 function Set-D365OfflineAuthenticationAdminEmail {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', Position = 1 )]
         [string] $Email
     )
 
-    if(!$Script:IsAdminRuntime){
-        Write-Host "The cmdlet needs administrator permission (Run As Administrator) to be able to update the configuration. Please start an elevated session and run the cmdlet again." -ForegroundColor Yellow
-        Write-Error "Elevated permissions needed. Please start an elevated session and run the cmdlet again." -ErrorAction Stop
+    if (-not ($script:IsAdminRuntime)) {
+        Write-PSFMessage -Level Host -Message "The cmdlet needs <c='em'>administrator permission</c> (Run As Administrator) to be able to update the configuration. Please start an <c='em'>elevated</c> session and run the cmdlet again."
+        Stop-PSFFunction -Message "Stopping because the function is not run elevated"
+        return
     }
-
 
     $filePath = Join-Path (Join-Path $Script:PackageDirectory "bin") "DynamicsDevConfig.xml"
 
-    if ([System.IO.File]::Exists($filePath) -ne $True) {
-        Write-Host "The DynamicsDevConfig.xml is not present on the system. Please make sure that the following path exists and you have enough permissions: `r`n$filePath " -ForegroundColor Yellow
-        Write-Error "The DynamicsDevConfig.xml is missing on the system." -ErrorAction Stop
-    }
+    if (-not (Test-PathExists -Path $filePath -Type Leaf)) {return}
 
     $namespace = @{ns="http://schemas.microsoft.com/dynamics/2012/03/development/configuration"}
     $xmlDoc = [xml] (Get-Content -Path $filePath)

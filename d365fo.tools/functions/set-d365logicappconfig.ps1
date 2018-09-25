@@ -23,6 +23,7 @@ Set-D365LogicAppConfig -Email administrator@contoso.com -Subject "Work is done" 
 Author: Mötz Jensen (@Splaxi)
 #>
 function Set-D365LogicAppConfig {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true )]
