@@ -46,7 +46,9 @@
 
             $datTable.Rows | Out-File $resFile
 
-            $resFile
+            [PSCustomObject]@{
+                File = $resFile
+            } 
         }
     }
 
