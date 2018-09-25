@@ -25,6 +25,7 @@ retries left and restart the computer
 #>
 
 function Invoke-D365ReArmWindows {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns')]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]        
