@@ -24,6 +24,7 @@ context has enough permission.
 
 .NOTES
 Author: Mötz Jensen (@splaxi)
+
 #>
 function Test-PathExists {
     [CmdletBinding()]
@@ -46,7 +47,7 @@ function Test-PathExists {
         Write-PSFMessage -Level Verbose -Message "Testing the path: $item" -Target $item
         $temp = Test-Path -Path $item -Type $Type
 
-        if ((!$temp) -and ($Create.IsPresent) -and ($Type -eq "Container")) {
+        if ((!$temp) -and ($Create) -and ($Type -eq "Container")) {
             Write-PSFMessage -Level Verbose -Message "Creating the path: $item" -Target $item
             New-Item -Path $item -ItemType Directory -Force -ErrorAction Stop
             $temp = $true
@@ -59,7 +60,7 @@ function Test-PathExists {
     }
 
     if ($arrList.Contains($false)) {
-        Stop-PSFFunction -Message "Stopping because of missing paths."
+        Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
     }
     else {
         $res = $true

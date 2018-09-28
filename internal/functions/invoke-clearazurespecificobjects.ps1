@@ -14,7 +14,7 @@ Function Invoke-ClearAzureSpecificObjects {
         [string] $SqlPwd
     )
         
-    $sqlCommand = Get-SQLCommand @PsBoundParameters -TrustedConnection $false
+    $sqlCommand = Get-SqlCommand @PsBoundParameters -TrustedConnection $false
 
     $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\clear-azurebacpacdatabase.sql") -join [Environment]::NewLine
 

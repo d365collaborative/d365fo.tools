@@ -40,7 +40,7 @@ function Invoke-D365SpHelp {
             Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
         }
 
-        $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+        $sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
         $strQuery = (Get-Content "$script:PSModuleRoot\internal\sql\invoke-sphelp.sql") -join [Environment]::NewLine
 

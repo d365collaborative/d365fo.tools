@@ -80,6 +80,8 @@ Will search for the AccountNum field across all tables.
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 
+Author: Mötz Jensen (@splaxi)
+
 #>
 function Get-D365TableField {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
@@ -138,7 +140,7 @@ function Get-D365TableField {
             $TableId = (Get-D365Table -Name $TableName | Select-Object -First 1).TableId
         }
 
-        $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+        $sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
         if ($SearchAcrossTables.IsPresent) {
             $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-alltablefields.sql") -join [Environment]::NewLine

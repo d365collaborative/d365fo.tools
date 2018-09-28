@@ -233,7 +233,7 @@ function Import-D365Bacpac {
 
         if ($ExecuteCustomSQL) {
             Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
-            $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
+            $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
             if (!$res) {return}
         }
