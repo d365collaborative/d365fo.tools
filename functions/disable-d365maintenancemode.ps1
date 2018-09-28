@@ -65,20 +65,42 @@ function Disable-D365MaintenanceMode {
         [string] $SqlPwd = $Script:DatabaseUserPassword
     )
     
-    $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
+        if (!$Script:UserIsAdmin) {    
+        
+        Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
+        
+        Stop-D365Environment -All
+        
+        $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-    if (!(Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
-    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
+        $Params = @{
+            DatabaseServer = $DatabaseServer
+            DatabaseName   = $DatabaseName
+            SqlUser        = $SqlUser
+            SqlPwd         = $SqlPwd        
+        }
 
-    $params = @("-isemulated", "true", 
-        "-sqluser", "$SqlUser", 
-        "-sqlpwd", "$SqlPwd",
-        "-sqlserver", "$DatabaseServer", 
-        "-sqldatabase", "$DatabaseName", 
-        "-metadatadir", "$MetaDataDir", 
-        "-bindir", "$BinDir",
-        "-setupmode", "maintenancemode", 
-        "-isinmaintenancemode", "false")
+        Invoke-CustomSqlScript @Params -FilePath $("$script:PSModuleRoot\internal\sql\disable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
 
-    Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
+        Start-D365Environment -All
+    }
+    else {
+
+        $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
+
+        if (!(Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
+        if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
+
+        $params = @("-isemulated", "true", 
+            "-sqluser", "$SqlUser", 
+            "-sqlpwd", "$SqlPwd",
+            "-sqlserver", "$DatabaseServer", 
+            "-sqldatabase", "$DatabaseName", 
+            "-metadatadir", "$MetaDataDir", 
+            "-bindir", "$BinDir",
+            "-setupmode", "maintenancemode", 
+            "-isinmaintenancemode", "false")
+
+        Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
+    }
 }
