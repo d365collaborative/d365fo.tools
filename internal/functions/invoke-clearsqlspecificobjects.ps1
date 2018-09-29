@@ -17,7 +17,7 @@ Function Invoke-ClearSqlSpecificObjects {
         [bool] $TrustedConnection
     )
     
-    $sqlCommand = Get-SQLCommand @PsBoundParameters
+    $sqlCommand = Get-SqlCommand @PsBoundParameters
 
     $commandText = (Get-Content "$script:PSModuleRoot\internal\sql\clear-sqlbacpacdatabase.sql") -join [Environment]::NewLine
 

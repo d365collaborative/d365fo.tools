@@ -195,7 +195,7 @@ function New-D365Bacpac {
 
             if ($ExecuteCustomSQL) {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Execution of custom SQL script"
-                $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
+                $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
                 if (!$res) {return}
             }
@@ -232,7 +232,7 @@ function New-D365Bacpac {
 
             if ($ExecuteCustomSQL) {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Execution of custom SQL script"
-                $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $false
+                $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $false
 
                 if (!$res) {return}
             }

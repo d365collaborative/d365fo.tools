@@ -44,6 +44,8 @@ Will get the details for the table with the id 10347
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 
+Author: Mötz Jensen (@splaxi)
+
 #>
 function Get-D365Table {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
@@ -79,7 +81,7 @@ function Get-D365Table {
             Write-Error "Running non-elevated and without the -SqlPwd parameter. Please run elevated or supply the -SqlPwd parameter." -ErrorAction Stop
         }
 
-        $sqlCommand = Get-SQLCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
+        $sqlCommand = Get-SqlCommand $DatabaseServer $DatabaseName $SqlUser $SqlPwd
 
         $sqlCommand.CommandText = (Get-Content "$script:PSModuleRoot\internal\sql\get-tables.sql") -join [Environment]::NewLine
 

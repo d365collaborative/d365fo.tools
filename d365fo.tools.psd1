@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.4.13'
+    ModuleVersion          = '0.4.15'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -122,8 +122,7 @@
                                 'Get-D365WindowsActivationStatus',
 
                                 'Import-D365AadUser',
-                                'Import-D365Bacpac',
-                                'Import-D365BacpacOldVersion',
+                                'Import-D365Bacpac',                                
 
                                 'Initialize-D365Config',
 
@@ -141,6 +140,7 @@
                                 'Invoke-D365SDPInstall',
                                 'Invoke-D365SCDPBundleInstall',
                                 'Invoke-D365SpHelp',
+                                'Invoke-D365SqlScript',
                                 'Invoke-D365SysFlushAodCache',
                                 'Invoke-D365SysRunnerClass',
 
@@ -148,6 +148,7 @@
 
                                 'New-D365Bacpac',
                                 'New-D365BacpacOldVersion',
+                                'New-D365ISVLicense',
                                 'New-D365TopologyFile',
                                 
                                 'Remove-D365Database',
