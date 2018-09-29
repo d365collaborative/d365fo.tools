@@ -1,5 +1,6 @@
 ﻿function New-AuthorizationHeader($Authority, $ClientId, $ClientSecret, $D365FO )
 {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     
     $authContext = new-Object Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext ($Authority,$false)
 

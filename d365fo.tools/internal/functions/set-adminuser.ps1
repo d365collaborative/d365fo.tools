@@ -1,4 +1,5 @@
 ﻿function Set-AdminUser($SignInName, $DatabaseServerName, $DatabaseName, $SqlUser, $SqlPwd) {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 
     $WebConfigFile = Join-Path $Script:AOSPath $Script:WebConfig
 

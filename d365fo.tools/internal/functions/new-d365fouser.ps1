@@ -1,4 +1,5 @@
 ﻿function New-D365FOUser ($SqlCommand, $SignInName, $Name, $Id, $SID, $StartUpCompany, $IdentityProvider, $NetworkDomain, $ObjectId) {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\Add-AadUserIntoD365FO.sql") -join [Environment]::NewLine
    

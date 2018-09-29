@@ -55,6 +55,7 @@ Author: Mötz Jensen (@splaxi)
 #>
 function Invoke-SqlPackage {
     [CmdletBinding()]
+    [OutputType([System.Boolean])]
     param (
         [ValidateSet('Import', 'Export')]
         [string]$Action, 

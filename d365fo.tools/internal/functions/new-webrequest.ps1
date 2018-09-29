@@ -1,4 +1,5 @@
 ﻿function New-WebRequest ($RequestUrl, $AuthorizationHeader, $Action) {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 
     
     Write-PSFMessage -Level Verbose -Message "New Request $RequestUrl, $Action"        

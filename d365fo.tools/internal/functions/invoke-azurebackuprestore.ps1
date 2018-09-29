@@ -1,6 +1,6 @@
 ﻿Function Invoke-AzureBackupRestore  {
     [CmdletBinding()]
-    [OutputType([Bool])]
+    [OutputType([System.Boolean])]
     param (
         [Parameter(Mandatory = $true)]
         [string] $DatabaseServer,

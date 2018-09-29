@@ -1,5 +1,7 @@
 ﻿Function Invoke-ClearSqlSpecificObjects {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns')]
     [CmdletBinding()]
+    [OutputType([System.Boolean])]
     param (
         [Parameter(Mandatory = $true)]
         [string] $DatabaseServer,
