@@ -65,7 +65,7 @@ function Disable-D365MaintenanceMode {
         [string] $SqlPwd = $Script:DatabaseUserPassword
     )
     
-        if (!$Script:UserIsAdmin) {    
+    if(-not ($Script:IsAdminRuntime)) {    
         
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
         
@@ -80,7 +80,7 @@ function Disable-D365MaintenanceMode {
             SqlPwd         = $SqlPwd        
         }
 
-        Invoke-CustomSqlScript @Params -FilePath $("$script:PSModuleRoot\internal\sql\disable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
+        Invoke-D365SqlScript @Params -FilePath $("$script:PSModuleRoot\internal\sql\disable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
 
         Start-D365Environment -All
     }
