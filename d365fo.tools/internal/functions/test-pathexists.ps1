@@ -26,7 +26,9 @@ context has enough permission.
 Author: Mötz Jensen (@splaxi)
 #>
 function Test-PathExists {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns')]
     [CmdletBinding()]
+    [OutputType([System.Boolean])]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
         [string[]] $Path,
