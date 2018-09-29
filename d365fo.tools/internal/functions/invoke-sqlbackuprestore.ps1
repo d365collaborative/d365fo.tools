@@ -1,5 +1,6 @@
 ﻿Function Invoke-SqlBackupRestore {
     [CmdletBinding()]
+    #[OutputType([System.Boolean])]
     param (
         [Parameter(Mandatory = $true)]
         [string] $DatabaseServer,
@@ -42,7 +43,8 @@
         Write-PSFMessage -Level Verbose -Message "Executing the statement against the SQL Server" -Target $sqlCommand.CommandText
         $null = $sqlCommand.ExecuteNonQuery()    
         
-        $true
+        #$true
+        ""
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
