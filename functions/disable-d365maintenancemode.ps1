@@ -65,6 +65,12 @@ function Disable-D365MaintenanceMode {
         [string] $SqlPwd = $Script:DatabaseUserPassword
     )
     
+    if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
+        Write-PSFMessage -Level Host -Message "It seems that you have a <c='em'>Visual Studio</c> running. Please <c='em'>exit</c> Visual Studio and run the cmdlet again."
+        Stop-PSFFunction -Message "Stopping because of running Visual Studio."
+        return
+    }
+
     if(-not ($Script:IsAdminRuntime)) {    
         
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
