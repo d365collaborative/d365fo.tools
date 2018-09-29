@@ -1,6 +1,6 @@
 ﻿Function Invoke-SqlBackupRestore {
     [CmdletBinding()]
-    #[OutputType([System.Boolean])]
+    [OutputType([System.String])]
     param (
         [Parameter(Mandatory = $true)]
         [string] $DatabaseServer,
