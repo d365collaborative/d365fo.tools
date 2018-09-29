@@ -1,5 +1,8 @@
 ﻿function Set-SqlBacpacValues {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns')]
     [CmdletBinding()]
+    [OutputType([System.Boolean])]
     param (
         [Parameter(Mandatory = $true)]
         [string] $DatabaseServer,

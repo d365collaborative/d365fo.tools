@@ -1,5 +1,6 @@
 ﻿function Set-AzureBacpacValues {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns')]
     [CmdletBinding()]
     [OutputType([System.Boolean])]
     param (

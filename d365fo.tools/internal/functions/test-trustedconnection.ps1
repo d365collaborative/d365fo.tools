@@ -1,5 +1,6 @@
 ﻿function Test-TrustedConnection {
     [CmdletBinding()]
+    [OutputType([System.Boolean])]
     param (
         [HashTable] $Inputs
     )
