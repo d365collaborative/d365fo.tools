@@ -1,8 +1,8 @@
-﻿function New-AuthorizationHeader($Authority, $ClientId, $ClientSecret, $D365FO )
-{
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+﻿function New-AuthorizationHeader {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]    
+    Param ($Authority, $ClientId, $ClientSecret, $D365FO )
     
-    $authContext = new-Object Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext ($Authority,$false)
+    $authContext = new-Object Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext ($Authority, $false)
 
     $clientCred = New-Object  Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential($ClientId, $ClientSecret)
 
