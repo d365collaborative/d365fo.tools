@@ -1,6 +1,8 @@
 ﻿# Credit http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
-function Update-TopologyFile([string]$Path)
-{
+function Update-TopologyFile {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]    
+    param ([string]$Path)
+    
     $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
                 
     Write-PSFMessage -Level Verbose "Creating topology file: $topologyFile"

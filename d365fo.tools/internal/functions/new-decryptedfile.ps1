@@ -1,5 +1,6 @@
-﻿function New-DecryptedFile ($File, $DropPath) {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+﻿function New-DecryptedFile  {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]    
+    Param ($File, $DropPath) 
     
     $Decrypter = Join-Path  $AosServiceWebRootPath -ChildPath "bin\Microsoft.Dynamics.AX.Framework.ConfigEncryptor.exe"
 

@@ -1,7 +1,6 @@
-﻿function New-WebRequest ($File, $DropPath) {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-    
-    $test = ""        
+﻿function New-WebRequest  {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]    
+    Param ($File, $DropPath) 
 
     Write-PSFMessage -Level Verbose -Message "New Request $RequestUrl, $Action"        
     $request = [System.Net.WebRequest]::Create($RequestUrl)
