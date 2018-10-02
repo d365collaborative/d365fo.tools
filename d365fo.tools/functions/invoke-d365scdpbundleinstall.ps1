@@ -3,7 +3,7 @@
 Invoke the SCDPBundleInstall.exe file
 
 .DESCRIPTION
-A cmdlet that wraps some of the cumbersome work into a streamlined process 
+A cmdlet that wraps some of the cumbersome work into a streamlined process
 
 .PARAMETER Path
 Path to the update package that you want to install into the environment
@@ -11,24 +11,23 @@ Path to the update package that you want to install into the environment
 The cmdlet only supports an already extracted ".axscdppkg" file
 
 .PARAMETER MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory 
+Default path is the same as the aos service PackagesLocalDirectory
 
 .PARAMETER InstallOnly
-Switch to instruct the cmdlet to only run the Install option and ignore any TFS / VSTS folders
-and source control in general
+Switch to instruct the cmdlet to only run the Install option and ignore any TFS / VSTS folders and source control in general
 
 Use it when testing an update on a local development machine (VM) / onebox
 
 .EXAMPLE
 Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg"
 
-This will install the "HotfixPackageBundle.axscdppkg" into the default 
-PackagesLocalDirectory location on the machine
+This will install the "HotfixPackageBundle.axscdppkg" into the default PackagesLocalDirectory location on the machine.
 
 .NOTES
 Author: Mötz Jensen (@splaxi)
+
 #>
 function Invoke-D365SCDPBundleInstall {
     [CmdletBinding(DefaultParameterSetName = 'InstallOnly')]
@@ -131,13 +130,13 @@ function Invoke-D365SCDPBundleInstall {
                         {
                             $announcedBundle = $currentBundle
                             $bundleCounter = $bundleCounter + 1
-                            Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"                            
+                            Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"
                         }
                     }
                 }
                 Start-Sleep -Seconds 1
             } 
-        }         
+        }
     }
     else {
         Start-Process -FilePath $executable -ArgumentList $param -NoNewWindow -Wait

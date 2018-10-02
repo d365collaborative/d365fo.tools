@@ -26,12 +26,13 @@ Switch to instruct the cmdlet to execute the Import functionality on ModelUtil.e
 Default value is: on / $true
 
 .EXAMPLE
-Invoke-D365ModelUtil -Path c:\temp\ApplicationSuiteModernDesigns_App73.axmodel
+Invoke-D365ModelUtil -Path "c:\temp\d365fo.tools\ApplicationSuiteModernDesigns_App73.axmodel"
 
-This will execute the import functionality of ModelUtil.exe and have it import the 
-c:\temp\ApplicationSuiteModernDesigns_App73.axmodel file
+This will execute the import functionality of ModelUtil.exe and have it import the "ApplicationSuiteModernDesigns_App73.axmodel" file.
 
 .NOTES
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Invoke-D365ModelUtil {
     [CmdletBinding()]
@@ -51,10 +52,10 @@ function Invoke-D365ModelUtil {
         [switch] $Import = [switch]::Present
     )
     
-    if (!(Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
+    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
 
     $executable = Join-Path $BinDir "ModelUtil.exe"
-    if (!(Test-PathExists -Path $executable, $Path -Type Leaf)) {return}
+    if (-not (Test-PathExists -Path $executable, $Path -Type Leaf)) {return}
 
     Write-PSFMessage -Level Verbose -Message "Testing the execution mode" -Target $Import
     if ($Import.IsPresent) {
