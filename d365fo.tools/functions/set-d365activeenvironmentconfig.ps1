@@ -11,14 +11,15 @@ The name the environment configuration you want to load into the active environm
 .EXAMPLE
 Set-D365ActiveEnvironmentConfig -Name "UAT"
 
-Will scan the list of environment configurations and select the one that matches the 
-supplied name. This gets imported into the active environment configuration.
+Will scan the list of environment configurations and select the one that matches the supplied name. This gets imported into the active environment configuration.
 
 .NOTES
+Author: Mötz Jensen (@Splaxi)
 
 You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
 
 You will have to run the Add-D365EnvironmentConfig cmdlet at least once, before this will be capable of working.
+
 #>
 function Set-D365ActiveEnvironmentConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -45,7 +46,7 @@ function Set-D365ActiveEnvironmentConfig {
         else {
             $Details = $Environments[$Name]
 
-            Set-PSFConfig -FullName "d365fo.tools.active.environment" -Value $Details   
+            Set-PSFConfig -FullName "d365fo.tools.active.environment" -Value $Details
             Get-PSFConfig -FullName "d365fo.tools.active.environment" | Register-PSFConfig
 
             Write-PSFMessage -Level Host -Message "Please <c='em'>restart</c> the powershell session / console. This change affects core functionality that <c='em'>requires</c> the module to be <c='em'>reloaded</c>."

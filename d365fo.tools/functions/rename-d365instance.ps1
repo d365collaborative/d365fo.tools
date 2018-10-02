@@ -84,14 +84,8 @@ function Rename-D365Instance {
     $WifServicesFile = Join-Path -Path $AosServiceWebRootPath $Script:WifServicesConfig
 
     $Files = @($WebConfigFile, $WifServicesFile, $IISServerApplicationHostConfigFile, $HostsFile, $MRConfigFile)
-    foreach ($item in $Files) {
-        Write-PSFMessage -Level Verbose -Message "Testing file path." -Target $item
-
-        if ((Test-Path $item -PathType Leaf) -eq $false) {
-            Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> file wasn't found. Please ensure the file <c='em'>exists </c> and you have enough <c='em'>permission/c> to access the file."
-            Stop-PSFFunction -Message "Stopping because a file is missing."
-            return
-        }    
+    if(-not (Test-PathExists -Path $Files -Type Leaf)) {
+        return
     }
 
     Write-PSFMessage -Level Verbose -Message "Stopping the IIS."
@@ -99,7 +93,7 @@ function Rename-D365Instance {
 
     # Backup files
     if ($null -ne $BackupExtension -and $BackupExtension -ne '') {
-        foreach ($item in $Files) {   
+        foreach ($item in $Files) {
             Backup-File $item $BackupExtension
         }
     }
@@ -121,5 +115,3 @@ function Rename-D365Instance {
 
     Get-D365Url -Force
 }
-
-

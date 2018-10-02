@@ -11,17 +11,16 @@ The URL of the shortcut you want to add to the favorite bar
 .EXAMPLE
 Set-D365FavoriteBookmark -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
 
-This will add the "https://usnconeboxax1aos.cloud.onebox.dynamics.com" to the 
-favorite bar, enable the favorite bar and lock it.
+This will add the "https://usnconeboxax1aos.cloud.onebox.dynamics.com" to the favorite bar, enable the favorite bar and lock it.
 
 .EXAMPLE
 Get-D365Url | Set-D365FavoriteBookmark
 
-This will get the URL from the environment and add that to the favorite bar, 
-enable the favorite bar and lock it.
+This will get the URL from the environment and add that to the favorite bar, enable the favorite bar and lock it.
 
 .NOTES
 Author: Mötz Jensen (@Splaxi)
+
 #>
 function Set-D365FavoriteBookmark {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -29,7 +28,6 @@ function Set-D365FavoriteBookmark {
     param (
         [Parameter(ValueFromPipelineByPropertyName = $true)]
         [string] $URL
-    
     )
     
     begin {

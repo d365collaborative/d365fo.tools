@@ -6,20 +6,20 @@ Set the active Azure Storage Account configuration
 Updates the current active Azure Storage Account configuration with a new one
 
 .PARAMETER Name
-The name the Azure Storage Account configuration you want to load into the 
-active Azure Storage Account configuration
+The name the Azure Storage Account configuration you want to load into the active Azure Storage Account configuration
 
 .EXAMPLE
 Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
 
-Will scan the list of Azure Storage Account configurations and select the one that matches the 
-supplied name. This gets imported into the active Azure Storage Account configuration.
+Will scan the list of Azure Storage Account configurations and select the one that matches the supplied name. This gets imported into the active Azure Storage Account configuration.
 
 .NOTES
+Author: Mötz Jensen (@Splaxi)
 
 You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
 
 You will have to run the Add-D365AzureStorageConfig cmdlet at least once, before this will be capable of working.
+
 #>
 function Set-D365ActiveAzureStorageConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -46,7 +46,7 @@ function Set-D365ActiveAzureStorageConfig {
         else {
             $Details = $Accounts[$Name]
 
-            Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value $Details   
+            Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value $Details
             Get-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" | Register-PSFConfig
 
             Write-PSFMessage -Level Host -Message "Please <c='em'>restart</c> the powershell session / console. This change affects core functionality that <c='em'>requires</c> the module to be <c='em'>reloaded</c>."

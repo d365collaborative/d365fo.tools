@@ -1,10 +1,9 @@
 ﻿<#
 .SYNOPSIS
-Set the details for the logic app invoke cmdlet 
+Set the details for the logic app invoke cmdlet
 
 .DESCRIPTION
-Store the needed details for the module to execute an 
-Azure Logic App using a HTTP request
+Store the needed details for the module to execute an Azure Logic App using a HTTP request
 
 .PARAMETER Url
 The URL for the http request endpoint of the desired
@@ -19,8 +18,11 @@ The subject of the email that you want to send
 .EXAMPLE
 Set-D365LogicAppConfig -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
 
+This will set all the details about invoking the Logic App.
+
 .NOTES
 Author: Mötz Jensen (@Splaxi)
+
 #>
 function Set-D365LogicAppConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -40,6 +42,6 @@ function Set-D365LogicAppConfig {
         Subject = $Subject;
     }
 
-    Set-PSFConfig -FullName "d365fo.tools.active.logic.app" -Value $Details   
+    Set-PSFConfig -FullName "d365fo.tools.active.logic.app" -Value $Details
     Get-PSFConfig -FullName "d365fo.tools.active.logic.app" | Register-PSFConfig
 }

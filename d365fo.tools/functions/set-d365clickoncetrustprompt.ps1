@@ -8,9 +8,11 @@ Creates the needed registry keys and values for ClickOnce to work on the machine
 .EXAMPLE
 Set-D365ClickOnceTrustPrompt
 
-This will create / or update the current ClickOnce configuration
+This will create / or update the current ClickOnce configuration.
+
 .NOTES
-General notes
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Set-D365ClickOnceTrustPrompt {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -20,12 +22,12 @@ function Set-D365ClickOnceTrustPrompt {
     begin { }
     
     process {
-        Write-PSFMessage -Level Verbose -Message "Testing if the registry key exists or not"        
+        Write-PSFMessage -Level Verbose -Message "Testing if the registry key exists or not"
 
-        if ((Test-Path -Path "HKLM:\SOFTWARE\MICROSOFT\.NETFramework\Security\TrustManager\PromptingLevel") -eq $false) {
+        if (-not (Test-Path -Path "HKLM:\SOFTWARE\MICROSOFT\.NETFramework\Security\TrustManager\PromptingLevel")) {
             Write-PSFMessage -Level Verbose -Message "Registry key was not found. Will create it now."
             $null = New-Item -Path "HKLM:\SOFTWARE\MICROSOFT\.NETFramework\Security\TrustManager" -Name "PromptingLevel" -Force
-        }        
+        }
         
         Write-PSFMessage -Level Verbose -Message "Setting all necessary registry keys."
 
