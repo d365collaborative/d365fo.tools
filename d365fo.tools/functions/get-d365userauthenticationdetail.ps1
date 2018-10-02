@@ -22,7 +22,7 @@ function Get-D365UserAuthenticationDetail {
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline = $true, Position = 1)]
         [string]$Email
-    ) 
+    )
 
     $instanceProvider = Get-InstanceIdentityProvider
 
@@ -36,8 +36,8 @@ function Get-D365UserAuthenticationDetail {
     $SID = Get-UserSIDFromAad $Email $identityProvider
 
 
-    @{"SID"                = $SID 
-        "NetworkDomain"    = $networkDomain  
+    @{"SID"                = $SID
+        "NetworkDomain"    = $networkDomain
         "IdentityProvider" = $identityProvider
         "InstanceProvider" = $instanceProvider
     }

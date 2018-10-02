@@ -51,13 +51,15 @@ The language is determined by the path to the resource file and nothing else
 .EXAMPLE
 Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "da" | Get-D365Label -value "*batch*" -IncludePath
 
-Will get all the labels, across all label files, for the "ApplicationSuite", 
-where the language is "da" and where the label value fits the search "*batch*"
+Will get all the labels, across all label files, for the "ApplicationSuite", where the language is "da" and where the label value fits the search "*batch*".
 
-The path to the label file is included in the output
+The path to the label file is included in the output.
 
 .NOTES
 There are several advanced scenarios for this cmdlet. See more on github and the wiki pages.
+
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Get-D365Label {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

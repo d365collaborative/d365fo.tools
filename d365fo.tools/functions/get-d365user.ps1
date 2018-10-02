@@ -64,7 +64,7 @@ function Get-D365User {
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
@@ -102,7 +102,7 @@ function Get-D365User {
         $reader.close()
 
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
-            $sqlCommand.Connection.Close()    
+            $sqlCommand.Connection.Close()
         }
 
         $sqlCommand.Dispose()

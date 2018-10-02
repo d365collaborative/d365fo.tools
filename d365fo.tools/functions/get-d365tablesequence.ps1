@@ -37,13 +37,13 @@ It will format the output as a table for better overview.
 .EXAMPLE
 Get-D365TableSequence -TableName "Custtable" | Format-Table
 
-This will get the sequence details for the CustTable in the database. 
+This will get the sequence details for the CustTable in the database.
 It will format the output as a table for better overview.
 
 .EXAMPLE
 Get-D365TableSequence -TableName "Cust*" | Format-Table
 
-This will get the sequence details for all tables that matches the search "Cust*" in the database. 
+This will get the sequence details for all tables that matches the search "Cust*" in the database.
 It will format the output as a table for better overview.
 
 .EXAMPLE
@@ -82,7 +82,7 @@ function Get-D365TableSequence {
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
         $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-            SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+            SqlUser = $SqlUser; SqlPwd = $SqlPwd
         }
 
         $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
