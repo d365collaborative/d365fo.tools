@@ -5,6 +5,9 @@ Get the TFS / VSTS registered workspace path
 .DESCRIPTION
 Gets the workspace path from the configuration of the local tfs in visual studio
 
+.PARAMETER Path
+Path to the directory where the Team Foundation Client executable is located
+
 .PARAMETER TfsUri
 Uri to the TFS / VSTS that the workspace is connected to
 

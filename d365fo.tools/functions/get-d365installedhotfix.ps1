@@ -5,10 +5,15 @@ Get installed hotfix
 .DESCRIPTION
 Get all relevant details for installed hotfix
 
-.PARAMETER Path
+.PARAMETER BinDir
+The path to the bin directory for the environment
+
+Default path is the same as the AOS Service packageslocaldirectory\bin
+
+.PARAMETER PackageDirectory
 Path to the PackagesLocalDirectory
 
-Default path is the same as the aos service packageslocaldirectory 
+Default path is the same as the AOS Service PackagesLocalDirectory 
 
 .PARAMETER Model
 Name of the model that you want to work against
@@ -60,12 +65,14 @@ https://ievgensaxblog.wordpress.com
 The specific blog post that we based this cmdlet on can be found here:
 https://ievgensaxblog.wordpress.com/2017/11/17/d365foe-get-list-of-installed-metadata-hotfixes-using-metadata-api/
 
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Get-D365InstalledHotfix {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
-        [string] $BinPath = "$Script:BinDir\bin",
+        [string] $BinDir = "$Script:BinDir\bin",
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [string] $PackageDirectory = $Script:PackageDirectory,
@@ -85,29 +92,14 @@ function Get-D365InstalledHotfix {
     }
 
     process {
-        $StorageAssembly = Join-Path $BinPath "Microsoft.Dynamics.AX.Metadata.Storage.dll"
-        $InstrumentationAssembly = Join-Path $BinPath "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll"
-
-        Write-PSFMessage -Level Verbose -Message "Testing if the path exists or not." -Target $StorageAssembly
-        if (Test-Path -Path $StorageAssembly -PathType Leaf) {
-            Write-PSFMessage -Level Verbose -Message "Loading assembly" -Target $StorageAssembly
-            Add-Type -Path $StorageAssembly
-        }
-        else {
-            Write-PSFMessage -Level Host -Message "Unable to <c='em'>load necessary assembly</c>. Please ensure that the <c='em'>BinPath</c> exists and you have permissions to access it."
-            Stop-PSFFunction -Message "Stopping because of missing assembly"
-            return            
+        $files = @(Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Storage.dll", 
+            Join-Path $BinDir "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll")
+        
+        if(-not (Test-PathExists -Path $files -Type Leaf)) {
+            return
         }
 
-        Write-PSFMessage -Level Verbose -Message "Testing if the path exists or not." -Target $InstrumentationAssembly
-        if (Test-Path -Path $InstrumentationAssembly -PathType Leaf) {
-            Add-Type -Path $InstrumentationAssembly
-        }
-        else {
-            Write-PSFMessage -Level Host -Message "Unable to <c='em'>load necessary assembly</c>. Please ensure that the <c='em'>BinPath</c> exists and you have permissions to access it."
-            Stop-PSFFunction -Message "Stopping because of missing assembly"
-            return 
-        }
+        Add-Type -Path $files
 
         Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
         if ($Script:IsOnebox) {

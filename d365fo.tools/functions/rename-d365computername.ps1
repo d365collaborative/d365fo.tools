@@ -15,7 +15,7 @@ Rename-D365ComputerName
 
 .NOTES
 
-Author : Rasmus Andersen (ITRasmus)
+Author : Rasmus Andersen (@ITRasmus)
 #>
 function Rename-D365ComputerName {
     [CmdletBinding()]

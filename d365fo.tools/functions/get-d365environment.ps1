@@ -18,16 +18,16 @@ Financial Reporter
 DMF 
 
 .PARAMETER Aos
-Query the Aos (iis) service
+Switch to instruct the cmdlet to query the AOS (IIS) service
 
 .PARAMETER Batch
-Query the batch service
+Switch to instruct the cmdlet query the batch service
 
 .PARAMETER FinancialReporter
-Query the financial reporter (Management Reporter 2012)
+Switch to instruct the cmdlet query the financial reporter (Management Reporter 2012)
 
 .PARAMETER DMF
-Query the DMF service
+Switch to instruct the cmdlet query the DMF service
 
 .EXAMPLE
 Get-D365Environment -All
@@ -39,17 +39,15 @@ Get-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -A
 
 Will query all D365FO service on the different machines
 
-
 .EXAMPLE
 Get-D365Environment -Aos -Batch
 
 Will query the Aos & Batch services on the machine
 
 .NOTES
+Author: Mötz Jensen (@Splaxi)
 
 #>
-
-
 function Get-D365Environment {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (

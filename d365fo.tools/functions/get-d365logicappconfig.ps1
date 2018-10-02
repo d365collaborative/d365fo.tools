@@ -9,8 +9,11 @@ it has to invoke the Azure Logic App
 .EXAMPLE
 Get-D365LogicAppConfig
 
+This will fetch the current registered Azure Logic App details on the machine.
+
 .NOTES
 Author: Mötz Jensen (@Splaxi)
+
 #>
 function Get-D365LogicAppConfig {
     [CmdletBinding()]

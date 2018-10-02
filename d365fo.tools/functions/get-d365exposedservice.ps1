@@ -18,15 +18,20 @@ Url fro the D365 including Https://
 The Authority to issue the token
 
 .EXAMPLE
-
 Get-D365ExposedService -ClientId "MyClientId" -ClientSecret "MyClientSecret"
+
+This will show a list of all the services that the D365FO instance is exposing.
 
 .NOTES
 Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
 
+Author: Rasmus Andersen (@ITRasmus)
+
 #>
 function Get-D365ExposedService
 {
+    [CmdletBinding()]
+    [OutputType([System.String])]
     param (
         [Parameter(Mandatory = $true, Position = 1 )]
         [string] $ClientId,

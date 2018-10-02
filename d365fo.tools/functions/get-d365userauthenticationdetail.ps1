@@ -9,10 +9,14 @@ The cmdlet will take the e-mail parameter and use it to lookup all the needed de
 The e-mail address / login name of the user that the cmdlet must gather details about
 
 .EXAMPLE
-Get-D365UserAuthenticationDetail 
+Get-D365UserAuthenticationDetail -Email "Claire@contoso.com"
+
+This will get all the authentication details for the user account with the email address "Claire@contoso.com"
 
 .NOTES
-General notes
+Author : Rasmus Andersen (@ITRasmus)
+Author : Mötz Jensen (@splaxi)
+
 #>
 function Get-D365UserAuthenticationDetail {
     param(

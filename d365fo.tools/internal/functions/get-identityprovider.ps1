@@ -1,33 +1,57 @@
-﻿function Get-IdentityProvider {
+﻿<#
+.SYNOPSIS
+Get the identity provider
+
+.DESCRIPTION
+Execute a web request to get the identity provider for the given email address
+
+.PARAMETER Email
+Email address on the account that you want to get the Identity Provider details about
+
+.EXAMPLE
+Get-IdentityProvider -Email "Claire@contoso.com"
+
+This will get the Identity Provider details for the user account with the email address "Claire@contoso.com"
+
+.NOTES
+Author : Rasmus Andersen (@ITRasmus)
+Author : Mötz Jensen (@splaxi)
+
+#>
+function Get-IdentityProvider {
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true, Position = 1)]
         [string]$Email
     )
-
-
     $tenant = Get-TenantFromEmail $Email
 
-    $webRequest = New-WebRequest "https://login.windows.net/$tenant/.well-known/openid-configuration" $null "GET"
+    try {
+        $webRequest = New-WebRequest "https://login.windows.net/$tenant/.well-known/openid-configuration" $null "GET"
 
-    $response = $WebRequest.GetResponse()
+        $response = $WebRequest.GetResponse()
 
-    if ($response.StatusCode -eq [System.Net.HttpStatusCode]::Ok) {
+        if ($response.StatusCode -eq [System.Net.HttpStatusCode]::Ok) {
 
-        $stream = $response.GetResponseStream()
+            $stream = $response.GetResponseStream()
     
-        $streamReader = New-Object System.IO.StreamReader($stream);
+            $streamReader = New-Object System.IO.StreamReader($stream);
         
-        $openIdConfig = $streamReader.ReadToEnd()
-        $streamReader.Close();
+            $openIdConfig = $streamReader.ReadToEnd()
+            $streamReader.Close();
+        }
+        else {
+            $statusDescription = $response.StatusDescription
+            throw "Https status code : $statusDescription" 
+        }
+
+        $openIdConfigJSON = ConvertFrom-Json $openIdConfig
+
+        $openIdConfigJSON.issuer
     }
-    else {
-        $statusDescription = $response.StatusDescription
-        throw "Https status code : $statusDescription" 
+    catch {
+        Write-PSFMessage -Level Host -Message "Something went wrong while executing the web request" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
     }
-
-
-    $openIdConfigJSON = convertfrom-json $openIdConfig
-
-    $openIdConfigJSON.issuer
-
 }
