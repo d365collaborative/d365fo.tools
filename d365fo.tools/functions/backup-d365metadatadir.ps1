@@ -20,6 +20,7 @@ This will backup the PackagesLocalDirectory and create an PackagesLocalDirectory
 
 .NOTES
 Author: Mötz Jensen (@Splaxi)
+
 #>
 function Backup-D365MetaDataDir {
     [CmdletBinding()]
@@ -40,7 +41,7 @@ function Backup-D365MetaDataDir {
 
     Invoke-TimeSignal -Start
 
-    $Params = @($MetaDataDir, $BackupDir, "/MT:4", "/E", "/NFL", 
+    $Params = @($MetaDataDir, $BackupDir, "/MT:4", "/E", "/NFL",
     "/NDL", "/NJH", "/NC", "/NS", "/NP")
 
     Start-Process -FilePath "Robocopy.exe" -ArgumentList $Params -NoNewWindow -Wait
