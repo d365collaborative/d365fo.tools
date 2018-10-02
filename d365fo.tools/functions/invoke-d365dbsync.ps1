@@ -30,7 +30,7 @@ Default value is: "Normal"
 .PARAMETER DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
 
 If Azure use the full address to the database server, e.g. server.database.windows.net
 
@@ -41,7 +41,7 @@ The name of the database
 The login name for the SQL Server instance
 
 .PARAMETER SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 .EXAMPLE
 Invoke-D365DBSync
@@ -51,10 +51,14 @@ This will invoke the sync engine and have it work against the database
 .EXAMPLE
 Invoke-D365DBSync -Verbose
 
-This will invoke the sync engine and have it work against the database. It will output the
-same level of details that Visual Studio would normally do
+This will invoke the sync engine and have it work against the database. It will output the same level of details that Visual Studio would normally do.
 
 .NOTES
+When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
+
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Invoke-D365DBSync {
     [CmdletBinding()]
@@ -87,11 +91,11 @@ function Invoke-D365DBSync {
         [string]$SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 8)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword        
+        [string]$SqlPwd = $Script:DatabaseUserPassword
     )
 
-    #! The way the sync engine works is that it uses the connection string for some operations, 
-    #! but for FullSync / FullAll it depends on the database details from the same assemblies that 
+    #! The way the sync engine works is that it uses the connection string for some operations,
+    #! but for FullSync / FullAll it depends on the database details from the same assemblies that
     #! we rely on. So the testing of how to run this cmdlet is a bit different than others
 
     Write-PSFMessage -Level Debug -Message "Testing if run on LocalHostedTier1 and console isn't elevated"
@@ -107,9 +111,9 @@ function Invoke-D365DBSync {
     }
 
     $executable = Join-Path $BinDirTools "SyncEngine.exe"
-    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
-    if (!(Test-PathExists -Path $MetadataDir -Type Container)) {return}
-    if (!(Test-PathExists -Path $LogPath -Type Container -Create)) {return}
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
+    if (-not (Test-PathExists -Path $MetadataDir -Type Container)) {return}
+    if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) {return}
 
     Write-PSFMessage -Level Debug -Message "Testing if the SyncEngine is already running."
     $syncEngine = Get-Process -Name "SyncEngine" -ErrorAction SilentlyContinue
@@ -123,10 +127,10 @@ function Invoke-D365DBSync {
     $param = " -syncmode=$($SyncMode.ToLower())"
     $param += " -verbosity=$($Verbosity.ToLower())"
     $param += " -metadatabinaries=`"$MetadataDir`""
-    $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""    
+    $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
 
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
-    $process = Start-Process -FilePath $executable -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"  
+    $process = Start-Process -FilePath $executable -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"
     
     $lineTotalCount = 0
     $lineCount = 0
@@ -156,7 +160,7 @@ function Invoke-D365DBSync {
         }
     }
 
-    foreach ($line in Get-Content "$LogPath\error.log") {        
+    foreach ($line in Get-Content "$LogPath\error.log") {
         Write-PSFMessage -Level Critical -Message "$line"
     }
 
