@@ -23,12 +23,13 @@ Switch to instruct the cmdlet to overwrite already registered Azure Storage Acco
 .EXAMPLE
 Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
 
-This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" 
-with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob"
+This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob"
 
 .NOTES
 
 You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+
+Author: Mötz Jensen (@Splaxi)
 
 #>
 function Add-D365AzureStorageConfig {
@@ -45,7 +46,7 @@ function Add-D365AzureStorageConfig {
 
         [Parameter(Mandatory = $true)]
         [Alias('Blob')]
-        [string] $Blobname,      
+        [string] $Blobname,
 
         [switch] $Force
     )
@@ -68,7 +69,7 @@ function Add-D365AzureStorageConfig {
             if ($Force.IsPresent) {
                 $Accounts[$Name] = $Details
 
-                Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value $Accounts   
+                Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value $Accounts
                 Get-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" | Register-PSFConfig
             }
             else {
@@ -80,7 +81,7 @@ function Add-D365AzureStorageConfig {
         else {
             $null = $Accounts.Add($Name, $Details)
 
-            Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value $Accounts   
+            Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value $Accounts
             Get-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" | Register-PSFConfig
         }
     }
