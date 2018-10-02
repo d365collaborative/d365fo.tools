@@ -143,7 +143,7 @@ function Import-D365Bacpac {
 
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2')]
-        [switch]$ImportOnly   
+        [switch]$ImportOnly
     )
 
     if (-not (Test-PathExists -Path $BacpacFile -PathType Leaf)) {
@@ -176,7 +176,7 @@ function Import-D365Bacpac {
     }
 
     Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB"
-    if ($ImportModeTier2.IsPresent) {
+    if ($ImportModeTier2) {
         Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings"
 
         $Objectives = Get-AzureServiceObjective @BaseParams
@@ -212,7 +212,7 @@ function Import-D365Bacpac {
 
             $AzureParams = @{
                 AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd;
-                AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd; 
+                AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd;
                 AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd
             }
             $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
@@ -220,7 +220,7 @@ function Import-D365Bacpac {
             if (-not ($res)) {return}
         }
         else {
-            Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database" 
+            Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database"
 
             $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection @InstanceValues
             

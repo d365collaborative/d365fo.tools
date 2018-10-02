@@ -41,11 +41,13 @@ Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
 This will get the current Azure Storage Account configuration details
 and use them as parameters to download the latest file from an Azure Storage Account
 
-Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\". 
+Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
 The complete path to the file will returned as output from the cmdlet.
 
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+
+Author: Mötz Jensen (@Splaxi)
 
 #>
 function Invoke-D365AzureStorageDownload {
@@ -57,10 +59,10 @@ function Invoke-D365AzureStorageDownload {
         [Parameter(Mandatory = $false, Position = 2 )]
         [string] $AccessToken = $Script:AccessToken,
 
-        [Parameter(Mandatory = $false, Position = 3 )]        
+        [Parameter(Mandatory = $false, Position = 3 )]
         [string] $Blobname = $Script:Blobname,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 4 )] 
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 4 )]
         [Alias('Name')]
         [string] $FileName,
 
@@ -71,12 +73,12 @@ function Invoke-D365AzureStorageDownload {
         [switch] $GetLatest
     )
 
-    BEGIN { 
-        if ((Test-Path -Path $Path) -eq $false) {
-            $null = New-Item -ItemType directory -Path $Path
+    BEGIN {
+        if (-not (Test-PathExists -Path $Path -Type Container -Create)) {
+            return
         }
 
-        if ( ([string]::IsNullOrEmpty($AccountId) -eq $true) -or 
+        if (([string]::IsNullOrEmpty($AccountId)) -or
             ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Blobname))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
@@ -84,7 +86,7 @@ function Invoke-D365AzureStorageDownload {
         }
     }
     PROCESS {
-        if (Test-PSFFunctionInterrupt) {return}    
+        if (Test-PSFFunctionInterrupt) {return}
 
         Invoke-TimeSignal -Start
 

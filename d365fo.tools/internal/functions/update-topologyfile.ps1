@@ -25,6 +25,7 @@ Author: Mötz Jensen (@Splaxi)
 function Update-TopologyFile {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
+    [OutputType([System.Boolean])]
     param (
         [Parameter(Mandatory = $true)]
         [string]$Path
@@ -54,5 +55,5 @@ function Update-TopologyFile {
     
     $xml.Save($topologyFile)
     
-    return $true
+    $true
 }
