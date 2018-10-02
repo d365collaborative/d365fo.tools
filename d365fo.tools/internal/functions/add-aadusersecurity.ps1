@@ -28,6 +28,7 @@ With the $SqlCommand in place it calls the Add-AadUserSecurity cmdlet and instru
 
 .NOTES
 Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
 
 #>
 function Add-AadUserSecurity {
