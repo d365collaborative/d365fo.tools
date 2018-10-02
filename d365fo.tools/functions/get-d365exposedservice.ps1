@@ -60,7 +60,7 @@ function Get-D365ExposedService
     Write-PSFMessage -Level Verbose -Message "Url : $url"
     Write-PSFMessage -Level Verbose -MEssage "Authority : $Authority"
     
-    $authHeader = New-AuthorizationHeader $Authority $ClientId  $ClientSecret $D365FO 
+    $authHeader = New-AuthorizationHeader $Authority $ClientId  $ClientSecret $D365FO
 
     [System.Net.WebRequest] $webRequest  = New-WebRequest $url $authHeader "GET"
 
@@ -78,7 +78,7 @@ function Get-D365ExposedService
     }
     else {
         $statusDescription = $response.StatusDescription
-        throw "Https status code : $statusDescription" 
+        throw "Https status code : $statusDescription"
     }
 
     $exposedServices

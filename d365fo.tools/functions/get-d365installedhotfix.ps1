@@ -8,12 +8,12 @@ Get all relevant details for installed hotfix
 .PARAMETER BinDir
 The path to the bin directory for the environment
 
-Default path is the same as the AOS Service packageslocaldirectory\bin
+Default path is the same as the AOS Service PackagesLocalDirectory\bin
 
 .PARAMETER PackageDirectory
 Path to the PackagesLocalDirectory
 
-Default path is the same as the AOS Service PackagesLocalDirectory 
+Default path is the same as the AOS Service PackagesLocalDirectory
 
 .PARAMETER Model
 Name of the model that you want to work against
@@ -44,15 +44,12 @@ This will display all installed hotfixes found on this machine
 .EXAMPLE
 Get-D365InstalledHotfix -Model "*retail*"
 
-This will display all installed hotfixes found for all models that matches the 
-search for "*retail*" found on this machine
+This will display all installed hotfixes found for all models that matches the search for "*retail*" found on this machine
 
 .EXAMPLE
 Get-D365InstalledHotfix -Model "*retail*" -KB "*43*"
 
-This will display all installed hotfixes found for all models that matches the 
-search for "*retail*" and only with KB's that matches the search for "*43*"
- found on this machine
+This will display all installed hotfixes found for all models that matches the search for "*retail*" and only with KB's that matches the search for "*43*" found on this machine
 
 .NOTES
 This cmdlet is inspired by the work of "Ievgen Miroshnikov" (twitter: @IevgenMir)
@@ -77,13 +74,13 @@ function Get-D365InstalledHotfix {
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [string] $PackageDirectory = $Script:PackageDirectory,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )] 
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
         [string] $Model = "*",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )] 
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
         [string] $Name = "*",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 5 )] 
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 5 )]
         [string] $KB = "*"
 
     )
@@ -92,7 +89,7 @@ function Get-D365InstalledHotfix {
     }
 
     process {
-        $files = @(Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Storage.dll", 
+        $files = @(Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Storage.dll",
             Join-Path $BinDir "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll")
         
         if(-not (Test-PathExists -Path $files -Type Leaf)) {
@@ -147,7 +144,7 @@ function Get-D365InstalledHotfix {
                     Hotfix  = $axUpdateObject.Name
                     Applied = $axUpdateObject.AppliedDateTime
                     KBs     = $axUpdateObject.KBNumbers
-                }            
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ Includes:
 Aos
 Batch
 Financial Reporter
-DMF 
+DMF
 
 .PARAMETER Aos
 Switch to instruct the cmdlet to query the AOS (IIS) service
@@ -51,23 +51,23 @@ Author: Mötz Jensen (@Splaxi)
 function Get-D365Environment {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]                    
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 1 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 1 )]
         [string[]] $ComputerName = @($env:computername),
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [switch] $All = [switch]::Present,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [switch] $Aos,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]
         [switch] $Batch,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]
         [switch] $FinancialReporter,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
         [switch] $DMF
     )
 
@@ -78,7 +78,7 @@ function Get-D365Environment {
     if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent -and !$DMF.IsPresent) {
         Write-PSFMessage -Level Host -Message "You have to use at least one switch when running this cmdlet. Please run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
-        return        
+        return
     }
 
     $Params = Get-DeepClone $PSBoundParameters

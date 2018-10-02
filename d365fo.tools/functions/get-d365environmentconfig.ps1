@@ -39,6 +39,6 @@ function Get-D365EnvironmentConfig {
             $temp = [ordered]@{Name = $item}
             $temp += $Environments[$item]
             [PSCustomObject]$temp
-        } 
+        }
     }
 }
