@@ -17,7 +17,7 @@ The login name for the SQL Server instance
 .PARAMETER SqlPwd
 The password for the SQL Server user
 
-.PARAMETER Company 
+.PARAMETER Company
 The company you want to work against when calling any browser based cmdlets
 
 The default value is "DAT"
@@ -30,19 +30,16 @@ Switch to instruct the cmdlet to overwrite already registered environment entry
 .EXAMPLE
 Add-D365EnvironmentConfig -Name "Customer-UAT" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF" -Company "DAT"
 
-This will add an entry into the list of environments that is stored with the name "Customer-UAT" 
-and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
+This will add an entry into the list of environments that is stored with the name "Customer-UAT" and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
 The company is registered "DAT".
 
 .EXAMPLE
 Add-D365EnvironmentConfig -Name "Customer-UAT" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF" -Company "DAT" -SqlUser "SqlAdmin" -SqlPwd "Pass@word1"
 
-This will add an entry into the list of environments that is stored with the name "Customer-UAT" 
-and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
+This will add an entry into the list of environments that is stored with the name "Customer-UAT" and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
 It will register the SqlUser as "SqlAdmin" and the SqlPassword to "Pass@word1".
 
-This it useful for working on Tier 2 environments where the SqlUser and SqlPassword cannot be
-extracted from the environment itself.
+This it useful for working on Tier 2 environments where the SqlUser and SqlPassword cannot be extracted from the environment itself.
 
 .NOTES
 
@@ -60,7 +57,7 @@ function Add-D365EnvironmentConfig {
 
         [string] $SqlUser = "sqladmin",
 
-        [string] $SqlPwd,      
+        [string] $SqlPwd,
 
         [string] $Company = "DAT",
 
@@ -88,7 +85,7 @@ function Add-D365EnvironmentConfig {
             if ($Force.IsPresent) {
                 $Environments[$Name] = $Details
 
-                Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments   
+                Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
                 Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig
             }
             else {
@@ -100,7 +97,7 @@ function Add-D365EnvironmentConfig {
         else {
             $null = $Environments.Add($Name, $Details)
 
-            Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments   
+            Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
             Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig
         }
     }
