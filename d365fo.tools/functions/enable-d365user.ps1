@@ -3,12 +3,12 @@
 Enables the user in D365FO
 
 .DESCRIPTION
-Sets the enabled to 1 in the userinfo table. 
+Sets the enabled to 1 in the userinfo table
 
 .PARAMETER DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
 
 If Azure use the full address to the database server, e.g. server.database.windows.net
 
@@ -19,10 +19,10 @@ The name of the database
 The login name for the SQL Server instance
 
 .PARAMETER SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 .PARAMETER Email
-The search string to select which user(s) should be enabled.
+The search string to select which user(s) should be enabled
 
 The parameter supports wildcards. E.g. -Email "*@contoso.com*"
 
@@ -45,6 +45,9 @@ This will enable all users that matches the search "*contoso.com" in their email
 
 .NOTES
 Implemented on request by Paul Heisterkamp
+
+Author: Mötz Jensen
+
 #>
 function Enable-D365User {
 
@@ -70,7 +73,7 @@ function Enable-D365User {
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
@@ -102,7 +105,7 @@ function Enable-D365User {
         $reader.close()
 
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
-            $sqlCommand.Connection.Close()    
+            $sqlCommand.Connection.Close()
         }
 
         $sqlCommand.Dispose()

@@ -6,14 +6,14 @@ Sets the environment into maintenance mode
 Sets the Dynamics 365 environment into maintenance mode to enable the user to update the license configuration
 
 .PARAMETER MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory 
+Default path is the same as the aos service PackagesLocalDirectory
 
 .PARAMETER BinDir
 The path to the bin directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory\bin
+Default path is the same as the aos service PackagesLocalDirectory\bin
 
 .PARAMETER DatabaseServer
 The name of the database server
@@ -34,8 +34,7 @@ The password for the SQL Server user.
 .EXAMPLE
 Enable-D365MaintenanceMode
 
-This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values 
-that was pulled from the environment and put the environment into the operate / running state
+This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
 
 .NOTES
 The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
@@ -70,14 +69,14 @@ function Enable-D365MaintenanceMode {
     if (!(Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
     if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
 
-    $params = @("-isemulated", "true", 
-        "-sqluser", "$SqlUser", 
+    $params = @("-isemulated", "true",
+        "-sqluser", "$SqlUser",
         "-sqlpwd", "$SqlPwd",
-        "-sqlserver", "$DatabaseServer", 
-        "-sqldatabase", "$DatabaseName", 
-        "-metadatadir", "$MetaDataDir", 
+        "-sqlserver", "$DatabaseServer",
+        "-sqldatabase", "$DatabaseName",
+        "-metadatadir", "$MetaDataDir",
         "-bindir", "$BinDir",
-        "-setupmode", "maintenancemode", 
+        "-setupmode", "maintenancemode",
         "-isinmaintenancemode", "true")
 
     Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
