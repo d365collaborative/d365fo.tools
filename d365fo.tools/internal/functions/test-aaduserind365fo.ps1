@@ -1,18 +1,31 @@
-﻿function Test-AadUserInD365FO ($SqlCommand, $SignInName) {
+﻿function Test-AadUserInD365FO {
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory = $true)]
+        [System.Data.SqlClient.SqlCommand] $SqlCommand,
 
-
-    $commandText =(Get-Content "$script:ModuleRoot\internal\sql\test-aaduserind365fo.sql") -join [Environment]::NewLine
+        [Parameter(Mandatory = $true)]
+        [string] $SignInName
+    ) 
+        
+    $commandText = ( Get-Content "$script:ModuleRoot\internal\sql\test-aaduserind365fo.sql") -join [Environment]::NewLine
   
     $sqlCommand.CommandText = $commandText
 
     $null = $sqlCommand.Parameters.Add("@Email", $SignInName)
-      
-    $NumFound = $sqlCommand.ExecuteScalar()
+    
+    try {
+        $NumFound = $sqlCommand.ExecuteScalar()
 
-    Write-Verbose "Number of user rows found in database $NumFound"
+        Write-PSFMessage -Level Verbose -Message "Number of user rows found in database $NumFound" -Target $NumFound
+    }
+    catch {
+        
+    }
+    finally {
+        $SqlCommand.Parameters.Clear()
+    }
 
-    $SqlCommand.Parameters.Clear()
-
-    return $NumFound -ne 0
-
+    $NumFound -ne 0
 }
