@@ -76,6 +76,10 @@ Only users from an Azure Active Directory that you have access to, can be import
 Use AAD B2B implementation if you want to support external people.
 
 Every imported users will get the System Administration / Administrator role assigned on import
+
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
 #>
 
 function Import-D365AadUser {
@@ -125,7 +129,7 @@ function Import-D365AadUser {
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
 
@@ -141,19 +145,16 @@ function Import-D365AadUser {
             $null = Connect-AzureAD  -ErrorAction Stop -Credential $AzureAdCredential
         }
         else {
-            if($SkipAzureAd -eq $false) {
+            if ($SkipAzureAd -eq $false) {
                 $null = Connect-AzureAD  -ErrorAction Stop
             }
         }
-
-
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while connecting to Azure Active Directory" -Exception $PSItem.Exception
         Stop-PSFFunction -Message "Stopping because of errors"
         return
     }
-    
 
     $azureAdUsers = New-Object -TypeName "System.Collections.ArrayList"
 
@@ -187,18 +188,16 @@ function Import-D365AadUser {
     else {
         foreach ($user in $Users) {
         
-            if($SkipAzureAd -eq $true)
-            {
+            if ($SkipAzureAd -eq $true) {
                 $name = Get-LoginFromEmail $user
                 $azureAdUsers.Add([PSCustomObject]@{
-                    Mail = $user
-                    GivenName = $name
-                    DisplayName = $name
-                    ObjectId = ''
-                })
+                        Mail        = $user
+                        GivenName   = $name
+                        DisplayName = $name
+                        ObjectId    = ''
+                    })
             }
-            else
-            {
+            else {
                 $aadUser = Get-AzureADUser -SearchString $user
 
                 if ($null -eq $aadUser) {
@@ -231,11 +230,10 @@ function Import-D365AadUser {
             Write-PSFMessage -Level Verbose -Message "InstanceProvider : $InstanceProvider"
             Write-PSFMessage -Level Verbose -Message "Tenant : $Tenant"
     
-            if($user.Mail.ToLower().Contains("outlook.com") -eq $true) {
+            if ($user.Mail.ToLower().Contains("outlook.com") -eq $true) {
                 $identityProvider = "live.com"
             }
-            else
-            {
+            else {
                 if ($instanceProvider.ToLower().Contains($tenant.ToLower()) -ne $True) {
                     Write-PSFMessage -Level Verbose -Message "Getting identity provider from  $($user.Mail)."
                     $identityProvider = Get-IdentityProvider $user.Mail
@@ -275,7 +273,7 @@ function Import-D365AadUser {
     }
     finally {
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
-            $sqlCommand.Connection.Close()    
+            $sqlCommand.Connection.Close()
         }
         $sqlCommand.Dispose()
     }

@@ -146,20 +146,12 @@ function Import-D365Bacpac {
         [switch]$ImportOnly   
     )
 
-    Invoke-TimeSignal -Start
-    
-    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
-
-    if (!(Test-Path $BacpacFile -PathType Leaf)) {    
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>bacpac</c> file on the machine. Please make sure that the path exists and you have enough permissions."
-        Stop-PSFFunction -Message "Unable to locate the specified bacpac file."
+    if (-not (Test-PathExists -Path $BacpacFile -PathType Leaf)) {
         return
     }
 
     if ($PSBoundParameters.ContainsKey("CustomSqlFile")) {
-        if ((Test-Path $CustomSqlFile -PathType Leaf) -eq $false) {
-            Write-PSFMessage -Level Host -Message "You used the <c='em'>CustomSqlFile</c> parameter, but the cmdlet is unable to locate the file on the machine. Please make sure that the path exists and you have enough permissions."
-            Stop-PSFFunction -Message "The CustomSqlFile path was not located."
+        if (-not (Test-PathExists -Path $CustomSqlFile -PathType Leaf)) {
             return
         }
         else {
@@ -167,21 +159,25 @@ function Import-D365Bacpac {
         }
     }
 
+    Invoke-TimeSignal -Start
+    
+    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+
     $BaseParams = @{
         DatabaseServer = $DatabaseServer
         DatabaseName   = $DatabaseName
         SqlUser        = $SqlUser
-        SqlPwd         = $SqlPwd        
+        SqlPwd         = $SqlPwd
     }
 
     $ImportParams = @{
         Action   = "import"
-        FilePath = $BacpacFile        
+        FilePath = $BacpacFile
     }
 
-    Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB" 
+    Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB"
     if ($ImportModeTier2.IsPresent) {
-        Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings" 
+        Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings"
 
         $Objectives = Get-AzureServiceObjective @BaseParams
 
@@ -197,12 +193,12 @@ function Import-D365Bacpac {
     $Params = Get-DeepClone $BaseParams
     $Params.DatabaseName = $NewDatabaseName
     
-    Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings" 
+    Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings"
     $res = Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection
 
     if (-not ($res)) {return}
     
-    Write-PSFMessage -Level Verbose "Importing completed" 
+    Write-PSFMessage -Level Verbose "Importing completed"
 
     if (-not ($ImportOnly)) {
         Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
@@ -212,10 +208,10 @@ function Import-D365Bacpac {
         if ($null -eq $InstanceValues) { return }
 
         if ($ImportModeTier2) {
-            Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database" 
+            Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database"
 
             $AzureParams = @{
-                AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd; 
+                AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd;
                 AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd; 
                 AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd
             }

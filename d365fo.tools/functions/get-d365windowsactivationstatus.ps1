@@ -9,8 +9,12 @@ Get all the important license and activation information from the machine
 Get-D365WindowsActivationStatus
 
 This will get the remaining grace and rearm activation information for the machine
+
 .NOTES
-The cmdlet uses WMI objects to access the activation details 
+The cmdlet uses CIM objects to access the activation details
+
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Get-D365WindowsActivationStatus {
     [CmdletBinding()]
@@ -20,10 +24,10 @@ function Get-D365WindowsActivationStatus {
 
     process {
         $a = Get-CimInstance -Class SoftwareLicensingProduct -Namespace root/cimv2 -ComputerName . -Filter "Name LIKE '%Windows%'"
-        $b = Get-CimInstance -Class SoftwareLicensingService -Namespace root/cimv2 -ComputerName . 
+        $b = Get-CimInstance -Class SoftwareLicensingService -Namespace root/cimv2 -ComputerName .
 
-        $res = [PSCustomObject]@{ Name = $a.Name 
-            Description = $a.Description 
+        $res = [PSCustomObject]@{ Name = $a.Name
+            Description = $a.Description
             "Grace Periode (days)" =  [math]::Round(($a.graceperiodremaining / 1440))
         }
 
