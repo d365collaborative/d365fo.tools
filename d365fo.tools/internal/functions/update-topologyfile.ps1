@@ -1,7 +1,34 @@
-﻿# Credit http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
+﻿<#
+.SYNOPSIS
+Update the topology file
+
+.DESCRIPTION
+Update the topology file based on the already installed list of services on the machine
+
+.PARAMETER Path
+Path to the folder where the topology XML file file that you want to work against is placed
+
+Should only contain a path to a folder, not a file
+
+.EXAMPLE
+Update-TopologyFile -Path "c:\temp\d365fo.tools\DefaultTopologyData.xml"
+
+This will update the "c:\temp\d365fo.tools\DefaultTopologyData.xml" file with all the installed services on the machine.
+
+.NOTES
+# Credit http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
+
+Author: Tommy Skaue (@Skaue)
+Author: Mötz Jensen (@Splaxi)
+
+#>
 function Update-TopologyFile {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]    
-    param ([string]$Path)
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
     
     $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
                 
@@ -9,7 +36,7 @@ function Update-TopologyFile {
                 
     [xml]$xml = Get-Content $topologyFile
     $machine = $xml.TopologyData.MachineList.Machine
-    $machine.Name = $env:computername 
+    $machine.Name = $env:computername
                 
     $serviceModelList = $machine.ServiceModelList
     $serviceModelList.RemoveAll()
@@ -18,11 +45,13 @@ function Update-TopologyFile {
     [void][System.Reflection.Assembly]::LoadFile($instalInfoDll)
  
     $models = [Microsoft.Dynamics.AX.AXInstallationInfo.AXInstallationInfo]::GetInstalledServiceModel()
+
     foreach ($name in $models.Name) {
         $element = $xml.CreateElement('string')
         $element.InnerText = $name
         $serviceModelList.AppendChild($element)
     }
+    
     $xml.Save($topologyFile)
     
     return $true

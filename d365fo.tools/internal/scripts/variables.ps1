@@ -54,7 +54,7 @@ $Script:BinDirTools = $environment.Common.DevToolsBinDir
 Write-PSFMessage -Level Verbose -Message "`$Script:BinDirTools: $Script:BinDirTools"
 
 $Script:ServerRole = [ServerRole]::Unknown
-$RoleVaule = $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {"Development"} Else {$environment.Monitoring.MARole})  
+$RoleVaule = $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {"Development"} Else {$environment.Monitoring.MARole})
 
 if ($null -ne $RoleVaule) {
     $Script:ServerRole = [ServerRole][Enum]::Parse([type]"ServerRole", $RoleVaule, $true);
@@ -96,7 +96,7 @@ else {
     $Script:DatabaseUserPassword = $dataAccess.SqlPwd
     $Script:Company = "DAT"
 
-    if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and 
+    if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and
         ($Script:EnvironmentType -eq [EnvironmentType]::MSHostedTier2)) {
         Write-PSFMessage -Level Verbose -Message "We are on a Tier 2 MS hosted Environment. We have an active environment configured. We will load the SqlUser and SqlPwd from that configuration."
 
