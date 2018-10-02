@@ -70,10 +70,10 @@ function Get-D365AOTObject {
         [Parameter(Mandatory = $false, Position = 3)]
         [string] $Name = "*",
 
-        [Parameter(Mandatory = $false, Position = 4)]        
+        [Parameter(Mandatory = $false, Position = 4)]
         [switch] $SearchInPackages,
 
-        [Parameter(Mandatory = $false, Position = 5)]        
+        [Parameter(Mandatory = $false, Position = 5)]
         [switch] $IncludePath
     )
     
@@ -96,7 +96,7 @@ function Get-D365AOTObject {
 
                 $null = $SearchList.Add((Join-Path "$Path" "\$SearchParent\*\$item\*.xml"))
             }
-        }     
+        }
         
         #* We are searching files - so the last character has to be a *
         if($Name.Substring($Name.Length -1, 1) -ne "*") {$Name = "$Name*"}
@@ -105,14 +105,14 @@ function Get-D365AOTObject {
 
         if($IncludePath.IsPresent) {
             $Files | Select-PSFObject -TypeName "D365FO.TOOLS.AotObject" "BaseName as Name",
-            @{Name = "AotType"; Expression = {Split-Path(Split-Path -Path $_.Fullname -Parent) -leaf }}, 
+            @{Name = "AotType"; Expression = {Split-Path(Split-Path -Path $_.Fullname -Parent) -leaf }},
             @{Name = "Model"; Expression = {Split-Path(($_.Fullname -Split $SearchParent)[0] ) -leaf }},
-            "Fullname as Path"     
+            "Fullname as Path"
         }
         else {
             $Files | Select-PSFObject -TypeName "D365FO.TOOLS.AotObject" "BaseName as Name",
-            @{Name = "AotType"; Expression = {Split-Path(Split-Path -Path $_.Fullname -Parent) -leaf }}, 
-            @{Name = "Model"; Expression = {Split-Path(($_.Fullname -Split $SearchParent)[0] ) -leaf }}     
+            @{Name = "AotType"; Expression = {Split-Path(Split-Path -Path $_.Fullname -Parent) -leaf }},
+            @{Name = "Model"; Expression = {Split-Path(($_.Fullname -Split $SearchParent)[0] ) -leaf }}
         }
     }
     

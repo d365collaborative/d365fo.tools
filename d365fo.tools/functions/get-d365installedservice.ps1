@@ -11,10 +11,11 @@ Path to the folder that contians the "InstallationRecords" folder
 .EXAMPLE
 Get-D365InstalledService
 
-This will get all installed services on the machine 
+This will get all installed services on the machine.
 
 .NOTES
-General notes
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Get-D365InstalledService {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
@@ -27,17 +28,16 @@ function Get-D365InstalledService {
     }
     
     process {
-        
         $servicePath = Join-Path $Path "ServiceModelInstallationRecords"
 
-        Write-Verbose "Service installation log path is: $servicePath"
+        Write-PSFMessage -Level Verbose -Message "Service installation log path is: $servicePath" -Target $servicePath
         $ServiceFiles = Get-ChildItem -Path $servicePath -Filter "*_current.xml" -Recurse
 
         foreach ($obj in $ServiceFiles) {
             [PSCustomObject]@{
                 ServiceName = ($obj.Name.Split("_")[0])
                 Version     = (Select-Xml -XPath "/ServiceModelInstallationInfo/Version" -Path $obj.fullname).Node."#Text"
-            }            
+            }
         }
     }
     

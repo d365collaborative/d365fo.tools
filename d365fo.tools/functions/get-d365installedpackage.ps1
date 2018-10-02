@@ -43,6 +43,8 @@ Shows the entire list of installed packages located in "J:\AOSService\PackagesLo
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Get-D365InstalledPackage {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
@@ -54,15 +56,15 @@ function Get-D365InstalledPackage {
         [string] $PackageDirectory = $Script:PackageDirectory
     )
 
-    Write-Verbose "$PackageDirectory"
-    Write-Verbose "$Name"
+    Write-PSFMessage -Level Verbose -Message "Package directory is: $PackageDirectory" -Target $PackageDirectory
+    Write-PSFMessage -Level Verbose -Message "Name is: $Name" -Target $Name
 
     $Packages = Get-ChildItem -Path $PackageDirectory -Directory -Exclude bin
 
     foreach ($obj in $Packages) {
         if ($obj.Name -NotLike $Name) { continue }
         [PSCustomObject]@{
-            PackageName = $obj.Name
+            PackageName      = $obj.Name
             PackageDirectory = $obj.FullName
         }
     }
