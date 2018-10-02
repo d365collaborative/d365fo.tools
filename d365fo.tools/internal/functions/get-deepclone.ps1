@@ -24,16 +24,16 @@ function Get-DeepClone {
         [parameter(Mandatory = $true)]
         [HashTable] $InputObject
     )
-    process {    
+    process {
         if ($InputObject -is [hashtable]) {
             $clone = @{}
             foreach ($key in $InputObject.keys) {
                 $clone[$key] = Get-DeepClone $InputObject[$key]
             }
-            return $clone
+            $clone
         }
         else {
-            return $InputObject
-        }        
+            $InputObject
+        }
     }
 }

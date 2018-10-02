@@ -42,7 +42,7 @@ function Get-IdentityProvider {
         }
         else {
             $statusDescription = $response.StatusDescription
-            throw "Https status code : $statusDescription" 
+            throw "Https status code : $statusDescription"
         }
 
         $openIdConfigJSON = ConvertFrom-Json $openIdConfig
