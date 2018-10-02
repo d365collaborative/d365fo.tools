@@ -43,24 +43,19 @@ Only works with the -Traverse option
 .EXAMPLE
 Get-D365PackageBundleDetail -Path "c:\temp\HotfixPackageBundle.axscdppkg" -Traverse
 
-This will extract all the content from the "HotfixPackageBundle.axscdppkg" file and 
-extract all inner packages. For each inner package it will find the manifest file and
-fetch the KB numbers. The raw manifest file content is included to be analyzed.
+This will extract all the content from the "HotfixPackageBundle.axscdppkg" file and extract all inner packages. For each inner package it will find the manifest file and fetch the KB numbers. The raw manifest file content is included to be analyzed.
 
 .EXAMPLE
 Get-D365PackageBundleDetail -Path "c:\temp\HotfixPackageBundle.axscdppkg" -ExtractionPath C:\Temp\20180905 -Traverse -KeepFiles
 
-This will extract all the content from the "HotfixPackageBundle.axscdppkg" file and 
-extract all inner packages. It will extract the content into C:\Temp\20180905 and 
-keep the files after completion.
+This will extract all the content from the "HotfixPackageBundle.axscdppkg" file and extract all inner packages. It will extract the content into C:\Temp\20180905 and keep the files after completion.
 
-.EXAMPLE 
+.EXAMPLE
 Advanced scenario
 
 Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
 
-This will traverse the "HotfixPackageBundle.axscdppkg" file and save the 
-manifest files into c:\temp. Everything else is omitted and cleaned up. 
+This will traverse the "HotfixPackageBundle.axscdppkg" file and save the manifest files into c:\temp. Everything else is omitted and cleaned up.
 
 .NOTES
 Author: Mötz Jensen (@Splaxi)
@@ -139,7 +134,7 @@ function Get-D365PackageBundleDetail {
 
                 Write-PSFMessage -Level Verbose -Message "Extracting the zip file $tempFile to $tempDir" -Target $tempDir
                 Expand-Archive -Path $tempFile -DestinationPath $tempDir
-            }        
+            }
 
             $manifestFiles = Get-ChildItem -Path $packageTemp -Recurse -Filter "PackageManifest.xml"
 
@@ -158,7 +153,7 @@ function Get-D365PackageBundleDetail {
                 $arrKbs = $kbs.node.InnerText
 
                 if($packageId.Node.InnerText -notlike $Hotfix) {continue}
-                if(@($arrKbs) -notlike $KB) {continue} #* Search across an array with like 
+                if(@($arrKbs) -notlike $KB) {continue} #* Search across an array with like
 
                 $Obj = [PSCustomObject]@{Hotfix = $strPackage
                 KBs = ($arrKbs -Join ";")}

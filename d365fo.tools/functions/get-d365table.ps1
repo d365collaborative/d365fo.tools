@@ -15,7 +15,7 @@ Default value is "*" which will search for all tables
 .PARAMETER DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
 
 If Azure use the full address to the database server, e.g. server.database.windows.net
 
@@ -26,7 +26,7 @@ The name of the database
 The login name for the SQL Server instance
 
 .PARAMETER SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 .PARAMETER Id
 The specific id for the table you are looking for
@@ -39,10 +39,12 @@ Will get the details for the CustTable
 .EXAMPLE
 Get-D365Table -Id 10347
 
-Will get the details for the table with the id 10347
+Will get the details for the table with the id 10347.
 
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+
+Author: Mötz Jensen (@Splaxi)
 
 #>
 function Get-D365Table {
@@ -74,7 +76,7 @@ function Get-D365Table {
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
         $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-            SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+            SqlUser = $SqlUser; SqlPwd = $SqlPwd
         }
 
         $sqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
