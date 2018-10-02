@@ -11,6 +11,10 @@ Available on Powershellgallery
 Install-Module -Name d365fo.tools
 ```
 
+### **Install without administrator privileges**
+```
+Install-Module -Name d365fo.tools -Scope CurrentUser
+```
 ### **List all available commands / functions**
 
 ```
