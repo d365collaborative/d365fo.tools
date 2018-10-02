@@ -25,7 +25,7 @@ function Get-D365ClickOnceTrustPrompt {
     process {
         Write-PSFMessage -Level Verbose -Message "Testing if the registry key exists or not"
 
-        if ((Test-Path -Path "HKLM:\SOFTWARE\MICROSOFT\.NETFramework\Security\TrustManager\PromptingLevel") -eq $false) {            
+        if ((Test-Path -Path "HKLM:\SOFTWARE\MICROSOFT\.NETFramework\Security\TrustManager\PromptingLevel") -eq $false) {
             Write-PSFMessage -Level Host -Message "It looks like ClickOnce trust prompt has never been configured on this machine. Run Set-D365ClickOnceTrustPrompt to fix that"
         }
         else {

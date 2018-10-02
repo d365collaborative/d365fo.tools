@@ -39,5 +39,5 @@ function Get-D365DecryptedConfigFile {
     if (!(Test-PathExists -Path $DropPath -Type Container -Create)) {return}
 
     Write-PSFMessage -Level Verbose -Message "Starting the decryption logic"
-    New-DecryptedFile $WebConfigFile $DropPath 
+    New-DecryptedFile $WebConfigFile $DropPath
 }

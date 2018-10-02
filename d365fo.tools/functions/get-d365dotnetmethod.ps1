@@ -97,7 +97,7 @@ function Get-D365DotNetMethod {
         }
         catch {
             Write-PSFMessage -Level Warning -Message "Something went wrong while working on: $Assembly" -ErrorRecord $_
-        } 
+        }
         
         Invoke-TimeSignal -End
     }
@@ -105,4 +105,4 @@ function Get-D365DotNetMethod {
     end {
     }
 
-} 
+}

@@ -93,11 +93,10 @@ function Get-D365DotNetClass {
                 }
             }
             catch {
-                # write-Error $_.Exception.Message
-                # Write-Error $_.Exception
-
-                Write-Verbose "Failed to load: $path"
-            } 
+                Write-PSFMessage -Level Host -Message "Something went wrong while trying to load the path: $path" -Exception $PSItem.Exception
+                Stop-PSFFunction -Message "Stopping because of errors"
+                return
+            }
         }
 
         Invoke-TimeSignal -End

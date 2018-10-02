@@ -46,17 +46,17 @@ function Get-D365AzureStorageFile {
         [Parameter(Mandatory = $false, Position = 2 )]
         [string] $AccessToken = $Script:AccessToken,
 
-        [Parameter(Mandatory = $false, Position = 3 )]        
+        [Parameter(Mandatory = $false, Position = 3 )]
         [string] $Blobname = $Script:Blobname,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )] 
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
         [string] $Name = "*",
 
         [switch] $GetLatest
     )
 
-    BEGIN { 
-        if (([string]::IsNullOrEmpty($AccountId)) -or 
+    BEGIN {
+        if (([string]::IsNullOrEmpty($AccountId)) -or
             ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Blobname))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
@@ -66,7 +66,7 @@ function Get-D365AzureStorageFile {
 
 
     PROCESS {
-        if (Test-PSFFunctionInterrupt) {return}    
+        if (Test-PSFFunctionInterrupt) {return}
 
         $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken
 
