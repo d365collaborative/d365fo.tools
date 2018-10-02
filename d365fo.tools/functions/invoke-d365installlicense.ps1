@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-Install a license for a 3. party solution 
+Install a license for a 3. party solution
 
 .DESCRIPTION
 Install a license for a 3. party solution using the builtin "Microsoft.Dynamics.AX.Deployment.Setup.exe" executable
@@ -25,7 +25,7 @@ The login name for the SQL Server instance
 The password for the SQL Server user
 
 .PARAMETER MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
 Default path is the same as the aos service PackagesLocalDirectory
 

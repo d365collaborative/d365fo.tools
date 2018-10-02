@@ -27,10 +27,12 @@ Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x
 $AzureParams = Get-D365ActiveAzureStorageConfig
 New-D365Bacpac | Invoke-D365AzureStorageUpload @AzureParams
 
-This will get the current Azure Storage Account configuration details
-and use them as parameters to upload the file to an Azure Storage Account
+This will get the current Azure Storage Account configuration details and use them as parameters to upload the file to an Azure Storage Account.
+
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+
+Author: Mötz Jensen (@Splaxi)
 
 #>
 function Invoke-D365AzureStorageUpload {
@@ -42,10 +44,10 @@ function Invoke-D365AzureStorageUpload {
         [Parameter(Mandatory = $false, Position = 2 )]
         [string] $AccessToken = $Script:AccessToken,
 
-        [Parameter(Mandatory = $false, Position = 3 )]        
+        [Parameter(Mandatory = $false, Position = 3 )]
         [string] $Blobname = $Script:Blobname,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipeline = $true, Position = 4 )] 
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipeline = $true, Position = 4 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'Pipeline', ValueFromPipelineByPropertyName = $true, Position = 4 )]
         [Alias('File')]
         [string] $Filepath,
@@ -53,7 +55,7 @@ function Invoke-D365AzureStorageUpload {
         [switch] $DeleteOnUpload
     )
     BEGIN {
-        if ( ([string]::IsNullOrEmpty($AccountId) -eq $true) -or 
+        if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
             ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Blobname))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
@@ -61,7 +63,7 @@ function Invoke-D365AzureStorageUpload {
         }
     }
     PROCESS {
-        if (Test-PSFFunctionInterrupt) {return}    
+        if (Test-PSFFunctionInterrupt) {return}
 
         Invoke-TimeSignal -Start
 
@@ -77,10 +79,10 @@ function Invoke-D365AzureStorageUpload {
             Write-PSFMessage -Level Verbose -Message "Start uploading the file to Azure" -Exception $PSItem.Exception
 
             $FileName = Split-Path $Filepath -Leaf
-            $blockBlob = $blobcontainer.GetBlockBlobReference($FileName);            
+            $blockBlob = $blobcontainer.GetBlockBlobReference($FileName)
             $blockBlob.UploadFromFile($Filepath)
 
-            if ($DeleteOnUpload.IsPresent) {
+            if ($DeleteOnUpload) {
                 Remove-Item $Filepath -Force
             }
 

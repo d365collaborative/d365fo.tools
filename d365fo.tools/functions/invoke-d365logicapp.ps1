@@ -3,28 +3,33 @@
 Invoke a http request for a Logic App
 
 .DESCRIPTION
-Invoke a Logic App using a http request and pass
-a json object with details about the calling function
+Invoke a Logic App using a http request and pass a json object with details about the calling function
+
+.PARAMETER Url
+The URL for the http endpoint that you want to invoke
+
+.PARAMETER Email
+The email address of the receiver of the message that the cmdlet will send
+
+.PARAMETER Subject
+Subject string to apply to the email and to the IM message
 
 .PARAMETER IncludeAll
-Parameter description
+Switch to instruct the cmdlet to include all cmdlets (names only) from the pipeline
 
 .EXAMPLE
 Invoke-D365SyncDB | Invoke-D365LogicApp
 
-This will execute the sync process and when it is done
-it will invoke a Azure Logic App with the default parameters
-that have been configured for the system.
+This will execute the sync process and when it is done it will invoke a Azure Logic App with the default parameters that have been configured for the system.
 
 .EXAMPLE
 Invoke-D365SyncDB | Invoke-D365LogicApp -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
 
-This will execute the sync process and when it is done
-it will invoke a Azure Logic App with the email, subject and URL 
-parameters that are needed to invoke an Azure Logic App
+This will execute the sync process and when it is done it will invoke a Azure Logic App with the email, subject and URL parameters that are needed to invoke an Azure Logic App.
 
 .NOTES
 Author: Mötz Jensen (@Splaxi)
+
 #>
 function Invoke-D365LogicApp {
     param (
