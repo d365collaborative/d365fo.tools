@@ -21,14 +21,16 @@ Default value is the Fully Qualified Domain Name registered on the machine
 .EXAMPLE
 Invoke-D365TableBrowser -TableName SalesTable
 
-Will open the table browser and show all the records in Sales Table from the "DAT" company (default value)
+Will open the table browser and show all the records in Sales Table from the "DAT" company (default value).
 
 .EXAMPLE
 Invoke-D365TableBrowser -TableName SalesTable -Company "USMF"
 
-Will open the table browser and show all the records in Sales Table from the "USMF" company
+Will open the table browser and show all the records in Sales Table from the "USMF" company.
 
 .NOTES
+Author: Mötz Jensen (@Splaxi)
+
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 
 #>
@@ -47,7 +49,7 @@ function Invoke-D365TableBrowser {
     BEGIN {}
 
     PROCESS {
-        Write-Verbose "Table name: $TableName"
+        Write-PSFMessage -Level Verbose -Message "Table name: $TableName" -Target $TableName
         $executingUrl = "$Url`?cmp=$Company&mi=SysTableBrowser&tablename=$TableName"
 
         Start-Process $executingUrl

@@ -3,8 +3,8 @@
 Invoke the AxUpdateInstaller.exe file from Software Deployable Package (SDP)
 
 .DESCRIPTION
-A cmdlet that wraps some of the cumbersome work into a streamlined process. 
-The process are detailed in the Microsoft documentation here: 
+A cmdlet that wraps some of the cumbersome work into a streamlined process.
+The process are detailed in the Microsoft documentation here:
 https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deployment/install-deployable-package
 
 .PARAMETER Path
@@ -13,9 +13,9 @@ Path to the update package that you want to install into the environment
 The cmdlet only supports a path to an already extracted and unblocked zip-file
 
 .PARAMETER MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory 
+Default path is the same as the aos service PackagesLocalDirectory
 
 .PARAMETER QuickInstallAll
 Use this switch to let the runbook reside in memory. You will not get a runbook on disc which you can examine for steps
@@ -26,7 +26,7 @@ Use this when running on developer box without administrator privileges (Run As 
 .EXAMPLE
 Invoke-D365SDPInstall -Path "c:\temp\" -QuickInstallAll
 
-This will install the extracted package in c:\temp\ using a runbook in memory while executing. 
+This will install the extracted package in c:\temp\ using a runbook in memory while executing.
 
 .EXAMPLE
 Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
@@ -34,26 +34,28 @@ Invoke-D365SDPInstall -Path "c:\temp\" -Command Generate -RunbookId 'MyRunbook'
 Invoke-D365SDPInstall -Path "c:\temp\" -Command Import -RunbookId 'MyRunbook'
 Invoke-D365SDPInstall -Path "c:\temp\" -Command Execute -RunbookId 'MyRunbook'
 
-Manual operations that first create Topology XML from current environment, then generate runbook with id 'MyRunbook', then import it and finally execute it. 
+Manual operations that first create Topology XML from current environment, then generate runbook with id 'MyRunbook', then import it and finally execute it.
 
 .EXAMPLE
 Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll
 
-Create Topology XML from current environment. Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.  
+Create Topology XML from current environment. Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
 
 .EXAMPLE
 Invoke-D365SDPInstall -Path "c:\temp\" -Command RerunStep -Step 18 -RunbookId 'MyRunbook'
 
-Rerun runbook with id 'MyRunbook' from step 18
+Rerun runbook with id 'MyRunbook' from step 18.
 
 .EXAMPLE
 Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
 
-Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step
+Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step.
 
 .NOTES
 Author: Tommy Skaue (@skaue)
-Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/ 
+
+Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
+
 #>
 function Invoke-D365SDPInstall {
     [CmdletBinding(DefaultParameterSetName = 'QuickInstall')]
@@ -76,10 +78,10 @@ function Invoke-D365SDPInstall {
         [ValidateSet('SetTopology', 'Generate', 'Import', 'Execute', 'RunAll', 'ReRunStep', 'SetStepComplete', 'Export', 'VersionCheck')]
         [string] $Command = 'SetTopology',
 
-        [Parameter(Mandatory = $false, Position = 4 )]        
+        [Parameter(Mandatory = $false, Position = 4 )]
         [int] $Step,
         
-        [Parameter(Mandatory = $false, Position = 5 )]        
+        [Parameter(Mandatory = $false, Position = 5 )]
         [string] $RunbookId = "Runbook"
     )
     

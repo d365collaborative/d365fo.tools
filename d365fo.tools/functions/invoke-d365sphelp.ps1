@@ -25,7 +25,7 @@
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
         $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-            SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+            SqlUser = $SqlUser; SqlPwd = $SqlPwd
         }
 
         $sqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
@@ -38,7 +38,7 @@
 
         $datatable = New-Object system.Data.DataSet
         $dataadapter = New-Object system.Data.SqlClient.SqlDataAdapter($sqlcommand)
-        $dataadapter.fill($datatable) | Out-Null
+        $null = $dataadapter.fill($datatable)
 
         foreach($datTable in $datatable.Tables)
         {
@@ -48,7 +48,7 @@
 
             [PSCustomObject]@{
                 File = $resFile
-            } 
+            }
         }
     }
 
