@@ -3,7 +3,7 @@
 Disables the user in D365FO
 
 .DESCRIPTION
-Sets the enabled to 0 in the userinfo table. 
+Sets the enabled to 0 in the userinfo table.
 
 .PARAMETER DatabaseServer
 The name of the database server
@@ -42,6 +42,7 @@ Enable-D365User -Email "*contoso.com"
 This will enable all users that matches the search "*contoso.com" in their email address
 
 .NOTES
+Author: Mötz Jensen (@Splaxi)
 
 #>
 function Disable-D365User {
@@ -68,7 +69,7 @@ function Disable-D365User {
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
@@ -100,7 +101,7 @@ function Disable-D365User {
         $reader.close()
 
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
-            $sqlCommand.Connection.Close()    
+            $sqlCommand.Connection.Close()
         }
 
         $sqlCommand.Dispose()
