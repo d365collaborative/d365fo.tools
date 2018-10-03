@@ -480,7 +480,7 @@ Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicR
 
 ### **Installation of binary updates**
 ```
-Invoke-D365SDPInstall -Path C:\DeployablePackages -RunAll
+Invoke-D365SDPInstall -Path C:\DeployablePackages -Command RunAll
 ```
 
 *This will execute the generate, import and execute steps in correct order. The cmdlet expects the path "C:\DeployablePackages" to be the extracted directory from a package*
