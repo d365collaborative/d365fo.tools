@@ -480,16 +480,23 @@ Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicR
 
 ### **Installation of binary updates**
 ```
-Invoke-D365AXUpdateInstaller -Path C:\DeployablePackages -GenerateImportExecute
+Invoke-D365SDPInstall -Path C:\DeployablePackages -RunAll
 ```
 
-*This will execute the generate, import and execute steps in correct order. The cmdlet expects one or more folders inside the "C:\DeployablePackages" location*
+*This will execute the generate, import and execute steps in correct order. The cmdlet expects the path "C:\DeployablePackages" to be the extracted directory from a package*
 
-### **Installation of 3. party ISV module**
+### **Installation of 3. party ISV module - DevInstall**
 ```
-Invoke-D365AXUpdateInstaller -Path C:\DeployablePackages -DevInstall
+Invoke-D365SDPInstall -Path C:\DeployablePackages -DevInstall
 ```
-*This will execute the **"devinstall"** mode. The cmdlet expects one or more folders inside the "C:\DeployablePackages" location*
+*This will execute the **"devinstall"** mode. The cmdlet expects the path "C:\DeployablePackages" to be the extracted directory from a package*
+
+### **Installation of 3. party ISV module - QuickInstall**
+```
+Invoke-D365SDPInstall -Path C:\DeployablePackages -QuickInstall
+```
+*This will execute the **"QuickInstall"** mode. The cmdlet expects the path "C:\DeployablePackages" to be the extracted directory from a package*
+
 
 ### **Installation of X++ hotfix**
 ```
