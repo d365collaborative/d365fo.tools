@@ -24,7 +24,7 @@ Author: Mötz Jensen (@Splaxi)
 #>
 
 function Invoke-D365ReArmWindows {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]

@@ -37,9 +37,10 @@ Disable-D365MaintenanceMode
 This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state.
 
 .NOTES
-The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
-
 Author: Mötz Jensen (@splaxi)
+Author: Tommy Skaue (@skaue)
+
+The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
 
 #>
 function Disable-D365MaintenanceMode {

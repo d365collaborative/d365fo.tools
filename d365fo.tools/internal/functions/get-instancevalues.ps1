@@ -1,5 +1,5 @@
 ﻿function Get-InstanceValues {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     [OutputType('System.Collections.Hashtable')]
     param (
