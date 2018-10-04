@@ -22,13 +22,19 @@ function Get-D365UserAuthenticationDetail {
 
     $instanceProvider = Get-InstanceIdentityProvider
 
-    $identityProvider = Get-CanonicalIdentityProvider
-    $tenant = Get-TenantFromEmail $Email
+    [string]$identityProvider = Get-CanonicalIdentityProvider
+    
     $networkDomain = get-NetworkDomain $Email
 
-    if ($instanceProvider.ToLower().Contains($tenant.ToLower()) -ne $True) {
-        $identityProvider = Get-IdentityProvider $Email
+    $instanceProviderName = $instanceProvider.TrimEnd('/')
+    $instanceProviderName = $instanceProviderName.Substring($instanceProviderName.LastIndexOf('/')+1)
+    $instanceProviderIdentityProvider = Get-IdentityProvider "sample@$instanceProviderName"
+    $emailIdentityProvider = Get-IdentityProvider $Email 
+
+    if ($instanceProviderIdentityProvider -ne $emailIdentityProvider) {
+        $identityProvider = $emailIdentityProvider
     }
+
     $SID = Get-UserSIDFromAad $Email $identityProvider
 
 
