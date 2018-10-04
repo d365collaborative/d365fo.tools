@@ -207,7 +207,7 @@ function Import-D365AadUser {
         }
         else
         {
-            Write-PSFMessage -Level Host -Message "Processing Azure AD user Group ""$($group[0].DisplayName)"""
+            Write-PSFMessage -Level Host -Message "Processing Azure AD user Group `"$($group[0].DisplayName)`""
         }
 
         if ($group.Length -gt 1) {
