@@ -1,3 +1,7 @@
+--Author: Rasmus Andersen (@ITRasmus)
+--Author: Charles Colombel (@dropshind)
+--Author: Tommy Skaue (@skaue)
+
 --Prepare a database in Azure SQL Database for export to SQL Server.
 --Disable change tracking on tables where it is enabled.
 declare

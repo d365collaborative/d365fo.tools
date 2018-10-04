@@ -85,6 +85,9 @@ Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
 Imports all the users that is present in the AAD Group called CustomerTeam1
 
 .NOTES
+Author: Rasmus Andersen (@ITRasmus)
+Author: Charles Colombel (@dropshind)
+
 At no circumstances can this cmdlet be used to import users into a PROD environment.
 
 Only users from an Azure Active Directory that you have access to, can be imported.
