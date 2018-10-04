@@ -18,6 +18,7 @@ CLOSE changeTrackingCursor
 DEALLOCATE changeTrackingCursor
 
 --Disable change tracking on the database itself.
+IF(1=(SELECT 1 FROM SYS.CHANGE_TRACKING_DATABASES WHERE DATABASE_ID = DB_ID('@NewDatabase')))
 ALTER DATABASE
 -- SET THE NAME OF YOUR DATABASE BELOW
 [@NewDatabase]
