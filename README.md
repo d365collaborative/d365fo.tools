@@ -74,6 +74,16 @@ Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
 *Imports Claire and Allen into the environment*
 
 
+### **Import a list of users into the environment based on Azure AD Group**
+
+```
+Import-D365AadUser -AadGroupName "D365 Users" -ForceExactAadGroupName
+```
+
+*Imports all users included into "D365 Users" Azure AD Group into the environnement*
+
+*The ForceExactAadGroupName parameter force command to find the AD group by searching for the exact name*
+
 ### **Update users in an environment after database migration / restore or re-provisioning**
 
 ```

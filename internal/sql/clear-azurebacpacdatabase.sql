@@ -25,6 +25,23 @@ ALTER DATABASE
 set CHANGE_TRACKING = OFF
 --Remove the database level users from the database
 --these will be recreated after importing in SQL Server.
+
+declare @catalogSQL varchar(1000)
+set quoted_identifier off
+
+declare catalogCursor CURSOR for
+select 'ALTER AUTHORIZATION ON Fulltext Catalog::[' + name + '] TO [dbo]; '
+from sys.fulltext_catalogs
+OPEN catalogCursor
+FETCH catalogCursor into @catalogSQL
+WHILE @@Fetch_Status = 0
+BEGIN
+exec(@catalogSQL)
+FETCH catalogCursor into @catalogSQL
+END
+CLOSE catalogCursor
+DEALLOCATE catalogCursor
+
 declare
 @userSQL varchar(1000)
 set quoted_identifier off
