@@ -8,10 +8,10 @@
         [string] $DatabaseServer,
 
         [Parameter(Mandatory = $true)]
-        [string] $DatabaseName, 
+        [string] $DatabaseName,
 
         [Parameter(Mandatory = $true)]
-        [string] $SqlUser, 
+        [string] $SqlUser,
 
         [Parameter(Mandatory = $true)]
         [string] $SqlPwd,
@@ -63,7 +63,7 @@
 
     try {
         Write-PSFMessage -Level Verbose "Execution sql statement against database" -Target $sqlCommand.CommandText
-        $null = $sqlCommand.ExecuteNonQuery()     
+        $null = $sqlCommand.ExecuteNonQuery()
         
         $true
     }

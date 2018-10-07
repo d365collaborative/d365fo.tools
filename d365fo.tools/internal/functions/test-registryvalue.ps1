@@ -2,7 +2,7 @@
     [OutputType([System.Boolean])]
     param(
         [Parameter(Mandatory = $true)]
-        [string]$Path, 
+        [string]$Path,
         
         [Parameter(Mandatory = $true)]
         [string]$Name
