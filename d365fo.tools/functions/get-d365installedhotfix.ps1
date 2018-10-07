@@ -89,8 +89,8 @@ function Get-D365InstalledHotfix {
     }
 
     process {
-        $files = @(Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Storage.dll",
-            Join-Path $BinDir "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll")
+        $files = @(Join-Path -Path $BinDir -ChildPath "Microsoft.Dynamics.AX.Metadata.Storage.dll",
+            Join-Path -Path $BinDir -ChildPath "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll")
         
         if(-not (Test-PathExists -Path $files -Type Leaf)) {
             return
