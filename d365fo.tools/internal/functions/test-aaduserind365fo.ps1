@@ -21,7 +21,9 @@
         Write-PSFMessage -Level Verbose -Message "Number of user rows found in database $NumFound" -Target $NumFound
     }
     catch {
-        
+        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+        Stop-PSFFunction -Message "Stopping because of errors"
+        return
     }
     finally {
         $SqlCommand.Parameters.Clear()
