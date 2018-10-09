@@ -46,7 +46,7 @@ This will enable all users that matches the search "*contoso.com" in their email
 .NOTES
 Implemented on request by Paul Heisterkamp
 #>
-function Install-D365AutomatedTestingCertificate {
+function Enable-D365User {
 
     [CmdletBinding()]
     param (
