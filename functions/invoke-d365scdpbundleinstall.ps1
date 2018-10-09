@@ -133,7 +133,7 @@ function Invoke-D365SCDPBundleInstall {
                     }
                 }
             }
-            Start-Sleep -Milliseconds 500             
+            Start-Sleep -Milliseconds 100             
         }         
     }
     else {
