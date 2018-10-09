@@ -263,17 +263,18 @@ It is possible to provide
 
 ### **Create self-signed certificates and configure AOS WIF trusted authorities**
 ```
-Get-D365OfflineAuthenticationAdminEmail
+Initialize-D365TestAutomationCertificate
 ```
+Creates a new self signed certificate for automated testing and reconfigures the AOS Windows Identity Foundation configuration to trust the certificate
 
 ## **Fix misc issues**
 ### **Get Offline Authentication Administrator Email**
 
 ```
-Initialize-D365TestAutomationCertificate
+Get-D365OfflineAuthenticationAdminEmail
 ```
 
-*Creates a new self signed certificate for automated testing and reconfigures the AOS Windows Identity Foundation configuration to trust the certificate*
+*Will display the current registered account as Offline Authentication Administrator*
 
 ### **Set Offline Authentication Administrator Email**
 ```
