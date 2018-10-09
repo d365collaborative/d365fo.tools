@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.4.19'
+    ModuleVersion          = '0.4.20'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
