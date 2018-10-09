@@ -30,7 +30,7 @@ function Get-D365DecryptedConfigFile {
 
     $WebConfigFile = Join-Path $AosServiceWebRootPath $Script:WebConfig
 
-    if (!(Test-PathExists -Path $WebConfigFile, $Util -Type Leaf)) {return}
+    if (!(Test-PathExists -Path $WebConfigFile -Type Leaf)) {return}
     if (!(Test-PathExists -Path $DropPath -Type Container -Create)) {return}
 
     Write-PSFMessage -Level Verbose -Message "Starting the decryption logic"

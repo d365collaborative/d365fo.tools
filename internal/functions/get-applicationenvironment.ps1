@@ -23,7 +23,6 @@ function Get-ApplicationEnvironment {
     $null = $Files2Process.Add("Microsoft.Dynamics.AX.Configuration.Base")
     $null = $Files2Process.Add("Microsoft.Dynamics.BusinessPlatform.SharedTypes")
     $null = $Files2Process.Add("Microsoft.Dynamics.AX.Framework.EncryptionEngine")
-    $null = $Files2Process.Add("Microsoft.Web.Administration")
     $null = $Files2Process.Add("Microsoft.Dynamics.ApplicationPlatform.Environment")
         
     foreach ($name in $Files2Process) {

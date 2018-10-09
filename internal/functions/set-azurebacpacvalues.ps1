@@ -60,6 +60,7 @@ function Set-AzureBacpacValues {
 
     try {
         Write-PSFMessage -Level Verbose "Execution sql statement against database" -Target $sqlCommand.CommandText
+        $sqlCommand.Connection.Open()
         $null = $sqlCommand.ExecuteNonQuery()     
         
         $true
@@ -70,7 +71,10 @@ function Set-AzureBacpacValues {
         return
     }
     finally {
-        $sqlCommand.Connection.Close()
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()    
+        }
+
         $sqlCommand.Dispose()
     }
 }
