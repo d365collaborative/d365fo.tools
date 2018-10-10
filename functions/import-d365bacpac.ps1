@@ -40,22 +40,22 @@ Name of the new database that will be created while importing the bacpac file
 This will create a new database on the database server and import the content of the bacpac into
 
 .PARAMETER AxDeployExtUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxDbAdminPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxRuntimeUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxMrRuntimeUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxRetailRuntimeUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxRetailDataSyncUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER ImportOnly
 Switch to instruct the cmdlet to only import the bacpac into the new database

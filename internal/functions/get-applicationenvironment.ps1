@@ -1,6 +1,6 @@
 function Get-ApplicationEnvironment {
     $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\bin"
-
+    
     Write-PSFMessage -Level Verbose -Message "Testing if we are running on a AOS server or not"            
     if (!(Test-Path -Path $AOSPath -PathType Container)) {
         $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "MRProcessService\MRInstallDirectory\Server\Services"
@@ -23,7 +23,7 @@ function Get-ApplicationEnvironment {
     $null = $Files2Process.Add("Microsoft.Dynamics.AX.Configuration.Base")
     $null = $Files2Process.Add("Microsoft.Dynamics.BusinessPlatform.SharedTypes")
     $null = $Files2Process.Add("Microsoft.Dynamics.AX.Framework.EncryptionEngine")
-    #$null = $Files2Process.Add("Microsoft.Web.Administration")
+    $null = $Files2Process.Add("Microsoft.Dynamics.AX.Security.Instrumentation")
     $null = $Files2Process.Add("Microsoft.Dynamics.ApplicationPlatform.Environment")
         
     foreach ($name in $Files2Process) {
