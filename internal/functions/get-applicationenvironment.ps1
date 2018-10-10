@@ -1,5 +1,6 @@
 function Get-ApplicationEnvironment {
     $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\bin"
+    $webconfigPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\web.config"
 
     Write-PSFMessage -Level Verbose -Message "Testing if we are running on a AOS server or not"            
     if (!(Test-Path -Path $AOSPath -PathType Container)) {
@@ -23,6 +24,7 @@ function Get-ApplicationEnvironment {
     $null = $Files2Process.Add("Microsoft.Dynamics.AX.Configuration.Base")
     $null = $Files2Process.Add("Microsoft.Dynamics.BusinessPlatform.SharedTypes")
     $null = $Files2Process.Add("Microsoft.Dynamics.AX.Framework.EncryptionEngine")
+    $null = $Files2Process.Add("Microsoft.Dynamics.AX.Security.Instrumentation")
     $null = $Files2Process.Add("Microsoft.Dynamics.ApplicationPlatform.Environment")
         
     foreach ($name in $Files2Process) {
@@ -46,8 +48,15 @@ function Get-ApplicationEnvironment {
     }
 
     if ($break -eq $false) {
+        $TempFile = [System.IO.Path]::GetTempFileName()
+        $null = Copy-Item $webconfigPath $TempFile
+        $filemap = New-Object System.Configuration.ExeConfigurationFileMap
+        $filemap.ExeConfigFilename = $TempFile
+        $config = [System.Configuration.ConfigurationManager]::OpenMappedExeConfiguration($filemap, [System.Configuration.ConfigurationUserLevel]::None)
+        Write-PSFMessage -Level Verbose -Message "Decrypt the web.config file on the fly." -Target $TempFile
+
         Write-PSFMessage -Level Verbose -Message "All assemblies loaded. Getting environment details."
-        $environment = [Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory]::GetApplicationEnvironment()
+        $environment = [Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory]::GetApplicationEnvironment($config)        
     }
     
     $environment
