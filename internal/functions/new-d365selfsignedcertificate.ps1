@@ -30,7 +30,7 @@ function New-D365SelfSignedCertificate
     catch 
     {
         Write-PSFMessage -Level Host -Message "Something went wrong while generating the self-signed certificate and installing it into the local machine's trusted root certificates store." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         return
     }
 

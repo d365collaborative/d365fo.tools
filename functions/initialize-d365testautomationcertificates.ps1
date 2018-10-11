@@ -34,8 +34,8 @@
 
     if (!$Script:IsAdminRuntime) 
     {
-        Write-Host "The cmdlet needs administrator permission (Run As Administrator) to be able to update the configuration. Please start an elevated session and run the cmdlet again." -ForegroundColor Yellow
-        Write-Error "Elevated permissions needed. Please start an elevated session and run the cmdlet again." -ErrorAction Stop
+        Write-PSFMessage -Level Critical -Message "The cmdlet needs administrator permission (Run As Administrator) to be able to update the configuration. Please start an elevated session and run the cmdlet again." -ForegroundColor Yellow
+        Stop-PSFFunction "Elevated permissions needed. Please start an elevated session and run the cmdlet again."
     }
 
     try 
@@ -43,6 +43,12 @@
         # Create the certificate and place it in the right stores
         $X509Certificate = New-D365SelfSignedCertificate -CertificateFileName $CertificateFileName -PrivateKeyFileName $PrivateKeyFileName -Password $Password -MakeCertExecutable $MakeCertExecutable
         
+        if (Test-PSFFunctionInterrupt) 
+        { 
+            Write-PSFMessage -Level Critical -Message "The self signed certificate creation was interrupted"
+            Stop-PSFFunction -StepsUpward 1
+        }
+
         # Modify the wif.config of the AOS to have this thumbprint added to the https://fakeacs.accesscontrol.windows.net/ authority
         Add-WIFConfigAuthorityThumbprint -CertificateThumbprint $X509Certificate.Thumbprint
     }

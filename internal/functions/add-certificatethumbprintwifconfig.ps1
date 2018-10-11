@@ -16,7 +16,8 @@ function Add-WIFConfigAuthorityThumbprint
         
         if($authorities.Count -lt 1)
         {
-            throw "Only one authority should be found with the name https://fakeacs.accesscontrol.windows.net/"
+            Write-PSFMessage -Level Critical -Message "Only one authority should be found with the name https://fakeacs.accesscontrol.windows.net/"
+            Stop-PSFFunction -Stepsupward 1
         }
         else
         {
@@ -34,7 +35,7 @@ function Add-WIFConfigAuthorityThumbprint
     catch 
     {
         Write-PSFMessage -Level Host -Message "Something went wrong while configuring the certificates and the Windows Identity Foundation configuration for the AOS" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         return
     }
 }
