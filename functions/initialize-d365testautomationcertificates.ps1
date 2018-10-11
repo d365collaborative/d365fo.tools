@@ -20,16 +20,16 @@
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]
-        [string]$CertificateFileName = "TestAuthCert.cer",
+        [string]$CertificateFileName = (Join-Path $env:TEMP "TestAuthCert.cer"),
 
         [Parameter(Mandatory = $false, Position = 2)]
-        [string]$PrivateKeyFileName = "TestAuthCert.pfx",
+        [string]$PrivateKeyFileName = (Join-Path $env:TEMP "TestAuthCert.pfx"),
 
         [Parameter(Mandatory = $false, Position = 3)]
         [Security.SecureString]$Password = (ConvertTo-SecureString -String "Password1" -Force -AsPlainText),
 
         [Parameter(Mandatory = $false, Position = 4)]
-        [string]$WindowsKitFolder = "C:\Program Files (x86)\Windows Kits\10\bin\x64"
+        [string]$MakeCertExecutable = "C:\Program Files (x86)\Windows Kits\10\bin\x64\MakeCert.exe"
     )
 
     if (!$Script:IsAdminRuntime) 
@@ -41,7 +41,7 @@
     try 
     {
         # Create the certificate and place it in the right stores
-        $X509Certificate = New-D365SelfSignedCertificate -CertificateFileName $CertificateFileName -PrivateKeyFileName $PrivateKeyFileName -Password $Password -WindowsKitFolder $WindowsKitFolder
+        $X509Certificate = New-D365SelfSignedCertificate -CertificateFileName $CertificateFileName -PrivateKeyFileName $PrivateKeyFileName -Password $Password -MakeCertExecutable $MakeCertExecutable
         
         # Modify the wif.config of the AOS to have this thumbprint added to the https://fakeacs.accesscontrol.windows.net/ authority
         Add-WIFConfigAuthorityThumbprint -CertificateThumbprint $X509Certificate.Thumbprint
