@@ -15,6 +15,9 @@
   Initialize-D365TestAutomationCertificate 
 
   This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate
+
+  .NOTES
+  Author = Kenny Saelen @kennysaelen
   #>
   function Initialize-D365TestAutomationCertificate {
     [CmdletBinding()]
