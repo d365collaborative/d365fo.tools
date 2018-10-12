@@ -206,19 +206,20 @@ function Import-D365Bacpac {
 
     if (!$ImportOnly.IsPresent) {
         Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
-        
-        $InstanceValues = Get-InstanceValues @Params -TrustedConnection $UseTrustedConnection
-
-        if ($null -eq $InstanceValues) { return }
 
         if ($ImportModeTier2.IsPresent) {
             Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database" 
+
+            $InstanceValues = Get-InstanceValues @BaseParams -TrustedConnection $UseTrustedConnection
+
+            if ($null -eq $InstanceValues) { return }
 
             $AzureParams = @{
                 AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd; 
                 AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd; 
                 AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd
             }
+
             $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
 
             if (!$res) {return}
@@ -226,7 +227,7 @@ function Import-D365Bacpac {
         else {
             Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database" 
 
-            $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection @InstanceValues
+            $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection
             
             if (!$res) {return}
         }

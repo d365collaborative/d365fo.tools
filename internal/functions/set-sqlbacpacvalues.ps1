@@ -14,16 +14,7 @@ function Set-SqlBacpacValues {
         [string] $SqlPwd,
         
         [Parameter(Mandatory = $false)]
-        [bool] $TrustedConnection,
-
-        [Parameter(Mandatory = $true)]
-        [string]$TenantId,
-
-        [Parameter(Mandatory = $true)]
-        [string]$PlanId,
-        
-        [Parameter(Mandatory = $true)]
-        [string]$PlanCapability
+        [bool] $TrustedConnection
     )
     
     $sqlCommand = Get-SqlCommand -DatabaseServer $DatabaseServer -DatabaseName $DatabaseName -SqlUser $SqlUser -SqlPwd $SqlPwd -TrustedConnection $TrustedConnection
@@ -32,10 +23,6 @@ function Set-SqlBacpacValues {
     $commandText = $commandText.Replace('@DATABASENAME', $DatabaseName)
 
     $sqlCommand.CommandText = $commandText
-
-    $null = $sqlCommand.Parameters.Add("@TenantId", $TenantId)
-    $null = $sqlCommand.Parameters.Add("@PlanId", $PlanId)
-    $null = $sqlCommand.Parameters.Add("@PlanCapability ", $PlanCapability)
 
     try {
         Write-PSFMessage -Level Verbose "Execution sql statement against database" -Target $sqlCommand.CommandText
