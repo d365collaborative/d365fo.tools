@@ -51,7 +51,7 @@ function Test-PathExists {
 
         if ((!$temp) -and ($Create) -and ($Type -eq "Container")) {
             Write-PSFMessage -Level Verbose -Message "Creating the path: $item" -Target $item
-            New-Item -Path $item -ItemType Directory -Force -ErrorAction Stop
+            $null = New-Item -Path $item -ItemType Directory -Force -ErrorAction Stop
             $temp = $true
         }
         elseif (!$temp) {
