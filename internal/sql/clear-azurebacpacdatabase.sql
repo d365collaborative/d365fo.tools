@@ -62,6 +62,28 @@ END
 CLOSE SCHEMACURSOR
 DEALLOCATE SCHEMACURSOR
 
+--Drop certificates that are tied to database users, which will cause errors when exporting the database
+--if not dropped because then the corresponding user(s) can't be dropped later in the script.
+--These certs are created from User options > Account > Electronic signature > "Get certificate" button in D365FO UI
+DECLARE certCursor CURSOR for
+select 'DROP CERTIFICATE ' + QUOTENAME(c.name) + ';'
+from sys.certificates c 
+where c.principal_id in (
+	select u.uid
+	from sys.sysusers u
+	where issqlrole = 0 and hasdbaccess = 1 and name <> 'dbo'
+)
+;
+OPEN certCursor;
+FETCH certCursor into @SQL;
+WHILE @@Fetch_Status = 0
+BEGIN
+	exec(@SQL);
+	FETCH certCursor into @SQL;
+END;
+CLOSE certCursor;
+DEALLOCATE certCursor; 							    
+								    
 declare
 @userSQL varchar(1000)
 set quoted_identifier off
