@@ -275,6 +275,12 @@ It is possible to provide
 - Authority [Defaulted to current instance identity provider]
 - D365FO [Defaulted to current D365FO Enviroment]
 
+### **Create self-signed certificates and configure AOS WIF trusted authorities**
+```
+Initialize-D365TestAutomationCertificate
+```
+Creates a new self signed certificate for automated testing and reconfigures the AOS Windows Identity Foundation configuration to trust the certificate
+
 ## **Fix misc issues**
 ### **Get Offline Authentication Administrator Email**
 

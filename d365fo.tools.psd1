@@ -4,7 +4,7 @@
     RootModule             = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion          = '0.4.31'
+    ModuleVersion          = '0.4.32'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -177,7 +177,7 @@
 
                                 'Update-D365User'
                                 
-                                
+                                'Initialize-D365TestAutomationCertificate'
                             )
 
                             # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
