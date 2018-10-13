@@ -1,4 +1,35 @@
-﻿function New-D365ISVLicense {
+﻿<#
+.SYNOPSIS
+Create a license deployable package
+
+.DESCRIPTION
+Create a license deployable package based on a template
+
+.PARAMETER Path
+Path to the zip file that contains the template needed to build your own license deployable package
+
+Default path is the same as the aos service PackagesLocalDirectory\bin\CustomDeployablePackage\ImportISVLicense.zip
+
+.PARAMETER LicenseFile
+Path to the license file (txt) file that you want to slipstream into your deployable package
+
+.PARAMETER OutputPath
+Path to where the output from the creation process should be saved.
+
+Default value is "C:\temp\d365fo.tools\ISVLicense.zip"
+
+.EXAMPLE
+New-D365ISVLicense -LicenseFile c:\temp\SuperISVSolution.txt
+
+This will use the default zip file stored under PackagesLocalDirectory\bin\CustomDeployablePackage containing the template for ISV license deployable packages.
+It will copy the "c:\temp\SuperISVSolution.txt" into the new deployable package.
+When done, it will save the new deployable package into the default output path "C:\temp\d365fo.tools\ISVLicense.zip".
+
+.NOTES
+Author: Mötz Jensen (@Splaxi)
+
+#>
+function New-D365ISVLicense {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     
     [CmdletBinding()]
@@ -19,16 +50,8 @@
     }
     
     process {
-        #if (-not (Test-PathExists -Path $Path, $LicenseFile -Type "Leaf")) {return}
-        #if ((Test-PathExists -Path $OutputPath -Type "Leaf")){
-        #     Write-PSFMessage -Level Host -Message "The output file already. Please delete the file or change the desired output path."
-        #     Stop-PSFFunction -Message "Stopping because of errors"
 
-        #     $global:progressPreference = $oldprogressPreference
-        #     return
-        # }
-
-        $Path,$LicenseFile | Unblock-File  
+        $Path, $LicenseFile | Unblock-File  
 
         $ExtractionPath = [System.IO.Path]::GetTempPath()
 
