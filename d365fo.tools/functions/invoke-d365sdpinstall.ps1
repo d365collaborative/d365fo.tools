@@ -23,6 +23,30 @@ Use this switch to let the runbook reside in memory. You will not get a runbook 
 .PARAMETER DevInstall
 Use this when running on developer box without administrator privileges (Run As Administrator)
 
+.PARAMETER Command
+The command you want the cmdlet to execute when it runs the AXUpdateInstaller.exe
+
+Valid options are:
+SetTopology
+Generate
+Import
+Execute
+RunAll
+ReRunStep
+SetStepComplete
+Export
+VersionCheck
+
+The default value is "SetTopology"
+
+.PARAMETER Step
+The step number that you want to work against
+
+.PARAMETER RunbookId
+The runbook id of the runbook that you want to work against
+
+Default value is "Runbook"
+
 .EXAMPLE
 Invoke-D365SDPInstall -Path "c:\temp\" -QuickInstallAll
 
@@ -53,6 +77,7 @@ Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook fr
 
 .NOTES
 Author: Tommy Skaue (@skaue)
+Author: Mötz Jensen (@Splaxi)
 
 Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
 
