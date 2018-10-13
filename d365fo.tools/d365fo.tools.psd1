@@ -113,8 +113,7 @@
 						'Invoke-D365ReArmWindows',
 
 						'Invoke-D365SDPInstall',
-						'Invoke-D365SCDPBundleInstall',
-						'Invoke-D365SpHelp',
+						'Invoke-D365SCDPBundleInstall',						
 						'Invoke-D365SysFlushAodCache',
 						'Invoke-D365SysRunnerClass',
 
