@@ -228,9 +228,9 @@ function New-D365Bacpac {
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Creation of Azure DB copy"
             $res = Invoke-AzureBackupRestore @BaseParams @Params
-
-            if (!$res) {return}
-
+            
+            if (Test-PSFFunctionInterrupt -or (-not $res)) { return }
+            
             $Params = Get-DeepClone $BaseParams
             $Params.DatabaseName = $NewDatabaseName
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Clear Azure DB objects"

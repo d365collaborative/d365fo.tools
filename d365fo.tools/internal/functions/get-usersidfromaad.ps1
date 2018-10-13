@@ -14,6 +14,8 @@ The provider connected to the sign in name
 .EXAMPLE
 PS C:\> Get-UserSIDFromAad -SignInName "Claire@contoso.com" -Provider "ZXY"
 
+This will get the SID for Azure Active Directory user "Claire@contoso.com"
+
 .NOTES
 Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)

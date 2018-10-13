@@ -49,6 +49,9 @@ Default is 'DisplayName'
 .PARAMETER AzureAdCredential
 Use a PSCredential object for connecting with AzureAd
 
+.PARAMETER SkipAzureAd
+Switch to instruct the cmdlet to skip validating against the Azure Active Directory
+
 .EXAMPLE
 Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
 
@@ -61,8 +64,7 @@ $myCredentials = New-Object System.Management.Automation.PSCredential ("MyEmailI
 
 Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -AzureAdCredential $myCredentials
 
-Imports Claire and Allen as users.
-
+This will import Claire and Allen as users.
 
 .EXAMPLE
 Import-D365AadUser -AadGroupName "CustomerTeam1"
@@ -122,6 +124,7 @@ function Import-D365AadUser {
 
         [Parameter(Mandatory = $false, Position = 11)]
         [PSCredential]$AzureAdCredential,
+
         [Parameter(Mandatory = $false, Position = 12, ParameterSetName = "UserListImport")]
         [switch]$SkipAzureAd
     )
