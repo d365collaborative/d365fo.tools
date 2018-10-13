@@ -191,7 +191,7 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - SQL backup & restore process"
             $res = Invoke-SqlBackupRestore @BaseParams @Params
 
-            if(!$res) {return}
+            if (Test-PSFFunctionInterrupt -or (-not $res)) { return }
 
             $Params = Get-DeepClone $BaseParams
             $Params.DatabaseName = $NewDatabaseName
