@@ -264,6 +264,8 @@ function Import-D365AadUser {
             Write-PSFMessage -Level Verbose -Message "Importing $($user.Mail) - SID $sid - Provider $identityProvider"
 
             Import-AadUserIntoD365FO $SqlCommand $user.Mail $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
+            
+            if (Test-PSFFunctionInterrupt) { return }
         }
     }
     catch {

@@ -66,7 +66,7 @@ function Get-D365AzureStorageFile {
 
 
     PROCESS {
-        if (Test-PSFFunctionInterrupt) {return}
+        if (Test-PSFFunctionInterrupt) { return }
 
         $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken
 
