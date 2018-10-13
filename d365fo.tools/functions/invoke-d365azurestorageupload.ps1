@@ -21,7 +21,10 @@ Path to the file you want to upload
 Switch to tell the cmdlet if you want the local file to be deleted after the upload completes
 
 .EXAMPLE
-Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath c:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload
+Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
+
+This will upload the "c:\temp\bacpac\UAT_20180701.bacpac" up to the "backupfiles" container, inside the "miscfiles" Azure Storage Account that is access with the "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" token.
+After upload the local file will be deleted.
 
 .EXAMPLE
 $AzureParams = Get-D365ActiveAzureStorageConfig
@@ -63,7 +66,7 @@ function Invoke-D365AzureStorageUpload {
         }
     }
     PROCESS {
-        if (Test-PSFFunctionInterrupt) {return}
+        if (Test-PSFFunctionInterrupt) { return }
 
         Invoke-TimeSignal -Start
 
