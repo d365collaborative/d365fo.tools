@@ -57,6 +57,9 @@ Parameter description
 .PARAMETER AxRetailDataSyncUserPwd
 Parameter description
 
+.PARAMETER CustomSqlFile
+Parameter description
+
 .PARAMETER ImportOnly
 Switch to instruct the cmdlet to only import the bacpac into the new database
 
@@ -79,8 +82,10 @@ environment.
 It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
 
 .NOTES
-General notes
-#>#
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
+#>
 function Import-D365Bacpac {
     [CmdletBinding(DefaultParameterSetName = 'ImportTier1')]
     param (
