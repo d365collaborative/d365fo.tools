@@ -28,7 +28,7 @@ Name of the new / cloned database in the Azure SQL Database instance
 PS C:\> Invoke-AzureBackupRestore -DatabaseServer TestServer.database.windows.net -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName ExportClone
 
 This will create a database named "ExportClone" in the "TestServer.database.windows.net" Azure SQL Database instance.
-It uses the SQL credential "User123" to permon the needed actions.
+It uses the SQL credential "User123" to preform the needed actions.
 
 .NOTES
 Author: Rasmus Andersen (@ITRasmus)

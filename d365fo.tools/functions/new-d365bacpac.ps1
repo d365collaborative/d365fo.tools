@@ -236,7 +236,7 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Clear Azure DB objects"
             $res = Invoke-ClearAzureSpecificObjects @Params
 
-            if (!$res) {return}
+            if (Test-PSFFunctionInterrupt -or (-not $res)) { return }
 
             if ($ExecuteCustomSQL) {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Execution of custom SQL script"
