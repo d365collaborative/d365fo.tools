@@ -14,12 +14,12 @@ Switch to instruct the cmdlet that a start time registration needs to take place
 Switch to instruct the cmdlet that a time registration has come to its end and it needs to do the calculation
 
 .EXAMPLE
-Invoke-TimeSignal -Start
+PS C:\> Invoke-TimeSignal -Start
 
 This will start the time measurement for any given cmdlet / function
 
 .EXAMPLE
-Invoke-TimeSignal -End
+PS C:\> Invoke-TimeSignal -End
 
 This will end the time measurement for any given cmdlet / function.
 The output will go into the verbose stream.

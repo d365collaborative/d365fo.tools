@@ -19,7 +19,7 @@ Path to where the output from the creation process should be saved.
 Default value is "C:\temp\d365fo.tools\ISVLicense.zip"
 
 .EXAMPLE
-New-D365ISVLicense -LicenseFile c:\temp\SuperISVSolution.txt
+PS C:\> New-D365ISVLicense -LicenseFile c:\temp\SuperISVSolution.txt
 
 This will use the default zip file stored under PackagesLocalDirectory\bin\CustomDeployablePackage containing the template for ISV license deployable packages.
 It will copy the "c:\temp\SuperISVSolution.txt" into the new deployable package.

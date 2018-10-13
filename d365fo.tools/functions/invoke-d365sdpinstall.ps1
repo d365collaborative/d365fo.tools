@@ -48,30 +48,30 @@ The runbook id of the runbook that you want to work against
 Default value is "Runbook"
 
 .EXAMPLE
-Invoke-D365SDPInstall -Path "c:\temp\" -QuickInstallAll
+PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -QuickInstallAll
 
 This will install the extracted package in c:\temp\ using a runbook in memory while executing.
 
 .EXAMPLE
-Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
-Invoke-D365SDPInstall -Path "c:\temp\" -Command Generate -RunbookId 'MyRunbook'
-Invoke-D365SDPInstall -Path "c:\temp\" -Command Import -RunbookId 'MyRunbook'
-Invoke-D365SDPInstall -Path "c:\temp\" -Command Execute -RunbookId 'MyRunbook'
+PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
+PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Generate -RunbookId 'MyRunbook'
+PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Import -RunbookId 'MyRunbook'
+PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Execute -RunbookId 'MyRunbook'
 
 Manual operations that first create Topology XML from current environment, then generate runbook with id 'MyRunbook', then import it and finally execute it.
 
 .EXAMPLE
-Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll
+PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll
 
 Create Topology XML from current environment. Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
 
 .EXAMPLE
-Invoke-D365SDPInstall -Path "c:\temp\" -Command RerunStep -Step 18 -RunbookId 'MyRunbook'
+PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command RerunStep -Step 18 -RunbookId 'MyRunbook'
 
 Rerun runbook with id 'MyRunbook' from step 18.
 
 .EXAMPLE
-Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
+PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
 
 Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step.
 

@@ -44,12 +44,12 @@ The login name for the SQL Server instance
 The password for the SQL Server user
 
 .EXAMPLE
-Invoke-D365DBSync
+PS C:\> Invoke-D365DBSync
 
 This will invoke the sync engine and have it work against the database.
 
 .EXAMPLE
-Invoke-D365DBSync -Verbose
+PS C:\> Invoke-D365DBSync -Verbose
 
 This will invoke the sync engine and have it work against the database. It will output the same level of details that Visual Studio would normally do.
 

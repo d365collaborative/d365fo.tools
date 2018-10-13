@@ -36,7 +36,7 @@ Parameter description
 Parameter description
 
 .EXAMPLE
-Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg"
+PS C:\> Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg"
 
 This will install the "HotfixPackageBundle.axscdppkg" into the default PackagesLocalDirectory location on the machine.
 

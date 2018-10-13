@@ -12,10 +12,9 @@ Invoke-D365TableBrowser and Invoke-D365SysRunnerClass.
 $True enables the workstation mode while $false deactivated the workstation mode.
 
 .EXAMPLE
-Set-D365WorkstationMode -Enabled $true
+PS C:\> Set-D365WorkstationMode -Enabled $true
 
 This will enable the Workstation mode.
-
 You will have to restart the powershell session when you switch around.
 
 .NOTES

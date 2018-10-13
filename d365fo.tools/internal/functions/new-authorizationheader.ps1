@@ -18,7 +18,7 @@ The client secret that enables you to prove that you have privileges to get an a
 The URL to the Dynamics 365 for Finance & Operations that you want to work against
 
 .EXAMPLE
-New-AuthorizationHeader -Authority "XYZ" -ClientId "123" -ClientSecret "TopSecretId" -D365FO "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
+PS C:\> New-AuthorizationHeader -Authority "XYZ" -ClientId "123" -ClientSecret "TopSecretId" -D365FO "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
 
 This will retrieve a new authorization header from the D365FO instance located at "https://usnconeboxax1aos.cloud.onebox.dynamics.com".
 
