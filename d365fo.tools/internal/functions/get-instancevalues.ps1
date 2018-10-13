@@ -27,6 +27,8 @@ Should the connection use a Trusted Connection or not
 .EXAMPLE
 PS C:\> Get-InstanceValues -DatabaseServer SQLServer -DatabaseName AXDB -SqlUser "SqlAdmin" -SqlPwd "Pass@word1"
 
+This will extract the PlanId, TenantId and PlanCapability from the AXDB on the SQLServer, using the "SqlAdmin" credentials to do so.
+
 .NOTES
 Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
