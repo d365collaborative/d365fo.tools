@@ -8,8 +8,8 @@ Provides a method for importing a AAD UserGroup or a comma separated list of Aad
 .PARAMETER AadGroupName
 Azure Active directory user group containing users to be imported
 
-.PARAMETER UserList
-A comma separated list of Aad users to be imported into D365FO
+.PARAMETER Users
+Array of users that you want to import into the D365FO environment
 
 .PARAMETER StartupCompany
 Startup company of users imported.

@@ -199,7 +199,7 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Clear SQL objects"
             $res = Invoke-ClearSqlSpecificObjects @Params -TrustedConnection $UseTrustedConnection
 
-            if(!$res) {return}
+            if (Test-PSFFunctionInterrupt -or (-not $res)) { return }
 
             if ($ExecuteCustomSQL) {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Execution of custom SQL script"
