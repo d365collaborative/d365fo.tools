@@ -10,7 +10,7 @@ Path to where the tools on the machine can be found
 
 Default value is normally the AOS Service PackagesLocalDirectory\bin
 
-.PARAMETER BinDir
+.PARAMETER MetadataDir
 Path to where the tools on the machine can be found
 
 Default value is normally the AOS Service PackagesLocalDirectory
@@ -46,7 +46,7 @@ The password for the SQL Server user
 .EXAMPLE
 Invoke-D365DBSync
 
-This will invoke the sync engine and have it work against the database
+This will invoke the sync engine and have it work against the database.
 
 .EXAMPLE
 Invoke-D365DBSync -Verbose
@@ -60,6 +60,7 @@ Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
 
 #>
+
 function Invoke-D365DBSync {
     [CmdletBinding()]
     param (
@@ -117,6 +118,7 @@ function Invoke-D365DBSync {
 
     Write-PSFMessage -Level Debug -Message "Testing if the SyncEngine is already running."
     $syncEngine = Get-Process -Name "SyncEngine" -ErrorAction SilentlyContinue
+    
     if ($null -ne $syncEngine) {
         Write-PSFMessage -Level Host -Message "A instance of SyncEngine is <c='em'>already running</c>. Please <c='em'>wait</c> for it to finish or <c='em'>kill it</c>."
         Stop-PSFFunction -Message "Stopping because SyncEngine.exe already running"
@@ -134,10 +136,8 @@ function Invoke-D365DBSync {
     
     $lineTotalCount = 0
     $lineCount = 0
-    Write-Verbose "Process Started"
-    Write-Verbose $process
 
-    $StartTime = Get-Date
+    Invoke-TimeSignal -Start
 
     while ($process.HasExited -eq $false) {
         foreach ($line in Get-Content "$LogPath\output.log") {
@@ -164,9 +164,5 @@ function Invoke-D365DBSync {
         Write-PSFMessage -Level Critical -Message "$line"
     }
 
-    $EndTime = Get-Date
-
-    $TimeSpan = New-TimeSpan -End $EndTime -Start $StartTime
-
-    Write-PSFMessage -Level Verbose -Message "Total time for sync was $TimeSpan" -Target $TimeSpan
+    Invoke-TimeSignal -End
 }
