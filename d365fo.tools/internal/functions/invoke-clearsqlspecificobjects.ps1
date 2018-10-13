@@ -53,7 +53,7 @@ Function Invoke-ClearSqlSpecificObjects {
         [string] $SqlPwd,
         
         [Parameter(Mandatory = $false)]
-        [bool] $TrustedConnection
+        [boolean] $TrustedConnection
     )
     
     $sqlCommand = Get-SQLCommand @PsBoundParameters

@@ -28,7 +28,7 @@ function Set-D365WorkstationMode {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
-        [bool] $Enabled
+        [boolean] $Enabled
     )
 
     if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {

@@ -50,7 +50,7 @@ function Get-SQLCommand {
         [string] $SqlPwd,
 
         [Parameter(Mandatory = $false)]
-        [bool] $TrustedConnection
+        [boolean] $TrustedConnection
     )
 
     Write-PSFMessage -Level Debug -Message "Writing the bound parameters" -Target $PsBoundParameters

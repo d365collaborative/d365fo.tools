@@ -17,7 +17,7 @@
         [string] $SqlPwd,
         
         [Parameter(Mandatory = $false)]
-        [bool] $TrustedConnection,
+        [boolean] $TrustedConnection,
 
         [Parameter(Mandatory = $true)]
         [string]$TenantId,

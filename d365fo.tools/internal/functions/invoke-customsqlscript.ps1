@@ -1,4 +1,38 @@
-﻿Function Invoke-CustomSqlScript {
+﻿<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER DatabaseServer
+Parameter description
+
+.PARAMETER DatabaseName
+Parameter description
+
+.PARAMETER SqlUser
+Parameter description
+
+.PARAMETER SqlPwd
+Parameter description
+
+.PARAMETER TrustedConnection
+Parameter description
+
+.PARAMETER FilePath
+Parameter description
+
+.EXAMPLE
+PS C:\> Invoke-CustomSqlScript
+
+This will work.
+
+.NOTES
+General notes
+#>
+
+Function Invoke-CustomSqlScript {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -14,7 +48,7 @@
         [string] $SqlPwd,
         
         [Parameter(Mandatory = $false)]
-        [bool] $TrustedConnection,
+        [boolean] $TrustedConnection,
 
         [Parameter(Mandatory = $false)]
         [string] $FilePath
