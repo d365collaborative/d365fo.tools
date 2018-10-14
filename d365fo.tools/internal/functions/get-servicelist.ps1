@@ -32,19 +32,19 @@ Author: Mötz Jensen (@Splaxi)
 Function Get-ServiceList {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [switch] $All = [switch]::Present,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [switch] $Aos,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]
         [switch] $Batch,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]
         [switch] $FinancialReporter,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
         [switch] $DMF
     )
 
@@ -63,7 +63,7 @@ Function Get-ServiceList {
 
     if ($All.IsPresent) {
         $null = $Services.AddRange(@($aosname, $batchname, $financialname, $dmfname))
-    }    
+    }
     else {
         if ($Aos.IsPresent) {
             $null = $Services.Add($aosname)

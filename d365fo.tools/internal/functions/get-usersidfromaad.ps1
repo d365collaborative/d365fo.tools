@@ -25,10 +25,10 @@ function Get-UserSIDFromAad {
     [CmdletBinding()]
     [OutputType('System.String')]
     param     (
-        [string] $SignInName, 
+        [string] $SignInName,
         
         [string] $Provider
-    ) 
+    )
 
     try {
 

@@ -41,10 +41,10 @@ function Get-SQLCommand {
         [string] $DatabaseServer,
 
         [Parameter(Mandatory = $true)]
-        [string] $DatabaseName, 
+        [string] $DatabaseName,
 
         [Parameter(Mandatory = $false)]
-        [string] $SqlUser, 
+        [string] $SqlUser,
 
         [Parameter(Mandatory = $false)]
         [string] $SqlPwd,
@@ -64,7 +64,7 @@ function Get-SQLCommand {
         $null = $Params.Add("Password='$SqlPwd';")
     }
     else {
-        $null = $Params.Add("Integrated Security='SSPI';")        
+        $null = $Params.Add("Integrated Security='SSPI';")
     }
 
     $null = $Params.Add("Application Name='d365fo.tools'")
@@ -77,12 +77,12 @@ function Get-SQLCommand {
 
         $sqlCommand = New-Object System.Data.SqlClient.SqlCommand
         $sqlCommand.Connection = $sqlConnection
-        $sqlCommand.CommandTimeout = 0    
+        $sqlCommand.CommandTimeout = 0
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working with the sql server connection objects" -Exception $PSItem.Exception
         Stop-PSFFunction -Message "Stopping because of errors"
-        return        
+        return
     }
     
     $sqlCommand
