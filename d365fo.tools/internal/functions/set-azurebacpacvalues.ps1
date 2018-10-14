@@ -1,4 +1,65 @@
-﻿function Set-AzureBacpacValues {
+﻿<#
+.SYNOPSIS
+Change the different Azure SQL Database details 
+
+.DESCRIPTION
+When preparing an Azure SQL Database to be the new database for an Tier 2+ environment you need to set different details
+
+.PARAMETER DatabaseServer
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+
+If Azure use the full address to the database server, e.g. server.database.windows.net
+
+.PARAMETER DatabaseName
+The name of the database
+
+.PARAMETER SqlUser
+The login name for the SQL Server instance
+
+.PARAMETER SqlPwd
+The password for the SQL Server user
+
+.PARAMETER AxDeployExtUserPwd
+Password obtained from LCS
+
+.PARAMETER AxDbAdminPwd
+Password obtained from LCS
+
+.PARAMETER AxRuntimeUserPwd
+Password obtained from LCS
+
+.PARAMETER AxMrRuntimeUserPwd
+Password obtained from LCS
+
+.PARAMETER AxRetailRuntimeUserPwd
+Password obtained from LCS
+
+.PARAMETER AxRetailDataSyncUserPwd
+Password obtained from LCS
+
+.PARAMETER TenantId
+The ID of tenant that the Azure SQL Database instance is going to be run under
+
+.PARAMETER PlanId
+The ID of the type of plan that the Azure SQL Database is going to be using
+
+.PARAMETER PlanCapability
+The capabilities that the Azure SQL Database instance will be running with
+
+.EXAMPLE
+PS C:\> Set-AzureBacpacValues -DatabaseServer dbserver1.database.windows.net -DatabaseName Import -SqlUser User123 -SqlPwd "Password123" -AxDeployExtUserPwd "Password123" -AxDbAdminPwd "Password123" -AxRuntimeUserPwd "Password123" -AxMrRuntimeUserPwd "Password123" -AxRetailRuntimeUserPwd "Password123" -AxRetailDataSyncUserPwd "Password123" -TenantId "TenantIdFromAzure" -PlanId "PlanIdFromAzure" -PlanCapability "Capabilities"
+
+This will set all the needed details inside the "Import" database that is located in the "dbserver1.database.windows.net" Azure SQL Database instance.
+All service accounts and their passwords will be updated accordingly.
+
+.NOTES
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
+#>
+function Set-AzureBacpacValues {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
