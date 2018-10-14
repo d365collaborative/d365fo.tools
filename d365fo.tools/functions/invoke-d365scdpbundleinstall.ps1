@@ -21,7 +21,7 @@ The cmdlet only supports an already extracted ".axscdppkg" file
 .PARAMETER MetaDataDir
 The path to the meta data directory for the environment
 
-Default path is the same as the aos service PackagesLocalDirectory 
+Default path is the same as the aos service PackagesLocalDirectory
 
 .PARAMETER TfsWorkspaceDir
 Parameter description
@@ -73,7 +73,7 @@ function Invoke-D365SCDPBundleInstall {
         [switch] $ShowModifiedFiles,
 
         [Parameter(Mandatory = $False, Position = 5 )]
-        [switch] $ShowProgress      
+        [switch] $ShowProgress
 
     )
     
@@ -130,10 +130,10 @@ function Invoke-D365SCDPBundleInstall {
             if ($manifest)
             {
                 $bundleTotalCount = $manifest.DirectedGraph.Nodes.ChildNodes.Count
-            }            
+            }
             
             while ($manifest -and (-not ($process.HasExited)) -and $stopwatch.elapsed -lt $timeout)
-            {    
+            {
                 $currentBundleFolder = Get-ChildItem $bundleRoot -Directory -ErrorAction SilentlyContinue
         
                 if ($currentBundleFolder)
@@ -144,12 +144,12 @@ function Invoke-D365SCDPBundleInstall {
                     {
                         $announcedBundle = $currentBundle
                         $bundleCounter = $bundleCounter + 1
-                        Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"                            
+                        Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"
                     }
                 }
             }
-            Start-Sleep -Milliseconds 100             
-        }         
+            Start-Sleep -Milliseconds 100
+        }
     }
     else {
         Start-Process -FilePath $executable -ArgumentList $param -NoNewWindow -Wait

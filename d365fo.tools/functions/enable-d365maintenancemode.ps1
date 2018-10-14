@@ -71,7 +71,7 @@ function Enable-D365MaintenanceMode {
         return
     }
     
-    if(-not ($Script:IsAdminRuntime)) {    
+    if(-not ($Script:IsAdminRuntime)) {
         
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
         
@@ -83,7 +83,7 @@ function Enable-D365MaintenanceMode {
             DatabaseServer = $DatabaseServer
             DatabaseName   = $DatabaseName
             SqlUser        = $SqlUser
-            SqlPwd         = $SqlPwd        
+            SqlPwd         = $SqlPwd
         }
 
         Invoke-D365SqlScript @Params -FilePath $("$script:PSModuleRoot\internal\sql\enable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
@@ -97,14 +97,14 @@ function Enable-D365MaintenanceMode {
         if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) { return }
         if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
 
-        $params = @("-isemulated", "true", 
-            "-sqluser", "$SqlUser", 
+        $params = @("-isemulated", "true",
+            "-sqluser", "$SqlUser",
             "-sqlpwd", "$SqlPwd",
-            "-sqlserver", "$DatabaseServer", 
-            "-sqldatabase", "$DatabaseName", 
-            "-metadatadir", "$MetaDataDir", 
+            "-sqlserver", "$DatabaseServer",
+            "-sqldatabase", "$DatabaseName",
+            "-metadatadir", "$MetaDataDir",
             "-bindir", "$BinDir",
-            "-setupmode", "maintenancemode", 
+            "-setupmode", "maintenancemode",
             "-isinmaintenancemode", "true")
 
         Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait

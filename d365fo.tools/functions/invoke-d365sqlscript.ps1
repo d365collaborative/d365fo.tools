@@ -55,10 +55,10 @@ Function Invoke-D365SqlScript {
         [string] $SqlPwd = $Script:DatabaseUserPassword,
         
         [Parameter(Mandatory = $false, Position = 6)]
-        [bool] $TrustedConnection = $false        
+        [bool] $TrustedConnection = $false
     )
 
-    if (-not (Test-PathExists -Path $FilePath -Type Leaf)) {return}
+    if (-not (Test-PathExists -Path $FilePath -Type Leaf)) { return }
 
     Invoke-TimeSignal -Start
 
@@ -75,9 +75,7 @@ Function Invoke-D365SqlScript {
 
     $sqlCommand = Get-SqlCommand @Params
 
-    $commandText = (Get-Content "$FilePath") -join [Environment]::NewLine
-
-    $sqlCommand.CommandText = $commandText
+    $sqlCommand.CommandText = (Get-Content "$FilePath") -join [Environment]::NewLine
 
     try {
         $sqlCommand.Connection.Open()
@@ -86,11 +84,14 @@ Function Invoke-D365SqlScript {
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1 
+        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         return
     }
     finally {
-        $sqlCommand.Connection.Close()
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()
+        }
+
         $sqlCommand.Dispose()
     }
 

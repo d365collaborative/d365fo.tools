@@ -24,7 +24,7 @@ Author: Mötz Jensen (@splaxi)
 
 The work and design of this cmdlet is based on the findings by Alex Meyer (@alexmeyer_ITGuy).
 
-He wrote about his findings on his blog: 
+He wrote about his findings on his blog:
 https://alexdmeyer.com/2018/09/26/converting-d365fo-user-interface-security-customizations-export-to-aot-security-xml-files/
 
 He published a github repository:
@@ -46,15 +46,14 @@ function Export-D365SecurityDetails {
         [string]$OutputDirectory = "C:\temp\d365fo.tools\security-extraction"
     )
     
-    begin {        
-    }
+    begin { }
     
     process {
 
         if (-not (Test-PathExists -Path $FilePath -Type Leaf)) { return }
         if (-not (Test-PathExists -Path $OutputDirectory -Type Container)) { return }
 
-        [xml] $xdoc = Get-Content $FilePath    
+        [xml] $xdoc = Get-Content $FilePath
         
         $fileName = [System.IO.Path]::GetFileNameWithoutExtension($FilePath)
         
@@ -74,8 +73,8 @@ function Export-D365SecurityDetails {
                 $secPath = Join-Path $OutputDirectory $secObject.LocalName
                 
                 $null = New-Item -Path $secPath -ItemType Directory -Force -ErrorAction SilentlyContinue
-                
-                $secObjectName = $secObject.Name  
+
+                $secObjectName = $secObject.Name
                 
                 if (-not ([string]::IsNullOrEmpty($secObjectName))) {
                     $filePathOut = Join-Path $secPath $secObjectName

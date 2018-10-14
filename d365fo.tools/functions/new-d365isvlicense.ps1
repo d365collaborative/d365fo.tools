@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-Create a license deployable package 
+Create a license deployable package
 
 .DESCRIPTION
 Create a deployable package with a license file inside
@@ -33,7 +33,7 @@ function New-D365ISVLicense {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
-        
+
         [Parameter(Mandatory = $true, Position = 1)]        
         [string] $LicenseFile,
 
