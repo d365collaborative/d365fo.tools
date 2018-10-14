@@ -8,6 +8,9 @@ Function for setting the start page in internet explorer
 .PARAMETER Name
 Name of the D365 Instance
 
+.PARAMETER Url
+URL of the D365 for Finance & Operations instance that you want to have as your start page
+
 .EXAMPLE
 Set-D365StartPage -Name 'Demo1'
 
@@ -17,7 +20,9 @@ This will update the start page for the current user to "https://Demo1.cloud.one
 Set-D365StartPage -URL "https://uat.sandbox.operations.dynamics.com"
 
 This will update the start page for the current user to "https://uat.sandbox.operations.dynamics.com"
+
 .NOTES
+Author: Mötz Jensen (@Splaxi)
 
 #>
 function Set-D365StartPage() {
