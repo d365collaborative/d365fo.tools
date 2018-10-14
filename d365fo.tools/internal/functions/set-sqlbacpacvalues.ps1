@@ -1,4 +1,45 @@
-﻿function Set-SqlBacpacValues {
+﻿<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER DatabaseServer
+Parameter description
+
+.PARAMETER DatabaseName
+Parameter description
+
+.PARAMETER SqlUser
+Parameter description
+
+.PARAMETER SqlPwd
+Parameter description
+
+.PARAMETER TrustedConnection
+Parameter description
+
+.PARAMETER TenantId
+Parameter description
+
+.PARAMETER PlanId
+Parameter description
+
+.PARAMETER PlanCapability
+Parameter description
+
+.EXAMPLE
+PS C:\> Set-SqlBacpacValues
+
+This will work
+
+.NOTES
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
+#>
+function Set-SqlBacpacValues {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
