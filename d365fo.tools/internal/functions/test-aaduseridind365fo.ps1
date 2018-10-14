@@ -1,12 +1,12 @@
 ﻿<#
 .SYNOPSIS
-Test to see if a given user exists
+Test to see if a given user ID exists
 
 .DESCRIPTION
-Test to see if a given user exists in the Dynamics 365 for Finance & Operations instance
+Test to see if a given user ID exists in the Dynamics 365 for Finance & Operations instance
 
-.PARAMETER sqlCommand
-The SQL Command object that should be used when testing the user
+.PARAMETER SqlCommand
+The SQL Command object that should be used when testing the user ID
 
 .PARAMETER Id
 Id of the user that you want to test exists or not
