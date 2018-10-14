@@ -17,13 +17,13 @@ Author: Mötz Jensen (@Splaxi)
 function Get-ApplicationEnvironment {
     $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\bin"
 
-    Write-PSFMessage -Level Verbose -Message "Testing if we are running on a AOS server or not"            
+    Write-PSFMessage -Level Verbose -Message "Testing if we are running on a AOS server or not"
     if (!(Test-Path -Path $AOSPath -PathType Container)) {
         $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "MRProcessService\MRInstallDirectory\Server\Services"
 
-        Write-PSFMessage -Level Verbose -Message "Testing if we are running on a BI / MR server or not"            
+        Write-PSFMessage -Level Verbose -Message "Testing if we are running on a BI / MR server or not"
         if (!(Test-Path -Path $AOSPath -PathType Container)) {
-            Write-PSFMessage -Level Verbose -Message "It seems that you ran this cmdlet on a machine that doesn't have the assemblies needed to obtain system details. Most likely you ran it on a <c='em'>personal workstation / personal computer</c>."            
+            Write-PSFMessage -Level Verbose -Message "It seems that you ran this cmdlet on a machine that doesn't have the assemblies needed to obtain system details. Most likely you ran it on a <c='em'>personal workstation / personal computer</c>."
             return
         }
     }

@@ -26,7 +26,7 @@ function Backup-File {
 
     param (
         [Parameter(Mandatory = $true)]
-        [string] $File, 
+        [string] $File,
         
         [Parameter(Mandatory = $true)]
         [string] $Suffix

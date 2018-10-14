@@ -13,4 +13,4 @@ enum ServerRole {
     Build
     AOS
     BI
-    }    
+    }
