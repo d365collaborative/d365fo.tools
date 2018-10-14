@@ -12,7 +12,7 @@ Path to the location where you want to store the CER file for the certificate
 Path to the location where you want to store the PFX file for the certificate
 
 .PARAMETER Password
-The password that you want to use to protect you different certificates with
+The password that you want to use to protect your different certificates with
 
 .PARAMETER MakeCertExecutable
 Path to the "MakeCert.exe" utility that you want to use for the generation process

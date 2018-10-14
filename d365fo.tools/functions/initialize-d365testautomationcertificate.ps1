@@ -11,10 +11,16 @@ Filename to be used when exporting the cer file
 .PARAMETER PrivateKeyFileName
 Filename to be used when exporting the pfx file
 
+.PARAMETER Password
+The password that you want to use to protect your certificate with
+
+.PARAMETER MakeCertExecutable
+Path to the "MakeCert.exe" utility that you want to use for the generation process
+
 .EXAMPLE
 PS C:\> Initialize-D365TestAutomationCertificate
 
-This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate
+This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate.
 
 .NOTES
 Author: Kenny Saelen (@kennysaelen)
