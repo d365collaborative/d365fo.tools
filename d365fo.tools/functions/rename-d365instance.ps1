@@ -21,20 +21,22 @@ Place of the host file on the current system [Local DNS record] ' Default value 
 Backup name for all the files that are changed
 
 .PARAMETER MRConfigFile
-Parameter description
-
-.PARAMETER RenameMachine
-Switch to instruct the cmdlet to rename the windows machine as well
+Path to the Financial Reporter (Management Reporter) configuration file
 
 .EXAMPLE
-Rename-D365Instance -NewName 'Demo1'
+Rename-D365Instance -NewName "Demo1"
+
+This will rename the D365 for Finance & Operations instance to "Demo1".
+This IIS will be restarted while doing it.
 
 .NOTES
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
 The function restarts the IIS Service.
+Elevated privileges are required.
 
-Elevated privileges are required
 #>
-
 function Rename-D365Instance {
     [CmdletBinding()]
     param (
