@@ -25,6 +25,9 @@ Start the batch service
 .PARAMETER FinancialReporter
 Start the financial reporter (Management Reporter 2012)
 
+.PARAMETER DMF
+Parameter description
+
 .EXAMPLE
 Start-D365Environment -All
 
@@ -36,10 +39,9 @@ Start-D365Environment -Aos -Batch
 Will start Aos & Batch services on the machine
 
 .NOTES
+Author: Mötz Jensen (@Splaxi)
 
 #>
-
-
 function Start-D365Environment {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
