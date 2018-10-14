@@ -20,6 +20,7 @@
   Author = Kenny Saelen @kennysaelen
   #>
   function Initialize-D365TestAutomationCertificate {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]

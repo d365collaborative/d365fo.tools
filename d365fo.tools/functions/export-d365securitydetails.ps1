@@ -34,6 +34,7 @@ https://github.com/ameyer505/D365FOSecurityConverter
 All credits goes to Alex Meyer
 #>
 function Export-D365SecurityDetails {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

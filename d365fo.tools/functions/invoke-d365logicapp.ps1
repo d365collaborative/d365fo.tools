@@ -66,8 +66,7 @@ function Invoke-D365LogicApp {
         }
 
         $strMessage = "The following list of cmdlets has executed: $strMessage"
-        $RequestData = "{`"email`":`"$Email`", `"message`":`"$strMessage`", `"subject`":`"$Subject`"}"
-
+        
         Invoke-PSNMessage -Url $URL -ReceiverEmail $Email -Subject $Subject -Message $strMessage -AsJob:$AsJob
     }
     

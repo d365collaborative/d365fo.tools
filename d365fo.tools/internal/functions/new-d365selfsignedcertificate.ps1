@@ -1,5 +1,6 @@
-function New-D365SelfSignedCertificate 
-{
+function New-D365SelfSignedCertificate {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]
@@ -15,8 +16,7 @@ function New-D365SelfSignedCertificate
         [string]$MakeCertExecutable = "C:\Program Files (x86)\Windows Kits\10\bin\x64\MakeCert.exe"
     )
 
-    try 
-    {
+    try {
         # First generate a self-signed certificate and place it in the local store on the machine
         $certificate = New-SelfSignedCertificate -dnsname 127.0.0.1 -CertStoreLocation cert:\LocalMachine\My -FriendlyName "D365 Automated testing certificate" -Provider "Microsoft Strong Cryptographic Provider"
         $certificatePath = 'cert:\localMachine\my\' + $certificate.Thumbprint
@@ -27,8 +27,7 @@ function New-D365SelfSignedCertificate
         # Import the certificate into the local machine's trusted root certificates store
         $importedCertificate = Import-PfxCertificate -FilePath $PrivateKeyFileName -CertStoreLocation Cert:\LocalMachine\Root -Password $Password    
     }
-    catch 
-    {
+    catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while generating the self-signed certificate and installing it into the local machine's trusted root certificates store." -Exception $PSItem.Exception
         Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         return

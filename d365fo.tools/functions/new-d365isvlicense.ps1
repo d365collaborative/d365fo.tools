@@ -30,6 +30,7 @@ Author: Mötz Jensen (@splaxi)
 
 #>
 function New-D365ISVLicense {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         
