@@ -43,10 +43,10 @@ Function Invoke-AzureBackupRestore {
         [string] $DatabaseServer,
 
         [Parameter(Mandatory = $true)]
-        [string] $DatabaseName, 
+        [string] $DatabaseName,
 
         [Parameter(Mandatory = $true)]
-        [string] $SqlUser, 
+        [string] $SqlUser,
 
         [Parameter(Mandatory = $true)]
         [string] $SqlPwd,
@@ -72,9 +72,9 @@ Function Invoke-AzureBackupRestore {
     try {
         $sqlCommand.Connection.Open()
 
-        Write-Verbose $sqlCommand.CommandText
+        Write-PSFMessage -Level Verbose -Message "Will execute the following command: $commandText" -Target $commandText
         
-        $null = $sqlCommand.ExecuteNonQuery()       
+        $null = $sqlCommand.ExecuteNonQuery()
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while creating the copy of the Azure DB" -Exception $PSItem.Exception
@@ -82,7 +82,10 @@ Function Invoke-AzureBackupRestore {
         return
     }
     finally {
-        $sqlCommand.Connection.Close()
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()
+        }
+
         $sqlCommand.Dispose()
     }
    
@@ -117,8 +120,12 @@ Function Invoke-AzureBackupRestore {
         return
     }
     finally {
-        $Reader.Close()
-        $sqlCommand.Connection.Close()
+        $Reader.close()
+
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()
+        }
+
         $sqlCommand.Dispose()
         $Datatable.Dispose()
     }

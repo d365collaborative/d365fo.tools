@@ -46,7 +46,7 @@ Author: Mötz Jensen (@Splaxi)
 #>
 function Import-AadUserIntoD365FO {
     [CmdletBinding()]
-    param 
+    param
     (
         [string] $SqlCommand,
 
@@ -78,7 +78,7 @@ function Import-AadUserIntoD365FO {
         $idTaken = Test-AadUserIdInD365FO $sqlCommand $id
 
         if (Test-PSFFunctionInterrupt) { return }
-        
+
         if ($idTaken -eq $false) {
 
             $userAdded = New-D365FOUser $sqlCommand $SignInName $Name $Id $Sid $StartUpCompany $IdentityProvider $NetworkDomain $ObjectId
