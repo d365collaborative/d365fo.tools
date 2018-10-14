@@ -1,14 +1,53 @@
-﻿function Set-AdminUser  {
+﻿<#
+.SYNOPSIS
+Provision an user to be the administrator of a Dynamics 365 for Finance & Operations environment
+
+.DESCRIPTION
+Provision an user to be the administrator by using the supplied tools from Microsoft (AdminUserProvisioning.exe)
+
+.PARAMETER SignInName
+The sign in name (email address) for the user that you want to be the administrator
+
+.PARAMETER DatabaseServer
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+
+If Azure use the full address to the database server, e.g. server.database.windows.net
+
+.PARAMETER DatabaseName
+The name of the database
+
+.PARAMETER SqlUser
+The login name for the SQL Server instance
+
+.PARAMETER SqlPwd
+The password for the SQL Server user.
+
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function Set-AdminUser {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-    Param ($SignInName, $DatabaseServerName, $DatabaseName, $SqlUser, $SqlPwd)
+    Param (
+        [string] $SignInName,
+        [string] $DatabaseServer,
+        [string] $DatabaseName,
+        [string] $SqlUser,
+        [string] $SqlPwd
+    )
 
     $WebConfigFile = Join-Path $Script:AOSPath $Script:WebConfig
 
     $MetaDataNode = Select-Xml -XPath "/configuration/appSettings/add[@key='Aos.MetadataDirectory']/@value" -Path $WebConfigFile
 
     $MetaDataNodeDirectory = $MetaDataNode.Node.Value
-
-    Write-Verbose "MetaDataDirectory: $MetaDataNodeDirectory"
+    
+    Write-PSFMessage -Level Verbose -Message "MetaDataDirectory: $MetaDataNodeDirectory" -Target $MetaDataNodeDirectory
 
     $AdminFile = "$MetaDataNodeDirectory\Bin\AdminUserProvisioning.exe"
 
@@ -29,9 +68,9 @@
 
     $UpdateAdminUser = $AdminUserUpdater.GetMethod("UpdateAdminUser", $CombinedBinding)
 
-    Write-Verbose "Updating Admin using the values $SignInName, $DatabaseServerName, $DatabaseName, $SqlUser, $SqlPwd"
-
-    $params = $SignInName, $null, $null, $DatabaseServerName, $DatabaseName, $SqlUser, $SqlPwd
+    
+    Write-PSFMessage -Level Verbose -Message "Updating Admin using the values $SignInName, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd"
+    $params = $SignInName, $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
 
     $UpdateAdminUser.Invoke($null, $params)
 }
