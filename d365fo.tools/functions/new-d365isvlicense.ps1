@@ -37,7 +37,7 @@ function New-D365ISVLicense {
         [Alias('Template')]
         [string] $Path = "$Script:BinDirTools\CustomDeployablePackage\ImportISVLicense.zip",
 
-        [Parameter(Mandatory = $true)]        
+        [Parameter(Mandatory = $true)]
         [string] $LicenseFile,
 
         [string] $OutputPath = "C:\temp\d365fo.tools\ISVLicense.zip"
@@ -51,7 +51,7 @@ function New-D365ISVLicense {
     
     process {
 
-        $Path, $LicenseFile | Unblock-File  
+        $Path, $LicenseFile | Unblock-File
 
         $ExtractionPath = [System.IO.Path]::GetTempPath()
 
