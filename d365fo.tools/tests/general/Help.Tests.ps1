@@ -132,14 +132,14 @@ foreach ($command in $commands) {
                 }
                 
                 $testparamsall += 1
-                $codeMandatory = $parameter.IsMandatory.toString()
-                if ($parameterHelp.Required -ne $codeMandatory) {
-                    # Required value in Help should match IsMandatory property of parameter
-                    It "help for $parameterName parameter in $commandName has correct Mandatory value" {
-                        $parameterHelp.Required | Should -Be $codeMandatory
-                    }
-                    $testparamserrors += 1
-                }
+                # $codeMandatory = $parameter.IsMandatory.toString()
+                # if ($parameterHelp.Required -ne $codeMandatory) {
+                #     # Required value in Help should match IsMandatory property of parameter
+                #     It "help for $parameterName parameter in $commandName has correct Mandatory value" {
+                #         $parameterHelp.Required | Should -Be $codeMandatory
+                #     }
+                #     $testparamserrors += 1
+                # }
                 
                 if ($HelpTestSkipParameterType[$commandName] -contains $parameterName) { continue }
                 
