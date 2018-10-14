@@ -15,6 +15,9 @@ Type of path you want to test
 
 Either 'Leaf' or 'Container'
 
+.PARAMETER Create
+Switch to instruct the cmdlet to create the directory if it doesn't exist
+
 .EXAMPLE
 Test-PathExists "c:\temp",c:\temp\dir" -Type Container
 
@@ -60,7 +63,7 @@ function Test-PathExists {
     }
 
     if ($arrList.Contains($false)) {
-        Stop-PSFFunction -Message "Stopping because of missing paths."
+        Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
     }
     else {
         $res = $true
