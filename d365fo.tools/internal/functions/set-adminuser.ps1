@@ -24,12 +24,13 @@ The login name for the SQL Server instance
 .PARAMETER SqlPwd
 The password for the SQL Server user.
 
-
 .EXAMPLE
-An example
+PS C:\> Set-AdminUser -SignInName "Claire@contoso.com" -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
 
 .NOTES
-General notes
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Set-AdminUser {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -67,7 +68,6 @@ function Set-AdminUser {
     $CombinedBinding = $PublicBinding -bor $StaticBinding
 
     $UpdateAdminUser = $AdminUserUpdater.GetMethod("UpdateAdminUser", $CombinedBinding)
-
     
     Write-PSFMessage -Level Verbose -Message "Updating Admin using the values $SignInName, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd"
     $params = $SignInName, $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
