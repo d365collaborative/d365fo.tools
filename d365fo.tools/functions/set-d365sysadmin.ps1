@@ -31,7 +31,7 @@ The password for the SQL Server user.
 .EXAMPLE
 Set-D365SysAdmin
 
-This will configure the local administrator on the machine as a SYSADMIN inside SQL Server 
+This will configure the local administrator on the machine as a SYSADMIN inside SQL Server
 
 For this to run you need to be running it from a elevated console
 
@@ -39,7 +39,7 @@ For this to run you need to be running it from a elevated console
 Set-D365SysAdmin -SqlPwd Test123
 
 This will configure the local administrator on the machine as a SYSADMIN inside SQL Server.
-It will logon as the default SqlUser but use the provided SqlPwd. 
+It will logon as the default SqlUser but use the provided SqlPwd.
 
 This can be run from a non-elevated console
 
@@ -64,11 +64,11 @@ function Set-D365SysAdmin {
         [string] $SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 5)]
-        [string] $SqlPwd = $Script:DatabaseUserPassword   
+        [string] $SqlPwd = $Script:DatabaseUserPassword
     )
 
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
     
     Write-PSFMessage -Level Debug -Message "Testing if running either elevated or with -SqlPwd set."
@@ -98,7 +98,7 @@ function Set-D365SysAdmin {
     }
     finally {
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
-            $sqlCommand.Connection.Close()    
+            $sqlCommand.Connection.Close()
         }
 
         $sqlCommand.Dispose()
