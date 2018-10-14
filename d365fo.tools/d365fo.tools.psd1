@@ -52,6 +52,7 @@
 
 						'Enable-D365MaintenanceMode',
 						'Enable-D365User',
+						'Export-D365SecurityDetails',
 						
 						'Get-D365ActiveAzureStorageConfig',
 						'Get-D365ActiveEnvironmentConfig',
@@ -101,6 +102,7 @@
 						'Import-D365Bacpac',
 
 						'Initialize-D365Config',
+						'Initialize-D365TestAutomationCertificates',
 
 						'Invoke-D365AzureStorageDownload',
 						'Invoke-D365AzureStorageUpload',                                                                
@@ -117,6 +119,7 @@
 						'Invoke-D365SCDPBundleInstall',						
 						'Invoke-D365SysFlushAodCache',
 						'Invoke-D365SysRunnerClass',
+						'Invoke-D365SqlScript',
 
 						'Invoke-D365TableBrowser',
 

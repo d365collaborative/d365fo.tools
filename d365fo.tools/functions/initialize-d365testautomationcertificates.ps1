@@ -36,10 +36,11 @@
         [string]$MakeCertExecutable = "C:\Program Files (x86)\Windows Kits\10\bin\x64\MakeCert.exe"
     )
 
-    if (!$Script:IsAdminRuntime) 
+    if (-not $Script:IsAdminRuntime) 
     {
-        Write-PSFMessage -Level Critical -Message "The cmdlet needs administrator permission (Run As Administrator) to be able to update the configuration. Please start an elevated session and run the cmdlet again." -ForegroundColor Yellow
+        Write-PSFMessage -Level Critical -Message "The cmdlet needs administrator permission (Run As Administrator) to be able to update the configuration. Please start an elevated session and run the cmdlet again."
         Stop-PSFFunction "Elevated permissions needed. Please start an elevated session and run the cmdlet again."
+        return
     }
 
     try 
@@ -49,8 +50,9 @@
         
         if (Test-PSFFunctionInterrupt) 
         { 
-            Write-PSFMessage -Level Critical -Message "The self signed certificate creation was interrupted"
+            Write-PSFMessage -Level Critical -Message "The self signed certificate creation was interrupted."
             Stop-PSFFunction -StepsUpward 1
+            return
         }
 
         # Modify the wif.config of the AOS to have this thumbprint added to the https://fakeacs.accesscontrol.windows.net/ authority

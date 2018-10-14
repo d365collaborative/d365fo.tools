@@ -17,6 +17,9 @@ Subject string to apply to the email and to the IM message
 .PARAMETER IncludeAll
 Switch to instruct the cmdlet to include all cmdlets (names only) from the pipeline
 
+.PARAMETER AsJob
+Switch to instruct the cmdlet to run the invocation as a job (async)
+
 .EXAMPLE
 Invoke-D365SyncDB | Invoke-D365LogicApp
 
@@ -58,7 +61,7 @@ function Invoke-D365LogicApp {
 
         $strMessage = "";
 
-        if ($IncludeAll.IsPresent) {
+        if ($IncludeAll) {
             $strMessage = $arrList -Join ", "
         }
         else {
