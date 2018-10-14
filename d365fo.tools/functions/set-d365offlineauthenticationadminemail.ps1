@@ -45,7 +45,8 @@ function Set-D365OfflineAuthenticationAdminEmail {
     $OfflineAuthAdminEmail = Select-Xml -Xml $xmlDoc -XPath "/ns:DynamicsDevConfig/ns:OfflineAuthenticationAdminEmail"  -Namespace $namespace
 
     $oldValue = $OfflineAuthAdminEmail.Node.InnerText
-    Write-Verbose "Old value found in the file was: $oldValue"
+    
+    Write-PSFMessage -Level Verbose -Message "Old value found in the file was: $oldValue" -Target $oldValue
 
     $OfflineAuthAdminEmail.Node.InnerText = $Email
     $xmlDoc.Save($filePath)
