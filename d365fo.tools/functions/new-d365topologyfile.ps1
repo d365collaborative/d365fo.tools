@@ -26,8 +26,10 @@ New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services $Services -
 
 This will get all the services already installed on the machine. Afterwards the list is piped
 to New-D365TopologyFile where all services are import into the new topology file that is stored at "C:\temp\CurrentTopology.xml"
+
 .NOTES
-General notes
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function New-D365TopologyFile {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -73,7 +75,9 @@ function New-D365TopologyFile {
             $topology.Save("$NewPath")
         }
         else {
-            Write-Error "The base topology file wasn't found at the specified location. Please check the path and run the cmdlet again." -ErrorAction Stop
+            Write-PSFMessage -Level Critical -Message "The base topology file wasn't found at the specified location. Please check the path and run the cmdlet again."
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
         }
     }
     
