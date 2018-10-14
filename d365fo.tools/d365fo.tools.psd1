@@ -60,6 +60,7 @@
 						
 						'Get-D365AzureStorageConfig',
 						'Get-D365AzureStorageFile',
+						'Get-D365ClickOnceTrustPrompt',
 
 						'Get-D365DatabaseAccess',
 						'Get-D365DecryptedConfigFile',
@@ -119,8 +120,8 @@
 
 						'Invoke-D365TableBrowser',
 
-						'New-D365Bacpac',
-						'New-D365BacpacOldVersion',
+						'New-D365Bacpac',		
+						'New-D365ISVLicense',
 						'New-D365TopologyFile',
 						
 						'Remove-D365Database',
@@ -133,9 +134,12 @@
 						'Set-D365ActiveEnvironmentConfig',
 						'Set-D365Admin',
 
+						'Set-D365ClickOnceTrustPrompt',
+
 						'Set-D365FavoriteBookmark',
 						'Set-D365LogicAppConfig',
 						'Set-D365OfflineAuthenticationAdminEmail',
+						
 						'Set-D365SDPCleanUp',
 						'Set-D365StartPage',
 						'Set-D365SysAdmin',
