@@ -44,7 +44,7 @@ function Rename-D365ComputerName {
 
     Write-PSFMessage -Level Verbose -Message "Renaming computer to $NewName"
 
-    Rename-Computer -NewName $NewName -Force       
+    Rename-Computer -NewName $NewName -Force
 
     Write-PSFMessage -Level Verbose -Message "Setting SSRS Reporting server database server to localhost"
 

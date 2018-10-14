@@ -68,7 +68,7 @@ function Remove-D365Database {
     
         Write-PSFMessage -Level Verbose -Message "Dropping $DatabaseName" -Target $DatabaseName
     
-        $db.Drop()        
+        $db.Drop()
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while removing the DB" -Exception $PSItem.Exception
