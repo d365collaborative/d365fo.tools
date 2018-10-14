@@ -75,7 +75,10 @@ Function Invoke-ClearSqlSpecificObjects {
         return
     }
     finally {
-        $sqlCommand.Connection.Close()
-        $sqlCommand.Dispose()    
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()
+        }
+
+        $sqlCommand.Dispose()
     }
 }

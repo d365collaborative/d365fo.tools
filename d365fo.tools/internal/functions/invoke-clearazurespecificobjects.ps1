@@ -41,10 +41,10 @@ Function Invoke-ClearAzureSpecificObjects {
         [string] $DatabaseServer,
 
         [Parameter(Mandatory = $true)]
-        [string] $DatabaseName, 
+        [string] $DatabaseName,
 
         [Parameter(Mandatory = $true)]
-        [string] $SqlUser, 
+        [string] $SqlUser,
 
         [Parameter(Mandatory = $true)]
         [string] $SqlPwd
@@ -71,7 +71,10 @@ Function Invoke-ClearAzureSpecificObjects {
         return
     }
     finally {
-        $sqlCommand.Connection.Close()
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()
+        }
+
         $sqlCommand.Dispose()
     }
 }
