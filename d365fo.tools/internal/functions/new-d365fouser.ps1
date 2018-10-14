@@ -45,7 +45,7 @@ Author: Rasmus Andersen (@ITRasmus)
 
 #>
 function New-D365FOUser {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]    
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     Param (
         [string] $SqlCommand,
         [string] $SignInName,

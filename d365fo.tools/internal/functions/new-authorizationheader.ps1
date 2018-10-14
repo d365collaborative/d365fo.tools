@@ -28,7 +28,7 @@ Author: Mötz Jensen (@Splaxi)
 
 #>
 function New-AuthorizationHeader {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]    
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     Param (
         [string] $Authority,
         [string] $ClientId,

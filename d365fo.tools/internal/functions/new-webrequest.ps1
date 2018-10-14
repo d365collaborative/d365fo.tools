@@ -25,16 +25,16 @@ Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
 
 #>
-function New-WebRequest { 
+function New-WebRequest {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 
     param    (
         $RequestUrl,
         $AuthorizationHeader,
         $Action
-    ) 
+    )
     
-    Write-PSFMessage -Level Verbose -Message "New Request $RequestUrl, $Action"        
+    Write-PSFMessage -Level Verbose -Message "New Request $RequestUrl, $Action"
     $request = [System.Net.WebRequest]::Create($RequestUrl)
 
     if ($null -ne $AuthorizationHeader) {
