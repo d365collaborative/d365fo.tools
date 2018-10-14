@@ -127,16 +127,16 @@ function Invoke-D365SDPInstall {
     
     if ($QuickInstallAll) {
         Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"
-        $param = "quickinstallall"            
+        $param = "quickinstallall"
         Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
     }
     elseif ($DevInstall) {
         Write-PSFMessage -Level Verbose "Using DevInstall mode"
-        $param = "devinstall"            
+        $param = "devinstall"
         Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
     }
     else {
-        $Command = $Command.ToLowerInvariant()            
+        $Command = $Command.ToLowerInvariant()
         $runbookFile = Join-Path $Path "$runbookId.xml"
         $serviceModelFile = Join-Path $Path 'DefaultServiceModelData.xml'
         $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
@@ -147,9 +147,9 @@ function Invoke-D365SDPInstall {
             $ok = Update-TopologyFile -Path $Path
             if ($ok) {
                 $param = @(
-                    "-runbookId=$runbookId" 
-                    "-topologyFile=$topologyFile" 
-                    "-serviceModelFile=`"$serviceModelFile`"" 
+                    "-runbookId=$runbookId"
+                    "-topologyFile=$topologyFile"
+                    "-serviceModelFile=`"$serviceModelFile`""
                     "-runbookFile=`"$runbookFile`""
                 )
                 & $Util generate $param
@@ -161,16 +161,16 @@ function Invoke-D365SDPInstall {
         else {
             $RunCommand = $true
             switch ($Command) {
-                'settopology' {  
+                'settopology' {
                     Write-PSFMessage -Level Verbose "Updating topology file xml."
-                    $ok = Update-TopologyFile -Path $Path                
+                    $ok = Update-TopologyFile -Path $Path
                     $RunCommand = $false
                 }
-                'generate' {                    
+                'generate' {
                     Write-PSFMessage -Level Verbose "Generating runbook file."
                     $param = @(
                         "generate"
-                        "-runbookId=`"$runbookId`"" 
+                        "-runbookId=`"$runbookId`""
                         "-topologyFile=`"$topologyFile`"" 
                         "-serviceModelFile=`"$serviceModelFile`"" 
                         "-runbookFile=`"$runbookFile`""
