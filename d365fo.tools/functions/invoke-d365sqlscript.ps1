@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Execute a SQL Script
 

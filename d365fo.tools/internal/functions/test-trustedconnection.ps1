@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Test PSBoundParameters whether or not to support TrustedConnection
 

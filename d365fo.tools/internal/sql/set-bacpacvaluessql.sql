@@ -1,4 +1,4 @@
---Author: Rasmus Andersen (@ITRasmus)
+﻿--Author: Rasmus Andersen (@ITRasmus)
 --Author: Tommy Skaue (@skaue)
 
 DROP USER IF EXISTS [axretailruntimeuser]

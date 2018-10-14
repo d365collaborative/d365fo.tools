@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Create and configure test automation certificates
 

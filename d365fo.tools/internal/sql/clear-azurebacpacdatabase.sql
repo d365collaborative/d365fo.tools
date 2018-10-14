@@ -1,4 +1,4 @@
---Author: Rasmus Andersen (@ITRasmus)
+﻿--Author: Rasmus Andersen (@ITRasmus)
 --Author: Charles Colombel (@dropshind)
 --Author: Tommy Skaue (@skaue)
 

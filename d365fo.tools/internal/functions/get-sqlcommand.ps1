@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Get a SqlCommand object
 
