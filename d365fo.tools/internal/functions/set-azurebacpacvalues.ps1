@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-Change the different Azure SQL Database details 
+Change the different Azure SQL Database details
 
 .DESCRIPTION
 When preparing an Azure SQL Database to be the new database for an Tier 2+ environment you need to set different details

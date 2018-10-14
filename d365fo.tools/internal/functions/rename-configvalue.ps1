@@ -29,7 +29,9 @@ function Rename-ConfigValue {
         [string] $File,
         [string] $NewValue,
         [string] $OldValue
-    ) 
-    Write-PSFMessage -Level Verbose -Message "Replace content from $File. Old value is $OldValue. New valee is $NewValue." -Target (@($File, $OldValue, $NewValue))
+    )
+
+    Write-PSFMessage -Level Verbose -Message "Replace content from $File. Old value is $OldValue. New value is $NewValue." -Target (@($File, $OldValue, $NewValue))
+    
     (Get-Content $File).replace($OldValue, $NewValue) | Set-Content $File
 }

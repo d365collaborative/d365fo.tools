@@ -171,12 +171,12 @@ function Invoke-D365SDPInstall {
                     $param = @(
                         "generate"
                         "-runbookId=`"$runbookId`""
-                        "-topologyFile=`"$topologyFile`"" 
-                        "-serviceModelFile=`"$serviceModelFile`"" 
+                        "-topologyFile=`"$topologyFile`""
+                        "-serviceModelFile=`"$serviceModelFile`""
                         "-runbookFile=`"$runbookFile`""
                     )
                 }
-                'import' {                    
+                'import' {
                     Write-PSFMessage -Level Verbose "Importing runbook file."
                     $param = @(
                         "import"
@@ -208,10 +208,10 @@ function Invoke-D365SDPInstall {
                 }
                 'export' {
                     Write-PSFMessage -Level Verbose "Exporting runbook for reuse."
-                    & $Util export 
+                    & $Util export
                     $param = @(
                         "export"
-                        "-runbookId=`"$runbookId`"" 
+                        "-runbookId=`"$runbookId`""
                         "-runbookfile=`"$runbookFile`""
                     )
                 }
@@ -222,7 +222,7 @@ function Invoke-D365SDPInstall {
                         "-runbookId=`"$runbookId`""
                         "-versioncheck=true"
                     )
-                }     
+                }
             }
 
             if ($RunCommand) { & $Util $param }

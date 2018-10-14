@@ -29,7 +29,7 @@ function Test-AadUserIdInD365FO {
     param (
         [string] $SqlCommand,
         [string] $Id
-    ) 
+    )
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\test-aaduseridind365fo.sql") -join [Environment]::NewLine
   
