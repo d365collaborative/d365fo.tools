@@ -87,8 +87,8 @@ function Invoke-D365SCDPBundleInstall {
     Unblock-File -Path $Path #File is typically downloaded and extracted
 
     if ($InstallOnly) {
-        $param = @("-install", 
-        "-packagepath=$Path", 
+        $param = @("-install",
+        "-packagepath=$Path",
         "-metadatastorepath=$MetaDataDir")
     }
     else{
@@ -113,7 +113,7 @@ function Invoke-D365SCDPBundleInstall {
                             "-tfsprojecturi=`"$TfsUri`"")
     }
 
-    Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe" -Target $param    
+    Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe" -Target $param
     
     if ($ShowProgress) {
         
@@ -130,7 +130,7 @@ function Invoke-D365SCDPBundleInstall {
             $bundleCounter = 0
             
             while ($keepLooking -and $stopwatch.elapsed -lt $timeout)
-            {    
+            {
                 if(!(Test-PathExists -Path $bundleRoot -Type Container)){
                     $keepLooking = $false
                 }
@@ -151,7 +151,7 @@ function Invoke-D365SCDPBundleInstall {
                     }
                 }
                 Start-Sleep -Seconds 1
-            } 
+            }
         }
     }
     else {
