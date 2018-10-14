@@ -27,6 +27,9 @@ The password for the SQL Server user.
 .EXAMPLE
 PS C:\> Set-AdminUser -SignInName "Claire@contoso.com" -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
 
+This will provision the user with the e-mail "Claire@contoso.com" to be the administrator of the D365 for Finance & Operations instance.
+It will handle if the tenant is switching also, and update the necessary details.
+
 .NOTES
 Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
