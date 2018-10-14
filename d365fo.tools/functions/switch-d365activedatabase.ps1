@@ -56,7 +56,7 @@ function Switch-D365ActiveDatabase {
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = "Master";
-        SqlUser = $SqlUser; SqlPwd = $SqlPwd 
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
@@ -75,7 +75,7 @@ function Switch-D365ActiveDatabase {
     }
     finally {
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
-            $sqlCommand.Connection.Close()    
+            $sqlCommand.Connection.Close()
         }
     }
     
@@ -89,7 +89,7 @@ function Switch-D365ActiveDatabase {
     try {
         $sqlCommand.Connection.Open()
 
-        $null = $sqlCommand.ExecuteNonQuery()    
+        $null = $sqlCommand.ExecuteNonQuery()
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the DB" -Exception $PSItem.Exception
@@ -98,7 +98,7 @@ function Switch-D365ActiveDatabase {
     }
     finally {
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
-            $sqlCommand.Connection.Close()    
+            $sqlCommand.Connection.Close()
         }
         
         $sqlCommand.Dispose()

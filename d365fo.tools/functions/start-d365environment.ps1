@@ -62,7 +62,7 @@ function Start-D365Environment {
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]
         [switch] $FinancialReporter,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]                    
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
         [switch] $DMF
     )
 
@@ -73,7 +73,7 @@ function Start-D365Environment {
     if ( (-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF))) {
         Write-PSFMessage -Level Host -Message "You have to use at least one switch when running this cmdlet. Please run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
-        return        
+        return
     }
 
     $Params = Get-DeepClone $PSBoundParameters

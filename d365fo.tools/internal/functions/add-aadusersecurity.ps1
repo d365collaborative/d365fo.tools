@@ -32,7 +32,7 @@ Author: Mötz Jensen (@Splaxi)
 
 #>
 function Add-AadUserSecurity {
-    [OutputType([System.Boolean])]
+    [OutputType('System.Boolean')]
     param (
         [Parameter(Mandatory = $true)]
         [System.Data.SqlClient.SqlCommand] $SqlCommand,
@@ -47,12 +47,12 @@ function Add-AadUserSecurity {
 
     $null = $sqlCommand.Parameters.Add("@Id", $Id)
 
-    Write-Verbose "Setting security roles in D365FO database"
-       
+    Write-PSFMessage -Level Verbose -Message "Setting security roles in D365FO database"
+
     $differenceBetweenNewUserAndAdmin = $sqlCommand.ExecuteScalar()
     
-    Write-Verbose "Difference between new user and admin security roles $differenceBetweenNewUserAndAdmin"
-
+    Write-PSFMessage -Level Verbose -Message "Difference between new user and admin security roles $differenceBetweenNewUserAndAdmin" -Target $differenceBetweenNewUserAndAdmin
+    
     $SqlCommand.Parameters.Clear()
 
     $differenceBetweenNewUserAndAdmin -eq 0
