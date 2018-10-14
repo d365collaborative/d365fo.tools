@@ -23,10 +23,10 @@ Start the Aos (iis) service
 Start the batch service
 
 .PARAMETER FinancialReporter
-Start the financial reporter (Management Reporter 2012)
+Start the financial reporter (Management Reporter 2012) service
 
 .PARAMETER DMF
-Parameter description
+Start the Data Management Framework service
 
 .EXAMPLE
 Start-D365Environment -All

@@ -23,7 +23,10 @@ Stop the Aos (iis) service
 Stop the batch service
 
 .PARAMETER FinancialReporter
-Stop the financial reporter (Management Reporter 2012)
+Start the financial reporter (Management Reporter 2012) service
+
+.PARAMETER DMF
+Start the Data Management Framework service
 
 .EXAMPLE
 Stop-D365Environment -All
@@ -36,6 +39,7 @@ Stop-D365Environment -Aos -Batch
 Will stop Aos & Batch services on the machine
 
 .NOTES
+Author: Mötz Jensen (@Splaxi)
 
 #>
 function Stop-D365Environment {
