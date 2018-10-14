@@ -144,8 +144,8 @@ function New-D365Bacpac {
     }
 
     if ((Test-path $BackupDirectory -PathType Container) -eq $false) { $null = new-item -ItemType directory -path $BackupDirectory }
-    if ((Test-path (Split-Path $BacpacFile -Parent) -PathType Container) -eq $false) { 
-        $null = new-item -ItemType directory -path (Split-Path $BacpacFile -Parent) 
+    if ((Test-path (Split-Path $BacpacFile -Parent) -PathType Container) -eq $false) {
+        $null = new-item -ItemType directory -path (Split-Path $BacpacFile -Parent)
     }
     
 
@@ -157,7 +157,7 @@ function New-D365Bacpac {
         DatabaseServer = $DatabaseServer
         DatabaseName   = $DatabaseName
         SqlUser        = $SqlUser
-        SqlPwd         = $SqlPwd        
+        SqlPwd         = $SqlPwd
     }
 
     $ExportParams = @{
