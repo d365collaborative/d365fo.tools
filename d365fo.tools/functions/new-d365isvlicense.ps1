@@ -34,7 +34,7 @@ function New-D365ISVLicense {
     [CmdletBinding()]
     param (
 
-        [Parameter(Mandatory = $true, Position = 1)]        
+        [Parameter(Mandatory = $true, Position = 1)]
         [string] $LicenseFile,
 
         [Alias('Template')]

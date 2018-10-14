@@ -26,7 +26,7 @@ function Add-WIFConfigAuthorityThumbprint
         [string]$CertificateThumbprint
     )
 
-    try 
+    try
     {
         $wifConfigFile = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\wif.config"
 
@@ -50,10 +50,10 @@ function Add-WIFConfigAuthorityThumbprint
                $addElem.Attributes.Append($addAtt)
                $authority.FirstChild.AppendChild($addElem)
                $wifXml.Save($wifConfigFile)
-            }    
+            }
         }
     }
-    catch 
+    catch
     {
         Write-PSFMessage -Level Host -Message "Something went wrong while configuring the certificates and the Windows Identity Foundation configuration for the AOS" -Exception $PSItem.Exception
         Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
