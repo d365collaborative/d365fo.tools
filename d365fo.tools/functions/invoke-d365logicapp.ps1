@@ -33,13 +33,16 @@ Author: Mötz Jensen (@Splaxi)
 #>
 function Invoke-D365LogicApp {
     param (
-        [string] $Url = $logicApp.Url,
+        [string] $Url = (Get-D365LogicAppConfig).Url,
 
-        [string] $Email = $logicApp.Email,
+        [string] $Email = (Get-D365LogicAppConfig).Email,
 
-        [string] $Subject = $logicApp.Subject,
+        [string] $Subject = (Get-D365LogicAppConfig).Subject,
 
-        [switch] $IncludeAll
+        [switch] $IncludeAll,
+        
+        [switch] $AsJob
+
     )
 
     begin {
@@ -65,23 +68,7 @@ function Invoke-D365LogicApp {
         $strMessage = "The following list of cmdlets has executed: $strMessage"
         $RequestData = "{`"email`":`"$Email`", `"message`":`"$strMessage`", `"subject`":`"$Subject`"}"
 
-        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;
-        $RequestUrl = $Url
-        $request = [System.Net.WebRequest]::Create($RequestUrl)
-        $request.Method = "POST"
-        $request.ContentType = "application/json";
-
-        $stream = new-object System.IO.StreamWriter ($request.GetRequestStream())
-        $stream.write($RequestData)
-        $stream.Flush()
-        $stream.Close()
-
-        $response = $request.GetResponse()
-
-        $requestStream = $response.GetResponseStream()
-        $readStream = New-Object System.IO.StreamReader $requestStream
-        $data = $readStream.ReadToEnd()
-        $data
+        Invoke-PSNMessage -Url $URL -ReceiverEmail $Email -Subject $Subject -Message $strMessage -AsJob:$AsJob
     }
     
     end {

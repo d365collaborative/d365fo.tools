@@ -55,7 +55,7 @@ function Get-InstanceValues {
         [boolean] $TrustedConnection
     )
         
-    $sqlCommand = Get-SQLCommand @PsBoundParameters
+    $sqlCommand = Get-SqlCommand @PsBoundParameters
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\get-instancevalues.sql") -join [Environment]::NewLine
 

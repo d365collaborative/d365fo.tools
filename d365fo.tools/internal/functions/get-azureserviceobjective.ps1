@@ -47,7 +47,7 @@ function Get-AzureServiceObjective {
         [string] $SqlPwd
     )
         
-    $sqlCommand = Get-SQLCommand @PsBoundParameters -TrustedConnection $false
+    $sqlCommand = Get-SqlCommand @PsBoundParameters -TrustedConnection $false
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\get-azureserviceobjective.sql") -join [Environment]::NewLine
 

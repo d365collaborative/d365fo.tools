@@ -26,6 +26,9 @@ The search string to select which user(s) should be updated.
 
 The parameter supports wildcards. E.g. -Email "*@contoso.com*"
 
+.PARAMETER Company
+The company the user should start in.
+
 .EXAMPLE
 Update-D365User -Email "claire@contoso.com"
 
@@ -56,7 +59,10 @@ function Update-D365User {
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $true, Position = 5)]
-        [string]$Email
+        [string]$Email,
+
+        [Parameter(Mandatory = $false, Position = 6)]
+        [string]$Company
 
     )
 
@@ -96,6 +102,8 @@ function Update-D365User {
             $null = $sqlCommand_Update.Parameters.Add("@networkDomain", $userAuth["NetworkDomain"])
             $null = $sqlCommand_Update.Parameters.Add("@sid", $userAuth["SID"])
             $null = $sqlCommand_Update.Parameters.Add("@identityProvider", $userAuth["IdentityProvider"])
+
+            $null = $sqlCommand_Update.Parameters.Add("@Company", $Company)
 
             Write-PSFMessage -Level Verbose -Message "Executing the update statement against the database."
             $null = $sqlCommand_Update.ExecuteNonQuery()

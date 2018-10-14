@@ -60,7 +60,7 @@ Function Invoke-AzureBackupRestore {
     $StartTime = Get-Date
     
     $SqlConParams = @{DatabaseServer = $DatabaseServer; SqlUser = $SqlUser; SqlPwd = $SqlPwd; TrustedConnection = $false}
-    $sqlCommand = Get-SQLCommand @SqlConParams -DatabaseName $DatabaseName
+    $sqlCommand = Get-SqlCommand @SqlConParams -DatabaseName $DatabaseName
     
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\newazuredbfromcopy.sql") -join [Environment]::NewLine
     
@@ -89,7 +89,7 @@ Function Invoke-AzureBackupRestore {
         $sqlCommand.Dispose()
     }
    
-    $sqlCommand = Get-SQLCommand @SqlConParams -DatabaseName "master"
+    $sqlCommand = Get-SqlCommand @SqlConParams -DatabaseName "master"
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\checkfornewazuredb.sql") -join [Environment]::NewLine
 

@@ -52,11 +52,16 @@ Use a PSCredential object for connecting with AzureAd
 .PARAMETER SkipAzureAd
 Switch to instruct the cmdlet to skip validating against the Azure Active Directory
 
+.PARAMETER ForceExactAadGroupName
+Force to find the exact name of the Azure Active Directory Group
+
+.PARAMETER AadGroupId
+Azure Active directory user group ID containing users to be imported
+
 .EXAMPLE
 Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
 
-Imports Claire and Allen as users.
-
+Imports Claire and Allen as users
 
 .EXAMPLE
 $myPassword = ConvertTo-SecureString "MyPasswordIsSecret" -AsPlainText -Force
@@ -69,9 +74,18 @@ This will import Claire and Allen as users.
 .EXAMPLE
 Import-D365AadUser -AadGroupName "CustomerTeam1"
 
+if more than one group match the AadGroupName, you can use the ExactAadGroupName parameter
+Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
+
+.EXAMPLE
+Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
+
 Imports all the users that is present in the AAD Group called CustomerTeam1
 
 .NOTES
+Author: Rasmus Andersen (@ITRasmus)
+Author: Charles Colombel (@dropshind)
+
 At no circumstances can this cmdlet be used to import users into a PROD environment.
 
 Only users from an Azure Active Directory that you have access to, can be imported.
@@ -87,7 +101,7 @@ Author: Mötz Jensen (@Splaxi)
 function Import-D365AadUser {
     [CmdletBinding(DefaultParameterSetName = 'UserListImport')]
     param (
-        [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "GroupImport")]
+        [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "GroupNameImport")]
         [String]$AadGroupName,
 
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "UserListImport")]
@@ -126,7 +140,13 @@ function Import-D365AadUser {
         [PSCredential]$AzureAdCredential,
 
         [Parameter(Mandatory = $false, Position = 12, ParameterSetName = "UserListImport")]
-        [switch]$SkipAzureAd
+        [switch]$SkipAzureAd,
+        
+        [Parameter(Mandatory = $false, Position = 13, ParameterSetName = "GroupNameImport")]
+        [switch]$ForceExactAadGroupName,
+        
+        [Parameter(Mandatory = $true, Position = 14, ParameterSetName = "GroupIdImport")]
+        [string]$AadGroupId
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -161,14 +181,30 @@ function Import-D365AadUser {
 
     $azureAdUsers = New-Object -TypeName "System.Collections.ArrayList"
 
-    if ( $PSCmdlet.ParameterSetName -eq "GroupImport") {
+    if (( $PSCmdlet.ParameterSetName -eq "GroupNameImport") -or ($PSCmdlet.ParameterSetName -eq "GroupIdImport")) {
 
-        $group = Get-AzureADGroup -SearchString $AadGroupName
+        if ($PSCmdlet.ParameterSetName -eq 'GroupIdImport') {
+            Write-PSFMessage -Level Verbose -Message "Search AadGroup by its ID : $AadGroupId"
+            $group = Get-AzureADGroup -ObjectId $AadGroupId
+        }
+        else {
+            if ($ForceExactAadGroupName -eq $true) {
+                Write-PSFMessage -Level Verbose -Message "Search AadGroup by its exactly name : $AadGroupName"
+                $group = Get-AzureADGroup -Filter "DisplayName eq '$AadGroupName'"
+            }
+            else {
+                Write-PSFMessage -Level Verbose -Message "Search AadGroup by searching with its name : $AadGroupName"
+                $group = Get-AzureADGroup -SearchString $AadGroupName
+            }
+        }
 
         if ($null -eq $group) {
             Write-PSFMessage -Level Host -Message "Unable to find the specified group in the AAD. Please ensure the group exists and that you have enough permissions to access it."
             Stop-PSFFunction -Message "Stopping because of errors"
             return
+        }
+        else {
+            Write-PSFMessage -Level Host -Message "Processing Azure AD user Group `"$($group[0].DisplayName)`""
         }
 
         if ($group.Length -gt 1) {
@@ -193,7 +229,7 @@ function Import-D365AadUser {
         
             if ($SkipAzureAd -eq $true) {
                 $name = Get-LoginFromEmail $user
-                $azureAdUsers.Add([PSCustomObject]@{
+                $null = $azureAdUsers.Add([PSCustomObject]@{
                         Mail        = $user
                         GivenName   = $name
                         DisplayName = $name
@@ -209,11 +245,7 @@ function Import-D365AadUser {
                 else {
                     $null = $azureAdUsers.Add($aadUser)
                 }
-    
-
             }
-        
-            
         }
     }
 
@@ -283,4 +315,3 @@ function Import-D365AadUser {
         $sqlCommand.Dispose()
     }
 }
-

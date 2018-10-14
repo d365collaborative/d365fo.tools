@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Get a SqlCommand object
 
@@ -59,7 +59,7 @@ function Get-SQLCommand {
     $null = $Params.Add("Server='$DatabaseServer';")
     $null = $Params.Add("Database='$DatabaseName';")
 
-    if ($null -eq $TrustedConnection -or !$TrustedConnection) {
+    if ($null -eq $TrustedConnection -or (-not $TrustedConnection)) {
         $null = $Params.Add("User='$SqlUser';")
         $null = $Params.Add("Password='$SqlPwd';")
     }

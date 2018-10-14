@@ -44,7 +44,8 @@ It will logon as the default SqlUser but use the provided SqlPwd.
 This can be run from a non-elevated console
 
 .NOTES
-General notes
+Author: Mötz Jensen (@splaxi)
+
 #>
 function Set-D365SysAdmin {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -81,7 +82,7 @@ function Set-D365SysAdmin {
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\set-sysadmin.sql") -join [Environment]::NewLine
     $commandText = $commandText.Replace('@USER', $User)
 
-    $sqlCommand = Get-SQLCommand @SqlParams
+    $sqlCommand = Get-SqlCommand @SqlParams
 
     $sqlCommand.CommandText = $commandText
 

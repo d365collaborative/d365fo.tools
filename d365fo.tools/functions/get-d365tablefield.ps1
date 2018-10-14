@@ -80,7 +80,7 @@ Will search for the AccountNum field across all tables.
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 
-Author: Mötz Jensen (@Splaxi)
+Author: Mötz Jensen (@splaxi)
 
 #>
 function Get-D365TableField {
@@ -152,11 +152,11 @@ function Get-D365TableField {
             $null = $sqlCommand.Parameters.Add("@TableId", $TableId)
         }
 
-        $datatable = New-Object system.Data.DataSet
-        $dataadapter = New-Object system.Data.SqlClient.SqlDataAdapter($sqlcommand)
-        $dataadapter.fill($datatable) | Out-Null
+        $dataTable = New-Object system.Data.DataSet
+        $dataAdapter = New-Object system.Data.SqlClient.SqlDataAdapter($sqlCommand)
+        $dataAdapter.fill($dataTable) | Out-Null
 
-        foreach ($obj in $datatable.Tables.Rows) {
+        foreach ($obj in $dataTable.Tables.Rows) {
             if ($obj.FieldId -eq 0) {
                 $TableName = $obj.AotName
 

@@ -1,4 +1,7 @@
-﻿DROP USER IF EXISTS [axretailruntimeuser]
+--Author: Rasmus Andersen (@ITRasmus)
+--Author: Tommy Skaue (@skaue)
+
+DROP USER IF EXISTS [axretailruntimeuser]
 DROP USER IF EXISTS [axretaildatasyncuser]
 DROP USER IF EXISTS [axmrruntimeuser]
 DROP USER IF EXISTS [axdeployuser]
@@ -38,7 +41,7 @@ FROM docuvalue T1
 WHERE T1.storageproviderid = 1 --Azure storage
 
 
-IF(0=(SELECT 1 FROM SYS.CHANGE_TRACKING_DATABASES WHERE DATABASE_ID = DB_ID('[@DATABASENAME]')))
+IF(0=(SELECT 1 FROM SYS.CHANGE_TRACKING_DATABASES WHERE DATABASE_ID = DB_ID('@DATABASENAME')))
 ALTER DATABASE [@DATABASENAME] SET CHANGE_TRACKING = ON (CHANGE_RETENTION = 6 DAYS, AUTO_CLEANUP = ON)
 
 ;--GO

@@ -40,22 +40,22 @@ Name of the new database that will be created while importing the bacpac file
 This will create a new database on the database server and import the content of the bacpac into
 
 .PARAMETER AxDeployExtUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxDbAdminPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxRuntimeUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxMrRuntimeUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxRetailRuntimeUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER AxRetailDataSyncUserPwd
-Parameter description
+Password that is obtained from LCS
 
 .PARAMETER CustomSqlFile
 Parameter description
@@ -207,19 +207,20 @@ function Import-D365Bacpac {
 
     if (-not ($ImportOnly)) {
         Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
-        
-        $InstanceValues = Get-InstanceValues @Params -TrustedConnection $UseTrustedConnection
-
-        if ($null -eq $InstanceValues) { return }
 
         if ($ImportModeTier2) {
             Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database"
+
+            $InstanceValues = Get-InstanceValues @BaseParams -TrustedConnection $UseTrustedConnection
+
+            if ($null -eq $InstanceValues) { return }
 
             $AzureParams = @{
                 AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd;
                 AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd;
                 AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd
             }
+
             $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
 
             if (-not ($res)) {return}
@@ -227,14 +228,14 @@ function Import-D365Bacpac {
         else {
             Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database"
 
-            $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection @InstanceValues
+            $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection
             
             if (-not ($res)) {return}
         }
 
         if ($ExecuteCustomSQL) {
             Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
-            $res = Invoke-CustomSqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
+            $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
             if (-not ($res)) {return}
         }

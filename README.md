@@ -11,6 +11,10 @@ Available on Powershellgallery
 Install-Module -Name d365fo.tools
 ```
 
+### **Install without administrator privileges**
+```
+Install-Module -Name d365fo.tools -Scope CurrentUser
+```
 ### **List all available commands / functions**
 
 ```
@@ -69,6 +73,16 @@ Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
 
 *Imports Claire and Allen into the environment*
 
+
+### **Import a list of users into the environment based on Azure AD Group**
+
+```
+Import-D365AadUser -AadGroupName "D365 Users" -ForceExactAadGroupName
+```
+
+*Imports all users included into "D365 Users" Azure AD Group into the environnement*
+
+*The ForceExactAadGroupName parameter force command to find the AD group by searching for the exact name*
 
 ### **Update users in an environment after database migration / restore or re-provisioning**
 
@@ -260,6 +274,12 @@ It is possible to provide
 
 - Authority [Defaulted to current instance identity provider]
 - D365FO [Defaulted to current D365FO Enviroment]
+
+### **Create self-signed certificates and configure AOS WIF trusted authorities**
+```
+Initialize-D365TestAutomationCertificate
+```
+Creates a new self signed certificate for automated testing and reconfigures the AOS Windows Identity Foundation configuration to trust the certificate
 
 ## **Fix misc issues**
 ### **Get Offline Authentication Administrator Email**
@@ -476,16 +496,23 @@ Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicR
 
 ### **Installation of binary updates**
 ```
-Invoke-D365AXUpdateInstaller -Path C:\DeployablePackages -GenerateImportExecute
+Invoke-D365SDPInstall -Path C:\DeployablePackages -Command RunAll
 ```
 
-*This will execute the generate, import and execute steps in correct order. The cmdlet expects one or more folders inside the "C:\DeployablePackages" location*
+*This will execute the generate, import and execute steps in correct order. The cmdlet expects the path "C:\DeployablePackages" to be the extracted directory from a package*
 
-### **Installation of 3. party ISV module**
+### **Installation of 3. party ISV module - DevInstall**
 ```
-Invoke-D365AXUpdateInstaller -Path C:\DeployablePackages -DevInstall
+Invoke-D365SDPInstall -Path C:\DeployablePackages -DevInstall
 ```
-*This will execute the **"devinstall"** mode. The cmdlet expects one or more folders inside the "C:\DeployablePackages" location*
+*This will execute the **"devinstall"** mode. The cmdlet expects the path "C:\DeployablePackages" to be the extracted directory from a package*
+
+### **Installation of 3. party ISV module - QuickInstall**
+```
+Invoke-D365SDPInstall -Path C:\DeployablePackages -QuickInstall
+```
+*This will execute the **"QuickInstall"** mode. The cmdlet expects the path "C:\DeployablePackages" to be the extracted directory from a package*
+
 
 ### **Installation of X++ hotfix**
 ```

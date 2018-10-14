@@ -21,7 +21,7 @@ The cmdlet only supports an already extracted ".axscdppkg" file
 .PARAMETER MetaDataDir
 The path to the meta data directory for the environment
 
-Default path is the same as the aos service PackagesLocalDirectory
+Default path is the same as the aos service PackagesLocalDirectory 
 
 .PARAMETER TfsWorkspaceDir
 Parameter description
@@ -60,20 +60,20 @@ function Invoke-D365SCDPBundleInstall {
         [Alias('File')]
         [string] $Path,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
+        [Parameter(Mandatory = $False, Position = 2 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Tfs', Position = 3 )]
+        [Parameter(Mandatory = $False, ParameterSetName = 'Tfs', Position = 3 )]
         [string] $TfsWorkspaceDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Tfs', Position = 4 )]
+        [Parameter(Mandatory = $False, ParameterSetName = 'Tfs', Position = 4 )]
         [string] $TfsUri = "$Script:TfsUri",
 
-        [Parameter(Mandatory = $false, Position = 4 )]
+        [Parameter(Mandatory = $False, Position = 4 )]
         [switch] $ShowModifiedFiles,
 
-        [Parameter(Mandatory = $false, Position = 5 )]
-        [switch] $ShowProgress
+        [Parameter(Mandatory = $False, Position = 5 )]
+        [switch] $ShowProgress      
 
     )
     
@@ -119,40 +119,37 @@ function Invoke-D365SCDPBundleInstall {
         
         $process = Start-Process -FilePath $executable -ArgumentList $param -PassThru
 
-        while (!$process.HasExited) {
+        while (-not ($process.HasExited)) {
             
-            $keepLooking = $true
             $timeout = New-TimeSpan -Days 1
             $stopwatch = [Diagnostics.StopWatch]::StartNew();
             $bundleRoot = "$env:localappdata\temp\SCDPBundleInstall"
-            
-            $bundleTotalCount = (Get-ChildItem "$bundleRoot\*.axscdp" -ErrorAction SilentlyContinue).Count
+            [xml]$manifest = Get-Content $(join-path $bundleRoot "PackageDependencies.dgml") -ErrorAction SilentlyContinue
             $bundleCounter = 0
             
-            while ($keepLooking -and $stopwatch.elapsed -lt $timeout)
+            if ($manifest)
             {
-                if(!(Test-PathExists -Path $bundleRoot -Type Container)){
-                    $keepLooking = $false
-                }
-                else
+                $bundleTotalCount = $manifest.DirectedGraph.Nodes.ChildNodes.Count
+            }            
+            
+            while ($manifest -and (-not ($process.HasExited)) -and $stopwatch.elapsed -lt $timeout)
+            {    
+                $currentBundleFolder = Get-ChildItem $bundleRoot -Directory -ErrorAction SilentlyContinue
+        
+                if ($currentBundleFolder)
                 {
-                    $currentBundleFolder = Get-ChildItem $bundleRoot -Directory
-            
-                    if ($currentBundleFolder)
+                    $currentBundle = $currentBundleFolder.Name
+        
+                    if ($announcedBundle -ne $currentBundle)
                     {
-                        $currentBundle = $currentBundleFolder.Name
-            
-                        if ($announcedBundle -ne $currentBundle)
-                        {
-                            $announcedBundle = $currentBundle
-                            $bundleCounter = $bundleCounter + 1
-                            Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"
-                        }
+                        $announcedBundle = $currentBundle
+                        $bundleCounter = $bundleCounter + 1
+                        Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"                            
                     }
                 }
-                Start-Sleep -Seconds 1
             }
-        }
+            Start-Sleep -Milliseconds 100             
+        }         
     }
     else {
         Start-Process -FilePath $executable -ArgumentList $param -NoNewWindow -Wait

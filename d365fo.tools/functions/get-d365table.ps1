@@ -44,7 +44,7 @@ Will get the details for the table with the id 10347.
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
 
-Author: Mötz Jensen (@Splaxi)
+Author: Mötz Jensen (@splaxi)
 
 #>
 function Get-D365Table {
@@ -83,13 +83,13 @@ function Get-D365Table {
 
         $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-tables.sql") -join [Environment]::NewLine
 
-        $datatable = New-Object system.Data.DataSet
-        $dataadapter = New-Object system.Data.SqlClient.SqlDataAdapter($sqlcommand)
-        $dataadapter.fill($datatable) | Out-Null
+        $dataTable = New-Object system.Data.DataSet
+        $dataAdapter = New-Object system.Data.SqlClient.SqlDataAdapter($sqlCommand)
+        $dataAdapter.fill($dataTable) | Out-Null
 
         foreach ($localName in $Name) {
             if ($PSCmdlet.ParameterSetName -eq "Default") {
-                foreach ($obj in $datatable.Tables.Rows) {
+                foreach ($obj in $dataTable.Tables.Rows) {
                     if ($obj.AotName -NotLike $localName) { continue }
                     [PSCustomObject]@{
                         TableId   = $obj.TableId
@@ -99,7 +99,7 @@ function Get-D365Table {
                 }
             }
             else {
-                $obj = $datatable.Tables.Rows | Where-Object TableId -eq $Id | Select-Object -First 1
+                $obj = $dataTable.Tables.Rows | Where-Object TableId -eq $Id | Select-Object -First 1
                 [PSCustomObject]@{
                     TableId   = $obj.TableId
                     TableName = $obj.AotName

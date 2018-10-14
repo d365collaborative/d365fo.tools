@@ -64,21 +64,49 @@ function Enable-D365MaintenanceMode {
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
         [string] $SqlPwd = $Script:DatabaseUserPassword
     )
+
+    if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
+        Write-PSFMessage -Level Host -Message "It seems that you have a <c='em'>Visual Studio</c> running. Please <c='em'>exit</c> Visual Studio and run the cmdlet again."
+        Stop-PSFFunction -Message "Stopping because of running Visual Studio."
+        return
+    }
     
-    $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
+    if(-not ($Script:IsAdminRuntime)) {    
+        
+        Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
+        
+        Stop-D365Environment -All
+        
+        $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-    if (!(Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
-    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
+        $Params = @{
+            DatabaseServer = $DatabaseServer
+            DatabaseName   = $DatabaseName
+            SqlUser        = $SqlUser
+            SqlPwd         = $SqlPwd        
+        }
 
-    $params = @("-isemulated", "true",
-        "-sqluser", "$SqlUser",
-        "-sqlpwd", "$SqlPwd",
-        "-sqlserver", "$DatabaseServer",
-        "-sqldatabase", "$DatabaseName",
-        "-metadatadir", "$MetaDataDir",
-        "-bindir", "$BinDir",
-        "-setupmode", "maintenancemode",
-        "-isinmaintenancemode", "true")
+        Invoke-D365SqlScript @Params -FilePath $("$script:PSModuleRoot\internal\sql\enable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
 
-    Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
+        Start-D365Environment -All
+    }
+    else {
+
+        $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
+
+        if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) { return }
+        if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+
+        $params = @("-isemulated", "true", 
+            "-sqluser", "$SqlUser", 
+            "-sqlpwd", "$SqlPwd",
+            "-sqlserver", "$DatabaseServer", 
+            "-sqldatabase", "$DatabaseName", 
+            "-metadatadir", "$MetaDataDir", 
+            "-bindir", "$BinDir",
+            "-setupmode", "maintenancemode", 
+            "-isinmaintenancemode", "true")
+
+        Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
+    }
 }

@@ -1,44 +1,43 @@
 ﻿<#
 .SYNOPSIS
-Create a license deployable package
+Create a license deployable package 
 
 .DESCRIPTION
-Create a license deployable package based on a template
-
-.PARAMETER Path
-Path to the zip file that contains the template needed to build your own license deployable package
-
-Default path is the same as the aos service PackagesLocalDirectory\bin\CustomDeployablePackage\ImportISVLicense.zip
+Create a deployable package with a license file inside
 
 .PARAMETER LicenseFile
-Path to the license file (txt) file that you want to slipstream into your deployable package
+Path to the license file that you want to have inside a deployable package
+
+.PARAMETER Path
+Path to the template zip file for creating a deployable package with a license file
+
+Default path is the same as the aos service "PackagesLocalDirectory\bin\CustomDeployablePackage\ImportISVLicense.zip"
 
 .PARAMETER OutputPath
-Path to where the output from the creation process should be saved.
+Path where you want the generated deployable package stored
 
-Default value is "C:\temp\d365fo.tools\ISVLicense.zip"
+Default value is: "C:\temp\d365fo.tools\ISVLicense.zip"
 
 .EXAMPLE
-PS C:\> New-D365ISVLicense -LicenseFile c:\temp\SuperISVSolution.txt
+New-D365ISVLicense -LicenseFile "C:\temp\ISVLicenseFile.txt"
 
-This will use the default zip file stored under PackagesLocalDirectory\bin\CustomDeployablePackage containing the template for ISV license deployable packages.
-It will copy the "c:\temp\SuperISVSolution.txt" into the new deployable package.
-When done, it will save the new deployable package into the default output path "C:\temp\d365fo.tools\ISVLicense.zip".
+This will take the "C:\temp\ISVLicenseFile.txt" file and locate the "ImportISVLicense.zip" template file under the "PackagesLocalDirectory\bin\CustomDeployablePackage\".
+It will extract the "ImportISVLicense.zip", load the ISVLicenseFile.txt and compress (zip) the files into a deployable package.
+The package will be exported to "C:\temp\d365fo.tools\ISVLicense.zip"
 
 .NOTES
-Author: Mötz Jensen (@Splaxi)
+Author: Mötz Jensen (@splaxi)
 
 #>
 function New-D365ISVLicense {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-    
     [CmdletBinding()]
     param (
+        
+        [Parameter(Mandatory = $true, Position = 1)]        
+        [string] $LicenseFile,
+
         [Alias('Template')]
         [string] $Path = "$Script:BinDirTools\CustomDeployablePackage\ImportISVLicense.zip",
-
-        [Parameter(Mandatory = $true)]
-        [string] $LicenseFile,
 
         [string] $OutputPath = "C:\temp\d365fo.tools\ISVLicense.zip"
 
@@ -51,25 +50,33 @@ function New-D365ISVLicense {
     
     process {
 
-        $Path, $LicenseFile | Unblock-File
+        if (-not (Test-PathExists -Path $Path, $LicenseFile -Type "Leaf")) {return}
+
+        $null = New-Item -Path (Split-Path $OutputPath -Parent) -ItemType Directory -ErrorAction SilentlyContinue
+
+        Unblock-File $Path
+        Unblock-File $LicenseFile
 
         $ExtractionPath = [System.IO.Path]::GetTempPath()
 
         $packageTemp = Join-Path $ExtractionPath ((Get-Random -Maximum 99999).ToString())
 
-        Write-PSFMessage -Level Verbose -Message "Extracting the zip file to $packageTemp" -Target $packageTemp
+        Write-PSFMessage -Level Verbose -Message "Extracting the template zip file to $packageTemp." -Target $packageTemp
         Expand-Archive -Path $Path -DestinationPath $packageTemp
-        $packageTemp
 
         $licenseMergePath = Join-Path $packageTemp "AosService\Scripts\License"
 
-        $licenseMergePath
-
         Get-ChildItem -Path $licenseMergePath | Remove-Item -Force -ErrorAction SilentlyContinue
 
+        Write-PSFMessage -Level Verbose -Message "Copying the license file into place."
         Copy-Item -Path $LicenseFile -Destination $licenseMergePath
 
-        Compress-Archive -Path "$packageTemp\*" -DestinationPath $OutputPath
+        Write-PSFMessage -Level Verbose -Message "Compressing the folder into a zip file and storing it at $OutputPath" -Target $OutputPath
+        Compress-Archive -Path "$packageTemp\*" -DestinationPath $OutputPath -Force
+
+        [PSCustomObject]@{
+            File = $OutputPath
+        }
     }
 
     end {

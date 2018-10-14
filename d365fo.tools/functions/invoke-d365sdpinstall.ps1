@@ -121,10 +121,10 @@ function Invoke-D365SDPInstall {
     $Util = Join-Path $Path "AXUpdateInstaller.exe"
     $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
 
-    if (-not (Test-PathExists -Path $topologyFile, $Util -Type Leaf)) {return}
+    if (-not (Test-PathExists -Path $topologyFile, $Util -Type Leaf)) { return }
         
-    Get-ChildItem -Path $Path | Unblock-File
-    
+    Get-ChildItem -Path $Path -Recurse | Unblock-File
+
     if ($QuickInstallAll) {
         Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"
         $param = "quickinstallall"
