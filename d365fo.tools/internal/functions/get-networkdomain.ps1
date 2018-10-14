@@ -1,25 +1,5 @@
 ﻿<#
 .SYNOPSIS
-#
-
-.DESCRIPTION
-Functions for getting provider for importing a user into D365FO
-
-.PARAMETER Email
-Email used for the 
-
-.PARAMETER AosServiceWebRootPath
-Location of the D365 webroot folder
-
-.EXAMPLE
-Get-Provider -Email Email@Company.com
-
-.NOTES
-Only supports Azure Aad emails
-#>
-
-<#
-.SYNOPSIS
 Get the network domain from the e-mail
 
 .DESCRIPTION

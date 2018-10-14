@@ -26,11 +26,11 @@ function Get-BackupName {
     [OutputType([System.String])]
     param (
         [Parameter(Mandatory = $true)]
-        [string] $File, 
+        [string] $File,
 
         [Parameter(Mandatory = $true)]
         [string] $Suffix
-    ) 
+    )
 
     Write-PSFMessage -Level Verbose -Message "Getting backup name for file: $File" -Tag $File
 

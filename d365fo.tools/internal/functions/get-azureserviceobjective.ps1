@@ -32,16 +32,16 @@ Author: Mötz Jensen (@Splaxi)
 
 #>
 function Get-AzureServiceObjective {
-    [CmdletBinding()]    
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
         [string] $DatabaseServer,
 
         [Parameter(Mandatory = $true)]
-        [string] $DatabaseName, 
+        [string] $DatabaseName,
 
         [Parameter(Mandatory = $true)]
-        [string] $SqlUser, 
+        [string] $SqlUser,
 
         [Parameter(Mandatory = $true)]
         [string] $SqlPwd

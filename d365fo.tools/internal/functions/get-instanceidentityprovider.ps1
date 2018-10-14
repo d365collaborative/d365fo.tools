@@ -21,7 +21,7 @@ function Get-InstanceIdentityProvider {
     
     param()
 
-    $files = @("$Script:AOSPath\bin\Microsoft.Dynamics.AX.Framework.EncryptionEngine.dll", 
+    $files = @("$Script:AOSPath\bin\Microsoft.Dynamics.AX.Framework.EncryptionEngine.dll",
         "$Script:AOSPath\bin\Microsoft.Dynamics.AX.Security.AuthenticationCommon.dll")
 
     if (-not (Test-PathExists -Path $files -Type Leaf)) {
