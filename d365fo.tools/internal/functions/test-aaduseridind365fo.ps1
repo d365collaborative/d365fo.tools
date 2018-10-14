@@ -1,18 +1,46 @@
-﻿function Test-AadUserIdInD365FO ($SqlCommand, $Id) {
+﻿<#
+.SYNOPSIS
+Test to see if a given user exists
 
+.DESCRIPTION
+Test to see if a given user exists in the Dynamics 365 for Finance & Operations instance
 
-    $commandText =(Get-Content "$script:ModuleRoot\internal\sql\test-aaduseridind365fo.sql") -join [Environment]::NewLine
+.PARAMETER sqlCommand
+The SQL Command object that should be used when testing the user
+
+.PARAMETER Id
+Id of the user that you want to test exists or not
+
+.EXAMPLE
+PS C:\> $SqlCommand = Get-SqlCommand -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
+PS C:\> Test-AadUserIdInD365FO -SqlCommand $SqlCommand -Id "TestUser"
+
+This will get a SqlCommand object that will connect to the localhost server and the AXDB database, with the sql credential "User123".
+It will query the the database for any user with the Id "TestUser".
+
+.NOTES
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
+#>
+
+function Test-AadUserIdInD365FO {
+    
+    param (
+        [string] $SqlCommand,
+        [string] $Id
+    ) 
+
+    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\test-aaduseridind365fo.sql") -join [Environment]::NewLine
   
     $sqlCommand.CommandText = $commandText
 
     $null = $sqlCommand.Parameters.Add("@Id", $Id)
       
     $NumFound = $sqlCommand.ExecuteScalar()
-
-    Write-Verbose "Number of user rows found in database $NumFound"
-
+    
+    Write-PSFMessage -Level Verbose -Message  "Number of user rows found in database $NumFound" -Target $NumFound
     $SqlCommand.Parameters.Clear()
 
-    return $NumFound -ne 0
-
+    $NumFound -ne 0
 }
