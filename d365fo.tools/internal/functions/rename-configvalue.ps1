@@ -23,9 +23,7 @@ This will open the "C:\temp\d365fo.tools\web.config" file and replace all "usnco
 Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
 
-#>##
-
-Ren
+#>
 function Rename-ConfigValue {
     param (
         [string] $File,
