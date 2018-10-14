@@ -49,10 +49,10 @@ Function Invoke-SqlBackupRestore {
         [string] $DatabaseServer,
 
         [Parameter(Mandatory = $true)]
-        [string] $DatabaseName, 
+        [string] $DatabaseName,
 
         [Parameter(Mandatory = $false)]
-        [string] $SqlUser, 
+        [string] $SqlUser,
 
         [Parameter(Mandatory = $false)]
         [string] $SqlPwd,
@@ -61,7 +61,7 @@ Function Invoke-SqlBackupRestore {
         [boolean] $TrustedConnection,
 
         [Parameter(Mandatory = $true)]
-        [string] $NewDatabaseName, 
+        [string] $NewDatabaseName,
 
         [Parameter(Mandatory = $true)]
         [string] $BackupDirectory
@@ -84,9 +84,9 @@ Function Invoke-SqlBackupRestore {
         $sqlCommand.Connection.Open()
 
         Write-PSFMessage -Level Verbose -Message "Executing the statement against the SQL Server" -Target $sqlCommand.CommandText
-        $null = $sqlCommand.ExecuteNonQuery()    
+        $null = $sqlCommand.ExecuteNonQuery()
         
-        $true        
+        $true
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception

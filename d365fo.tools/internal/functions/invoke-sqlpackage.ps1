@@ -38,12 +38,12 @@ $BaseParams = @{
     DatabaseServer = $DatabaseServer
     DatabaseName   = $DatabaseName
     SqlUser        = $SqlUser
-    SqlPwd         = $SqlPwd        
+    SqlPwd         = $SqlPwd
 }
 
 $ImportParams = @{
     Action   = "import"
-    FilePath = $BacpacFile        
+    FilePath = $BacpacFile
 }
     
 Invoke-SqlPackage @BaseParams @ImportParams
@@ -58,7 +58,7 @@ function Invoke-SqlPackage {
     [OutputType([System.Boolean])]
     param (
         [ValidateSet('Import', 'Export')]
-        [string]$Action, 
+        [string]$Action,
         
         [string]$DatabaseServer,
         
@@ -73,7 +73,7 @@ function Invoke-SqlPackage {
         [string]$FilePath,
         
         [string[]]$Properties
-    ) 
+    )
               
     $executable = $Script:SqlPackage
 
@@ -97,7 +97,7 @@ function Invoke-SqlPackage {
             $null = $Params.Add("/SourcePassword:$SqlPwd")
         }
         
-        Remove-Item -Path $FilePath -ErrorAction SilentlyContinue -Force    
+        Remove-Item -Path $FilePath -ErrorAction SilentlyContinue -Force
     }
     else {
         $null = $Params.Add("/Action:import")
@@ -109,7 +109,7 @@ function Invoke-SqlPackage {
         if (!$UseTrustedConnection) {
             $null = $Params.Add("/TargetUser:$SqlUser")
             $null = $Params.Add("/TargetPassword:$SqlPwd")
-        }    
+        }
     }
 
     foreach ($item in $Properties) {
