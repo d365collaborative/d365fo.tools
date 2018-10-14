@@ -57,7 +57,7 @@ function New-D365SelfSignedCertificate {
         Export-PfxCertificate -cert $certificatePath -FilePath $PrivateKeyFileName -Password $Password
 
         # Import the certificate into the local machine's trusted root certificates store
-        $importedCertificate = Import-PfxCertificate -FilePath $PrivateKeyFileName -CertStoreLocation Cert:\LocalMachine\Root -Password $Password    
+        $importedCertificate = Import-PfxCertificate -FilePath $PrivateKeyFileName -CertStoreLocation Cert:\LocalMachine\Root -Password $Password
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while generating the self-signed certificate and installing it into the local machine's trusted root certificates store." -Exception $PSItem.Exception
