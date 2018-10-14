@@ -3,7 +3,7 @@
 Invoke the ModelUtil.exe
 
 .DESCRIPTION
-A cmdlet that wraps some of the cumbersome work into a streamlined process 
+A cmdlet that wraps some of the cumbersome work into a streamlined process
 
 .PARAMETER Path
 Path to the model package/file that you want to install into the environment
@@ -11,14 +11,14 @@ Path to the model package/file that you want to install into the environment
 The cmdlet only supports an already extracted ".axmodel" file
 
 .PARAMETER BinDir
-The path to the bin directory for the environment 
+The path to the bin directory for the environment
 
-Default path is the same as the AOS service PackagesLocalDirectory\bin 
+Default path is the same as the AOS service PackagesLocalDirectory\bin
 
 .PARAMETER MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
-Default path is the same as the aos service PackagesLocalDirectory 
+Default path is the same as the aos service PackagesLocalDirectory
 
 .PARAMETER Import
 Switch to instruct the cmdlet to execute the Import functionality on ModelUtil.exe
