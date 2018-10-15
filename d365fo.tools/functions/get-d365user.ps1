@@ -1,45 +1,46 @@
-﻿<#
-.SYNOPSIS
-Get users from the environment
-
-.DESCRIPTION
-Get all relevant user details from the Dynamics 365 for Finance & Operations
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user.
-
-.PARAMETER Email
-The search string to select which user(s) should be updated.
-
-The parameter supports wildcards. E.g. -Email "*@contoso.com*"
-
-Default value is "*" to get all users
-
-.EXAMPLE
-PS C:\> Get-D365User
-
-This will get all users from the environment
-
-.EXAMPLE
-PS C:\> Get-D365User -Email "*contoso.com"
-
-This will search for all users with an e-mail address containing 'contoso.com' from the environment
-
-.NOTES
-General notes
+﻿
+<#
+    .SYNOPSIS
+        Get users from the environment
+        
+    .DESCRIPTION
+        Get all relevant user details from the Dynamics 365 for Finance & Operations
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user.
+        
+    .PARAMETER Email
+        The search string to select which user(s) should be updated.
+        
+        The parameter supports wildcards. E.g. -Email "*@contoso.com*"
+        
+        Default value is "*" to get all users
+        
+    .EXAMPLE
+        PS C:\> Get-D365User
+        
+        This will get all users from the environment
+        
+    .EXAMPLE
+        PS C:\> Get-D365User -Email "*contoso.com"
+        
+        This will search for all users with an e-mail address containing 'contoso.com' from the environment
+        
+    .NOTES
+        General notes
 #>
 function Get-D365User {
     [CmdletBinding()]

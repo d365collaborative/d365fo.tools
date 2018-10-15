@@ -1,24 +1,25 @@
-﻿<#
-.SYNOPSIS
-Get the TFS / VSTS registered workspace path
-
-.DESCRIPTION
-Gets the workspace path from the configuration of the local tfs in visual studio
-
-.PARAMETER Path
-Path to the directory where the Team Foundation Client executable is located
-
-.PARAMETER TfsUri
-Uri to the TFS / VSTS that the workspace is connected to
-
-.EXAMPLE
-PS C:\> Get-D365TfsWorkspace -TfsUri https://PROJECT.visualstudio.com
-
-This will invoke the default tf.exe client located in the Visual Studio 2015 directory
-and fetch the configured URI.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
+﻿
+<#
+    .SYNOPSIS
+        Get the TFS / VSTS registered workspace path
+        
+    .DESCRIPTION
+        Gets the workspace path from the configuration of the local tfs in visual studio
+        
+    .PARAMETER Path
+        Path to the directory where the Team Foundation Client executable is located
+        
+    .PARAMETER TfsUri
+        Uri to the TFS / VSTS that the workspace is connected to
+        
+    .EXAMPLE
+        PS C:\> Get-D365TfsWorkspace -TfsUri https://PROJECT.visualstudio.com
+        
+        This will invoke the default tf.exe client located in the Visual Studio 2015 directory
+        and fetch the configured URI.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
 #>
 function Get-D365TfsWorkspace {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

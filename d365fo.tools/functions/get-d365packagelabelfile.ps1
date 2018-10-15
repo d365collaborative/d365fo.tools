@@ -1,45 +1,46 @@
-﻿<#
-.SYNOPSIS
-Get label file from a package
-
-.DESCRIPTION
-Get label file (resource file) from the package directory
-
-.PARAMETER PackageDirectory
-Path to the package that you want to get a label file from
-
-.PARAMETER Name
-Name of the label file you are looking for
-
-Accepts wildcards for searching. E.g. -Name "Fixed*Accounting"
-
-Default value is "*" which will search for all label files
-
-.PARAMETER Language
-The language of the label file you are looking for
-
-Accepts wildcards for searching. E.g. -Language "en*"
-
-Default value is "en-US" which will search for en-US language files
-
-.EXAMPLE
-PS C:\> Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite"
-
-Shows all the label files for ApplicationSuite package
-
-.EXAMPLE
-PS C:\> Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite" -Name "Fixed*Accounting"
-
-Shows the label files for ApplicationSuite package where the name fits the search "Fixed*Accounting"
-
-.EXAMPLE
-PS C:\> Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile
-
-Shows all label files (en-US) for the ApplicationSuite package
-
-.NOTES
-The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
-
+﻿
+<#
+    .SYNOPSIS
+        Get label file from a package
+        
+    .DESCRIPTION
+        Get label file (resource file) from the package directory
+        
+    .PARAMETER PackageDirectory
+        Path to the package that you want to get a label file from
+        
+    .PARAMETER Name
+        Name of the label file you are looking for
+        
+        Accepts wildcards for searching. E.g. -Name "Fixed*Accounting"
+        
+        Default value is "*" which will search for all label files
+        
+    .PARAMETER Language
+        The language of the label file you are looking for
+        
+        Accepts wildcards for searching. E.g. -Language "en*"
+        
+        Default value is "en-US" which will search for en-US language files
+        
+    .EXAMPLE
+        PS C:\> Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite"
+        
+        Shows all the label files for ApplicationSuite package
+        
+    .EXAMPLE
+        PS C:\> Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite" -Name "Fixed*Accounting"
+        
+        Shows the label files for ApplicationSuite package where the name fits the search "Fixed*Accounting"
+        
+    .EXAMPLE
+        PS C:\> Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile
+        
+        Shows all label files (en-US) for the ApplicationSuite package
+        
+    .NOTES
+        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        
 #>
 function Get-D365PackageLabelFile {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

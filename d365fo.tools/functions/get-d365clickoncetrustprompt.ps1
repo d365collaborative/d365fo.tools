@@ -1,17 +1,18 @@
-﻿<#
-.SYNOPSIS
-Get the ClickOnce configuration
-
-.DESCRIPTION
-Creates the needed registry keys and values for ClickOnce to work on the machine
-
-.EXAMPLE
-PS C:\> Get-D365ClickOnceTrustPrompt
-
-This will get the current ClickOnce configuration
-
-.NOTES
-General notes
+﻿
+<#
+    .SYNOPSIS
+        Get the ClickOnce configuration
+        
+    .DESCRIPTION
+        Creates the needed registry keys and values for ClickOnce to work on the machine
+        
+    .EXAMPLE
+        PS C:\> Get-D365ClickOnceTrustPrompt
+        
+        This will get the current ClickOnce configuration
+        
+    .NOTES
+        General notes
 #>
 function Get-D365ClickOnceTrustPrompt {
     [CmdletBinding()]

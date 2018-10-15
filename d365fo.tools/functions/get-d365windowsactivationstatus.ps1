@@ -1,20 +1,21 @@
-﻿<#
-.SYNOPSIS
-Get activation status
-
-.DESCRIPTION
-Get all the important license and activation information from the machine
-
-.EXAMPLE
-PS C:\> Get-D365WindowsActivationStatus
-
-This will get the remaining grace and rearm activation information for the machine
-
-.NOTES
-The cmdlet uses CIM objects to access the activation details
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get activation status
+        
+    .DESCRIPTION
+        Get all the important license and activation information from the machine
+        
+    .EXAMPLE
+        PS C:\> Get-D365WindowsActivationStatus
+        
+        This will get the remaining grace and rearm activation information for the machine
+        
+    .NOTES
+        The cmdlet uses CIM objects to access the activation details
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-D365WindowsActivationStatus {
     [CmdletBinding()]

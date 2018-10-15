@@ -1,25 +1,26 @@
-﻿<#
-.SYNOPSIS
-Get the url for accessing the instance
-
-.DESCRIPTION
-Get the complete URL for accessing the Dynamics 365 Finance & Operations instance running on this machine
-
-.PARAMETER Force
-Switch to instruct the cmdlet to retrieve the name from the system files
-instead of the name stored in memory after loading this module.
-
-.EXAMPLE
-PS C:\> Get-D365Url
-
-This will get the correct URL to access the environment
-
-.NOTES
-The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
-The call to the dll file gets all registered URL for the environment.
-
-Author: Rasmus Andersen (@ITRasmus)
-
+﻿
+<#
+    .SYNOPSIS
+        Get the url for accessing the instance
+        
+    .DESCRIPTION
+        Get the complete URL for accessing the Dynamics 365 Finance & Operations instance running on this machine
+        
+    .PARAMETER Force
+        Switch to instruct the cmdlet to retrieve the name from the system files
+        instead of the name stored in memory after loading this module.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Url
+        
+        This will get the correct URL to access the environment
+        
+    .NOTES
+        The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
+        The call to the dll file gets all registered URL for the environment.
+        
+        Author: Rasmus Andersen (@ITRasmus)
+        
 #>
 function Get-D365Url {
     [CmdletBinding()]

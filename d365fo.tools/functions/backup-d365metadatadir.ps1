@@ -1,26 +1,27 @@
-﻿<#
-.SYNOPSIS
-Create a backup of the Metadata directory
-
-.DESCRIPTION
-Creates a backup of all the files and folders from the Metadata directory
-
-.PARAMETER MetaDataDir
-Path to the Metadata directory
-
-Default value is the PackagesLocalDirectory
-
-.PARAMETER BackupDir
-Path where you want the backup to be place
-
-.EXAMPLE
-PS C:\> Backup-D365MetaDataDir
-
-This will backup the PackagesLocalDirectory and create an PackagesLocalDirectory_backup next to it
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Create a backup of the Metadata directory
+        
+    .DESCRIPTION
+        Creates a backup of all the files and folders from the Metadata directory
+        
+    .PARAMETER MetaDataDir
+        Path to the Metadata directory
+        
+        Default value is the PackagesLocalDirectory
+        
+    .PARAMETER BackupDir
+        Path where you want the backup to be place
+        
+    .EXAMPLE
+        PS C:\> Backup-D365MetaDataDir
+        
+        This will backup the PackagesLocalDirectory and create an PackagesLocalDirectory_backup next to it
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Backup-D365MetaDataDir {
     [CmdletBinding()]

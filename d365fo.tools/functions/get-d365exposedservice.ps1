@@ -1,32 +1,33 @@
-﻿<#
-.SYNOPSIS
-Returns Exposed services
-
-.DESCRIPTION
-Function for getting which sevices there are exposed from D365
-
-.PARAMETER ClientId
-Client Id from the AppRegistration
-
-.PARAMETER ClientSecret
-Client Secret from the AppRegistration
-
-.PARAMETER D365FO
-Url fro the D365 including Https://
-
-.PARAMETER Authority
-The Authority to issue the token
-
-.EXAMPLE
-PS C:\> Get-D365ExposedService -ClientId "MyClientId" -ClientSecret "MyClientSecret"
-
-This will show a list of all the services that the D365FO instance is exposing.
-
-.NOTES
-Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
-
-Author: Rasmus Andersen (@ITRasmus)
-
+﻿
+<#
+    .SYNOPSIS
+        Returns Exposed services
+        
+    .DESCRIPTION
+        Function for getting which sevices there are exposed from D365
+        
+    .PARAMETER ClientId
+        Client Id from the AppRegistration
+        
+    .PARAMETER ClientSecret
+        Client Secret from the AppRegistration
+        
+    .PARAMETER D365FO
+        Url fro the D365 including Https://
+        
+    .PARAMETER Authority
+        The Authority to issue the token
+        
+    .EXAMPLE
+        PS C:\> Get-D365ExposedService -ClientId "MyClientId" -ClientSecret "MyClientSecret"
+        
+        This will show a list of all the services that the D365FO instance is exposing.
+        
+    .NOTES
+        Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
+        
+        Author: Rasmus Andersen (@ITRasmus)
+        
 #>
 function Get-D365ExposedService
 {

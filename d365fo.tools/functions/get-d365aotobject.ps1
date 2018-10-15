@@ -1,58 +1,59 @@
-﻿<#
-.SYNOPSIS
-Search for AOT object
-
-.DESCRIPTION
-Enables you to search for different AOT objects
-
-.PARAMETER Path
-Path to the package that you want to work against
-
-.PARAMETER ObjectType
-The type of AOT object you're searching for
-
-.PARAMETER Name
-Name of the object that you're looking for
-
-Accepts wildcards for searching. E.g. -Name "Work*status"
-
-Default value is "*" which will search for all objects
-
-.PARAMETER SearchInPackages
-Switch to instruct the cmdlet to search in packages directly instead
-of searching in the XppMetaData directory under a given package
-
-.PARAMETER IncludePath
-Switch to instruct the cmdlet to include the path for the object found
-
-.EXAMPLE
-PS C:\> Get-D365AOTObject -Name *flush* -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
-
-This will search inside the ApplicationFoundation package for all AxClasses that matches the search *flush*.
-
-.EXAMPLE
-PS C:\> Get-D365AOTObject -Name *flush* -ObjectType AxClass -IncludePath -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
-
-This will search inside the ApplicationFoundation package for all AxClasses that matches the search *flush* and include the full path to the files.
-
-.EXAMPLE
-PS C:\> Get-D365InstalledPackage -Name Application* | Get-D365AOTObject -Name *flush* -ObjectType AxClass
-
-This searches for all packages that matches Application* and pipes them into Get-D365AOTObject which will search for all AxClasses that matches the search *flush*.
-
-.EXAMPLE
-This is an advanced example and shouldn't be something you resolve to every time.
-
-PS C:\> Get-D365AOTObject -Path "C:\AOSService\PackagesLocalDirectory\*" -Name *flush* -ObjectType AxClass -SearchInPackages
-
-This will search across all packages and will look for the all AxClasses that matches the search *flush*.
-It will NOT search in the XppMetaData directory for each package.
-
-This can stress your system.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Search for AOT object
+        
+    .DESCRIPTION
+        Enables you to search for different AOT objects
+        
+    .PARAMETER Path
+        Path to the package that you want to work against
+        
+    .PARAMETER ObjectType
+        The type of AOT object you're searching for
+        
+    .PARAMETER Name
+        Name of the object that you're looking for
+        
+        Accepts wildcards for searching. E.g. -Name "Work*status"
+        
+        Default value is "*" which will search for all objects
+        
+    .PARAMETER SearchInPackages
+        Switch to instruct the cmdlet to search in packages directly instead
+        of searching in the XppMetaData directory under a given package
+        
+    .PARAMETER IncludePath
+        Switch to instruct the cmdlet to include the path for the object found
+        
+    .EXAMPLE
+        PS C:\> Get-D365AOTObject -Name *flush* -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+        
+        This will search inside the ApplicationFoundation package for all AxClasses that matches the search *flush*.
+        
+    .EXAMPLE
+        PS C:\> Get-D365AOTObject -Name *flush* -ObjectType AxClass -IncludePath -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+        
+        This will search inside the ApplicationFoundation package for all AxClasses that matches the search *flush* and include the full path to the files.
+        
+    .EXAMPLE
+        PS C:\> Get-D365InstalledPackage -Name Application* | Get-D365AOTObject -Name *flush* -ObjectType AxClass
+        
+        This searches for all packages that matches Application* and pipes them into Get-D365AOTObject which will search for all AxClasses that matches the search *flush*.
+        
+    .EXAMPLE
+        This is an advanced example and shouldn't be something you resolve to every time.
+        
+        PS C:\> Get-D365AOTObject -Path "C:\AOSService\PackagesLocalDirectory\*" -Name *flush* -ObjectType AxClass -SearchInPackages
+        
+        This will search across all packages and will look for the all AxClasses that matches the search *flush*.
+        It will NOT search in the XppMetaData directory for each package.
+        
+        This can stress your system.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-D365AOTObject {
     [CmdletBinding()]

@@ -1,36 +1,37 @@
-﻿<#
-.SYNOPSIS
-Save an Azure Storage Account config
-
-.DESCRIPTION
-Adds an Azure Storage Account config to the configuration store
-
-.PARAMETER Name
-The logical name of the Azure Storage Account you are about to registered in the configuration store
-
-.PARAMETER AccountId
-The account id for the Azure Storage Account you want to register in the configuration store
-
-.PARAMETER AccessToken
-The access token for the Azure Storage Account you want to register in the configuration store
-
-.PARAMETER Blobname
-The name of the blob inside the Azure Storage Account you want to register in the configuration store
-
-.PARAMETER Force
-Switch to instruct the cmdlet to overwrite already registered Azure Storage Account entry
-
-.EXAMPLE
-PS C:\> Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
-
-This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob"
-
-.NOTES
-
-You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Save an Azure Storage Account config
+        
+    .DESCRIPTION
+        Adds an Azure Storage Account config to the configuration store
+        
+    .PARAMETER Name
+        The logical name of the Azure Storage Account you are about to registered in the configuration store
+        
+    .PARAMETER AccountId
+        The account id for the Azure Storage Account you want to register in the configuration store
+        
+    .PARAMETER AccessToken
+        The access token for the Azure Storage Account you want to register in the configuration store
+        
+    .PARAMETER Blobname
+        The name of the blob inside the Azure Storage Account you want to register in the configuration store
+        
+    .PARAMETER Force
+        Switch to instruct the cmdlet to overwrite already registered Azure Storage Account entry
+        
+    .EXAMPLE
+        PS C:\> Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
+        
+        This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob"
+        
+    .NOTES
+        
+        You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Add-D365AzureStorageConfig {
     [CmdletBinding()]

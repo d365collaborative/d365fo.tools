@@ -1,90 +1,91 @@
-﻿<#
-.SYNOPSIS
-Import a bacpac file
-
-.DESCRIPTION
-Import a bacpac file to either a Tier1 or Tier2 environment
-
-.PARAMETER ImportModeTier1
-Switch to instruct the cmdlet that it will import into a Tier1 environment
-
-The cmdlet will expect to work against a SQL Server instance
-
-.PARAMETER ImportModeTier2
-Switch to instruct the cmdlet that it will import into a Tier2 environment
-
-The cmdlet will expect to work against an Azure DB instance
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user
-
-.PARAMETER BacpacFile
-Path to the bacpac file you want to import into the database server
-
-.PARAMETER NewDatabaseName
-Name of the new database that will be created while importing the bacpac file
-
-This will create a new database on the database server and import the content of the bacpac into
-
-.PARAMETER AxDeployExtUserPwd
-Password that is obtained from LCS
-
-.PARAMETER AxDbAdminPwd
-Password that is obtained from LCS
-
-.PARAMETER AxRuntimeUserPwd
-Password that is obtained from LCS
-
-.PARAMETER AxMrRuntimeUserPwd
-Password that is obtained from LCS
-
-.PARAMETER AxRetailRuntimeUserPwd
-Password that is obtained from LCS
-
-.PARAMETER AxRetailDataSyncUserPwd
-Password that is obtained from LCS
-
-.PARAMETER CustomSqlFile
-Parameter description
-
-.PARAMETER ImportOnly
-Switch to instruct the cmdlet to only import the bacpac into the new database
-
-The cmdlet will create a new database and import the content of the bacpac file into this
-
-Nothing else will be executed
-
-.EXAMPLE
-PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
-
-This will instruct the cmdlet that the import will be working against a SQL Server instance.
-It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
-
-.EXAMPLE
-PS C:\> Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
-
-This will instruct the cmdlet that the import will be working against an Azure DB instance.
-It requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2
-environment.
-It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
-
-.NOTES
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Import a bacpac file
+        
+    .DESCRIPTION
+        Import a bacpac file to either a Tier1 or Tier2 environment
+        
+    .PARAMETER ImportModeTier1
+        Switch to instruct the cmdlet that it will import into a Tier1 environment
+        
+        The cmdlet will expect to work against a SQL Server instance
+        
+    .PARAMETER ImportModeTier2
+        Switch to instruct the cmdlet that it will import into a Tier2 environment
+        
+        The cmdlet will expect to work against an Azure DB instance
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user
+        
+    .PARAMETER BacpacFile
+        Path to the bacpac file you want to import into the database server
+        
+    .PARAMETER NewDatabaseName
+        Name of the new database that will be created while importing the bacpac file
+        
+        This will create a new database on the database server and import the content of the bacpac into
+        
+    .PARAMETER AxDeployExtUserPwd
+        Password that is obtained from LCS
+        
+    .PARAMETER AxDbAdminPwd
+        Password that is obtained from LCS
+        
+    .PARAMETER AxRuntimeUserPwd
+        Password that is obtained from LCS
+        
+    .PARAMETER AxMrRuntimeUserPwd
+        Password that is obtained from LCS
+        
+    .PARAMETER AxRetailRuntimeUserPwd
+        Password that is obtained from LCS
+        
+    .PARAMETER AxRetailDataSyncUserPwd
+        Password that is obtained from LCS
+        
+    .PARAMETER CustomSqlFile
+        Parameter description
+        
+    .PARAMETER ImportOnly
+        Switch to instruct the cmdlet to only import the bacpac into the new database
+        
+        The cmdlet will create a new database and import the content of the bacpac file into this
+        
+        Nothing else will be executed
+        
+    .EXAMPLE
+        PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
+        
+        This will instruct the cmdlet that the import will be working against a SQL Server instance.
+        It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+        
+    .EXAMPLE
+        PS C:\> Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
+        
+        This will instruct the cmdlet that the import will be working against an Azure DB instance.
+        It requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2
+        environment.
+        It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+        
+    .NOTES
+        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Import-D365Bacpac {
     [CmdletBinding(DefaultParameterSetName = 'ImportTier1')]

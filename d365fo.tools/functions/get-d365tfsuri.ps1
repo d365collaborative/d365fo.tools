@@ -1,21 +1,22 @@
-﻿<#
-.SYNOPSIS
-Get the TFS / VSTS registered URL / URI
-
-.DESCRIPTION
-Gets the URI from the configuration of the local tfs connection in visual studio
-
-.PARAMETER Path
-Path to the tf.exe file that the cmdlet will invoke
-
-.EXAMPLE
-PS C:\> Get-D365TfsUri
-
-This will invoke the default tf.exe client located in the Visual Studio 2015 directory
-and fetch the configured URI.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
+﻿
+<#
+    .SYNOPSIS
+        Get the TFS / VSTS registered URL / URI
+        
+    .DESCRIPTION
+        Gets the URI from the configuration of the local tfs connection in visual studio
+        
+    .PARAMETER Path
+        Path to the tf.exe file that the cmdlet will invoke
+        
+    .EXAMPLE
+        PS C:\> Get-D365TfsUri
+        
+        This will invoke the default tf.exe client located in the Visual Studio 2015 directory
+        and fetch the configured URI.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
 #>
 function Get-D365TfsUri {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

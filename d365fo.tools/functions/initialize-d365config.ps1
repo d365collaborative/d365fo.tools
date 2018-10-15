@@ -1,19 +1,20 @@
-﻿<#
-.SYNOPSIS
-Initialize D365FO.Tools configuration
-
-.DESCRIPTION
-Creates all the configuration objects on the system
-
-.PARAMETER Clear
-Switch to instruct the cmdlet to clear the already stored configuration
-
-.EXAMPLE
-PS C:\> Initialize-D365Config
-
-Will create all the standard D365FO.Tools configuration objects
-
-.NOTES
+﻿
+<#
+    .SYNOPSIS
+        Initialize D365FO.Tools configuration
+        
+    .DESCRIPTION
+        Creates all the configuration objects on the system
+        
+    .PARAMETER Clear
+        Switch to instruct the cmdlet to clear the already stored configuration
+        
+    .EXAMPLE
+        PS C:\> Initialize-D365Config
+        
+        Will create all the standard D365FO.Tools configuration objects
+        
+    .NOTES
 #>
 function Initialize-D365Config {
     [CmdletBinding()]

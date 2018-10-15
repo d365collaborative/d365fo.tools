@@ -1,27 +1,28 @@
-﻿<#
-.SYNOPSIS
-Decrypts the AOS config file
-
-.DESCRIPTION
-Function used for decrypting the config file used by the D365 Finance & Operations AOS service
-
-.PARAMETER DropPath
-Place where the decrypted files should be placed
-
-.PARAMETER AosServiceWebRootPath
-Location of the D365 webroot folder
-
-.EXAMPLE
-PS C:\> Get-D365DecryptedConfigFile -DropPath "c:\temp\d365fo.tools"
-
-This will get the config file from the instance, decrypt it and save it to "c:\temp\d365fo.tools"
-
-.NOTES
-Used for getting the Password for the database and other service accounts used in environment
-
-Author : Rasmus Andersen (@ITRasmus)
-Author : Mötz Jensen (@splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Decrypts the AOS config file
+        
+    .DESCRIPTION
+        Function used for decrypting the config file used by the D365 Finance & Operations AOS service
+        
+    .PARAMETER DropPath
+        Place where the decrypted files should be placed
+        
+    .PARAMETER AosServiceWebRootPath
+        Location of the D365 webroot folder
+        
+    .EXAMPLE
+        PS C:\> Get-D365DecryptedConfigFile -DropPath "c:\temp\d365fo.tools"
+        
+        This will get the config file from the instance, decrypt it and save it to "c:\temp\d365fo.tools"
+        
+    .NOTES
+        Used for getting the Password for the database and other service accounts used in environment
+        
+        Author : Rasmus Andersen (@ITRasmus)
+        Author : Mötz Jensen (@splaxi)
+        
 #>
 function Get-D365DecryptedConfigFile {
     param(

@@ -1,19 +1,20 @@
-﻿<#
-.SYNOPSIS
-Get the registered details for Azure Logic App
-
-.DESCRIPTION
-Get the details that are stored for the module when
-it has to invoke the Azure Logic App
-
-.EXAMPLE
-PS C:\> Get-D365LogicAppConfig
-
-This will fetch the current registered Azure Logic App details on the machine.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get the registered details for Azure Logic App
+        
+    .DESCRIPTION
+        Get the details that are stored for the module when
+        it has to invoke the Azure Logic App
+        
+    .EXAMPLE
+        PS C:\> Get-D365LogicAppConfig
+        
+        This will fetch the current registered Azure Logic App details on the machine.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-D365LogicAppConfig {
     [CmdletBinding()]

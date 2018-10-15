@@ -1,47 +1,48 @@
-﻿<#
-.SYNOPSIS
-Sets the environment back into operating state
-
-.DESCRIPTION
-Sets the Dynamics 365 environment back into operating / running state after been in maintenance mode
-
-.PARAMETER MetaDataDir
-The path to the meta data directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory
-
-.PARAMETER BinDir
-The path to the bin directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory\bin
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user.
-
-.EXAMPLE
-PS C:\> Disable-D365MaintenanceMode
-
-This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state.
-
-.NOTES
-Author: Mötz Jensen (@splaxi)
-Author: Tommy Skaue (@skaue)
-
-The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
-
+﻿
+<#
+    .SYNOPSIS
+        Sets the environment back into operating state
+        
+    .DESCRIPTION
+        Sets the Dynamics 365 environment back into operating / running state after been in maintenance mode
+        
+    .PARAMETER MetaDataDir
+        The path to the meta data directory for the environment
+        
+        Default path is the same as the aos service PackagesLocalDirectory
+        
+    .PARAMETER BinDir
+        The path to the bin directory for the environment
+        
+        Default path is the same as the aos service PackagesLocalDirectory\bin
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user.
+        
+    .EXAMPLE
+        PS C:\> Disable-D365MaintenanceMode
+        
+        This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state.
+        
+    .NOTES
+        Author: Mötz Jensen (@splaxi)
+        Author: Tommy Skaue (@skaue)
+        
+        The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
+        
 #>
 function Disable-D365MaintenanceMode {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

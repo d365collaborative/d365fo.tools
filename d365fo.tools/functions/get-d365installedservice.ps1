@@ -1,21 +1,22 @@
-﻿<#
-.SYNOPSIS
-Get installed D365 services
-
-.DESCRIPTION
-Get installed Dynamics 365 for Finance & Operations services that are installed on the machine
-
-.PARAMETER Path
-Path to the folder that contians the "InstallationRecords" folder
-
-.EXAMPLE
-PS C:\> Get-D365InstalledService
-
-This will get all installed services on the machine.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get installed D365 services
+        
+    .DESCRIPTION
+        Get installed Dynamics 365 for Finance & Operations services that are installed on the machine
+        
+    .PARAMETER Path
+        Path to the folder that contians the "InstallationRecords" folder
+        
+    .EXAMPLE
+        PS C:\> Get-D365InstalledService
+        
+        This will get all installed services on the machine.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-D365InstalledService {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

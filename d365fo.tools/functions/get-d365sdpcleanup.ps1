@@ -1,21 +1,22 @@
-﻿<#
-.SYNOPSIS
-Get the cleanup retention period
-
-.DESCRIPTION
-Gets the configured retention period before updates are deleted
-
-.EXAMPLE
-PS C:\> Get-D365SDPCleanUp
-
-This will get the configured retention period from the registry
-
-.NOTES
-This cmdlet is based on the findings from Alex Kwitny (@AlexOnDAX)
-
-See his blog for more info:
-http://www.alexondax.com/2018/04/msdyn365fo-how-to-adjust-your.html
-
+﻿
+<#
+    .SYNOPSIS
+        Get the cleanup retention period
+        
+    .DESCRIPTION
+        Gets the configured retention period before updates are deleted
+        
+    .EXAMPLE
+        PS C:\> Get-D365SDPCleanUp
+        
+        This will get the configured retention period from the registry
+        
+    .NOTES
+        This cmdlet is based on the findings from Alex Kwitny (@AlexOnDAX)
+        
+        See his blog for more info:
+        http://www.alexondax.com/2018/04/msdyn365fo-how-to-adjust-your.html
+        
 #>
 function Get-D365SDPCleanUp {
     [CmdletBinding()]

@@ -1,61 +1,62 @@
-﻿<#
-.SYNOPSIS
-Get the sequence object for table
-
-.DESCRIPTION
-Get the sequence details for tables
-
-.PARAMETER TableName
-Name of the table that you want to work against
-
-Accepts wildcards for searching. E.g. -TableName "Cust*"
-
-Default value is "*" which will search for all tables
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user.
-
-.EXAMPLE
-PS C:\> Get-D365TableSequence | Format-Table
-
-This will get all the sequence details for all tables inside the database.
-It will format the output as a table for better overview.
-
-.EXAMPLE
-PS C:\> Get-D365TableSequence -TableName "Custtable" | Format-Table
-
-This will get the sequence details for the CustTable in the database.
-It will format the output as a table for better overview.
-
-.EXAMPLE
-PS C:\> Get-D365TableSequence -TableName "Cust*" | Format-Table
-
-This will get the sequence details for all tables that matches the search "Cust*" in the database.
-It will format the output as a table for better overview.
-
-.EXAMPLE
-PS C:\> Get-D365Table -Name CustTable | Get-D365TableSequence | Format-Table
-
-This will get the table details from the Get-D365Table cmdlet and pipe that into Get-D365TableSequence.
-This will get the sequence details for the CustTable in the database.
-It will format the output as a table for better overview.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get the sequence object for table
+        
+    .DESCRIPTION
+        Get the sequence details for tables
+        
+    .PARAMETER TableName
+        Name of the table that you want to work against
+        
+        Accepts wildcards for searching. E.g. -TableName "Cust*"
+        
+        Default value is "*" which will search for all tables
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user.
+        
+    .EXAMPLE
+        PS C:\> Get-D365TableSequence | Format-Table
+        
+        This will get all the sequence details for all tables inside the database.
+        It will format the output as a table for better overview.
+        
+    .EXAMPLE
+        PS C:\> Get-D365TableSequence -TableName "Custtable" | Format-Table
+        
+        This will get the sequence details for the CustTable in the database.
+        It will format the output as a table for better overview.
+        
+    .EXAMPLE
+        PS C:\> Get-D365TableSequence -TableName "Cust*" | Format-Table
+        
+        This will get the sequence details for all tables that matches the search "Cust*" in the database.
+        It will format the output as a table for better overview.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Table -Name CustTable | Get-D365TableSequence | Format-Table
+        
+        This will get the table details from the Get-D365Table cmdlet and pipe that into Get-D365TableSequence.
+        This will get the sequence details for the CustTable in the database.
+        It will format the output as a table for better overview.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-D365TableSequence {
     [CmdletBinding()]
