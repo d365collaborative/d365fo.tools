@@ -6,7 +6,7 @@ Get the cleanup retention period
 Gets the configured retention period before updates are deleted
 
 .EXAMPLE
-Get-D365SDPCleanUp
+PS C:\> Get-D365SDPCleanUp
 
 This will get the configured retention period from the registry
 

@@ -9,12 +9,12 @@ Function used for invoking the rearm functionality inside Windows
 Instruct the cmdlet to restart the machine
 
 .EXAMPLE
-Invoke-D365ReArmWindows
+PS C:\> Invoke-D365ReArmWindows
 
 This will re arm the Windows installation if there is any activation retries left
 
 .EXAMPLE
-Invoke-D365ReArmWindows -Restart
+PS C:\> Invoke-D365ReArmWindows -Restart
 
 This will re arm the Windows installation if there is any activation retries left and restart the computer.
 

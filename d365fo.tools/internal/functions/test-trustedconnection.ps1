@@ -9,7 +9,7 @@ Test callers PSBoundParameters (HashTable) for details that determines whether o
 HashTable ($PSBoundParameters) with the parameters from the callers invocation
 
 .EXAMPLE
-$UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+PS C:\> $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
 This will send the entire HashTable from the callers invocation, containing all explicit defined parameters to be analyzed whether or not the SQL Server connection should support TrustedConnection or not.
 

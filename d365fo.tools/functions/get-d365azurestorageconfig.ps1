@@ -11,7 +11,7 @@ The name of the Azure Storage Account you are looking for
 Default value is "*" to display all Azure Storage Account configs
 
 .EXAMPLE
-Get-D365AzureStorageConfig
+PS C:\> Get-D365AzureStorageConfig
 
 This will show all Azure Storage Account configs
 

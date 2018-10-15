@@ -59,26 +59,26 @@ Force to find the exact name of the Azure Active Directory Group
 Azure Active directory user group ID containing users to be imported
 
 .EXAMPLE
-Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
+PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
 
 Imports Claire and Allen as users
 
 .EXAMPLE
-$myPassword = ConvertTo-SecureString "MyPasswordIsSecret" -AsPlainText -Force
-$myCredentials = New-Object System.Management.Automation.PSCredential ("MyEmailIsAlso", $myPassword)
+PS C:\> $myPassword = ConvertTo-SecureString "MyPasswordIsSecret" -AsPlainText -Force
+PS C:\> $myCredentials = New-Object System.Management.Automation.PSCredential ("MyEmailIsAlso", $myPassword)
 
-Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -AzureAdCredential $myCredentials
+PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -AzureAdCredential $myCredentials
 
 This will import Claire and Allen as users.
 
 .EXAMPLE
-Import-D365AadUser -AadGroupName "CustomerTeam1"
+PS C:\> Import-D365AadUser -AadGroupName "CustomerTeam1"
 
 if more than one group match the AadGroupName, you can use the ExactAadGroupName parameter
 Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
 
 .EXAMPLE
-Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
+PS C:\> Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
 
 Imports all the users that is present in the AAD Group called CustomerTeam1
 

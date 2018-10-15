@@ -24,16 +24,20 @@ The path to the meta data directory for the environment
 Default path is the same as the aos service PackagesLocalDirectory
 
 .PARAMETER TfsWorkspaceDir
-Parameter description
+The path to the TFS Workspace directory that you want to work against
+
+Default path is the same as the aos service PackagesLocalDirectory
 
 .PARAMETER TfsUri
-Parameter description
+The URI for the TFS Team Site / VSTS Portal that you want to work against
+
+Default URI is the one that is configured from inside Visual Studio
 
 .PARAMETER ShowModifiedFiles
-Parameter description
+Switch to instruct the cmdlet to show all the modified files afterwards
 
 .PARAMETER ShowProgress
-Parameter description
+Switch to instruct the cmdlet to output progress details while servicing the installation
 
 .EXAMPLE
 PS C:\> Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg"

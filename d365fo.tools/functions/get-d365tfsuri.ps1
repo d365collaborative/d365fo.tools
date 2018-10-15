@@ -9,7 +9,7 @@ Gets the URI from the configuration of the local tfs connection in visual studio
 Path to the tf.exe file that the cmdlet will invoke
 
 .EXAMPLE
-Get-D365TfsUri
+PS C:\> Get-D365TfsUri
 
 This will invoke the default tf.exe client located in the Visual Studio 2015 directory
 and fetch the configured URI.

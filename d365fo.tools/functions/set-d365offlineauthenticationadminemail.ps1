@@ -9,7 +9,7 @@ Sets the registered offline administrator in the "DynamicsDevConfig.xml" file lo
 The desired email address of the to be offline administrator
 
 .EXAMPLE
-Set-D365OfflineAuthenticationAdminEmail -Email "admin@contoso.com"
+PS C:\> Set-D365OfflineAuthenticationAdminEmail -Email "admin@contoso.com"
 
 Will update the Offline Administrator E-mail address in the DynamicsDevConfig.xml file with "admin@contoso.com"
 
@@ -21,6 +21,9 @@ http://d365technext.blogspot.com
 
 The specific blog post that we based this cmdlet on can be found here:
 http://d365technext.blogspot.com/2018/07/offline-authentication-admin-email.html
+
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Set-D365OfflineAuthenticationAdminEmail {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

@@ -6,7 +6,7 @@ Get activation status
 Get all the important license and activation information from the machine
 
 .EXAMPLE
-Get-D365WindowsActivationStatus
+PS C:\> Get-D365WindowsActivationStatus
 
 This will get the remaining grace and rearm activation information for the machine
 

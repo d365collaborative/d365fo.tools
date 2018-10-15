@@ -34,24 +34,25 @@ Path to the file, used for either import or export
 Array of all the properties that needs to be parsed to the sqlpackage.exe
 
 .EXAMPLE
-$BaseParams = @{
+PS C:\> $BaseParams = @{
     DatabaseServer = $DatabaseServer
     DatabaseName   = $DatabaseName
     SqlUser        = $SqlUser
     SqlPwd         = $SqlPwd
 }
 
-$ImportParams = @{
+PS C:\> $ImportParams = @{
     Action   = "import"
     FilePath = $BacpacFile
 }
     
-Invoke-SqlPackage @BaseParams @ImportParams
+PS C:\> Invoke-SqlPackage @BaseParams @ImportParams
 
 This will start the sqlpackage.exe file and pass all the needed parameters.
 
 .NOTES
 Author: Mötz Jensen (@splaxi)
+
 #>
 function Invoke-SqlPackage {
     [CmdletBinding()]

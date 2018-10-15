@@ -12,16 +12,17 @@ Name of the D365 Instance
 URL of the D365 for Finance & Operations instance that you want to have as your start page
 
 .EXAMPLE
-Set-D365StartPage -Name 'Demo1'
+PS C:\> Set-D365StartPage -Name 'Demo1'
 
 This will update the start page for the current user to "https://Demo1.cloud.onebox.dynamics.com"
 
 .EXAMPLE
-Set-D365StartPage -URL "https://uat.sandbox.operations.dynamics.com"
+PS C:\> Set-D365StartPage -URL "https://uat.sandbox.operations.dynamics.com"
 
 This will update the start page for the current user to "https://uat.sandbox.operations.dynamics.com"
 
 .NOTES
+Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
 
 #>

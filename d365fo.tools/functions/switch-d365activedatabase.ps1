@@ -25,7 +25,7 @@ The password for the SQL Server user
 The database that takes the DatabaseName's place
 
 .EXAMPLE
-Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
+PS C:\> Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
 
 This will switch the default database AXDB out and put "GoldenConfig" in its place instead.
 

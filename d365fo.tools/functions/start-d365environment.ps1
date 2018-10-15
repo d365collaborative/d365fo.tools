@@ -29,12 +29,12 @@ Start the financial reporter (Management Reporter 2012) service
 Start the Data Management Framework service
 
 .EXAMPLE
-Start-D365Environment -All
+PS C:\> Start-D365Environment -All
 
 Will start all D365FO service on the machine
 
 .EXAMPLE
-Start-D365Environment -Aos -Batch
+PS C:\> Start-D365Environment -Aos -Batch
 
 Will start Aos & Batch services on the machine
 

@@ -6,9 +6,9 @@ Get the instance provider from the D365FO instance
 Get the instance provider from the dll files used for encryption and authentication for D365FO
 
 .EXAMPLE
-Get-InstanceIdentityProvider
+PS C:\> Get-InstanceIdentityProvider
 
-This will return the Instance Indentity Provider based on the D365FO instance.
+This will return the Instance Identity Provider based on the D365FO instance.
 
 .NOTES
 Author : Rasmus Andersen (@ITRasmus)

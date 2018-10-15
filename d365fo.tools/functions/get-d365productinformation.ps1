@@ -6,7 +6,7 @@ Returns information about D365FO
 Gets detailed information about application and platform
 
 .EXAMPLE
-Get-ProductInfoProvider
+PS C:\> Get-ProductInfoProvider
 
 This will get product, platform and application version details for the environment
 

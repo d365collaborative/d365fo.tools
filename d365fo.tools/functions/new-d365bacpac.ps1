@@ -45,7 +45,7 @@ The path to a custom sql server script file that you want executed against the d
 Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
 
 .EXAMPLE
-New-D365Bacpac -ExportModeTier1 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
+PS C:\> New-D365Bacpac -ExportModeTier1 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
 
 Will backup and restore the db database again the localhost server.
 Will run the prepping process against the restored database.
@@ -53,7 +53,7 @@ Will export a bacpac file.
 Will delete the restored database.
 
 .EXAMPLE
-New-D365Bacpac -ExportModeTier2 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
+PS C:\> New-D365Bacpac -ExportModeTier2 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
 
 Will create a copy the db database on the dbserver1 in Azure.
 Will run the prepping process against the copy database.
@@ -61,7 +61,7 @@ Will export a bacpac file.
 Will delete the copy database.
 
 .EXAMPLE
-New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BackupDirectory c:\Temp\backup\ -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
+PS C:\> New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BackupDirectory c:\Temp\backup\ -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
 
 Normally used for a Tier-2 export and preparation for Tier-1 import
 
@@ -72,13 +72,17 @@ Will delete the copy database.
 
 
 .EXAMPLE
-New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BackupDirectory c:\Temp\backup\ -BacpacFile C:\Temp\Bacpac\Testing1.bacpac -ExportOnly
+PS C:\> New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BackupDirectory c:\Temp\backup\ -BacpacFile C:\Temp\Bacpac\Testing1.bacpac -ExportOnly
 
 Will export a bacpac file.
 The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
 
 .NOTES
 The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function New-D365Bacpac {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

@@ -9,7 +9,7 @@ Create a deep clone of a hashtable for you to work on it without updating the or
 The hashtable you want to clone
 
 .EXAMPLE
-Get-DeepClone -InputObject $HashTable
+PS C:\> Get-DeepClone -InputObject $HashTable
 
 This will clone the $HashTable variable into a new object and return it to you.
 

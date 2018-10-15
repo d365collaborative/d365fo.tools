@@ -23,17 +23,17 @@ Accepts wildcards for searching. E.g. -Language "en*"
 Default value is "en-US" which will search for en-US language files
 
 .EXAMPLE
-Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite"
+PS C:\> Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite"
 
 Shows all the label files for ApplicationSuite package
 
 .EXAMPLE
-Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite" -Name "Fixed*Accounting"
+PS C:\> Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite" -Name "Fixed*Accounting"
 
 Shows the label files for ApplicationSuite package where the name fits the search "Fixed*Accounting"
 
 .EXAMPLE
-Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile
+PS C:\> Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile
 
 Shows all label files (en-US) for the ApplicationSuite package
 

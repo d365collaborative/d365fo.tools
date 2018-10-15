@@ -21,7 +21,7 @@ The name of the blob inside the Azure Storage Account you want to register in th
 Switch to instruct the cmdlet to overwrite already registered Azure Storage Account entry
 
 .EXAMPLE
-Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
+PS C:\> Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
 
 This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob"
 

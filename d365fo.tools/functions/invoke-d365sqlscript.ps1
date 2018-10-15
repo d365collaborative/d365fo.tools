@@ -28,7 +28,7 @@ The password for the SQL Server user.
 Switch to instruct the cmdlet whether the connection should be using Windows Authentication or not
 
 .EXAMPLE
-Invoke-D365SqlScript -FilePath "C:\temp\d365fo.tools\DeleteUser.sql"
+PS C:\> Invoke-D365SqlScript -FilePath "C:\temp\d365fo.tools\DeleteUser.sql"
 
 This will execute the "C:\temp\d365fo.tools\DeleteUser.sql" against the registered SQL Server on the machine.
 

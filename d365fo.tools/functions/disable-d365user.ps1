@@ -27,17 +27,17 @@ The search string to select which user(s) should be disabled.
 The parameter supports wildcards. E.g. -Email "*@contoso.com*"
 
 .EXAMPLE
-Enable-D365User
+PS C:\> Enable-D365User
 
 This will enable all users for the environment
 
 .EXAMPLE
-Enable-D365User -Email "claire@contoso.com"
+PS C:\> Enable-D365User -Email "claire@contoso.com"
 
 This will enable the user with the email address "claire@contoso.com"
 
 .EXAMPLE
-Enable-D365User -Email "*contoso.com"
+PS C:\> Enable-D365User -Email "*contoso.com"
 
 This will enable all users that matches the search "*contoso.com" in their email address
 

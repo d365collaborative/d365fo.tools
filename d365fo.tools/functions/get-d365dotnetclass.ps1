@@ -27,19 +27,19 @@ Normally it is located under the AOSService directory in "PackagesLocalDirectory
 Default value is fetched from the current configuration on the machine
 
 .EXAMPLE
-Get-D365DotNetClass -Name "ERText*"
+PS C:\> Get-D365DotNetClass -Name "ERText*"
 
 Will search across all assembly files (*.dll) that are located in the default package directory after
 any class that fits the search "ERText*"
 
 .EXAMPLE
-Get-D365DotNetClass -Name "ERText*" -Assembly "*LocalizationFrameworkForAx.dll*"
+PS C:\> Get-D365DotNetClass -Name "ERText*" -Assembly "*LocalizationFrameworkForAx.dll*"
 
 Will search across all assembly files (*.dll) that are fits the search "*LocalizationFrameworkForAx.dll*",
 that are located in the default package directory, after any class that fits the search "ERText*"
 
 .EXAMPLE
-Get-D365DotNetClass -Name "ERText*" | Export-Csv -Path c:\temp\results.txt -Delimiter ";"
+PS C:\> Get-D365DotNetClass -Name "ERText*" | Export-Csv -Path c:\temp\results.txt -Delimiter ";"
 
 Will search across all assembly files (*.dll) that are located in the default package directory after
 any class that fits the search "ERText*"

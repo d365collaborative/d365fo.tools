@@ -29,14 +29,14 @@ The login name for the SQL Server instance
 The password for the SQL Server user.
 
 .EXAMPLE
-Set-D365SysAdmin
+PS C:\> Set-D365SysAdmin
 
 This will configure the local administrator on the machine as a SYSADMIN inside SQL Server
 
 For this to run you need to be running it from a elevated console
 
 .EXAMPLE
-Set-D365SysAdmin -SqlPwd Test123
+PS C:\> Set-D365SysAdmin -SqlPwd Test123
 
 This will configure the local administrator on the machine as a SYSADMIN inside SQL Server.
 It will logon as the default SqlUser but use the provided SqlPwd.

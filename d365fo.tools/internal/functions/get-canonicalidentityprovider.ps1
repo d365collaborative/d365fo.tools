@@ -6,7 +6,7 @@ Load the Canonical Identity Provider
 Load the necessary dll files from the D365 instance to get the Canonical Identity Provider object
 
 .EXAMPLE
-Get-CanonicalIdentityProvider
+PS C:\> Get-CanonicalIdentityProvider
 
 This will get the Canonical Identity Provider from the D365 instance
 

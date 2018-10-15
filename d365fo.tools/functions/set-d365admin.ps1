@@ -21,11 +21,14 @@ Alternative SQL user, Default is the one provided by the DataAccess object
 Alternative SQL user password, Default is the one provided by the DataAccess object
 
 .EXAMPLE
-Set-D365Admin "claire@contoso.com"
+PS C:\> Set-D365Admin "claire@contoso.com"
 
 This will provision claire@contoso.com as administrator for the environment
 
 .NOTES
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Set-D365Admin {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

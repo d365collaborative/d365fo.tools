@@ -10,13 +10,13 @@ The URL for the http request endpoint of the desired
 logic app
 
 .PARAMETER Email
-The receiving email addresss that should be notified
+The receiving email address that should be notified
 
 .PARAMETER Subject
 The subject of the email that you want to send
 
 .EXAMPLE
-Set-D365LogicAppConfig -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
+PS C:\> Set-D365LogicAppConfig -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
 
 This will set all the details about invoking the Logic App.
 

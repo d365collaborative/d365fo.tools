@@ -9,13 +9,14 @@ Invoke the runnable class SysFlushAos to clear the AOD cache
 URL to the Dynamics 365 instance you want to clear the AOD cache on
 
 .EXAMPLE
-Invoke-D365SysFlushAodCache
+PS C:\> Invoke-D365SysFlushAodCache
 
 This will a call against the default URL for the machine and
 have it execute the SysFlushAOD class
 
 .NOTES
-General notes
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Invoke-D365SysFlushAodCache {
     [CmdletBinding()]

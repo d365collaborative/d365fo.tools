@@ -22,7 +22,7 @@ The login name for the SQL Server instance
 The password for the SQL Server user
 
 .EXAMPLE
-Remove-D365Database -DatabaseName "ExportClone"
+PS C:\> Remove-D365Database -DatabaseName "ExportClone"
 
 This will remove the "ExportClone" from the default SQL Server instance that is registered on the machine.
 

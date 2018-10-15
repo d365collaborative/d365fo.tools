@@ -18,7 +18,7 @@ Url fro the D365 including Https://
 The Authority to issue the token
 
 .EXAMPLE
-Get-D365ExposedService -ClientId "MyClientId" -ClientSecret "MyClientSecret"
+PS C:\> Get-D365ExposedService -ClientId "MyClientId" -ClientSecret "MyClientSecret"
 
 This will show a list of all the services that the D365FO instance is exposing.
 

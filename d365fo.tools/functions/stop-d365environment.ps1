@@ -29,12 +29,12 @@ Start the financial reporter (Management Reporter 2012) service
 Start the Data Management Framework service
 
 .EXAMPLE
-Stop-D365Environment -All
+PS C:\> Stop-D365Environment -All
 
 Will stop all D365FO service on the machine
 
 .EXAMPLE
-Stop-D365Environment -Aos -Batch
+PS C:\> Stop-D365Environment -Aos -Batch
 
 Will stop Aos & Batch services on the machine
 

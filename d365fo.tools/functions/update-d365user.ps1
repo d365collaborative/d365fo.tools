@@ -30,17 +30,19 @@ The parameter supports wildcards. E.g. -Email "*@contoso.com*"
 The company the user should start in.
 
 .EXAMPLE
-Update-D365User -Email "claire@contoso.com"
+PS C:\> Update-D365User -Email "claire@contoso.com"
 
 This will search for the user with the e-mail address claire@contoso.com and update it with needed information based on the tenant owner of the environment
 
 .EXAMPLE
-Update-D365User -Email "*contoso.com"
+PS C:\> Update-D365User -Email "*contoso.com"
 
 This will search for all users with an e-mail address containing 'contoso.com' and update them with needed information based on the tenant owner of the environment
 
 .NOTES
-General notes
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Update-D365User {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

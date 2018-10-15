@@ -14,13 +14,13 @@ The class that you want to execute.
 Default value is "SysFlushAod"
 
 .EXAMPLE
-Invoke-D365DataFlush
+PS C:\> Invoke-D365DataFlush
 
 This will make a call against the default URL for the machine and
 have it execute the SysFlushAOD class.
 
 .EXAMPLE
-Invoke-D365DataFlush -Class SysFlushData,SysFlushAod
+PS C:\> Invoke-D365DataFlush -Class SysFlushData,SysFlushAod
 
 This will make a call against the default URL for the machine and
 have it execute the SysFlushData and SysFlushAod classes.

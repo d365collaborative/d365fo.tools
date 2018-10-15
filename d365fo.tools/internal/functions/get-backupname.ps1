@@ -12,7 +12,7 @@ Path to the file that you want a backup name for
 The name that you want to put into the new backup file name
 
 .EXAMPLE
-Get-BackupName -File "C:\temp\d365do.tools\Test.txt" -Suffix "Original"
+PS C:\> Get-BackupName -File "C:\temp\d365do.tools\Test.txt" -Suffix "Original"
 
 The function will return "C:\temp\d365do.tools\Test_Original.txt"
 

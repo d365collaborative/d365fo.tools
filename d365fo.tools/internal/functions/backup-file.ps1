@@ -12,7 +12,7 @@ Path to the file that you want to backup
 The suffix value that you want to append to the file name when backing it up
 
 .EXAMPLE
-Backup-File -File c:\temp\d365fo.tools\test.txt -Suffix "Original"
+PS C:\> Backup-File -File c:\temp\d365fo.tools\test.txt -Suffix "Original"
 
 This will backup the "test.txt" file as "test_Original.txt" inside "c:\temp\d365fo.tools\"
 

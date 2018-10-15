@@ -6,7 +6,7 @@ Get the ClickOnce configuration
 Creates the needed registry keys and values for ClickOnce to work on the machine
 
 .EXAMPLE
-Get-D365ClickOnceTrustPrompt
+PS C:\> Get-D365ClickOnceTrustPrompt
 
 This will get the current ClickOnce configuration
 

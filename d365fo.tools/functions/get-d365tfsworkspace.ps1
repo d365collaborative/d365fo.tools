@@ -12,7 +12,7 @@ Path to the directory where the Team Foundation Client executable is located
 Uri to the TFS / VSTS that the workspace is connected to
 
 .EXAMPLE
-Get-D365TfsWorkspace -TfsUri https://PROJECT.visualstudio.com
+PS C:\> Get-D365TfsWorkspace -TfsUri https://PROJECT.visualstudio.com
 
 This will invoke the default tf.exe client located in the Visual Studio 2015 directory
 and fetch the configured URI.

@@ -35,7 +35,7 @@ The path to the bin directory for the environment
 Default path is the same as the aos service PackagesLocalDirectory\bin
 
 .EXAMPLE
-Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
+PS C:\> Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
 
 This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
 

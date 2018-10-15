@@ -6,7 +6,7 @@ Set the ClickOnce needed configuration
 Creates the needed registry keys and values for ClickOnce to work on the machine
 
 .EXAMPLE
-Set-D365ClickOnceTrustPrompt
+PS C:\> Set-D365ClickOnceTrustPrompt
 
 This will create / or update the current ClickOnce configuration.
 

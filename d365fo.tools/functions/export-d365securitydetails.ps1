@@ -15,7 +15,7 @@ The cmdlet will create a sub folder named like the input file.
 Default value is: "C:\temp\d365fo.tools\security-extraction"
 
 .EXAMPLE
-Export-D365SecurityDetails -FilePath C:\temp\d365fo.tools\SecurityDatabaseCustomizations.xml
+PS C:\> Export-D365SecurityDetails -FilePath C:\temp\d365fo.tools\SecurityDatabaseCustomizations.xml
 
 This will grab all the details inside the "C:\temp\d365fo.tools\SecurityDatabaseCustomizations.xml" file and extract that into the default path "C:\temp\d365fo.tools\security-extraction"
 

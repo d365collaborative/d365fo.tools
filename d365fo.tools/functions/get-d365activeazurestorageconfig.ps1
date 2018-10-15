@@ -6,7 +6,7 @@ Get active Azure Storage Account configuration
 Get active Azure Storage Account configuration object from the configuration store
 
 .EXAMPLE
-Get-D365ActiveAzureStorageConfig
+PS C:\> Get-D365ActiveAzureStorageConfig
 
 This will get the active Azure Storage configuration
 

@@ -15,14 +15,14 @@ The array with all the service names that you want to fill into the topology fil
 Path to where you want to save the new file after it has been created
 
 .EXAMPLE
-New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services "ALMService","AOSService","BIService" -NewPath C:\temp\CurrentTopology.xml
+PS C:\> New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services "ALMService","AOSService","BIService" -NewPath C:\temp\CurrentTopology.xml
 
 This will read the "DefaultTopologyData.xml" file and fill in "ALMService","AOSService" and "BIService"
 as the services in the ServiceModelList tag. The new file is stored at "C:\temp\CurrentTopology.xml"
 
 .EXAMPLE
-$Services = @(Get-D365InstalledService | ForEach-Object {$_.Servicename})
-New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services $Services -NewPath C:\temp\CurrentTopology.xml
+PS C:\> $Services = @(Get-D365InstalledService | ForEach-Object {$_.Servicename})
+PS C:\> New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services $Services -NewPath C:\temp\CurrentTopology.xml
 
 This will get all the services already installed on the machine. Afterwards the list is piped
 to New-D365TopologyFile where all services are import into the new topology file that is stored at "C:\temp\CurrentTopology.xml"

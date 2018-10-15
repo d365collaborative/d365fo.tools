@@ -7,7 +7,7 @@ Get the details that are stored for the module when
 it has to invoke the Azure Logic App
 
 .EXAMPLE
-Get-D365LogicAppConfig
+PS C:\> Get-D365LogicAppConfig
 
 This will fetch the current registered Azure Logic App details on the machine.
 

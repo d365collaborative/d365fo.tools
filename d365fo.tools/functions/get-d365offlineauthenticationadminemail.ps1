@@ -6,7 +6,7 @@ Gets the registered offline administrator e-mail configured
 Get the registered offline administrator from the "DynamicsDevConfig.xml" file located in the default Package Directory
 
 .EXAMPLE
-Get-D365OfflineAuthenticationAdminEmail
+PS C:\> Get-D365OfflineAuthenticationAdminEmail
 
 Will read the DynamicsDevConfig.xml and display the registered Offline Administrator E-mail address.
 

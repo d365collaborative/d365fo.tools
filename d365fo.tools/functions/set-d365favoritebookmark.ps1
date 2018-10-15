@@ -9,12 +9,12 @@ Enable the favorite bar in internet explorer and put in the URL as a favorite
 The URL of the shortcut you want to add to the favorite bar
 
 .EXAMPLE
-Set-D365FavoriteBookmark -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
+PS C:\> Set-D365FavoriteBookmark -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
 
 This will add the "https://usnconeboxax1aos.cloud.onebox.dynamics.com" to the favorite bar, enable the favorite bar and lock it.
 
 .EXAMPLE
-Get-D365Url | Set-D365FavoriteBookmark
+PS C:\> Get-D365Url | Set-D365FavoriteBookmark
 
 This will get the URL from the environment and add that to the favorite bar, enable the favorite bar and lock it.
 

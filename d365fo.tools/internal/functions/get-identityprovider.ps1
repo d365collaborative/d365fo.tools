@@ -9,7 +9,7 @@ Execute a web request to get the identity provider for the given email address
 Email address on the account that you want to get the Identity Provider details about
 
 .EXAMPLE
-Get-IdentityProvider -Email "Claire@contoso.com"
+PS C:\> Get-IdentityProvider -Email "Claire@contoso.com"
 
 This will get the Identity Provider details for the user account with the email address "Claire@contoso.com"
 

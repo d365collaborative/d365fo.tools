@@ -32,12 +32,12 @@ The password for the SQL Server user
 The specific id for the table you are looking for
 
 .EXAMPLE
-Get-D365Table -Name CustTable
+PS C:\> Get-D365Table -Name CustTable
 
 Will get the details for the CustTable
 
 .EXAMPLE
-Get-D365Table -Id 10347
+PS C:\> Get-D365Table -Id 10347
 
 Will get the details for the table with the id 10347.
 

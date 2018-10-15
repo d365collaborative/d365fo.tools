@@ -32,7 +32,7 @@ The login name for the SQL Server instance
 The password for the SQL Server user.
 
 .EXAMPLE
-Enable-D365MaintenanceMode
+PS C:\> Enable-D365MaintenanceMode
 
 This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
 

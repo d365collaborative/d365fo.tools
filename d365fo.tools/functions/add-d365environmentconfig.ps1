@@ -28,13 +28,13 @@ The URI for the TFS / VSTS account that you are working against.
 Switch to instruct the cmdlet to overwrite already registered environment entry
 
 .EXAMPLE
-Add-D365EnvironmentConfig -Name "Customer-UAT" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF" -Company "DAT"
+PS C:\> Add-D365EnvironmentConfig -Name "Customer-UAT" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF" -Company "DAT"
 
 This will add an entry into the list of environments that is stored with the name "Customer-UAT" and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
 The company is registered "DAT".
 
 .EXAMPLE
-Add-D365EnvironmentConfig -Name "Customer-UAT" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF" -Company "DAT" -SqlUser "SqlAdmin" -SqlPwd "Pass@word1"
+PS C:\> Add-D365EnvironmentConfig -Name "Customer-UAT" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF" -Company "DAT" -SqlUser "SqlAdmin" -SqlPwd "Pass@word1"
 
 This will add an entry into the list of environments that is stored with the name "Customer-UAT" and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
 It will register the SqlUser as "SqlAdmin" and the SqlPassword to "Pass@word1".

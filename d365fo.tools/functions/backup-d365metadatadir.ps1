@@ -14,7 +14,7 @@ Default value is the PackagesLocalDirectory
 Path where you want the backup to be place
 
 .EXAMPLE
-Backup-D365MetaDataDir
+PS C:\> Backup-D365MetaDataDir
 
 This will backup the PackagesLocalDirectory and create an PackagesLocalDirectory_backup next to it
 

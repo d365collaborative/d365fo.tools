@@ -6,7 +6,7 @@ Gets the instance name
 Get the instance name that is registered in the environment
 
 .EXAMPLE
-Get-D365InstanceName
+PS C:\> Get-D365InstanceName
 
 This will get the service name that the environment has configured
 

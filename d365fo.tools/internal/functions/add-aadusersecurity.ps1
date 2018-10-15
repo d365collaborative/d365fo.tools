@@ -12,7 +12,7 @@ The SQL Command object that should be used when assigning the permissions
 Id of the user inside the D365FO database
 
 .EXAMPLE
-$SqlParams = @{
+PS C:\> $SqlParams = @{
                 DatabaseServer = "localhost"
                 DatabaseName = "AXDB"
                 SqlUser = "sqladmin"
@@ -20,8 +20,8 @@ $SqlParams = @{
                 TrustedConnection = $false
             }
         
-$SqlCommand = Get-SqlCommand @SqlParams
-Add-AadUserSecurity -SqlCommand $SqlCommand -Id "TestUser"
+PS C:\> $SqlCommand = Get-SqlCommand @SqlParams
+PS C:\> Add-AadUserSecurity -SqlCommand $SqlCommand -Id "TestUser"
 
 This will create a new Sql Command object using the Get-SqlCommand cmdlet and the $SqlParams hashtable containing all the needed parameters.
 With the $SqlCommand in place it calls the Add-AadUserSecurity cmdlet and instructs it to update the "TestUser" to have the same security configuration as the ADMIN user.

@@ -24,7 +24,7 @@ Backup name for all the files that are changed
 Path to the Financial Reporter (Management Reporter) configuration file
 
 .EXAMPLE
-Rename-D365Instance -NewName "Demo1"
+PS C:\> Rename-D365Instance -NewName "Demo1"
 
 This will rename the D365 for Finance & Operations instance to "Demo1".
 This IIS will be restarted while doing it.

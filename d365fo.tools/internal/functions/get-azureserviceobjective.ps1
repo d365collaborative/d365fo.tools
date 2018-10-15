@@ -22,7 +22,7 @@ The login name for the SQL Server instance
 The password for the SQL Server user.
 
 .EXAMPLE
-Get-AzureServiceObjective -DatabaseServer dbserver1.database.windows.net -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
+PS C:\> Get-AzureServiceObjective -DatabaseServer dbserver1.database.windows.net -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
 
 This will get the Azure service objective details from the Azure SQL Database instance located at "dbserver1.database.windows.net"
 

@@ -19,22 +19,23 @@ The URL you want to execute against
 Default value is the Fully Qualified Domain Name registered on the machine
 
 .EXAMPLE
-Invoke-D365SysRunnerClass -ClassName SysFlushAOD
+PS C:\> Invoke-D365SysRunnerClass -ClassName SysFlushAOD
 
 Will execute the SysRunnerClass and have it execute the SysFlushAOD class and will run it against the "DAT" (default value) company
 
 .EXAMPLE
-Invoke-D365SysRunnerClass -ClassName SysFlushAOD -Company "USMF"
+PS C:\> Invoke-D365SysRunnerClass -ClassName SysFlushAOD -Company "USMF"
 
 Will execute the SysRunnerClass and have it execute the SysFlushAOD class and will run it against the "USMF" company
 
 .EXAMPLE
-Invoke-D365SysRunnerClass -ClassName SysFlushAOD -Url https://Test.cloud.onebox.dynamics.com
+PS C:\> Invoke-D365SysRunnerClass -ClassName SysFlushAOD -Url https://Test.cloud.onebox.dynamics.com
 
 Will execute the SysRunnerClass and have it execute the SysFlushAOD class and will run it against the "DAT" company, on the https://Test.cloud.onebox.dynamics.com URL
 
 .NOTES
-General notes
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Invoke-D365SysRunnerClass {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

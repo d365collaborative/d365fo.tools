@@ -12,7 +12,7 @@ Place where the decrypted files should be placed
 Location of the D365 webroot folder
 
 .EXAMPLE
-Get-D365DecryptedConfigFile -DropPath "c:\temp\d365fo.tools"
+PS C:\> Get-D365DecryptedConfigFile -DropPath "c:\temp\d365fo.tools"
 
 This will get the config file from the instance, decrypt it and save it to "c:\temp\d365fo.tools"
 

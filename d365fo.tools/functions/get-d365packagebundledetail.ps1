@@ -41,19 +41,19 @@ Switch to instruct the cmdlet to include the raw content of the manifest file
 Only works with the -Traverse option
 
 .EXAMPLE
-Get-D365PackageBundleDetail -Path "c:\temp\HotfixPackageBundle.axscdppkg" -Traverse
+PS C:\> Get-D365PackageBundleDetail -Path "c:\temp\HotfixPackageBundle.axscdppkg" -Traverse
 
 This will extract all the content from the "HotfixPackageBundle.axscdppkg" file and extract all inner packages. For each inner package it will find the manifest file and fetch the KB numbers. The raw manifest file content is included to be analyzed.
 
 .EXAMPLE
-Get-D365PackageBundleDetail -Path "c:\temp\HotfixPackageBundle.axscdppkg" -ExtractionPath C:\Temp\20180905 -Traverse -KeepFiles
+PS C:\> Get-D365PackageBundleDetail -Path "c:\temp\HotfixPackageBundle.axscdppkg" -ExtractionPath C:\Temp\20180905 -Traverse -KeepFiles
 
 This will extract all the content from the "HotfixPackageBundle.axscdppkg" file and extract all inner packages. It will extract the content into C:\Temp\20180905 and keep the files after completion.
 
 .EXAMPLE
 Advanced scenario
 
-Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
+PS C:\> Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
 
 This will traverse the "HotfixPackageBundle.axscdppkg" file and save the manifest files into c:\temp. Everything else is omitted and cleaned up.
 

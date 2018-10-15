@@ -9,7 +9,7 @@ Updates the current active environment configuration with a new one
 The name the environment configuration you want to load into the active environment configuration
 
 .EXAMPLE
-Set-D365ActiveEnvironmentConfig -Name "UAT"
+PS C:\> Set-D365ActiveEnvironmentConfig -Name "UAT"
 
 Will scan the list of environment configurations and select the one that matches the supplied name. This gets imported into the active environment configuration.
 

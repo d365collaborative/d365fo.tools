@@ -20,12 +20,12 @@ Normally it is located under the AOSService directory in "PackagesLocalDirectory
 Default value is fetched from the current configuration on the machine
 
 .EXAMPLE
-Get-D365InstalledPackage
+PS C:\> Get-D365InstalledPackage
 
 Shows the entire list of installed packages located in the default location on the machine
 
 .EXAMPLE
-Get-D365InstalledPackage -Name "Application*Adaptor"
+PS C:\> Get-D365InstalledPackage -Name "Application*Adaptor"
 
 Shows the list of installed packages where the name fits the search "Application*Adaptor"
 
@@ -36,7 +36,7 @@ ApplicationSuiteFormAdaptor
 ApplicationWorkspacesFormAdaptor
 
 .EXAMPLE
-Get-D365InstalledPackage -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
+PS C:\> Get-D365InstalledPackage -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
 
 Shows the entire list of installed packages located in "J:\AOSService\PackagesLocalDirectory" on the machine
 

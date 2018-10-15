@@ -25,22 +25,22 @@ Accepts wildcards for searching. E.g. -Name "*ER*Excel*"
 Default value is "*" which will work against all classes
 
 .EXAMPLE
-Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicReporting\bin\Microsoft.Dynamics365.LocalizationFrameworkForAx.dll"
+PS C:\> Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicReporting\bin\Microsoft.Dynamics365.LocalizationFrameworkForAx.dll"
 
 Will get all methods, across all classes, from the assembly file
 
 .EXAMPLE
-Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicReporting\bin\Microsoft.Dynamics365.LocalizationFrameworkForAx.dll" -TypeName "ERTextFormatExcelFileComponent"
+PS C:\> Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicReporting\bin\Microsoft.Dynamics365.LocalizationFrameworkForAx.dll" -TypeName "ERTextFormatExcelFileComponent"
 
 Will get all methods, from the "ERTextFormatExcelFileComponent" class, from the assembly file
 
 .EXAMPLE
-Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicReporting\bin\Microsoft.Dynamics365.LocalizationFrameworkForAx.dll" -TypeName "ERTextFormatExcelFileComponent" -Name "*parm*"
+PS C:\> Get-D365DotNetMethod -Assembly "C:\AOSService\PackagesLocalDirectory\ElectronicReporting\bin\Microsoft.Dynamics365.LocalizationFrameworkForAx.dll" -TypeName "ERTextFormatExcelFileComponent" -Name "*parm*"
 
 Will get all methods that fits the search "*parm*", from the "ERTextFormatExcelFileComponent" class, from the assembly file
 
 .EXAMPLE
-Get-D365DotNetClass -Name "ERTextFormatExcelFileComponent" -Assembly "*LocalizationFrameworkForAx.dll*" | Get-D365DotNetMethod
+PS C:\> Get-D365DotNetClass -Name "ERTextFormatExcelFileComponent" -Assembly "*LocalizationFrameworkForAx.dll*" | Get-D365DotNetMethod
 
 Will get all methods, from the "ERTextFormatExcelFileComponent" class, from any assembly file that fits the search "*LocalizationFrameworkForAx.dll*"
 

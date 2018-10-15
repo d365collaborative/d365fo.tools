@@ -11,7 +11,7 @@ Path to the folder where the topology XML file file that you want to work agains
 Should only contain a path to a folder, not a file
 
 .EXAMPLE
-Update-TopologyFile -Path "c:\temp\d365fo.tools\DefaultTopologyData.xml"
+PS C:\> Update-TopologyFile -Path "c:\temp\d365fo.tools\DefaultTopologyData.xml"
 
 This will update the "c:\temp\d365fo.tools\DefaultTopologyData.xml" file with all the installed services on the machine.
 

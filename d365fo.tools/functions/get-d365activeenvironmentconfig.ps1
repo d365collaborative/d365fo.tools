@@ -6,7 +6,7 @@ Get active environment configuration
 Get active environment configuration object from the configuration store
 
 .EXAMPLE
-Get-D365ActiveEnvironmentConfig
+PS C:\> Get-D365ActiveEnvironmentConfig
 
 This will get the active environment configuration
 

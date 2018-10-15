@@ -26,24 +26,24 @@ of searching in the XppMetaData directory under a given package
 Switch to instruct the cmdlet to include the path for the object found
 
 .EXAMPLE
-Get-D365AOTObject -Name *flush* -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+PS C:\> Get-D365AOTObject -Name *flush* -ObjectType AxClass -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
 
 This will search inside the ApplicationFoundation package for all AxClasses that matches the search *flush*.
 
 .EXAMPLE
-Get-D365AOTObject -Name *flush* -ObjectType AxClass -IncludePath -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
+PS C:\> Get-D365AOTObject -Name *flush* -ObjectType AxClass -IncludePath -Path "C:\AOSService\PackagesLocalDirectory\ApplicationFoundation"
 
 This will search inside the ApplicationFoundation package for all AxClasses that matches the search *flush* and include the full path to the files.
 
 .EXAMPLE
-Get-D365InstalledPackage -Name Application* | Get-D365AOTObject -Name *flush* -ObjectType AxClass
+PS C:\> Get-D365InstalledPackage -Name Application* | Get-D365AOTObject -Name *flush* -ObjectType AxClass
 
 This searches for all packages that matches Application* and pipes them into Get-D365AOTObject which will search for all AxClasses that matches the search *flush*.
 
 .EXAMPLE
 This is an advanced example and shouldn't be something you resolve to every time.
 
-Get-D365AOTObject -Path "C:\AOSService\PackagesLocalDirectory\*" -Name *flush* -ObjectType AxClass -SearchInPackages
+PS C:\> Get-D365AOTObject -Path "C:\AOSService\PackagesLocalDirectory\*" -Name *flush* -ObjectType AxClass -SearchInPackages
 
 This will search across all packages and will look for the all AxClasses that matches the search *flush*.
 It will NOT search in the XppMetaData directory for each package.

@@ -10,7 +10,7 @@ Switch to instruct the cmdlet to retrieve the name from the system files
 instead of the name stored in memory after loading this module.
 
 .EXAMPLE
-Get-D365Url
+PS C:\> Get-D365Url
 
 This will get the correct URL to access the environment
 

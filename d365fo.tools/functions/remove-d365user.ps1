@@ -30,19 +30,21 @@ The cmdlet will not be able to delete the ADMIN user, this is to prevent you
 from being locked out of the system.
 
 .EXAMPLE
-Remove-D365User -Email "Claire@contoso.com"
+PS C:\> Remove-D365User -Email "Claire@contoso.com"
 
 This will move all security and user details from the user with the email address
 "Claire@contoso.com"
 
 .EXAMPLE
-Get-D365User -Email *contoso.com | Remove-D365User
+PS C:\> Get-D365User -Email *contoso.com | Remove-D365User
 
 This will first get all users from the database that matches the *contoso.com
 search and pipe their emails to Remove-D365User for it to delete them.
 
 .NOTES
-General notes
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Remove-D365User {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

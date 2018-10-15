@@ -24,19 +24,19 @@ Path to the folder / location you want to save the file
 Switch to tell the cmdlet just to download the latest file from Azure regardless of name
 
 .EXAMPLE
-Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
+PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
 
 Will download the "OriginalUAT.bacpac" file from the storage account and save it to "c:\temp\OriginalUAT.bacpac"
 
 .EXAMPLE
-Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
+PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
 
 Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
 The complete path to the file will returned as output from the cmdlet.
 
 .EXAMPLE
-$AzureParams = Get-D365ActiveAzureStorageConfig
-Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
+PS C:\> $AzureParams = Get-D365ActiveAzureStorageConfig
+PS C:\> Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
 
 This will get the current Azure Storage Account configuration details
 and use them as parameters to download the latest file from an Azure Storage Account

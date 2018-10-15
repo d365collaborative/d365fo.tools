@@ -9,7 +9,7 @@ Creates all the configuration objects on the system
 Switch to instruct the cmdlet to clear the already stored configuration
 
 .EXAMPLE
-Initialize-D365Config
+PS C:\> Initialize-D365Config
 
 Will create all the standard D365FO.Tools configuration objects
 

@@ -28,28 +28,28 @@ Switch to indicate whether you want the result set to include the path to the re
 Default is OFF - path details will not be part of the output
 
 .EXAMPLE
-Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll"
+PS C:\> Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll"
 
 Will get all labels from the "PRO.resouce.dll" file
 
 The language is determined by the path to the resource file and nothing else
 
 .EXAMPLE
-Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Name "@PRO505"
+PS C:\> Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Name "@PRO505"
 
 Will get the label with the name "@PRO505" from the "PRO.resouce.dll" file
 
 The language is determined by the path to the resource file and nothing else
 
 .EXAMPLE
-Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Value "*qty*"
+PS C:\> Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Value "*qty*"
 
 Will get all the labels where the value fits the search "*qty*" from the "PRO.resouce.dll" file
 
 The language is determined by the path to the resource file and nothing else
 
 .EXAMPLE
-Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "da" | Get-D365Label -value "*batch*" -IncludePath
+PS C:\> Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "da" | Get-D365Label -value "*batch*" -IncludePath
 
 Will get all the labels, across all label files, for the "ApplicationSuite", where the language is "da" and where the label value fits the search "*batch*".
 

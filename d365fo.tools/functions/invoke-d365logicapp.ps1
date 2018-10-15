@@ -21,12 +21,12 @@ Switch to instruct the cmdlet to include all cmdlets (names only) from the pipel
 Switch to instruct the cmdlet to run the invocation as a job (async)
 
 .EXAMPLE
-Invoke-D365SyncDB | Invoke-D365LogicApp
+PS C:\> Invoke-D365SyncDB | Invoke-D365LogicApp
 
 This will execute the sync process and when it is done it will invoke a Azure Logic App with the default parameters that have been configured for the system.
 
 .EXAMPLE
-Invoke-D365SyncDB | Invoke-D365LogicApp -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
+PS C:\> Invoke-D365SyncDB | Invoke-D365LogicApp -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
 
 This will execute the sync process and when it is done it will invoke a Azure Logic App with the email, subject and URL parameters that are needed to invoke an Azure Logic App.
 

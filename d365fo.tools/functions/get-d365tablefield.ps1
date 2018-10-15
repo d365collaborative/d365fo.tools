@@ -48,32 +48,32 @@ Switch options to enable the result set to include extended details
 Switch options to force the cmdlet to search across all tables when looking for the field
 
 .EXAMPLE
-Get-D365TableField -TableId 10347
+PS C:\> Get-D365TableField -TableId 10347
 
 Will get all field details for the table with id 10347.
 
 .EXAMPLE
-Get-D365TableField -TableName CustTable
+PS C:\> Get-D365TableField -TableName CustTable
 
 Will get all field details for the CustTable table.
 
 .EXAMPLE
-Get-D365TableField -TableId 10347 -FieldId 175
+PS C:\> Get-D365TableField -TableId 10347 -FieldId 175
 
 Will get the details for the field with id 175 that belongs to the table with id 10347.
 
 .EXAMPLE
-Get-D365TableField -TableId 10347 -Name "VATNUM"
+PS C:\> Get-D365TableField -TableId 10347 -Name "VATNUM"
 
 Will get the details for the "VATNUM" that belongs to the table with id 10347.
 
 .EXAMPLE
-Get-D365TableField -TableId 10347 -Name "VAT*"
+PS C:\> Get-D365TableField -TableId 10347 -Name "VAT*"
 
 Will get the details for all fields that fits the search "VAT*" that belongs to the table with id 10347.
 
 .EXAMPLE
-Get-D365TableField -Name AccountNum -SearchAcrossTables
+PS C:\> Get-D365TableField -Name AccountNum -SearchAcrossTables
 
 Will search for the AccountNum field across all tables.
 

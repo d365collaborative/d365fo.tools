@@ -11,7 +11,7 @@ The name of the environment you are looking for
 Default value is "*" to display all environment configs
 
 .EXAMPLE
-Get-D365EnvironmentConfig
+PS C:\> Get-D365EnvironmentConfig
 
 This will show all environment configs
 

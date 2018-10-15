@@ -29,12 +29,12 @@ The parameter supports wildcards. E.g. -Email "*@contoso.com*"
 Default value is "*" to get all users
 
 .EXAMPLE
-Get-D365User
+PS C:\> Get-D365User
 
 This will get all users from the environment
 
 .EXAMPLE
-Update-D365User -Email "*contoso.com"
+PS C:\> Get-D365User -Email "*contoso.com"
 
 This will search for all users with an e-mail address containing 'contoso.com' from the environment
 

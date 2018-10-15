@@ -19,7 +19,7 @@ Path where you want the generated deployable package stored
 Default value is: "C:\temp\d365fo.tools\ISVLicense.zip"
 
 .EXAMPLE
-New-D365ISVLicense -LicenseFile "C:\temp\ISVLicenseFile.txt"
+PS C:\> New-D365ISVLicense -LicenseFile "C:\temp\ISVLicenseFile.txt"
 
 This will take the "C:\temp\ISVLicenseFile.txt" file and locate the "ImportISVLicense.zip" template file under the "PackagesLocalDirectory\bin\CustomDeployablePackage\".
 It will extract the "ImportISVLicense.zip", load the ISVLicenseFile.txt and compress (zip) the files into a deployable package.

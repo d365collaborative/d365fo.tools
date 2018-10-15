@@ -19,12 +19,12 @@ The URL you want to execute against
 Default value is the Fully Qualified Domain Name registered on the machine
 
 .EXAMPLE
-Invoke-D365TableBrowser -TableName SalesTable
+PS C:\> Invoke-D365TableBrowser -TableName SalesTable
 
 Will open the table browser and show all the records in Sales Table from the "DAT" company (default value).
 
 .EXAMPLE
-Invoke-D365TableBrowser -TableName SalesTable -Company "USMF"
+PS C:\> Invoke-D365TableBrowser -TableName SalesTable -Company "USMF"
 
 Will open the table browser and show all the records in Sales Table from the "USMF" company.
 

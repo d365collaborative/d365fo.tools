@@ -26,7 +26,7 @@ Switch to instruct the cmdlet to execute the Import functionality on ModelUtil.e
 Default value is: on / $true
 
 .EXAMPLE
-Invoke-D365ModelUtil -Path "c:\temp\d365fo.tools\ApplicationSuiteModernDesigns_App73.axmodel"
+PS C:\> Invoke-D365ModelUtil -Path "c:\temp\d365fo.tools\ApplicationSuiteModernDesigns_App73.axmodel"
 
 This will execute the import functionality of ModelUtil.exe and have it import the "ApplicationSuiteModernDesigns_App73.axmodel" file.
 

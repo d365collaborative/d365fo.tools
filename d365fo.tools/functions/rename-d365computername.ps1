@@ -14,7 +14,7 @@ The new name for the computer
 Name of the SSRS reporting database
 
 .EXAMPLE
-Rename-D365ComputerName -NewName "Demo-8.1" -SSRSReportDatabase "ReportServer"
+PS C:\> Rename-D365ComputerName -NewName "Demo-8.1" -SSRSReportDatabase "ReportServer"
 
 This will rename the local machine to the "Demo-8.1" as the new Windows machine name.
 It will update the registration inside the SQL Server Reporting Services configuration to handle the new name of the machine.

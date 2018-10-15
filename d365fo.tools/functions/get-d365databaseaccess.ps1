@@ -6,7 +6,7 @@ Shows the Database Access information for the D365 Environment
 Gets all database information from the D365 environment
 
 .EXAMPLE
-Get-D365DatabaseAccess
+PS C:\> Get-D365DatabaseAccess
 
 This will get all relevant details, including connection details, for the database configured for the environment
 

@@ -37,17 +37,17 @@ Accepts wildcards for searching. E.g. -KB "4045*"
 Default value is "*" which will search for all KB's
 
 .EXAMPLE
-Get-D365InstalledHotfix
+PS C:\> Get-D365InstalledHotfix
 
 This will display all installed hotfixes found on this machine
 
 .EXAMPLE
-Get-D365InstalledHotfix -Model "*retail*"
+PS C:\> Get-D365InstalledHotfix -Model "*retail*"
 
 This will display all installed hotfixes found for all models that matches the search for "*retail*" found on this machine
 
 .EXAMPLE
-Get-D365InstalledHotfix -Model "*retail*" -KB "*43*"
+PS C:\> Get-D365InstalledHotfix -Model "*retail*" -KB "*43*"
 
 This will display all installed hotfixes found for all models that matches the search for "*retail*" and only with KB's that matches the search for "*43*" found on this machine
 

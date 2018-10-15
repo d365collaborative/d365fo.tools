@@ -9,7 +9,7 @@ Register a certificate thumbprint in the wif.config file
 The thumbprint value of the certificate that you want to register in the wif.config file
 
 .EXAMPLE
-Add-WIFConfigAuthorityThumbprint -CertificateThumbprint "12312323r424"
+PS C:\> Add-WIFConfigAuthorityThumbprint -CertificateThumbprint "12312323r424"
 
 This will open the wif.config file and insert the "12312323r424" thumbprint value into the file.
 

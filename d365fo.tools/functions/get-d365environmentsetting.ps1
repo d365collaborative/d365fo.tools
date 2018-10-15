@@ -6,12 +6,12 @@ Get the D365FO environment settings
 Gets all settings the Dynamics 365 for Finance & Operations environment uses.
 
 .EXAMPLE
-Get-D365EnvironmentSetting
+PS C:\> Get-D365EnvironmentSetting
 
 This will get all details available for the environment
 
 .EXAMPLE
-Get-D365EnvironmentSetting | Format-Custom -Property *
+PS C:\> Get-D365EnvironmentSetting | Format-Custom -Property *
 
 This will get all details available for the environment and format it to show all details in a long custom object.
 

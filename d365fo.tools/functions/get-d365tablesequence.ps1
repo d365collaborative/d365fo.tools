@@ -29,25 +29,25 @@ The login name for the SQL Server instance
 The password for the SQL Server user.
 
 .EXAMPLE
-Get-D365TableSequence | Format-Table
+PS C:\> Get-D365TableSequence | Format-Table
 
 This will get all the sequence details for all tables inside the database.
 It will format the output as a table for better overview.
 
 .EXAMPLE
-Get-D365TableSequence -TableName "Custtable" | Format-Table
+PS C:\> Get-D365TableSequence -TableName "Custtable" | Format-Table
 
 This will get the sequence details for the CustTable in the database.
 It will format the output as a table for better overview.
 
 .EXAMPLE
-Get-D365TableSequence -TableName "Cust*" | Format-Table
+PS C:\> Get-D365TableSequence -TableName "Cust*" | Format-Table
 
 This will get the sequence details for all tables that matches the search "Cust*" in the database.
 It will format the output as a table for better overview.
 
 .EXAMPLE
-Get-D365Table -Name CustTable | Get-D365TableSequence | Format-Table
+PS C:\> Get-D365Table -Name CustTable | Get-D365TableSequence | Format-Table
 
 This will get the table details from the Get-D365Table cmdlet and pipe that into Get-D365TableSequence.
 This will get the sequence details for the CustTable in the database.
