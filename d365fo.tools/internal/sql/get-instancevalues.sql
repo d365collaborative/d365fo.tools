@@ -1,0 +1,3 @@
+﻿select sscs.[VALUE] as TENANTID,pmt.PLANID,pmt.PLANCAPABILITY from [dbo].[SYSSERVICECONFIGURATIONSETTING]  sscs
+join [dbo].PROVISIONINGMESSAGETABLE pmt on 1=1
+where sscs.[NAME] = 'TENANTID'
