@@ -37,11 +37,20 @@ Param (
 $ModuleName = "d365fo.tools"
 
 # Base path to the github repository
-$BaseUrl = "https://github.com/<InsertUsernameHere>/d365fo.tools"
+$BaseUrl = "https://github.com/d365collaborative/d365fo.tools"
 
 # If the module is in a subfolder of the cloned repository, specify relative path here. Empty string to skip.
 $SubFolder = "d365fo.tools"
 #endregion Configuration for cloning script
+
+
+#region Parameter Calculation
+$doUserMode = $false
+if ($UserMode) { $doUserMode = $true }
+if ($install_CurrentUser) { $doUserMode = $true }
+if ($Scope -eq 'CurrentUser') { $doUserMode = $true }
+if ($install_Branch) { $Branch = $install_Branch }
+#endregion Parameter Calculation
 
 #region Utility Functions
 function Compress-Archive
