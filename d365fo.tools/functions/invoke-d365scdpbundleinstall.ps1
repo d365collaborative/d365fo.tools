@@ -1,53 +1,54 @@
-﻿<#
-.SYNOPSIS
-Invoke the SCDPBundleInstall.exe file
-
-.DESCRIPTION
-A cmdlet that wraps some of the cumbersome work into a streamlined process
-
-.PARAMETER InstallOnly
-Switch to instruct the cmdlet to only run the Install option and ignore any TFS / VSTS folders and source control in general
-
-Use it when testing an update on a local development machine (VM) / onebox
-
-.PARAMETER Command
-Parameter description
-
-.PARAMETER Path
-Path to the update package that you want to install into the environment
-
-The cmdlet only supports an already extracted ".axscdppkg" file
-
-.PARAMETER MetaDataDir
-The path to the meta data directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory
-
-.PARAMETER TfsWorkspaceDir
-The path to the TFS Workspace directory that you want to work against
-
-Default path is the same as the aos service PackagesLocalDirectory
-
-.PARAMETER TfsUri
-The URI for the TFS Team Site / VSTS Portal that you want to work against
-
-Default URI is the one that is configured from inside Visual Studio
-
-.PARAMETER ShowModifiedFiles
-Switch to instruct the cmdlet to show all the modified files afterwards
-
-.PARAMETER ShowProgress
-Switch to instruct the cmdlet to output progress details while servicing the installation
-
-.EXAMPLE
-PS C:\> Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg"
-
-This will install the "HotfixPackageBundle.axscdppkg" into the default PackagesLocalDirectory location on the machine.
-
-.NOTES
-Author: Mötz Jensen (@splaxi)
-Author: Tommy Skaue (@skaue)
-
+﻿
+<#
+    .SYNOPSIS
+        Invoke the SCDPBundleInstall.exe file
+        
+    .DESCRIPTION
+        A cmdlet that wraps some of the cumbersome work into a streamlined process
+        
+    .PARAMETER InstallOnly
+        Switch to instruct the cmdlet to only run the Install option and ignore any TFS / VSTS folders and source control in general
+        
+        Use it when testing an update on a local development machine (VM) / onebox
+        
+    .PARAMETER Command
+        Parameter description
+        
+    .PARAMETER Path
+        Path to the update package that you want to install into the environment
+        
+        The cmdlet only supports an already extracted ".axscdppkg" file
+        
+    .PARAMETER MetaDataDir
+        The path to the meta data directory for the environment
+        
+        Default path is the same as the aos service PackagesLocalDirectory
+        
+    .PARAMETER TfsWorkspaceDir
+        The path to the TFS Workspace directory that you want to work against
+        
+        Default path is the same as the aos service PackagesLocalDirectory
+        
+    .PARAMETER TfsUri
+        The URI for the TFS Team Site / VSTS Portal that you want to work against
+        
+        Default URI is the one that is configured from inside Visual Studio
+        
+    .PARAMETER ShowModifiedFiles
+        Switch to instruct the cmdlet to show all the modified files afterwards
+        
+    .PARAMETER ShowProgress
+        Switch to instruct the cmdlet to output progress details while servicing the installation
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg"
+        
+        This will install the "HotfixPackageBundle.axscdppkg" into the default PackagesLocalDirectory location on the machine.
+        
+    .NOTES
+        Author: Mötz Jensen (@splaxi)
+        Author: Tommy Skaue (@skaue)
+        
 #>
 function Invoke-D365SCDPBundleInstall {
     [CmdletBinding(DefaultParameterSetName = 'InstallOnly')]

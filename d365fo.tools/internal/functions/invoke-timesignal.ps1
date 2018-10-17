@@ -1,32 +1,33 @@
-﻿<#
-.SYNOPSIS
-Handle time measurement
-
-.DESCRIPTION
-Handle time measurement from when a cmdlet / function starts and ends
-
-Will write the output to the verbose stream (Write-PSFMessage -Level Verbose)
-
-.PARAMETER Start
-Switch to instruct the cmdlet that a start time registration needs to take place
-
-.PARAMETER End
-Switch to instruct the cmdlet that a time registration has come to its end and it needs to do the calculation
-
-.EXAMPLE
-PS C:\> Invoke-TimeSignal -Start
-
-This will start the time measurement for any given cmdlet / function
-
-.EXAMPLE
-PS C:\> Invoke-TimeSignal -End
-
-This will end the time measurement for any given cmdlet / function.
-The output will go into the verbose stream.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Handle time measurement
+        
+    .DESCRIPTION
+        Handle time measurement from when a cmdlet / function starts and ends
+        
+        Will write the output to the verbose stream (Write-PSFMessage -Level Verbose)
+        
+    .PARAMETER Start
+        Switch to instruct the cmdlet that a start time registration needs to take place
+        
+    .PARAMETER End
+        Switch to instruct the cmdlet that a time registration has come to its end and it needs to do the calculation
+        
+    .EXAMPLE
+        PS C:\> Invoke-TimeSignal -Start
+        
+        This will start the time measurement for any given cmdlet / function
+        
+    .EXAMPLE
+        PS C:\> Invoke-TimeSignal -End
+        
+        This will end the time measurement for any given cmdlet / function.
+        The output will go into the verbose stream.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Invoke-TimeSignal {
     [CmdletBinding(DefaultParameterSetName = 'Start')]

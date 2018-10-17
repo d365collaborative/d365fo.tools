@@ -1,31 +1,32 @@
-﻿<#
-.SYNOPSIS
-The multiple paths
-
-.DESCRIPTION
-Easy way to test multiple paths for public functions and have the same error handling
-
-.PARAMETER Path
-Array of paths you want to test
-
-They have to be the same type, either file/leaf or folder/container
-
-.PARAMETER Type
-Type of path you want to test
-
-Either 'Leaf' or 'Container'
-
-.PARAMETER Create
-Switch to instruct the cmdlet to create the directory if it doesn't exist
-
-.EXAMPLE
-PS C:\> Test-PathExists "c:\temp",c:\temp\dir" -Type Container
-
-This will test if the mentioned paths (folders) exists and the current context has enough permission.
-
-.NOTES
-Author: Mötz Jensen (@splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        The multiple paths
+        
+    .DESCRIPTION
+        Easy way to test multiple paths for public functions and have the same error handling
+        
+    .PARAMETER Path
+        Array of paths you want to test
+        
+        They have to be the same type, either file/leaf or folder/container
+        
+    .PARAMETER Type
+        Type of path you want to test
+        
+        Either 'Leaf' or 'Container'
+        
+    .PARAMETER Create
+        Switch to instruct the cmdlet to create the directory if it doesn't exist
+        
+    .EXAMPLE
+        PS C:\> Test-PathExists "c:\temp",c:\temp\dir" -Type Container
+        
+        This will test if the mentioned paths (folders) exists and the current context has enough permission.
+        
+    .NOTES
+        Author: Mötz Jensen (@splaxi)
+        
 #>
 function Test-PathExists {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]

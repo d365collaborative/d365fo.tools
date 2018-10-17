@@ -1,22 +1,23 @@
-﻿<#
-.SYNOPSIS
-Get the identity provider
-
-.DESCRIPTION
-Execute a web request to get the identity provider for the given email address
-
-.PARAMETER Email
-Email address on the account that you want to get the Identity Provider details about
-
-.EXAMPLE
-PS C:\> Get-IdentityProvider -Email "Claire@contoso.com"
-
-This will get the Identity Provider details for the user account with the email address "Claire@contoso.com"
-
-.NOTES
-Author : Rasmus Andersen (@ITRasmus)
-Author : Mötz Jensen (@splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get the identity provider
+        
+    .DESCRIPTION
+        Execute a web request to get the identity provider for the given email address
+        
+    .PARAMETER Email
+        Email address on the account that you want to get the Identity Provider details about
+        
+    .EXAMPLE
+        PS C:\> Get-IdentityProvider -Email "Claire@contoso.com"
+        
+        This will get the Identity Provider details for the user account with the email address "Claire@contoso.com"
+        
+    .NOTES
+        Author : Rasmus Andersen (@ITRasmus)
+        Author : Mötz Jensen (@splaxi)
+        
 #>
 function Get-IdentityProvider {
     [CmdletBinding()]

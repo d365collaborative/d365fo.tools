@@ -1,42 +1,43 @@
-﻿<#
-.SYNOPSIS
-Upload a file to Azure
-
-.DESCRIPTION
-Upload any file to an Azure Storage Account
-
-.PARAMETER AccountId
-Storage Account Name / Storage Account Id where you want to store the file
-
-.PARAMETER AccessToken
-The token that has the needed permissions for the upload action
-
-.PARAMETER Blobname
-Name of the container / blog inside the storage account you want to store the file
-
-.PARAMETER Filepath
-Path to the file you want to upload
-
-.PARAMETER DeleteOnUpload
-Switch to tell the cmdlet if you want the local file to be deleted after the upload completes
-
-.EXAMPLE
-PS C:\> Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
-
-This will upload the "c:\temp\bacpac\UAT_20180701.bacpac" up to the "backupfiles" container, inside the "miscfiles" Azure Storage Account that is access with the "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" token.
-After upload the local file will be deleted.
-
-.EXAMPLE
-PS C:\> $AzureParams = Get-D365ActiveAzureStorageConfig
-PS C:\> New-D365Bacpac | Invoke-D365AzureStorageUpload @AzureParams
-
-This will get the current Azure Storage Account configuration details and use them as parameters to upload the file to an Azure Storage Account.
-
-.NOTES
-The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Upload a file to Azure
+        
+    .DESCRIPTION
+        Upload any file to an Azure Storage Account
+        
+    .PARAMETER AccountId
+        Storage Account Name / Storage Account Id where you want to store the file
+        
+    .PARAMETER AccessToken
+        The token that has the needed permissions for the upload action
+        
+    .PARAMETER Blobname
+        Name of the container / blog inside the storage account you want to store the file
+        
+    .PARAMETER Filepath
+        Path to the file you want to upload
+        
+    .PARAMETER DeleteOnUpload
+        Switch to tell the cmdlet if you want the local file to be deleted after the upload completes
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
+        
+        This will upload the "c:\temp\bacpac\UAT_20180701.bacpac" up to the "backupfiles" container, inside the "miscfiles" Azure Storage Account that is access with the "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" token.
+        After upload the local file will be deleted.
+        
+    .EXAMPLE
+        PS C:\> $AzureParams = Get-D365ActiveAzureStorageConfig
+        PS C:\> New-D365Bacpac | Invoke-D365AzureStorageUpload @AzureParams
+        
+        This will get the current Azure Storage Account configuration details and use them as parameters to upload the file to an Azure Storage Account.
+        
+    .NOTES
+        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Invoke-D365AzureStorageUpload {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
