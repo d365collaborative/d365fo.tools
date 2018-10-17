@@ -1,21 +1,22 @@
-﻿<#
-.SYNOPSIS
-Test PSBoundParameters whether or not to support TrustedConnection
-
-.DESCRIPTION
-Test callers PSBoundParameters (HashTable) for details that determines whether or not a SQL Server connection should support TrustedConnection or not
-
-.PARAMETER Inputs
-HashTable ($PSBoundParameters) with the parameters from the callers invocation
-
-.EXAMPLE
-PS C:\> $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
-
-This will send the entire HashTable from the callers invocation, containing all explicit defined parameters to be analyzed whether or not the SQL Server connection should support TrustedConnection or not.
-
-.NOTES
-Author: Mötz Jensen (@splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Test PSBoundParameters whether or not to support TrustedConnection
+        
+    .DESCRIPTION
+        Test callers PSBoundParameters (HashTable) for details that determines whether or not a SQL Server connection should support TrustedConnection or not
+        
+    .PARAMETER Inputs
+        HashTable ($PSBoundParameters) with the parameters from the callers invocation
+        
+    .EXAMPLE
+        PS C:\> $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+        
+        This will send the entire HashTable from the callers invocation, containing all explicit defined parameters to be analyzed whether or not the SQL Server connection should support TrustedConnection or not.
+        
+    .NOTES
+        Author: Mötz Jensen (@splaxi)
+        
 #>
 function Test-TrustedConnection {
     [CmdletBinding()]

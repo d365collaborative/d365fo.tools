@@ -1,19 +1,20 @@
-﻿<#
-.SYNOPSIS
-Load the Canonical Identity Provider
-
-.DESCRIPTION
-Load the necessary dll files from the D365 instance to get the Canonical Identity Provider object
-
-.EXAMPLE
-PS C:\> Get-CanonicalIdentityProvider
-
-This will get the Canonical Identity Provider from the D365 instance
-
-.NOTES
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Load the Canonical Identity Provider
+        
+    .DESCRIPTION
+        Load the necessary dll files from the D365 instance to get the Canonical Identity Provider object
+        
+    .EXAMPLE
+        PS C:\> Get-CanonicalIdentityProvider
+        
+        This will get the Canonical Identity Provider from the D365 instance
+        
+    .NOTES
+        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-CanonicalIdentityProvider {
     [CmdletBinding()]

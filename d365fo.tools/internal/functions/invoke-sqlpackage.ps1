@@ -1,58 +1,59 @@
-﻿<#
-.SYNOPSIS
-Invoke the sqlpackage executable
-
-.DESCRIPTION
-Invoke the sqlpackage executable and pass the necessary parameters to it
-
-.PARAMETER Action
-Can either be import or export
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user.
-
-.PARAMETER TrustedConnection
-Should the sqlpackage work with TrustedConnection or not
-
-.PARAMETER FilePath
-Path to the file, used for either import or export
-
-.PARAMETER Properties
-Array of all the properties that needs to be parsed to the sqlpackage.exe
-
-.EXAMPLE
-PS C:\> $BaseParams = @{
-    DatabaseServer = $DatabaseServer
-    DatabaseName   = $DatabaseName
-    SqlUser        = $SqlUser
-    SqlPwd         = $SqlPwd
-}
-
-PS C:\> $ImportParams = @{
-    Action   = "import"
-    FilePath = $BacpacFile
-}
-    
-PS C:\> Invoke-SqlPackage @BaseParams @ImportParams
-
-This will start the sqlpackage.exe file and pass all the needed parameters.
-
-.NOTES
-Author: Mötz Jensen (@splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Invoke the sqlpackage executable
+        
+    .DESCRIPTION
+        Invoke the sqlpackage executable and pass the necessary parameters to it
+        
+    .PARAMETER Action
+        Can either be import or export
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user.
+        
+    .PARAMETER TrustedConnection
+        Should the sqlpackage work with TrustedConnection or not
+        
+    .PARAMETER FilePath
+        Path to the file, used for either import or export
+        
+    .PARAMETER Properties
+        Array of all the properties that needs to be parsed to the sqlpackage.exe
+        
+    .EXAMPLE
+        PS C:\> $BaseParams = @{
+        DatabaseServer = $DatabaseServer
+        DatabaseName   = $DatabaseName
+        SqlUser        = $SqlUser
+        SqlPwd         = $SqlPwd
+        }
+        
+        PS C:\> $ImportParams = @{
+        Action   = "import"
+        FilePath = $BacpacFile
+        }
+        
+        PS C:\> Invoke-SqlPackage @BaseParams @ImportParams
+        
+        This will start the sqlpackage.exe file and pass all the needed parameters.
+        
+    .NOTES
+        Author: Mötz Jensen (@splaxi)
+        
 #>
 function Invoke-SqlPackage {
     [CmdletBinding()]

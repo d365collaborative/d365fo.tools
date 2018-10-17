@@ -1,18 +1,19 @@
-﻿<#
-.SYNOPSIS
-Load all necessary information about the D365 instance
-
-.DESCRIPTION
-Load all servicing dll files from the D365 instance into memory
-
-.EXAMPLE
-PS C:\> Get-ApplicationEnvironment
-
-This will load all the different dll files into memory.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Load all necessary information about the D365 instance
+        
+    .DESCRIPTION
+        Load all servicing dll files from the D365 instance into memory
+        
+    .EXAMPLE
+        PS C:\> Get-ApplicationEnvironment
+        
+        This will load all the different dll files into memory.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-ApplicationEnvironment {
     $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\bin"

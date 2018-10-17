@@ -1,54 +1,55 @@
-﻿<#
-.SYNOPSIS
-Download a file to Azure
-
-.DESCRIPTION
-Download any file to an Azure Storage Account
-
-.PARAMETER AccountId
-Storage Account Name / Storage Account Id where you want to fetch the file from
-
-.PARAMETER AccessToken
-The token that has the needed permissions for the download action
-
-.PARAMETER Blobname
-Name of the container / blog inside the storage account you where the file is
-
-.PARAMETER FileName
-Name of the file that you want to download
-
-.PARAMETER Path
-Path to the folder / location you want to save the file
-
-.PARAMETER GetLatest
-Switch to tell the cmdlet just to download the latest file from Azure regardless of name
-
-.EXAMPLE
-PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
-
-Will download the "OriginalUAT.bacpac" file from the storage account and save it to "c:\temp\OriginalUAT.bacpac"
-
-.EXAMPLE
-PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
-
-Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
-The complete path to the file will returned as output from the cmdlet.
-
-.EXAMPLE
-PS C:\> $AzureParams = Get-D365ActiveAzureStorageConfig
-PS C:\> Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
-
-This will get the current Azure Storage Account configuration details
-and use them as parameters to download the latest file from an Azure Storage Account
-
-Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
-The complete path to the file will returned as output from the cmdlet.
-
-.NOTES
-The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Download a file to Azure
+        
+    .DESCRIPTION
+        Download any file to an Azure Storage Account
+        
+    .PARAMETER AccountId
+        Storage Account Name / Storage Account Id where you want to fetch the file from
+        
+    .PARAMETER AccessToken
+        The token that has the needed permissions for the download action
+        
+    .PARAMETER Blobname
+        Name of the container / blog inside the storage account you where the file is
+        
+    .PARAMETER FileName
+        Name of the file that you want to download
+        
+    .PARAMETER Path
+        Path to the folder / location you want to save the file
+        
+    .PARAMETER GetLatest
+        Switch to tell the cmdlet just to download the latest file from Azure regardless of name
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
+        
+        Will download the "OriginalUAT.bacpac" file from the storage account and save it to "c:\temp\OriginalUAT.bacpac"
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
+        
+        Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
+        The complete path to the file will returned as output from the cmdlet.
+        
+    .EXAMPLE
+        PS C:\> $AzureParams = Get-D365ActiveAzureStorageConfig
+        PS C:\> Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
+        
+        This will get the current Azure Storage Account configuration details
+        and use them as parameters to download the latest file from an Azure Storage Account
+        
+        Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
+        The complete path to the file will returned as output from the cmdlet.
+        
+    .NOTES
+        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Invoke-D365AzureStorageDownload {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

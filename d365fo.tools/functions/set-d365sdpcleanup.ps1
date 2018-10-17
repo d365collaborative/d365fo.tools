@@ -1,28 +1,29 @@
-﻿<#
-.SYNOPSIS
-Set the cleanup retention period
-
-.DESCRIPTION
-Sets the configured retention period before updates are deleted
-
-.PARAMETER NumberOfDays
-Number of days that deployable software packages should remain on the server
-
-.EXAMPLE
-PS C:\> Set-D365SDPCleanUp -NumberOfDays 10
-
-This will set the retention period to 10 days inside the the registry
-
-The cmdlet REQUIRES elevated permissions to run, otherwise it will fail
-
-.NOTES
-This cmdlet is based on the findings from Alex Kwitny (@AlexOnDAX)
-
-See his blog for more info:
-http://www.alexondax.com/2018/04/msdyn365fo-how-to-adjust-your.html
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Set the cleanup retention period
+        
+    .DESCRIPTION
+        Sets the configured retention period before updates are deleted
+        
+    .PARAMETER NumberOfDays
+        Number of days that deployable software packages should remain on the server
+        
+    .EXAMPLE
+        PS C:\> Set-D365SDPCleanUp -NumberOfDays 10
+        
+        This will set the retention period to 10 days inside the the registry
+        
+        The cmdlet REQUIRES elevated permissions to run, otherwise it will fail
+        
+    .NOTES
+        This cmdlet is based on the findings from Alex Kwitny (@AlexOnDAX)
+        
+        See his blog for more info:
+        http://www.alexondax.com/2018/04/msdyn365fo-how-to-adjust-your.html
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Set-D365SDPCleanUp {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

@@ -1,33 +1,34 @@
-﻿<#
-.SYNOPSIS
-Get the list of Dynamics 365 services
-
-.DESCRIPTION
-Get the list of Dynamics 365 service names based on the parameters
-
-.PARAMETER All
-Switch to instruct the cmdlet to output all service names
-
-.PARAMETER Aos
-Switch to instruct the cmdlet to output the aos service name
-
-.PARAMETER Batch
-Switch to instruct the cmdlet to output the batch service name
-
-.PARAMETER FinancialReporter
-Switch to instruct the cmdlet to output the financial reporter service name
-
-.PARAMETER DMF
-Switch to instruct the cmdlet to output the data management service name
-
-.EXAMPLE
-PS C:\> Get-ServiceList -All
-
-This will return all services for an D365 environment
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get the list of Dynamics 365 services
+        
+    .DESCRIPTION
+        Get the list of Dynamics 365 service names based on the parameters
+        
+    .PARAMETER All
+        Switch to instruct the cmdlet to output all service names
+        
+    .PARAMETER Aos
+        Switch to instruct the cmdlet to output the aos service name
+        
+    .PARAMETER Batch
+        Switch to instruct the cmdlet to output the batch service name
+        
+    .PARAMETER FinancialReporter
+        Switch to instruct the cmdlet to output the financial reporter service name
+        
+    .PARAMETER DMF
+        Switch to instruct the cmdlet to output the data management service name
+        
+    .EXAMPLE
+        PS C:\> Get-ServiceList -All
+        
+        This will return all services for an D365 environment
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 Function Get-ServiceList {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

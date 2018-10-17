@@ -1,34 +1,35 @@
-﻿<#
-.SYNOPSIS
-Removes a Database
-
-.DESCRIPTION
-Removes a Database
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user
-
-.EXAMPLE
-PS C:\> Remove-D365Database -DatabaseName "ExportClone"
-
-This will remove the "ExportClone" from the default SQL Server instance that is registered on the machine.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Removes a Database
+        
+    .DESCRIPTION
+        Removes a Database
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user
+        
+    .EXAMPLE
+        PS C:\> Remove-D365Database -DatabaseName "ExportClone"
+        
+        This will remove the "ExportClone" from the default SQL Server instance that is registered on the machine.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Remove-D365Database {

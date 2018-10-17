@@ -1,38 +1,39 @@
-﻿<#
-.SYNOPSIS
-Invoke the ModelUtil.exe
-
-.DESCRIPTION
-A cmdlet that wraps some of the cumbersome work into a streamlined process
-
-.PARAMETER Path
-Path to the model package/file that you want to install into the environment
-
-The cmdlet only supports an already extracted ".axmodel" file
-
-.PARAMETER BinDir
-The path to the bin directory for the environment
-
-Default path is the same as the AOS service PackagesLocalDirectory\bin
-
-.PARAMETER MetaDataDir
-The path to the meta data directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory
-
-.PARAMETER Import
-Switch to instruct the cmdlet to execute the Import functionality on ModelUtil.exe
-
-Default value is: on / $true
-
-.EXAMPLE
-PS C:\> Invoke-D365ModelUtil -Path "c:\temp\d365fo.tools\ApplicationSuiteModernDesigns_App73.axmodel"
-
-This will execute the import functionality of ModelUtil.exe and have it import the "ApplicationSuiteModernDesigns_App73.axmodel" file.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Invoke the ModelUtil.exe
+        
+    .DESCRIPTION
+        A cmdlet that wraps some of the cumbersome work into a streamlined process
+        
+    .PARAMETER Path
+        Path to the model package/file that you want to install into the environment
+        
+        The cmdlet only supports an already extracted ".axmodel" file
+        
+    .PARAMETER BinDir
+        The path to the bin directory for the environment
+        
+        Default path is the same as the AOS service PackagesLocalDirectory\bin
+        
+    .PARAMETER MetaDataDir
+        The path to the meta data directory for the environment
+        
+        Default path is the same as the aos service PackagesLocalDirectory
+        
+    .PARAMETER Import
+        Switch to instruct the cmdlet to execute the Import functionality on ModelUtil.exe
+        
+        Default value is: on / $true
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365ModelUtil -Path "c:\temp\d365fo.tools\ApplicationSuiteModernDesigns_App73.axmodel"
+        
+        This will execute the import functionality of ModelUtil.exe and have it import the "ApplicationSuiteModernDesigns_App73.axmodel" file.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Invoke-D365ModelUtil {
     [CmdletBinding()]

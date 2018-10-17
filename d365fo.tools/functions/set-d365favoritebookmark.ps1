@@ -1,26 +1,27 @@
-﻿<#
-.SYNOPSIS
-Enable the favorite bar and add an URL
-
-.DESCRIPTION
-Enable the favorite bar in internet explorer and put in the URL as a favorite
-
-.PARAMETER URL
-The URL of the shortcut you want to add to the favorite bar
-
-.EXAMPLE
-PS C:\> Set-D365FavoriteBookmark -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
-
-This will add the "https://usnconeboxax1aos.cloud.onebox.dynamics.com" to the favorite bar, enable the favorite bar and lock it.
-
-.EXAMPLE
-PS C:\> Get-D365Url | Set-D365FavoriteBookmark
-
-This will get the URL from the environment and add that to the favorite bar, enable the favorite bar and lock it.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Enable the favorite bar and add an URL
+        
+    .DESCRIPTION
+        Enable the favorite bar in internet explorer and put in the URL as a favorite
+        
+    .PARAMETER URL
+        The URL of the shortcut you want to add to the favorite bar
+        
+    .EXAMPLE
+        PS C:\> Set-D365FavoriteBookmark -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
+        
+        This will add the "https://usnconeboxax1aos.cloud.onebox.dynamics.com" to the favorite bar, enable the favorite bar and lock it.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Url | Set-D365FavoriteBookmark
+        
+        This will get the URL from the environment and add that to the favorite bar, enable the favorite bar and lock it.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Set-D365FavoriteBookmark {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

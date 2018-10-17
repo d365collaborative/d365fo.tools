@@ -1,38 +1,39 @@
-﻿<#
-.SYNOPSIS
-Get a SqlCommand object
-
-.DESCRIPTION
-Get a SqlCommand object initialized with the passed parameters
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user.
-
-.PARAMETER TrustedConnection
-Should the connection use a Trusted Connection or not
-
-.EXAMPLE
-PS C:\> Get-SqlCommand -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -TrustedConnection $true
-
-This will initialize a new SqlCommand object (.NET type) with localhost as the server name, AxDB as the database and the User123 sql credentials.
-
-.NOTES
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get a SqlCommand object
+        
+    .DESCRIPTION
+        Get a SqlCommand object initialized with the passed parameters
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user.
+        
+    .PARAMETER TrustedConnection
+        Should the connection use a Trusted Connection or not
+        
+    .EXAMPLE
+        PS C:\> Get-SqlCommand -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -TrustedConnection $true
+        
+        This will initialize a new SqlCommand object (.NET type) with localhost as the server name, AxDB as the database and the User123 sql credentials.
+        
+    .NOTES
+        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-SQLCommand {
     [CmdletBinding()]

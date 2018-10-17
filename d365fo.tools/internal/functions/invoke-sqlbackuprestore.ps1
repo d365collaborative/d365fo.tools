@@ -1,45 +1,46 @@
-﻿<#
-.SYNOPSIS
-Backup & Restore SQL Server database
-
-.DESCRIPTION
-Backup a database and restore it back into the SQL Server
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user.
-
-.PARAMETER TrustedConnection
-Should the connection use a Trusted Connection or not
-
-.PARAMETER NewDatabaseName
-Name of the new (restored) database
-
-.PARAMETER BackupDirectory
-Path to a directory that can store the backup file
-
-.EXAMPLE
-PS C:\> Invoke-SqlBackupRestore -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName "ExportClone" -BackupDirectory "C:\temp\d365fo.tools\sqlbackup"
-
-This will backup the AxDB database and place the backup file inside the "c:\temp\d365fo.tools\sqlbackup" directory.
-The backup file will the be used to restore into a new database named "ExportClone".
-
-.NOTES
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Backup & Restore SQL Server database
+        
+    .DESCRIPTION
+        Backup a database and restore it back into the SQL Server
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user.
+        
+    .PARAMETER TrustedConnection
+        Should the connection use a Trusted Connection or not
+        
+    .PARAMETER NewDatabaseName
+        Name of the new (restored) database
+        
+    .PARAMETER BackupDirectory
+        Path to a directory that can store the backup file
+        
+    .EXAMPLE
+        PS C:\> Invoke-SqlBackupRestore -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName "ExportClone" -BackupDirectory "C:\temp\d365fo.tools\sqlbackup"
+        
+        This will backup the AxDB database and place the backup file inside the "c:\temp\d365fo.tools\sqlbackup" directory.
+        The backup file will the be used to restore into a new database named "ExportClone".
+        
+    .NOTES
+        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 Function Invoke-SqlBackupRestore {
     [CmdletBinding()]

@@ -1,64 +1,65 @@
-﻿<#
-.SYNOPSIS
-Invoke the synchronization process used in Visual Studio
-
-.DESCRIPTION
-Uses the sync.exe (engine) to synchronize the database for the environment
-
-.PARAMETER BinDirTools
-Path to where the tools on the machine can be found
-
-Default value is normally the AOS Service PackagesLocalDirectory\bin
-
-.PARAMETER MetadataDir
-Path to where the tools on the machine can be found
-
-Default value is normally the AOS Service PackagesLocalDirectory
-
-.PARAMETER LogPath
-The path where the log file will be saved
-
-.PARAMETER SyncMode
-The sync mode the sync engine will use
-
-Default value is: "FullAll"
-.PARAMETER Verbosity
-Parameter used to instruct the level of verbosity the sync engine has to report back
-
-Default value is: "Normal"
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user
-
-.EXAMPLE
-PS C:\> Invoke-D365DBSync
-
-This will invoke the sync engine and have it work against the database.
-
-.EXAMPLE
-PS C:\> Invoke-D365DBSync -Verbose
-
-This will invoke the sync engine and have it work against the database. It will output the same level of details that Visual Studio would normally do.
-
-.NOTES
-When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
-
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Invoke the synchronization process used in Visual Studio
+        
+    .DESCRIPTION
+        Uses the sync.exe (engine) to synchronize the database for the environment
+        
+    .PARAMETER BinDirTools
+        Path to where the tools on the machine can be found
+        
+        Default value is normally the AOS Service PackagesLocalDirectory\bin
+        
+    .PARAMETER MetadataDir
+        Path to where the tools on the machine can be found
+        
+        Default value is normally the AOS Service PackagesLocalDirectory
+        
+    .PARAMETER LogPath
+        The path where the log file will be saved
+        
+    .PARAMETER SyncMode
+        The sync mode the sync engine will use
+        
+        Default value is: "FullAll"
+    .PARAMETER Verbosity
+        Parameter used to instruct the level of verbosity the sync engine has to report back
+        
+        Default value is: "Normal"
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365DBSync
+        
+        This will invoke the sync engine and have it work against the database.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365DBSync -Verbose
+        
+        This will invoke the sync engine and have it work against the database. It will output the same level of details that Visual Studio would normally do.
+        
+    .NOTES
+        When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
+        
+        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Invoke-D365DBSync {
