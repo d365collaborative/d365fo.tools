@@ -46,12 +46,13 @@
         Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
         
     .EXAMPLE
-        PS C:\> New-D365Bacpac -ExportModeTier1 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
+        PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac"
         
-        Will backup and restore the db database again the localhost server.
+        Will backup the "AXDB" database and restore is as "Testing1" again the localhost SQL Server.
         Will run the prepping process against the restored database.
-        Will export a bacpac file.
+        Will export a bacpac file to "C:\Temp\Bacpac\Testing1.bacpac".
         Will delete the restored database.
+        It will use trusted connection (Windows authentication) while working against the SQL Server.
         
     .EXAMPLE
         PS C:\> New-D365Bacpac -ExportModeTier2 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
