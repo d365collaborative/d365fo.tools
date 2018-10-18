@@ -116,7 +116,8 @@
 						'Invoke-D365ReArmWindows',
 
 						'Invoke-D365SDPInstall',
-						'Invoke-D365SCDPBundleInstall',						
+						'Invoke-D365SCDPBundleInstall',	
+						'Invoke-D365SeleniumDownload',
 						'Invoke-D365SysFlushAodCache',
 						'Invoke-D365SysRunnerClass',
 						'Invoke-D365SqlScript',
