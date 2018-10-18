@@ -189,7 +189,7 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - SQL backup & restore process"
             $res = Invoke-SqlBackupRestore @BaseParams @Params
 
-            if (Test-PSFFunctionInterrupt -or (-not $res)) { return }
+            if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
 
             $Params = Get-DeepClone $BaseParams
             $Params.DatabaseName = $NewDatabaseName
@@ -197,7 +197,7 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Clear SQL objects"
             $res = Invoke-ClearSqlSpecificObjects @Params -TrustedConnection $UseTrustedConnection
 
-            if (Test-PSFFunctionInterrupt -or (-not $res)) { return }
+            if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
 
             if ($ExecuteCustomSQL) {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Execution of custom SQL script"
@@ -227,14 +227,14 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Creation of Azure DB copy"
             $res = Invoke-AzureBackupRestore @BaseParams @Params
             
-            if (Test-PSFFunctionInterrupt -or (-not $res)) { return }
+            if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
             
             $Params = Get-DeepClone $BaseParams
             $Params.DatabaseName = $NewDatabaseName
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Clear Azure DB objects"
             $res = Invoke-ClearAzureSpecificObjects @Params
 
-            if (Test-PSFFunctionInterrupt -or (-not $res)) { return }
+            if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
 
             if ($ExecuteCustomSQL) {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Execution of custom SQL script"
