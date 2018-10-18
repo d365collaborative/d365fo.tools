@@ -52,9 +52,9 @@
         This will extract all the content from the "HotfixPackageBundle.axscdppkg" file and extract all inner packages. It will extract the content into C:\Temp\20180905 and keep the files after completion.
         
     .EXAMPLE
-        Advanced scenario
-        
         PS C:\> Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
+        
+        (Advanced scenario)
         
         This will traverse the "HotfixPackageBundle.axscdppkg" file and save the manifest files into c:\temp. Everything else is omitted and cleaned up.
         

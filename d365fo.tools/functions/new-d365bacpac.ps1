@@ -55,7 +55,7 @@
         It will use trusted connection (Windows authentication) while working against the SQL Server.
         
     .EXAMPLE
-        PS C:\> New-D365Bacpac -ExportModeTier2 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
+        PS C:\> New-D365Bacpac -ExportModeTier2 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
         
         Will create a copy the db database on the dbserver1 in Azure.
         Will run the prepping process against the copy database.
@@ -63,7 +63,7 @@
         Will delete the copy database.
         
     .EXAMPLE
-        PS C:\> New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BackupDirectory c:\Temp\backup\ -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
+        PS C:\> New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
         
         Normally used for a Tier-2 export and preparation for Tier-1 import
         
@@ -74,7 +74,7 @@
         
         
     .EXAMPLE
-        PS C:\> New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BackupDirectory c:\Temp\backup\ -BacpacFile C:\Temp\Bacpac\Testing1.bacpac -ExportOnly
+        PS C:\> New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac -ExportOnly
         
         Will export a bacpac file.
         The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
