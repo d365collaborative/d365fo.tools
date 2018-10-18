@@ -283,9 +283,9 @@ Creates a new self signed certificate for automated testing and reconfigures the
 
 ### **Download and install Selenium files**
 ```
-Invoke-D365SeleniumDownload
+Invoke-D365SeleniumDownload -RegressionSuiteAutomationTool -PerfSDK
 ```
-Downloads the Selenium web driver files and deploys them to the specified destinations
+Downloads the Selenium web driver files and deploys them to the Regression Suite Automation Tool folder and the PerfSDK folder
 
 ## **Fix misc issues**
 ### **Get Offline Authentication Administrator Email**
