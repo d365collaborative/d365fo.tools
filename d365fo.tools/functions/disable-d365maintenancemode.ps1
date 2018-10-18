@@ -108,6 +108,10 @@ function Disable-D365MaintenanceMode {
             "-setupmode", "maintenancemode",
             "-isinmaintenancemode", "false")
 
+        Stop-D365Environment -All
+
         Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
+
+        Start-D365Environment -All
     }
 }
