@@ -19,7 +19,7 @@
         Path to the "MakeCert.exe" utility that you want to use for the generation process
         
     .EXAMPLE
-        PS C:\> New-D365SelfSignedCertificate -CertificateFileName "C:\temp\d365fo.tools\TestAuth.cer" -PrivateKeyFileName "C:\temp\d365fo.tools\TestAuth.pfx" -Password "pass@word1"
+        PS C:\> New-D365SelfSignedCertificate -CertificateFileName "C:\temp\d365fo.tools\TestAuth.cer" -PrivateKeyFileName "C:\temp\d365fo.tools\TestAuth.pfx" -Password (ConvertTo-SecureString -String "pass@word1" -Force -AsPlainText)
         
         This will generate a new CER certificate that is stored at "C:\temp\d365fo.tools\TestAuth.cer".
         This will generate a new PFX certificate that is stored at "C:\temp\d365fo.tools\TestAuth.pfx".

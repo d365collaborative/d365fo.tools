@@ -41,7 +41,7 @@
         Switch to instruct the cmdlet to output progress details while servicing the installation
         
     .EXAMPLE
-        PS C:\> Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg"
+        PS C:\> Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg" -InstallOnly
         
         This will install the "HotfixPackageBundle.axscdppkg" into the default PackagesLocalDirectory location on the machine.
         

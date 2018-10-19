@@ -1,8 +1,6 @@
 ﻿$excludeCommands = @(
-     "Invoke-D365SCDPBundleInstall"
-     , "Get-DeepClone"
-     , "Import-ModuleFile"
-     , "New-D365SelfSignedCertificate"
+      "Get-DeepClone"
+     , "Import-ModuleFile"     
      , "Test-TrustedConnection"
 )
 
