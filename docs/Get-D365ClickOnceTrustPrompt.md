@@ -5,29 +5,28 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365LogicAppConfig
+# Get-D365ClickOnceTrustPrompt
 
 ## SYNOPSIS
-Get the registered details for Azure Logic App
+Get the ClickOnce configuration
 
 ## SYNTAX
 
 ```
-Get-D365LogicAppConfig [<CommonParameters>]
+Get-D365ClickOnceTrustPrompt [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get the details that are stored for the module when
-it has to invoke the Azure Logic App
+Creates the needed registry keys and values for ClickOnce to work on the machine
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365LogicAppConfig
+Get-D365ClickOnceTrustPrompt
 ```
 
-This will fetch the current registered Azure Logic App details on the machine.
+This will get the current ClickOnce configuration
 
 ## PARAMETERS
 
@@ -40,6 +39,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Author: Mötz Jensen (@Splaxi)
+General notes
 
 ## RELATED LINKS

@@ -24,11 +24,10 @@ A cmdlet that wraps some of the cumbersome work into a streamlined process
 
 ### EXAMPLE 1
 ```
-Invoke-D365ModelUtil -Path c:\temp\ApplicationSuiteModernDesigns_App73.axmodel
+Invoke-D365ModelUtil -Path "c:\temp\d365fo.tools\ApplicationSuiteModernDesigns_App73.axmodel"
 ```
 
-This will execute the import functionality of ModelUtil.exe and have it import the 
-c:\temp\ApplicationSuiteModernDesigns_App73.axmodel file
+This will execute the import functionality of ModelUtil.exe and have it import the "ApplicationSuiteModernDesigns_App73.axmodel" file.
 
 ## PARAMETERS
 
@@ -50,7 +49,7 @@ Accept wildcard characters: False
 ```
 
 ### -BinDir
-The path to the bin directory for the environment 
+The path to the bin directory for the environment
 
 Default path is the same as the AOS service PackagesLocalDirectory\bin
 
@@ -67,7 +66,7 @@ Accept wildcard characters: False
 ```
 
 ### -MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
 Default path is the same as the aos service PackagesLocalDirectory
 
@@ -109,5 +108,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

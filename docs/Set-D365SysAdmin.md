@@ -27,7 +27,7 @@ Set a user to sysadmin inside the SQL Server
 Set-D365SysAdmin
 ```
 
-This will configure the local administrator on the machine as a SYSADMIN inside SQL Server 
+This will configure the local administrator on the machine as a SYSADMIN inside SQL Server
 
 For this to run you need to be running it from a elevated console
 
@@ -37,7 +37,7 @@ Set-D365SysAdmin -SqlPwd Test123
 ```
 
 This will configure the local administrator on the machine as a SYSADMIN inside SQL Server.
-It will logon as the default SqlUser but use the provided SqlPwd. 
+It will logon as the default SqlUser but use the provided SqlPwd.
 
 This can be run from a non-elevated console
 
@@ -136,6 +136,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-General notes
+Author: Mötz Jensen (@splaxi)
 
 ## RELATED LINKS

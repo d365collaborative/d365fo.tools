@@ -26,14 +26,14 @@ Makes it possible to call the table browser for a given table directly from the 
 Invoke-D365TableBrowser -TableName SalesTable
 ```
 
-Will open the table browser and show all the records in Sales Table from the "DAT" company (default value)
+Will open the table browser and show all the records in Sales Table from the "DAT" company (default value).
 
 ### EXAMPLE 2
 ```
 Invoke-D365TableBrowser -TableName SalesTable -Company "USMF"
 ```
 
-Will open the table browser and show all the records in Sales Table from the "USMF" company
+Will open the table browser and show all the records in Sales Table from the "USMF" company.
 
 ## PARAMETERS
 
@@ -95,6 +95,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Author: Mötz Jensen (@Splaxi)
+
 The cmdlet supports piping and can be used in advanced scenarios.
 See more on github and the wiki pages.
 

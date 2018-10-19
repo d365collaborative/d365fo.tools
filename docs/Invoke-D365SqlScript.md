@@ -5,41 +5,39 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-D365InstallLicense
+# Invoke-D365SqlScript
 
 ## SYNOPSIS
-Install a license for a 3.
-party solution
+Execute a SQL Script
 
 ## SYNTAX
 
 ```
-Invoke-D365InstallLicense [-Path] <String> [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
- [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-MetaDataDir] <String>] [[-BinDir] <String>] [<CommonParameters>]
+Invoke-D365SqlScript [-FilePath] <String> [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
+ [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-TrustedConnection] <Boolean>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Install a license for a 3.
-party solution using the builtin "Microsoft.Dynamics.AX.Deployment.Setup.exe" executable
+Execute a SQL Script against the D365FO SQL Server database
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
+Invoke-D365SqlScript -FilePath "C:\temp\d365fo.tools\DeleteUser.sql"
 ```
 
-This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
+This will execute the "C:\temp\d365fo.tools\DeleteUser.sql" against the registered SQL Server on the machine.
 
 ## PARAMETERS
 
-### -Path
-Path to the license file
+### -FilePath
+Path to the file containing the SQL Script that you want executed
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: File
+Aliases:
 
 Required: True
 Position: 2
@@ -51,7 +49,7 @@ Accept wildcard characters: False
 ### -DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
 
 If Azure use the full address to the database server, e.g.
 server.database.windows.net
@@ -99,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-The password for the SQL Server user
+The password for the SQL Server user.
 
 ```yaml
 Type: String
@@ -113,36 +111,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -MetaDataDir
-The path to the meta data directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory
+### -TrustedConnection
+Switch to instruct the cmdlet whether the connection should be using Windows Authentication or not
 
 ```yaml
-Type: String
+Type: Boolean
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 7
-Default value: "$Script:MetaDataDir"
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BinDir
-The path to the bin directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory\bin
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
-Default value: "$Script:BinDir"
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

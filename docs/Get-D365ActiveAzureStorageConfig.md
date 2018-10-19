@@ -41,4 +41,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## NOTES
 You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
 
+Author: Mötz Jensen (@Splaxi)
+
 ## RELATED LINKS

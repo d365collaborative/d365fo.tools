@@ -29,10 +29,17 @@ The Old wil be renamed _original
 Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
 ```
 
+This will switch the default database AXDB out and put "GoldenConfig" in its place instead.
+
 ## PARAMETERS
 
 ### -DatabaseServer
-The database server where the switch should occur
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+
+If Azure use the full address to the database server, e.g.
+server.database.windows.net
 
 ```yaml
 Type: String
@@ -47,7 +54,7 @@ Accept wildcard characters: False
 ```
 
 ### -DatabaseName
-The name of the database to be switched
+The name of the database
 
 ```yaml
 Type: String
@@ -62,7 +69,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlUser
-User with access to alter both databases
+The login name for the SQL Server instance
 
 ```yaml
 Type: String
@@ -77,7 +84,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-Password for the SqlUser
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -115,6 +122,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-General notes
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

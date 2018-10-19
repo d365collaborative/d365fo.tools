@@ -15,7 +15,7 @@ Rename as D365FO Demo/Dev box
 ```
 Rename-D365Instance [-NewName] <String> [[-AosServiceWebRootPath] <String>]
  [[-IISServerApplicationHostConfigFile] <String>] [[-HostsFile] <String>] [[-BackupExtension] <String>]
- [[-MRConfigFile] <String>] [-RenameMachine] [<CommonParameters>]
+ [[-MRConfigFile] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,8 +26,11 @@ Standard it is called 'usnconeboxax1aos'
 
 ### EXAMPLE 1
 ```
-Rename-D365Instance -NewName 'Demo1'
+Rename-D365Instance -NewName "Demo1"
 ```
+
+This will rename the D365 for Finance & Operations instance to "Demo1".
+This IIS will be restarted while doing it.
 
 ## PARAMETERS
 
@@ -107,7 +110,7 @@ Accept wildcard characters: False
 ```
 
 ### -MRConfigFile
-Parameter description
+Path to the Financial Reporter (Management Reporter) configuration file
 
 ```yaml
 Type: String
@@ -121,21 +124,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RenameMachine
-Switch to instruct the cmdlet to rename the windows machine as well
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
 For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
@@ -145,8 +133,10 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The function restarts the IIS Service.
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
 
-Elevated privileges are required
+The function restarts the IIS Service.
+Elevated privileges are required.
 
 ## RELATED LINKS

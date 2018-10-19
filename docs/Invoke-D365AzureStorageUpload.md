@@ -31,18 +31,20 @@ Upload any file to an Azure Storage Account
 
 ### EXAMPLE 1
 ```
-Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath c:\temp\bacpac\UAT_20180701.bacpac -DeleteOnUpload
+Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
 ```
+
+This will upload the "c:\temp\bacpac\UAT_20180701.bacpac" up to the "backupfiles" container, inside the "miscfiles" Azure Storage Account that is access with the "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" token.
+After upload the local file will be deleted.
 
 ### EXAMPLE 2
 ```
 $AzureParams = Get-D365ActiveAzureStorageConfig
 ```
 
-New-D365Bacpac | Invoke-D365AzureStorageUpload @AzureParams
+PS C:\\\> New-D365Bacpac | Invoke-D365AzureStorageUpload @AzureParams
 
-This will get the current Azure Storage Account configuration details
-and use them as parameters to upload the file to an Azure Storage Account
+This will get the current Azure Storage Account configuration details and use them as parameters to upload the file to an Azure Storage Account.
 
 ## PARAMETERS
 
@@ -144,5 +146,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## NOTES
 The cmdlet supports piping and can be used in advanced scenarios.
 See more on github and the wiki pages.
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

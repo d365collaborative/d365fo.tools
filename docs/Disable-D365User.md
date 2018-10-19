@@ -24,24 +24,24 @@ Sets the enabled to 0 in the userinfo table.
 
 ### EXAMPLE 1
 ```
-Enable-D365User
+Disable-D365User
 ```
 
-This will enable all users for the environment
+This will Disable all users for the environment
 
 ### EXAMPLE 2
 ```
-Enable-D365User -Email "claire@contoso.com"
+Disable-D365User -Email "claire@contoso.com"
 ```
 
-This will enable the user with the email address "claire@contoso.com"
+This will Disable the user with the email address "claire@contoso.com"
 
 ### EXAMPLE 3
 ```
-Enable-D365User -Email "*contoso.com"
+Disable-D365User -Email "*contoso.com"
 ```
 
-This will enable all users that matches the search "*contoso.com" in their email address
+This will Disable all users that matches the search "*contoso.com" in their email address
 
 ## PARAMETERS
 
@@ -138,5 +138,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

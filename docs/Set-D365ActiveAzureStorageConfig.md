@@ -26,15 +26,13 @@ Updates the current active Azure Storage Account configuration with a new one
 Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
 ```
 
-Will scan the list of Azure Storage Account configurations and select the one that matches the 
-supplied name.
+Will scan the list of Azure Storage Account configurations and select the one that matches the supplied name.
 This gets imported into the active Azure Storage Account configuration.
 
 ## PARAMETERS
 
 ### -Name
-The name the Azure Storage Account configuration you want to load into the 
-active Azure Storage Account configuration
+The name the Azure Storage Account configuration you want to load into the active Azure Storage Account configuration
 
 ```yaml
 Type: String
@@ -57,6 +55,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Author: Mötz Jensen (@Splaxi)
+
 You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
 
 You will have to run the Add-D365AzureStorageConfig cmdlet at least once, before this will be capable of working.

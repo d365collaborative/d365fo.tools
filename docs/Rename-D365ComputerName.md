@@ -5,49 +5,51 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365TfsWorkspace
+# Rename-D365ComputerName
 
 ## SYNOPSIS
-Get the TFS / VSTS registered workspace path
+Function for renaming computer.
+Renames Computer and changes the SSRS Configration
 
 ## SYNTAX
 
 ```
-Get-D365TfsWorkspace [[-Path] <String>] [[-TfsUri] <String>] [<CommonParameters>]
+Rename-D365ComputerName [-NewName] <String> [[-SSRSReportDatabase] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Gets the workspace path from the configuration of the local tfs in visual studio
+When doing development on-prem, there is as need for changing the Computername.
+Function both changes Computername and SSRS Configuration
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365TfsWorkspace -TfsUri https://PROJECT.visualstudio.com
+Rename-D365ComputerName -NewName "Demo-8.1" -SSRSReportDatabase "ReportServer"
 ```
 
-This will invoke the default tf.exe client located in the Visual Studio 2015 directory
-and fetch the configured URI.
+This will rename the local machine to the "Demo-8.1" as the new Windows machine name.
+It will update the registration inside the SQL Server Reporting Services configuration to handle the new name of the machine.
 
 ## PARAMETERS
 
-### -Path
-Path to the directory where the Team Foundation Client executable is located
+### -NewName
+The new name for the computer
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 2
-Default value: $Script:TfDir
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -TfsUri
-Uri to the TFS / VSTS that the workspace is connected to
+### -SSRSReportDatabase
+Name of the SSRS reporting database
 
 ```yaml
 Type: String
@@ -56,8 +58,8 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: $Script:TfsUri
-Accept pipeline input: True (ByPropertyName)
+Default value: DynamicsAxReportServer
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -70,6 +72,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

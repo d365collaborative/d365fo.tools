@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-D365Environment
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Cmdlet to start the different services in a Dynamics 365 Finance & Operations environment
 
 ## SYNTAX
 
@@ -24,21 +24,48 @@ Start-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialRe
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Can start all relevant services that is running in a D365FO environment
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Start-D365Environment -All
 ```
 
-{{ Add example description here }}
+Will start all D365FO service on the machine
+
+### EXAMPLE 2
+```
+Start-D365Environment -Aos -Batch
+```
+
+Will start Aos & Batch services on the machine
 
 ## PARAMETERS
 
+### -ComputerName
+An array of computers that you want to start services on.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: @($env:computername)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -All
-{{Fill All Description}}
+Set when you want to start all relevant services
+
+Includes:
+Aos
+Batch
+Financial Reporter
 
 ```yaml
 Type: SwitchParameter
@@ -46,29 +73,14 @@ Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 2
-Default value: None
+Position: 3
+Default value: [switch]::Present
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Aos
-{{Fill Aos Description}}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Specific
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Batch
-{{Fill Batch Description}}
+Start the Aos (iis) service
 
 ```yaml
 Type: SwitchParameter
@@ -77,43 +89,13 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ComputerName
-{{Fill ComputerName Description}}
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DMF
-{{Fill DMF Description}}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Specific
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FinancialReporter
-{{Fill FinancialReporter Description}}
+### -Batch
+Start the batch service
 
 ```yaml
 Type: SwitchParameter
@@ -122,7 +104,37 @@ Aliases:
 
 Required: False
 Position: 4
-Default value: None
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FinancialReporter
+Start the financial reporter (Management Reporter 2012) service
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Specific
+Aliases:
+
+Required: False
+Position: 5
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DMF
+Start the Data Management Framework service
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Specific
+Aliases:
+
+Required: False
+Position: 6
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -133,11 +145,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## INPUTS
 
-### None
-
 ## OUTPUTS
 
-### System.Object
 ## NOTES
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
