@@ -1,6 +1,6 @@
 ﻿@{
     # Script module or binary module file associated with this manifest
-    ModuleToProcess   = 'd365fo.tools.psm1'
+    RootModule   = 'd365fo.tools.psm1'
 	
     # Version number of this module.
     ModuleVersion     = '0.4.58'
