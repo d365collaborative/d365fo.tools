@@ -68,7 +68,7 @@ if ($environment.Infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
     $Script:CanUseTrustedConnection = $true
 }
 elseif ($environment.Infrastructure.HostName -like "*cloudax.dynamics.com*") {
-    $Script:EnvironmentType = [EnvironmentTyd365azurestoragefilepe]::AzureHostedTier1
+    $Script:EnvironmentType = [EnvironmentType]::AzureHostedTier1
     $Script:CanUseTrustedConnection = $true
 }
 elseif ($environment.Infrastructure.HostName -like "*sandbox.ax.dynamics.com*") {
