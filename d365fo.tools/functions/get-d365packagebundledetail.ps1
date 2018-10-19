@@ -53,7 +53,7 @@
         
     .EXAMPLE
         Advanced scenario
-
+        
         PS C:\> Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
         
         This will traverse the "HotfixPackageBundle.axscdppkg" file and save the manifest files into c:\temp. Everything else is omitted and cleaned up.

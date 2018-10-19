@@ -31,7 +31,7 @@ A cmdlet that wraps some of the cumbersome work into a streamlined process
 
 ### EXAMPLE 1
 ```
-Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg"
+Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg" -InstallOnly
 ```
 
 This will install the "HotfixPackageBundle.axscdppkg" into the default PackagesLocalDirectory location on the machine.
