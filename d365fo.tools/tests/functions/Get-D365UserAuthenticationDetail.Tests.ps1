@@ -8,7 +8,7 @@ Describe "Get-D365UserAuthenticationDetail Unit Tests" -Tag "Unit" {
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Get-D365UserAuthenticationDetail).ParameterSets.Name | Should -Be ''
+			(Get-Command Get-D365UserAuthenticationDetail).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
 		It 'Should habe the expected parameter Email' {
@@ -26,5 +26,11 @@ Describe "Get-D365UserAuthenticationDetail Unit Tests" -Tag "Unit" {
 		}
 	}
 	
+	Describe "Testing parameterset __AllParameterSets" {
+		<#
+		__AllParameterSets -Email
+		__AllParameterSets -Email
+		#>
+	}
 
 }
