@@ -1,23 +1,16 @@
-﻿$excludeCommands = @("Get-D365PackageLabelFile"
-    , "Get-D365AOTObject"
-    , "Get-D365DotNetClass"
-    , "Get-D365DotNetMethod"
-    , "Get-D365Label"
-    , "Get-D365PackageBundleDetail"
-    , "Get-D365ProductInformation"
-    , "Get-D365TableSequence"
-    , "Import-D365AadUser"
-    , "Invoke-D365AzureStorageDownload"
-    , "Invoke-D365AzureStorageUpload"
-    , "Invoke-D365LogicApp"
-    , "Invoke-D365SCDPBundleInstall"
-    , "New-D365TopologyFile"
-    , "Remove-D365User"
+﻿$excludeCommands = @(
+     "Invoke-D365SCDPBundleInstall"
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools
 
-$commands = $commandsRaw | Select-String -Pattern $excludeCommands -SimpleMatch -NotMatch
+if ($excludeCommands.Count -gt 0) {
+    $commands = $commandsRaw | Select-String -Pattern $excludeCommands -SimpleMatch -NotMatch
+
+}
+else {
+    $commands = $commandsRaw
+}
 
 foreach ( $commandName in $commands) {
     # command to be tested
@@ -42,25 +35,30 @@ foreach ( $commandName in $commands) {
             # which makes some of the tests fail
             $example = $_.Code -replace "`n.*" -replace "PS C:\\>" 
 
-            # for every example we want a single It block
-            It "Example - $example" {
-                # mock the tested command so we don't actually do anything
-                # because it can be unsafe and we don't have the environment setup
-                # (so the only thing we are testing is that the code is semantically
-                # correct and provides all the needed params)
-                Mock $commandName { 
-                    # I am returning true here,
-                    # but some of the examples drill down to the returned object
-                    # so in strict mode we would fail
-                    $true 
-                }
+            if ( ($example -like "*|*" ) -or (-not ($example -match $commandName)) ) {
+                It "Example - $example" -Skip { $true }
+            }
+            else {
+                # for every example we want a single It block
+                It "Example - $example" {
+                    # mock the tested command so we don't actually do anything
+                    # because it can be unsafe and we don't have the environment setup
+                    # (so the only thing we are testing is that the code is semantically
+                    # correct and provides all the needed params)
+                    Mock $commandName { 
+                        # I am returning true here,
+                        # but some of the examples drill down to the returned object
+                        # so in strict mode we would fail
+                        $true 
+                    }
 	  
 	  
 
-                # here simply invoke the example
-                $result = Invoke-Expression $example
-                # and check that we got result from the mock
-                $result | Should -BeTrue
+                    # here simply invoke the example
+                    $result = Invoke-Expression $example
+                    # and check that we got result from the mock
+                    $result | Should -BeTrue
+                }
             }
         }
     }
