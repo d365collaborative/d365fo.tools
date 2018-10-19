@@ -1,5 +1,9 @@
 ﻿$excludeCommands = @(
      "Invoke-D365SCDPBundleInstall"
+     , "Get-DeepClone"
+     , "Import-ModuleFile"
+     , "New-D365SelfSignedCertificate"
+     , "Test-TrustedConnection"
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools

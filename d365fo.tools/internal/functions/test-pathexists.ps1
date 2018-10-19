@@ -20,7 +20,7 @@
         Switch to instruct the cmdlet to create the directory if it doesn't exist
         
     .EXAMPLE
-        PS C:\> Test-PathExists "c:\temp",c:\temp\dir" -Type Container
+        PS C:\> Test-PathExists "c:\temp","c:\temp\dir" -Type Container
         
         This will test if the mentioned paths (folders) exists and the current context has enough permission.
         
