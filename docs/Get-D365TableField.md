@@ -21,7 +21,7 @@ Get-D365TableField [-TableId] <Int32> [[-Name] <String>] [[-FieldId] <Int32>] [[
 
 ### SearchByNameForce
 ```
-Get-D365TableField [-Name] <String> [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
+Get-D365TableField [[-Name] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-SearchAcrossTables] [<CommonParameters>]
 ```
 
@@ -42,35 +42,35 @@ Get a field either by FieldName (wildcard search allowed) or by FieldId
 Get-D365TableField -TableId 10347
 ```
 
-Will get all field details for the table with id 10347
+Will get all field details for the table with id 10347.
 
 ### EXAMPLE 2
 ```
 Get-D365TableField -TableName CustTable
 ```
 
-Will get all field details for the CustTable table
+Will get all field details for the CustTable table.
 
 ### EXAMPLE 3
 ```
 Get-D365TableField -TableId 10347 -FieldId 175
 ```
 
-Will get the details for the field with id 175 that belongs to the table with id 10347
+Will get the details for the field with id 175 that belongs to the table with id 10347.
 
 ### EXAMPLE 4
 ```
 Get-D365TableField -TableId 10347 -Name "VATNUM"
 ```
 
-Will get the details for the "VATNUM" that belongs to the table with id 10347
+Will get the details for the "VATNUM" that belongs to the table with id 10347.
 
 ### EXAMPLE 5
 ```
 Get-D365TableField -TableId 10347 -Name "VAT*"
 ```
 
-Will get the details for all fields that fits the search "VAT*" that belongs to the table with id 10347
+Will get the details for all fields that fits the search "VAT*" that belongs to the table with id 10347.
 
 ### EXAMPLE 6
 ```
@@ -107,22 +107,10 @@ Default value is "*" which will search for all fields
 
 ```yaml
 Type: String
-Parameter Sets: Default, TableName
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
-Default value: *
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-```yaml
-Type: String
-Parameter Sets: SearchByNameForce
-Aliases:
-
-Required: True
 Position: 3
 Default value: *
 Accept pipeline input: False
@@ -149,7 +137,7 @@ Accept wildcard characters: False
 ### -DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
 
 If Azure use the full address to the database server, e.g.
 server.database.windows.net
@@ -197,7 +185,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -269,5 +257,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## NOTES
 The cmdlet supports piping and can be used in advanced scenarios.
 See more on github and the wiki pages.
+
+Author: Mötz Jensen (@splaxi)
 
 ## RELATED LINKS

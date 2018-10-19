@@ -5,50 +5,50 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-D365ReArmWindows
+# Set-D365FavoriteBookmark
 
 ## SYNOPSIS
-Invokes the Rearm of Windows license
+Enable the favorite bar and add an URL
 
 ## SYNTAX
 
 ```
-Invoke-D365ReArmWindows [-Restart] [<CommonParameters>]
+Set-D365FavoriteBookmark [[-URL] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Function used for invoking the rearm functionality inside Windows
+Enable the favorite bar in internet explorer and put in the URL as a favorite
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Invoke-D365ReArmWindows
+Set-D365FavoriteBookmark -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
 ```
 
-This will re arm the Windows installation if there is any activation retries left
+This will add the "https://usnconeboxax1aos.cloud.onebox.dynamics.com" to the favorite bar, enable the favorite bar and lock it.
 
 ### EXAMPLE 2
 ```
-Invoke-D365ReArmWindows -Restart
+Get-D365Url | Set-D365FavoriteBookmark
 ```
 
-This will re arm the Windows installation if there is any activation retries left and restart the computer.
+This will get the URL from the environment and add that to the favorite bar, enable the favorite bar and lock it.
 
 ## PARAMETERS
 
-### -Restart
-Instruct the cmdlet to restart the machine
+### -URL
+The URL of the shortcut you want to add to the favorite bar
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
-Default value: False
-Accept pipeline input: False
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

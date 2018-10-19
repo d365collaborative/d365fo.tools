@@ -39,6 +39,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet uses WMI objects to access the activation details
+The cmdlet uses CIM objects to access the activation details
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

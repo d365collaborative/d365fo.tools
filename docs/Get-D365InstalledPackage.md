@@ -102,4 +102,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 The cmdlet supports piping and can be used in advanced scenarios.
 See more on github and the wiki pages.
 
+Author: Mötz Jensen (@Splaxi)
+
 ## RELATED LINKS

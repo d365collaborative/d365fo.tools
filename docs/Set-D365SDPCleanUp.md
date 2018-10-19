@@ -61,4 +61,6 @@ This cmdlet is based on the findings from Alex Kwitny (@AlexOnDAX)
 See his blog for more info:
 http://www.alexondax.com/2018/04/msdyn365fo-how-to-adjust-your.html
 
+Author: Mötz Jensen (@Splaxi)
+
 ## RELATED LINKS

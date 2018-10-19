@@ -28,7 +28,7 @@ Uses the sync.exe (engine) to synchronize the database for the environment
 Invoke-D365DBSync
 ```
 
-This will invoke the sync engine and have it work against the database
+This will invoke the sync engine and have it work against the database.
 
 ### EXAMPLE 2
 ```
@@ -36,8 +36,7 @@ Invoke-D365DBSync -Verbose
 ```
 
 This will invoke the sync engine and have it work against the database.
-It will output the
-same level of details that Visual Studio would normally do
+It will output the same level of details that Visual Studio would normally do.
 
 ## PARAMETERS
 
@@ -59,7 +58,9 @@ Accept wildcard characters: False
 ```
 
 ### -MetadataDir
-{{Fill MetadataDir Description}}
+Path to where the tools on the machine can be found
+
+Default value is normally the AOS Service PackagesLocalDirectory
 
 ```yaml
 Type: String
@@ -125,7 +126,7 @@ Accept wildcard characters: False
 ### -DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
 
 If Azure use the full address to the database server, e.g.
 server.database.windows.net
@@ -173,7 +174,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -196,5 +197,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
+
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

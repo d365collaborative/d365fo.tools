@@ -52,7 +52,7 @@ It will import the "C:\temp\uat.bacpac" file into a new database named "Imported
 
 ### EXAMPLE 2
 ```
-Import-D365BacpacOldVersion -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
+Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
 ```
 
 This will instruct the cmdlet that the import will be working against an Azure DB instance.
@@ -218,7 +218,7 @@ Accept wildcard characters: False
 ```
 
 ### -AxDeployExtUserPwd
-Parameter description
+Password that is obtained from LCS
 
 ```yaml
 Type: String
@@ -245,7 +245,7 @@ Accept wildcard characters: False
 ```
 
 ### -AxDbAdminPwd
-Parameter description
+Password that is obtained from LCS
 
 ```yaml
 Type: String
@@ -272,7 +272,7 @@ Accept wildcard characters: False
 ```
 
 ### -AxRuntimeUserPwd
-Parameter description
+Password that is obtained from LCS
 
 ```yaml
 Type: String
@@ -299,7 +299,7 @@ Accept wildcard characters: False
 ```
 
 ### -AxMrRuntimeUserPwd
-Parameter description
+Password that is obtained from LCS
 
 ```yaml
 Type: String
@@ -326,7 +326,7 @@ Accept wildcard characters: False
 ```
 
 ### -AxRetailRuntimeUserPwd
-Parameter description
+Password that is obtained from LCS
 
 ```yaml
 Type: String
@@ -353,7 +353,7 @@ Accept wildcard characters: False
 ```
 
 ### -AxRetailDataSyncUserPwd
-Parameter description
+Password that is obtained from LCS
 
 ```yaml
 Type: String
@@ -380,7 +380,7 @@ Accept wildcard characters: False
 ```
 
 ### -CustomSqlFile
-{{Fill CustomSqlFile Description}}
+Parameter description
 
 ```yaml
 Type: String
@@ -434,6 +434,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-General notes
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

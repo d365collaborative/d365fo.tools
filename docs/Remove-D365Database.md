@@ -24,13 +24,20 @@ Removes a Database
 
 ### EXAMPLE 1
 ```
-Remove-D365Database -DatabaseName "database_original"
+Remove-D365Database -DatabaseName "ExportClone"
 ```
+
+This will remove the "ExportClone" from the default SQL Server instance that is registered on the machine.
 
 ## PARAMETERS
 
 ### -DatabaseServer
-The server the database is on
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+
+If Azure use the full address to the database server, e.g.
+server.database.windows.net
 
 ```yaml
 Type: String
@@ -45,7 +52,7 @@ Accept wildcard characters: False
 ```
 
 ### -DatabaseName
-Name of the database to remove
+The name of the database
 
 ```yaml
 Type: String
@@ -60,7 +67,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlUser
-The User with rights for dropping the database
+The login name for the SQL Server instance
 
 ```yaml
 Type: String
@@ -75,7 +82,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-Password for the SqlUser
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -98,6 +105,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-General notes
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

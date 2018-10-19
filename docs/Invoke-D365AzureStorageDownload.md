@@ -41,7 +41,7 @@ Will download the "OriginalUAT.bacpac" file from the storage account and save it
 Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
 ```
 
-Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\". 
+Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
 The complete path to the file will returned as output from the cmdlet.
 
 ### EXAMPLE 3
@@ -49,12 +49,12 @@ The complete path to the file will returned as output from the cmdlet.
 $AzureParams = Get-D365ActiveAzureStorageConfig
 ```
 
-Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
+PS C:\\\> Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
 
 This will get the current Azure Storage Account configuration details
 and use them as parameters to download the latest file from an Azure Storage Account
 
-Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\". 
+Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
 The complete path to the file will returned as output from the cmdlet.
 
 ## PARAMETERS
@@ -160,5 +160,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## NOTES
 The cmdlet supports piping and can be used in advanced scenarios.
 See more on github and the wiki pages.
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

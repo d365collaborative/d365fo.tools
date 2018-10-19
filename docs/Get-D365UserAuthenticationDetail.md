@@ -23,8 +23,10 @@ The cmdlet will take the e-mail parameter and use it to lookup all the needed de
 
 ### EXAMPLE 1
 ```
-Get-D365UserAuthenticationDetail
+Get-D365UserAuthenticationDetail -Email "Claire@contoso.com"
 ```
+
+This will get all the authentication details for the user account with the email address "Claire@contoso.com"
 
 ## PARAMETERS
 
@@ -52,6 +54,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-General notes
+Author : Rasmus Andersen (@ITRasmus)
+Author : Mötz Jensen (@splaxi)
 
 ## RELATED LINKS

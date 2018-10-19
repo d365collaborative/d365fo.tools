@@ -39,7 +39,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations. 
+The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
 The call to the dll file gets all relevant connections details for the database server.
+
+Author: Rasmus Andersen (@ITRasmus)
 
 ## RELATED LINKS

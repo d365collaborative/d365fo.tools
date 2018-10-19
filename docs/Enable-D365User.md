@@ -18,7 +18,7 @@ Enable-D365User [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUs
 ```
 
 ## DESCRIPTION
-Sets the enabled to 1 in the userinfo table.
+Sets the enabled to 1 in the userinfo table
 
 ## EXAMPLES
 
@@ -48,7 +48,7 @@ This will enable all users that matches the search "*contoso.com" in their email
 ### -DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
 
 If Azure use the full address to the database server, e.g.
 server.database.windows.net
@@ -96,7 +96,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -111,7 +111,7 @@ Accept wildcard characters: False
 ```
 
 ### -Email
-The search string to select which user(s) should be enabled.
+The search string to select which user(s) should be enabled
 
 The parameter supports wildcards.
 E.g.
@@ -141,5 +141,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## NOTES
 Implemented on request by Paul Heisterkamp
+
+Author: Mötz Jensen
 
 ## RELATED LINKS

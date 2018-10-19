@@ -27,6 +27,8 @@ Function for getting which sevices there are exposed from D365
 Get-D365ExposedService -ClientId "MyClientId" -ClientSecret "MyClientSecret"
 ```
 
+This will show a list of all the services that the D365FO instance is exposing.
+
 ## PARAMETERS
 
 ### -ClientId
@@ -97,7 +99,10 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## OUTPUTS
 
+### System.String
 ## NOTES
 Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
+
+Author: Rasmus Andersen (@ITRasmus)
 
 ## RELATED LINKS

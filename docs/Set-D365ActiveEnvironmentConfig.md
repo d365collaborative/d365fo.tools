@@ -26,8 +26,7 @@ Updates the current active environment configuration with a new one
 Set-D365ActiveEnvironmentConfig -Name "UAT"
 ```
 
-Will scan the list of environment configurations and select the one that matches the 
-supplied name.
+Will scan the list of environment configurations and select the one that matches the supplied name.
 This gets imported into the active environment configuration.
 
 ## PARAMETERS
@@ -56,6 +55,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Author: Mötz Jensen (@Splaxi)
+
 You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
 
 You will have to run the Add-D365EnvironmentConfig cmdlet at least once, before this will be capable of working.

@@ -5,53 +5,83 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-D365InstallLicense
+# Get-D365TableSequence
 
 ## SYNOPSIS
-Install a license for a 3.
-party solution
+Get the sequence object for table
 
 ## SYNTAX
 
 ```
-Invoke-D365InstallLicense [-Path] <String> [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
- [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-MetaDataDir] <String>] [[-BinDir] <String>] [<CommonParameters>]
+Get-D365TableSequence [[-TableName] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
+ [[-SqlUser] <String>] [[-SqlPwd] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Install a license for a 3.
-party solution using the builtin "Microsoft.Dynamics.AX.Deployment.Setup.exe" executable
+Get the sequence details for tables
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
+Get-D365TableSequence | Format-Table
 ```
 
-This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
+This will get all the sequence details for all tables inside the database.
+It will format the output as a table for better overview.
+
+### EXAMPLE 2
+```
+Get-D365TableSequence -TableName "Custtable" | Format-Table
+```
+
+This will get the sequence details for the CustTable in the database.
+It will format the output as a table for better overview.
+
+### EXAMPLE 3
+```
+Get-D365TableSequence -TableName "Cust*" | Format-Table
+```
+
+This will get the sequence details for all tables that matches the search "Cust*" in the database.
+It will format the output as a table for better overview.
+
+### EXAMPLE 4
+```
+Get-D365Table -Name CustTable | Get-D365TableSequence | Format-Table
+```
+
+This will get the table details from the Get-D365Table cmdlet and pipe that into Get-D365TableSequence.
+This will get the sequence details for the CustTable in the database.
+It will format the output as a table for better overview.
 
 ## PARAMETERS
 
-### -Path
-Path to the license file
+### -TableName
+Name of the table that you want to work against
+
+Accepts wildcards for searching.
+E.g.
+-TableName "Cust*"
+
+Default value is "*" which will search for all tables
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: File
+Aliases: Name
 
-Required: True
+Required: False
 Position: 2
-Default value: None
-Accept pipeline input: False
+Default value: *
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
 ### -DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
 
 If Azure use the full address to the database server, e.g.
 server.database.windows.net
@@ -99,7 +129,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-The password for the SQL Server user
+The password for the SQL Server user.
 
 ```yaml
 Type: String
@@ -113,40 +143,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -MetaDataDir
-The path to the meta data directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: "$Script:MetaDataDir"
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BinDir
-The path to the bin directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory\bin
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
-Default value: "$Script:BinDir"
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
 For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
@@ -156,6 +152,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Author: Mötz Jensen (@splaxi)
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

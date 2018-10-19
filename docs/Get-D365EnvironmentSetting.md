@@ -5,28 +5,35 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365ProductInformation
+# Get-D365EnvironmentSetting
 
 ## SYNOPSIS
-Returns information about D365FO
+Get the D365FO environment settings
 
 ## SYNTAX
 
 ```
-Get-D365ProductInformation [<CommonParameters>]
+Get-D365EnvironmentSetting [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Gets detailed information about application and platform
+Gets all settings the Dynamics 365 for Finance & Operations environment uses.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-ProductInfoProvider
+Get-D365EnvironmentSetting
 ```
 
-This will get product, platform and application version details for the environment
+This will get all details available for the environment
+
+### EXAMPLE 2
+```
+Get-D365EnvironmentSetting | Format-Custom -Property *
+```
+
+This will get all details available for the environment and format it to show all details in a long custom object.
 
 ## PARAMETERS
 
@@ -40,7 +47,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## NOTES
 The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
-The call to the dll file gets all relevant product details for the environment.
+The call to the dll file gets all relevant details for the installation.
 
 Author: Rasmus Andersen (@ITRasmus)
 

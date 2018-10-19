@@ -31,8 +31,8 @@ Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-Command] <Str
 ```
 
 ## DESCRIPTION
-A cmdlet that wraps some of the cumbersome work into a streamlined process. 
-The process are detailed in the Microsoft documentation here: 
+A cmdlet that wraps some of the cumbersome work into a streamlined process.
+The process are detailed in the Microsoft documentation here:
 https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deployment/install-deployable-package
 
 ## EXAMPLES
@@ -49,9 +49,9 @@ This will install the extracted package in c:\temp\ using a runbook in memory wh
 Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
 ```
 
-Invoke-D365SDPInstall -Path "c:\temp\" -Command Generate -RunbookId 'MyRunbook'
-Invoke-D365SDPInstall -Path "c:\temp\" -Command Import -RunbookId 'MyRunbook'
-Invoke-D365SDPInstall -Path "c:\temp\" -Command Execute -RunbookId 'MyRunbook'
+PS C:\\\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Generate -RunbookId 'MyRunbook'
+PS C:\\\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Import -RunbookId 'MyRunbook'
+PS C:\\\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Execute -RunbookId 'MyRunbook'
 
 Manual operations that first create Topology XML from current environment, then generate runbook with id 'MyRunbook', then import it and finally execute it.
 
@@ -68,14 +68,14 @@ Using default runbook id 'Runbook' and run all the operations from generate, to 
 Invoke-D365SDPInstall -Path "c:\temp\" -Command RerunStep -Step 18 -RunbookId 'MyRunbook'
 ```
 
-Rerun runbook with id 'MyRunbook' from step 18
+Rerun runbook with id 'MyRunbook' from step 18.
 
 ### EXAMPLE 5
 ```
 Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
 ```
 
-Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step
+Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step.
 
 ## PARAMETERS
 
@@ -97,9 +97,9 @@ Accept wildcard characters: False
 ```
 
 ### -MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory
+Default path is the same as the aos service PackagesLocalDirectory
 
 ```yaml
 Type: String
@@ -145,7 +145,20 @@ Accept wildcard characters: False
 ```
 
 ### -Command
-{{Fill Command Description}}
+The command you want the cmdlet to execute when it runs the AXUpdateInstaller.exe
+
+Valid options are:
+SetTopology
+Generate
+Import
+Execute
+RunAll
+ReRunStep
+SetStepComplete
+Export
+VersionCheck
+
+The default value is "SetTopology"
 
 ```yaml
 Type: String
@@ -160,7 +173,7 @@ Accept wildcard characters: False
 ```
 
 ### -Step
-{{Fill Step Description}}
+The step number that you want to work against
 
 ```yaml
 Type: Int32
@@ -175,7 +188,9 @@ Accept wildcard characters: False
 ```
 
 ### -RunbookId
-{{Fill RunbookId Description}}
+The runbook id of the runbook that you want to work against
+
+Default value is "Runbook"
 
 ```yaml
 Type: String
@@ -199,6 +214,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## NOTES
 Author: Tommy Skaue (@skaue)
+Author: Mötz Jensen (@Splaxi)
+
 Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
 
 ## RELATED LINKS

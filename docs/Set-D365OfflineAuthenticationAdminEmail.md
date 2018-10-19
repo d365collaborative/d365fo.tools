@@ -62,4 +62,6 @@ http://d365technext.blogspot.com
 The specific blog post that we based this cmdlet on can be found here:
 http://d365technext.blogspot.com/2018/07/offline-authentication-admin-email.html
 
+Author: Mötz Jensen (@Splaxi)
+
 ## RELATED LINKS

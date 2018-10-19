@@ -27,8 +27,7 @@ Adds an Azure Storage Account config to the configuration store
 Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
 ```
 
-This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" 
-with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob"
+This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob"
 
 ## PARAMETERS
 
@@ -117,5 +116,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## NOTES
 You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

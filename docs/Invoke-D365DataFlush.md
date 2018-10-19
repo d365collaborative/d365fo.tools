@@ -5,48 +5,42 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365DecryptedConfigFile
+# Invoke-D365DataFlush
 
 ## SYNOPSIS
-Decrypts the AOS config file
+Invoke the one of the data flush classes
 
 ## SYNTAX
 
 ```
-Get-D365DecryptedConfigFile [[-DropPath] <String>] [[-AosServiceWebRootPath] <String>] [<CommonParameters>]
+Invoke-D365DataFlush [[-Url] <String>] [-Class <String[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Function used for decrypting the config file used by the D365 Finance & Operations AOS service
+Invoke one of the runnable classes that is clearing cache, data or something else
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365DecryptedConfigFile -DropPath "c:\temp\d365fo.tools"
+Invoke-D365DataFlush
 ```
 
-This will get the config file from the instance, decrypt it and save it to "c:\temp\d365fo.tools"
+This will make a call against the default URL for the machine and
+have it execute the SysFlushAOD class.
+
+### EXAMPLE 2
+```
+Invoke-D365DataFlush -Class SysFlushData,SysFlushAod
+```
+
+This will make a call against the default URL for the machine and
+have it execute the SysFlushData and SysFlushAod classes.
 
 ## PARAMETERS
 
-### -DropPath
-Place where the decrypted files should be placed
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: ExtractFolder
-
-Required: False
-Position: 2
-Default value: C:\temp\d365fo.tools\ConfigFile_Decrypted
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AosServiceWebRootPath
-Location of the D365 webroot folder
+### -Url
+URL to the Dynamics 365 instance you want to clear the AOD cache on
 
 ```yaml
 Type: String
@@ -54,8 +48,25 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
-Default value: $Script:AOSPath
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Class
+The class that you want to execute.
+
+Default value is "SysFlushAod"
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: SysFlushAod
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -69,9 +80,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Used for getting the Password for the database and other service accounts used in environment
-
-Author : Rasmus Andersen (@ITRasmus)
-Author : Mötz Jensen (@splaxi)
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
