@@ -41,8 +41,7 @@ foreach ( $commandName in $commands) {
 
             if ( ($example -like "*|*" ) -or (-not ($example -match $commandName)) ) {
                 It "Example - $example" -Skip { $true }
-            }
-            else {
+            } else {
                 # for every example we want a single It block
                 It "Example - $example" {
                     # mock the tested command so we don't actually do anything
@@ -55,8 +54,6 @@ foreach ( $commandName in $commands) {
                         # so in strict mode we would fail
                         $true 
                     }
-	  
-	  
 
                     # here simply invoke the example
                     $result = Invoke-Expression $example
