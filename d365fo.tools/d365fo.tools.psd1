@@ -1,9 +1,9 @@
 ﻿@{
     # Script module or binary module file associated with this manifest
-    ModuleToProcess   = 'd365fo.tools.psm1'
+    RootModule   = 'd365fo.tools.psm1'
 	
     # Version number of this module.
-    ModuleVersion     = '0.4.58'
+    ModuleVersion     = '0.4.60'
 	
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
