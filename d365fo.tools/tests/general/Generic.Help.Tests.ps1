@@ -1,7 +1,7 @@
 ﻿$excludeCommands = @(
-      "Get-DeepClone"
-     , "Import-ModuleFile"     
-     , "Test-TrustedConnection"
+    "Import-ModuleFile"
+    , "Get-DeepClone"
+    , "Test-TrustedConnection"
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools
