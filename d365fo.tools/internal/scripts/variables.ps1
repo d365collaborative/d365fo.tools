@@ -127,7 +127,7 @@ $maskOutput = @(
 foreach ($item in (Get-Variable -Scope Script)) {
     $val = $null
 
-    if($maskOutput -contains $($item.Name)) { 
+    if($maskOutput -contains $($item.Name)) {
         $val = "The variable was found - but the content masked while outputting."
     } else {
         $val = $($item.Value)
