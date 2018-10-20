@@ -120,8 +120,20 @@ if($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")) {
 
 $Script:SQLTools = "C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn"
 
+$maskOutput = @(
+"AccessToken"
+)
+
 foreach ($item in (Get-Variable -Scope Script)) {
-    Write-PSFMessage -Level Verbose -Message "$($item.Name) - $($item.Value)" -Target $($item.Value)
+    $val = $null
+
+    if($maskOutput -contains $($item.Name)) { 
+        $val = "The variable was found - but the content masked while outputting."
+    } else {
+        $val = $($item.Value)
+    }
+    
+    Write-PSFMessage -Level Verbose -Message "$($item.Name) - $val" -Target $val
 }
 
 Write-PSFMessage -Level Verbose -Message "Finished outputting all the variable content."
