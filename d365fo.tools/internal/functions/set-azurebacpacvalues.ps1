@@ -124,6 +124,8 @@ function Set-AzureBacpacValues {
     $null = $sqlCommand.Parameters.Add("@PlanCapability ", $PlanCapability)
 
     try {
+        $sqlCommand.Connection.Open()
+
         Write-PSFMessage -Level Verbose "Execution sql statement against database" -Target $sqlCommand.CommandText
         $null = $sqlCommand.ExecuteNonQuery()
         
@@ -135,7 +137,10 @@ function Set-AzureBacpacValues {
         return
     }
     finally {
-        $sqlCommand.Connection.Close()
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()
+        }
+
         $sqlCommand.Dispose()
     }
 }
