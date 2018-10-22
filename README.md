@@ -68,4 +68,8 @@ We have implemented **platyPS** (https://github.com/PowerShell/platyPS) to gener
 
 The generated help markdown files are located inside the **'docs'** folder in this repository. Click this [link](https://github.com/d365collaborative/d365fo.tools/tree/master/docs) to jump straight inside.
 
-For sake of the sanity and just trying to help people out, we copy & pasted **all** the old examples previously available in the readme into the wiki. The page is located [here](https://github.com/d365collaborative/d365fo.tools/wiki/Old-readme-examples). We **don't** plan on keep the **"Old readme examples"** wiki up-to-date going forward. If you believe we are missing some examples that should be part of the comment based help, please create an issue .
+For sake of the sanity and just trying to help people out, we copy & pasted **all** the old examples previously available in the readme into the wiki. The page is located [here](https://github.com/d365collaborative/d365fo.tools/wiki/Old-readme-examples). We **don't** plan on keep the **"Old readme examples"** wiki up-to-date going forward. If you believe we are missing some examples that should be part of the comment based help, please create an issue.
+
+## Contributing
+
+Want to contribute to the project? We'd love to have you! Visit our [contributing.md](https://github.com/d365collaborative/d365fo.tools/blob/master/contributing.md) for a jump start.
