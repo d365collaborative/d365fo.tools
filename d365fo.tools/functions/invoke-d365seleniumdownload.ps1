@@ -1,4 +1,4 @@
-  <#
+﻿  <#
       .SYNOPSIS
           Downloads the Selenium web driver files and deploys them to the specified destinations.
           
@@ -19,7 +19,7 @@
       .NOTES
           Author: Kenny Saelen (@kennysaelen)
   #>
-  function Invoke-D365SeleniumDownload 
+  function Invoke-D365SeleniumDownload
   {
     [CmdletBinding()]
     param (
@@ -40,7 +40,7 @@
     $ieDriverZipLocalPath = (Join-Path $env:TEMP "IEDriverServer_Win32_2.42.0.zip")
     $zipExtractionPath = (Join-Path $env:TEMP "D365Seleniumextraction")
     
-    try 
+    try
     {
         Write-PSFMessage -Level Host -Message "Downloading Selenium files"
         
@@ -63,11 +63,11 @@
             $seleniumPath = Join-Path $targetPath "Common\External\Selenium"
 
             # Check if the Regression Suite Automation Tool is installed on the machine and Selenium not already installed
-            if (Test-PathExists -Path $targetPath -Type Container) 
-            { 
+            if (Test-PathExists -Path $targetPath -Type Container)
+            {
                 if(-not(Test-PathExists -Path $seleniumPath -Type Container -Create))
                 {
-                    Write-PSFMessage -Level Critical -Message [String]::Format("The folder for the Selenium files could not be created: {0}", $seleniumPath)     
+                    Write-PSFMessage -Level Critical -Message [String]::Format("The folder for the Selenium files could not be created: {0}", $seleniumPath)
                 }
 
                 Write-PSFMessage -Level Host -Message "Copying Selenium files to destination folder"
@@ -75,7 +75,7 @@
                 Copy-Item (Join-Path $zipExtractionPath "net40\*") $seleniumPath
                 Write-PSFMessage -Level Host -Message ([String]::Format("Selenium files have been downloaded and installed in the following folder: {0}", $seleniumPath))
             }
-            else 
+            else
             {
                 Write-PSFMessage -Level Warning -Message [String]::Format("The RegressionSuiteAutomationTool switch parameter is specified but the tool could not be located in the following folder: {0}", $targetPath)
             }
@@ -88,11 +88,11 @@
             $seleniumPath = Join-Path $targetPath "Common\External\Selenium"
 
             # Check if the PerfSDK is installed on the machine and Selenium not already installed
-            if (Test-PathExists -Path $targetPath -Type Container) 
-            { 
+            if (Test-PathExists -Path $targetPath -Type Container)
+            {
                 if(-not(Test-PathExists -Path $seleniumPath -Type Container -Create))
                 {
-                    Write-PSFMessage -Level Critical -Message [String]::Format("The folder for the Selenium files could not be created: {0}", $seleniumPath)     
+                    Write-PSFMessage -Level Critical -Message [String]::Format("The folder for the Selenium files could not be created: {0}", $seleniumPath)
                 }
 
                 Write-PSFMessage -Level Host -Message "Copying Selenium files to destination folder"
@@ -100,13 +100,13 @@
                 Copy-Item (Join-Path $zipExtractionPath "net40\*") $seleniumPath
                 Write-PSFMessage -Level Host -Message ([String]::Format("Selenium files have been downloaded and installed in the following folder: {0}", $seleniumPath))
             }
-            else 
+            else
             {
                 Write-PSFMessage -Level Warning -Message [String]::Format("The PerfSDK switch parameter is specified but the tool could not be located in the following folder: {0}", $targetPath)
             }
         }
     }
-    catch 
+    catch
     {
         Write-PSFMessage -Level Host -Message "Something went wrong while downloading and installing the Selenium files." -Exception $PSItem.Exception
         Stop-PSFFunction -Message "Stopping because of errors"
@@ -119,4 +119,4 @@
         Remove-Item -Path $ieDriverZipLocalPath -Recurse
         Remove-Item -Path $zipExtractionPath -Recurse
     }
-  }
+}
