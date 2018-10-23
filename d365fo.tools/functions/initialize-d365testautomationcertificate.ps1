@@ -1,8 +1,8 @@
 ﻿
 <#
     .SYNOPSIS
-        Create and configure test automation certificates
-        
+        Create and configure test automation certificate
+
     .DESCRIPTION
         Creates a new self signed certificate for automated testing and reconfigures the AOS Windows Identity Foundation configuration to trust the certificate
         
@@ -14,9 +14,6 @@
         
     .PARAMETER Password
         The password that you want to use to protect your certificate with
-        
-    .PARAMETER MakeCertExecutable
-        Path to the "MakeCert.exe" utility that you want to use for the generation process
         
     .EXAMPLE
         PS C:\> Initialize-D365TestAutomationCertificate
@@ -38,10 +35,7 @@ function Initialize-D365TestAutomationCertificate {
         [string]$PrivateKeyFileName = (Join-Path $env:TEMP "TestAuthCert.pfx"),
 
         [Parameter(Mandatory = $false, Position = 3)]
-        [Security.SecureString]$Password = (ConvertTo-SecureString -String "Password1" -Force -AsPlainText),
-
-        [Parameter(Mandatory = $false, Position = 4)]
-        [string]$MakeCertExecutable = "C:\Program Files (x86)\Windows Kits\10\bin\x64\MakeCert.exe"
+        [Security.SecureString]$Password = (ConvertTo-SecureString -String "Password1" -Force -AsPlainText)
     )
 
     if (-not $Script:IsAdminRuntime) {
@@ -52,7 +46,7 @@ function Initialize-D365TestAutomationCertificate {
 
     try {
         # Create the certificate and place it in the right stores
-        $X509Certificate = New-D365SelfSignedCertificate -CertificateFileName $CertificateFileName -PrivateKeyFileName $PrivateKeyFileName -Password $Password -MakeCertExecutable $MakeCertExecutable
+        $X509Certificate = New-D365SelfSignedCertificate -CertificateFileName $CertificateFileName -PrivateKeyFileName $PrivateKeyFileName -Password $Password
 
         if (Test-PSFFunctionInterrupt) {
             Write-PSFMessage -Level Critical -Message "The self signed certificate creation was interrupted."
