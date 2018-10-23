@@ -79,7 +79,7 @@
             {
                 Write-PSFMessage -Level Warning -Message [String]::Format("The RegressionSuiteAutomationTool switch parameter is specified but the tool could not be located in the following folder: {0}", $targetPath)
             }
-        } 
+        }
         
         if($PerfSDK)
         {
