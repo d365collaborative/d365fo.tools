@@ -2,7 +2,7 @@
 <#
     .SYNOPSIS
         Create and configure test automation certificate
-
+        
     .DESCRIPTION
         Creates a new self signed certificate for automated testing and reconfigures the AOS Windows Identity Foundation configuration to trust the certificate
         

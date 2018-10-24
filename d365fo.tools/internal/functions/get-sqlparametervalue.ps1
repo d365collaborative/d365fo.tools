@@ -1,23 +1,24 @@
-﻿<#
-.SYNOPSIS
-Get the value from the parameter
-
-.DESCRIPTION
-Get the value that is assigned to the SqlParameter object
-
-.PARAMETER SqlParameter
-The SqlParameter object that you want to work against
-
-.EXAMPLE
-PS C:\> $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-PS C:\> $SqlCmd.Parameters.AddWithValue("@Parm1", "1234")
-PS C:\> Get-SqlParameterValue -SqlParameter $SqlCmd.Parameters[0]
-
-This will extract the value from the first parameter from the SqlCommand object.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get the value from the parameter
+        
+    .DESCRIPTION
+        Get the value that is assigned to the SqlParameter object
+        
+    .PARAMETER SqlParameter
+        The SqlParameter object that you want to work against
+        
+    .EXAMPLE
+        PS C:\> $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
+        PS C:\> $SqlCmd.Parameters.AddWithValue("@Parm1", "1234")
+        PS C:\> Get-SqlParameterValue -SqlParameter $SqlCmd.Parameters[0]
+        
+        This will extract the value from the first parameter from the SqlCommand object.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-SqlParameterValue {
     [CmdletBinding()]

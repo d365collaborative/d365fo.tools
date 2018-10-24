@@ -1,24 +1,26 @@
-﻿  <#
-      .SYNOPSIS
-          Downloads the Selenium web driver files and deploys them to the specified destinations.
-          
-      .DESCRIPTION
-          Downloads the Selenium web driver files and deploys them to the specified destinations.
-          
-      .PARAMETER RegressionSuiteAutomationTool
-          Switch to specify if the Selenium files need to be installed in the Regression Suite Automation Tool folder.
-  
-      .PARAMETER PerfSDK
-          Switch to specify if the Selenium files need to be installed in the PerfSDK folder.
-          
-      .EXAMPLE
-          PS C:\> Invoke-D365SeleniumDownload -RegressionSuiteAutomationTool -PerfSDK
-          
-          This will download the Selenium zip archives and extract the files into both the Regression Suite Automation Tool folder and the PerfSDK folder.
-          
-      .NOTES
-          Author: Kenny Saelen (@kennysaelen)
-  #>
+﻿
+<#
+    .SYNOPSIS
+        Downloads the Selenium web driver files and deploys them to the specified destinations.
+        
+    .DESCRIPTION
+        Downloads the Selenium web driver files and deploys them to the specified destinations.
+        
+    .PARAMETER RegressionSuiteAutomationTool
+        Switch to specify if the Selenium files need to be installed in the Regression Suite Automation Tool folder.
+        
+    .PARAMETER PerfSDK
+        Switch to specify if the Selenium files need to be installed in the PerfSDK folder.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365SeleniumDownload -RegressionSuiteAutomationTool -PerfSDK
+        
+        This will download the Selenium zip archives and extract the files into both the Regression Suite Automation Tool folder and the PerfSDK folder.
+        
+    .NOTES
+        Author: Kenny Saelen (@kennysaelen)
+        
+#>
   function Invoke-D365SeleniumDownload
   {
     [CmdletBinding()]
