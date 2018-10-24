@@ -47,6 +47,8 @@
 
 						'Backup-D365MetaDataDir',
 
+						'Clear-D365MonitorData',
+						
 						'Disable-D365MaintenanceMode'
 						'Disable-D365User',
 
