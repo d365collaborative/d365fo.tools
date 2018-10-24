@@ -26,7 +26,7 @@ function Clear-D365MonitorData {
     [CmdletBinding()]
     param (
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
-        [string] $Path = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\MonAgentData\SingleAgent\Tables"
+        [string] $Path = (Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\MonAgentData\SingleAgent\Tables")
     )
     
     Get-ChildItem -Path $Path | Remove-Item -Force -ErrorAction SilentlyContinue
