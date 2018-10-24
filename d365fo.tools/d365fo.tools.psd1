@@ -86,6 +86,8 @@
 						'Get-D365PackageLabelFile',
 						'Get-D365ProductInformation',
 
+						'Get-D365Runbook',
+
 						'Get-D365SDPCleanUp',
 						'Get-D365Table',
 						'Get-D365TableField',
