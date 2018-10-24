@@ -25,22 +25,34 @@
 	
     switch ($SqlParameter.SqlDbType) {
         { $stringEscaped -contains $_ } {
-            $result = $SqlParameter.Value.ToString().Replace("'", "''")
+            $result = "'{0}'" -f $SqlParameter.Value.ToString().Replace("'", "''")
             break
         }
-        [System.Data.SqlDbType]::Bit {
-            $result = ConvertTo-BooleanOrDefault -Object $SqlParameter.Value.ToString() -Default $true
+
+        { [System.Data.SqlDbType]::Bit } {
+            if ((ConvertTo-BooleanOrDefault -Object $SqlParameter.Value.ToString() -Default $true)) {
+                $result = '1'
+            }
+            else {
+                $result = '0'
+            }
+                        
             break
         }
 		
-        {$stringNumbers -contains $_} {
+        { $stringNumbers -contains $_ } {
             $SqlParameter.Value
             $result = ([System.Double]$SqlParameter.Value).ToString([System.Globalization.CultureInfo]::InvariantCulture).Replace("'", "''")
             break
         }
+        
         default {
+            write-host "Test 2 $($SqlParameter.SqlDbType)"
+
             $result = $SqlParameter.Value.ToString().Replace("'", "''")
             break
         }
     }
+
+    $result
 }

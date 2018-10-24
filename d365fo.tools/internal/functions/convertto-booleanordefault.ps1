@@ -7,9 +7,9 @@
     )
 
     [boolean] $result = $Default;
-    $stringTrue = @("yes"    , "true"     , "ok"    , "y")
+    $stringTrue = @("yes", "true", "ok", "y")
 
-    $stringFalse = @( "no", "false", "n"    )
+    $stringFalse = @( "no", "false", "n")
 
     try {
         if (-not ($null -eq $Object) ) {
@@ -18,7 +18,7 @@
                     $result = $true
                     break
                 }
-                {$stringFalse-contains $_} {
+                {$stringFalse -contains $_} {
                     $result = $false
                     break
                 }
