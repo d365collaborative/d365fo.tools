@@ -110,7 +110,7 @@ Accept wildcard characters: False
 ```
 
 ### -FinancialReporter
-Stop the financial reporter (Management Reporter 2012)
+Start the financial reporter (Management Reporter 2012) service
 
 ```yaml
 Type: SwitchParameter
@@ -125,7 +125,7 @@ Accept wildcard characters: False
 ```
 
 ### -DMF
-{{Fill DMF Description}}
+Start the Data Management Framework service
 
 ```yaml
 Type: SwitchParameter
@@ -148,5 +148,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

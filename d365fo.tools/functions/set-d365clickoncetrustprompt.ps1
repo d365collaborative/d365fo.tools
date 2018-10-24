@@ -1,18 +1,19 @@
-﻿<#
-.SYNOPSIS
-Set the ClickOnce needed configuration
-
-.DESCRIPTION
-Creates the needed registry keys and values for ClickOnce to work on the machine
-
-.EXAMPLE
-PS C:\> Set-D365ClickOnceTrustPrompt
-
-This will create / or update the current ClickOnce configuration.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Set the ClickOnce needed configuration
+        
+    .DESCRIPTION
+        Creates the needed registry keys and values for ClickOnce to work on the machine
+        
+    .EXAMPLE
+        PS C:\> Set-D365ClickOnceTrustPrompt
+        
+        This will create / or update the current ClickOnce configuration.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Set-D365ClickOnceTrustPrompt {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

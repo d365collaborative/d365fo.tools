@@ -154,12 +154,12 @@ function Import-D365Bacpac {
         [switch]$ImportOnly
     )
 
-    if (-not (Test-PathExists -Path $BacpacFile -PathType Leaf)) {
+    if (-not (Test-PathExists -Path $BacpacFile -Type Leaf)) {
         return
     }
 
     if ($PSBoundParameters.ContainsKey("CustomSqlFile")) {
-        if (-not (Test-PathExists -Path $CustomSqlFile -PathType Leaf)) {
+        if (-not (Test-PathExists -Path $CustomSqlFile -Type Leaf)) {
             return
         }
         else {

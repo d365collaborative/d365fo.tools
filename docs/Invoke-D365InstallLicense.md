@@ -20,18 +20,16 @@ Invoke-D365InstallLicense [-Path] <String> [[-DatabaseServer] <String>] [[-Datab
 
 ## DESCRIPTION
 Install a license for a 3.
-party solution using the builtin
-Microsoft.Dynamics.AX.Deployment.Setup.exe executable
+party solution using the builtin "Microsoft.Dynamics.AX.Deployment.Setup.exe" executable
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Invoke-D365InstallLicense -Path c:\temp\license.txt
+Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
 ```
 
-This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe
-with the needed parameters to import / install the license file.
+This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
 
 ## PARAMETERS
 
@@ -53,7 +51,7 @@ Accept wildcard characters: False
 ### -DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
 
 If Azure use the full address to the database server, e.g.
 server.database.windows.net
@@ -101,7 +99,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -116,9 +114,9 @@ Accept wildcard characters: False
 ```
 
 ### -MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory
+Default path is the same as the aos service PackagesLocalDirectory
 
 ```yaml
 Type: String
@@ -135,7 +133,7 @@ Accept wildcard characters: False
 ### -BinDir
 The path to the bin directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory\bin
+Default path is the same as the aos service PackagesLocalDirectory\bin
 
 ```yaml
 Type: String

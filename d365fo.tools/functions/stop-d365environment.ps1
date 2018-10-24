@@ -1,46 +1,47 @@
-﻿<#
-.SYNOPSIS
-Cmdlet to stop the different services in a Dynamics 365 Finance & Operations environment
-
-.DESCRIPTION
-Can stop all relevant services that is running in a D365FO environment
-
-.PARAMETER ComputerName
-An array of computers that you want to stop services on.
-
-.PARAMETER All
-Set when you want to stop all relevant services
-
-Includes:
-Aos
-Batch
-Financial Reporter
-
-.PARAMETER Aos
-Stop the Aos (iis) service
-
-.PARAMETER Batch
-Stop the batch service
-
-.PARAMETER FinancialReporter
-Start the financial reporter (Management Reporter 2012) service
-
-.PARAMETER DMF
-Start the Data Management Framework service
-
-.EXAMPLE
-PS C:\> Stop-D365Environment -All
-
-Will stop all D365FO service on the machine
-
-.EXAMPLE
-PS C:\> Stop-D365Environment -Aos -Batch
-
-Will stop Aos & Batch services on the machine
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Cmdlet to stop the different services in a Dynamics 365 Finance & Operations environment
+        
+    .DESCRIPTION
+        Can stop all relevant services that is running in a D365FO environment
+        
+    .PARAMETER ComputerName
+        An array of computers that you want to stop services on.
+        
+    .PARAMETER All
+        Set when you want to stop all relevant services
+        
+        Includes:
+        Aos
+        Batch
+        Financial Reporter
+        
+    .PARAMETER Aos
+        Stop the Aos (iis) service
+        
+    .PARAMETER Batch
+        Stop the batch service
+        
+    .PARAMETER FinancialReporter
+        Start the financial reporter (Management Reporter 2012) service
+        
+    .PARAMETER DMF
+        Start the Data Management Framework service
+        
+    .EXAMPLE
+        PS C:\> Stop-D365Environment -All
+        
+        Will stop all D365FO service on the machine
+        
+    .EXAMPLE
+        PS C:\> Stop-D365Environment -Aos -Batch
+        
+        Will stop Aos & Batch services on the machine
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Stop-D365Environment {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

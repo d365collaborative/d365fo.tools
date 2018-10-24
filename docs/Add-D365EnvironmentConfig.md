@@ -27,8 +27,7 @@ Adds an environment config to the configuration store
 Add-D365EnvironmentConfig -Name "Customer-UAT" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF" -Company "DAT"
 ```
 
-This will add an entry into the list of environments that is stored with the name "Customer-UAT" 
-and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
+This will add an entry into the list of environments that is stored with the name "Customer-UAT" and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
 The company is registered "DAT".
 
 ### EXAMPLE 2
@@ -36,12 +35,10 @@ The company is registered "DAT".
 Add-D365EnvironmentConfig -Name "Customer-UAT" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF" -Company "DAT" -SqlUser "SqlAdmin" -SqlPwd "Pass@word1"
 ```
 
-This will add an entry into the list of environments that is stored with the name "Customer-UAT" 
-and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
+This will add an entry into the list of environments that is stored with the name "Customer-UAT" and with the URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF".
 It will register the SqlUser as "SqlAdmin" and the SqlPassword to "Pass@word1".
 
-This it useful for working on Tier 2 environments where the SqlUser and SqlPassword cannot be
-extracted from the environment itself.
+This it useful for working on Tier 2 environments where the SqlUser and SqlPassword cannot be extracted from the environment itself.
 
 ## PARAMETERS
 

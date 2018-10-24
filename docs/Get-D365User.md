@@ -31,7 +31,7 @@ This will get all users from the environment
 
 ### EXAMPLE 2
 ```
-Update-D365User -Email "*contoso.com"
+Get-D365User -Email "*contoso.com"
 ```
 
 This will search for all users with an e-mail address containing 'contoso.com' from the environment

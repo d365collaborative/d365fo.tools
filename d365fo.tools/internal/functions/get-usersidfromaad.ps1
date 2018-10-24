@@ -1,25 +1,26 @@
-﻿<#
-.SYNOPSIS
-Get the SID from an Azure Active Directory (AAD) user
-
-.DESCRIPTION
-Get the generated SID that an Azure Active Directory (AAD) user will get in relation to Dynamics 365 Finance & Operations environment
-
-.PARAMETER SignInName
-The sign in name (email address) for the user that you want the SID from
-
-.PARAMETER Provider
-The provider connected to the sign in name
-
-.EXAMPLE
-PS C:\> Get-UserSIDFromAad -SignInName "Claire@contoso.com" -Provider "ZXY"
-
-This will get the SID for Azure Active Directory user "Claire@contoso.com"
-
-.NOTES
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get the SID from an Azure Active Directory (AAD) user
+        
+    .DESCRIPTION
+        Get the generated SID that an Azure Active Directory (AAD) user will get in relation to Dynamics 365 Finance & Operations environment
+        
+    .PARAMETER SignInName
+        The sign in name (email address) for the user that you want the SID from
+        
+    .PARAMETER Provider
+        The provider connected to the sign in name
+        
+    .EXAMPLE
+        PS C:\> Get-UserSIDFromAad -SignInName "Claire@contoso.com" -Provider "ZXY"
+        
+        This will get the SID for Azure Active Directory user "Claire@contoso.com"
+        
+    .NOTES
+        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Get-UserSIDFromAad {
     [CmdletBinding()]
@@ -49,4 +50,3 @@ function Get-UserSIDFromAad {
         return
     }
 }
-

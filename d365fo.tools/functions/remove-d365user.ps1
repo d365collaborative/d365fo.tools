@@ -1,50 +1,51 @@
-﻿<#
-.SYNOPSIS
-Delete an user from the environment
-
-.DESCRIPTION
-Deletes the user from the database, including security configuration
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user.
-
-.PARAMETER Email
-The search string to select which user(s) should be updated.
-
-You have to specific the explicit email address of the user you want to remove
-
-The cmdlet will not be able to delete the ADMIN user, this is to prevent you
-from being locked out of the system.
-
-.EXAMPLE
-PS C:\> Remove-D365User -Email "Claire@contoso.com"
-
-This will move all security and user details from the user with the email address
-"Claire@contoso.com"
-
-.EXAMPLE
-PS C:\> Get-D365User -Email *contoso.com | Remove-D365User
-
-This will first get all users from the database that matches the *contoso.com
-search and pipe their emails to Remove-D365User for it to delete them.
-
-.NOTES
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Delete an user from the environment
+        
+    .DESCRIPTION
+        Deletes the user from the database, including security configuration
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user.
+        
+    .PARAMETER Email
+        The search string to select which user(s) should be updated.
+        
+        You have to specific the explicit email address of the user you want to remove
+        
+        The cmdlet will not be able to delete the ADMIN user, this is to prevent you
+        from being locked out of the system.
+        
+    .EXAMPLE
+        PS C:\> Remove-D365User -Email "Claire@contoso.com"
+        
+        This will move all security and user details from the user with the email address
+        "Claire@contoso.com"
+        
+    .EXAMPLE
+        PS C:\> Get-D365User -Email *contoso.com | Remove-D365User
+        
+        This will first get all users from the database that matches the *contoso.com
+        search and pipe their emails to Remove-D365User for it to delete them.
+        
+    .NOTES
+        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Remove-D365User {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

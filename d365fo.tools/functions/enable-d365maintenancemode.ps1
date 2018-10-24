@@ -89,7 +89,7 @@ function Enable-D365MaintenanceMode {
 
         Invoke-D365SqlScript @Params -FilePath $("$script:PSModuleRoot\internal\sql\enable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
 
-        Start-D365Environment -All
+        Start-D365Environment -Aos
     }
     else {
 
@@ -108,6 +108,10 @@ function Enable-D365MaintenanceMode {
             "-setupmode", "maintenancemode",
             "-isinmaintenancemode", "true")
 
+        Stop-D365Environment -All
+
         Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
+
+        Start-D365Environment -Aos
     }
 }

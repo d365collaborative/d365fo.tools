@@ -26,7 +26,7 @@ Get installed Dynamics 365 for Finance & Operations services that are installed 
 Get-D365InstalledService
 ```
 
-This will get all installed services on the machine
+This will get all installed services on the machine.
 
 ## PARAMETERS
 
@@ -54,6 +54,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-General notes
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

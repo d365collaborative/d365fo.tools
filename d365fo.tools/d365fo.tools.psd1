@@ -1,9 +1,9 @@
 ﻿@{
     # Script module or binary module file associated with this manifest
-    ModuleToProcess   = 'd365fo.tools.psm1'
+    RootModule   = 'd365fo.tools.psm1'
 	
     # Version number of this module.
-    ModuleVersion     = '0.4.52'
+    ModuleVersion     = '0.4.67'
 	
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -26,7 +26,7 @@
     # Modules that must be imported into the global environment prior to importing
     # this module
     RequiredModules   = @(
-        @{ ModuleName = 'PSFramework'; ModuleVersion = '0.9.25.113' },
+        @{ ModuleName = 'PSFramework'; ModuleVersion = '0.10.27.128' },
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
         @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' } 
     )
@@ -116,7 +116,8 @@
 						'Invoke-D365ReArmWindows',
 
 						'Invoke-D365SDPInstall',
-						'Invoke-D365SCDPBundleInstall',						
+						'Invoke-D365SCDPBundleInstall',	
+						'Invoke-D365SeleniumDownload',
 						'Invoke-D365SysFlushAodCache',
 						'Invoke-D365SysRunnerClass',
 						'Invoke-D365SqlScript',

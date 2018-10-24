@@ -3,6 +3,30 @@
 --Author: Tommy Skaue (@skaue)
 
 --Prepare a database in Azure SQL Database for export to SQL Server.
+
+-- Re-assign full text catalogs to [dbo]
+BEGIN
+    DECLARE @catalogName nvarchar(256);
+    DECLARE @sqlStmtTable nvarchar(512)
+
+    DECLARE reassignFullTextCatalogCursor CURSOR
+       FOR SELECT DISTINCT name
+       FROM sys.fulltext_catalogs 
+       
+       -- Open cursor and disable on all tables returned
+       OPEN reassignFullTextCatalogCursor
+       FETCH NEXT FROM reassignFullTextCatalogCursor INTO @catalogName
+
+       WHILE @@FETCH_STATUS = 0
+       BEGIN
+              SET @sqlStmtTable = 'ALTER AUTHORIZATION ON Fulltext Catalog::[' + @catalogName + '] TO [dbo]'
+              EXEC sp_executesql @sqlStmtTable
+              FETCH NEXT FROM reassignFullTextCatalogCursor INTO @catalogName
+       END
+       CLOSE reassignFullTextCatalogCursor
+       DEALLOCATE reassignFullTextCatalogCursor
+END
+
 --Disable change tracking on tables where it is enabled.
 declare
 @SQL varchar(1000)
@@ -27,25 +51,8 @@ ALTER DATABASE
 -- SET THE NAME OF YOUR DATABASE BELOW
 [@NewDatabase]
 set CHANGE_TRACKING = OFF
---Remove the database level users from the database
---these will be recreated after importing in SQL Server.
 
-declare @catalogSQL varchar(1000)
-set quoted_identifier off
-
-declare catalogCursor CURSOR for
-select 'ALTER AUTHORIZATION ON Fulltext Catalog::[' + name + '] TO [dbo]; '
-from sys.fulltext_catalogs
-OPEN catalogCursor
-FETCH catalogCursor into @catalogSQL
-WHILE @@Fetch_Status = 0
-BEGIN
-exec(@catalogSQL)
-FETCH catalogCursor into @catalogSQL
-END
-CLOSE catalogCursor
-DEALLOCATE catalogCursor
-
+-- Ensure users can be dropped by changing ownership of certain schemas
 DECLARE @SCHEMASQL VARCHAR(1000)
 SET QUOTED_IDENTIFIER OFF
 DECLARE SCHEMACURSOR CURSOR FOR
@@ -83,7 +90,9 @@ BEGIN
 END;
 CLOSE certCursor;
 DEALLOCATE certCursor; 							    
-								    
+
+--Remove the database level users from the database
+--these will be recreated after importing in SQL Server.								    
 declare
 @userSQL varchar(1000)
 set quoted_identifier off
@@ -115,9 +124,14 @@ where name = 'TEMPTABLEINAXDB'
 TRUNCATE TABLE SYSSERVERCONFIG
 TRUNCATE TABLE SYSSERVERSESSIONS
 TRUNCATE TABLE SYSCORPNETPRINTERS
+TRUNCATE TABLE SYSCLIENTSESSIONS
+TRUNCATE TABLE BATCHSERVERCONFIG
+TRUNCATE TABLE BATCHSERVERGROUP
 --Remove records which could lead to accidentally sending an email externally.
 UPDATE SysEmailParameters
-SET SMTPRELAYSERVERNAME = ''
+SET SMTPRELAYSERVERNAME = '', MAILERNONINTERACTIVE = 'SMTP' --LANE.SWENKA 9/12/18 Forcing SMTP as Exchange provider can still email on refresh
+--Remove encrypted SMTP Password record(s)
+TRUNCATE TABLE SYSEMAILSMTPPASSWORD
 ;--GO
 UPDATE LogisticsElectronicAddress
 SET LOCATOR = ''

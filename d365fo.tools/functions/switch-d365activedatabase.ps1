@@ -1,38 +1,39 @@
-﻿<#
-.SYNOPSIS
-Switches the 2 databases. The Old wil be renamed _original
-
-.DESCRIPTION
-Switches the 2 databases. The Old wil be renamed _original
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user
-
-.PARAMETER NewDatabaseName
-The database that takes the DatabaseName's place
-
-.EXAMPLE
-PS C:\> Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
-
-This will switch the default database AXDB out and put "GoldenConfig" in its place instead.
-
-.NOTES
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Switches the 2 databases. The Old wil be renamed _original
+        
+    .DESCRIPTION
+        Switches the 2 databases. The Old wil be renamed _original
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user
+        
+    .PARAMETER NewDatabaseName
+        The database that takes the DatabaseName's place
+        
+    .EXAMPLE
+        PS C:\> Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
+        
+        This will switch the default database AXDB out and put "GoldenConfig" in its place instead.
+        
+    .NOTES
+        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Switch-D365ActiveDatabase {
     [CmdletBinding()]

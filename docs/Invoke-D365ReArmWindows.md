@@ -26,16 +26,14 @@ Function used for invoking the rearm functionality inside Windows
 Invoke-D365ReArmWindows
 ```
 
-This will re arm the Windows installation if there is any activation
-retries left
+This will re arm the Windows installation if there is any activation retries left
 
 ### EXAMPLE 2
 ```
 Invoke-D365ReArmWindows -Restart
 ```
 
-This will re arm the Windows installation if there is any activation
-retries left and restart the computer
+This will re arm the Windows installation if there is any activation retries left and restart the computer.
 
 ## PARAMETERS
 
@@ -63,5 +61,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

@@ -1,25 +1,26 @@
-﻿<#
-.SYNOPSIS
-Set the active Azure Storage Account configuration
-
-.DESCRIPTION
-Updates the current active Azure Storage Account configuration with a new one
-
-.PARAMETER Name
-The name the Azure Storage Account configuration you want to load into the active Azure Storage Account configuration
-
-.EXAMPLE
-PS C:\> Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
-
-Will scan the list of Azure Storage Account configurations and select the one that matches the supplied name. This gets imported into the active Azure Storage Account configuration.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
-You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
-
-You will have to run the Add-D365AzureStorageConfig cmdlet at least once, before this will be capable of working.
-
+﻿
+<#
+    .SYNOPSIS
+        Set the active Azure Storage Account configuration
+        
+    .DESCRIPTION
+        Updates the current active Azure Storage Account configuration with a new one
+        
+    .PARAMETER Name
+        The name the Azure Storage Account configuration you want to load into the active Azure Storage Account configuration
+        
+    .EXAMPLE
+        PS C:\> Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
+        
+        Will scan the list of Azure Storage Account configurations and select the one that matches the supplied name. This gets imported into the active Azure Storage Account configuration.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
+        You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+        
+        You will have to run the Add-D365AzureStorageConfig cmdlet at least once, before this will be capable of working.
+        
 #>
 function Set-D365ActiveAzureStorageConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

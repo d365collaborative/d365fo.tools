@@ -17,14 +17,22 @@ Used to import Aad users into D365FO
 Import-D365AadUser [-Users] <String[]> [[-StartupCompany] <String>] [[-DatabaseServer] <String>]
  [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-IdPrefix] <String>]
  [[-NameSuffix] <String>] [[-IdValue] <String>] [[-NameValue] <String>] [[-AzureAdCredential] <PSCredential>]
- [<CommonParameters>]
+ [-SkipAzureAd] [<CommonParameters>]
 ```
 
-### GroupImport
+### GroupNameImport
 ```
 Import-D365AadUser [-AadGroupName] <String> [[-StartupCompany] <String>] [[-DatabaseServer] <String>]
  [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-IdPrefix] <String>]
  [[-NameSuffix] <String>] [[-IdValue] <String>] [[-NameValue] <String>] [[-AzureAdCredential] <PSCredential>]
+ [-ForceExactAadGroupName] [<CommonParameters>]
+```
+
+### GroupIdImport
+```
+Import-D365AadUser [[-StartupCompany] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
+ [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-IdPrefix] <String>] [[-NameSuffix] <String>]
+ [[-IdValue] <String>] [[-NameValue] <String>] [[-AzureAdCredential] <PSCredential>] [-AadGroupId] <String>
  [<CommonParameters>]
 ```
 
@@ -38,22 +46,30 @@ Provides a method for importing a AAD UserGroup or a comma separated list of Aad
 Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
 ```
 
-Imports Claire and Allen as users.
+Imports Claire and Allen as users
 
 ### EXAMPLE 2
 ```
 $myPassword = ConvertTo-SecureString "MyPasswordIsSecret" -AsPlainText -Force
 ```
 
-$myCredentials = New-Object System.Management.Automation.PSCredential ("MyEmailIsAlso", $myPassword)
+PS C:\\\> $myCredentials = New-Object System.Management.Automation.PSCredential ("MyEmailIsAlso", $myPassword)
 
-Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -AzureAdCredential $myCredentials
+PS C:\\\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -AzureAdCredential $myCredentials
 
-Imports Claire and Allen as users.
+This will import Claire and Allen as users.
 
 ### EXAMPLE 3
 ```
 Import-D365AadUser -AadGroupName "CustomerTeam1"
+```
+
+if more than one group match the AadGroupName, you can use the ExactAadGroupName parameter
+Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
+
+### EXAMPLE 4
+```
+Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
 ```
 
 Imports all the users that is present in the AAD Group called CustomerTeam1
@@ -65,7 +81,7 @@ Azure Active directory user group containing users to be imported
 
 ```yaml
 Type: String
-Parameter Sets: GroupImport
+Parameter Sets: GroupNameImport
 Aliases:
 
 Required: True
@@ -76,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -Users
-{{Fill Users Description}}
+Array of users that you want to import into the D365FO environment
 
 ```yaml
 Type: String[]
@@ -252,6 +268,51 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -SkipAzureAd
+Switch to instruct the cmdlet to skip validating against the Azure Active Directory
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: UserListImport
+Aliases:
+
+Required: False
+Position: 13
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ForceExactAadGroupName
+Force to find the exact name of the Azure Active Directory Group
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: GroupNameImport
+Aliases:
+
+Required: False
+Position: 14
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AadGroupId
+Azure Active directory user group ID containing users to be imported
+
+```yaml
+Type: String
+Parameter Sets: GroupIdImport
+Aliases:
+
+Required: True
+Position: 15
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
 For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
@@ -261,11 +322,17 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Author: Rasmus Andersen (@ITRasmus)
+Author: Charles Colombel (@dropshind)
+
 At no circumstances can this cmdlet be used to import users into a PROD environment.
 
 Only users from an Azure Active Directory that you have access to, can be imported.
 Use AAD B2B implementation if you want to support external people.
 
 Every imported users will get the System Administration / Administrator role assigned on import
+
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

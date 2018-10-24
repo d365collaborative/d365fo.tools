@@ -17,8 +17,7 @@ Set-D365LogicAppConfig [-Url] <String> [-Email] <String> [-Subject] <String> [<C
 ```
 
 ## DESCRIPTION
-Store the needed details for the module to execute an 
-Azure Logic App using a HTTP request
+Store the needed details for the module to execute an Azure Logic App using a HTTP request
 
 ## EXAMPLES
 
@@ -26,6 +25,8 @@ Azure Logic App using a HTTP request
 ```
 Set-D365LogicAppConfig -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
 ```
+
+This will set all the details about invoking the Logic App.
 
 ## PARAMETERS
 
@@ -46,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -Email
-The receiving email addresss that should be notified
+The receiving email address that should be notified
 
 ```yaml
 Type: String

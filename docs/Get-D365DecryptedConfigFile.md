@@ -23,8 +23,10 @@ Function used for decrypting the config file used by the D365 Finance & Operatio
 
 ### EXAMPLE 1
 ```
-Get-D365DecryptedConfigFile -DropPath 'C:\Temp'
+Get-D365DecryptedConfigFile -DropPath "c:\temp\d365fo.tools"
 ```
+
+This will get the config file from the instance, decrypt it and save it to "c:\temp\d365fo.tools"
 
 ## PARAMETERS
 
@@ -68,5 +70,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## NOTES
 Used for getting the Password for the database and other service accounts used in environment
+
+Author : Rasmus Andersen (@ITRasmus)
+Author : Mötz Jensen (@splaxi)
 
 ## RELATED LINKS

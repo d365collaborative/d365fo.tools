@@ -1,47 +1,48 @@
-﻿<#
-.SYNOPSIS
-Install a license for a 3. party solution
-
-.DESCRIPTION
-Install a license for a 3. party solution using the builtin "Microsoft.Dynamics.AX.Deployment.Setup.exe" executable
-
-.PARAMETER Path
-Path to the license file
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user
-
-.PARAMETER MetaDataDir
-The path to the meta data directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory
-
-.PARAMETER BinDir
-The path to the bin directory for the environment
-
-Default path is the same as the aos service PackagesLocalDirectory\bin
-
-.EXAMPLE
-PS C:\> Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
-
-This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
-
-.NOTES
-Author: Mötz Jensen (@splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Install a license for a 3. party solution
+        
+    .DESCRIPTION
+        Install a license for a 3. party solution using the builtin "Microsoft.Dynamics.AX.Deployment.Setup.exe" executable
+        
+    .PARAMETER Path
+        Path to the license file
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user
+        
+    .PARAMETER MetaDataDir
+        The path to the meta data directory for the environment
+        
+        Default path is the same as the aos service PackagesLocalDirectory
+        
+    .PARAMETER BinDir
+        The path to the bin directory for the environment
+        
+        Default path is the same as the aos service PackagesLocalDirectory\bin
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
+        
+        This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
+        
+    .NOTES
+        Author: Mötz Jensen (@splaxi)
+        
 #>
 function Invoke-D365InstallLicense {
     [CmdletBinding()]

@@ -1,26 +1,27 @@
-﻿<#
-.SYNOPSIS
-Update the topology file
-
-.DESCRIPTION
-Update the topology file based on the already installed list of services on the machine
-
-.PARAMETER Path
-Path to the folder where the topology XML file file that you want to work against is placed
-
-Should only contain a path to a folder, not a file
-
-.EXAMPLE
-PS C:\> Update-TopologyFile -Path "c:\temp\d365fo.tools\DefaultTopologyData.xml"
-
-This will update the "c:\temp\d365fo.tools\DefaultTopologyData.xml" file with all the installed services on the machine.
-
-.NOTES
-# Credit http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
-
-Author: Tommy Skaue (@Skaue)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Update the topology file
+        
+    .DESCRIPTION
+        Update the topology file based on the already installed list of services on the machine
+        
+    .PARAMETER Path
+        Path to the folder where the topology XML file file that you want to work against is placed
+        
+        Should only contain a path to a folder, not a file
+        
+    .EXAMPLE
+        PS C:\> Update-TopologyFile -Path "c:\temp\d365fo.tools\DefaultTopologyData.xml"
+        
+        This will update the "c:\temp\d365fo.tools\DefaultTopologyData.xml" file with all the installed services on the machine.
+        
+    .NOTES
+        # Credit http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
+        
+        Author: Tommy Skaue (@Skaue)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Update-TopologyFile {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

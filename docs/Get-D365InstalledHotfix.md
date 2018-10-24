@@ -13,7 +13,7 @@ Get installed hotfix
 ## SYNTAX
 
 ```
-Get-D365InstalledHotfix [[-BinPath] <String>] [[-PackageDirectory] <String>] [[-Model] <String>]
+Get-D365InstalledHotfix [[-BinDir] <String>] [[-PackageDirectory] <String>] [[-Model] <String>]
  [[-Name] <String>] [[-KB] <String>] [<CommonParameters>]
 ```
 
@@ -34,22 +34,21 @@ This will display all installed hotfixes found on this machine
 Get-D365InstalledHotfix -Model "*retail*"
 ```
 
-This will display all installed hotfixes found for all models that matches the 
-search for "*retail*" found on this machine
+This will display all installed hotfixes found for all models that matches the search for "*retail*" found on this machine
 
 ### EXAMPLE 3
 ```
 Get-D365InstalledHotfix -Model "*retail*" -KB "*43*"
 ```
 
-This will display all installed hotfixes found for all models that matches the 
-search for "*retail*" and only with KB's that matches the search for "*43*"
- found on this machine
+This will display all installed hotfixes found for all models that matches the search for "*retail*" and only with KB's that matches the search for "*43*" found on this machine
 
 ## PARAMETERS
 
-### -BinPath
-{{Fill BinPath Description}}
+### -BinDir
+The path to the bin directory for the environment
+
+Default path is the same as the AOS Service PackagesLocalDirectory\bin
 
 ```yaml
 Type: String
@@ -64,7 +63,9 @@ Accept wildcard characters: False
 ```
 
 ### -PackageDirectory
-{{Fill PackageDirectory Description}}
+Path to the PackagesLocalDirectory
+
+Default path is the same as the AOS Service PackagesLocalDirectory
 
 ```yaml
 Type: String
@@ -159,5 +160,7 @@ https://ievgensaxblog.wordpress.com
 
 The specific blog post that we based this cmdlet on can be found here:
 https://ievgensaxblog.wordpress.com/2017/11/17/d365foe-get-list-of-installed-metadata-hotfixes-using-metadata-api/
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

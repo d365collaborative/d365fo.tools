@@ -27,15 +27,14 @@ Sets the Dynamics 365 environment into maintenance mode to enable the user to up
 Enable-D365MaintenanceMode
 ```
 
-This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values 
-that was pulled from the environment and put the environment into the operate / running state
+This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
 
 ## PARAMETERS
 
 ### -MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory
+Default path is the same as the aos service PackagesLocalDirectory
 
 ```yaml
 Type: String
@@ -52,7 +51,7 @@ Accept wildcard characters: False
 ### -BinDir
 The path to the bin directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory\bin
+Default path is the same as the aos service PackagesLocalDirectory\bin
 
 ```yaml
 Type: String
@@ -140,8 +139,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
-
 Author: Mötz Jensen (@splaxi)
+Author: Tommy Skaue (@skaue)
+
+The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
 
 ## RELATED LINKS

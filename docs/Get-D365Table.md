@@ -20,8 +20,8 @@ Get-D365Table [[-Name] <String[]>] [[-DatabaseServer] <String>] [[-DatabaseName]
 
 ### TableId
 ```
-Get-D365Table [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
- [[-SqlPwd] <String>] [-Id] <Int32> [<CommonParameters>]
+Get-D365Table [-Id] <Int32> [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
+ [[-SqlPwd] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,7 +41,7 @@ Will get the details for the CustTable
 Get-D365Table -Id 10347
 ```
 
-Will get the details for the table with the id 10347
+Will get the details for the table with the id 10347.
 
 ## PARAMETERS
 
@@ -66,10 +66,25 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Id
+The specific id for the table you are looking for
+
+```yaml
+Type: Int32
+Parameter Sets: TableId
+Aliases:
+
+Required: True
+Position: 2
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
 
 If Azure use the full address to the database server, e.g.
 server.database.windows.net
@@ -117,7 +132,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -127,21 +142,6 @@ Aliases:
 Required: False
 Position: 6
 Default value: $Script:DatabaseUserPassword
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Id
-The specific id for the table you are looking for
-
-```yaml
-Type: Int32
-Parameter Sets: TableId
-Aliases:
-
-Required: True
-Position: 2
-Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -157,5 +157,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## NOTES
 The cmdlet supports piping and can be used in advanced scenarios.
 See more on github and the wiki pages.
+
+Author: Mötz Jensen (@splaxi)
 
 ## RELATED LINKS

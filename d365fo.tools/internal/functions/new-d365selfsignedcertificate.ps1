@@ -1,34 +1,31 @@
-﻿<#
-.SYNOPSIS
-Create a new self signed certificate
-
-.DESCRIPTION
-Create a new self signed certificate and have it password protected
-
-.PARAMETER CertificateFileName
-Path to the location where you want to store the CER file for the certificate
-
-.PARAMETER PrivateKeyFileName
-Path to the location where you want to store the PFX file for the certificate
-
-.PARAMETER Password
-The password that you want to use to protect your different certificates with
-
-.PARAMETER MakeCertExecutable
-Path to the "MakeCert.exe" utility that you want to use for the generation process
-
-.EXAMPLE
-PS C:\> New-D365SelfSignedCertificate -CertificateFileName "C:\temp\d365fo.tools\TestAuth.cer" -PrivateKeyFileName "C:\temp\d365fo.tools\TestAuth.pfx" -Password "pass@word1"
-
-This will generate a new CER certificate that is stored at "C:\temp\d365fo.tools\TestAuth.cer".
-This will generate a new PFX certificate that is stored at "C:\temp\d365fo.tools\TestAuth.pfx".
-Both certificates will be password protected with "pass@word1".
-The cmdlet will utilize the default "MakeCert.exe" executable path.
-
-.NOTES
-Author: Kenny Saelen (@kennysaelen)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Create a new self signed certificate
+        
+    .DESCRIPTION
+        Create a new self signed certificate and have it password protected
+        
+    .PARAMETER CertificateFileName
+        Path to the location where you want to store the CER file for the certificate
+        
+    .PARAMETER PrivateKeyFileName
+        Path to the location where you want to store the PFX file for the certificate
+        
+    .PARAMETER Password
+        The password that you want to use to protect your different certificates with
+        
+    .EXAMPLE
+        PS C:\> New-D365SelfSignedCertificate -CertificateFileName "C:\temp\d365fo.tools\TestAuth.cer" -PrivateKeyFileName "C:\temp\d365fo.tools\TestAuth.pfx" -Password (ConvertTo-SecureString -String "pass@word1" -Force -AsPlainText)
+        
+        This will generate a new CER certificate that is stored at "C:\temp\d365fo.tools\TestAuth.cer".
+        This will generate a new PFX certificate that is stored at "C:\temp\d365fo.tools\TestAuth.pfx".
+        Both certificates will be password protected with "pass@word1".
+        
+    .NOTES
+        Author: Kenny Saelen (@kennysaelen)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function New-D365SelfSignedCertificate {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
@@ -42,10 +39,7 @@ function New-D365SelfSignedCertificate {
         [string] $PrivateKeyFileName = (Join-Path $env:TEMP "TestAuthCert.pfx"),
 
         [Parameter(Mandatory = $false, Position = 3)]
-        [Security.SecureString] $Password = (ConvertTo-SecureString -String "Password1" -Force -AsPlainText),
-
-        [Parameter(Mandatory = $false, Position = 4)]
-        [string] $MakeCertExecutable = "C:\Program Files (x86)\Windows Kits\10\bin\x64\MakeCert.exe"
+        [Security.SecureString] $Password = (ConvertTo-SecureString -String "Password1" -Force -AsPlainText)
     )
 
     try {

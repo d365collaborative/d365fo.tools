@@ -1,25 +1,26 @@
-﻿<#
-.SYNOPSIS
-Set the active environment configuration
-
-.DESCRIPTION
-Updates the current active environment configuration with a new one
-
-.PARAMETER Name
-The name the environment configuration you want to load into the active environment configuration
-
-.EXAMPLE
-PS C:\> Set-D365ActiveEnvironmentConfig -Name "UAT"
-
-Will scan the list of environment configurations and select the one that matches the supplied name. This gets imported into the active environment configuration.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
-You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
-
-You will have to run the Add-D365EnvironmentConfig cmdlet at least once, before this will be capable of working.
-
+﻿
+<#
+    .SYNOPSIS
+        Set the active environment configuration
+        
+    .DESCRIPTION
+        Updates the current active environment configuration with a new one
+        
+    .PARAMETER Name
+        The name the environment configuration you want to load into the active environment configuration
+        
+    .EXAMPLE
+        PS C:\> Set-D365ActiveEnvironmentConfig -Name "UAT"
+        
+        Will scan the list of environment configurations and select the one that matches the supplied name. This gets imported into the active environment configuration.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
+        You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+        
+        You will have to run the Add-D365EnvironmentConfig cmdlet at least once, before this will be capable of working.
+        
 #>
 function Set-D365ActiveEnvironmentConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

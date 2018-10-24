@@ -28,19 +28,19 @@
         The parameter supports wildcards. E.g. -Email "*@contoso.com*"
         
     .EXAMPLE
-        PS C:\> Enable-D365User
+        PS C:\> Disable-D365User
         
-        This will enable all users for the environment
-        
-    .EXAMPLE
-        PS C:\> Enable-D365User -Email "claire@contoso.com"
-        
-        This will enable the user with the email address "claire@contoso.com"
+        This will Disable all users for the environment
         
     .EXAMPLE
-        PS C:\> Enable-D365User -Email "*contoso.com"
+        PS C:\> Disable-D365User -Email "claire@contoso.com"
         
-        This will enable all users that matches the search "*contoso.com" in their email address
+        This will Disable the user with the email address "claire@contoso.com"
+        
+    .EXAMPLE
+        PS C:\> Disable-D365User -Email "*contoso.com"
+        
+        This will Disable all users that matches the search "*contoso.com" in their email address
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)

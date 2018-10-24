@@ -1,34 +1,35 @@
-﻿<#
-.SYNOPSIS
-Powershell implementation of the AdminProvisioning tool
-
-.DESCRIPTION
-Cmdlet using the AdminProvisioning tool from D365FO
-
-.PARAMETER AdminSignInName
-Email for the Admin
-
-.PARAMETER DatabaseServer
-Alternative SQL Database server, Default is the one provided by the DataAccess object
-
-.PARAMETER DatabaseName
-Alternative SQL Database, Default is the one provided by the DataAccess object
-
-.PARAMETER SqlUser
-Alternative SQL user, Default is the one provided by the DataAccess object
-
-.PARAMETER SqlPwd
-Alternative SQL user password, Default is the one provided by the DataAccess object
-
-.EXAMPLE
-PS C:\> Set-D365Admin "claire@contoso.com"
-
-This will provision claire@contoso.com as administrator for the environment
-
-.NOTES
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Powershell implementation of the AdminProvisioning tool
+        
+    .DESCRIPTION
+        Cmdlet using the AdminProvisioning tool from D365FO
+        
+    .PARAMETER AdminSignInName
+        Email for the Admin
+        
+    .PARAMETER DatabaseServer
+        Alternative SQL Database server, Default is the one provided by the DataAccess object
+        
+    .PARAMETER DatabaseName
+        Alternative SQL Database, Default is the one provided by the DataAccess object
+        
+    .PARAMETER SqlUser
+        Alternative SQL user, Default is the one provided by the DataAccess object
+        
+    .PARAMETER SqlPwd
+        Alternative SQL user password, Default is the one provided by the DataAccess object
+        
+    .EXAMPLE
+        PS C:\> Set-D365Admin "claire@contoso.com"
+        
+        This will provision claire@contoso.com as administrator for the environment
+        
+    .NOTES
+        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Set-D365Admin {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

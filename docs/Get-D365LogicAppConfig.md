@@ -27,6 +27,8 @@ it has to invoke the Azure Logic App
 Get-D365LogicAppConfig
 ```
 
+This will fetch the current registered Azure Logic App details on the machine.
+
 ## PARAMETERS
 
 ### CommonParameters

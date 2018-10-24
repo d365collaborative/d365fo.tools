@@ -1,51 +1,52 @@
-﻿<#
-.SYNOPSIS
-Set a user to sysadmin
-
-.DESCRIPTION
-Set a user to sysadmin inside the SQL Server
-
-.PARAMETER User
-The user that you want to make sysadmin
-
-Most be well formatted server\user or domain\user.
-
-Default value is: machinename\administrator
-
-.PARAMETER DatabaseServer
-The name of the database server
-
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
-
-If Azure use the full address to the database server, e.g. server.database.windows.net
-
-.PARAMETER DatabaseName
-The name of the database
-
-.PARAMETER SqlUser
-The login name for the SQL Server instance
-
-.PARAMETER SqlPwd
-The password for the SQL Server user.
-
-.EXAMPLE
-PS C:\> Set-D365SysAdmin
-
-This will configure the local administrator on the machine as a SYSADMIN inside SQL Server
-
-For this to run you need to be running it from a elevated console
-
-.EXAMPLE
-PS C:\> Set-D365SysAdmin -SqlPwd Test123
-
-This will configure the local administrator on the machine as a SYSADMIN inside SQL Server.
-It will logon as the default SqlUser but use the provided SqlPwd.
-
-This can be run from a non-elevated console
-
-.NOTES
-Author: Mötz Jensen (@splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Set a user to sysadmin
+        
+    .DESCRIPTION
+        Set a user to sysadmin inside the SQL Server
+        
+    .PARAMETER User
+        The user that you want to make sysadmin
+        
+        Most be well formatted server\user or domain\user.
+        
+        Default value is: machinename\administrator
+        
+    .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user.
+        
+    .EXAMPLE
+        PS C:\> Set-D365SysAdmin
+        
+        This will configure the local administrator on the machine as a SYSADMIN inside SQL Server
+        
+        For this to run you need to be running it from a elevated console
+        
+    .EXAMPLE
+        PS C:\> Set-D365SysAdmin -SqlPwd Test123
+        
+        This will configure the local administrator on the machine as a SYSADMIN inside SQL Server.
+        It will logon as the default SqlUser but use the provided SqlPwd.
+        
+        This can be run from a non-elevated console
+        
+    .NOTES
+        Author: Mötz Jensen (@splaxi)
+        
 #>
 function Set-D365SysAdmin {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

@@ -1,46 +1,47 @@
-﻿<#
-.SYNOPSIS
-Cmdlet to start the different services in a Dynamics 365 Finance & Operations environment
-
-.DESCRIPTION
-Can start all relevant services that is running in a D365FO environment
-
-.PARAMETER ComputerName
-An array of computers that you want to start services on.
-
-.PARAMETER All
-Set when you want to start all relevant services
-
-Includes:
-Aos
-Batch
-Financial Reporter
-
-.PARAMETER Aos
-Start the Aos (iis) service
-
-.PARAMETER Batch
-Start the batch service
-
-.PARAMETER FinancialReporter
-Start the financial reporter (Management Reporter 2012) service
-
-.PARAMETER DMF
-Start the Data Management Framework service
-
-.EXAMPLE
-PS C:\> Start-D365Environment -All
-
-Will start all D365FO service on the machine
-
-.EXAMPLE
-PS C:\> Start-D365Environment -Aos -Batch
-
-Will start Aos & Batch services on the machine
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Cmdlet to start the different services in a Dynamics 365 Finance & Operations environment
+        
+    .DESCRIPTION
+        Can start all relevant services that is running in a D365FO environment
+        
+    .PARAMETER ComputerName
+        An array of computers that you want to start services on.
+        
+    .PARAMETER All
+        Set when you want to start all relevant services
+        
+        Includes:
+        Aos
+        Batch
+        Financial Reporter
+        
+    .PARAMETER Aos
+        Start the Aos (iis) service
+        
+    .PARAMETER Batch
+        Start the batch service
+        
+    .PARAMETER FinancialReporter
+        Start the financial reporter (Management Reporter 2012) service
+        
+    .PARAMETER DMF
+        Start the Data Management Framework service
+        
+    .EXAMPLE
+        PS C:\> Start-D365Environment -All
+        
+        Will start all D365FO service on the machine
+        
+    .EXAMPLE
+        PS C:\> Start-D365Environment -Aos -Batch
+        
+        Will start Aos & Batch services on the machine
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Start-D365Environment {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

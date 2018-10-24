@@ -32,7 +32,7 @@ and fetch the configured URI.
 ## PARAMETERS
 
 ### -Path
-{{Fill Path Description}}
+Path to the directory where the Team Foundation Client executable is located
 
 ```yaml
 Type: String

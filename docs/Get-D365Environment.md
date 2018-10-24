@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-D365Environment
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Cmdlet to get the current status for the different services in a Dynamics 365 Finance & Operations environment
 
 ## SYNTAX
 
@@ -24,21 +24,56 @@ Get-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialRepo
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+List status for all relevant services that is running in a D365FO environment
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Get-D365Environment -All
 ```
 
-{{ Add example description here }}
+Will query all D365FO service on the machine
+
+### EXAMPLE 2
+```
+Get-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
+```
+
+Will query all D365FO service on the different machines
+
+### EXAMPLE 3
+```
+Get-D365Environment -Aos -Batch
+```
+
+Will query the Aos & Batch services on the machine
 
 ## PARAMETERS
 
+### -ComputerName
+An array of computers that you want to query for the services status on.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: @($env:computername)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -All
-{{Fill All Description}}
+Set when you want to query all relevant services
+
+Includes:
+Aos
+Batch
+Financial Reporter
+DMF
 
 ```yaml
 Type: SwitchParameter
@@ -46,29 +81,14 @@ Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 2
-Default value: None
+Position: 3
+Default value: [switch]::Present
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Aos
-{{Fill Aos Description}}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Specific
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Batch
-{{Fill Batch Description}}
+Switch to instruct the cmdlet to query the AOS (IIS) service
 
 ```yaml
 Type: SwitchParameter
@@ -77,43 +97,13 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ComputerName
-{{Fill ComputerName Description}}
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DMF
-{{Fill DMF Description}}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Specific
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FinancialReporter
-{{Fill FinancialReporter Description}}
+### -Batch
+Switch to instruct the cmdlet query the batch service
 
 ```yaml
 Type: SwitchParameter
@@ -122,7 +112,37 @@ Aliases:
 
 Required: False
 Position: 4
-Default value: None
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FinancialReporter
+Switch to instruct the cmdlet query the financial reporter (Management Reporter 2012)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Specific
+Aliases:
+
+Required: False
+Position: 5
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DMF
+Switch to instruct the cmdlet query the DMF service
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Specific
+Aliases:
+
+Required: False
+Position: 6
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -133,11 +153,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## INPUTS
 
-### None
-
 ## OUTPUTS
 
-### System.Object
 ## NOTES
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

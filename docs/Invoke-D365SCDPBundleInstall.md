@@ -15,13 +15,13 @@ Invoke the SCDPBundleInstall.exe file
 ### InstallOnly (Default)
 ```
 Invoke-D365SCDPBundleInstall [-InstallOnly] [-Path] <String> [[-MetaDataDir] <String>] [-ShowModifiedFiles]
- [<CommonParameters>]
+ [-ShowProgress] [<CommonParameters>]
 ```
 
 ### Tfs
 ```
-Invoke-D365SCDPBundleInstall [-Command] <String> [-Path] <String> [[-MetaDataDir] <String>]
- [[-TfsWorkspaceDir] <String>] [[-TfsUri] <String>] [-ShowModifiedFiles] [<CommonParameters>]
+Invoke-D365SCDPBundleInstall [[-Command] <String>] [-Path] <String> [[-MetaDataDir] <String>]
+ [[-TfsWorkspaceDir] <String>] [[-TfsUri] <String>] [-ShowModifiedFiles] [-ShowProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,17 +31,15 @@ A cmdlet that wraps some of the cumbersome work into a streamlined process
 
 ### EXAMPLE 1
 ```
-Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg"
+Invoke-D365SCDPBundleInstall -Path "c:\temp\HotfixPackageBundle.axscdppkg" -InstallOnly
 ```
 
-This will install the "HotfixPackageBundle.axscdppkg" into the default 
-PackagesLocalDirectory location on the machine
+This will install the "HotfixPackageBundle.axscdppkg" into the default PackagesLocalDirectory location on the machine.
 
 ## PARAMETERS
 
 ### -InstallOnly
-Switch to instruct the cmdlet to only run the Install option and ignore any TFS / VSTS folders
-and source control in general
+Switch to instruct the cmdlet to only run the Install option and ignore any TFS / VSTS folders and source control in general
 
 Use it when testing an update on a local development machine (VM) / onebox
 
@@ -58,14 +56,14 @@ Accept wildcard characters: False
 ```
 
 ### -Command
-{{Fill Command Description}}
+Parameter description
 
 ```yaml
 Type: String
 Parameter Sets: Tfs
 Aliases:
 
-Required: True
+Required: False
 Position: 1
 Default value: Prepare
 Accept pipeline input: False
@@ -90,9 +88,9 @@ Accept wildcard characters: False
 ```
 
 ### -MetaDataDir
-The path to the meta data directory for the environment 
+The path to the meta data directory for the environment
 
-Default path is the same as the aos service packageslocaldirectory
+Default path is the same as the aos service PackagesLocalDirectory
 
 ```yaml
 Type: String
@@ -107,7 +105,9 @@ Accept wildcard characters: False
 ```
 
 ### -TfsWorkspaceDir
-{{Fill TfsWorkspaceDir Description}}
+The path to the TFS Workspace directory that you want to work against
+
+Default path is the same as the aos service PackagesLocalDirectory
 
 ```yaml
 Type: String
@@ -122,7 +122,9 @@ Accept wildcard characters: False
 ```
 
 ### -TfsUri
-{{Fill TfsUri Description}}
+The URI for the TFS Team Site / VSTS Portal that you want to work against
+
+Default URI is the one that is configured from inside Visual Studio
 
 ```yaml
 Type: String
@@ -137,7 +139,7 @@ Accept wildcard characters: False
 ```
 
 ### -ShowModifiedFiles
-{{Fill ShowModifiedFiles Description}}
+Switch to instruct the cmdlet to show all the modified files afterwards
 
 ```yaml
 Type: SwitchParameter
@@ -146,6 +148,21 @@ Aliases:
 
 Required: False
 Position: 5
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowProgress
+Switch to instruct the cmdlet to output progress details while servicing the installation
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -161,5 +178,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## NOTES
 Author: Mötz Jensen (@splaxi)
+Author: Tommy Skaue (@skaue)
 
 ## RELATED LINKS
