@@ -28,7 +28,7 @@
     RequiredModules   = @(
         @{ ModuleName = 'PSFramework'; ModuleVersion = '0.10.27.128' },
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
-        @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' } 
+        @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
     )
 	
     # Assemblies that must be loaded prior to importing this module
@@ -105,7 +105,7 @@
 						'Initialize-D365TestAutomationCertificate',
 						
 						'Invoke-D365AzureStorageDownload',
-						'Invoke-D365AzureStorageUpload',                                                                
+						'Invoke-D365AzureStorageUpload',
 						
 						'Invoke-D365DataFlush',
 						'Invoke-D365DBSync',
@@ -114,9 +114,10 @@
 						
 						'Invoke-D365ModelUtil',
 						'Invoke-D365ReArmWindows',
+						'Invoke-D365RunbookAnalyzer',
 
 						'Invoke-D365SDPInstall',
-						'Invoke-D365SCDPBundleInstall',	
+						'Invoke-D365SCDPBundleInstall',
 						'Invoke-D365SeleniumDownload',
 						'Invoke-D365SysFlushAodCache',
 						'Invoke-D365SysRunnerClass',
@@ -124,7 +125,7 @@
 
 						'Invoke-D365TableBrowser',
 
-						'New-D365Bacpac',		
+						'New-D365Bacpac',
 						'New-D365ISVLicense',
 						'New-D365TopologyFile',
 						
