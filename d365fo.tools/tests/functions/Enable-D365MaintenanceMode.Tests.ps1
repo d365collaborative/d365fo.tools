@@ -11,7 +11,7 @@ Describe "Enable-D365MaintenanceMode Unit Tests" -Tag "Unit" {
 			(Get-Command Enable-D365MaintenanceMode).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter MetaDataDir' {
+		It 'Should have the expected parameter MetaDataDir' {
 			$parameter = (Get-Command Enable-D365MaintenanceMode).Parameters['MetaDataDir']
 			$parameter.Name | Should -Be 'MetaDataDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Enable-D365MaintenanceMode Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter BinDir' {
+		It 'Should have the expected parameter BinDir' {
 			$parameter = (Get-Command Enable-D365MaintenanceMode).Parameters['BinDir']
 			$parameter.Name | Should -Be 'BinDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Enable-D365MaintenanceMode Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseServer' {
+		It 'Should have the expected parameter DatabaseServer' {
 			$parameter = (Get-Command Enable-D365MaintenanceMode).Parameters['DatabaseServer']
 			$parameter.Name | Should -Be 'DatabaseServer'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Enable-D365MaintenanceMode Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseName' {
+		It 'Should have the expected parameter DatabaseName' {
 			$parameter = (Get-Command Enable-D365MaintenanceMode).Parameters['DatabaseName']
 			$parameter.Name | Should -Be 'DatabaseName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Enable-D365MaintenanceMode Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlUser' {
+		It 'Should have the expected parameter SqlUser' {
 			$parameter = (Get-Command Enable-D365MaintenanceMode).Parameters['SqlUser']
 			$parameter.Name | Should -Be 'SqlUser'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -76,7 +76,7 @@ Describe "Enable-D365MaintenanceMode Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlPwd' {
+		It 'Should have the expected parameter SqlPwd' {
 			$parameter = (Get-Command Enable-D365MaintenanceMode).Parameters['SqlPwd']
 			$parameter.Name | Should -Be 'SqlPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String

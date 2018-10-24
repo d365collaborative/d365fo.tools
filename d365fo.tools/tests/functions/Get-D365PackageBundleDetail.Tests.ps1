@@ -11,7 +11,7 @@ Describe "Get-D365PackageBundleDetail Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365PackageBundleDetail).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Path' {
+		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command Get-D365PackageBundleDetail).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365PackageBundleDetail Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter ExtractionPath' {
+		It 'Should have the expected parameter ExtractionPath' {
 			$parameter = (Get-Command Get-D365PackageBundleDetail).Parameters['ExtractionPath']
 			$parameter.Name | Should -Be 'ExtractionPath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Get-D365PackageBundleDetail Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter KB' {
+		It 'Should have the expected parameter KB' {
 			$parameter = (Get-Command Get-D365PackageBundleDetail).Parameters['KB']
 			$parameter.Name | Should -Be 'KB'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Get-D365PackageBundleDetail Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Hotfix' {
+		It 'Should have the expected parameter Hotfix' {
 			$parameter = (Get-Command Get-D365PackageBundleDetail).Parameters['Hotfix']
 			$parameter.Name | Should -Be 'Hotfix'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Get-D365PackageBundleDetail Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Traverse' {
+		It 'Should have the expected parameter Traverse' {
 			$parameter = (Get-Command Get-D365PackageBundleDetail).Parameters['Traverse']
 			$parameter.Name | Should -Be 'Traverse'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -76,7 +76,7 @@ Describe "Get-D365PackageBundleDetail Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter KeepFiles' {
+		It 'Should have the expected parameter KeepFiles' {
 			$parameter = (Get-Command Get-D365PackageBundleDetail).Parameters['KeepFiles']
 			$parameter.Name | Should -Be 'KeepFiles'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -89,7 +89,7 @@ Describe "Get-D365PackageBundleDetail Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter IncludeRawManifest' {
+		It 'Should have the expected parameter IncludeRawManifest' {
 			$parameter = (Get-Command Get-D365PackageBundleDetail).Parameters['IncludeRawManifest']
 			$parameter.Name | Should -Be 'IncludeRawManifest'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

@@ -11,7 +11,7 @@ Describe "Get-D365Label Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365Label).ParameterSets.Name | Should -Be 'Default', 'Specific'
 		}
 		
-		It 'Should habe the expected parameter FilePath' {
+		It 'Should have the expected parameter FilePath' {
 			$parameter = (Get-Command Get-D365Label).Parameters['FilePath']
 			$parameter.Name | Should -Be 'FilePath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -30,7 +30,7 @@ Describe "Get-D365Label Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Get-D365Label).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -49,7 +49,7 @@ Describe "Get-D365Label Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Value' {
+		It 'Should have the expected parameter Value' {
 			$parameter = (Get-Command Get-D365Label).Parameters['Value']
 			$parameter.Name | Should -Be 'Value'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -68,7 +68,7 @@ Describe "Get-D365Label Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter IncludePath' {
+		It 'Should have the expected parameter IncludePath' {
 			$parameter = (Get-Command Get-D365Label).Parameters['IncludePath']
 			$parameter.Name | Should -Be 'IncludePath'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

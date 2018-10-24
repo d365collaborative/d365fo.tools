@@ -11,7 +11,7 @@ Describe "Set-D365FavoriteBookmark Unit Tests" -Tag "Unit" {
 			(Get-Command Set-D365FavoriteBookmark).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter URL' {
+		It 'Should have the expected parameter URL' {
 			$parameter = (Get-Command Set-D365FavoriteBookmark).Parameters['URL']
 			$parameter.Name | Should -Be 'URL'
 			$parameter.ParameterType.ToString() | Should -Be System.String

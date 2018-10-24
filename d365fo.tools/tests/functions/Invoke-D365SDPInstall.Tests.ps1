@@ -11,7 +11,7 @@ Describe "Invoke-D365SDPInstall Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365SDPInstall).ParameterSets.Name | Should -Be 'QuickInstall', 'DevInstall', 'Manual'
 		}
 		
-		It 'Should habe the expected parameter Path' {
+		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Invoke-D365SDPInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter MetaDataDir' {
+		It 'Should have the expected parameter MetaDataDir' {
 			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['MetaDataDir']
 			$parameter.Name | Should -Be 'MetaDataDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Invoke-D365SDPInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter QuickInstallAll' {
+		It 'Should have the expected parameter QuickInstallAll' {
 			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['QuickInstallAll']
 			$parameter.Name | Should -Be 'QuickInstallAll'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -50,7 +50,7 @@ Describe "Invoke-D365SDPInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['QuickInstall'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['QuickInstall'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DevInstall' {
+		It 'Should have the expected parameter DevInstall' {
 			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['DevInstall']
 			$parameter.Name | Should -Be 'DevInstall'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -63,7 +63,7 @@ Describe "Invoke-D365SDPInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['DevInstall'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['DevInstall'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Command' {
+		It 'Should have the expected parameter Command' {
 			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['Command']
 			$parameter.Name | Should -Be 'Command'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -76,7 +76,7 @@ Describe "Invoke-D365SDPInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Manual'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Manual'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Step' {
+		It 'Should have the expected parameter Step' {
 			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['Step']
 			$parameter.Name | Should -Be 'Step'
 			$parameter.ParameterType.ToString() | Should -Be System.Int32
@@ -89,7 +89,7 @@ Describe "Invoke-D365SDPInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter RunbookId' {
+		It 'Should have the expected parameter RunbookId' {
 			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['RunbookId']
 			$parameter.Name | Should -Be 'RunbookId'
 			$parameter.ParameterType.ToString() | Should -Be System.String

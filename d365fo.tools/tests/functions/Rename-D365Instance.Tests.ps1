@@ -11,7 +11,7 @@ Describe "Rename-D365Instance Unit Tests" -Tag "Unit" {
 			(Get-Command Rename-D365Instance).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter NewName' {
+		It 'Should have the expected parameter NewName' {
 			$parameter = (Get-Command Rename-D365Instance).Parameters['NewName']
 			$parameter.Name | Should -Be 'NewName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Rename-D365Instance Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AosServiceWebRootPath' {
+		It 'Should have the expected parameter AosServiceWebRootPath' {
 			$parameter = (Get-Command Rename-D365Instance).Parameters['AosServiceWebRootPath']
 			$parameter.Name | Should -Be 'AosServiceWebRootPath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Rename-D365Instance Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter IISServerApplicationHostConfigFile' {
+		It 'Should have the expected parameter IISServerApplicationHostConfigFile' {
 			$parameter = (Get-Command Rename-D365Instance).Parameters['IISServerApplicationHostConfigFile']
 			$parameter.Name | Should -Be 'IISServerApplicationHostConfigFile'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Rename-D365Instance Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter HostsFile' {
+		It 'Should have the expected parameter HostsFile' {
 			$parameter = (Get-Command Rename-D365Instance).Parameters['HostsFile']
 			$parameter.Name | Should -Be 'HostsFile'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Rename-D365Instance Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter BackupExtension' {
+		It 'Should have the expected parameter BackupExtension' {
 			$parameter = (Get-Command Rename-D365Instance).Parameters['BackupExtension']
 			$parameter.Name | Should -Be 'BackupExtension'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -76,7 +76,7 @@ Describe "Rename-D365Instance Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter MRConfigFile' {
+		It 'Should have the expected parameter MRConfigFile' {
 			$parameter = (Get-Command Rename-D365Instance).Parameters['MRConfigFile']
 			$parameter.Name | Should -Be 'MRConfigFile'
 			$parameter.ParameterType.ToString() | Should -Be System.String

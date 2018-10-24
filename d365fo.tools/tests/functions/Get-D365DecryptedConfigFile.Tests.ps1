@@ -11,7 +11,7 @@ Describe "Get-D365DecryptedConfigFile Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365DecryptedConfigFile).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter DropPath' {
+		It 'Should have the expected parameter DropPath' {
 			$parameter = (Get-Command Get-D365DecryptedConfigFile).Parameters['DropPath']
 			$parameter.Name | Should -Be 'DropPath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365DecryptedConfigFile Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AosServiceWebRootPath' {
+		It 'Should have the expected parameter AosServiceWebRootPath' {
 			$parameter = (Get-Command Get-D365DecryptedConfigFile).Parameters['AosServiceWebRootPath']
 			$parameter.Name | Should -Be 'AosServiceWebRootPath'
 			$parameter.ParameterType.ToString() | Should -Be System.String

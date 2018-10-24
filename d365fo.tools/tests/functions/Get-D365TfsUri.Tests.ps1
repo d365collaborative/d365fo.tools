@@ -11,7 +11,7 @@ Describe "Get-D365TfsUri Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365TfsUri).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter Path' {
+		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command Get-D365TfsUri).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String

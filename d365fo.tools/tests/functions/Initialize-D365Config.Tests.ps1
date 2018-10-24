@@ -11,7 +11,7 @@ Describe "Initialize-D365Config Unit Tests" -Tag "Unit" {
 			(Get-Command Initialize-D365Config).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Clear' {
+		It 'Should have the expected parameter Clear' {
 			$parameter = (Get-Command Initialize-D365Config).Parameters['Clear']
 			$parameter.Name | Should -Be 'Clear'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

@@ -11,7 +11,7 @@ Describe "Get-D365AzureStorageFile Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365AzureStorageFile).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter AccountId' {
+		It 'Should have the expected parameter AccountId' {
 			$parameter = (Get-Command Get-D365AzureStorageFile).Parameters['AccountId']
 			$parameter.Name | Should -Be 'AccountId'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365AzureStorageFile Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AccessToken' {
+		It 'Should have the expected parameter AccessToken' {
 			$parameter = (Get-Command Get-D365AzureStorageFile).Parameters['AccessToken']
 			$parameter.Name | Should -Be 'AccessToken'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Get-D365AzureStorageFile Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Blobname' {
+		It 'Should have the expected parameter Blobname' {
 			$parameter = (Get-Command Get-D365AzureStorageFile).Parameters['Blobname']
 			$parameter.Name | Should -Be 'Blobname'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Get-D365AzureStorageFile Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Get-D365AzureStorageFile).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Get-D365AzureStorageFile Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter GetLatest' {
+		It 'Should have the expected parameter GetLatest' {
 			$parameter = (Get-Command Get-D365AzureStorageFile).Parameters['GetLatest']
 			$parameter.Name | Should -Be 'GetLatest'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

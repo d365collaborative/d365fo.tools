@@ -11,7 +11,7 @@ Describe "New-D365TopologyFile Unit Tests" -Tag "Unit" {
 			(Get-Command New-D365TopologyFile).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter Path' {
+		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command New-D365TopologyFile).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "New-D365TopologyFile Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Services' {
+		It 'Should have the expected parameter Services' {
 			$parameter = (Get-Command New-D365TopologyFile).Parameters['Services']
 			$parameter.Name | Should -Be 'Services'
 			$parameter.ParameterType.ToString() | Should -Be System.String[]
@@ -37,7 +37,7 @@ Describe "New-D365TopologyFile Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter NewPath' {
+		It 'Should have the expected parameter NewPath' {
 			$parameter = (Get-Command New-D365TopologyFile).Parameters['NewPath']
 			$parameter.Name | Should -Be 'NewPath'
 			$parameter.ParameterType.ToString() | Should -Be System.String

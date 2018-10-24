@@ -11,7 +11,7 @@ Describe "Get-D365InstalledPackage Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365InstalledPackage).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Get-D365InstalledPackage).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365InstalledPackage Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter PackageDirectory' {
+		It 'Should have the expected parameter PackageDirectory' {
 			$parameter = (Get-Command Get-D365InstalledPackage).Parameters['PackageDirectory']
 			$parameter.Name | Should -Be 'PackageDirectory'
 			$parameter.ParameterType.ToString() | Should -Be System.String

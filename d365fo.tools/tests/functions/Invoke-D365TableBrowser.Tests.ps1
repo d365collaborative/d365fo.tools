@@ -11,7 +11,7 @@ Describe "Invoke-D365TableBrowser Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365TableBrowser).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter TableName' {
+		It 'Should have the expected parameter TableName' {
 			$parameter = (Get-Command Invoke-D365TableBrowser).Parameters['TableName']
 			$parameter.Name | Should -Be 'TableName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Invoke-D365TableBrowser Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Company' {
+		It 'Should have the expected parameter Company' {
 			$parameter = (Get-Command Invoke-D365TableBrowser).Parameters['Company']
 			$parameter.Name | Should -Be 'Company'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Invoke-D365TableBrowser Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Url' {
+		It 'Should have the expected parameter Url' {
 			$parameter = (Get-Command Invoke-D365TableBrowser).Parameters['Url']
 			$parameter.Name | Should -Be 'Url'
 			$parameter.ParameterType.ToString() | Should -Be System.String

@@ -11,7 +11,7 @@ Describe "Get-D365AOTObject Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365AOTObject).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Path' {
+		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command Get-D365AOTObject).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365AOTObject Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter ObjectType' {
+		It 'Should have the expected parameter ObjectType' {
 			$parameter = (Get-Command Get-D365AOTObject).Parameters['ObjectType']
 			$parameter.Name | Should -Be 'ObjectType'
 			$parameter.ParameterType.ToString() | Should -Be System.String[]
@@ -37,7 +37,7 @@ Describe "Get-D365AOTObject Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Get-D365AOTObject).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Get-D365AOTObject Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SearchInPackages' {
+		It 'Should have the expected parameter SearchInPackages' {
 			$parameter = (Get-Command Get-D365AOTObject).Parameters['SearchInPackages']
 			$parameter.Name | Should -Be 'SearchInPackages'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -63,7 +63,7 @@ Describe "Get-D365AOTObject Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter IncludePath' {
+		It 'Should have the expected parameter IncludePath' {
 			$parameter = (Get-Command Get-D365AOTObject).Parameters['IncludePath']
 			$parameter.Name | Should -Be 'IncludePath'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

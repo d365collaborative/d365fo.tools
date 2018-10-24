@@ -11,7 +11,7 @@ Describe "Invoke-D365AzureStorageUpload Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365AzureStorageUpload).ParameterSets.Name | Should -Be 'Default', 'Pipeline'
 		}
 		
-		It 'Should habe the expected parameter AccountId' {
+		It 'Should have the expected parameter AccountId' {
 			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['AccountId']
 			$parameter.Name | Should -Be 'AccountId'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Invoke-D365AzureStorageUpload Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AccessToken' {
+		It 'Should have the expected parameter AccessToken' {
 			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['AccessToken']
 			$parameter.Name | Should -Be 'AccessToken'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Invoke-D365AzureStorageUpload Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Blobname' {
+		It 'Should have the expected parameter Blobname' {
 			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['Blobname']
 			$parameter.Name | Should -Be 'Blobname'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Invoke-D365AzureStorageUpload Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Filepath' {
+		It 'Should have the expected parameter Filepath' {
 			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['Filepath']
 			$parameter.Name | Should -Be 'Filepath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -69,7 +69,7 @@ Describe "Invoke-D365AzureStorageUpload Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DeleteOnUpload' {
+		It 'Should have the expected parameter DeleteOnUpload' {
 			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['DeleteOnUpload']
 			$parameter.Name | Should -Be 'DeleteOnUpload'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

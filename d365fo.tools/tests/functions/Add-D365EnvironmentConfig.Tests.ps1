@@ -11,7 +11,7 @@ Describe "Add-D365EnvironmentConfig Unit Tests" -Tag "Unit" {
 			(Get-Command Add-D365EnvironmentConfig).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Add-D365EnvironmentConfig).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Add-D365EnvironmentConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter URL' {
+		It 'Should have the expected parameter URL' {
 			$parameter = (Get-Command Add-D365EnvironmentConfig).Parameters['URL']
 			$parameter.Name | Should -Be 'URL'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Add-D365EnvironmentConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlUser' {
+		It 'Should have the expected parameter SqlUser' {
 			$parameter = (Get-Command Add-D365EnvironmentConfig).Parameters['SqlUser']
 			$parameter.Name | Should -Be 'SqlUser'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Add-D365EnvironmentConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlPwd' {
+		It 'Should have the expected parameter SqlPwd' {
 			$parameter = (Get-Command Add-D365EnvironmentConfig).Parameters['SqlPwd']
 			$parameter.Name | Should -Be 'SqlPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Add-D365EnvironmentConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Company' {
+		It 'Should have the expected parameter Company' {
 			$parameter = (Get-Command Add-D365EnvironmentConfig).Parameters['Company']
 			$parameter.Name | Should -Be 'Company'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -76,7 +76,7 @@ Describe "Add-D365EnvironmentConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter TfsUri' {
+		It 'Should have the expected parameter TfsUri' {
 			$parameter = (Get-Command Add-D365EnvironmentConfig).Parameters['TfsUri']
 			$parameter.Name | Should -Be 'TfsUri'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -89,7 +89,7 @@ Describe "Add-D365EnvironmentConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Force' {
+		It 'Should have the expected parameter Force' {
 			$parameter = (Get-Command Add-D365EnvironmentConfig).Parameters['Force']
 			$parameter.Name | Should -Be 'Force'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

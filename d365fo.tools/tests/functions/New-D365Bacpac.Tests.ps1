@@ -11,7 +11,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			(Get-Command New-D365Bacpac).ParameterSets.Name | Should -Be 'ExportTier2', 'ExportTier1'
 		}
 		
-		It 'Should habe the expected parameter ExportModeTier1' {
+		It 'Should have the expected parameter ExportModeTier1' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['ExportModeTier1']
 			$parameter.Name | Should -Be 'ExportModeTier1'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -24,7 +24,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ExportTier1'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ExportTier1'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter ExportModeTier2' {
+		It 'Should have the expected parameter ExportModeTier2' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['ExportModeTier2']
 			$parameter.Name | Should -Be 'ExportModeTier2'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -37,7 +37,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ExportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ExportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseServer' {
+		It 'Should have the expected parameter DatabaseServer' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['DatabaseServer']
 			$parameter.Name | Should -Be 'DatabaseServer'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseName' {
+		It 'Should have the expected parameter DatabaseName' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['DatabaseName']
 			$parameter.Name | Should -Be 'DatabaseName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlUser' {
+		It 'Should have the expected parameter SqlUser' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['SqlUser']
 			$parameter.Name | Should -Be 'SqlUser'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -82,7 +82,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlPwd' {
+		It 'Should have the expected parameter SqlPwd' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['SqlPwd']
 			$parameter.Name | Should -Be 'SqlPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -101,7 +101,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter BackupDirectory' {
+		It 'Should have the expected parameter BackupDirectory' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['BackupDirectory']
 			$parameter.Name | Should -Be 'BackupDirectory'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -114,7 +114,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ExportTier1'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ExportTier1'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter NewDatabaseName' {
+		It 'Should have the expected parameter NewDatabaseName' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['NewDatabaseName']
 			$parameter.Name | Should -Be 'NewDatabaseName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -127,7 +127,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter BacpacFile' {
+		It 'Should have the expected parameter BacpacFile' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['BacpacFile']
 			$parameter.Name | Should -Be 'BacpacFile'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -140,7 +140,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter CustomSqlFile' {
+		It 'Should have the expected parameter CustomSqlFile' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['CustomSqlFile']
 			$parameter.Name | Should -Be 'CustomSqlFile'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -153,7 +153,7 @@ Describe "New-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter ExportOnly' {
+		It 'Should have the expected parameter ExportOnly' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['ExportOnly']
 			$parameter.Name | Should -Be 'ExportOnly'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

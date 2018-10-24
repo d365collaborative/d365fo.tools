@@ -11,7 +11,7 @@ Describe "Backup-D365MetaDataDir Unit Tests" -Tag "Unit" {
 			(Get-Command Backup-D365MetaDataDir).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter MetaDataDir' {
+		It 'Should have the expected parameter MetaDataDir' {
 			$parameter = (Get-Command Backup-D365MetaDataDir).Parameters['MetaDataDir']
 			$parameter.Name | Should -Be 'MetaDataDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Backup-D365MetaDataDir Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter BackupDir' {
+		It 'Should have the expected parameter BackupDir' {
 			$parameter = (Get-Command Backup-D365MetaDataDir).Parameters['BackupDir']
 			$parameter.Name | Should -Be 'BackupDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String

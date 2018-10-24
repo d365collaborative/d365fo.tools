@@ -11,7 +11,7 @@ Describe "Get-D365UserAuthenticationDetail Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365UserAuthenticationDetail).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Email' {
+		It 'Should have the expected parameter Email' {
 			$parameter = (Get-Command Get-D365UserAuthenticationDetail).Parameters['Email']
 			$parameter.Name | Should -Be 'Email'
 			$parameter.ParameterType.ToString() | Should -Be System.String

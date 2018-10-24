@@ -11,7 +11,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365TableField).ParameterSets.Name | Should -Be 'Default', 'SearchByNameForce', 'TableName'
 		}
 		
-		It 'Should habe the expected parameter TableId' {
+		It 'Should have the expected parameter TableId' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['TableId']
 			$parameter.Name | Should -Be 'TableId'
 			$parameter.ParameterType.ToString() | Should -Be System.Int32
@@ -24,7 +24,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -49,7 +49,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter FieldId' {
+		It 'Should have the expected parameter FieldId' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['FieldId']
 			$parameter.Name | Should -Be 'FieldId'
 			$parameter.ParameterType.ToString() | Should -Be System.Int32
@@ -68,7 +68,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseServer' {
+		It 'Should have the expected parameter DatabaseServer' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['DatabaseServer']
 			$parameter.Name | Should -Be 'DatabaseServer'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -93,7 +93,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseName' {
+		It 'Should have the expected parameter DatabaseName' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['DatabaseName']
 			$parameter.Name | Should -Be 'DatabaseName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -118,7 +118,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlUser' {
+		It 'Should have the expected parameter SqlUser' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['SqlUser']
 			$parameter.Name | Should -Be 'SqlUser'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -143,7 +143,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlPwd' {
+		It 'Should have the expected parameter SqlPwd' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['SqlPwd']
 			$parameter.Name | Should -Be 'SqlPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -168,7 +168,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter TableName' {
+		It 'Should have the expected parameter TableName' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['TableName']
 			$parameter.Name | Should -Be 'TableName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -181,7 +181,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['TableName'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['TableName'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter IncludeTableDetails' {
+		It 'Should have the expected parameter IncludeTableDetails' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['IncludeTableDetails']
 			$parameter.Name | Should -Be 'IncludeTableDetails'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -200,7 +200,7 @@ Describe "Get-D365TableField Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SearchAcrossTables' {
+		It 'Should have the expected parameter SearchAcrossTables' {
 			$parameter = (Get-Command Get-D365TableField).Parameters['SearchAcrossTables']
 			$parameter.Name | Should -Be 'SearchAcrossTables'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

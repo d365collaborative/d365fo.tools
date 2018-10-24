@@ -11,7 +11,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			(Get-Command Import-D365Bacpac).ParameterSets.Name | Should -Be 'ImportTier1', 'ImportOnlyTier2', 'ImportTier2'
 		}
 		
-		It 'Should habe the expected parameter ImportModeTier1' {
+		It 'Should have the expected parameter ImportModeTier1' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['ImportModeTier1']
 			$parameter.Name | Should -Be 'ImportModeTier1'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -24,7 +24,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ImportTier1'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier1'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter ImportModeTier2' {
+		It 'Should have the expected parameter ImportModeTier2' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['ImportModeTier2']
 			$parameter.Name | Should -Be 'ImportModeTier2'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -43,7 +43,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseServer' {
+		It 'Should have the expected parameter DatabaseServer' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['DatabaseServer']
 			$parameter.Name | Should -Be 'DatabaseServer'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -56,7 +56,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseName' {
+		It 'Should have the expected parameter DatabaseName' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['DatabaseName']
 			$parameter.Name | Should -Be 'DatabaseName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -69,7 +69,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlUser' {
+		It 'Should have the expected parameter SqlUser' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['SqlUser']
 			$parameter.Name | Should -Be 'SqlUser'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -94,7 +94,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlPwd' {
+		It 'Should have the expected parameter SqlPwd' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['SqlPwd']
 			$parameter.Name | Should -Be 'SqlPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -119,7 +119,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter BacpacFile' {
+		It 'Should have the expected parameter BacpacFile' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['BacpacFile']
 			$parameter.Name | Should -Be 'BacpacFile'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -132,7 +132,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter NewDatabaseName' {
+		It 'Should have the expected parameter NewDatabaseName' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['NewDatabaseName']
 			$parameter.Name | Should -Be 'NewDatabaseName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -145,7 +145,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AxDeployExtUserPwd' {
+		It 'Should have the expected parameter AxDeployExtUserPwd' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['AxDeployExtUserPwd']
 			$parameter.Name | Should -Be 'AxDeployExtUserPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -164,7 +164,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AxDbAdminPwd' {
+		It 'Should have the expected parameter AxDbAdminPwd' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['AxDbAdminPwd']
 			$parameter.Name | Should -Be 'AxDbAdminPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -183,7 +183,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AxRuntimeUserPwd' {
+		It 'Should have the expected parameter AxRuntimeUserPwd' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['AxRuntimeUserPwd']
 			$parameter.Name | Should -Be 'AxRuntimeUserPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -202,7 +202,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AxMrRuntimeUserPwd' {
+		It 'Should have the expected parameter AxMrRuntimeUserPwd' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['AxMrRuntimeUserPwd']
 			$parameter.Name | Should -Be 'AxMrRuntimeUserPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -221,7 +221,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AxRetailRuntimeUserPwd' {
+		It 'Should have the expected parameter AxRetailRuntimeUserPwd' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['AxRetailRuntimeUserPwd']
 			$parameter.Name | Should -Be 'AxRetailRuntimeUserPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -240,7 +240,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AxRetailDataSyncUserPwd' {
+		It 'Should have the expected parameter AxRetailDataSyncUserPwd' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['AxRetailDataSyncUserPwd']
 			$parameter.Name | Should -Be 'AxRetailDataSyncUserPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -259,7 +259,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter CustomSqlFile' {
+		It 'Should have the expected parameter CustomSqlFile' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['CustomSqlFile']
 			$parameter.Name | Should -Be 'CustomSqlFile'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -272,7 +272,7 @@ Describe "Import-D365Bacpac Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter ImportOnly' {
+		It 'Should have the expected parameter ImportOnly' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['ImportOnly']
 			$parameter.Name | Should -Be 'ImportOnly'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

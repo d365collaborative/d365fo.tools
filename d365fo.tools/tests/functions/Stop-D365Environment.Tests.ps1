@@ -11,7 +11,7 @@ Describe "Stop-D365Environment Unit Tests" -Tag "Unit" {
 			(Get-Command Stop-D365Environment).ParameterSets.Name | Should -Be 'Default', 'Specific'
 		}
 		
-		It 'Should habe the expected parameter ComputerName' {
+		It 'Should have the expected parameter ComputerName' {
 			$parameter = (Get-Command Stop-D365Environment).Parameters['ComputerName']
 			$parameter.Name | Should -Be 'ComputerName'
 			$parameter.ParameterType.ToString() | Should -Be System.String[]
@@ -30,7 +30,7 @@ Describe "Stop-D365Environment Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter All' {
+		It 'Should have the expected parameter All' {
 			$parameter = (Get-Command Stop-D365Environment).Parameters['All']
 			$parameter.Name | Should -Be 'All'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -43,7 +43,7 @@ Describe "Stop-D365Environment Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Aos' {
+		It 'Should have the expected parameter Aos' {
 			$parameter = (Get-Command Stop-D365Environment).Parameters['Aos']
 			$parameter.Name | Should -Be 'Aos'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -56,7 +56,7 @@ Describe "Stop-D365Environment Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Batch' {
+		It 'Should have the expected parameter Batch' {
 			$parameter = (Get-Command Stop-D365Environment).Parameters['Batch']
 			$parameter.Name | Should -Be 'Batch'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -69,7 +69,7 @@ Describe "Stop-D365Environment Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter FinancialReporter' {
+		It 'Should have the expected parameter FinancialReporter' {
 			$parameter = (Get-Command Stop-D365Environment).Parameters['FinancialReporter']
 			$parameter.Name | Should -Be 'FinancialReporter'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -82,7 +82,7 @@ Describe "Stop-D365Environment Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DMF' {
+		It 'Should have the expected parameter DMF' {
 			$parameter = (Get-Command Stop-D365Environment).Parameters['DMF']
 			$parameter.Name | Should -Be 'DMF'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

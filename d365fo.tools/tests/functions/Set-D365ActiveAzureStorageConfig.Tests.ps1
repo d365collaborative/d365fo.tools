@@ -11,7 +11,7 @@ Describe "Set-D365ActiveAzureStorageConfig Unit Tests" -Tag "Unit" {
 			(Get-Command Set-D365ActiveAzureStorageConfig).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Set-D365ActiveAzureStorageConfig).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String

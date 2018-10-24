@@ -11,7 +11,7 @@ Describe "Initialize-D365TestAutomationCertificate Unit Tests" -Tag "Unit" {
 			(Get-Command Initialize-D365TestAutomationCertificate).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter CertificateFileName' {
+		It 'Should have the expected parameter CertificateFileName' {
 			$parameter = (Get-Command Initialize-D365TestAutomationCertificate).Parameters['CertificateFileName']
 			$parameter.Name | Should -Be 'CertificateFileName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Initialize-D365TestAutomationCertificate Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter PrivateKeyFileName' {
+		It 'Should have the expected parameter PrivateKeyFileName' {
 			$parameter = (Get-Command Initialize-D365TestAutomationCertificate).Parameters['PrivateKeyFileName']
 			$parameter.Name | Should -Be 'PrivateKeyFileName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Initialize-D365TestAutomationCertificate Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Password' {
+		It 'Should have the expected parameter Password' {
 			$parameter = (Get-Command Initialize-D365TestAutomationCertificate).Parameters['Password']
 			$parameter.Name | Should -Be 'Password'
 			$parameter.ParameterType.ToString() | Should -Be System.Security.SecureString

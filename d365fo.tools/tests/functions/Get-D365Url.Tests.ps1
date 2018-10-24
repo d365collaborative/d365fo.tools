@@ -11,7 +11,7 @@ Describe "Get-D365Url Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365Url).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Force' {
+		It 'Should have the expected parameter Force' {
 			$parameter = (Get-Command Get-D365Url).Parameters['Force']
 			$parameter.Name | Should -Be 'Force'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
