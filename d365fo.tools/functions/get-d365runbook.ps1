@@ -42,6 +42,7 @@
 function Get-D365Runbook {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
         [string] $Path = $Script:InstallationRecordsDir,
 
         [string] $Name = "*",
