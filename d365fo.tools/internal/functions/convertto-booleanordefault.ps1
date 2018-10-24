@@ -23,6 +23,7 @@
         
 #>
 function ConvertTo-BooleanOrDefault {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingEmptyCatchBlock', '')]
     [CmdletBinding()]
     [OutputType('System.Boolean')]
     param (
