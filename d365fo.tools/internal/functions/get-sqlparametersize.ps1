@@ -1,5 +1,6 @@
 ﻿function Get-SqlParameterSize {
     [CmdletBinding()]
+    [OutputType('System.String')]
     param (
         [System.Data.SqlClient.SqlParameter] $SqlParameter
     )

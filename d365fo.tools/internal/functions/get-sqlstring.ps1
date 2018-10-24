@@ -1,5 +1,26 @@
-﻿function Get-SqlString {
+﻿<#
+.SYNOPSIS
+Get an executable string from a SqlCommand object
+
+.DESCRIPTION
+Get an formatted and valid string from a SqlCommand object that contains all variables
+
+.PARAMETER SqlCommand
+The SqlCommand object that you want to retrieve the string from
+
+.EXAMPLE
+PS C:\> $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
+PS C:\> $SqlCmd.CommandText = "SELECT * FROM Table WHERE Column = @Parm1"
+PS C:\> $SqlCmd.Parameters.AddWithValue("@Parm1", "1234")
+PS C:\> Get-SqlString -SqlCommand $SqlCmd
+
+.NOTES
+Author: Mötz Jensen (@Splaxi)
+
+#>
+function Get-SqlString {
     [CmdletBinding()]
+    [OutputType('System.String')]
     param (
         [System.Data.SqlClient.SqlCommand] $SqlCommand
     )
