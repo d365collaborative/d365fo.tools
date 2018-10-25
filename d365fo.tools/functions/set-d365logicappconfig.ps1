@@ -36,13 +36,26 @@ function Set-D365LogicAppConfig {
         [string] $Email,
 
         [Parameter(Mandatory = $true )]
-        [string] $Subject
+        [string] $Subject,
+
+        [ValidateSet('User', 'System')]
+        [string] $ConfigStorageLocation = "User",
+
+        [switch] $Temporary
     )
 
-    $Details = @{URL = $URL; Email = $Email;
+    $configScope = Test-ConfigStorageLocation -ConfigStorageLocation $ConfigStorageLocation
+
+    if (Test-PSFFunctionInterrupt) { return }
+
+    $logicDetails = @{URL = $URL; Email = $Email;
         Subject = $Subject;
     }
 
-    Set-PSFConfig -FullName "d365fo.tools.active.logic.app" -Value $Details
-    Get-PSFConfig -FullName "d365fo.tools.active.logic.app" | Register-PSFConfig
+    Set-PSFConfig -FullName "d365fo.tools.active.logic.app" -Value $logicDetails
+    if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.logic.app" -Scope $configScope }
+
+    $Script:LogicAppEmail = $logicDetails.Email
+    $Script:LogicAppSubject = $logicDetails.Subject
+    $Script:LogicAppUrl = $logicDetails.Url
 }

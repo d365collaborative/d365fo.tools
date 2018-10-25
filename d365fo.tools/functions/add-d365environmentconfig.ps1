@@ -81,17 +81,9 @@ function Add-D365EnvironmentConfig {
         [switch] $Force
     )
 
-    $configScope = "UserDefault"
+    $configScope = Test-ConfigStorageLocation -ConfigStorageLocation $ConfigStorageLocation
 
-    if ($ConfigStorageLocation -eq "System") {
-        if ($Script:IsAdminRuntime) {
-            $configScope = "SystemDefault"
-        }
-        else {
-            Write-PSFMessage -Level Host -Message "Unable to locate save the <c='em'>configuration objects</c> in the <c='em'>system wide configuration store</c> on the machine. Please start an elevated session and run the cmdlet again."
-            Stop-PSFFunction -Message "Elevated permissions needed. Please start an elevated session and run the cmdlet again."
-        }
-    }
+    if (Test-PSFFunctionInterrupt) { return }
 
     if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
         Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
@@ -113,7 +105,7 @@ function Add-D365EnvironmentConfig {
                 $Environments[$Name] = $Details
 
                 Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
-                Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig -Scope $configScope
+                Register-PSFConfig -FullName "d365fo.tools.environments" -Scope $configScope
             }
             else {
                 Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>already exists</c>. You want to <c='em'>overwrite</c> the already registered details please supply the <c='em'>-Force</c> parameter."
@@ -125,7 +117,7 @@ function Add-D365EnvironmentConfig {
             $null = $Environments.Add($Name, $Details)
 
             Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
-            Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig -Scope $configScope
+            Register-PSFConfig -FullName "d365fo.tools.environments" -Scope $configScope
         }
     }
 }

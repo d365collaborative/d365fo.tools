@@ -8,7 +8,18 @@
         
     .PARAMETER Name
         The name the Azure Storage Account configuration you want to load into the active Azure Storage Account configuration
+
+    .PARAMETER ConfigStorageLocation
+        Parameter used to instruct where to store the configuration objects
         
+        The default value is "User" and this will store all configuration for the active user
+        
+        Valid options are:
+        "User"
+        "System"
+        
+        "System" will store the configuration so all users can access the configuration objects
+
     .PARAMETER Temporary
         Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
         
@@ -37,9 +48,16 @@ function Set-D365ActiveAzureStorageConfig {
     [CmdletBinding()]
     param (
         [string] $Name,
+
+        [ValidateSet('User', 'System')]
+        [string] $ConfigStorageLocation = "User",
         
         [switch] $Temporary
     )
+
+    $configScope = Test-ConfigStorageLocation -ConfigStorageLocation $ConfigStorageLocation
+
+    if (Test-PSFFunctionInterrupt) { return }
 
     if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
         Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
@@ -60,7 +78,7 @@ function Set-D365ActiveAzureStorageConfig {
             $azureDetails = $azureStorageConfigs[$Name]
 
             Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value $azureDetails
-            if(-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" }
+            if(-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.azure.storage.account"  -Scope $configScope }
 
             $Script:AccountId = $azureDetails.AccountId
             $Script:AccessToken = $azureDetails.AccessToken

@@ -9,6 +9,17 @@
     .PARAMETER Name
         The name the environment configuration you want to load into the active environment configuration
         
+    .PARAMETER ConfigStorageLocation
+        Parameter used to instruct where to store the configuration objects
+        
+        The default value is "User" and this will store all configuration for the active user
+        
+        Valid options are:
+        "User"
+        "System"
+        
+        "System" will store the configuration so all users can access the configuration objects
+
     .PARAMETER Temporary
         Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
         
@@ -30,9 +41,16 @@ function Set-D365ActiveEnvironmentConfig {
     [CmdletBinding()]
     param (
         [string] $Name,
+
+        [ValidateSet('User', 'System')]
+        [string] $ConfigStorageLocation = "User",
         
         [switch] $Temporary
     )
+
+    $configScope = Test-ConfigStorageLocation -ConfigStorageLocation $ConfigStorageLocation
+
+    if (Test-PSFFunctionInterrupt) { return }
 
     if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
         Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
@@ -42,7 +60,8 @@ function Set-D365ActiveEnvironmentConfig {
     else {
         $environmentConfigs = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
 
-        if (($null -eq $environmentConfigs) -or ($environmentConfigs.ContainsKey("Dummy"))) {$environmentConfigs = @{}
+        if (($null -eq $environmentConfigs) -or ($environmentConfigs.ContainsKey("Dummy"))) {
+            $environmentConfigs = @{}
         }
         
         if (-not ($environmentConfigs.ContainsKey($Name))) {
