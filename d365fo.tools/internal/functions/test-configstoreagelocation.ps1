@@ -1,10 +1,11 @@
-﻿<#
-.SYNOPSIS
-Test accessible to the configuration storage
-
-.DESCRIPTION
-Test if the desired configuration storage is accessible with the current user context
-
+﻿
+<#
+    .SYNOPSIS
+        Test accessible to the configuration storage
+        
+    .DESCRIPTION
+        Test if the desired configuration storage is accessible with the current user context
+        
     .PARAMETER ConfigStorageLocation
         Parameter used to instruct where to store the configuration objects
         
@@ -15,16 +16,16 @@ Test if the desired configuration storage is accessible with the current user co
         "System"
         
         "System" will store the configuration so all users can access the configuration objects
-
-.EXAMPLE
-PS C:\> Test-ConfigStorageLocation -ConfigStorageLocation "System"
-
-This will test if the current executing user has enough privileges to save to the system wide configuration storage.
-The system wide configuration storage requires administrator rights.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+        
+    .EXAMPLE
+        PS C:\> Test-ConfigStorageLocation -ConfigStorageLocation "System"
+        
+        This will test if the current executing user has enough privileges to save to the system wide configuration storage.
+        The system wide configuration storage requires administrator rights.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Test-ConfigStorageLocation {
     [CmdletBinding()]

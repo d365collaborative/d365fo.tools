@@ -19,7 +19,7 @@
         "System"
         
         "System" will store the configuration so all users can access the configuration objects
-
+        
     .PARAMETER Temporary
         Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
         
