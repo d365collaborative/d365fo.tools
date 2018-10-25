@@ -70,7 +70,7 @@
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
-			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 5
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
@@ -93,13 +93,13 @@
 	
 	Describe "Testing parameterset Default" {
 		<#
-		Default -FileName -Path
+		Default -FileName
 		Default -AccountId -AccessToken -Blobname -FileName -Path
 		#>
 	}
  	Describe "Testing parameterset Latest" {
 		<#
-		Latest -Path -GetLatest
+		Latest -GetLatest
 		Latest -AccountId -AccessToken -Blobname -Path -GetLatest
 		#>
 	}
