@@ -8,7 +8,10 @@
         
     .PARAMETER Name
         The name the Azure Storage Account configuration you want to load into the active Azure Storage Account configuration
-        
+    
+    .PARAMETER Temporary
+        Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
+            
     .EXAMPLE
         PS C:\> Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
         
@@ -26,7 +29,9 @@ function Set-D365ActiveAzureStorageConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
-        [string] $Name
+        [string] $Name,
+        
+        [switch] $Temporary
     )
 
     if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
@@ -35,22 +40,24 @@ function Set-D365ActiveAzureStorageConfig {
         return
     }
     else {
-        $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
+        $azureStorageConfigs = [hashtable] (Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
 
-        if(($null -eq $Accounts) -or ($Accounts.ContainsKey("Dummy"))) {$Accounts = @{}}
+        if(($null -eq $azureStorageConfigs) -or ($azureStorageConfigs.ContainsKey("Dummy"))) {$azureStorageConfigs = @{}}
 
-        if (-not ($Accounts.ContainsKey($Name))) {
+        if (-not ($azureStorageConfigs.ContainsKey($Name))) {
             Write-PSFMessage -Level Host -Message "An Azure Storage Account with that name <c='em'>doesn't exists</c>."
             Stop-PSFFunction -Message "Stopping because an Azure Storage Account with that name doesn't exists."
             return
         }
         else {
-            $Details = $Accounts[$Name]
+            $azureDetails = $azureStorageConfigs[$Name]
 
-            Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value $Details
-            Get-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" | Register-PSFConfig
+            Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value $azureDetails
+            if(-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" }
 
-            Write-PSFMessage -Level Host -Message "Please <c='em'>restart</c> the powershell session / console. This change affects core functionality that <c='em'>requires</c> the module to be <c='em'>reloaded</c>."
+            $Script:AccountId = $azureDetails.AccountId
+            $Script:AccessToken = $azureDetails.AccessToken
+            $Script:Blobname = $azureDetails.Blobname
         }
     }
 }

@@ -20,6 +20,8 @@
         
     .PARAMETER Path
         Path to the folder / location you want to save the file
+
+        The default path is "c:\temp\d365fo.tools"
         
     .PARAMETER GetLatest
         Switch to tell the cmdlet just to download the latest file from Azure regardless of name
@@ -67,8 +69,8 @@ function Invoke-D365AzureStorageDownload {
         [Alias('Name')]
         [string] $FileName,
 
-        [Parameter(Mandatory = $true, Position = 5 )]
-        [string] $Path,
+        [Parameter(Mandatory = $false, Position = 5 )]
+        [string] $Path = $Script:DefaultTempPath,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 4 )]
         [switch] $GetLatest

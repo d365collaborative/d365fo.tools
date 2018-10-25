@@ -107,11 +107,11 @@ if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.a
 
 $Script:TfDir = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\"
 
-if($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) {
+if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) {
     $Script:TfsUri = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").TfsUri
 }
 
-if($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")) {
+if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")) {
     $logicApp = Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app"
     $Script:LogicAppEmail = $logicApp.Email
     $Script:LogicAppSubject = $logicApp.Subject
@@ -119,6 +119,8 @@ if($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")) {
 }
 
 $Script:SQLTools = "C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn"
+
+$Script:DefaultTempPath = "c:\temp\d365fo.tools"
 
 $maskOutput = @(
     "AccessToken"
