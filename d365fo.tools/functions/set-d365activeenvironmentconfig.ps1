@@ -28,21 +28,21 @@
         
         This will import the "UAT-Exports" set from the Environment configurations.
         It will update the active Environment Configuration.
-
+        
     .EXAMPLE
         PS C:\> Set-D365ActiveEnvironmentConfig -Name "UAT" -ConfigStorageLocation "System"
         
         This will import the "UAT-Exports" set from the Environment configurations.
         It will update the active Environment Configuration.
         The data will be stored in the system wide configuration storage, which makes it accessible from all users.
-
+        
     .EXAMPLE
         PS C:\> Set-D365ActiveEnvironmentConfig -Name "UAT" -Temporary
         
         This will import the "UAT-Exports" set from the Environment configurations.
         It will update the active Environment Configuration.
         The update will only last for the rest of this PowerShell console session.
-
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         
