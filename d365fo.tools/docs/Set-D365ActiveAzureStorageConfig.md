@@ -27,10 +27,19 @@ Updates the current active Azure Storage Account configuration with a new one
 Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
 ```
 
-Will scan the list of Azure Storage Account configurations and select the one that matches the supplied name.
-This gets imported into the active Azure Storage Account configuration.
+This will import the "UAT-Exports" set from the Azure Storage Account configurations.
+It will update the active Azure Storage Account configuration.
 
 ### EXAMPLE 2
+```
+Set-D365ActiveAzureStorageConfig -Name "UAT-Exports" -ConfigStorageLocation "System"
+```
+
+This will import the "UAT-Exports" set from the Azure Storage Account configurations.
+It will update the active Azure Storage Account configuration.
+The data will be stored in the system wide configuration storage, which makes it accessible from all users.
+
+### EXAMPLE 3
 ```
 Set-D365ActiveAzureStorageConfig -Name "UAT-Exports" -Temporary
 ```
