@@ -13,7 +13,7 @@ Get a Dynamics 365 Runbook
 ## SYNTAX
 
 ```
-Get-D365Runbook [[-Path] <String>] [[-Name] <String>] [-Latest] [<CommonParameters>]
+Get-D365Runbook [[-Path] <String>] [-Name <String>] [-Latest] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,25 +23,39 @@ Get the full path and filename of a Dynamics 365 Runbook
 
 ### EXAMPLE 1
 ```
+Get-D365Runbook
+```
+
+This will list all runbooks that are available in the default location.
+
+### EXAMPLE 2
+```
 Get-D365Runbook -Latest
 ```
 
 This will get the latest runbook file from the default InstallationRecords directory on the machine.
 
-### EXAMPLE 2
+### EXAMPLE 3
 ```
 Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer
 ```
 
 This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer | Out-File "C:\Temp\d365fo.tools\runbook-analyze-results.xml"
 ```
 
 This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
 The output will be saved into the "C:\Temp\d365fo.tools\runbook-analyze-results.xml" file.
+
+### EXAMPLE 5
+```
+Get-D365Runbook | ForEach-Object {$_.File | Copy-Item -Destination c:\temp\d365fo.tools }
+```
+
+This will save a copy of all runbooks from the default location and save them to "c:\temp\d365fo.tools"
 
 ## PARAMETERS
 
@@ -56,9 +70,9 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
-Default value: $Script:InstallationRecordsDir
-Accept pipeline input: False
+Position: 2
+Default value: (Join-Path $Script:InstallationRecordsDir "Runbooks")
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -75,7 +89,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: Named
 Default value: *
 Accept pipeline input: False
 Accept wildcard characters: False
