@@ -74,13 +74,19 @@
 			$parameter.Name | Should -Be 'SqlUser'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
-			$parameter.ParameterSets.Keys | Should -Be 'ImportOnlyTier2', 'ImportTier2', '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Be 'ImportOnlyTier2', 'ImportTier1', 'ImportTier2', '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain 'ImportOnlyTier2'
 			$parameter.ParameterSets['ImportOnlyTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportOnlyTier2'].Position | Should -Be 3
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Contain 'ImportTier1'
+			$parameter.ParameterSets['ImportTier1'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['ImportTier1'].Position | Should -Be 3
+			$parameter.ParameterSets['ImportTier1'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['ImportTier1'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier1'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain 'ImportTier2'
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 3
@@ -99,13 +105,19 @@
 			$parameter.Name | Should -Be 'SqlPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
-			$parameter.ParameterSets.Keys | Should -Be 'ImportOnlyTier2', 'ImportTier2', '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Be 'ImportOnlyTier2', 'ImportTier1', 'ImportTier2', '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain 'ImportOnlyTier2'
 			$parameter.ParameterSets['ImportOnlyTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportOnlyTier2'].Position | Should -Be 4
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Contain 'ImportTier1'
+			$parameter.ParameterSets['ImportTier1'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['ImportTier1'].Position | Should -Be 4
+			$parameter.ParameterSets['ImportTier1'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['ImportTier1'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier1'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain 'ImportTier2'
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 4
