@@ -43,7 +43,7 @@
         This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob".
         All configuration objects will be persisted in the system wide configuration store.
         This will enable all users to access the configuration objects and their values.
-        
+
     .NOTES
         
         You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
@@ -106,7 +106,7 @@ function Add-D365AzureStorageConfig {
                 $Accounts[$Name] = $Details
 
                 Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value $Accounts
-                Get-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" | Register-PSFConfig
+                Get-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" | Register-PSFConfig -Scope $configScope
             }
             else {
                 Write-PSFMessage -Level Host -Message "An Azure Storage Account with that name <c='em'>already exists</c>. If you want to <c='em'>overwrite</c> the already registered details please supply the <c='em'>-Force</c> parameter."
@@ -118,7 +118,7 @@ function Add-D365AzureStorageConfig {
             $null = $Accounts.Add($Name, $Details)
 
             Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value $Accounts
-            Get-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" | Register-PSFConfig
+            Get-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" | Register-PSFConfig -Scope $configScope
         }
     }
 }

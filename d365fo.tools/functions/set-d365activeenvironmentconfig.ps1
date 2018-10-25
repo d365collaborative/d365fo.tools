@@ -8,7 +8,10 @@
         
     .PARAMETER Name
         The name the environment configuration you want to load into the active environment configuration
-        
+
+    .PARAMETER Temporary
+        Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
+
     .EXAMPLE
         PS C:\> Set-D365ActiveEnvironmentConfig -Name "UAT"
         
@@ -26,7 +29,9 @@ function Set-D365ActiveEnvironmentConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
-        [string] $Name
+        [string] $Name,
+        
+        [switch] $Temporary
     )
 
     if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
@@ -35,22 +40,26 @@ function Set-D365ActiveEnvironmentConfig {
         return
     }
     else {
-        $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
+        $environmentConfigs = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
 
-        if(($null -eq $Environments) -or ($Environments.ContainsKey("Dummy"))) {$Environments = @{}}
+        if (($null -eq $environmentConfigs) -or ($environmentConfigs.ContainsKey("Dummy"))) {$environmentConfigs = @{}
+        }
         
-        if (-not ($Environments.ContainsKey($Name))) {
+        if (-not ($environmentConfigs.ContainsKey($Name))) {
             Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>doesn't exists</c>."
             Stop-PSFFunction -Message "Stopping because an environment with that name doesn't exists."
             return
         }
         else {
-            $Details = $Environments[$Name]
+            $environmentDetails = $environmentConfigs[$Name]
 
-            Set-PSFConfig -FullName "d365fo.tools.active.environment" -Value $Details
-            Get-PSFConfig -FullName "d365fo.tools.active.environment" | Register-PSFConfig
+            Set-PSFConfig -FullName "d365fo.tools.active.environment" -Value $environmentDetails
+            if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.environment" }
 
-            Write-PSFMessage -Level Host -Message "Please <c='em'>restart</c> the powershell session / console. This change affects core functionality that <c='em'>requires</c> the module to be <c='em'>reloaded</c>."
+            $Script:Url = $environmentDetails.URL
+            $Script:DatabaseUserName = $environmentDetails.SqlUser
+            $Script:DatabaseUserPassword = $environmentDetails.SqlPwd
+            $Script:Company = $environmentDetails.Company
         }
     }
 }

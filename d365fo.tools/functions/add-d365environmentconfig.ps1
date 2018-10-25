@@ -24,7 +24,18 @@
         The default value is "DAT"
     .PARAMETER TfsUri
         The URI for the TFS / VSTS account that you are working against.
-        
+
+    .PARAMETER ConfigStorageLocation
+        Parameter used to instruct where to store the configuration objects
+
+        The default value is "User" and this will store all configuration for the active user
+
+        Valid options are:
+        "User"
+        "System"
+
+        "System" will store the configuration so all users can access the configuration objects
+
     .PARAMETER Force
         Switch to instruct the cmdlet to overwrite already registered environment entry
         
@@ -64,8 +75,23 @@ function Add-D365EnvironmentConfig {
 
         [string] $TfsUri,
 
+        [ValidateSet('User', 'System')]
+        [string] $ConfigStorageLocation = "User",
+
         [switch] $Force
     )
+
+    $configScope = "UserDefault"
+
+    if ($ConfigStorageLocation -eq "System") {
+        if ($Script:IsAdminRuntime) {
+            $configScope = "SystemDefault"
+        }
+        else {
+            Write-PSFMessage -Level Host -Message "Unable to locate save the <c='em'>configuration objects</c> in the <c='em'>system wide configuration store</c> on the machine. Please start an elevated session and run the cmdlet again."
+            Stop-PSFFunction -Message "Elevated permissions needed. Please start an elevated session and run the cmdlet again."
+        }
+    }
 
     if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
         Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
@@ -87,7 +113,7 @@ function Add-D365EnvironmentConfig {
                 $Environments[$Name] = $Details
 
                 Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
-                Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig
+                Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig -Scope $configScope
             }
             else {
                 Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>already exists</c>. You want to <c='em'>overwrite</c> the already registered details please supply the <c='em'>-Force</c> parameter."
@@ -99,7 +125,7 @@ function Add-D365EnvironmentConfig {
             $null = $Environments.Add($Name, $Details)
 
             Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
-            Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig
+            Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig -Scope $configScope
         }
     }
 }
