@@ -67,30 +67,21 @@ function Set-D365ActiveAzureStorageConfig {
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
-        Stop-PSFFunction -Message "Stopping because unable to locate configuration objects."
+    $azureStorageConfigs = [hashtable] (Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
+
+    if (-not ($azureStorageConfigs.ContainsKey($Name))) {
+        Write-PSFMessage -Level Host -Message "An Azure Storage Account with that name <c='em'>doesn't exists</c>."
+        Stop-PSFFunction -Message "Stopping because an Azure Storage Account with that name doesn't exists."
         return
     }
     else {
-        $azureStorageConfigs = [hashtable] (Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
+        $azureDetails = $azureStorageConfigs[$Name]
 
-        if(($null -eq $azureStorageConfigs) -or ($azureStorageConfigs.ContainsKey("Dummy"))) {$azureStorageConfigs = @{}}
+        Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value $azureDetails
+        if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.azure.storage.account"  -Scope $configScope }
 
-        if (-not ($azureStorageConfigs.ContainsKey($Name))) {
-            Write-PSFMessage -Level Host -Message "An Azure Storage Account with that name <c='em'>doesn't exists</c>."
-            Stop-PSFFunction -Message "Stopping because an Azure Storage Account with that name doesn't exists."
-            return
-        }
-        else {
-            $azureDetails = $azureStorageConfigs[$Name]
-
-            Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value $azureDetails
-            if(-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.azure.storage.account"  -Scope $configScope }
-
-            $Script:AccountId = $azureDetails.AccountId
-            $Script:AccessToken = $azureDetails.AccessToken
-            $Script:Blobname = $azureDetails.Blobname
-        }
+        $Script:AccountId = $azureDetails.AccountId
+        $Script:AccessToken = $azureDetails.AccessToken
+        $Script:Blobname = $azureDetails.Blobname
     }
 }

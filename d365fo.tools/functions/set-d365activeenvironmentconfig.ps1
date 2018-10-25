@@ -67,33 +67,22 @@ function Set-D365ActiveEnvironmentConfig {
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
-        Stop-PSFFunction -Message "Stopping because unable to locate configuration objects."
+    $environmentConfigs = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
+        
+    if (-not ($environmentConfigs.ContainsKey($Name))) {
+        Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>doesn't exists</c>."
+        Stop-PSFFunction -Message "Stopping because an environment with that name doesn't exists."
         return
     }
     else {
-        $environmentConfigs = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
+        $environmentDetails = $environmentConfigs[$Name]
 
-        if (($null -eq $environmentConfigs) -or ($environmentConfigs.ContainsKey("Dummy"))) {
-            $environmentConfigs = @{}
-        }
-        
-        if (-not ($environmentConfigs.ContainsKey($Name))) {
-            Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>doesn't exists</c>."
-            Stop-PSFFunction -Message "Stopping because an environment with that name doesn't exists."
-            return
-        }
-        else {
-            $environmentDetails = $environmentConfigs[$Name]
+        Set-PSFConfig -FullName "d365fo.tools.active.environment" -Value $environmentDetails
+        if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.environment" -Scope $configScope }
 
-            Set-PSFConfig -FullName "d365fo.tools.active.environment" -Value $environmentDetails
-            if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.environment" -Scope $configScope }
-
-            $Script:Url = $environmentDetails.URL
-            $Script:DatabaseUserName = $environmentDetails.SqlUser
-            $Script:DatabaseUserPassword = $environmentDetails.SqlPwd
-            $Script:Company = $environmentDetails.Company
-        }
+        $Script:Url = $environmentDetails.URL
+        $Script:DatabaseUserName = $environmentDetails.SqlUser
+        $Script:DatabaseUserPassword = $environmentDetails.SqlPwd
+        $Script:Company = $environmentDetails.Company
     }
 }

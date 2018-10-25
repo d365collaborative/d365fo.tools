@@ -28,19 +28,13 @@ function Get-D365AzureStorageConfig {
         [string] $Name = "*"
 
     )
-    if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
-        Stop-PSFFunction -Message "Stopping because unable to locate configuration objects."
-        return
-    }
-    else {
-        $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
+    
+    $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
         
-        foreach ($item in $Environments.Keys) {
-            if ($item -NotLike $Name) { continue }
-            $temp = [ordered]@{Name = $item}
-            $temp += $Environments[$item]
-            [PSCustomObject]$temp
-        }
+    foreach ($item in $Environments.Keys) {
+        if ($item -NotLike $Name) { continue }
+        $temp = [ordered]@{Name = $item}
+        $temp += $Environments[$item]
+        [PSCustomObject]$temp
     }
 }

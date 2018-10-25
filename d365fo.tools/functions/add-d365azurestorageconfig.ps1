@@ -77,39 +77,30 @@ function Add-D365AzureStorageConfig {
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
-        Stop-PSFFunction -Message "Stopping because unable to locate configuration objects."
-        return
+    
+    $Details = @{AccountId = $AccountId; AccessToken = $AccessToken;
+        Blobname = $Blobname;
     }
-    else {
-        $Details = @{AccountId = $AccountId; AccessToken = $AccessToken;
-            Blobname = $Blobname;
-        }
 
-        $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
+    $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
 
-        if (($null -eq $Accounts) -or ($Accounts.ContainsKey("Dummy"))) {$Accounts = @{}
-        }
-        
-        if ($Accounts.ContainsKey($Name)) {
-            if ($Force.IsPresent) {
-                $Accounts[$Name] = $Details
-
-                Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value $Accounts
-                Register-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Scope $configScope
-            }
-            else {
-                Write-PSFMessage -Level Host -Message "An Azure Storage Account with that name <c='em'>already exists</c>. If you want to <c='em'>overwrite</c> the already registered details please supply the <c='em'>-Force</c> parameter."
-                Stop-PSFFunction -Message "Stopping because an Azure Storage Account already exists with that name."
-                return
-            }
-        }
-        else {
-            $null = $Accounts.Add($Name, $Details)
+    if ($Accounts.ContainsKey($Name)) {
+        if ($Force.IsPresent) {
+            $Accounts[$Name] = $Details
 
             Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value $Accounts
             Register-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Scope $configScope
         }
+        else {
+            Write-PSFMessage -Level Host -Message "An Azure Storage Account with that name <c='em'>already exists</c>. If you want to <c='em'>overwrite</c> the already registered details please supply the <c='em'>-Force</c> parameter."
+            Stop-PSFFunction -Message "Stopping because an Azure Storage Account already exists with that name."
+            return
+        }
+    }
+    else {
+        $null = $Accounts.Add($Name, $Details)
+
+        Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value $Accounts
+        Register-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Scope $configScope
     }
 }
