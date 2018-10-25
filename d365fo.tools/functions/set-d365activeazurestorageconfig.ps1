@@ -8,10 +8,10 @@
         
     .PARAMETER Name
         The name the Azure Storage Account configuration you want to load into the active Azure Storage Account configuration
-    
+        
     .PARAMETER Temporary
         Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
-            
+        
     .EXAMPLE
         PS C:\> Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
         
