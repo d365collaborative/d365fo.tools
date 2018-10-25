@@ -1,4 +1,4 @@
-Describe "Add-D365AzureStorageConfig Unit Tests" -Tag "Unit" {
+﻿Describe "Add-D365AzureStorageConfig Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Add-D365AzureStorageConfig Unit Tests" -Tag "Unit" {
 			(Get-Command Add-D365AzureStorageConfig).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Add-D365AzureStorageConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AccountId' {
+		It 'Should have the expected parameter AccountId' {
 			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['AccountId']
 			$parameter.Name | Should -Be 'AccountId'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Add-D365AzureStorageConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AccessToken' {
+		It 'Should have the expected parameter AccessToken' {
 			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['AccessToken']
 			$parameter.Name | Should -Be 'AccessToken'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Add-D365AzureStorageConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Blobname' {
+		It 'Should have the expected parameter Blobname' {
 			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['Blobname']
 			$parameter.Name | Should -Be 'Blobname'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Add-D365AzureStorageConfig Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Force' {
+		It 'Should have the expected parameter Force' {
 			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['Force']
 			$parameter.Name | Should -Be 'Force'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

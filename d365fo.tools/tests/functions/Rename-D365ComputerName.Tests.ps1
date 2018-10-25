@@ -1,4 +1,4 @@
-Describe "Rename-D365ComputerName Unit Tests" -Tag "Unit" {
+﻿Describe "Rename-D365ComputerName Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Rename-D365ComputerName Unit Tests" -Tag "Unit" {
 			(Get-Command Rename-D365ComputerName).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter NewName' {
+		It 'Should have the expected parameter NewName' {
 			$parameter = (Get-Command Rename-D365ComputerName).Parameters['NewName']
 			$parameter.Name | Should -Be 'NewName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Rename-D365ComputerName Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SSRSReportDatabase' {
+		It 'Should have the expected parameter SSRSReportDatabase' {
 			$parameter = (Get-Command Rename-D365ComputerName).Parameters['SSRSReportDatabase']
 			$parameter.Name | Should -Be 'SSRSReportDatabase'
 			$parameter.ParameterType.ToString() | Should -Be System.String

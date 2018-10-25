@@ -1,4 +1,4 @@
-Describe "Get-D365DotNetClass Unit Tests" -Tag "Unit" {
+﻿Describe "Get-D365DotNetClass Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Get-D365DotNetClass Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365DotNetClass).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Get-D365DotNetClass).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365DotNetClass Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Assembly' {
+		It 'Should have the expected parameter Assembly' {
 			$parameter = (Get-Command Get-D365DotNetClass).Parameters['Assembly']
 			$parameter.Name | Should -Be 'Assembly'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Get-D365DotNetClass Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter PackageDirectory' {
+		It 'Should have the expected parameter PackageDirectory' {
 			$parameter = (Get-Command Get-D365DotNetClass).Parameters['PackageDirectory']
 			$parameter.Name | Should -Be 'PackageDirectory'
 			$parameter.ParameterType.ToString() | Should -Be System.String

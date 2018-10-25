@@ -1,4 +1,4 @@
-Describe "Get-D365Table Unit Tests" -Tag "Unit" {
+﻿Describe "Get-D365Table Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Get-D365Table Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365Table).ParameterSets.Name | Should -Be 'Default', 'TableId'
 		}
 		
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Get-D365Table).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String[]
@@ -24,7 +24,7 @@ Describe "Get-D365Table Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Id' {
+		It 'Should have the expected parameter Id' {
 			$parameter = (Get-Command Get-D365Table).Parameters['Id']
 			$parameter.Name | Should -Be 'Id'
 			$parameter.ParameterType.ToString() | Should -Be System.Int32
@@ -37,7 +37,7 @@ Describe "Get-D365Table Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['TableId'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['TableId'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseServer' {
+		It 'Should have the expected parameter DatabaseServer' {
 			$parameter = (Get-Command Get-D365Table).Parameters['DatabaseServer']
 			$parameter.Name | Should -Be 'DatabaseServer'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Get-D365Table Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseName' {
+		It 'Should have the expected parameter DatabaseName' {
 			$parameter = (Get-Command Get-D365Table).Parameters['DatabaseName']
 			$parameter.Name | Should -Be 'DatabaseName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Get-D365Table Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlUser' {
+		It 'Should have the expected parameter SqlUser' {
 			$parameter = (Get-Command Get-D365Table).Parameters['SqlUser']
 			$parameter.Name | Should -Be 'SqlUser'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -76,7 +76,7 @@ Describe "Get-D365Table Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlPwd' {
+		It 'Should have the expected parameter SqlPwd' {
 			$parameter = (Get-Command Get-D365Table).Parameters['SqlPwd']
 			$parameter.Name | Should -Be 'SqlPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String

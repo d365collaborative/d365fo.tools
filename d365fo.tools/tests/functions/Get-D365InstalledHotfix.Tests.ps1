@@ -1,4 +1,4 @@
-Describe "Get-D365InstalledHotfix Unit Tests" -Tag "Unit" {
+﻿Describe "Get-D365InstalledHotfix Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Get-D365InstalledHotfix Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365InstalledHotfix).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter BinDir' {
+		It 'Should have the expected parameter BinDir' {
 			$parameter = (Get-Command Get-D365InstalledHotfix).Parameters['BinDir']
 			$parameter.Name | Should -Be 'BinDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365InstalledHotfix Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter PackageDirectory' {
+		It 'Should have the expected parameter PackageDirectory' {
 			$parameter = (Get-Command Get-D365InstalledHotfix).Parameters['PackageDirectory']
 			$parameter.Name | Should -Be 'PackageDirectory'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Get-D365InstalledHotfix Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Model' {
+		It 'Should have the expected parameter Model' {
 			$parameter = (Get-Command Get-D365InstalledHotfix).Parameters['Model']
 			$parameter.Name | Should -Be 'Model'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Get-D365InstalledHotfix Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Get-D365InstalledHotfix).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Get-D365InstalledHotfix Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter KB' {
+		It 'Should have the expected parameter KB' {
 			$parameter = (Get-Command Get-D365InstalledHotfix).Parameters['KB']
 			$parameter.Name | Should -Be 'KB'
 			$parameter.ParameterType.ToString() | Should -Be System.String

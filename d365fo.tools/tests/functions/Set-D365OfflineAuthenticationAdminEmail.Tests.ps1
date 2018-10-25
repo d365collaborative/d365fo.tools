@@ -1,4 +1,4 @@
-Describe "Set-D365OfflineAuthenticationAdminEmail Unit Tests" -Tag "Unit" {
+﻿Describe "Set-D365OfflineAuthenticationAdminEmail Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Set-D365OfflineAuthenticationAdminEmail Unit Tests" -Tag "Unit" {
 			(Get-Command Set-D365OfflineAuthenticationAdminEmail).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter Email' {
+		It 'Should have the expected parameter Email' {
 			$parameter = (Get-Command Set-D365OfflineAuthenticationAdminEmail).Parameters['Email']
 			$parameter.Name | Should -Be 'Email'
 			$parameter.ParameterType.ToString() | Should -Be System.String

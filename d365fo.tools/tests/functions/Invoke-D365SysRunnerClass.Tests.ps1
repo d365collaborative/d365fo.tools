@@ -1,4 +1,4 @@
-Describe "Invoke-D365SysRunnerClass Unit Tests" -Tag "Unit" {
+﻿Describe "Invoke-D365SysRunnerClass Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Invoke-D365SysRunnerClass Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365SysRunnerClass).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter ClassName' {
+		It 'Should have the expected parameter ClassName' {
 			$parameter = (Get-Command Invoke-D365SysRunnerClass).Parameters['ClassName']
 			$parameter.Name | Should -Be 'ClassName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Invoke-D365SysRunnerClass Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Company' {
+		It 'Should have the expected parameter Company' {
 			$parameter = (Get-Command Invoke-D365SysRunnerClass).Parameters['Company']
 			$parameter.Name | Should -Be 'Company'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Invoke-D365SysRunnerClass Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Url' {
+		It 'Should have the expected parameter Url' {
 			$parameter = (Get-Command Invoke-D365SysRunnerClass).Parameters['Url']
 			$parameter.Name | Should -Be 'Url'
 			$parameter.ParameterType.ToString() | Should -Be System.String

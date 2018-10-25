@@ -1,4 +1,4 @@
-Describe "Invoke-D365DataFlush Unit Tests" -Tag "Unit" {
+﻿Describe "Invoke-D365DataFlush Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Invoke-D365DataFlush Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365DataFlush).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Url' {
+		It 'Should have the expected parameter Url' {
 			$parameter = (Get-Command Invoke-D365DataFlush).Parameters['Url']
 			$parameter.Name | Should -Be 'Url'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Invoke-D365DataFlush Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Class' {
+		It 'Should have the expected parameter Class' {
 			$parameter = (Get-Command Invoke-D365DataFlush).Parameters['Class']
 			$parameter.Name | Should -Be 'Class'
 			$parameter.ParameterType.ToString() | Should -Be System.String[]

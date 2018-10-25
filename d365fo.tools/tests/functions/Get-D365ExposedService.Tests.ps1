@@ -1,4 +1,4 @@
-Describe "Get-D365ExposedService Unit Tests" -Tag "Unit" {
+﻿Describe "Get-D365ExposedService Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Get-D365ExposedService Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365ExposedService).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter ClientId' {
+		It 'Should have the expected parameter ClientId' {
 			$parameter = (Get-Command Get-D365ExposedService).Parameters['ClientId']
 			$parameter.Name | Should -Be 'ClientId'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365ExposedService Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter ClientSecret' {
+		It 'Should have the expected parameter ClientSecret' {
 			$parameter = (Get-Command Get-D365ExposedService).Parameters['ClientSecret']
 			$parameter.Name | Should -Be 'ClientSecret'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Get-D365ExposedService Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter D365FO' {
+		It 'Should have the expected parameter D365FO' {
 			$parameter = (Get-Command Get-D365ExposedService).Parameters['D365FO']
 			$parameter.Name | Should -Be 'D365FO'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Get-D365ExposedService Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Authority' {
+		It 'Should have the expected parameter Authority' {
 			$parameter = (Get-Command Get-D365ExposedService).Parameters['Authority']
 			$parameter.Name | Should -Be 'Authority'
 			$parameter.ParameterType.ToString() | Should -Be System.String

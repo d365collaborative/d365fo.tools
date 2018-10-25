@@ -1,5 +1,5 @@
 ﻿$script:ModuleRoot = $PSScriptRoot
-$script:ModuleVersion = "0.4.67"
+$script:ModuleVersion = "0.4.71"
 
 # Detect whether at some level dotsourcing was enforced
 $script:doDotSource = Get-PSFConfigValue -FullName d365fo.tools.Import.DoDotSource -Fallback $false

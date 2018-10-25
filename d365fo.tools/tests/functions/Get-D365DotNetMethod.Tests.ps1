@@ -1,4 +1,4 @@
-Describe "Get-D365DotNetMethod Unit Tests" -Tag "Unit" {
+﻿Describe "Get-D365DotNetMethod Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Get-D365DotNetMethod Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365DotNetMethod).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter Assembly' {
+		It 'Should have the expected parameter Assembly' {
 			$parameter = (Get-Command Get-D365DotNetMethod).Parameters['Assembly']
 			$parameter.Name | Should -Be 'Assembly'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365DotNetMethod Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Name' {
+		It 'Should have the expected parameter Name' {
 			$parameter = (Get-Command Get-D365DotNetMethod).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Get-D365DotNetMethod Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter TypeName' {
+		It 'Should have the expected parameter TypeName' {
 			$parameter = (Get-Command Get-D365DotNetMethod).Parameters['TypeName']
 			$parameter.Name | Should -Be 'TypeName'
 			$parameter.ParameterType.ToString() | Should -Be System.String

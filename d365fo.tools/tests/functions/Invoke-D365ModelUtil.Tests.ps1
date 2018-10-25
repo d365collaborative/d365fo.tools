@@ -1,4 +1,4 @@
-Describe "Invoke-D365ModelUtil Unit Tests" -Tag "Unit" {
+﻿Describe "Invoke-D365ModelUtil Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Invoke-D365ModelUtil Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365ModelUtil).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter Path' {
+		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command Invoke-D365ModelUtil).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Invoke-D365ModelUtil Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter BinDir' {
+		It 'Should have the expected parameter BinDir' {
 			$parameter = (Get-Command Invoke-D365ModelUtil).Parameters['BinDir']
 			$parameter.Name | Should -Be 'BinDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Invoke-D365ModelUtil Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter MetaDataDir' {
+		It 'Should have the expected parameter MetaDataDir' {
 			$parameter = (Get-Command Invoke-D365ModelUtil).Parameters['MetaDataDir']
 			$parameter.Name | Should -Be 'MetaDataDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Invoke-D365ModelUtil Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Import' {
+		It 'Should have the expected parameter Import' {
 			$parameter = (Get-Command Invoke-D365ModelUtil).Parameters['Import']
 			$parameter.Name | Should -Be 'Import'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

@@ -1,4 +1,4 @@
-Describe "Invoke-D365AzureStorageDownload Unit Tests" -Tag "Unit" {
+﻿Describe "Invoke-D365AzureStorageDownload Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Invoke-D365AzureStorageDownload Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365AzureStorageDownload).ParameterSets.Name | Should -Be 'Default', 'Latest'
 		}
 		
-		It 'Should habe the expected parameter AccountId' {
+		It 'Should have the expected parameter AccountId' {
 			$parameter = (Get-Command Invoke-D365AzureStorageDownload).Parameters['AccountId']
 			$parameter.Name | Should -Be 'AccountId'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Invoke-D365AzureStorageDownload Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter AccessToken' {
+		It 'Should have the expected parameter AccessToken' {
 			$parameter = (Get-Command Invoke-D365AzureStorageDownload).Parameters['AccessToken']
 			$parameter.Name | Should -Be 'AccessToken'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Invoke-D365AzureStorageDownload Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Blobname' {
+		It 'Should have the expected parameter Blobname' {
 			$parameter = (Get-Command Invoke-D365AzureStorageDownload).Parameters['Blobname']
 			$parameter.Name | Should -Be 'Blobname'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Invoke-D365AzureStorageDownload Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter FileName' {
+		It 'Should have the expected parameter FileName' {
 			$parameter = (Get-Command Invoke-D365AzureStorageDownload).Parameters['FileName']
 			$parameter.Name | Should -Be 'FileName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Invoke-D365AzureStorageDownload Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Path' {
+		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command Invoke-D365AzureStorageDownload).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -76,7 +76,7 @@ Describe "Invoke-D365AzureStorageDownload Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter GetLatest' {
+		It 'Should have the expected parameter GetLatest' {
 			$parameter = (Get-Command Invoke-D365AzureStorageDownload).Parameters['GetLatest']
 			$parameter.Name | Should -Be 'GetLatest'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

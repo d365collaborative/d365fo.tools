@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 	
     # Version number of this module.
-    ModuleVersion     = '0.4.67'
+    ModuleVersion     = '0.4.71'
 	
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -28,7 +28,7 @@
     RequiredModules   = @(
         @{ ModuleName = 'PSFramework'; ModuleVersion = '0.10.27.128' },
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
-        @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' } 
+        @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
     )
 	
     # Assemblies that must be loaded prior to importing this module
@@ -47,6 +47,8 @@
 
 						'Backup-D365MetaDataDir',
 
+						'Clear-D365MonitorData',
+						
 						'Disable-D365MaintenanceMode'
 						'Disable-D365User',
 
@@ -86,6 +88,8 @@
 						'Get-D365PackageLabelFile',
 						'Get-D365ProductInformation',
 
+						'Get-D365Runbook',
+
 						'Get-D365SDPCleanUp',
 						'Get-D365Table',
 						'Get-D365TableField',
@@ -105,7 +109,7 @@
 						'Initialize-D365TestAutomationCertificate',
 						
 						'Invoke-D365AzureStorageDownload',
-						'Invoke-D365AzureStorageUpload',                                                                
+						'Invoke-D365AzureStorageUpload',
 						
 						'Invoke-D365DataFlush',
 						'Invoke-D365DBSync',
@@ -114,9 +118,10 @@
 						
 						'Invoke-D365ModelUtil',
 						'Invoke-D365ReArmWindows',
+						'Invoke-D365RunbookAnalyzer',
 
 						'Invoke-D365SDPInstall',
-						'Invoke-D365SCDPBundleInstall',	
+						'Invoke-D365SCDPBundleInstall',
 						'Invoke-D365SeleniumDownload',
 						'Invoke-D365SysFlushAodCache',
 						'Invoke-D365SysRunnerClass',
@@ -124,7 +129,7 @@
 
 						'Invoke-D365TableBrowser',
 
-						'New-D365Bacpac',		
+						'New-D365Bacpac',
 						'New-D365ISVLicense',
 						'New-D365TopologyFile',
 						

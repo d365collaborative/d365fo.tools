@@ -1,4 +1,4 @@
-Describe "Invoke-D365ReArmWindows Unit Tests" -Tag "Unit" {
+﻿Describe "Invoke-D365ReArmWindows Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Invoke-D365ReArmWindows Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365ReArmWindows).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter Restart' {
+		It 'Should have the expected parameter Restart' {
 			$parameter = (Get-Command Invoke-D365ReArmWindows).Parameters['Restart']
 			$parameter.Name | Should -Be 'Restart'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

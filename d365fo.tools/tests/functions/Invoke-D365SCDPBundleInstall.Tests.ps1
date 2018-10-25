@@ -1,4 +1,4 @@
-Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
+﻿Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365SCDPBundleInstall).ParameterSets.Name | Should -Be 'InstallOnly', 'Tfs'
 		}
 		
-		It 'Should habe the expected parameter InstallOnly' {
+		It 'Should have the expected parameter InstallOnly' {
 			$parameter = (Get-Command Invoke-D365SCDPBundleInstall).Parameters['InstallOnly']
 			$parameter.Name | Should -Be 'InstallOnly'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -24,7 +24,7 @@ Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['InstallOnly'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['InstallOnly'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Command' {
+		It 'Should have the expected parameter Command' {
 			$parameter = (Get-Command Invoke-D365SCDPBundleInstall).Parameters['Command']
 			$parameter.Name | Should -Be 'Command'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Tfs'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Tfs'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter Path' {
+		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command Invoke-D365SCDPBundleInstall).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter MetaDataDir' {
+		It 'Should have the expected parameter MetaDataDir' {
 			$parameter = (Get-Command Invoke-D365SCDPBundleInstall).Parameters['MetaDataDir']
 			$parameter.Name | Should -Be 'MetaDataDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter TfsWorkspaceDir' {
+		It 'Should have the expected parameter TfsWorkspaceDir' {
 			$parameter = (Get-Command Invoke-D365SCDPBundleInstall).Parameters['TfsWorkspaceDir']
 			$parameter.Name | Should -Be 'TfsWorkspaceDir'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -76,7 +76,7 @@ Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Tfs'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Tfs'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter TfsUri' {
+		It 'Should have the expected parameter TfsUri' {
 			$parameter = (Get-Command Invoke-D365SCDPBundleInstall).Parameters['TfsUri']
 			$parameter.Name | Should -Be 'TfsUri'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -89,7 +89,7 @@ Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Tfs'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Tfs'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter ShowModifiedFiles' {
+		It 'Should have the expected parameter ShowModifiedFiles' {
 			$parameter = (Get-Command Invoke-D365SCDPBundleInstall).Parameters['ShowModifiedFiles']
 			$parameter.Name | Should -Be 'ShowModifiedFiles'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
@@ -102,7 +102,7 @@ Describe "Invoke-D365SCDPBundleInstall Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter ShowProgress' {
+		It 'Should have the expected parameter ShowProgress' {
 			$parameter = (Get-Command Invoke-D365SCDPBundleInstall).Parameters['ShowProgress']
 			$parameter.Name | Should -Be 'ShowProgress'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter

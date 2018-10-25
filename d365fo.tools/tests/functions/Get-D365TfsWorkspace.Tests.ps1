@@ -1,4 +1,4 @@
-Describe "Get-D365TfsWorkspace Unit Tests" -Tag "Unit" {
+﻿Describe "Get-D365TfsWorkspace Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Get-D365TfsWorkspace Unit Tests" -Tag "Unit" {
 			(Get-Command Get-D365TfsWorkspace).ParameterSets.Name | Should -Be 'Default'
 		}
 		
-		It 'Should habe the expected parameter Path' {
+		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command Get-D365TfsWorkspace).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Get-D365TfsWorkspace Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter TfsUri' {
+		It 'Should have the expected parameter TfsUri' {
 			$parameter = (Get-Command Get-D365TfsWorkspace).Parameters['TfsUri']
 			$parameter.Name | Should -Be 'TfsUri'
 			$parameter.ParameterType.ToString() | Should -Be System.String

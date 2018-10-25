@@ -1,4 +1,4 @@
-Describe "Invoke-D365SqlScript Unit Tests" -Tag "Unit" {
+﻿Describe "Invoke-D365SqlScript Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Invoke-D365SqlScript Unit Tests" -Tag "Unit" {
 			(Get-Command Invoke-D365SqlScript).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter FilePath' {
+		It 'Should have the expected parameter FilePath' {
 			$parameter = (Get-Command Invoke-D365SqlScript).Parameters['FilePath']
 			$parameter.Name | Should -Be 'FilePath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Invoke-D365SqlScript Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseServer' {
+		It 'Should have the expected parameter DatabaseServer' {
 			$parameter = (Get-Command Invoke-D365SqlScript).Parameters['DatabaseServer']
 			$parameter.Name | Should -Be 'DatabaseServer'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -37,7 +37,7 @@ Describe "Invoke-D365SqlScript Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter DatabaseName' {
+		It 'Should have the expected parameter DatabaseName' {
 			$parameter = (Get-Command Invoke-D365SqlScript).Parameters['DatabaseName']
 			$parameter.Name | Should -Be 'DatabaseName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -50,7 +50,7 @@ Describe "Invoke-D365SqlScript Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlUser' {
+		It 'Should have the expected parameter SqlUser' {
 			$parameter = (Get-Command Invoke-D365SqlScript).Parameters['SqlUser']
 			$parameter.Name | Should -Be 'SqlUser'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -63,7 +63,7 @@ Describe "Invoke-D365SqlScript Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter SqlPwd' {
+		It 'Should have the expected parameter SqlPwd' {
 			$parameter = (Get-Command Invoke-D365SqlScript).Parameters['SqlPwd']
 			$parameter.Name | Should -Be 'SqlPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -76,7 +76,7 @@ Describe "Invoke-D365SqlScript Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter TrustedConnection' {
+		It 'Should have the expected parameter TrustedConnection' {
 			$parameter = (Get-Command Invoke-D365SqlScript).Parameters['TrustedConnection']
 			$parameter.Name | Should -Be 'TrustedConnection'
 			$parameter.ParameterType.ToString() | Should -Be System.Boolean

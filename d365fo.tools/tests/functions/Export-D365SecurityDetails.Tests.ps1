@@ -1,4 +1,4 @@
-Describe "Export-D365SecurityDetails Unit Tests" -Tag "Unit" {
+﻿Describe "Export-D365SecurityDetails Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -11,7 +11,7 @@ Describe "Export-D365SecurityDetails Unit Tests" -Tag "Unit" {
 			(Get-Command Export-D365SecurityDetails).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should habe the expected parameter FilePath' {
+		It 'Should have the expected parameter FilePath' {
 			$parameter = (Get-Command Export-D365SecurityDetails).Parameters['FilePath']
 			$parameter.Name | Should -Be 'FilePath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
@@ -24,7 +24,7 @@ Describe "Export-D365SecurityDetails Unit Tests" -Tag "Unit" {
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should habe the expected parameter OutputDirectory' {
+		It 'Should have the expected parameter OutputDirectory' {
 			$parameter = (Get-Command Export-D365SecurityDetails).Parameters['OutputDirectory']
 			$parameter.Name | Should -Be 'OutputDirectory'
 			$parameter.ParameterType.ToString() | Should -Be System.String
