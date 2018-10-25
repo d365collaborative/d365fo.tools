@@ -24,18 +24,18 @@
         The default value is "DAT"
     .PARAMETER TfsUri
         The URI for the TFS / VSTS account that you are working against.
-
+        
     .PARAMETER ConfigStorageLocation
         Parameter used to instruct where to store the configuration objects
-
+        
         The default value is "User" and this will store all configuration for the active user
-
+        
         Valid options are:
         "User"
         "System"
-
+        
         "System" will store the configuration so all users can access the configuration objects
-
+        
     .PARAMETER Force
         Switch to instruct the cmdlet to overwrite already registered environment entry
         

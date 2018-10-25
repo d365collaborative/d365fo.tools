@@ -16,10 +16,10 @@
         PS C:\> Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
         
         Will scan the list of Azure Storage Account configurations and select the one that matches the supplied name. This gets imported into the active Azure Storage Account configuration.
-    
+        
     .EXAMPLE
         PS C:\> Set-D365ActiveAzureStorageConfig -Name "UAT-Exports" -Temporary
-
+        
         This will import the "UAT-Exports" set from the Azure Storage Account configurations.
         It will update the active Azure Storage Account configuration.
         The update will only last for the rest of this PowerShell console session.

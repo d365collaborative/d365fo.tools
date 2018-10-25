@@ -20,15 +20,15 @@
         
     .PARAMETER ConfigStorageLocation
         Parameter used to instruct where to store the configuration objects
-
+        
         The default value is "User" and this will store all configuration for the active user
-
+        
         Valid options are:
         "User"
         "System"
-
+        
         "System" will store the configuration so all users can access the configuration objects
-
+        
     .PARAMETER Force
         Switch to instruct the cmdlet to overwrite already registered Azure Storage Account entry
         
@@ -39,11 +39,11 @@
         
     .EXAMPLE
         PS C:\> Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob" -ConfigStorageLocation "System"
-
+        
         This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob".
         All configuration objects will be persisted in the system wide configuration store.
         This will enable all users to access the configuration objects and their values.
-
+        
     .NOTES
         
         You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.

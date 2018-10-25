@@ -8,10 +8,10 @@
         
     .PARAMETER Name
         The name the environment configuration you want to load into the active environment configuration
-
+        
     .PARAMETER Temporary
         Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
-
+        
     .EXAMPLE
         PS C:\> Set-D365ActiveEnvironmentConfig -Name "UAT"
         
