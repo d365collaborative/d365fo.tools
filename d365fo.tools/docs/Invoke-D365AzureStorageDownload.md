@@ -15,13 +15,13 @@ Download a file to Azure
 ### Default (Default)
 ```
 Invoke-D365AzureStorageDownload [[-AccountId] <String>] [[-AccessToken] <String>] [[-Blobname] <String>]
- [-FileName] <String> [-Path] <String> [<CommonParameters>]
+ [-FileName] <String> [[-Path] <String>] [<CommonParameters>]
 ```
 
 ### Latest
 ```
 Invoke-D365AzureStorageDownload [[-AccountId] <String>] [[-AccessToken] <String>] [[-Blobname] <String>]
- [-Path] <String> [-GetLatest] [<CommonParameters>]
+ [[-Path] <String>] [-GetLatest] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -122,14 +122,16 @@ Accept wildcard characters: False
 ### -Path
 Path to the folder / location you want to save the file
 
+The default path is "c:\temp\d365fo.tools"
+
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 6
-Default value: None
+Default value: $Script:DefaultTempPath
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

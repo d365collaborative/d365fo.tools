@@ -13,7 +13,7 @@ Set the active Azure Storage Account configuration
 ## SYNTAX
 
 ```
-Set-D365ActiveAzureStorageConfig [[-Name] <String>] [<CommonParameters>]
+Set-D365ActiveAzureStorageConfig [[-Name] <String>] [-Temporary] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,6 +29,15 @@ Set-D365ActiveAzureStorageConfig -Name "UAT-Exports"
 Will scan the list of Azure Storage Account configurations and select the one that matches the supplied name.
 This gets imported into the active Azure Storage Account configuration.
 
+### EXAMPLE 2
+```
+Set-D365ActiveAzureStorageConfig -Name "UAT-Exports" -Temporary
+```
+
+This will import the "UAT-Exports" set from the Azure Storage Account configurations.
+It will update the active Azure Storage Account configuration.
+The update will only last for the rest of this PowerShell console session.
+
 ## PARAMETERS
 
 ### -Name
@@ -42,6 +51,21 @@ Aliases:
 Required: False
 Position: 1
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Temporary
+Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
