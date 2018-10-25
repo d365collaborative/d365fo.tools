@@ -13,7 +13,8 @@ Set the details for the logic app invoke cmdlet
 ## SYNTAX
 
 ```
-Set-D365LogicAppConfig [-Url] <String> [-Email] <String> [-Subject] <String> [<CommonParameters>]
+Set-D365LogicAppConfig [-Url] <String> [-Email] <String> [-Subject] <String>
+ [[-ConfigStorageLocation] <String>] [-Temporary] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -72,6 +73,36 @@ Aliases:
 Required: True
 Position: 3
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConfigStorageLocation
+{{Fill ConfigStorageLocation Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: User
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Temporary
+{{Fill Temporary Description}}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

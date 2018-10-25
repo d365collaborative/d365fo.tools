@@ -13,7 +13,8 @@ Set the active environment configuration
 ## SYNTAX
 
 ```
-Set-D365ActiveEnvironmentConfig [[-Name] <String>] [-Temporary] [<CommonParameters>]
+Set-D365ActiveEnvironmentConfig [[-Name] <String>] [[-ConfigStorageLocation] <String>] [-Temporary]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,6 +43,29 @@ Aliases:
 Required: False
 Position: 1
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConfigStorageLocation
+Parameter used to instruct where to store the configuration objects
+
+The default value is "User" and this will store all configuration for the active user
+
+Valid options are:
+"User"
+"System"
+
+"System" will store the configuration so all users can access the configuration objects
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: User
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
