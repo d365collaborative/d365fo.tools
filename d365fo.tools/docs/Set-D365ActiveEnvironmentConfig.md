@@ -13,7 +13,7 @@ Set the active environment configuration
 ## SYNTAX
 
 ```
-Set-D365ActiveEnvironmentConfig [[-Name] <String>] [<CommonParameters>]
+Set-D365ActiveEnvironmentConfig [[-Name] <String>] [-Temporary] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,6 +42,21 @@ Aliases:
 Required: False
 Position: 1
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Temporary
+Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
