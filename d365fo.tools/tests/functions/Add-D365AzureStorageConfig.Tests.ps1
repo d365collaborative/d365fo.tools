@@ -63,6 +63,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter ConfigStorageLocation' {
+			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['ConfigStorageLocation']
+			$parameter.Name | Should -Be 'ConfigStorageLocation'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 4
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter Force' {
 			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['Force']
 			$parameter.Name | Should -Be 'Force'
@@ -81,7 +94,7 @@
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -Name -AccountId -AccessToken -Blobname
-		__AllParameterSets -Name -AccountId -AccessToken -Blobname -Force
+		__AllParameterSets -Name -AccountId -AccessToken -Blobname -ConfigStorageLocation -Force
 		#>
 	}
 
