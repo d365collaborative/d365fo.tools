@@ -29,6 +29,7 @@
 #>
 function Test-ConfigStorageLocation {
     [CmdletBinding()]
+    [OutputType('System.String')]
     param (
         [ValidateSet('User', 'System')]
         [string] $ConfigStorageLocation = "User"

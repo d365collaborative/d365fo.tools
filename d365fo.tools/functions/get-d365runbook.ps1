@@ -44,6 +44,12 @@
         PS C:\> Get-D365Runbook | ForEach-Object {$_.File | Copy-Item -Destination c:\temp\d365fo.tools }
         
         This will save a copy of all runbooks from the default location and save them to "c:\temp\d365fo.tools"
+
+    .EXAMPLE
+        PS C:\> $Path = (Get-D365Runbook -Latest).File
+        PS C:\> notepad.exe $Path
+
+        This will find the latest runbook file and open it with notepad.
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)

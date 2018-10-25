@@ -88,7 +88,7 @@ function Set-D365ActiveEnvironmentConfig {
             $environmentDetails = $environmentConfigs[$Name]
 
             Set-PSFConfig -FullName "d365fo.tools.active.environment" -Value $environmentDetails
-            if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.environment" }
+            if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.environment" -Scope $configScope }
 
             $Script:Url = $environmentDetails.URL
             $Script:DatabaseUserName = $environmentDetails.SqlUser
