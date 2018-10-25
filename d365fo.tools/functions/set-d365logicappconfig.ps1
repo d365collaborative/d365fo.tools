@@ -16,11 +16,37 @@
     .PARAMETER Subject
         The subject of the email that you want to send
         
+    .PARAMETER ConfigStorageLocation
+        Parameter used to instruct where to store the configuration objects
+        
+        The default value is "User" and this will store all configuration for the active user
+        
+        Valid options are:
+        "User"
+        "System"
+        
+        "System" will store the configuration so all users can access the configuration objects
+        
+    .PARAMETER Temporary
+        Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
+
     .EXAMPLE
         PS C:\> Set-D365LogicAppConfig -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
         
         This will set all the details about invoking the Logic App.
         
+    .EXAMPLE
+        PS C:\> Set-D365LogicAppConfig -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/ -ConfigStorageLocation "System"
+        
+        This will set all the details about invoking the Logic App.
+        The data will be stored in the system wide configuration storage, which makes it accessible from all users.
+
+    .EXAMPLE
+        PS C:\> Set-D365LogicAppConfig -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/ -Temporary
+        
+        This will set all the details about invoking the Logic App.
+        The update will only last for the rest of this PowerShell console session.
+
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         
