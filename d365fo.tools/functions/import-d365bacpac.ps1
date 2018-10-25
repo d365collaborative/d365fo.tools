@@ -105,11 +105,13 @@ function Import-D365Bacpac {
 
         [Parameter(Mandatory = $false, Position = 3 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 3)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1', Position = 3)]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 3)]
         [string]$SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 4)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1', Position = 4)]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
