@@ -23,7 +23,7 @@
         Name of the Module to analyse
         
     .PARAMETER Model
-        Name of the Model to analyse        
+        Name of the Model to analyse
         
     .EXAMPLE
         PS C:\> New-D365CAReport -Path "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
@@ -37,9 +37,9 @@
 function New-D365CAReport {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $false, Position = 1 )]
         [Alias('File')]
-        [string] $Path,
+        [string] $Path = (Join-Path $Script:DefaultTempPath "CAReport.xlsx"),
 
         [Parameter(Mandatory = $false, Position = 2 )]
         [string] $BinDir = "$Script:PackageDirectory\bin",
@@ -55,7 +55,7 @@ function New-D365CAReport {
         [string] $Model,
 
         [Parameter(Mandatory = $false, Position = 6 )]
-        [string] $XmlLog = "C:\temp\BPCheckLogcd.xml"
+        [string] $XmlLog = (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml")
 
 
     )
