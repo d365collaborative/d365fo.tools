@@ -45,6 +45,11 @@
         
         This will save a copy of all runbooks from the default location and save them to "c:\temp\d365fo.tools"
         
+    .EXAMPLE
+        PS C:\> notepad.exe (Get-D365Runbook -Latest).File
+        
+        This will find the latest runbook file and open it with notepad.
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         

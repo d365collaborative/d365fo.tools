@@ -20,16 +20,11 @@ function Get-D365LogicAppConfig {
     [CmdletBinding()]
     param ()
     
-    if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
-        Stop-PSFFunction -Message "Stopping because unable to locate configuration objects."
-        return
-    }
-    else {
-        $Details = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")
+    $Details = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")
         
-        $temp = [ordered]@{Email = $Details.Email;
-        Subject = $Details.Subject; URL = $Details.URL}
-        [PSCustomObject]$temp
+    $temp = [ordered]@{Email = $Details.Email;
+        Subject = $Details.Subject; URL = $Details.URL
     }
+    
+    [PSCustomObject]$temp
 }

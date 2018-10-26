@@ -105,7 +105,6 @@
 						'Import-D365AadUser',
 						'Import-D365Bacpac',
 
-						'Initialize-D365Config',
 						'Initialize-D365TestAutomationCertificate',
 						
 						'Invoke-D365AzureStorageDownload',

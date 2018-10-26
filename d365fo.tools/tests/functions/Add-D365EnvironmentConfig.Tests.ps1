@@ -89,6 +89,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter ConfigStorageLocation' {
+			$parameter = (Get-Command Add-D365EnvironmentConfig).Parameters['ConfigStorageLocation']
+			$parameter.Name | Should -Be 'ConfigStorageLocation'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 6
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter Force' {
 			$parameter = (Get-Command Add-D365EnvironmentConfig).Parameters['Force']
 			$parameter.Name | Should -Be 'Force'
@@ -107,7 +120,7 @@
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -Name -URL
-		__AllParameterSets -Name -URL -SqlUser -SqlPwd -Company -TfsUri -Force
+		__AllParameterSets -Name -URL -SqlUser -SqlPwd -Company -TfsUri -ConfigStorageLocation -Force
 		#>
 	}
 

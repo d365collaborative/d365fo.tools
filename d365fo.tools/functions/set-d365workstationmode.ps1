@@ -31,15 +31,8 @@ function Set-D365WorkstationMode {
         [boolean] $Enabled
     )
 
-    if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
-        Stop-PSFFunction -Message "Stopping because unable to locate configuration objects."
-        return
-    }
-    else {
-        Set-PSFConfig -FullName "d365fo.tools.workstation.mode" -Value $Enabled
-        Get-PSFConfig -FullName "d365fo.tools.workstation.mode" | Register-PSFConfig
+    Set-PSFConfig -FullName "d365fo.tools.workstation.mode" -Value $Enabled
+    Get-PSFConfig -FullName "d365fo.tools.workstation.mode" | Register-PSFConfig
 
-        Write-PSFMessage -Level Host -Message "Please <c='em'>restart</c> the powershell session / console. This change affects core functionality that <c='em'>requires</c> the module to be <c='em'>reloaded</c>."
-    }
+    Write-PSFMessage -Level Host -Message "Please <c='em'>restart</c> the powershell session / console. This change affects core functionality that <c='em'>requires</c> the module to be <c='em'>reloaded</c>."
 }

@@ -25,6 +25,17 @@
     .PARAMETER TfsUri
         The URI for the TFS / VSTS account that you are working against.
         
+    .PARAMETER ConfigStorageLocation
+        Parameter used to instruct where to store the configuration objects
+        
+        The default value is "User" and this will store all configuration for the active user
+        
+        Valid options are:
+        "User"
+        "System"
+        
+        "System" will store the configuration so all users can access the configuration objects
+        
     .PARAMETER Force
         Switch to instruct the cmdlet to overwrite already registered environment entry
         
@@ -64,42 +75,40 @@ function Add-D365EnvironmentConfig {
 
         [string] $TfsUri,
 
+        [ValidateSet('User', 'System')]
+        [string] $ConfigStorageLocation = "User",
+
         [switch] $Force
     )
 
-    if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
-        Stop-PSFFunction -Message "Stopping because unable to locate configuration objects."
-        return
+    $configScope = Test-ConfigStorageLocation -ConfigStorageLocation $ConfigStorageLocation
+
+    if (Test-PSFFunctionInterrupt) { return }
+
+    $Details = @{URL = $URL; Company = $Company;
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd;
+        TfsUri = $TfsUri;
     }
-    else {
-        $Details = @{URL = $URL; Company = $Company;
-            SqlUser = $SqlUser; SqlPwd = $SqlPwd;
-            TfsUri = $TfsUri;
-        }
 
-        $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
+    $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.environments")
 
-        if(($null -eq $Environments) -or ($Environments.ContainsKey("Dummy"))) {$Environments = @{}}
-        
-        if ($Environments.ContainsKey($Name)) {
-            if ($Force.IsPresent) {
-                $Environments[$Name] = $Details
-
-                Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
-                Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig
-            }
-            else {
-                Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>already exists</c>. You want to <c='em'>overwrite</c> the already registered details please supply the <c='em'>-Force</c> parameter."
-                Stop-PSFFunction -Message "Stopping because an environment already exists with that name."
-                return
-            }
-        }
-        else {
-            $null = $Environments.Add($Name, $Details)
+    if ($Environments.ContainsKey($Name)) {
+        if ($Force.IsPresent) {
+            $Environments[$Name] = $Details
 
             Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
-            Get-PSFConfig -FullName "d365fo.tools.environments" | Register-PSFConfig
+            Register-PSFConfig -FullName "d365fo.tools.environments" -Scope $configScope
         }
+        else {
+            Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>already exists</c>. You want to <c='em'>overwrite</c> the already registered details please supply the <c='em'>-Force</c> parameter."
+            Stop-PSFFunction -Message "Stopping because an environment already exists with that name."
+            return
+        }
+    }
+    else {
+        $null = $Environments.Add($Name, $Details)
+
+        Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
+        Register-PSFConfig -FullName "d365fo.tools.environments" -Scope $configScope
     }
 }

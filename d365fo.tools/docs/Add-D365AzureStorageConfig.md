@@ -14,7 +14,7 @@ Save an Azure Storage Account config
 
 ```
 Add-D365AzureStorageConfig [-Name] <String> [-AccountId] <String> [-AccessToken] <String> [-Blobname] <String>
- [-Force] [<CommonParameters>]
+ [[-ConfigStorageLocation] <String>] [-Force] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,7 +27,16 @@ Adds an Azure Storage Account config to the configuration store
 Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
 ```
 
-This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob"
+This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob".
+
+### EXAMPLE 2
+```
+Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob" -ConfigStorageLocation "System"
+```
+
+This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob".
+All configuration objects will be persisted in the system wide configuration store.
+This will enable all users to access the configuration objects and their values.
 
 ## PARAMETERS
 
@@ -87,6 +96,29 @@ Aliases: Blob
 Required: True
 Position: 4
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConfigStorageLocation
+Parameter used to instruct where to store the configuration objects
+
+The default value is "User" and this will store all configuration for the active user
+
+Valid options are:
+"User"
+"System"
+
+"System" will store the configuration so all users can access the configuration objects
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: User
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

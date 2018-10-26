@@ -36,7 +36,7 @@ foreach ( $commandName in $commands) {
             # which makes some of the tests fail
             $example = $_.Code -replace "`n.*" -replace "PS C:\\>" 
 
-            if ( ($example -like "*|*" ) -or (-not ($example -match $commandName)) ) {
+            if ( ($example -like "*|*" ) -or (-not ($example -match $commandName)) -or ($example -like "*).*")) {
                 It "Example - $example" -Skip { $true }
             } elseif ($example -like "*=*") {
                 $varAssignment = ($example -split "=")[0]

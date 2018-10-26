@@ -21,12 +21,5 @@ function Get-D365ActiveAzureStorageConfig {
     [CmdletBinding()]
     param ()
 
-    if ((Get-PSFConfig -FullName "d365fo.tools*").Count -eq 0) {
-        Write-PSFMessage -Level Host -Message "Unable to locate the <c='em'>configuration objects</c> on the machine. Please make sure that you ran <c='em'>Initialize-D365Config</c> first."
-        Stop-PSFFunction -Message "Stopping because unable to locate configuration objects."
-        return
-    }
-    else {
-        (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account")
-    }
+    Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account"
 }
