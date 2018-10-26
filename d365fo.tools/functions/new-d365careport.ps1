@@ -1,7 +1,7 @@
 ﻿
 <#
     .SYNOPSIS
-        Generate the Customizations Analysis Report (CAR)
+        Generate the Customization's Analysis Report (CAR)
         
     .DESCRIPTION
         A cmdlet that wraps some of the cumbersome work into a streamlined process
@@ -25,6 +25,9 @@
     .PARAMETER Model
         Name of the Model to analyse
         
+    .PARAMETER XmlLog
+        Path where you want to store the Xml log output generated from the best practice analyser
+    
     .EXAMPLE
         PS C:\> New-D365CAReport -Path "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
         
@@ -35,6 +38,7 @@
         
 #>
 function New-D365CAReport {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1 )]
