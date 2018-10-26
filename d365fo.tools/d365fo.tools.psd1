@@ -130,6 +130,7 @@
 						'Invoke-D365TableBrowser',
 
 						'New-D365Bacpac',
+						'New-D365CAReport',
 						'New-D365ISVLicense',
 						'New-D365TopologyFile',
 						
