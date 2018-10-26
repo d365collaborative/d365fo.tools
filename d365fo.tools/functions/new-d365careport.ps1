@@ -18,7 +18,7 @@
         The path to the meta data directory for the environment
         
         Default path is the same as the aos service PackagesLocalDirectory
-
+        
     .PARAMETER Module
         Name of the Module to analyse
         
@@ -27,7 +27,7 @@
         
     .PARAMETER XmlLog
         Path where you want to store the Xml log output generated from the best practice analyser
-    
+        
     .EXAMPLE
         PS C:\> New-D365CAReport -Path "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
         
