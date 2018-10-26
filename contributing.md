@@ -28,6 +28,13 @@ If you feel for fixing a bug, but don't know GitHub enough, the dbatools.io proj
 
 [Open a PR](https://github.com/d365collaborative/d365fo.tools/pulls) targeting ideally just one ps1 file (the PR needs to target the *development* branch), with the name of the function being fixed as a title. Everyone will chime in reviewing the code and either approve the PR or request changes. The more targeted and focused the PR, the easier to merge, the fastest to go into the next release. Keep them as simple as possible to speed up the process.
 
+## Branching
+Make sure to read our [branching guide](https://github.com/d365collaborative/d365fo.tools/wiki/Branching) on the wiki to get a good starting point.
+
+## Automated build
+If you want to get early warning about what you need to fix in the PR you want to create, you could configure your own Azure DevOps account to build from your own Github repository. Read the guide on how to utilize the same build steps as we are [here](https://github.com/d365collaborative/d365fo.tools/wiki/Azure-DevOps-Build-Configuration)
+
+
 ## Standardize Parameters and Variables
 We chose to follow the standards below when creating parameters and variables for a function:
 
