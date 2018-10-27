@@ -1,86 +1,87 @@
 ﻿#ValidationTags#Messaging,FlowControl,Pipeline,CodeStyle#
 function Find-D365Command {
-    <#
-        .SYNOPSIS
-            Finds d365fo.tools commands searching through the inline help text
-    
-        .DESCRIPTION
-            Finds d365fo.tools commands searching through the inline help text, building a consolidated json index and querying it because Get-Help is too slow
-    
-        .PARAMETER Tag
-            Finds all commands tagged with this auto-populated tag
-    
-        .PARAMETER Author
-            Finds all commands tagged with this author
-    
-        .PARAMETER MinimumVersion
-            Finds all commands tagged with this auto-populated minimum version
-    
-        .PARAMETER MaximumVersion
-            Finds all commands tagged with this auto-populated maximum version
-    
-        .PARAMETER Rebuild
-            Rebuilds the index
-    
-        .PARAMETER Pattern
-            Searches help for all commands in d365fo.tools for the specified pattern and displays all results
-    
-        .PARAMETER Confirm
-            Confirms overwrite of index
-    
-        .PARAMETER WhatIf
-            Displays what would happen if the command is run
-    
-        .PARAMETER EnableException
-            By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-            This avoids overwhelming you with "sea of red" exceptions, but is inconvenient because it basically disables advanced scripting.
-            Using this switch turns this "nice by default" feature off and enables you to catch exceptions with your own try/catch.
-
-        .EXAMPLE
-            PS C:\> Find-D365Command "snapshot"
-    
-            For lazy typers: finds all commands searching the entire help for "snapshot"
-    
-        .EXAMPLE
-            PS C:\> Find-D365Command -Pattern "snapshot"
-    
-            For rigorous typers: finds all commands searching the entire help for "snapshot"
-    
-        .EXAMPLE
-            PS C:\> Find-D365Command -Tag copy
-    
-            Finds all commands tagged with "copy"
-    
-        .EXAMPLE
-            PS C:\> Find-D365Command -Tag copy,user
-    
-            Finds all commands tagged with BOTH "copy" and "user"
-    
-        .EXAMPLE
-            PS C:\> Find-D365Command -Author Mötz
-    
-            Finds every command whose author contains "Mötz"
-    
-        .EXAMPLE
-            PS C:\> Find-D365Command -Author Mötz -Tag copy
-    
-            Finds every command whose author contains "Mötz" and it tagged as "copy"
-    
-        .EXAMPLE
-            PS C:\> Find-D365Command -Pattern snapshot -Rebuild
-    
-            Finds all commands searching the entire help for "snapshot", rebuilding the index (good for developers)
-    
-        .NOTES
-            Tags: Find, Help, Command
-            Author: Mötz Jensen (@Splaxi)
-            
-            License: MIT https://opensource.org/licenses/MIT
-
-            This cmdlet / function is copy & paste implementation based on the Find-DbaCommand from the dbatools.io project
-
-            Original author: Simone Bizzotto (@niphold)
-    #>
+<#
+    .SYNOPSIS
+        Finds d365fo.tools commands searching through the inline help text
+        
+    .DESCRIPTION
+        Finds d365fo.tools commands searching through the inline help text, building a consolidated json index and querying it because Get-Help is too slow
+        
+    .PARAMETER Tag
+        Finds all commands tagged with this auto-populated tag
+        
+    .PARAMETER Author
+        Finds all commands tagged with this author
+        
+    .PARAMETER MinimumVersion
+        Finds all commands tagged with this auto-populated minimum version
+        
+    .PARAMETER MaximumVersion
+        Finds all commands tagged with this auto-populated maximum version
+        
+    .PARAMETER Rebuild
+        Rebuilds the index
+        
+    .PARAMETER Pattern
+        Searches help for all commands in d365fo.tools for the specified pattern and displays all results
+        
+    .PARAMETER Confirm
+        Confirms overwrite of index
+        
+    .PARAMETER WhatIf
+        Displays what would happen if the command is run
+        
+    .PARAMETER EnableException
+        By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+        This avoids overwhelming you with "sea of red" exceptions, but is inconvenient because it basically disables advanced scripting.
+        Using this switch turns this "nice by default" feature off and enables you to catch exceptions with your own try/catch.
+        
+    .EXAMPLE
+        PS C:\> Find-D365Command "snapshot"
+        
+        For lazy typers: finds all commands searching the entire help for "snapshot"
+        
+    .EXAMPLE
+        PS C:\> Find-D365Command -Pattern "snapshot"
+        
+        For rigorous typers: finds all commands searching the entire help for "snapshot"
+        
+    .EXAMPLE
+        PS C:\> Find-D365Command -Tag copy
+        
+        Finds all commands tagged with "copy"
+        
+    .EXAMPLE
+        PS C:\> Find-D365Command -Tag copy,user
+        
+        Finds all commands tagged with BOTH "copy" and "user"
+        
+    .EXAMPLE
+        PS C:\> Find-D365Command -Author Mötz
+        
+        Finds every command whose author contains "Mötz"
+        
+    .EXAMPLE
+        PS C:\> Find-D365Command -Author Mötz -Tag copy
+        
+        Finds every command whose author contains "Mötz" and it tagged as "copy"
+        
+    .EXAMPLE
+        PS C:\> Find-D365Command -Pattern snapshot -Rebuild
+        
+        Finds all commands searching the entire help for "snapshot", rebuilding the index (good for developers)
+        
+    .NOTES
+        Tags: Find, Help, Command
+        Author: Mötz Jensen (@Splaxi)
+        
+        License: MIT https://opensource.org/licenses/MIT
+        
+        This cmdlet / function is copy & paste implementation based on the Find-DbaCommand from the dbatools.io project
+        
+        Original author: Simone Bizzotto (@niphold)
+        
+#>
         [CmdletBinding(SupportsShouldProcess = $true)]
         param (
             [String]$Pattern,

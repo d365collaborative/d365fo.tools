@@ -56,6 +56,8 @@
 						'Enable-D365User',
 						'Export-D365SecurityDetails',
 						
+						'Find-D365Command',
+						
 						'Get-D365ActiveAzureStorageConfig',
 						'Get-D365ActiveEnvironmentConfig',
 
@@ -101,8 +103,6 @@
 						'Get-D365User',
 						'Get-D365UserAuthenticationDetail',
 						'Get-D365WindowsActivationStatus',
-
-						'Find-D365Command',
 						
 						'Import-D365AadUser',
 						'Import-D365Bacpac',

@@ -1,27 +1,31 @@
-﻿<#
-.SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
-
-.PARAMETER InputObject
-Parameter description
-
-.PARAMETER Property
-Parameter description
-
-.PARAMETER ExcludeProperty
-Parameter description
-
-.PARAMETER TypeName
-Parameter description
-
-.EXAMPLE
-An example
-
-.NOTES
-General notes
+﻿
+<#
+    .SYNOPSIS
+        Short description
+        
+    .DESCRIPTION
+        Long description
+        
+    .PARAMETER InputObject
+        Parameter description
+        
+    .PARAMETER Property
+        Parameter description
+        
+    .PARAMETER ExcludeProperty
+        Parameter description
+        
+    .PARAMETER TypeName
+        Parameter description
+        
+    .EXAMPLE
+        PS C:\> Select-DefaultView -InputObject $result -Property CommandName, Synopsis
+        
+        This will help you do it right.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Select-DefaultView {
     <#
