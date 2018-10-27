@@ -102,6 +102,8 @@
 						'Get-D365UserAuthenticationDetail',
 						'Get-D365WindowsActivationStatus',
 
+						'Find-D365Command',
+						
 						'Import-D365AadUser',
 						'Import-D365Bacpac',
 
