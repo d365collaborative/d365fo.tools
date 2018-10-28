@@ -109,7 +109,8 @@ function Update-D365User {
 
             $null = $sqlCommand_Update.Parameters.Add("@Company", $Company)
 
-            Write-PSFMessage -Level Verbose -Message "Executing the update statement against the database."
+            Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $sqlCommand_Update)
+
             $null = $sqlCommand_Update.ExecuteNonQuery()
 
             $sqlCommand_Update.Parameters.Clear()
