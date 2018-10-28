@@ -33,7 +33,7 @@ function Get-SqlString {
     if ($SqlCommand.CommandType -eq [System.Data.CommandType]::Text) {
         foreach ($parameter in $SqlCommand.Parameters) {
             if ($parameter.Direction -eq [System.Data.ParameterDirection]::Input) {
-                $null = $sbDeclare.Append("DECLARE ").Append($parameter.ParameterName).Append("\t")
+                $null = $sbDeclare.Append("DECLARE ").Append($parameter.ParameterName).Append("`t")
                 $null = $sbDeclare.Append($parameter.SqlDbType.ToString().ToUpper())
                 $null = $sbDeclare.AppendLine((Get-SqlParameterSize -SqlParameter $parameter))
 
