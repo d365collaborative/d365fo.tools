@@ -40,6 +40,8 @@ function Test-AadUserInD365FO {
     $null = $sqlCommand.Parameters.Add("@Email", $SignInName)
     
     try {
+        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+        
         $NumFound = $sqlCommand.ExecuteScalar()
 
         Write-PSFMessage -Level Verbose -Message "Number of user rows found in database $NumFound" -Target $NumFound

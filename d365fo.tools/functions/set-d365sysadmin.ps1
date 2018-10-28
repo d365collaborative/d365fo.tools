@@ -88,9 +88,10 @@ function Set-D365SysAdmin {
     $sqlCommand.CommandText = $commandText
 
     try {
+        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+
         $sqlCommand.Connection.Open()
 
-        Write-PSFMessage -Level Debug -Message "Execution the sql statement." -Target $commandText
         $null = $sqlCommand.ExecuteNonQuery()
     }
     catch {

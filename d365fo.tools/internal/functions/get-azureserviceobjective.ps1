@@ -55,9 +55,10 @@ function Get-AzureServiceObjective {
     $sqlCommand.CommandText = $commandText
 
     try {
+        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+
         $sqlCommand.Connection.Open()
 
-        Write-PSFMessage -Level Verbose "Execute the statement against the Azure DB instance" -Target $sqlCommand
         $reader = $sqlCommand.ExecuteReader()
         
         if ($reader.Read() -eq $true) {

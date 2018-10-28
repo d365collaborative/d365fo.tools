@@ -82,9 +82,10 @@ Function Invoke-SqlBackupRestore {
     $null = $sqlCommand.Parameters.Add("@BackupDirectory", $BackupDirectory)
 
     try {
-        $sqlCommand.Connection.Open()
+        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
 
-        Write-PSFMessage -Level Verbose -Message "Executing the statement against the SQL Server" -Target $sqlCommand.CommandText
+        $sqlCommand.Connection.Open()
+        
         $null = $sqlCommand.ExecuteNonQuery()
         
         $true

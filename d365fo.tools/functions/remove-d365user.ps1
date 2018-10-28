@@ -95,7 +95,8 @@ function Remove-D365User {
         $null = $SqlCommand.Parameters.AddWithValue("@Email", $Email)
     
         try {
-            Write-PSFMessage -Level Verbose -Message "Executing the delete statement against the database."
+            Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+            
             $null = $SqlCommand.ExecuteNonQuery()
         }
         catch {

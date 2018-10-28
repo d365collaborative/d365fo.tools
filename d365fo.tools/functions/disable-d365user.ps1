@@ -80,7 +80,8 @@ function Disable-D365User {
     $null = $sqlCommand.Parameters.AddWithValue('@Email', $Email.Replace("*", "%"))
 
     try {
-        Write-PSFMessage -Level Verbose -Message "Executing the update statement against the database."
+        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+        
         $sqlCommand.Connection.Open()
 
         $reader = $sqlCommand.ExecuteReader()

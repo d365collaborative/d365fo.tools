@@ -79,6 +79,8 @@ Function Invoke-D365SqlScript {
     $sqlCommand.CommandText = (Get-Content "$FilePath") -join [Environment]::NewLine
 
     try {
+        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+        
         $sqlCommand.Connection.Open()
 
         $null = $sqlCommand.ExecuteNonQuery()

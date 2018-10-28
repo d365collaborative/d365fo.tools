@@ -73,6 +73,8 @@ function New-D365FOUser {
 
     Write-PSFMessage -Level Verbose -Message "Creating the user in database"
 
+    Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+    
     $rowsCreated = $sqlCommand.ExecuteScalar()
     
     Write-PSFMessage -Level Verbose -Message "Rows inserted $rowsCreated for user $SignInName"

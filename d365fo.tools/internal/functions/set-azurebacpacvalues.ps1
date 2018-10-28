@@ -124,9 +124,10 @@ function Set-AzureBacpacValues {
     $null = $sqlCommand.Parameters.Add("@PlanCapability ", $PlanCapability)
 
     try {
+        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+
         $sqlCommand.Connection.Open()
 
-        Write-PSFMessage -Level Verbose "Execution sql statement against database" -Target $sqlCommand.CommandText
         $null = $sqlCommand.ExecuteNonQuery()
         
         $true

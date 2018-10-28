@@ -66,6 +66,8 @@ function Switch-D365ActiveDatabase {
 
 
     try {
+        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+
         $sqlCommand.Connection.Open()
         $null = $sqlCommand.ExecuteScalar()
     }
@@ -88,6 +90,8 @@ function Switch-D365ActiveDatabase {
     $null = $sqlCommand.Parameters.AddWithValue("@NewName", $NewDatabaseName)
 
     try {
+        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+        
         $sqlCommand.Connection.Open()
 
         $null = $sqlCommand.ExecuteNonQuery()
