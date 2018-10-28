@@ -79,7 +79,7 @@ function Get-D365PackageLabelFile {
             }
         }
         else {
-            Write-PSFMesage -Level Verbose -Message "Skipping `"$("$Path\Resources\$Language")`" because it doesn't exist."
+            Write-PSFMessage -Level Verbose -Message "Skipping `"$("$Path\Resources\$Language")`" because it doesn't exist."
         }
     }
 
