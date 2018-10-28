@@ -31,6 +31,10 @@ function Get-SqlString {
 	$sbRes = [System.Text.StringBuilder]::new()
 
     if ($SqlCommand.CommandType -eq [System.Data.CommandType]::Text) {
+        if (-not ($null - eq $SqlCommand.Connection)) {
+            $null = $sbDeclare.Append("USE ").AppendLine($SqlCommand.Connection.Database)
+        }
+
         foreach ($parameter in $SqlCommand.Parameters) {
             if ($parameter.Direction -eq [System.Data.ParameterDirection]::Input) {
                 $null = $sbDeclare.Append("DECLARE ").Append($parameter.ParameterName).Append("`t")
