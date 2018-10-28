@@ -71,7 +71,7 @@ Function Invoke-AzureBackupRestore {
     $sqlCommand.CommandText = $commandText
 
     try {
-        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+        Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
 
         $sqlCommand.Connection.Open()
         
@@ -100,8 +100,8 @@ Function Invoke-AzureBackupRestore {
     $null = $sqlCommand.Parameters.Add("@Time", $StartTime)
 
     try {
-        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
-        
+        Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+
         $sqlCommand.Connection.Open()
 
         $operation_row_count = 0

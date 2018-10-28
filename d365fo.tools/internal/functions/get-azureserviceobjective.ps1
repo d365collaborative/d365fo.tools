@@ -55,7 +55,7 @@ function Get-AzureServiceObjective {
     $sqlCommand.CommandText = $commandText
 
     try {
-        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
+        Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
 
         $sqlCommand.Connection.Open()
 

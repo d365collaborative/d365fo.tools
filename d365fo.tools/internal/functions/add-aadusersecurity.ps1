@@ -50,8 +50,8 @@ function Add-AadUserSecurity {
 
     Write-PSFMessage -Level Verbose -Message "Setting security roles in D365FO database"
 
-    Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
-    
+    Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+
     $differenceBetweenNewUserAndAdmin = $sqlCommand.ExecuteScalar()
     
     Write-PSFMessage -Level Verbose -Message "Difference between new user and admin security roles $differenceBetweenNewUserAndAdmin" -Target $differenceBetweenNewUserAndAdmin

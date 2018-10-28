@@ -38,8 +38,8 @@ function Test-AadUserIdInD365FO {
 
     $null = $sqlCommand.Parameters.Add("@Id", $Id)
       
-    Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
-    
+    Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+
     $NumFound = $sqlCommand.ExecuteScalar()
     
     Write-PSFMessage -Level Verbose -Message  "Number of user rows found in database $NumFound" -Target $NumFound

@@ -86,8 +86,8 @@ function Update-D365User {
     $sqlCommand_Update.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
 
     try {
-        Write-PSFMessage -Level InternalComment -Message "Executing the update statement against the database." -Target (Get-SqlString $SqlCommand)
-        
+        Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+
         $sqlCommand.Connection.Open()
         
         $reader = $sqlCommand.ExecuteReader()
