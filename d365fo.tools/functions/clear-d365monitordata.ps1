@@ -18,6 +18,8 @@
         Some files might be locked by a process, but the cmdlet will attemp to delete all files.
         
     .NOTES
+        Tags: Monitor, MonitorData, MonitorAgent, CleanUp, Servicing
+    
         Author: Mötz Jensen (@Splaxi)
         
 #>

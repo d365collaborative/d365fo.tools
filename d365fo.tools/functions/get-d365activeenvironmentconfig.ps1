@@ -12,7 +12,7 @@
         This will get the active environment configuration
         
     .NOTES
-        You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+        Tags: Environment, Url, Config, Configuration, Tfs, Vsts, Sql, SqlUser, SqlPwd
         
         Author: Mötz Jensen (@Splaxi)
         

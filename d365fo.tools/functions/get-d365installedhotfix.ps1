@@ -53,6 +53,10 @@
         This will display all installed hotfixes found for all models that matches the search for "*retail*" and only with KB's that matches the search for "*43*" found on this machine
         
     .NOTES
+        Tags: Hotfix, Servicing, Model, Models, KB, Patch, Patching, PackagesLocalDirectory
+
+        Author: Mötz Jensen (@Splaxi)
+
         This cmdlet is inspired by the work of "Ievgen Miroshnikov" (twitter: @IevgenMir)
         
         All credits goes to him for showing how to extract these informations
@@ -63,7 +67,7 @@
         The specific blog post that we based this cmdlet on can be found here:
         https://ievgensaxblog.wordpress.com/2017/11/17/d365foe-get-list-of-installed-metadata-hotfixes-using-metadata-api/
         
-        Author: Mötz Jensen (@Splaxi)
+        
         
 #>
 function Get-D365InstalledHotfix {

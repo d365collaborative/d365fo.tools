@@ -54,8 +54,9 @@
         This it useful for working on Tier 2 environments where the SqlUser and SqlPassword cannot be extracted from the environment itself.
         
     .NOTES
-        
-        You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+        Tags: Environment, Url, Config, Configuration, Tfs, Vsts, Sql, SqlUser, SqlPwd
+
+        Author: Mötz Jensen (@Splaxi)
         
 #>
 function Add-D365EnvironmentConfig {

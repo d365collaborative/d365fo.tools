@@ -21,6 +21,9 @@
         This will grab all the details inside the "C:\temp\d365fo.tools\SecurityDatabaseCustomizations.xml" file and extract that into the default path "C:\temp\d365fo.tools\security-extraction"
         
     .NOTES
+
+        Tags: Security, Configuration, Permission, Development
+
         Author: Mötz Jensen (@splaxi)
         
         The work and design of this cmdlet is based on the findings by Alex Meyer (@alexmeyer_ITGuy).

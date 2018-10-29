@@ -45,8 +45,7 @@
         This will enable all users to access the configuration objects and their values.
         
     .NOTES
-        
-        You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob
         
         Author: Mötz Jensen (@Splaxi)
         

@@ -38,10 +38,16 @@
         This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
         
     .NOTES
+        Tags: MaintenanceMode, Maintenance, License, Configuration, Servicing
+        
         Author: Mötz Jensen (@splaxi)
         Author: Tommy Skaue (@skaue)
         
-        The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
+        With administrator privileges:
+        The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed.
+        
+        Without administrator privileges:
+        Will stop all services, execute a Sql script and start all services.
         
 #>
 function Enable-D365MaintenanceMode {
