@@ -49,7 +49,7 @@ function Import-AadUserIntoD365FO {
     [CmdletBinding()]
     param
     (
-        [string] $SqlCommand,
+        [System.Data.SqlClient.SqlCommand] $SqlCommand,
 
         [string] $SignInName,
 
