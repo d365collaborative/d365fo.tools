@@ -13,6 +13,8 @@
         This will fetch the current registered Azure Logic App details on the machine.
         
     .NOTES
+        Tags: LogicApp, Logic App, Configuration, Url, Email
+
         Author: Mötz Jensen (@Splaxi)
         
 #>

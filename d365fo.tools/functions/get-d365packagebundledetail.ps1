@@ -59,6 +59,8 @@
         This will traverse the "HotfixPackageBundle.axscdppkg" file and save the manifest files into c:\temp. Everything else is omitted and cleaned up.
         
     .NOTES
+        Tags: Hotfix, KB, Manifest, HotfixPackageBundle, axscdppkg, Package, Bundle, Deployable
+
         Author: Mötz Jensen (@Splaxi)
         
 #>

@@ -55,6 +55,8 @@
         It will format the output as a table for better overview.
         
     .NOTES
+        Tags: Table, RecId, Sequence, Record Id
+    
         Author: Mötz Jensen (@Splaxi)
         
 #>

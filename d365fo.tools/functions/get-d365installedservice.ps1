@@ -15,7 +15,7 @@
         This will get all installed services on the machine.
         
     .NOTES
-        Tags: Services, Servicing, Topology,
+        Tags: Services, Servicing, Topology
         
         Author: Mötz Jensen (@Splaxi)
         
