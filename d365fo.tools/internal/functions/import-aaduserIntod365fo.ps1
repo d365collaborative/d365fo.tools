@@ -36,7 +36,6 @@
     .EXAMPLE
         PS C:\> $SqlCommand = Get-SqlCommand -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
         PS C:\> Import-AadUserIntoD365FO -SqlCommand $SqlCommand -SignInName "Claire@contoso.com" -Name "Claire" -Id "claire" -SID "123XYZ" -StartupCompany "DAT" -IdentityProvider "XYZ" -NetworkDomain "Contoso.com" -ObjectId "123XYZ"
-        
         This will get a SqlCommand object that will connect to the localhost server and the AXDB database, with the sql credential "User123".
         The SqlCommand object is passed to the Import-AadUserIntoD365FO along with all the necessary details for importing Claire@contoso.com as an user into the D365FO environment.
         
@@ -49,7 +48,7 @@ function Import-AadUserIntoD365FO {
     [CmdletBinding()]
     param
     (
-        [string] $SqlCommand,
+        [System.Data.SqlClient.SqlCommand] $SqlCommand,
 
         [string] $SignInName,
 
@@ -69,7 +68,7 @@ function Import-AadUserIntoD365FO {
     )
 
     Write-PSFMessage -Level Verbose -Message "Testing the Email $signInName" -Target $signInName
-    
+
     $UserFound = Test-AadUserInD365FO $sqlCommand $SignInName
 
     if ($UserFound -eq $false) {
@@ -83,33 +82,35 @@ function Import-AadUserIntoD365FO {
         if ($idTaken -eq $false) {
 
             $userAdded = New-D365FOUser $sqlCommand $SignInName $Name $Id $Sid $StartUpCompany $IdentityProvider $NetworkDomain $ObjectId
-        
+
             if ($userAdded -eq $true) {
 
                 $securityAdded = Add-AadUserSecurity $sqlCommand $Id
 
+                Write-PSFMessage -Level Host -Message "User $SignInName Importet"
+
                 if ($securityAdded -eq $false) {
                     Write-PSFMessage -Level Host -Message "User $SignInName did not get securityRoles"
-                    Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-                    return
+                    #Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+                    #return
                 }
             }
             else {
                 Write-PSFMessage -Level Host -Message "User $SignInName, not added to D365FO"
-                Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-                return
+                #Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+                #return
             }
         }
         else {
             Write-PSFMessage -Level Host -Message "An User with ID = '$ID' allready exists"
-            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-            return
+            #Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            #return
         }
 
     }
     else {
         Write-PSFMessage -Level Host -Message "An User with Email $SignInName already exists in D365FO"
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-        return
+        #Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+        #return
     }
 }

@@ -81,6 +81,13 @@ function Invoke-D365SCDPBundleInstall {
         [switch] $ShowProgress
 
     )
+
+    if (!$script:IsAdminRuntime) {
+        Write-PSFMessage -Level Host -Message "The cmdlet needs <c='em'>administrator permission</c> (Run As Administrator) to be able to update the configuration. Please start an <c='em'>elevated</c> session and run the cmdlet again."
+        Stop-PSFFunction -Message "Stopping because the function is not run elevated"
+        return
+    }
+
     
     Invoke-TimeSignal -Start
     $StartTime = Get-Date
@@ -118,7 +125,7 @@ function Invoke-D365SCDPBundleInstall {
                             "-tfsprojecturi=`"$TfsUri`"")
     }
 
-    Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe" -Target $param
+    Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe with $Command" -Target $param
     
     if ($ShowProgress) {
         
