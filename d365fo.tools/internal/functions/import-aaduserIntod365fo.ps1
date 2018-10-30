@@ -87,29 +87,31 @@ function Import-AadUserIntoD365FO {
             if ($userAdded -eq $true) {
 
                 $securityAdded = Add-AadUserSecurity $sqlCommand $Id
+                
+                Write-PSFMessage -Level Host -Message "User $SignInName Importet"
 
                 if ($securityAdded -eq $false) {
                     Write-PSFMessage -Level Host -Message "User $SignInName did not get securityRoles"
-                    Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-                    return
+                    #Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+                    #return
                 }
             }
             else {
                 Write-PSFMessage -Level Host -Message "User $SignInName, not added to D365FO"
-                Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-                return
+                #Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+                #return
             }
         }
         else {
             Write-PSFMessage -Level Host -Message "An User with ID = '$ID' allready exists"
-            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-            return
+            #Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            #return
         }
 
     }
     else {
         Write-PSFMessage -Level Host -Message "An User with Email $SignInName already exists in D365FO"
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-        return
+        #Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+        #return
     }
 }

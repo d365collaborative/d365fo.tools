@@ -86,7 +86,8 @@
     .NOTES
         Author: Rasmus Andersen (@ITRasmus)
         Author: Charles Colombel (@dropshind)
-        
+        Author: Mötz Jensen (@Splaxi)
+
         At no circumstances can this cmdlet be used to import users into a PROD environment.
         
         Only users from an Azure Active Directory that you have access to, can be imported.
@@ -94,8 +95,6 @@
         
         Every imported users will get the System Administration / Administrator role assigned on import
         
-        Author: Rasmus Andersen (@ITRasmus)
-        Author: Mötz Jensen (@Splaxi)
         
 #>
 
@@ -221,7 +220,14 @@ function Import-D365AadUser {
 
         foreach ($user in $userlist) {
             if ($user.ObjectType -eq "User") {
-                $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))
+                $azureAdUser = Get-AzureADUser -ObjectId $user.ObjectId
+                if($null -eq $azureAdUser.Mail) {
+                    Write-PSFMessage -Level Critical "User $($user.ObjectId) did not have an Mail"
+                }
+                else {
+                    $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))        
+                }                
+            
             }
         }
     }

@@ -28,7 +28,7 @@
 function Test-AadUserIdInD365FO {
     
     param (
-        [string] $SqlCommand,
+        [System.Data.SqlClient.SqlCommand] $SqlCommand,
         [string] $Id
     )
 
