@@ -26,22 +26,22 @@
 #>
 
 function Test-AadUserIdInD365FO {
-    
+
     param (
         [string] $SqlCommand,
         [string] $Id
     )
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\test-aaduseridind365fo.sql") -join [Environment]::NewLine
-  
+
     $sqlCommand.CommandText = $commandText
 
     $null = $sqlCommand.Parameters.Add("@Id", $Id)
-      
+
     Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
 
     $NumFound = $sqlCommand.ExecuteScalar()
-    
+
     Write-PSFMessage -Level Verbose -Message  "Number of user rows found in database $NumFound" -Target $NumFound
     $SqlCommand.Parameters.Clear()
 
