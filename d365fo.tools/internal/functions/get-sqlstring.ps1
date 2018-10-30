@@ -31,7 +31,7 @@ function Get-SqlString {
 	$sbRes = [System.Text.StringBuilder]::new()
 
     if ($SqlCommand.CommandType -eq [System.Data.CommandType]::Text) {
-        if (-not ($null - eq $SqlCommand.Connection)) {
+        if (-not ($null -eq $SqlCommand.Connection)) {
             $null = $sbDeclare.Append("USE ").AppendLine($SqlCommand.Connection.Database)
         }
 
