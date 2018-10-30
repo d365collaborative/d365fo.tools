@@ -48,7 +48,7 @@
 function New-D365FOUser {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     Param (
-        [string] $SqlCommand,
+        [System.Data.SqlClient.SqlCommand] $SqlCommand,
         [string] $SignInName,
         [string] $Name,
         [string] $Id,
@@ -68,6 +68,7 @@ function New-D365FOUser {
     $null = $sqlCommand.Parameters.Add("@SID", $SID)
     $null = $sqlCommand.Parameters.Add("@NetworkDomain", $NetworkDomain)
     $null = $sqlCommand.Parameters.Add("@IdentityProvider", $IdentityProvider)
+    $null = $sqlCommand.Parameters.Add("@StartUpCompany", $StartUpCompany)
     $null = $sqlCommand.Parameters.Add("@Id", $Id)
     $null = $sqlCommand.Parameters.Add("@ObjectId", $ObjectId)
 
