@@ -224,9 +224,8 @@ function Import-D365AadUser {
                     Write-PSFMessage -Level Critical "User $($user.ObjectId) did not have an Mail"
                 }
                 else {
-                    $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))        
-                }                
-            
+                    $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))
+                }
             }
         }
     }

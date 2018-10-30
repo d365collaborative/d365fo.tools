@@ -86,7 +86,7 @@ function Import-AadUserIntoD365FO {
             if ($userAdded -eq $true) {
 
                 $securityAdded = Add-AadUserSecurity $sqlCommand $Id
-                
+
                 Write-PSFMessage -Level Host -Message "User $SignInName Importet"
 
                 if ($securityAdded -eq $false) {
