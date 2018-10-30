@@ -15,6 +15,8 @@
         This will get all the authentication details for the user account with the email address "Claire@contoso.com"
         
     .NOTES
+        Tags: User, Users, Security, Configuration, Authentication
+
         Author : Rasmus Andersen (@ITRasmus)
         Author : Mötz Jensen (@splaxi)
         

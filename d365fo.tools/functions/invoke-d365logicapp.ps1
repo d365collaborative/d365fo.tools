@@ -32,6 +32,8 @@
         This will execute the sync process and when it is done it will invoke a Azure Logic App with the email, subject and URL parameters that are needed to invoke an Azure Logic App.
         
     .NOTES
+        Tags: LogicApp, Logic App, Configuration, Url, Email, Notification, Message, Email
+
         Author: Mötz Jensen (@Splaxi)
         
 #>

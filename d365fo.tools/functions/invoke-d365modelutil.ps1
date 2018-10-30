@@ -32,6 +32,8 @@
         This will execute the import functionality of ModelUtil.exe and have it import the "ApplicationSuiteModernDesigns_App73.axmodel" file.
         
     .NOTES
+        Tags: AXModel, Model, ModelUtil, Servicing
+
         Author: Mötz Jensen (@Splaxi)
         
 #>

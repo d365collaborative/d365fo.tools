@@ -48,9 +48,11 @@
         The complete path to the file will returned as output from the cmdlet.
         
     .NOTES
-        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac
         
         Author: Mötz Jensen (@Splaxi)
+
+        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>
 function Invoke-D365AzureStorageDownload {

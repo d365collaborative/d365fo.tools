@@ -16,10 +16,12 @@
         This will get the correct URL to access the environment
         
     .NOTES
+        Tags: URL, URI, Servicing
+
+        Author: Rasmus Andersen (@ITRasmus)
+
         The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
         The call to the dll file gets all registered URL for the environment.
-        
-        Author: Rasmus Andersen (@ITRasmus)
         
 #>
 function Get-D365Url {

@@ -88,6 +88,8 @@
         "ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
         
     .NOTES
+        Tags: Database, Bacpac, Tier1, Tier2, Golden Config, Config, Configuration
+        
         Author: Rasmus Andersen (@ITRasmus)
         Author: Mötz Jensen (@Splaxi)
         

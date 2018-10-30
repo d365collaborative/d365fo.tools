@@ -41,6 +41,8 @@
         This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
         
     .NOTES
+        Tags: License, Install, ISV, 3. Party, Servicing
+
         Author: Mötz Jensen (@splaxi)
         
 #>
