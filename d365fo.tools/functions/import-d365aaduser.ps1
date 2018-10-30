@@ -2,101 +2,99 @@
 <#
     .SYNOPSIS
         Used to import Aad users into D365FO
-        
+
     .DESCRIPTION
         Provides a method for importing a AAD UserGroup or a comma separated list of AadUsers into D365FO.
-        
+
     .PARAMETER AadGroupName
         Azure Active directory user group containing users to be imported
-        
+
     .PARAMETER Users
         Array of users that you want to import into the D365FO environment
-        
+
     .PARAMETER StartupCompany
         Startup company of users imported.
-        
+
         Default is DAT
-        
+
     .PARAMETER DatabaseServer
         Alternative SQL Database server, Default is the one provided by the DataAccess object
-        
+
     .PARAMETER DatabaseName
         Alternative SQL Database, Default is the one provided by the DataAccess object
-        
+
     .PARAMETER SqlUser
         Alternative SQL user, Default is the one provided by the DataAccess object
-        
+
     .PARAMETER SqlPwd
         Alternative SQL user password, Default is the one provided by the DataAccess object
-        
+
     .PARAMETER IdPrefix
         A text that will be prefixed into the ID field. E.g. -IdPrefix "EXT-" will import users and set ID starting with "EXT-..."
-        
+
     .PARAMETER NameSuffix
         A text that will be suffixed into the NAME field. E.g. -NameSuffix "(Contoso)" will import users and append "(Contoso)"" to the NAME
-        
+
     .PARAMETER IdValue
         Specify which field to use as ID value when importing the users.
         Available options 'Login' / 'FirstName'
-        
+
         Default is 'Login'
-        
+
     .PARAMETER NameValue
         Specify which field to use as NAME value when importing the users.
         Available options 'FirstName' / 'DisplayName'
-        
+
         Default is 'DisplayName'
-        
+
     .PARAMETER AzureAdCredential
         Use a PSCredential object for connecting with AzureAd
-        
+
     .PARAMETER SkipAzureAd
         Switch to instruct the cmdlet to skip validating against the Azure Active Directory
-        
+
     .PARAMETER ForceExactAadGroupName
         Force to find the exact name of the Azure Active Directory Group
-        
+
     .PARAMETER AadGroupId
         Azure Active directory user group ID containing users to be imported
-        
+
     .EXAMPLE
         PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
-        
+
         Imports Claire and Allen as users
-        
+
     .EXAMPLE
         PS C:\> $myPassword = ConvertTo-SecureString "MyPasswordIsSecret" -AsPlainText -Force
         PS C:\> $myCredentials = New-Object System.Management.Automation.PSCredential ("MyEmailIsAlso", $myPassword)
-        
+
         PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -AzureAdCredential $myCredentials
-        
+
         This will import Claire and Allen as users.
-        
+
     .EXAMPLE
         PS C:\> Import-D365AadUser -AadGroupName "CustomerTeam1"
-        
+
         if more than one group match the AadGroupName, you can use the ExactAadGroupName parameter
         Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
-        
+
     .EXAMPLE
         PS C:\> Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
-        
+
         Imports all the users that is present in the AAD Group called CustomerTeam1
-        
+
     .NOTES
         Author: Rasmus Andersen (@ITRasmus)
         Author: Charles Colombel (@dropshind)
-        
+        Author: Mötz Jensen (@Splaxi)
+
         At no circumstances can this cmdlet be used to import users into a PROD environment.
-        
+
         Only users from an Azure Active Directory that you have access to, can be imported.
         Use AAD B2B implementation if you want to support external people.
-        
+
         Every imported users will get the System Administration / Administrator role assigned on import
-        
-        Author: Rasmus Andersen (@ITRasmus)
-        Author: Mötz Jensen (@Splaxi)
-        
+
 #>
 
 function Import-D365AadUser {
@@ -142,10 +140,10 @@ function Import-D365AadUser {
 
         [Parameter(Mandatory = $false, Position = 12, ParameterSetName = "UserListImport")]
         [switch]$SkipAzureAd,
-        
+
         [Parameter(Mandatory = $false, Position = 13, ParameterSetName = "GroupNameImport")]
         [switch]$ForceExactAadGroupName,
-        
+
         [Parameter(Mandatory = $true, Position = 14, ParameterSetName = "GroupIdImport")]
         [string]$AadGroupId
     )
@@ -221,13 +219,19 @@ function Import-D365AadUser {
 
         foreach ($user in $userlist) {
             if ($user.ObjectType -eq "User") {
-                $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))
+                $azureAdUser = Get-AzureADUser -ObjectId $user.ObjectId
+                if($null -eq $azureAdUser.Mail) {
+                    Write-PSFMessage -Level Critical "User $($user.ObjectId) did not have an Mail"
+                }
+                else {
+                    $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))
+                }
             }
         }
     }
     else {
         foreach ($user in $Users) {
-        
+
             if ($SkipAzureAd -eq $true) {
                 $name = Get-LoginFromEmail $user
                 $null = $azureAdUsers.Add([PSCustomObject]@{
@@ -265,7 +269,7 @@ function Import-D365AadUser {
 
             Write-PSFMessage -Level Verbose -Message "InstanceProvider : $InstanceProvider"
             Write-PSFMessage -Level Verbose -Message "Tenant : $Tenant"
-    
+
             if ($user.Mail.ToLower().Contains("outlook.com") -eq $true) {
                 $identityProvider = "live.com"
             }
@@ -275,7 +279,7 @@ function Import-D365AadUser {
                     $identityProvider = Get-IdentityProvider $user.Mail
                 }
             }
-    
+
             Write-PSFMessage -Level Verbose -Message "Getting sid from  $($user.Mail) and identity provider : $identityProvider."
             $sid = Get-UserSIDFromAad $user.Mail $identityProvider
             Write-PSFMessage -Level Verbose -Message "Generated SID : $sid"
@@ -287,12 +291,12 @@ function Import-D365AadUser {
                 $id = $IdPrefix + $user.GivenName
             }
             Write-PSFMessage -Level Verbose -Message "Id for user $($user.Mail) : $id"
-    
+
             $name = ""
             if ($NameValue -eq 'DisplayName') {
                 $name = $user.DisplayName + $NameSuffix
             }
-            
+
             else {
                 $name = $user.GivenName + $NameSuffix
             }
@@ -300,7 +304,7 @@ function Import-D365AadUser {
             Write-PSFMessage -Level Verbose -Message "Importing $($user.Mail) - SID $sid - Provider $identityProvider"
 
             Import-AadUserIntoD365FO $SqlCommand $user.Mail $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
-            
+
             if (Test-PSFFunctionInterrupt) { return }
         }
     }

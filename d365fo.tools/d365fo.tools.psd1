@@ -1,10 +1,10 @@
 ﻿@{
     # Script module or binary module file associated with this manifest
     RootModule   = 'd365fo.tools.psm1'
-	
+
     # Version number of this module.
-    ModuleVersion     = '0.4.79'
-	
+    ModuleVersion     = '0.4.80'
+
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
 
@@ -19,10 +19,10 @@
 
     # Description of the functionality provided by this module
     Description       = 'A set of tools that will assist you when working with Dynamics 365 Finance & Operations development / demo machines.'
-	
+
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '5.0'
-	
+
     # Modules that must be imported into the global environment prior to importing
     # this module
     RequiredModules   = @(
@@ -30,16 +30,16 @@
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
         @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
     )
-	
+
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @('bin\d365fo.tools.dll')
-	
+
     # Type files (.ps1xml) to be loaded when importing this module
     # TypesToProcess = @('xml\d365fo.tools.Types.ps1xml')
-	
+
     # Format files (.ps1xml) to be loaded when importing this module
     # FormatsToProcess = @('xml\d365fo.tools.Format.ps1xml')
-	
+
     # Functions to export from this module
     FunctionsToExport = @(
 						'Add-D365AzureStorageConfig',
@@ -48,21 +48,21 @@
 						'Backup-D365MetaDataDir',
 
 						'Clear-D365MonitorData',
-						
+
 						'Disable-D365MaintenanceMode'
 						'Disable-D365User',
 
 						'Enable-D365MaintenanceMode',
 						'Enable-D365User',
 						'Export-D365SecurityDetails',
-						
+
 						'Find-D365Command',
-						
+
 						'Get-D365ActiveAzureStorageConfig',
 						'Get-D365ActiveEnvironmentConfig',
 
 						'Get-D365AOTObject',
-						
+
 						'Get-D365AzureStorageConfig',
 						'Get-D365AzureStorageFile',
 						'Get-D365ClickOnceTrustPrompt',
@@ -103,20 +103,20 @@
 						'Get-D365User',
 						'Get-D365UserAuthenticationDetail',
 						'Get-D365WindowsActivationStatus',
-						
+
 						'Import-D365AadUser',
 						'Import-D365Bacpac',
 
 						'Initialize-D365TestAutomationCertificate',
-						
+
 						'Invoke-D365AzureStorageDownload',
 						'Invoke-D365AzureStorageUpload',
-						
+
 						'Invoke-D365DataFlush',
 						'Invoke-D365DBSync',
 						'Invoke-D365InstallLicense',
 						'Invoke-D365LogicApp',
-						
+
 						'Invoke-D365ModelUtil',
 						'Invoke-D365ReArmWindows',
 						'Invoke-D365RunbookAnalyzer',
@@ -134,7 +134,7 @@
 						'New-D365CAReport',
 						'New-D365ISVLicense',
 						'New-D365TopologyFile',
-						
+
 						'Remove-D365Database',
 						'Remove-D365User',
 
@@ -150,7 +150,7 @@
 						'Set-D365FavoriteBookmark',
 						'Set-D365LogicAppConfig',
 						'Set-D365OfflineAuthenticationAdminEmail',
-						
+
 						'Set-D365SDPCleanUp',
 						'Set-D365StartPage',
 						'Set-D365SysAdmin',
@@ -166,23 +166,23 @@
 						)
 
     # Cmdlets to export from this module
-    CmdletsToExport   = ''
-	
+	CmdletsToExport   = ''
+
     # Variables to export from this module
     VariablesToExport = ''
-	
+
     # Aliases to export from this module
     AliasesToExport   = ''
-	
+
     # List of all modules packaged with this module
     ModuleList        = @()
-	
+
     # List of all files packaged with this module
     FileList          = @()
-	
+
     # Private data to pass to the module specified in ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
     PrivateData       = @{
-		
+
         #Support for PowerShellGet galleries.
         PSData = @{
             # Tags applied to this module. These help with module discovery in online galleries.
@@ -204,6 +204,6 @@
             IsPrerelease = 'True'
 
         } # End of PSData hashtable
-		
+
     } # End of PrivateData hashtable
 }
