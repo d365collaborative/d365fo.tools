@@ -84,5 +84,7 @@ function Set-D365ActiveEnvironmentConfig {
         $Script:DatabaseUserName = $environmentDetails.SqlUser
         $Script:DatabaseUserPassword = $environmentDetails.SqlPwd
         $Script:Company = $environmentDetails.Company
+
+        $Script:TfsUri = $environmentDetails.TfsUri
     }
 }
