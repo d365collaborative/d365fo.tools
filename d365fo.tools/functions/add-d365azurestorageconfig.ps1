@@ -60,8 +60,8 @@ function Add-D365AzureStorageConfig {
         [Parameter(Mandatory = $true)]
         [string] $AccountId,
 
-        [Parameter(Mandatory = $true)]
-        [string] $AccessToken,
+        # [Parameter(Mandatory = $true)]
+        # [string] $AccessToken,
 
         [Parameter(Mandatory = $true)]
         [Alias('Blob')]
@@ -82,7 +82,7 @@ function Add-D365AzureStorageConfig {
         Blobname = $Blobname;
     }
 
-    $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")  
+    $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
 
     if ($Accounts.ContainsKey($Name)) {
         if ($Force.IsPresent) {
