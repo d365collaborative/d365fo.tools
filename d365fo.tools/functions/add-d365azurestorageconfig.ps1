@@ -82,7 +82,7 @@ function Add-D365AzureStorageConfig {
         Blobname = $Blobname;
     }
 
-    $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts") 
+    $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")  
 
     if ($Accounts.ContainsKey($Name)) {
         if ($Force.IsPresent) {
