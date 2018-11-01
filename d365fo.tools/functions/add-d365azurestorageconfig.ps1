@@ -75,7 +75,7 @@ function Add-D365AzureStorageConfig {
 
     $configScope = Test-ConfigStorageLocation -ConfigStorageLocation $ConfigStorageLocation
 
-    if (Test-PSFFunctionInterrupt) { return } 
+    if (Test-PSFFunctionInterrupt) { return }
 
     
     $Details = @{AccountId = $AccountId; AccessToken = $AccessToken;
