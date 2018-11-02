@@ -100,9 +100,6 @@ function Set-AzureBacpacValues {
         [string]$AxRetailDataSyncUserPwd,
 
         [Parameter(Mandatory = $true)]
-        [string]$AxRetailDataSyncUserPwd,
-
-        [Parameter(Mandatory = $true)]
         [string]$AxDbReadonlyUserPwd,
 
         [Parameter(Mandatory = $true)]
