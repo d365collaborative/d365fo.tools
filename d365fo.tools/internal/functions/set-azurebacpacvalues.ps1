@@ -40,6 +40,9 @@
     .PARAMETER AxRetailDataSyncUserPwd
         Password obtained from LCS
         
+    .PARAMETER AxDbReadonlyUserPwd
+        Password obtained from LCS
+        
     .PARAMETER TenantId
         The ID of tenant that the Azure SQL Database instance is going to be run under
         
@@ -97,8 +100,11 @@ function Set-AzureBacpacValues {
         [string]$AxRetailDataSyncUserPwd,
 
         [Parameter(Mandatory = $true)]
-        [string]$TenantId,
+        [string]$AxDbReadonlyUserPwd,
 
+        [Parameter(Mandatory = $true)]
+        [string]$TenantId,
+        
         [Parameter(Mandatory = $true)]
         [string]$PlanId,
         
@@ -116,6 +122,7 @@ function Set-AzureBacpacValues {
     $commandText = $commandText.Replace('@axmrruntimeuser', $AxMrRuntimeUserPwd)
     $commandText = $commandText.Replace('@axretailruntimeuser', $AxRetailRuntimeUserPwd)
     $commandText = $commandText.Replace('@axretaildatasyncuser', $AxRetailDataSyncUserPwd)
+    $commandText = $commandText.Replace('@axdbreadonlyuser', $AxDbReadonlyUserPwd)
 
     $sqlCommand.CommandText = $commandText
 

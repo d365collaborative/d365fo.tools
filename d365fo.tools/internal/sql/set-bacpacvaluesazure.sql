@@ -7,6 +7,12 @@ BEGIN
     EXEC sp_addrolemember 'DeployExtensibilityRole', 'axdeployextuser'
 END
 
+IF EXISTS (select * from sys.database_principals where type = 'R' and name = 'driuser')
+BEGIN
+    CREATE USER axdbreadonlyuser WITH PASSWORD = '@axdbreadonlyuser'
+    EXEC sp_addrolemember 'driuser', 'axdbreadonlyuser'
+END
+
 CREATE USER axdbadmin WITH PASSWORD = '@axdbadmin'
 EXEC sp_addrolemember 'db_owner', 'axdbadmin'
 
