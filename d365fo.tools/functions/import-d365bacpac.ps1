@@ -57,7 +57,7 @@
         
     .PARAMETER AxRetailDataSyncUserPwd
         Password that is obtained from LCS
-
+        
     .PARAMETER AxDbReadonlyUserPwd
         Password that is obtained from LCS
         

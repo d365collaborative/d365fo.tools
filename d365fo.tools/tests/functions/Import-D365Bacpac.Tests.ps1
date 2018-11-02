@@ -333,13 +333,13 @@
  	Describe "Testing parameterset ImportOnlyTier2" {
 		<#
 		ImportOnlyTier2 -ImportModeTier2 -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -ImportOnly
-		ImportOnlyTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -CustomSqlFile -ImportOnly
+		ImportOnlyTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd -CustomSqlFile -ImportOnly
 		#>
 	}
  	Describe "Testing parameterset ImportTier2" {
 		<#
-		ImportTier2 -ImportModeTier2 -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd
-		ImportTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -CustomSqlFile
+		ImportTier2 -ImportModeTier2 -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd
+		ImportTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd -CustomSqlFile
 		#>
 	}
 
