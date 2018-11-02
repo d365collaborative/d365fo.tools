@@ -25,7 +25,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPwd] <String>] [[-AxRuntimeUserPwd] <String>]
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
- [[-CustomSqlFile] <String>] [-ImportOnly] [<CommonParameters>]
+ [[-AxDbReadonlyUserPwd] <String>] [[-CustomSqlFile] <String>] [-ImportOnly] [<CommonParameters>]
 ```
 
 ### ImportTier2
@@ -34,7 +34,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] <String> [-AxRuntimeUserPwd] <String>
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
- [[-CustomSqlFile] <String>] [<CommonParameters>]
+ [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -379,6 +379,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AxDbReadonlyUserPwd
+Password that is obtained from LCS
+
+```yaml
+Type: String
+Parameter Sets: ImportOnlyTier2
+Aliases:
+
+Required: False
+Position: 14
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: ImportTier2
+Aliases:
+
+Required: True
+Position: 14
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CustomSqlFile
 Parameter description
 
@@ -388,7 +415,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 14
+Position: 15
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
