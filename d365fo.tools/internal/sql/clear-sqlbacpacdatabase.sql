@@ -53,6 +53,8 @@ BEGIN
 END
 ;
 
+DROP USER IF EXISTS [axdbreadonlyuser];
+
 DISABLE TRIGGER ALL ON dbo.RETAILHARDWAREPROFILE
 -- Clear encrypted hardware profile merchand properties
 update dbo.RETAILHARDWAREPROFILE set SECUREMERCHANTPROPERTIES = null where SECUREMERCHANTPROPERTIES is not null

@@ -40,6 +40,9 @@
     .PARAMETER AxRetailDataSyncUserPwd
         Password obtained from LCS
         
+    .PARAMETER AxDbReadonlyUserPwd
+        Password obtained from LCS
+        
     .PARAMETER TenantId
         The ID of tenant that the Azure SQL Database instance is going to be run under
         
@@ -50,7 +53,7 @@
         The capabilities that the Azure SQL Database instance will be running with
         
     .EXAMPLE
-        PS C:\> Set-AzureBacpacValues -DatabaseServer dbserver1.database.windows.net -DatabaseName Import -SqlUser User123 -SqlPwd "Password123" -AxDeployExtUserPwd "Password123" -AxDbAdminPwd "Password123" -AxRuntimeUserPwd "Password123" -AxMrRuntimeUserPwd "Password123" -AxRetailRuntimeUserPwd "Password123" -AxRetailDataSyncUserPwd "Password123" -TenantId "TenantIdFromAzure" -PlanId "PlanIdFromAzure" -PlanCapability "Capabilities"
+        PS C:\> Set-AzureBacpacValues -DatabaseServer dbserver1.database.windows.net -DatabaseName Import -SqlUser User123 -SqlPwd "Password123" -AxDeployExtUserPwd "Password123" -AxDbAdminPwd "Password123" -AxRuntimeUserPwd "Password123" -AxMrRuntimeUserPwd "Password123" -AxRetailRuntimeUserPwd "Password123" -AxRetailDataSyncUserPwd "Password123" -AxDbReadonlyUserPwd "Password123" -TenantId "TenantIdFromAzure" -PlanId "PlanIdFromAzure" -PlanCapability "Capabilities"
         
         This will set all the needed details inside the "Import" database that is located in the "dbserver1.database.windows.net" Azure SQL Database instance.
         All service accounts and their passwords will be updated accordingly.
@@ -97,8 +100,11 @@ function Set-AzureBacpacValues {
         [string]$AxRetailDataSyncUserPwd,
 
         [Parameter(Mandatory = $true)]
-        [string]$TenantId,
+        [string]$AxDbReadonlyUserPwd,
 
+        [Parameter(Mandatory = $true)]
+        [string]$TenantId,
+        
         [Parameter(Mandatory = $true)]
         [string]$PlanId,
         
@@ -116,6 +122,7 @@ function Set-AzureBacpacValues {
     $commandText = $commandText.Replace('@axmrruntimeuser', $AxMrRuntimeUserPwd)
     $commandText = $commandText.Replace('@axretailruntimeuser', $AxRetailRuntimeUserPwd)
     $commandText = $commandText.Replace('@axretaildatasyncuser', $AxRetailDataSyncUserPwd)
+    $commandText = $commandText.Replace('@axdbreadonlyuser', $AxDbReadonlyUserPwd)
 
     $sqlCommand.CommandText = $commandText
 

@@ -58,6 +58,9 @@
     .PARAMETER AxRetailDataSyncUserPwd
         Password that is obtained from LCS
         
+    .PARAMETER AxDbReadonlyUserPwd
+        Password that is obtained from LCS
+        
     .PARAMETER CustomSqlFile
         Parameter description
         
@@ -75,7 +78,7 @@
         It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
         
     .EXAMPLE
-        PS C:\> Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
+        PS C:\> Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -AxDbReadonlyUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
         
         This will instruct the cmdlet that the import will be working against an Azure DB instance.
         It requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2
@@ -146,7 +149,11 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 12)]
         [string]$AxRetailDataSyncUserPwd,
         
-        [Parameter(Mandatory = $false, Position = 13 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 13)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 13)]
+        [string]$AxDbReadonlyUserPwd,
+        
+        [Parameter(Mandatory = $false, Position = 14 )]
         [string]$CustomSqlFile,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
@@ -221,7 +228,8 @@ function Import-D365Bacpac {
             $AzureParams = @{
                 AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd;
                 AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd;
-                AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd
+                AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd;
+                AxDbReadonlyUserPwd = $AxDbReadonlyUserPwd;
             }
 
             $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
