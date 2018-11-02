@@ -271,6 +271,25 @@
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter AxDbReadonlyUserPwd' {
+			$parameter = (Get-Command Import-D365Bacpac).Parameters['AxDbReadonlyUserPwd']
+			$parameter.Name | Should -Be 'AxDbReadonlyUserPwd'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'ImportOnlyTier2', 'ImportTier2'
+			$parameter.ParameterSets.Keys | Should -Contain 'ImportOnlyTier2'
+			$parameter.ParameterSets['ImportOnlyTier2'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['ImportOnlyTier2'].Position | Should -Be 12
+			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Contain 'ImportTier2'
+			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 12
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter CustomSqlFile' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['CustomSqlFile']
 			$parameter.Name | Should -Be 'CustomSqlFile'

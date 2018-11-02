@@ -53,7 +53,7 @@
         The capabilities that the Azure SQL Database instance will be running with
         
     .EXAMPLE
-        PS C:\> Set-AzureBacpacValues -DatabaseServer dbserver1.database.windows.net -DatabaseName Import -SqlUser User123 -SqlPwd "Password123" -AxDeployExtUserPwd "Password123" -AxDbAdminPwd "Password123" -AxRuntimeUserPwd "Password123" -AxMrRuntimeUserPwd "Password123" -AxRetailRuntimeUserPwd "Password123" -AxRetailDataSyncUserPwd "Password123" -TenantId "TenantIdFromAzure" -PlanId "PlanIdFromAzure" -PlanCapability "Capabilities"
+        PS C:\> Set-AzureBacpacValues -DatabaseServer dbserver1.database.windows.net -DatabaseName Import -SqlUser User123 -SqlPwd "Password123" -AxDeployExtUserPwd "Password123" -AxDbAdminPwd "Password123" -AxRuntimeUserPwd "Password123" -AxMrRuntimeUserPwd "Password123" -AxRetailRuntimeUserPwd "Password123" -AxRetailDataSyncUserPwd "Password123" -AxDbReadonlyUserPwd "Password123" -TenantId "TenantIdFromAzure" -PlanId "PlanIdFromAzure" -PlanCapability "Capabilities"
         
         This will set all the needed details inside the "Import" database that is located in the "dbserver1.database.windows.net" Azure SQL Database instance.
         All service accounts and their passwords will be updated accordingly.
