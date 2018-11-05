@@ -70,13 +70,13 @@
         
                             $null = $sb.Append("<c='$color'>-$($_.Name)</c>")
                             
-                            $color = "magenta"
         
                             if ($parmFoundInCommandText) {
                                 $color = "green"
+                                $null = $sb.Append("<c='$color'>* </c>")
                             }
-        
-                            if ($_.IsMandatory -eq $true) {
+                            elseif ($_.IsMandatory -eq $true) {
+                                $color = "magenta"
                                 $null = $sb.Append("<c='$color'>* </c>")
                             }
                             else {
@@ -95,11 +95,12 @@
                     }
 
                     $null = $sbHelp.AppendLine("")
+                    $null = $sbHelp.AppendLine("<c='Red'>Red</c> = Parameter not found")
                     $null = $sbHelp.AppendLine("<c='Green'>Green</c> = Command Name")
                     $null = $sbHelp.AppendLine("<c='yellow'>Yellow</c> = Mandatory Parameter")
                     $null = $sbHelp.AppendLine("<c='darkgray'>DarkGray</c> = Optional Parameter")
                     $null = $sbHelp.AppendLine("<c='DarkCyan'>DarkCyan</c> = Parameter value")
-                    $null = $sbHelp.AppendLine("<c='Green'>*</c> = Mandatory was filled")
+                    $null = $sbHelp.AppendLine("<c='Green'>*</c> = Parameter was filled")
                     $null = $sbHelp.AppendLine("<c='magenta'>*</c> = Mandatory missing")
                 }
 
