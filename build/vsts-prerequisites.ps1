@@ -8,3 +8,5 @@ Write-Host "Installing Azure.Storage" -ForegroundColor Cyan
 Install-Module Azure.Storage -Force -SkipPublisherCheck
 Write-Host "Installing AzureAd" -ForegroundColor Cyan
 Install-Module AzureAd -Force -SkipPublisherCheck
+Write-Host "Installing PSNotification" -ForegroundColor Cyan
+Install-Module PSNotification -Force -SkipPublisherCheck
