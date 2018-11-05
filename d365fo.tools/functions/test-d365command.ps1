@@ -48,7 +48,7 @@
                     $null = $sbParmsNotFound.AppendLine("Parameters that <c='em'>don't exists</c>")
                     #Show all the parameters that could be match here: $inputParameterNotFound
                     $inputParameterNotFound | ForEach-Object {
-                        $null = $sbParmsNotFound.AppendLine("<c='red'>$($_)</c>")
+                        $null = $sbParmsNotFound.AppendLine("<c='Red'>$($_)</c>")
                     }
 
 
@@ -64,19 +64,19 @@
                         $parmSetParameters | ForEach-Object {
                             $parmFoundInCommandText = $_.Name -In $inputParameterNames
                             
-                            $color = "darkgray"
+                            $color = "Darkgray"
         
-                            if ($_.IsMandatory -eq $true) { $color = "yellow" }
+                            if ($_.IsMandatory -eq $true) { $color = "Yellow" }
         
                             $null = $sb.Append("<c='$color'>-$($_.Name)</c>")
                             
         
                             if ($parmFoundInCommandText) {
-                                $color = "green"
+                                $color = "Green"
                                 $null = $sb.Append("<c='$color'>* </c>")
                             }
                             elseif ($_.IsMandatory -eq $true) {
-                                $color = "magenta"
+                                $color = "Magenta"
                                 $null = $sb.Append("<c='$color'>* </c>")
                             }
                             else {
@@ -97,11 +97,11 @@
                     $null = $sbHelp.AppendLine("")
                     $null = $sbHelp.AppendLine("<c='Red'>Red</c> = Parameter not found")
                     $null = $sbHelp.AppendLine("<c='Green'>Green</c> = Command Name")
-                    $null = $sbHelp.AppendLine("<c='yellow'>Yellow</c> = Mandatory Parameter")
-                    $null = $sbHelp.AppendLine("<c='darkgray'>DarkGray</c> = Optional Parameter")
+                    $null = $sbHelp.AppendLine("<c='Yellow'>Yellow</c> = Mandatory Parameter")
+                    $null = $sbHelp.AppendLine("<c='DarkGray'>DarkGray</c> = Optional Parameter")
                     $null = $sbHelp.AppendLine("<c='DarkCyan'>DarkCyan</c> = Parameter value")
                     $null = $sbHelp.AppendLine("<c='Green'>*</c> = Parameter was filled")
-                    $null = $sbHelp.AppendLine("<c='magenta'>*</c> = Mandatory missing")
+                    $null = $sbHelp.AppendLine("<c='Magenta'>*</c> = Mandatory missing")
                 }
 
                 "ShowParameters" {
@@ -115,9 +115,9 @@
                         $parmSetParameters = $_.Parameters | Where-Object name -NotIn $commonParameters
         
                         $parmSetParameters | ForEach-Object {
-                            $color = "darkgray"
+                            $color = "DarkGray"
         
-                            if ($_.IsMandatory -eq $true) { $color = "yellow" }
+                            if ($_.IsMandatory -eq $true) { $color = "Yellow" }
         
                             $null = $sb.Append("<c='$color'>-$($_.Name) </c>")
         
@@ -133,8 +133,8 @@
 
                     $null = $sbHelp.AppendLine("")
                     $null = $sbHelp.AppendLine("<c='Green'>Green</c> = Command Name")
-                    $null = $sbHelp.AppendLine("<c='yellow'>Yellow</c> = Mandatory Parameter")
-                    $null = $sbHelp.AppendLine("<c='darkgray'>DarkGray</c> = Optional Parameter")
+                    $null = $sbHelp.AppendLine("<c='Yellow'>Yellow</c> = Mandatory Parameter")
+                    $null = $sbHelp.AppendLine("<c='DarkGray'>DarkGray</c> = Optional Parameter")
                     $null = $sbHelp.AppendLine("<c='DarkCyan'>DarkCyan</c> = Parameter value")
                 }
                 Default {}
