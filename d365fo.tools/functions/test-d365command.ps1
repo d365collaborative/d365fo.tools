@@ -9,50 +9,62 @@
     $commonParameters = 'Verbose', 'Debug', 'ErrorAction', 'WarningAction', 'InformationAction', 'ErrorVariable', 'WarningVariable', 'InformationVariable', 'OutVariable', 'OutBuffer', 'PipelineVariable', 'Confirm', 'WhatIf'
 
     #Match to find the command name: Non-Whitespace until the first whitespace
-    $commandName = ($CommandText | Select-String '\S+\s{1}').Matches.Value.Trim()
+    $commandMatch = ($CommandText | Select-String '\S+\s*').Matches
+
+    if (-not ($null -eq $commandMatch)) {
+        $commandName = ($CommandText | Select-String '\S+\s{1}').Matches.Value.Trim()
     
-    #Match to find the parameters: Whitespace Dash Non-Whitespace
-    $inputParameterNames = ($CommandText | Select-String '\s{1}[-]\S+' -AllMatches).Matches.Value.Trim("-"," ")
+        #Match to find the parameters: Whitespace Dash Non-Whitespace
+        $inputParameterNames = ($CommandText | Select-String '\s{1}[-]\S+' -AllMatches).Matches.Value.Trim("-", " ")
 
-    $availableParameterNames = (Get-Command $commandName).Parameters.keys | Where-Object {$commonParameters -notcontains $_}
+        $res = Get-Command $commandName -ErrorAction Ignore
 
-    $inputParameterNotFound = $inputParameterNames | Where-Object {$availableParameterNames -notcontains $_}
+        if (-not ($null -eq $res)) {
+            $availableParameterNames = (Get-Command $commandName).Parameters.keys | Where-Object {$commonParameters -notcontains $_}
 
-    #Show all the parameters that could be match here: $inputParameterNotFound
+            $inputParameterNotFound = $inputParameterNames | Where-Object {$availableParameterNames -notcontains $_}
 
-    <#
-    (Get-Command $commandName).ParameterSets | ForEach-Object {
-        "This is the name: $($_.Name)"
-        $parmSetParameterNames = $_.Parameters.Name | Where-Object {$commonParameters -notcontains $_}
-        $parmSetParameterNames
-    }
-    #>
+            #Show all the parameters that could be match here: $inputParameterNotFound
 
-    (Get-Command $commandName).ParameterSets | ForEach-Object {
-        $null = $sb = New-Object System.Text.StringBuilder
-        $null = $sb.AppendLine("")
-        $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($_.Name)</c> - Full List")
-        $null = $sb.AppendLine("<c='em'>Green</c> = Command Name | <c='yellow'>Yellow</c> = Mandatory Parameter | <c='darkgray'>DarkGray</c> = Optional Parameter | <c='DarkCyan'>DarkCyan</c> = Parameter value")
-        $null = $sb.Append("<c='em'>$commandName </c>")
-        $parmSetParameters = $_.Parameters | Where-Object name -NotIn $commonParameters
+            <#
+            (Get-Command $commandName).ParameterSets | ForEach-Object {
+                "This is the name: $($_.Name)"
+                $parmSetParameterNames = $_.Parameters.Name | Where-Object {$commonParameters -notcontains $_}
+                $parmSetParameterNames
+            }
+            #>
 
-        $parmSetParameters | ForEach-Object {
-            $color = "darkgray"
+            (Get-Command $commandName).ParameterSets | ForEach-Object {
+                $null = $sb = New-Object System.Text.StringBuilder
+                $null = $sb.AppendLine("")
+                $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($_.Name)</c> - Full List")
+                $null = $sb.AppendLine("<c='em'>Green</c> = Command Name | <c='yellow'>Yellow</c> = Mandatory Parameter | <c='darkgray'>DarkGray</c> = Optional Parameter | <c='DarkCyan'>DarkCyan</c> = Parameter value")
+                $null = $sb.Append("<c='em'>$commandName </c>")
+                $parmSetParameters = $_.Parameters | Where-Object name -NotIn $commonParameters
 
-            if($_.IsMandatory -eq $true) { $color = "yellow" }
+                $parmSetParameters | ForEach-Object {
+                    $color = "darkgray"
 
-            $null = $sb.Append("<c='$color'>-$($_.Name) </c>")
+                    if ($_.IsMandatory -eq $true) { $color = "yellow" }
 
-            if(-not ($_.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
-            $null = $sb.Append("<c='DarkCyan'>PARAMVALUE </c>")
+                    $null = $sb.Append("<c='$color'>-$($_.Name) </c>")
 
+                    if (-not ($_.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
+                        $null = $sb.Append("<c='DarkCyan'>PARAMVALUE </c>")
+
+                    }
+                }
+
+                Write-PSFMessage -Level Host -Message "$($sb.ToString())"
             }
         }
-
-        Write-PSFMessage -Level Host -Message "$($sb.ToString())"
+        else {
+            #Write an error about not find the command name
+        }
     }
-
-
+    else {
+        #Write an error about not extracting the command name - different error
+    }
 }
 
 <#
