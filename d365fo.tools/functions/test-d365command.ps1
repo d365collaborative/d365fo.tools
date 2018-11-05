@@ -25,6 +25,8 @@
         if (-not ($null -eq $res)) {
 
             $null = $sbHelp = New-Object System.Text.StringBuilder
+            $null = $sbParmsNotFound = New-Object System.Text.StringBuilder
+            
 
             switch ($Mode) {
                 "Validate" {
@@ -40,10 +42,15 @@
                         return
                     }
 
-                    $availableParameterNames = (Get-Command $commandName).Parameters.keys | Where-Object {$commonParameters -notcontains $_}
-                    $inputParameterNotFound = $inputParameterNames | Where-Object {$availableParameterNames -notcontains $_}
+                    $availableParameterNames = (Get-Command $commandName).Parameters.keys | Where-Object {$commonParameters -NotContains $_}
+                    $inputParameterNotFound = $inputParameterNames | Where-Object {$availableParameterNames -NotContains $_}
 
+                    $null = $sbParmsNotFound.AppendLine("Parameters that <c='em'>don't exists</c>")
                     #Show all the parameters that could be match here: $inputParameterNotFound
+                    $inputParameterNotFound | ForEach-Object {
+                        $null = $sbParmsNotFound.AppendLine("<c='red'>$($_)</c>")
+                    }
+
 
                     (Get-Command $commandName).ParameterSets | ForEach-Object {
                         $null = $sb = New-Object System.Text.StringBuilder
@@ -132,6 +139,8 @@
                 Default {}
             }
 
+            Write-PSFMessage -Level Host -Message "$($sbParmsNotFound.ToString())"
+
             if ($IncludeHelp) {
                 Write-PSFMessage -Level Host -Message "$($sbHelp.ToString())"
             }
@@ -141,21 +150,10 @@
             Stop-PSFFunction -Message "Stopping because command name didn't return any help."
             return
         }
-
-
     }
     else {
         Write-PSFMessage -Level Host -Message "The function was unable to extract a valid command name from the supplied command text. Please try again."
         Stop-PSFFunction -Message "Stopping because of missing command name."
         return
-        #Write an error about not extracting the command name - different error
     }
 }
-
-<#
-
-$CommandText = 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac"'
-
-$CommandText = 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd2 "XyzXyz" -BacpacFile "C:\temp\uat.bacpac"'
-
-#>
