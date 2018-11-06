@@ -103,7 +103,6 @@ function Test-D365Command {
                     }
 
                     foreach ($parmSet in (Get-Command $commandName).ParameterSets) {
-                    # (Get-Command $commandName).ParameterSets | ForEach-Object {
                         $null = $sb = New-Object System.Text.StringBuilder
                         $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($parmSet.Name)</c> - Validated List")
                         $null = $sb.Append("<c='$colorCommandName'>$commandName </c>")
@@ -111,7 +110,6 @@ function Test-D365Command {
                         $parmSetParameters = $parmSet.Parameters | Where-Object name -NotIn $commonParameters
         
                         foreach ($parameter in $parmSetParameters) {
-                        # $parmSetParameters | ForEach-Object {
                             $parmFoundInCommandText = $parameter.Name -In $inputParameterNames
                             
                             $color = "$colorNonMandatoryParam"
@@ -152,21 +150,23 @@ function Test-D365Command {
                 }
 
                 "ShowParameters" {
-                    (Get-Command $commandName).ParameterSets | ForEach-Object {
+                    foreach ($parmSet in (Get-Command $commandName).ParameterSets) {
+                    # (Get-Command $commandName).ParameterSets | ForEach-Object {
                         $null = $sb = New-Object System.Text.StringBuilder
-                        $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($_.Name)</c> - Parameter List")
+                        $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($parmSet.Name)</c> - Parameter List")
                         $null = $sb.Append("<c='$colorCommandName'>$commandName </c>")
 
-                        $parmSetParameters = $_.Parameters | Where-Object name -NotIn $commonParameters
+                        $parmSetParameters = $parmSet.Parameters | Where-Object name -NotIn $commonParameters
         
-                        $parmSetParameters | ForEach-Object {
+                        foreach ($parameter in $parmSetParameters) {
+                        # $parmSetParameters | ForEach-Object {
                             $color = "$colorNonMandatoryParam"
         
-                            if ($_.IsMandatory -eq $true) { $color = "$colorMandatoryParam" }
+                            if ($parameter.IsMandatory -eq $true) { $color = "$colorMandatoryParam" }
         
-                            $null = $sb.Append("<c='$color'>-$($_.Name) </c>")
+                            $null = $sb.Append("<c='$color'>-$($parameter.Name) </c>")
         
-                            if (-not ($_.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
+                            if (-not ($parameter.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
                                 $null = $sb.Append("<c='$colParmValue'>PARAMVALUE </c>")
                             }
                         }
