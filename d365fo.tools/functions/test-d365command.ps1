@@ -30,15 +30,17 @@
         Switch to instruct the cmdlet / function to output a simple guide with the colors in it
         
     .EXAMPLE
-        PS C:\> Test-D365Command -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate"
+        PS C:\> Test-D365Command -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate" -IncludeHelp
         
         This will validate all the parameters that have been passed to the Import-D365Bacpac cmdlet.
         All supplied parameters that matches a parameter will be marked with an asterisk.
+        Will print the coloring help.
         
     .EXAMPLE
-        PS C:\> Test-D365Command -CommandText 'Import-D365Bacpac' -Mode "ShowParameters"
+        PS C:\> Test-D365Command -CommandText 'Import-D365Bacpac' -Mode "ShowParameters" -IncludeHelp
         
         This will display all the parameter sets and their individual parameters.
+        Will print the coloring help.
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
@@ -185,7 +187,9 @@ function Test-D365Command {
                 Default {}
             }
 
-            Write-PSFMessage -Level Host -Message "$($sbParmsNotFound.ToString())"
+            if($sbParmsNotFound.Length -gt 0) {
+                Write-PSFMessage -Level Host -Message "$($sbParmsNotFound.ToString())"
+            }
 
             if ($IncludeHelp) {
                 Write-PSFMessage -Level Host -Message "$($sbHelp.ToString())"

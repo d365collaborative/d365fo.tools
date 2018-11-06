@@ -25,18 +25,20 @@ The cmdlet / function is capable of validating a string input with function name
 
 ### EXAMPLE 1
 ```
-Test-D365Command -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate"
+Test-D365Command -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate" -IncludeHelp
 ```
 
 This will validate all the parameters that have been passed to the Import-D365Bacpac cmdlet.
 All supplied parameters that matches a parameter will be marked with an asterisk.
+Will print the coloring help.
 
 ### EXAMPLE 2
 ```
-Test-D365Command -CommandText 'Import-D365Bacpac' -Mode "ShowParameters"
+Test-D365Command -CommandText 'Import-D365Bacpac' -Mode "ShowParameters" -IncludeHelp
 ```
 
 This will display all the parameter sets and their individual parameters.
+Will print the coloring help.
 
 ## PARAMETERS
 
