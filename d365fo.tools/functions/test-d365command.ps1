@@ -1,4 +1,49 @@
-﻿function Test-D365Command {
+﻿<#
+    .SYNOPSIS
+        Validate or show parameter set details with colored output
+
+    .DESCRIPTION
+        Analyze a function and it's parameters
+
+        The cmdlet / function is capable of validating a string input with function name and parameters
+
+    .PARAMETER CommandText
+        The string that you want to analyze
+
+        If there is parameter value present, you have to use the opposite quote strategy to encapsulate the string correctly
+
+        E.g. for double quotes
+        -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"'
+        
+        E.g. for single quotes
+        -CommandText "Emport-D365Bacpac -ExportModeTier2 -SqlUser 'sqladmin' -SqlPwd 'XyzXyz' -BacpacFile2 'C:\temp\uat.bacpac'"
+
+    .PARAMETER Mode
+        The operation mode of the cmdlet / function
+
+        Valid options are:
+        - Validate
+        - ShowParameters
+
+    .PARAMETER IncludeHelp
+        Switch to instruct the cmdlet / function to output a simple guide with the colors in it
+
+    .EXAMPLE
+        PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate"
+
+        This will validate all the parameters that have been passed to the Import-D365Bacpac cmdlet.
+        All supplied parameters that matches a parameter will be marked with an asterisk.
+        
+    .EXAMPLE
+        PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac' -Mode "ShowParameters"
+
+        This will display all the parameter sets and their individual parameters.
+
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
+#>
+function Test-D365Command {
     [CmdletBinding()]
     
     param (
@@ -26,7 +71,6 @@
 
             $null = $sbHelp = New-Object System.Text.StringBuilder
             $null = $sbParmsNotFound = New-Object System.Text.StringBuilder
-            
 
             switch ($Mode) {
                 "Validate" {
@@ -46,11 +90,9 @@
                     $inputParameterNotFound = $inputParameterNames | Where-Object {$availableParameterNames -NotContains $_}
 
                     $null = $sbParmsNotFound.AppendLine("Parameters that <c='em'>don't exists</c>")
-                    #Show all the parameters that could be match here: $inputParameterNotFound
                     $inputParameterNotFound | ForEach-Object {
                         $null = $sbParmsNotFound.AppendLine("<c='Red'>$($_)</c>")
                     }
-
 
                     (Get-Command $commandName).ParameterSets | ForEach-Object {
                         $null = $sb = New-Object System.Text.StringBuilder
@@ -81,12 +123,10 @@
                             }
                             else {
                                 $null = $sb.Append(" ")
-                                
                             }
         
                             if (-not ($_.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
                                 $null = $sb.Append("<c='DarkCyan'>PARAMVALUE </c>")
-        
                             }
                         }
         
@@ -110,7 +150,6 @@
                         
                         $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($_.Name)</c> - Parameter List")
                         
-                        
                         $null = $sb.Append("<c='Green'>$commandName </c>")
                         $parmSetParameters = $_.Parameters | Where-Object name -NotIn $commonParameters
         
@@ -123,7 +162,6 @@
         
                             if (-not ($_.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
                                 $null = $sb.Append("<c='DarkCyan'>PARAMVALUE </c>")
-        
                             }
                         }
         
