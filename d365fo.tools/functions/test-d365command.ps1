@@ -71,7 +71,6 @@ function Test-D365Command {
     $commandMatch = ($CommandText | Select-String '\S+\s*').Matches
 
     if (-not ($null -eq $commandMatch)) {
-        #$commandName = ($CommandText | Select-String '\S+\s{1}').Matches.Value.Trim()
         $commandName = $commandMatch.Value.Trim()
 
         $res = Get-Command $commandName -ErrorAction Ignore
@@ -103,27 +102,29 @@ function Test-D365Command {
                         $null = $sbParmsNotFound.AppendLine("<c='$colorParmsNotFound'>$($_)</c>")
                     }
 
-                    (Get-Command $commandName).ParameterSets | ForEach-Object {
+                    foreach ($parmSet in (Get-Command $commandName).ParameterSets) {
+                    # (Get-Command $commandName).ParameterSets | ForEach-Object {
                         $null = $sb = New-Object System.Text.StringBuilder
-                        $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($_.Name)</c> - Validated List")
+                        $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($parmSet.Name)</c> - Validated List")
                         $null = $sb.Append("<c='$colorCommandName'>$commandName </c>")
 
-                        $parmSetParameters = $_.Parameters | Where-Object name -NotIn $commonParameters
+                        $parmSetParameters = $parmSet.Parameters | Where-Object name -NotIn $commonParameters
         
-                        $parmSetParameters | ForEach-Object {
-                            $parmFoundInCommandText = $_.Name -In $inputParameterNames
+                        foreach ($parameter in $parmSetParameters) {
+                        # $parmSetParameters | ForEach-Object {
+                            $parmFoundInCommandText = $parameter.Name -In $inputParameterNames
                             
                             $color = "$colorNonMandatoryParam"
         
-                            if ($_.IsMandatory -eq $true) { $color = "$colorMandatoryParam" }
+                            if ($parameter.IsMandatory -eq $true) { $color = "$colorMandatoryParam" }
         
-                            $null = $sb.Append("<c='$color'>-$($_.Name)</c>")
+                            $null = $sb.Append("<c='$color'>-$($parameter.Name)</c>")
         
                             if ($parmFoundInCommandText) {
                                 $color = "$colorFoundAsterisk"
                                 $null = $sb.Append("<c='$color'>* </c>")
                             }
-                            elseif ($_.IsMandatory -eq $true) {
+                            elseif ($parameter.IsMandatory -eq $true) {
                                 $color = "$colorNotFoundAsterisk"
                                 $null = $sb.Append("<c='$color'>* </c>")
                             }
@@ -131,7 +132,7 @@ function Test-D365Command {
                                 $null = $sb.Append(" ")
                             }
         
-                            if (-not ($_.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
+                            if (-not ($parameter.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
                                 $null = $sb.Append("<c='$colParmValue'>PARAMVALUE </c>")
                             }
                         }
