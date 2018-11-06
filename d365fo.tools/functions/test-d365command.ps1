@@ -16,7 +16,7 @@
         -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"'
         
         E.g. for single quotes
-        -CommandText "Emport-D365Bacpac -ExportModeTier2 -SqlUser 'sqladmin' -SqlPwd 'XyzXyz' -BacpacFile2 'C:\temp\uat.bacpac'"
+        -CommandText "Import-D365Bacpac -ExportModeTier2 -SqlUser 'sqladmin' -SqlPwd 'XyzXyz' -BacpacFile2 'C:\temp\uat.bacpac'"
 
     .PARAMETER Mode
         The operation mode of the cmdlet / function
@@ -50,6 +50,7 @@ function Test-D365Command {
         [Parameter(Mandatory = $true, Position = 1)]
         [string] $CommandText,
 
+        [Parameter(Mandatory = $true, Position = 2)]
         [ValidateSet('Validate', 'ShowParameters')]
         [string] $Mode,
 
@@ -57,6 +58,14 @@ function Test-D365Command {
     )
 
     $commonParameters = 'Verbose', 'Debug', 'ErrorAction', 'WarningAction', 'InformationAction', 'ErrorVariable', 'WarningVariable', 'InformationVariable', 'OutVariable', 'OutBuffer', 'PipelineVariable', 'Confirm', 'WhatIf'
+
+    $colorParmsNotFound = "Red"
+    $colorCommandName = "Green"
+    $colorMandatoryParam = "Yellow"
+    $colorNonMandatoryParam = "DarkGray"
+    $colorFoundAsterisk = "Green"
+    $colorNotFoundAsterisk = "Magenta"
+    $colParmValue = "DarkCyan"
 
     #Match to find the command name: Non-Whitespace until the first whitespace
     $commandMatch = ($CommandText | Select-String '\S+\s*').Matches
@@ -91,34 +100,31 @@ function Test-D365Command {
 
                     $null = $sbParmsNotFound.AppendLine("Parameters that <c='em'>don't exists</c>")
                     $inputParameterNotFound | ForEach-Object {
-                        $null = $sbParmsNotFound.AppendLine("<c='Red'>$($_)</c>")
+                        $null = $sbParmsNotFound.AppendLine("<c='$colorParmsNotFound'>$($_)</c>")
                     }
 
                     (Get-Command $commandName).ParameterSets | ForEach-Object {
                         $null = $sb = New-Object System.Text.StringBuilder
-                        
                         $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($_.Name)</c> - Validated List")
-                      
-        
-                        $null = $sb.Append("<c='Green'>$commandName </c>")
+                        $null = $sb.Append("<c='$colorCommandName'>$commandName </c>")
+
                         $parmSetParameters = $_.Parameters | Where-Object name -NotIn $commonParameters
         
                         $parmSetParameters | ForEach-Object {
                             $parmFoundInCommandText = $_.Name -In $inputParameterNames
                             
-                            $color = "Darkgray"
+                            $color = "$colorNonMandatoryParam"
         
-                            if ($_.IsMandatory -eq $true) { $color = "Yellow" }
+                            if ($_.IsMandatory -eq $true) { $color = "$colorMandatoryParam" }
         
                             $null = $sb.Append("<c='$color'>-$($_.Name)</c>")
-                            
         
                             if ($parmFoundInCommandText) {
-                                $color = "Green"
+                                $color = "$colorFoundAsterisk"
                                 $null = $sb.Append("<c='$color'>* </c>")
                             }
                             elseif ($_.IsMandatory -eq $true) {
-                                $color = "Magenta"
+                                $color = "$colorNotFoundAsterisk"
                                 $null = $sb.Append("<c='$color'>* </c>")
                             }
                             else {
@@ -126,7 +132,7 @@ function Test-D365Command {
                             }
         
                             if (-not ($_.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
-                                $null = $sb.Append("<c='DarkCyan'>PARAMVALUE </c>")
+                                $null = $sb.Append("<c='$colParmValue'>PARAMVALUE </c>")
                             }
                         }
         
@@ -135,33 +141,32 @@ function Test-D365Command {
                     }
 
                     $null = $sbHelp.AppendLine("")
-                    $null = $sbHelp.AppendLine("<c='Red'>Red</c> = Parameter not found")
-                    $null = $sbHelp.AppendLine("<c='Green'>Green</c> = Command Name")
-                    $null = $sbHelp.AppendLine("<c='Yellow'>Yellow</c> = Mandatory Parameter")
-                    $null = $sbHelp.AppendLine("<c='DarkGray'>DarkGray</c> = Optional Parameter")
-                    $null = $sbHelp.AppendLine("<c='DarkCyan'>DarkCyan</c> = Parameter value")
-                    $null = $sbHelp.AppendLine("<c='Green'>*</c> = Parameter was filled")
-                    $null = $sbHelp.AppendLine("<c='Magenta'>*</c> = Mandatory missing")
+                    $null = $sbHelp.AppendLine("<c='$colorParmsNotFound'>$colorParmsNotFound</c> = Parameter not found")
+                    $null = $sbHelp.AppendLine("<c='$colorCommandName'>$colorCommandName</c> = Command Name")
+                    $null = $sbHelp.AppendLine("<c='$colorMandatoryParam'>$colorMandatoryParam</c> = Mandatory Parameter")
+                    $null = $sbHelp.AppendLine("<c='$colorNonMandatoryParam'>$colorNonMandatoryParam</c> = Optional Parameter")
+                    $null = $sbHelp.AppendLine("<c='$colParmValue'>$colParmValue</c> = Parameter value")
+                    $null = $sbHelp.AppendLine("<c='$colorFoundAsterisk'>*</c> = Parameter was filled")
+                    $null = $sbHelp.AppendLine("<c='$colorNotFoundAsterisk'>*</c> = Mandatory missing")
                 }
 
                 "ShowParameters" {
                     (Get-Command $commandName).ParameterSets | ForEach-Object {
                         $null = $sb = New-Object System.Text.StringBuilder
-                        
                         $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($_.Name)</c> - Parameter List")
-                        
-                        $null = $sb.Append("<c='Green'>$commandName </c>")
+                        $null = $sb.Append("<c='$colorCommandName'>$commandName </c>")
+
                         $parmSetParameters = $_.Parameters | Where-Object name -NotIn $commonParameters
         
                         $parmSetParameters | ForEach-Object {
-                            $color = "DarkGray"
+                            $color = "$colorNonMandatoryParam"
         
-                            if ($_.IsMandatory -eq $true) { $color = "Yellow" }
+                            if ($_.IsMandatory -eq $true) { $color = "$colorMandatoryParam" }
         
                             $null = $sb.Append("<c='$color'>-$($_.Name) </c>")
         
                             if (-not ($_.ParameterType -eq [System.Management.Automation.SwitchParameter])) {
-                                $null = $sb.Append("<c='DarkCyan'>PARAMVALUE </c>")
+                                $null = $sb.Append("<c='$colParmValue'>PARAMVALUE </c>")
                             }
                         }
         
@@ -170,10 +175,10 @@ function Test-D365Command {
                     }
 
                     $null = $sbHelp.AppendLine("")
-                    $null = $sbHelp.AppendLine("<c='Green'>Green</c> = Command Name")
-                    $null = $sbHelp.AppendLine("<c='Yellow'>Yellow</c> = Mandatory Parameter")
-                    $null = $sbHelp.AppendLine("<c='DarkGray'>DarkGray</c> = Optional Parameter")
-                    $null = $sbHelp.AppendLine("<c='DarkCyan'>DarkCyan</c> = Parameter value")
+                    $null = $sbHelp.AppendLine("<c='$colorCommandName'>$colorCommandName</c> = Command Name")
+                    $null = $sbHelp.AppendLine("<c='$colorMandatoryParam'>$colorMandatoryParam</c> = Mandatory Parameter")
+                    $null = $sbHelp.AppendLine("<c='$colorNonMandatoryParam'>$colorNonMandatoryParam</c> = Optional Parameter")
+                    $null = $sbHelp.AppendLine("<c='$colParmValue'>$colParmValue</c> = Parameter value")
                 }
                 Default {}
             }
