@@ -30,13 +30,13 @@
         Switch to instruct the cmdlet / function to output a simple guide with the colors in it
         
     .EXAMPLE
-        PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate"
+        PS C:\> Test-D365Command -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate"
         
         This will validate all the parameters that have been passed to the Import-D365Bacpac cmdlet.
         All supplied parameters that matches a parameter will be marked with an asterisk.
         
     .EXAMPLE
-        PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac' -Mode "ShowParameters"
+        PS C:\> Test-D365Command -CommandText 'Import-D365Bacpac' -Mode "ShowParameters"
         
         This will display all the parameter sets and their individual parameters.
         
