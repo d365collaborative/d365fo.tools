@@ -10,3 +10,5 @@ Write-Host "Installing AzureAd" -ForegroundColor Cyan
 Install-Module AzureAd -Force -SkipPublisherCheck
 Write-Host "Installing PSNotification" -ForegroundColor Cyan
 Install-Module PSNotification -Force -SkipPublisherCheck
+
+Import-Module PSFramework -Force -PassThru -Verbose
