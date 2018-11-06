@@ -34,11 +34,11 @@ function Test-AadUserInD365FO {
         [Parameter(Mandatory = $true)]
         [string] $SignInName
     )
-        
+
     $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\test-aaduserind365fo.sql") -join [Environment]::NewLine
 
     $null = $sqlCommand.Parameters.Add("@Email", $SignInName)
-    
+
     try {
         Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
 

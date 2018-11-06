@@ -88,6 +88,7 @@
 
         Author: Rasmus Andersen (@ITRasmus)
         Author: Charles Colombel (@dropshind)
+        Author: Mötz Jensen (@Splaxi)
         
         At no circumstances can this cmdlet be used to import users into a PROD environment.
         
@@ -95,9 +96,6 @@
         Use AAD B2B implementation if you want to support external people.
         
         Every imported users will get the System Administration / Administrator role assigned on import
-        
-        Author: Rasmus Andersen (@ITRasmus)
-        Author: Mötz Jensen (@Splaxi)
         
 #>
 
@@ -144,10 +142,10 @@ function Import-D365AadUser {
 
         [Parameter(Mandatory = $false, Position = 12, ParameterSetName = "UserListImport")]
         [switch]$SkipAzureAd,
-        
+
         [Parameter(Mandatory = $false, Position = 13, ParameterSetName = "GroupNameImport")]
         [switch]$ForceExactAadGroupName,
-        
+
         [Parameter(Mandatory = $true, Position = 14, ParameterSetName = "GroupIdImport")]
         [string]$AadGroupId
     )
@@ -223,13 +221,19 @@ function Import-D365AadUser {
 
         foreach ($user in $userlist) {
             if ($user.ObjectType -eq "User") {
-                $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))
+                $azureAdUser = Get-AzureADUser -ObjectId $user.ObjectId
+                if($null -eq $azureAdUser.Mail) {
+                    Write-PSFMessage -Level Critical "User $($user.ObjectId) did not have an Mail"
+                }
+                else {
+                    $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))
+                }
             }
         }
     }
     else {
         foreach ($user in $Users) {
-        
+
             if ($SkipAzureAd -eq $true) {
                 $name = Get-LoginFromEmail $user
                 $null = $azureAdUsers.Add([PSCustomObject]@{
@@ -267,7 +271,7 @@ function Import-D365AadUser {
 
             Write-PSFMessage -Level Verbose -Message "InstanceProvider : $InstanceProvider"
             Write-PSFMessage -Level Verbose -Message "Tenant : $Tenant"
-    
+
             if ($user.Mail.ToLower().Contains("outlook.com") -eq $true) {
                 $identityProvider = "live.com"
             }
@@ -277,7 +281,7 @@ function Import-D365AadUser {
                     $identityProvider = Get-IdentityProvider $user.Mail
                 }
             }
-    
+
             Write-PSFMessage -Level Verbose -Message "Getting sid from  $($user.Mail) and identity provider : $identityProvider."
             $sid = Get-UserSIDFromAad $user.Mail $identityProvider
             Write-PSFMessage -Level Verbose -Message "Generated SID : $sid"
@@ -289,12 +293,12 @@ function Import-D365AadUser {
                 $id = $IdPrefix + $user.GivenName
             }
             Write-PSFMessage -Level Verbose -Message "Id for user $($user.Mail) : $id"
-    
+
             $name = ""
             if ($NameValue -eq 'DisplayName') {
                 $name = $user.DisplayName + $NameSuffix
             }
-            
+
             else {
                 $name = $user.GivenName + $NameSuffix
             }
@@ -302,7 +306,7 @@ function Import-D365AadUser {
             Write-PSFMessage -Level Verbose -Message "Importing $($user.Mail) - SID $sid - Provider $identityProvider"
 
             Import-AadUserIntoD365FO $SqlCommand $user.Mail $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
-            
+
             if (Test-PSFFunctionInterrupt) { return }
         }
     }

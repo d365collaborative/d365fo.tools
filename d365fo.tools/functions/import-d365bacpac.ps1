@@ -58,6 +58,9 @@
     .PARAMETER AxRetailDataSyncUserPwd
         Password that is obtained from LCS
         
+    .PARAMETER AxDbReadonlyUserPwd
+        Password that is obtained from LCS
+        
     .PARAMETER CustomSqlFile
         Parameter description
         
@@ -153,7 +156,11 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 12)]
         [string]$AxRetailDataSyncUserPwd,
         
-        [Parameter(Mandatory = $false, Position = 13 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 13)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 13)]
+        [string]$AxDbReadonlyUserPwd,
+        
+        [Parameter(Mandatory = $false, Position = 14 )]
         [string]$CustomSqlFile,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
@@ -228,7 +235,8 @@ function Import-D365Bacpac {
             $AzureParams = @{
                 AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd;
                 AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd;
-                AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd
+                AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd;
+                AxDbReadonlyUserPwd = $AxDbReadonlyUserPwd;
             }
 
             $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues

@@ -271,6 +271,25 @@
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter AxDbReadonlyUserPwd' {
+			$parameter = (Get-Command Import-D365Bacpac).Parameters['AxDbReadonlyUserPwd']
+			$parameter.Name | Should -Be 'AxDbReadonlyUserPwd'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'ImportOnlyTier2', 'ImportTier2'
+			$parameter.ParameterSets.Keys | Should -Contain 'ImportOnlyTier2'
+			$parameter.ParameterSets['ImportOnlyTier2'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['ImportOnlyTier2'].Position | Should -Be 13
+			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Contain 'ImportTier2'
+			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 13
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter CustomSqlFile' {
 			$parameter = (Get-Command Import-D365Bacpac).Parameters['CustomSqlFile']
 			$parameter.Name | Should -Be 'CustomSqlFile'
@@ -279,7 +298,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 13
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 14
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -314,13 +333,13 @@
  	Describe "Testing parameterset ImportOnlyTier2" {
 		<#
 		ImportOnlyTier2 -ImportModeTier2 -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -ImportOnly
-		ImportOnlyTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -CustomSqlFile -ImportOnly
+		ImportOnlyTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd -CustomSqlFile -ImportOnly
 		#>
 	}
  	Describe "Testing parameterset ImportTier2" {
 		<#
-		ImportTier2 -ImportModeTier2 -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd
-		ImportTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -CustomSqlFile
+		ImportTier2 -ImportModeTier2 -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd
+		ImportTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd -CustomSqlFile
 		#>
 	}
 
