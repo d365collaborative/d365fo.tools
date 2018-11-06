@@ -163,6 +163,8 @@
 
 						'Switch-D365ActiveDatabase',
 
+						'Test-D365Command',
+						
 						'Update-D365User'
 						)
 
