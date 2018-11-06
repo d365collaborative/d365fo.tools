@@ -1,44 +1,45 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Validate or show parameter set details with colored output
-
+        
     .DESCRIPTION
         Analyze a function and it's parameters
-
+        
         The cmdlet / function is capable of validating a string input with function name and parameters
-
+        
     .PARAMETER CommandText
         The string that you want to analyze
-
+        
         If there is parameter value present, you have to use the opposite quote strategy to encapsulate the string correctly
-
+        
         E.g. for double quotes
         -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"'
         
         E.g. for single quotes
         -CommandText "Import-D365Bacpac -ExportModeTier2 -SqlUser 'sqladmin' -SqlPwd 'XyzXyz' -BacpacFile2 'C:\temp\uat.bacpac'"
-
+        
     .PARAMETER Mode
         The operation mode of the cmdlet / function
-
+        
         Valid options are:
         - Validate
         - ShowParameters
-
+        
     .PARAMETER IncludeHelp
         Switch to instruct the cmdlet / function to output a simple guide with the colors in it
-
+        
     .EXAMPLE
         PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate"
-
+        
         This will validate all the parameters that have been passed to the Import-D365Bacpac cmdlet.
         All supplied parameters that matches a parameter will be marked with an asterisk.
         
     .EXAMPLE
         PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac' -Mode "ShowParameters"
-
+        
         This will display all the parameter sets and their individual parameters.
-
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         
