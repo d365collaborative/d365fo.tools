@@ -77,8 +77,8 @@ function Add-D365AzureStorageConfig {
     if (Test-PSFFunctionInterrupt) { return }
 
     
-    $Details = @{AccountId = $AccountId; AccessToken = $AccessToken;
-        Blobname = $Blobname;
+    $Details = @{AccountId = $AccountId.ToLower(); AccessToken = $AccessToken;
+        Blobname = $Blobname.ToLower();
     }
 
     $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
