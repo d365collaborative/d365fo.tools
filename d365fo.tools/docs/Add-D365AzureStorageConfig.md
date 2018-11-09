@@ -147,7 +147,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+Tags: Azure, Azure Storage, Config, Configuration, Token, Blob
 
 Author: Mötz Jensen (@Splaxi)
 

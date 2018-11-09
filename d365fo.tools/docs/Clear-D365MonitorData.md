@@ -57,6 +57,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Monitor, MonitorData, MonitorAgent, CleanUp, Servicing
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

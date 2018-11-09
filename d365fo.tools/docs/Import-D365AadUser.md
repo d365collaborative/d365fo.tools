@@ -322,6 +322,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: User, Users, Security, Configuration, Permission, AAD, Azure Active Directory, Group, Groups
+
 Author: Rasmus Andersen (@ITRasmus)
 Author: Charles Colombel (@dropshind)
 Author: Mötz Jensen (@Splaxi)

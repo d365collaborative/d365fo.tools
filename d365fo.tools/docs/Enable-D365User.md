@@ -140,7 +140,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Implemented on request by Paul Heisterkamp
+Tags: User, Users, Security, Configuration, Permission
 
 Author: Mötz Jensen
 

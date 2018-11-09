@@ -133,6 +133,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-General notes
+Tags: User, Users
+
+Author: Mötz Jensen (@Splaxi)
+Author: Rasmus Andersen (@ITRasmus)
 
 ## RELATED LINKS

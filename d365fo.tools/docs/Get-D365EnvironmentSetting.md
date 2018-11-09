@@ -46,9 +46,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
-The call to the dll file gets all relevant details for the installation.
+Tags: Environment, Configuration, WebConfig, Web.Config, Decryption
 
 Author: Rasmus Andersen (@ITRasmus)
+
+The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
+The call to the dll file gets all relevant details for the installation.
 
 ## RELATED LINKS

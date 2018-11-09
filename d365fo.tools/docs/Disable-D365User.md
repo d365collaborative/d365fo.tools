@@ -138,6 +138,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: User, Users, Security, Configuration, Permission
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

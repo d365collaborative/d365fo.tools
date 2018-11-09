@@ -152,6 +152,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Table, RecId, Sequence, Record Id
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

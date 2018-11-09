@@ -31,7 +31,7 @@ This will get all installed services on the machine.
 ## PARAMETERS
 
 ### -Path
-Path to the folder that contians the "InstallationRecords" folder
+Path to the folder that contains the "InstallationRecords" folder
 
 ```yaml
 Type: String
@@ -54,6 +54,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Services, Servicing, Topology
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

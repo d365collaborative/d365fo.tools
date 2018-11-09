@@ -54,6 +54,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: User, Users, Security, Configuration, Authentication
+
 Author : Rasmus Andersen (@ITRasmus)
 Author : Mötz Jensen (@splaxi)
 
