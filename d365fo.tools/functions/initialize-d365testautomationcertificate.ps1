@@ -21,7 +21,7 @@
         
     .NOTES
         Tags: Automated Test, Test, Regression, Certificate, Thumbprint
-
+        
         Author: Kenny Saelen (@kennysaelen)
         Author: Mötz Jensen (@Splaxi)
         

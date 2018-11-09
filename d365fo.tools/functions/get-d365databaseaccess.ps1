@@ -13,12 +13,12 @@
         
     .NOTES
         Tags: Database, Connection, Sql, SqlUser, SqlPwd
-    
+        
         Author: Rasmus Andersen (@ITRasmus)
-
+        
         The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
         The call to the dll file gets all relevant connections details for the database server.
-
+        
 #>
 function Get-D365DatabaseAccess {
     [CmdletBinding()]

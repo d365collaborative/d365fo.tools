@@ -15,7 +15,7 @@
         Tags: Windows, License, Activation, Arm, Rearm
         
         Author: Mötz Jensen (@Splaxi)
-
+        
         The cmdlet uses CIM objects to access the activation details
 #>
 function Get-D365WindowsActivationStatus {

@@ -74,7 +74,7 @@
     .EXAMPLE
         PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
         PS C:\> Switch-D365ActiveDatabase -NewDatabaseName "ImportedDatabase"
-
+        
         This will instruct the cmdlet that the import will be working against a SQL Server instance.
         It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
         The next thing to do is to switch the active database out with the new one you just imported.

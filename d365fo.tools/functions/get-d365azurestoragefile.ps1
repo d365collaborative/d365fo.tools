@@ -37,7 +37,7 @@
         
     .NOTES
         Tags: Azure, Azure Storage, Token, Blob, File
-
+        
         Author: Mötz Jensen (@Splaxi)
 #>
 function Get-D365AzureStorageFile {

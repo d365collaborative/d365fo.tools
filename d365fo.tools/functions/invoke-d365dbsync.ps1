@@ -56,10 +56,10 @@
         
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
-
+        
         Author: Rasmus Andersen (@ITRasmus)
         Author: Mötz Jensen (@Splaxi)
-
+        
         When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
         
 #>

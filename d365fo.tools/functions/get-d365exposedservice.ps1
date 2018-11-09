@@ -25,9 +25,9 @@
         
     .NOTES
         Tags: DMF, OData, RestApi, Data Management Framework
-    
+        
         Author: Rasmus Andersen (@ITRasmus)
-
+        
         Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
         
 #>

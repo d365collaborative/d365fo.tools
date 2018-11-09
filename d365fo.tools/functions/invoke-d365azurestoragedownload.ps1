@@ -51,7 +51,7 @@
         Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac
         
         Author: Mötz Jensen (@Splaxi)
-
+        
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>

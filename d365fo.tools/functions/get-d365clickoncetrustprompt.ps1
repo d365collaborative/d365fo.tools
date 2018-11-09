@@ -13,7 +13,7 @@
         
     .NOTES
         Tags: ClickOnce, Registry, TrustPrompt
-
+        
         Author: Mötz Jensen (@Splaxi)
 #>
 function Get-D365ClickOnceTrustPrompt {

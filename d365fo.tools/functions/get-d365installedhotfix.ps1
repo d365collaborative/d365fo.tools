@@ -54,9 +54,9 @@
         
     .NOTES
         Tags: Hotfix, Servicing, Model, Models, KB, Patch, Patching, PackagesLocalDirectory
-
+        
         Author: Mötz Jensen (@Splaxi)
-
+        
         This cmdlet is inspired by the work of "Ievgen Miroshnikov" (twitter: @IevgenMir)
         
         All credits goes to him for showing how to extract these informations

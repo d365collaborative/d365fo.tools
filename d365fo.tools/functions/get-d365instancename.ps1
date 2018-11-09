@@ -15,7 +15,7 @@
         Tags: Instance, Servicing
         
         Author: Rasmus Andersen (@ITRasmus)
-
+        
         The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
         The call to the dll file gets HostedServiceName that is registered in the environment.
         

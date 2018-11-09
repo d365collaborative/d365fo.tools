@@ -14,7 +14,7 @@
         
     .NOTES
         Tags: LogicApp, Logic App, Configuration, Url, Email
-
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>

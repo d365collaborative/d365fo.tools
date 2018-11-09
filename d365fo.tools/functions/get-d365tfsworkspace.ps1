@@ -20,7 +20,7 @@
         
     .NOTES
         Tags: TFS, VSTS, URL, URI, Servicing, Development
-
+        
         Author: Mötz Jensen (@Splaxi)
 #>
 function Get-D365TfsWorkspace {

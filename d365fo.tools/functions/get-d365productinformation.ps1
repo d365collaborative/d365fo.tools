@@ -13,9 +13,9 @@
         
     .NOTES
         Tags: Build, Version, Reference, ProductVersion, ProductDetails, Product
-    
+        
         Author: Rasmus Andersen (@ITRasmus)
-
+        
         The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
         The call to the dll file gets all relevant product details for the environment.
         

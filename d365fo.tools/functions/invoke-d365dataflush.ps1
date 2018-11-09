@@ -28,7 +28,7 @@
         
     .NOTES
         Tags: Flush, Url, Servicing
-
+        
         Author: Mötz Jensen (@Splaxi)
 #>
 function Invoke-D365DataFlush {

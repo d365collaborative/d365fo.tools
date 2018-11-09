@@ -33,7 +33,7 @@
         
     .NOTES
         Tags: LogicApp, Logic App, Configuration, Url, Email, Notification, Message, Email
-
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>

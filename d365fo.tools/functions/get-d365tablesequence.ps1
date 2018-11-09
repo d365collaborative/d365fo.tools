@@ -56,7 +56,7 @@
         
     .NOTES
         Tags: Table, RecId, Sequence, Record Id
-    
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>
