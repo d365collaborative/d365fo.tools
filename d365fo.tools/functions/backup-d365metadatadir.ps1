@@ -20,6 +20,8 @@
         This will backup the PackagesLocalDirectory and create an PackagesLocalDirectory_backup next to it
         
     .NOTES
+        Tags: PackagesLocalDirectory, MetaData, MetaDataDir, MeteDataDirectory, Backup, Development
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>

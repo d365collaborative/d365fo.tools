@@ -36,7 +36,9 @@
         Will get all files in the blob / container that fits the "*UAT*" search value
         
     .NOTES
+        Tags: Azure, Azure Storage, Token, Blob, File
         
+        Author: Mötz Jensen (@Splaxi)
 #>
 function Get-D365AzureStorageFile {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

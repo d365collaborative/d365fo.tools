@@ -17,8 +17,9 @@
         This will show all environment configs
         
     .NOTES
+        Tags: Environment, Url, Config, Configuration, Tfs, Vsts, Sql, SqlUser, SqlPwd
         
-        You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+        Author: Mötz Jensen (@Splaxi)
         
 #>
 function Get-D365EnvironmentConfig {

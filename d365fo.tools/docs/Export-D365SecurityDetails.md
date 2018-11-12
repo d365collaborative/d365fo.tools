@@ -72,6 +72,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Security, Configuration, Permission, Development
+
 Author: Mötz Jensen (@splaxi)
 
 The work and design of this cmdlet is based on the findings by Alex Meyer (@alexmeyer_ITGuy).

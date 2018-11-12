@@ -7,7 +7,7 @@
         Get installed Dynamics 365 for Finance & Operations services that are installed on the machine
         
     .PARAMETER Path
-        Path to the folder that contians the "InstallationRecords" folder
+        Path to the folder that contains the "InstallationRecords" folder
         
     .EXAMPLE
         PS C:\> Get-D365InstalledService
@@ -15,6 +15,8 @@
         This will get all installed services on the machine.
         
     .NOTES
+        Tags: Services, Servicing, Topology
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>

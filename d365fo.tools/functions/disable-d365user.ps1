@@ -43,6 +43,8 @@
         This will Disable all users that matches the search "*contoso.com" in their email address
         
     .NOTES
+        Tags: User, Users, Security, Configuration, Permission
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>

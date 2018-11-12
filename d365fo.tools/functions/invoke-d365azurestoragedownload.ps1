@@ -48,9 +48,11 @@
         The complete path to the file will returned as output from the cmdlet.
         
     .NOTES
-        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac
         
         Author: Mötz Jensen (@Splaxi)
+        
+        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>
 function Invoke-D365AzureStorageDownload {
@@ -93,16 +95,18 @@ function Invoke-D365AzureStorageDownload {
 
         Invoke-TimeSignal -Start
 
-        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken
+        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
 
         $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
 
         $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
 
-        $blobcontainer = $blobClient.GetContainerReference($Blobname);
+        $blobcontainer = $blobClient.GetContainerReference($Blobname.ToLower());
 
 
         try {
+            Write-PSFMessage -Level Verbose -Message "Start download from Azure Storage Account"
+
             if ($GetLatest.IsPresent) {
                 $files = $blobcontainer.ListBlobs()
                 $File = ($files | Sort-Object -Descending { $_.Properties.LastModified } | Select-Object -First 1)

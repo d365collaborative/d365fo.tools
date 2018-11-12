@@ -18,11 +18,12 @@
         This will get the config file from the instance, decrypt it and save it to "c:\temp\d365fo.tools"
         
     .NOTES
-        Used for getting the Password for the database and other service accounts used in environment
+        Tags: Configuration, Service Account, Sql, SqlUser, SqlPwd, WebConfig, Web.Config, Decryption
         
         Author : Rasmus Andersen (@ITRasmus)
         Author : Mötz Jensen (@splaxi)
         
+        Used for getting the Password for the database and other service accounts used in environment
 #>
 function Get-D365DecryptedConfigFile {
     param(

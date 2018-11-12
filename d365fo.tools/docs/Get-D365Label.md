@@ -160,9 +160,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-There are several advanced scenarios for this cmdlet.
-See more on github and the wiki pages.
+Tags: PackagesLocalDirectory, Label, Labels, Language, Development, Servicing
 
 Author: Mötz Jensen (@Splaxi)
+
+There are several advanced scenarios for this cmdlet.
+See more on github and the wiki pages.
 
 ## RELATED LINKS

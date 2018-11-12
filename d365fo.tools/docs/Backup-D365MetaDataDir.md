@@ -71,6 +71,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: PackagesLocalDirectory, MetaData, MetaDataDir, MeteDataDirectory, Backup, Development
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

@@ -4,7 +4,7 @@
         Returns Exposed services
         
     .DESCRIPTION
-        Function for getting which sevices there are exposed from D365
+        Function for getting which services there are exposed from D365
         
     .PARAMETER ClientId
         Client Id from the AppRegistration
@@ -24,9 +24,11 @@
         This will show a list of all the services that the D365FO instance is exposing.
         
     .NOTES
-        Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
+        Tags: DMF, OData, RestApi, Data Management Framework
         
         Author: Rasmus Andersen (@ITRasmus)
+        
+        Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
         
 #>
 function Get-D365ExposedService

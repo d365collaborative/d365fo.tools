@@ -34,9 +34,11 @@
         This will get the current Azure Storage Account configuration details and use them as parameters to upload the file to an Azure Storage Account.
         
     .NOTES
-        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Bacpac
         
         Author: Mötz Jensen (@Splaxi)
+        
+        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>
 function Invoke-D365AzureStorageUpload {
@@ -71,16 +73,16 @@ function Invoke-D365AzureStorageUpload {
 
         Invoke-TimeSignal -Start
 
-        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken
+        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
 
         $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
 
         $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
 
-        $blobcontainer = $blobClient.GetContainerReference($Blobname);
+        $blobcontainer = $blobClient.GetContainerReference($Blobname.ToLower());
 
         try {
-            Write-PSFMessage -Level Verbose -Message "Start uploading the file to Azure" -Exception $PSItem.Exception
+            Write-PSFMessage -Level Verbose -Message "Start uploading the file to Azure"
 
             $FileName = Split-Path $Filepath -Leaf
             $blockBlob = $blobcontainer.GetBlockBlobReference($FileName)
@@ -96,7 +98,7 @@ function Invoke-D365AzureStorageUpload {
             }
         }
         catch {
-            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the Azure Storage Account" -Exception $PSItem.Exception
             Stop-PSFFunction -Message "Stopping because of errors"
             return
         }

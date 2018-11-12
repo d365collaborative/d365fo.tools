@@ -84,6 +84,8 @@
         Imports all the users that is present in the AAD Group called CustomerTeam1
         
     .NOTES
+        Tags: User, Users, Security, Configuration, Permission, AAD, Azure Active Directory, Group, Groups
+        
         Author: Rasmus Andersen (@ITRasmus)
         Author: Charles Colombel (@dropshind)
         Author: Mötz Jensen (@Splaxi)

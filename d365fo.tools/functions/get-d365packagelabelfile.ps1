@@ -39,6 +39,10 @@
         Shows all label files (en-US) for the ApplicationSuite package
         
     .NOTES
+        Tags: PackagesLocalDirectory, Label, Labels, Language, Development, Servicing, Module, Package, Packages
+        
+        Author: Mötz Jensen (@Splaxi)
+        
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>

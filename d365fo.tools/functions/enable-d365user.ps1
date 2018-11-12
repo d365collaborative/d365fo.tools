@@ -45,7 +45,7 @@
         This will enable all users that matches the search "*contoso.com" in their email address
         
     .NOTES
-        Implemented on request by Paul Heisterkamp
+        Tags: User, Users, Security, Configuration, Permission
         
         Author: Mötz Jensen
         

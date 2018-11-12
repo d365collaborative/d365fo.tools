@@ -27,6 +27,8 @@
         have it execute the SysFlushData and SysFlushAod classes.
         
     .NOTES
+        Tags: Flush, Url, Servicing
+        
         Author: Mötz Jensen (@Splaxi)
 #>
 function Invoke-D365DataFlush {
@@ -44,7 +46,6 @@ function Invoke-D365DataFlush {
             Write-PSFMessage -Level Verbose -Message "Executing Invoke-D365SysRunnerClass with $item" -Target $item
             Invoke-D365SysRunnerClass -ClassName $item -Url $URL
         }
-
     }
     else {
         foreach ($item in $Class) {

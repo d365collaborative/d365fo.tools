@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.4.82'
+    ModuleVersion     = '0.4.85'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -26,7 +26,7 @@
     # Modules that must be imported into the global environment prior to importing
     # this module
     RequiredModules   = @(
-        @{ ModuleName = 'PSFramework'; ModuleVersion = '0.10.27.128' },
+        @{ ModuleName = 'PSFramework'; ModuleVersion = '0.10.28.144' },
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
 		@{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' },
 		@{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
@@ -163,6 +163,8 @@
 
 						'Switch-D365ActiveDatabase',
 
+						'Test-D365Command',
+						
 						'Update-D365User'
 						)
 

@@ -46,6 +46,8 @@
         Will query the Aos & Batch services on the machine
         
     .NOTES
+        Tags: Environment, Service, Services, Aos, Batch, Servicing
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>

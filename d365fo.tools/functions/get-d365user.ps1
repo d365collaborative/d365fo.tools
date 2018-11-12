@@ -40,7 +40,10 @@
         This will search for all users with an e-mail address containing 'contoso.com' from the environment
         
     .NOTES
-        General notes
+        Tags: User, Users
+        
+        Author: Mötz Jensen (@Splaxi)
+        Author: Rasmus Andersen (@ITRasmus)
 #>
 function Get-D365User {
     [CmdletBinding()]

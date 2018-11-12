@@ -45,8 +45,7 @@
         This will enable all users to access the configuration objects and their values.
         
     .NOTES
-        
-        You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob
         
         Author: Mötz Jensen (@Splaxi)
         
@@ -78,8 +77,8 @@ function Add-D365AzureStorageConfig {
     if (Test-PSFFunctionInterrupt) { return }
 
     
-    $Details = @{AccountId = $AccountId; AccessToken = $AccessToken;
-        Blobname = $Blobname;
+    $Details = @{AccountId = $AccountId.ToLower(); AccessToken = $AccessToken;
+        Blobname = $Blobname.ToLower();
     }
 
     $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")

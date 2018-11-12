@@ -39,6 +39,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Development, Email, DynamicsDevConfig, Offline, Authentication
+
 This cmdlet is inspired by the work of "Sheikh Sohail Hussain" (twitter: @SSohailHussain)
 
 His blog can be found here:

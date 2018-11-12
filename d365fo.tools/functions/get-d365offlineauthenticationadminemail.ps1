@@ -12,6 +12,8 @@
         Will read the DynamicsDevConfig.xml and display the registered Offline Administrator E-mail address.
         
     .NOTES
+        Tags: Development, Email, DynamicsDevConfig, Offline, Authentication
+        
         This cmdlet is inspired by the work of "Sheikh Sohail Hussain" (twitter: @SSohailHussain)
         
         His blog can be found here:

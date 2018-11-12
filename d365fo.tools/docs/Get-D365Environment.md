@@ -156,6 +156,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Environment, Service, Services, Aos, Batch, Servicing
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

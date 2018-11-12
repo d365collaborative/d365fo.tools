@@ -12,7 +12,9 @@
         This will get the current ClickOnce configuration
         
     .NOTES
-        General notes
+        Tags: ClickOnce, Registry, TrustPrompt
+        
+        Author: Mötz Jensen (@Splaxi)
 #>
 function Get-D365ClickOnceTrustPrompt {
     [CmdletBinding()]

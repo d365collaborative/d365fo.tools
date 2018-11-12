@@ -57,9 +57,11 @@
         The path to the label file is included in the output.
         
     .NOTES
-        There are several advanced scenarios for this cmdlet. See more on github and the wiki pages.
+        Tags: PackagesLocalDirectory, Label, Labels, Language, Development, Servicing
         
         Author: Mötz Jensen (@Splaxi)
+        
+        There are several advanced scenarios for this cmdlet. See more on github and the wiki pages.
         
 #>
 function Get-D365Label {

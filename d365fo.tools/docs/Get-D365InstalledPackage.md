@@ -99,9 +99,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet supports piping and can be used in advanced scenarios.
-See more on github and the wiki pages.
+Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages
 
 Author: Mötz Jensen (@Splaxi)
+
+The cmdlet supports piping and can be used in advanced scenarios.
+See more on github and the wiki pages.
 
 ## RELATED LINKS

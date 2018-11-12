@@ -20,6 +20,8 @@
         This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate.
         
     .NOTES
+        Tags: Automated Test, Test, Regression, Certificate, Thumbprint
+        
         Author: Kenny Saelen (@kennysaelen)
         Author: Mötz Jensen (@Splaxi)
         

@@ -79,9 +79,12 @@
         Will search for the AccountNum field across all tables.
         
     .NOTES
-        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        Tags: Table, Tables, Fields, TableField, Table Field, TableName, TableId
         
         Author: Mötz Jensen (@splaxi)
+        
+        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        
         
 #>
 function Get-D365TableField {

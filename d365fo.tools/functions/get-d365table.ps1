@@ -43,9 +43,11 @@
         Will get the details for the table with the id 10347.
         
     .NOTES
-        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        Tags: Table, Tables, AOT, TableId, Development
         
         Author: Mötz Jensen (@splaxi)
+        
+        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>
 function Get-D365Table {

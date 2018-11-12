@@ -85,6 +85,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Automated Test, Test, Regression, Certificate, Thumbprint
+
 Author: Kenny Saelen (@kennysaelen)
 Author: Mötz Jensen (@Splaxi)
 

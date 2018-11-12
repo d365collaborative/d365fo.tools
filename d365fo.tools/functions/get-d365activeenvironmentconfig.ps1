@@ -20,7 +20,7 @@
         This enables you to use the $params as splatting for other cmdlets.
         
     .NOTES
-        You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+        Tags: Environment, Url, Config, Configuration, Tfs, Vsts, Sql, SqlUser, SqlPwd
         
         Author: Mötz Jensen (@Splaxi)
         
