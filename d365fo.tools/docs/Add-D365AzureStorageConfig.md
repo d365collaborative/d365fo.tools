@@ -12,9 +12,16 @@ Save an Azure Storage Account config
 
 ## SYNTAX
 
+### AccessToken
 ```
-Add-D365AzureStorageConfig [-Name] <String> [-AccountId] <String> [-AccessToken] <String> [-Blobname] <String>
- [[-ConfigStorageLocation] <String>] [-Force] [<CommonParameters>]
+Add-D365AzureStorageConfig -Name <String> -AccountId <String> -AccessToken <String> -Blobname <String>
+ [-ConfigStorageLocation <String>] [-Force] [<CommonParameters>]
+```
+
+### SAS
+```
+Add-D365AzureStorageConfig -Name <String> -AccountId <String> -SAS <String> -Blobname <String>
+ [-ConfigStorageLocation <String>] [-Force] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,7 +56,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -64,7 +71,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -75,11 +82,26 @@ The access token for the Azure Storage Account you want to register in the confi
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: AccessToken
 Aliases:
 
 Required: True
-Position: 3
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SAS
+The SAS key that you have created for the storage account or blob container
+
+```yaml
+Type: String
+Parameter Sets: SAS
+Aliases:
+
+Required: True
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -94,7 +116,7 @@ Parameter Sets: (All)
 Aliases: Blob
 
 Required: True
-Position: 4
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -117,7 +139,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: User
 Accept pipeline input: False
 Accept wildcard characters: False

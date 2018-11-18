@@ -14,14 +14,14 @@ Upload a file to Azure
 
 ### Default (Default)
 ```
-Invoke-D365AzureStorageUpload [[-AccountId] <String>] [[-AccessToken] <String>] [[-Blobname] <String>]
- [-Filepath] <String> [-DeleteOnUpload] [<CommonParameters>]
+Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
+ [-Blobname <String>] -Filepath <String> [-DeleteOnUpload] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Invoke-D365AzureStorageUpload [[-AccountId] <String>] [[-AccessToken] <String>] [[-Blobname] <String>]
- [-Filepath] <String> [-DeleteOnUpload] [<CommonParameters>]
+Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
+ [-Blobname <String>] -Filepath <String> [-DeleteOnUpload] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -57,7 +57,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: Named
 Default value: $Script:AccountId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -72,8 +72,23 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: $Script:AccessToken
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SAS
+The SAS key that you have created for the storage account or blob container
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: $Script:SAS
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -87,7 +102,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
 Default value: $Script:Blobname
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -99,10 +114,10 @@ Path to the file you want to upload
 ```yaml
 Type: String
 Parameter Sets: Default
-Aliases: File
+Aliases: Path, File
 
 Required: True
-Position: 5
+Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
@@ -111,10 +126,10 @@ Accept wildcard characters: False
 ```yaml
 Type: String
 Parameter Sets: Pipeline
-Aliases: File
+Aliases: Path, File
 
 Required: True
-Position: 5
+Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
