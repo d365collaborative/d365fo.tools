@@ -17,7 +17,7 @@
         
     .PARAMETER SAS
         The SAS key that you have created for the storage account or blob container
-
+        
     .PARAMETER Blobname
         The name of the blob inside the Azure Storage Account you want to register in the configuration store
         
