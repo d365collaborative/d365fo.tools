@@ -19,7 +19,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 1
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -32,7 +32,20 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 2
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter SAS' {
+			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['SAS']
+			$parameter.Name | Should -Be 'SAS'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -45,7 +58,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 3
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -58,13 +71,13 @@
 			$parameter.ParameterSets.Keys | Should -Be 'Pipeline', 'Default'
 			$parameter.ParameterSets.Keys | Should -Contain 'Pipeline'
 			$parameter.ParameterSets['Pipeline'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['Pipeline'].Position | Should -Be 4
+			$parameter.ParameterSets['Pipeline'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Pipeline'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Pipeline'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Pipeline'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain 'Default'
 			$parameter.ParameterSets['Default'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['Default'].Position | Should -Be 4
+			$parameter.ParameterSets['Default'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Default'].ValueFromPipeline | Should -Be $True
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
@@ -87,13 +100,13 @@
 	Describe "Testing parameterset Default" {
 		<#
 		Default -Filepath
-		Default -AccountId -AccessToken -Blobname -Filepath -DeleteOnUpload
+		Default -AccountId -AccessToken -SAS -Blobname -Filepath -DeleteOnUpload
 		#>
 	}
  	Describe "Testing parameterset Pipeline" {
 		<#
 		Pipeline -Filepath
-		Pipeline -AccountId -AccessToken -Blobname -Filepath -DeleteOnUpload
+		Pipeline -AccountId -AccessToken -SAS -Blobname -Filepath -DeleteOnUpload
 		#>
 	}
 

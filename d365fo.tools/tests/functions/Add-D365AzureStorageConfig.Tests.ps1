@@ -8,7 +8,7 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Add-D365AzureStorageConfig).ParameterSets.Name | Should -Be '__AllParameterSets'
+			(Get-Command Add-D365AzureStorageConfig).ParameterSets.Name | Should -Be 'AccessToken', 'SAS'
 		}
 		
 		It 'Should have the expected parameter Name' {
@@ -19,7 +19,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 0
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -32,7 +32,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 1
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -42,13 +42,26 @@
 			$parameter.Name | Should -Be 'AccessToken'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
-			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
-			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
-			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 2
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'AccessToken'
+			$parameter.ParameterSets.Keys | Should -Contain 'AccessToken'
+			$parameter.ParameterSets['AccessToken'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['AccessToken'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['AccessToken'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['AccessToken'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['AccessToken'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter SAS' {
+			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['SAS']
+			$parameter.Name | Should -Be 'SAS'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'SAS'
+			$parameter.ParameterSets.Keys | Should -Contain 'SAS'
+			$parameter.ParameterSets['SAS'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['SAS'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['SAS'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['SAS'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['SAS'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter Blobname' {
 			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['Blobname']
@@ -58,7 +71,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 3
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -71,7 +84,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 4
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -91,10 +104,16 @@
 		}
 	}
 	
-	Describe "Testing parameterset __AllParameterSets" {
+	Describe "Testing parameterset AccessToken" {
 		<#
-		__AllParameterSets -Name -AccountId -AccessToken -Blobname
-		__AllParameterSets -Name -AccountId -AccessToken -Blobname -ConfigStorageLocation -Force
+		AccessToken -Name -AccountId -AccessToken -Blobname
+		AccessToken -Name -AccountId -AccessToken -Blobname -ConfigStorageLocation -Force
+		#>
+	}
+ 	Describe "Testing parameterset SAS" {
+		<#
+		SAS -Name -AccountId -SAS -Blobname
+		SAS -Name -AccountId -SAS -Blobname -ConfigStorageLocation -Force
 		#>
 	}
 
