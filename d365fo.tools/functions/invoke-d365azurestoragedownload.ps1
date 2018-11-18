@@ -11,6 +11,9 @@
         
     .PARAMETER AccessToken
         The token that has the needed permissions for the download action
+    
+    .PARAMETER SAS
+        The SAS key that you have created for the storage account or blob container
         
     .PARAMETER Blobname
         Name of the container / blog inside the storage account you where the file is
