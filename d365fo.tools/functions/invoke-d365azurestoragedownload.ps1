@@ -58,20 +58,23 @@
 function Invoke-D365AzureStorageDownload {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $false, Position = 1 )]
+        [Parameter(Mandatory = $false)]
         [string] $AccountId = $Script:AccountId,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
+        [Parameter(Mandatory = $false)]
         [string] $AccessToken = $Script:AccessToken,
 
-        [Parameter(Mandatory = $false, Position = 3 )]
+        [Parameter(Mandatory = $false)]
+        [string] $SAS = $Script:SAS,
+
+        [Parameter(Mandatory = $false)]
         [string] $Blobname = $Script:Blobname,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 4 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true)]
         [Alias('Name')]
         [string] $FileName,
 
-        [Parameter(Mandatory = $false, Position = 5 )]
+        [Parameter(Mandatory = $false)]
         [string] $Path = $Script:DefaultTempPath,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 4 )]
@@ -83,8 +86,9 @@ function Invoke-D365AzureStorageDownload {
             return
         }
 
-        if (([string]::IsNullOrEmpty($AccountId)) -or
-            ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Blobname))) {
+        if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
+            ([string]::IsNullOrEmpty($Blobname)) -or
+            (([string]::IsNullOrEmpty($AccessToken)) -and ([string]::IsNullOrEmpty($SAS)))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
             return
@@ -95,20 +99,30 @@ function Invoke-D365AzureStorageDownload {
 
         Invoke-TimeSignal -Start
 
-        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
-
-        $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
-
-        $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
-
-        $blobcontainer = $blobClient.GetContainerReference($Blobname.ToLower());
-
-
         try {
+
+            if ([string]::IsNullOrEmpty($SAS)) {
+                Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with AccessToken"
+
+                $storageContext = new-AzureStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
+            }
+            else {
+                Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with SAS"
+
+                $conString = $("BlobEndpoint=https://{0}.blob.core.windows.net/;QueueEndpoint=https://{0}.queue.core.windows.net/;FileEndpoint=https://{0}.file.core.windows.net/;TableEndpoint=https://{0}.table.core.windows.net/;SharedAccessSignature={1}" -f $AccountId.ToLower(), $SAS)
+                $storageContext = new-AzureStorageContext -ConnectionString $conString
+            }
+
+            $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
+
+            $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
+
+            $blobContainer = $blobClient.GetContainerReference($Blobname.ToLower());
+
             Write-PSFMessage -Level Verbose -Message "Start download from Azure Storage Account"
 
             if ($GetLatest.IsPresent) {
-                $files = $blobcontainer.ListBlobs()
+                $files = $blobContainer.ListBlobs()
                 $File = ($files | Sort-Object -Descending { $_.Properties.LastModified } | Select-Object -First 1)
     
                 $NewFile = Join-Path $Path $($File.Name)
@@ -118,7 +132,7 @@ function Invoke-D365AzureStorageDownload {
             else {
                 $NewFile = Join-Path $Path $FileName
 
-                $blockBlob = $blobcontainer.GetBlockBlobReference($FileName);
+                $blockBlob = $blobContainer.GetBlockBlobReference($FileName);
                 $blockBlob.DownloadToFile($NewFile, [System.IO.FileMode]::Create)
             }
 

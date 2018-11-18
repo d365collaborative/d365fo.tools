@@ -44,25 +44,30 @@
 function Invoke-D365AzureStorageUpload {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $false, Position = 1 )]
+        [Parameter(Mandatory = $false)]
         [string] $AccountId = $Script:AccountId,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
+        [Parameter(Mandatory = $false)]
         [string] $AccessToken = $Script:AccessToken,
 
-        [Parameter(Mandatory = $false, Position = 3 )]
+        [Parameter(Mandatory = $false)]
+        [string] $SAS = $Script:SAS,
+
+        [Parameter(Mandatory = $false)]
         [string] $Blobname = $Script:Blobname,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipeline = $true, Position = 4 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Pipeline', ValueFromPipelineByPropertyName = $true, Position = 4 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipeline = $true)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Pipeline', ValueFromPipelineByPropertyName = $true)]
         [Alias('File')]
+        [Alias('Path')]
         [string] $Filepath,
 
         [switch] $DeleteOnUpload
     )
     BEGIN {
         if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
-            ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Blobname))) {
+            ([string]::IsNullOrEmpty($Blobname)) -or
+            (([string]::IsNullOrEmpty($AccessToken)) -and ([string]::IsNullOrEmpty($SAS)))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
             return
@@ -72,20 +77,30 @@ function Invoke-D365AzureStorageUpload {
         if (Test-PSFFunctionInterrupt) { return }
 
         Invoke-TimeSignal -Start
-
-        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
-
-        $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
-
-        $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
-
-        $blobcontainer = $blobClient.GetContainerReference($Blobname.ToLower());
-
         try {
+
+            if ([string]::IsNullOrEmpty($SAS)) {
+                Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with AccessToken"
+
+                $storageContext = new-AzureStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
+            }
+            else {
+                Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with SAS"
+
+                $conString = $("BlobEndpoint=https://{0}.blob.core.windows.net/;QueueEndpoint=https://{0}.queue.core.windows.net/;FileEndpoint=https://{0}.file.core.windows.net/;TableEndpoint=https://{0}.table.core.windows.net/;SharedAccessSignature={1}" -f $AccountId.ToLower(), $SAS)
+                $storageContext = new-AzureStorageContext -ConnectionString $conString
+            }
+
+            $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
+
+            $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
+
+            $blobContainer = $blobClient.GetContainerReference($Blobname.ToLower());
+        
             Write-PSFMessage -Level Verbose -Message "Start uploading the file to Azure"
 
             $FileName = Split-Path $Filepath -Leaf
-            $blockBlob = $blobcontainer.GetBlockBlobReference($FileName)
+            $blockBlob = $blobContainer.GetBlockBlobReference($FileName)
             $blockBlob.UploadFromFile($Filepath)
 
             if ($DeleteOnUpload) {

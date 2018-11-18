@@ -59,8 +59,11 @@ function Add-D365AzureStorageConfig {
         [Parameter(Mandatory = $true)]
         [string] $AccountId,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ParameterSetName = "AccessToken")]
         [string] $AccessToken,
+
+        [Parameter(Mandatory = $true, ParameterSetName = "SAS")]
+        [string] $SAS,
 
         [Parameter(Mandatory = $true)]
         [Alias('Blob')]
@@ -77,9 +80,12 @@ function Add-D365AzureStorageConfig {
     if (Test-PSFFunctionInterrupt) { return }
 
     
-    $Details = @{AccountId = $AccountId.ToLower(); AccessToken = $AccessToken;
-        Blobname = $Blobname.ToLower();
+    $Details = @{AccountId = $AccountId.ToLower();
+        Blobname           = $Blobname.ToLower();
     }
+
+    if ($PSCmdlet.ParameterSetName -eq "AccessToken") { $Details.AccessToken = $AccessToken }
+    if ($PSCmdlet.ParameterSetName -eq "SAS") { $Details.SAS = $SAS }
 
     $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
 

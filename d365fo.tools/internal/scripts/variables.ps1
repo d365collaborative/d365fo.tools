@@ -103,6 +103,7 @@ if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.a
     $Script:AccountId = $azure.AccountId
     $Script:AccessToken = $azure.AccessToken
     $Script:Blobname = $azure.Blobname
+    $Script:SAS = $azure.SAS
 }
 
 $Script:TfDir = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\"
