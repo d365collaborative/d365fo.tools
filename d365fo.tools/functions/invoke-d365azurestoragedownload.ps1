@@ -57,7 +57,7 @@
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\d365fo.tools".
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -SAS "sv=2018-03-28&si=unlisted&sr=c&sig=AUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
+        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
         
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
         A SAS key is used to gain access to the container and downloading the file from it.

@@ -3,7 +3,7 @@
     , "Get-DeepClone"
     , "Test-TrustedConnection"
     , "Add-D365EnvironmentConfig"
-    , "Select-DefaultView"
+    , "Select-DefaultView"    
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools
