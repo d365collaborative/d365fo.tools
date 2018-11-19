@@ -46,6 +46,23 @@ PS C:\\\> New-D365Bacpac | Invoke-D365AzureStorageUpload @AzureParams
 
 This will get the current Azure Storage Account configuration details and use them as parameters to upload the file to an Azure Storage Account.
 
+### EXAMPLE 3
+```
+New-D365Bacpac | Invoke-D365AzureStorageUpload
+```
+
+This will generate a new bacpac file using the "New-D365Bacpac" cmdlet.
+The file will be uploaded to an Azure Storage Account using the "Invoke-D365AzureStorageUpload" cmdlet.
+This will use the default parameter values that are based on the configuration stored inside "Get-D365ActiveAzureStorageConfig" for the "Invoke-D365AzureStorageUpload" cmdlet.
+
+### EXAMPLE 4
+```
+Invoke-D365AzureStorageUpload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Blobname "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
+```
+
+This will upload the "c:\temp\bacpac\UAT_20180701.bacpac" up to the "backupfiles" container, inside the "miscfiles" Azure Storage Account.
+A SAS key is used to gain access to the container and uploading the file to it.
+
 ## PARAMETERS
 
 ### -AccountId

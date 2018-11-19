@@ -57,6 +57,23 @@ and use them as parameters to download the latest file from an Azure Storage Acc
 Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
 The complete path to the file will returned as output from the cmdlet.
 
+### EXAMPLE 4
+```
+Invoke-D365AzureStorageDownload -GetLatest
+```
+
+This will use the default parameter values that are based on the configuration stored inside "Get-D365ActiveAzureStorageConfig".
+Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\d365fo.tools".
+
+### EXAMPLE 5
+```
+Invoke-D365AzureStorageDownload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
+```
+
+Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
+A SAS key is used to gain access to the container and downloading the file from it.
+The complete path to the file will returned as output from the cmdlet.
+
 ## PARAMETERS
 
 ### -AccountId

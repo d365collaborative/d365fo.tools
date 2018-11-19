@@ -45,6 +45,15 @@ This will add an entry into the list of Azure Storage Accounts that is stored wi
 All configuration objects will be persisted in the system wide configuration store.
 This will enable all users to access the configuration objects and their values.
 
+### EXAMPLE 3
+```
+Add-D365AzureStorageConfig -Name UAT-Exports -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -AccountId "1234" -Blobname "testblob"
+```
+
+This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", SAS "sv=2018-03-28&si=unlisted&sr=c&sig=AUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" and Blob "testblob".
+The SAS key enables you to provide explicit access to a given blob container inside an Azure Storage Account.
+The SAS key can easily be revoked and that way you have control over the access to the container and its content.
+
 ## PARAMETERS
 
 ### -Name
