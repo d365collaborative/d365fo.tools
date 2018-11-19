@@ -49,10 +49,10 @@
         
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
         The complete path to the file will returned as output from the cmdlet.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365AzureStorageDownload -GetLatest
-
+        
         This will use the default parameter values that are based on the configuration stored inside "Get-D365ActiveAzureStorageConfig".
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\d365fo.tools".
         
@@ -62,7 +62,7 @@
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
         A SAS key is used to gain access to the container and downloading the file from it.
         The complete path to the file will returned as output from the cmdlet.
-
+        
     .NOTES
         Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac
         
