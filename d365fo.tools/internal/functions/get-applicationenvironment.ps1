@@ -16,11 +16,11 @@
         
 #>
 function Get-ApplicationEnvironment {
-    $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\bin"
+    $AOSPath = Join-Path $script:ServiceDrive "\AOSService\webroot\bin"
     
     Write-PSFMessage -Level Verbose -Message "Testing if we are running on a AOS server or not"
     if (-not (Test-Path -Path $AOSPath -PathType Container)) {
-        $AOSPath = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "MRProcessService\MRInstallDirectory\Server\Services"
+        $AOSPath = Join-Path $script:ServiceDrive "MRProcessService\MRInstallDirectory\Server\Services"
 
         Write-PSFMessage -Level Verbose -Message "Testing if we are running on a BI / MR server or not"
         if (-not (Test-Path -Path $AOSPath -PathType Container)) {

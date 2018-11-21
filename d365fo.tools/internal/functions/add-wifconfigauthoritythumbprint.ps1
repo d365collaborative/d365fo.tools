@@ -29,7 +29,7 @@ function Add-WIFConfigAuthorityThumbprint
 
     try
     {
-        $wifConfigFile = Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\AOSService\webroot\wif.config"
+        $wifConfigFile = Join-Path $script:ServiceDrive "\AOSService\webroot\wif.config"
 
         [xml]$wifXml = Get-Content $wifConfigFile
 

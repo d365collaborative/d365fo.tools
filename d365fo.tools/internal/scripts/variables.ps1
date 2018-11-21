@@ -2,6 +2,19 @@
 
 Write-PSFMessage -Level Verbose -Message "Gathering all variables to assist the different cmdlets to function"
 
+$serviceDrive = ($env:ServiceDrive) -replace " ", ""
+
+# When a local Tier1 machine is domain joined, the domain users will not have the %ServiceDrive% environment variable
+if([system.string]::IsNullOrEmpty($serviceDrive)) {
+    $serviceDrive = "c:"
+
+    Write-PSFMessage -Level Host -Message "Unable to locate the %ServiceDrive% environment variable. It could indicate that the machine is either not configured with D365FO or that you have domain joined a local Tier1. We have defaulted to <c='em'>c:\</c>"
+    Write-PSFMessage -Level Host -Message "This message will show every time you load the module. If you want to silence this message, please add the ServiceDrive environment variable by executing this command:"
+    Write-PSFHostColor -String '<c="em">[Environment]::SetEnvironmentVariable("ServiceDrive", "C:", "Machine")</c>'
+}
+
+$script:ServiceDrive = $serviceDrive
+
 $Script:IsAdminRuntime = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 $Script:WebConfig = "web.config"
