@@ -56,14 +56,13 @@ function Switch-D365ActiveDatabase {
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = "Master";
+    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $NewDatabaseName;
         SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-    $SqlCommand.CommandText = "SELECT COUNT(1) FROM $NewDatabaseName.dbo.USERINFO WHERE ID = 'Admin'"
-
+    $SqlCommand.CommandText = "SELECT COUNT(1) FROM dbo.USERINFO WHERE ID = 'Admin'"
 
     try {
         Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
@@ -82,7 +81,18 @@ function Switch-D365ActiveDatabase {
         }
     }
     
-    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
+    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = "Master";
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd
+    }
+
+    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
+
+    if($DatabaseServer -like "*database.windows.net") {
+        $commandText = (Get-Content "$script:ModuleRoot\internal\sql\switch-database-tier2.sql") -join [Environment]::NewLine
+    }
+    else {
+        $commandText = (Get-Content "$script:ModuleRoot\internal\sql\switch-database-tier1.sql") -join [Environment]::NewLine
+    }
     
     $sqlCommand.CommandText = $commandText
 

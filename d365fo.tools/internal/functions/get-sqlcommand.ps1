@@ -70,7 +70,7 @@ function Get-SQLCommand {
 
     $null = $Params.Add("Application Name='d365fo.tools'")
     
-    Write-PSFMessage -Level Verbose -Message "Building the SQL connection string." -Target $Params
+    Write-PSFMessage -Level Verbose -Message "Building the SQL connection string." -Target ($Params -join ",")
     $sqlConnection = New-Object System.Data.SqlClient.SqlConnection
 
     try {
