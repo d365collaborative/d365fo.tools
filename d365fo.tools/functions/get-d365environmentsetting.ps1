@@ -24,7 +24,8 @@
         The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
         The call to the dll file gets all relevant details for the installation.
 #>
-function Get-D365EnvironmentSetting {
+function Get-D365EnvironmentSettings {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param ()
 
