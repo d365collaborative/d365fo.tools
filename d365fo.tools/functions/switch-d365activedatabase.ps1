@@ -87,7 +87,12 @@ function Switch-D365ActiveDatabase {
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\switch-database.sql") -join [Environment]::NewLine
+    if($DatabaseServer -like "*database.windows.net") {
+        $commandText = (Get-Content "$script:ModuleRoot\internal\sql\switch-database-tier2.sql") -join [Environment]::NewLine
+    }
+    else {
+        $commandText = (Get-Content "$script:ModuleRoot\internal\sql\switch-database-tier1.sql") -join [Environment]::NewLine
+    }
     
     $sqlCommand.CommandText = $commandText
 

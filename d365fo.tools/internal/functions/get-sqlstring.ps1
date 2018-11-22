@@ -32,7 +32,7 @@ function Get-SqlString {
 
     if ($SqlCommand.CommandType -eq [System.Data.CommandType]::Text) {
         if (-not ($null -eq $SqlCommand.Connection)) {
-            $null = $sbDeclare.Append("USE ").AppendLine($SqlCommand.Connection.Database)
+            $null = $sbDeclare.Append("USE [").Append($SqlCommand.Connection.Database).AppendLine("]")
         }
 
         foreach ($parameter in $SqlCommand.Parameters) {
