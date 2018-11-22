@@ -75,7 +75,7 @@
 
 						'Get-D365Environment',
 						'Get-D365EnvironmentConfig',
-						'Get-D365EnvironmentSetting',
+						'Get-D365EnvironmentSettings',
 						'Get-D365ExposedService',
 
 						'Get-D365InstalledHotfix',
