@@ -1,4 +1,4 @@
-﻿Describe "Get-D365EnvironmentSetting Unit Tests" -Tag "Unit" {
+﻿Describe "Get-D365EnvironmentSettings Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -8,7 +8,7 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Get-D365EnvironmentSetting).ParameterSets.Name | Should -Be '__AllParameterSets'
+			(Get-Command Get-D365EnvironmentSettings).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
 

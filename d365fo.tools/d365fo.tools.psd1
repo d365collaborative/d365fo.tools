@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.4.88'
+    ModuleVersion     = '0.4.89'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -75,7 +75,7 @@
 
 						'Get-D365Environment',
 						'Get-D365EnvironmentConfig',
-						'Get-D365EnvironmentSetting',
+						'Get-D365EnvironmentSettings',
 						'Get-D365ExposedService',
 
 						'Get-D365InstalledHotfix',
