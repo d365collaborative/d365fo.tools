@@ -43,7 +43,7 @@ Aliases:
 
 Required: False
 Position: 2
-Default value: (Join-Path ([System.Environment]::ExpandEnvironmentVariables("%ServiceDrive%")) "\MonAgentData\SingleAgent\Tables")
+Default value: (Join-Path $script:ServiceDrive "\MonAgentData\SingleAgent\Tables")
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
