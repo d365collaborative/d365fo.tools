@@ -54,7 +54,7 @@ function Test-D365Command {
         [string] $CommandText,
 
         [Parameter(Mandatory = $true, Position = 2)]
-        [ValidateSet('Validate', 'ShowParameters')]
+        [ValidateSet('Validate', 'ShowParameters', 'SplatV1', 'SplatV2')]
         [string] $Mode,
 
         [switch] $IncludeHelp
@@ -69,6 +69,10 @@ function Test-D365Command {
     $colorFoundAsterisk = "Green"
     $colorNotFoundAsterisk = "Magenta"
     $colParmValue = "DarkCyan"
+    $colorEqualSign = "DarkGray"
+    $colorVariable = "Green"
+    $colorProperty = "White"
+    $colorCommandNameSplat = "Yellow"
 
     #Match to find the command name: Non-Whitespace until the first whitespace
     $commandMatch = ($CommandText | Select-String '\S+\s*').Matches
@@ -154,7 +158,7 @@ function Test-D365Command {
 
                 "ShowParameters" {
                     foreach ($parmSet in (Get-Command $commandName).ParameterSets) {
-                    # (Get-Command $commandName).ParameterSets | ForEach-Object {
+                        # (Get-Command $commandName).ParameterSets | ForEach-Object {
                         $null = $sb = New-Object System.Text.StringBuilder
                         $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($parmSet.Name)</c> - Parameter List")
                         $null = $sb.Append("<c='$colorCommandName'>$commandName </c>")
@@ -162,7 +166,7 @@ function Test-D365Command {
                         $parmSetParameters = $parmSet.Parameters | Where-Object name -NotIn $commonParameters
         
                         foreach ($parameter in $parmSetParameters) {
-                        # $parmSetParameters | ForEach-Object {
+                            # $parmSetParameters | ForEach-Object {
                             $color = "$colorNonMandatoryParam"
         
                             if ($parameter.IsMandatory -eq $true) { $color = "$colorMandatoryParam" }
@@ -184,10 +188,48 @@ function Test-D365Command {
                     $null = $sbHelp.AppendLine("<c='$colorNonMandatoryParam'>$colorNonMandatoryParam</c> = Optional Parameter")
                     $null = $sbHelp.AppendLine("<c='$colParmValue'>$colParmValue</c> = Parameter value")
                 }
+                "SplatV1" {
+                    foreach ($parmSet in (Get-Command $commandName).ParameterSets) {
+                        $null = $sb = New-Object System.Text.StringBuilder
+                        $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($parmSet.Name)</c> - Parameter List")
+                        
+                        $null = $sb.AppendLine("<c='$colorVariable'>`$params</c> <c='$colorEqualSign'>=</c> <c='$colorProperty'>@{}</c>")
+
+                        $parmSetParameters = $parmSet.Parameters | Where-Object name -NotIn $commonParameters
+        
+                        foreach ($parameter in $parmSetParameters) {
+                            if ($parameter.IsMandatory -eq $true) {
+                                $null = $sb.AppendLine("<c='$colorVariable'>`$params</c><c='$colorProperty'>.$($parameter.Name)</c> <c='$colorEqualSign'>=</c> <c='$colParmValue'>`"SAMPLEVALUE`"</c>")
+                            }
+                        }
+
+                        $null = $sb.Append("<c='$colorCommandNameSplat'>$commandName</c> <c='$colorVariable'>@params</c>")
+                        Write-PSFMessage -Level Host -Message "$($sb.ToString())"
+                    }
+                }
+                "SplatV2" {
+                    foreach ($parmSet in (Get-Command $commandName).ParameterSets) {
+                        $null = $sb = New-Object System.Text.StringBuilder
+                        $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($parmSet.Name)</c> - Parameter List")
+                        $null = $sb.AppendLine("<c='$colorVariable'>`$params</c> <c='$colorEqualSign'>=</c> <c='$colorProperty'>@{</c>")
+                        
+                        $parmSetParameters = $parmSet.Parameters | Where-Object name -NotIn $commonParameters
+        
+                        foreach ($parameter in $parmSetParameters) {
+                            if ($parameter.IsMandatory -eq $true) {
+                                $null = $sb.AppendLine("<c='$colorProperty'>$($parameter.Name)</c> <c='$colorEqualSign'>=</c> <c='$colParmValue'>`"SAMPLEVALUE`"</c>")
+                            }
+                        }
+                        $null = $sb.AppendLine("<c='$colorProperty'>}</c>")
+
+                        $null = $sb.Append("<c='$colorCommandNameSplat'>$commandName</c> <c='$colorVariable'>@params</c>")
+                        Write-PSFMessage -Level Host -Message "$($sb.ToString())"
+                    }
+                }
                 Default {}
             }
 
-            if($sbParmsNotFound.Length -gt 0) {
+            if ($sbParmsNotFound.Length -gt 0) {
                 Write-PSFMessage -Level Host -Message "$($sbParmsNotFound.ToString())"
             }
 
