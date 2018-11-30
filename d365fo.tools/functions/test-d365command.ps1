@@ -26,6 +26,9 @@
         - Validate
         - ShowParameters
         
+    .PARAMETER SplatInput
+        Pass in your hashtable that you use for your command execution and have it validated
+
     .PARAMETER ShowSplatStyleV1
         Include an hashtable splatting for all parameter sets in the output
         
@@ -60,6 +63,14 @@
         This will display all the parameter sets and their individual parameters.
         Will print the coloring help.
         
+    .EXAMPLE
+        PS C:\> $params = @{}
+        PS C:\> $params.DatabaseName = "SAMPLEVALUE"
+        PS C:\> Test-D365Command -CommandText 'Import-D365Bacpac -ImportModeTier2' -SplatInput $params -Mode "Validate"
+
+        This builds a hashtable with a property names "DatabaseName".
+        The hashtable is passed to the cmdlet to be part of the validation.
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         
@@ -74,6 +85,8 @@ function Test-D365Command {
         [Parameter(Mandatory = $true, Position = 2)]
         [ValidateSet('Validate', 'ShowParameters')]
         [string] $Mode,
+
+        [hashtable] $SplatInput,
 
         [switch] $ShowSplatStyleV1,
 
@@ -96,6 +109,10 @@ function Test-D365Command {
     $colorProperty = "White"
     $colorCommandNameSplat = "Yellow"
     $colorComment = "DarkGreen"
+
+    if(-not ($null -eq $SplatInput)) {
+        $CommandText = "$CommandText "+ $(($SplatInput.Keys | % {"-$($_) `"$($SplatInput.Item($_))`""}) -Join " " )
+    }
 
     #Match to find the command name: Non-Whitespace until the first whitespace
     $commandMatch = ($CommandText | Select-String '\S+\s*').Matches
