@@ -28,7 +28,7 @@
         
     .PARAMETER SplatInput
         Pass in your hashtable that you use for your command execution and have it validated
-
+        
     .PARAMETER ShowSplatStyleV1
         Include an hashtable splatting for all parameter sets in the output
         
@@ -67,7 +67,7 @@
         PS C:\> $params = @{}
         PS C:\> $params.DatabaseName = "SAMPLEVALUE"
         PS C:\> Test-D365Command -CommandText 'Import-D365Bacpac -ImportModeTier2' -SplatInput $params -Mode "Validate"
-
+        
         This builds a hashtable with a property names "DatabaseName".
         The hashtable is passed to the cmdlet to be part of the validation.
         
