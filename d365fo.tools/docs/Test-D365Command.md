@@ -13,7 +13,8 @@ Validate or show parameter set details with colored output
 ## SYNTAX
 
 ```
-Test-D365Command [-CommandText] <String> [-Mode] <String> [-IncludeHelp] [<CommonParameters>]
+Test-D365Command [-CommandText] <String> [-Mode] <String> [-ShowSplatStyleV1] [-ShowSplatStyleV2]
+ [-IncludeHelp] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -82,6 +83,47 @@ Aliases:
 Required: True
 Position: 3
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowSplatStyleV1
+Include an hashtable splatting for all parameter sets in the output
+
+The example is built like this:
+PS C:\\\> $params = @{}
+PS C:\\\> $params.PropertyName = "SAMPLEVALUE"
+PS C:\\\> Test-FakeCommand @params
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowSplatStyleV2
+Include an hashtable splatting for all parameter sets in the output
+
+The example is built like this:
+PS C:\\\> $params = @{
+PS C:\\\> PropertyName = "SAMPLEVALUE"
+PS C:\\\> }
+PS C:\\\> Test-FakeCommand @params
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
