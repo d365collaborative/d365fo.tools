@@ -111,7 +111,7 @@ function Test-D365Command {
     $colorComment = "DarkGreen"
 
     if(-not ($null -eq $SplatInput)) {
-        $CommandText = "$CommandText "+ $(($SplatInput.Keys | % {"-$($_) `"$($SplatInput.Item($_))`""}) -Join " " )
+        $CommandText = "$CommandText "+ $(($SplatInput.Keys | ForEach-Object {"-$($_) `"$($SplatInput.Item($_))`""}) -Join " " )
     }
 
     #Match to find the command name: Non-Whitespace until the first whitespace
