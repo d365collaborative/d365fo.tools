@@ -28,16 +28,16 @@
         
     .PARAMETER ShowSplatStyleV1
         Include an hashtable splatting for all parameter sets in the output
-
+        
         The example is built like this:
         PS C:\> $params = @{}
         PS C:\> $params.PropertyName = "SAMPLEVALUE"
         PS C:\> Test-FakeCommand @params
-
-
+        
+        
     .PARAMETER ShowSplatStyleV2
         Include an hashtable splatting for all parameter sets in the output
-
+        
         The example is built like this:
         PS C:\> $params = @{
         PS C:\> PropertyName = "SAMPLEVALUE"
