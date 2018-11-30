@@ -8,6 +8,13 @@
 Write-Host "Working on the machine named: $($env:computername)"
 Write-Host "The user running is: $($env:UserName)"
 
+$modules = @("Pester", "PSFramework", "PSScriptAnalyzer", "Azure.Storage", "AzureAd", "PSNotification")
+
+foreach ($module in $modules) {
+    Write-Host "Importing $module" -ForegroundColor Cyan
+    Import-Module $module -Force -PassThru
+}
+
 (Get-Module -ListAvailable).ModuleBase
 
 & "$PSScriptRoot\..\d365fo.tools\tests\pester.ps1"
