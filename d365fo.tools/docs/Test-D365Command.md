@@ -13,8 +13,8 @@ Validate or show parameter set details with colored output
 ## SYNTAX
 
 ```
-Test-D365Command [-CommandText] <String> [-Mode] <String> [-ShowSplatStyleV1] [-ShowSplatStyleV2]
- [-IncludeHelp] [<CommonParameters>]
+Test-D365Command [-CommandText] <String> [-Mode] <String> [-SplatInput <Hashtable>] [-ShowSplatStyleV1]
+ [-ShowSplatStyleV2] [-IncludeHelp] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,6 +40,17 @@ Test-D365Command -CommandText 'Import-D365Bacpac' -Mode "ShowParameters" -Includ
 
 This will display all the parameter sets and their individual parameters.
 Will print the coloring help.
+
+### EXAMPLE 3
+```
+$params = @{}
+```
+
+PS C:\\\> $params.DatabaseName = "SAMPLEVALUE"
+PS C:\\\> Test-D365Command -CommandText 'Import-D365Bacpac -ImportModeTier2' -SplatInput $params -Mode "Validate"
+
+This builds a hashtable with a property names "DatabaseName".
+The hashtable is passed to the cmdlet to be part of the validation.
 
 ## PARAMETERS
 
@@ -82,6 +93,21 @@ Aliases:
 
 Required: True
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SplatInput
+Pass in your hashtable that you use for your command execution and have it validated
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
