@@ -1,21 +1,22 @@
-﻿<#
-.SYNOPSIS
-Convert an object into a HashTable
-
-.DESCRIPTION
-Convert an object into a HashTable, can be used with json objects to create a HashTable
-
-.PARAMETER InputObject
-The object you want to convert
-
-.EXAMPLE
-PS C:\> $jsonString = '{"Test1":  "Test1","Test2":  "Test2"}'
-PS C:\> $jsonString | ConvertFrom-Json | ConvertTo-Hashtable
-
-.NOTES
-Author: Adam Bertram (@techsnips_io)
-Original blog post with the function explained: https://4sysops.com/archives/convert-json-to-a-powershell-hash-table/
-
+﻿
+<#
+    .SYNOPSIS
+        Convert an object into a HashTable
+        
+    .DESCRIPTION
+        Convert an object into a HashTable, can be used with json objects to create a HashTable
+        
+    .PARAMETER InputObject
+        The object you want to convert
+        
+    .EXAMPLE
+        PS C:\> $jsonString = '{"Test1":  "Test1","Test2":  "Test2"}'
+        PS C:\> $jsonString | ConvertFrom-Json | ConvertTo-Hashtable
+        
+    .NOTES
+        Author: Adam Bertram (@techsnips_io)
+        Original blog post with the function explained: https://4sysops.com/archives/convert-json-to-a-powershell-hash-table/
+        
 #>
 
 function ConvertTo-Hashtable {
