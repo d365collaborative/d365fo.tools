@@ -37,8 +37,8 @@
 
 function Set-D365Tier2Params {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [CmdletBinding()]
-    [OutputType()]
     param (
         [Parameter(Mandatory = $true, Position = 1)]
         [HashTable] $InputObject,
@@ -62,6 +62,6 @@ function Set-D365Tier2Params {
     Write-PSFMessage -Level Verbose -Message "Converted hashtable to json string" -Target $jsonString
 
     Set-PSFConfig -FullName "d365fo.tools.tier2.bacpac.params" -Value $jsonString
-    
+
     if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.tier2.bacpac.params"  -Scope $configScope }
 }

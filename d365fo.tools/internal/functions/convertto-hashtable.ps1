@@ -20,8 +20,8 @@
 #>
 
 function ConvertTo-Hashtable {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [CmdletBinding()]
-    [OutputType('hashtable')]
     param (
         [Parameter(ValueFromPipeline)]
         $InputObject

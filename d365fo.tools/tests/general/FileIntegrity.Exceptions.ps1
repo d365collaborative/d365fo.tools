@@ -21,7 +21,7 @@ $global:MayContainCommand = @{
 	"Write-Verbose" = @('invoke-d365dbsync.ps1')
 	"Write-Warning" = @()
 	"Write-Error"  = @()
-	"Write-Output" = @()
+	"Write-Output" = @('convertto-hashtable.ps1')
 	"Write-Information" = @()
 	"Write-Debug" = @()
 }

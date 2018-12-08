@@ -97,6 +97,7 @@
 						'Get-D365Table',
 						'Get-D365TableField',
 						'Get-D365TableSequence',
+						'Get-D365Tier2Params',
 						'Get-D365TfsUri',
 						'Get-D365TfsWorkspace',
 
@@ -151,10 +152,13 @@
 						'Set-D365FavoriteBookmark',
 						'Set-D365LogicAppConfig',
 						'Set-D365OfflineAuthenticationAdminEmail',
-
+						
 						'Set-D365SDPCleanUp',
 						'Set-D365StartPage',
 						'Set-D365SysAdmin',
+
+						'Set-D365Tier2Params',
+
 						'Set-D365WorkstationMode',
 
 						'Start-D365Environment',
