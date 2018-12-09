@@ -73,7 +73,7 @@
 			$parameter.ParameterSets['ExportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ExportTier2'].Position | Should -Be 3
 			$parameter.ParameterSets['ExportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ExportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ExportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ExportTier2'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
@@ -92,7 +92,7 @@
 			$parameter.ParameterSets['ExportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ExportTier2'].Position | Should -Be 4
 			$parameter.ParameterSets['ExportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ExportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ExportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ExportTier2'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
