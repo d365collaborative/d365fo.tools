@@ -15,10 +15,10 @@
         
         This will create a hashtable with 2 properties.
         It will convert the hashtable into a PSCustomObject
-
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
-
+        
         Original blog post with the function explained:
         https://blogs.msdn.microsoft.com/timid/2013/03/05/converting-pscustomobject-tofrom-hashtables/
 #>
