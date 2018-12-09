@@ -20,6 +20,7 @@
 #>
 
 function ConvertTo-PsCustomObject {
+    [OutputType('[PsCustomObject]')]    
     param (
         [Parameter(Position = 0,Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [object[]] $InputObject
