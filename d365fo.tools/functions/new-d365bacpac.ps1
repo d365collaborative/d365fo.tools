@@ -103,11 +103,11 @@ function New-D365Bacpac {
         [string]$DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 3 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', Position = 3)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', ValueFromPipelineByPropertyName = $true, Position = 3)]
         [string]$SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', Position = 4)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', ValueFromPipelineByPropertyName = $true, Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'ExportTier1', Position = 5 )]
