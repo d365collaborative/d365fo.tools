@@ -114,15 +114,15 @@ function Import-D365Bacpac {
         [string]$DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 3 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 3)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 3)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1', Position = 3)]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 3)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', ValueFromPipelineByPropertyName = $true, Position = 3)]
         [string]$SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 4)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 4)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1', Position = 4)]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 4)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', ValueFromPipelineByPropertyName = $true, Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5 )]
@@ -132,31 +132,31 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $true, Position = 6 )]
         [string]$NewDatabaseName,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 7)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 7)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 7)]
         [string]$AxDeployExtUserPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 8)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 8)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 8)]
         [string]$AxDbAdminPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 9)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 9)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 9)]
         [string]$AxRuntimeUserPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 10)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 10)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 10)]
         [string]$AxMrRuntimeUserPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 11)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 11)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 11)]
         [string]$AxRetailRuntimeUserPwd,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 12)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 12)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 12)]
         [string]$AxRetailDataSyncUserPwd,
         
-        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 13)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 13)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 13)]
         [string]$AxDbReadonlyUserPwd,
         
