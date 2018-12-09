@@ -1,21 +1,22 @@
-﻿<#
-.SYNOPSIS
-Convert a Hashtable into a PSCustomObject
-
-.DESCRIPTION
-Convert a Hashtable into a PSCustomObject
-
-.PARAMETER InputObject
-The hashtable you want to convert
-
-.EXAMPLE
-PS C:\> $params = @{SqlUser = ""; SqlPwd = ""}
-PS C:\> $params | ConvertTo-PsCustomObject
-
-This will create a hashtable with 2 properties.
-It will convert the hashtable into a PSCustomObject
-.NOTES
-General notes
+﻿
+<#
+    .SYNOPSIS
+        Convert a Hashtable into a PSCustomObject
+        
+    .DESCRIPTION
+        Convert a Hashtable into a PSCustomObject
+        
+    .PARAMETER InputObject
+        The hashtable you want to convert
+        
+    .EXAMPLE
+        PS C:\> $params = @{SqlUser = ""; SqlPwd = ""}
+        PS C:\> $params | ConvertTo-PsCustomObject
+        
+        This will create a hashtable with 2 properties.
+        It will convert the hashtable into a PSCustomObject
+    .NOTES
+        General notes
 #>
 
 function ConvertTo-PsCustomObject {

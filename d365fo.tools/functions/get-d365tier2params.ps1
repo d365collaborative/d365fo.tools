@@ -5,12 +5,12 @@
         
     .DESCRIPTION
         Gets a hashtable with all the stored parameters to be used with Import-D365Bacpac or New-D365Bacpac for Tier 2 environments
-    
+        
     .PARAMETER OutputType
         Used to specify the desired object type of the output
-
+        
         The default value is: HashTable
-
+        
         Valid options are:
         HashTable
         PSCustomObject
