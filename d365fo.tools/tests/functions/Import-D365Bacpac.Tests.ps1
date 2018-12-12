@@ -79,7 +79,7 @@
 			$parameter.ParameterSets['ImportOnlyTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportOnlyTier2'].Position | Should -Be 3
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain 'ImportTier1'
 			$parameter.ParameterSets['ImportTier1'].IsMandatory | Should -Be $False
@@ -91,7 +91,7 @@
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 3
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
@@ -110,7 +110,7 @@
 			$parameter.ParameterSets['ImportOnlyTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportOnlyTier2'].Position | Should -Be 4
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportOnlyTier2'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain 'ImportTier1'
 			$parameter.ParameterSets['ImportTier1'].IsMandatory | Should -Be $False
@@ -122,7 +122,7 @@
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 4
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
@@ -173,7 +173,7 @@
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 7
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter AxDbAdminPwd' {
@@ -192,7 +192,7 @@
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 8
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter AxRuntimeUserPwd' {
@@ -211,7 +211,7 @@
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 9
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter AxMrRuntimeUserPwd' {
@@ -230,7 +230,7 @@
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 10
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter AxRetailRuntimeUserPwd' {
@@ -249,7 +249,7 @@
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 11
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter AxRetailDataSyncUserPwd' {
@@ -268,7 +268,7 @@
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 12
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter AxDbReadonlyUserPwd' {
@@ -287,7 +287,7 @@
 			$parameter.ParameterSets['ImportTier2'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].Position | Should -Be 13
 			$parameter.ParameterSets['ImportTier2'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['ImportTier2'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['ImportTier2'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter CustomSqlFile' {

@@ -37,6 +37,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter SplatInput' {
+			$parameter = (Get-Command Test-D365Command).Parameters['SplatInput']
+			$parameter.Name | Should -Be 'SplatInput'
+			$parameter.ParameterType.ToString() | Should -Be System.Collections.Hashtable
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter ShowSplatStyleV1' {
 			$parameter = (Get-Command Test-D365Command).Parameters['ShowSplatStyleV1']
 			$parameter.Name | Should -Be 'ShowSplatStyleV1'
@@ -81,7 +94,7 @@
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -CommandText -Mode
-		__AllParameterSets -CommandText -Mode -ShowSplatStyleV1 -ShowSplatStyleV2 -IncludeHelp
+		__AllParameterSets -CommandText -Mode -SplatInput -ShowSplatStyleV1 -ShowSplatStyleV2 -IncludeHelp
 		#>
 	}
 

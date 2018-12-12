@@ -20,3 +20,5 @@ Set-PSFConfig -FullName "d365fo.tools.environments" -Value @{} -Initialize -Desc
 Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value @{} -Initialize -Description "Object that stores different Azure Storage Account and their details."
 Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value @{} -Initialize -Description "Object that stores the Azure Storage Account details that should be used during the module."
 Set-PSFConfig -FullName "d365fo.tools.active.logic.app" -Value @{} -Initialize -Description "Object that stores the Azure Logic App details that should be used during the module."
+
+Set-PSFConfig -FullName "d365fo.tools.tier2.bacpac.params" -Value "" -Initialize -Description "Object that stores json string from a hashtable with details for the Import-D365Bacpac cmdlet."
