@@ -25,6 +25,6 @@ function Get-D365InstanceName {
     param ()
 
     [PSCustomObject]@{
-        InstanceName = "$($(Get-D365EnvironmentSetting).Infrastructure.HostedServiceName)"
+        InstanceName = "$($(Get-D365EnvironmentSettings).Infrastructure.HostedServiceName)"
     }
 }
