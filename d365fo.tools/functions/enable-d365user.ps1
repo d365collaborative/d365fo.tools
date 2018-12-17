@@ -89,13 +89,13 @@ function Enable-D365User {
         $sqlCommand.Connection.Open()
 
         $reader = $sqlCommand.ExecuteReader()
-
+        $NumAffected = 0
         while ($reader.Read() -eq $true) {
             Write-PSFMessage -Level Verbose -Message "User $($reader.GetString(0)), $($reader.GetString(1)), $($reader.GetString(2)) Updated"
+            $NumAffected++
         }
 
         $reader.Close()
-        $NumAffected = $reader.RecordsAffected
         Write-PSFMessage -Level Verbose -Message "Users updated : $NumAffected"
     }
     catch {
