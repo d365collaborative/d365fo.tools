@@ -87,7 +87,7 @@ function Import-AadUserIntoD365FO {
 
                 $securityAdded = Add-AadUserSecurity $sqlCommand $Id
 
-                Write-PSFMessage -Level Host -Message "User $SignInName Importet"
+                Write-PSFMessage -Level Host -Message "User $SignInName Imported"
 
                 if ($securityAdded -eq $false) {
                     Write-PSFMessage -Level Host -Message "User $SignInName did not get securityRoles"
