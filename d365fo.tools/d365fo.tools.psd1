@@ -85,6 +85,7 @@
 
 						'Get-D365Label',
 						'Get-D365LogicAppConfig',
+						'Get-D365Module',
 						'Get-D365OfflineAuthenticationAdminEmail',
 
 						'Get-D365PackageBundleDetail',
