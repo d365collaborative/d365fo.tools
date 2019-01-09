@@ -1,17 +1,17 @@
 ﻿
 <#
     .SYNOPSIS
-        Get installed package / module from Dynamics 365 Finance & Operations environment
+        Get label file (ids) for packages / modules from Dynamics 365 Finance & Operations environment
         
     .DESCRIPTION
-        Get installed package / module from the machine running the AOS service for Dynamics 365 Finance & Operations
+        Get label file (ids) for packages / modules from the machine running the AOS service for Dynamics 365 Finance & Operations
         
     .PARAMETER Name
-        Name of the package / module that you are looking for
+        Name of the label file (id) that you are looking for
         
-        Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
+        Accepts wildcards for searching. E.g. -Name "Acc*Receivable*"
         
-        Default value is "*" which will search for all packages / modules
+        Default value is "*" which will search for all label file (ids)
         
     .PARAMETER PackageDirectory
         Path to the directory containing the installed package / module
@@ -21,25 +21,27 @@
         Default value is fetched from the current configuration on the machine
         
     .EXAMPLE
-        PS C:\> Get-D365Module
+        PS C:\> Get-D365LabelFile
         
-        Shows the entire list of installed packages / modules located in the default location on the machine
+        Shows the entire list of label file (ids) for all installed packages / modules located in the default location on the machine
         
     .EXAMPLE
-        PS C:\> Get-D365Module -Name "Application*Adaptor"
+        PS C:\> Get-D365LabelFile -Name "Acc*Receivable*"
         
-        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor"
+        Shows the list of label file (ids) for all installed packages / modules where the label file (ids) name fits the search "Acc*Receivable*"
         
         A result set example:
-        ApplicationFoundationFormAdaptor
-        ApplicationPlatformFormAdaptor
-        ApplicationSuiteFormAdaptor
-        ApplicationWorkspacesFormAdaptor
+
+        LabelFileId                        Languages              Module
+        -----------                        ---------              ------
+        AccountsReceivable                 {ar-AE, ar, cs, da...} ApplicationSuite
+        AccountsReceivable_SalesTaxCodesSA {en-US}                ApplicationSuite
+
         
     .EXAMPLE
-        PS C:\> Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
+        PS C:\> Get-D365LabelFile -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
         
-        Shows the entire list of installed packages / modules located in "J:\AOSService\PackagesLocalDirectory" on the machine
+        Shows the list of label file (ids) for all installed packages / modules located in "J:\AOSService\PackagesLocalDirectory" on the machine
         
     .NOTES
         Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages
