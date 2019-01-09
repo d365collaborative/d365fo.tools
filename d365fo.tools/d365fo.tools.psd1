@@ -79,18 +79,18 @@
 						'Get-D365ExposedService',
 
 						'Get-D365InstalledHotfix',
-						'Get-D365InstalledPackage',
+						'Get-D365InstalledPackageOld',
 						'Get-D365InstalledService',
 						'Get-D365InstanceName',
 
-						'Get-D365Label',
+						'Get-D365LabelOld',
 						'Get-D365LabelFile',
 						'Get-D365LogicAppConfig',
 						'Get-D365Module',
 						'Get-D365OfflineAuthenticationAdminEmail',
 
 						'Get-D365PackageBundleDetail',
-						'Get-D365PackageLabelFile',
+						'Get-D365PackageLabelFileOld',
 						'Get-D365ProductInformation',
 
 						'Get-D365Runbook',

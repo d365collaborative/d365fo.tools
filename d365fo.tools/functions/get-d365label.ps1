@@ -64,7 +64,7 @@
         There are several advanced scenarios for this cmdlet. See more on github and the wiki pages.
         
 #>
-function Get-D365Label {
+function Get-D365LabelOld {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 1 )]

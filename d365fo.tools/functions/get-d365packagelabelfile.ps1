@@ -46,7 +46,7 @@
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>
-function Get-D365PackageLabelFile {
+function Get-D365PackageLabelFileOld {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 1 )]
