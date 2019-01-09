@@ -31,7 +31,7 @@ function Get-D365Url {
     )
     
     if ($Force.IsPresent) {
-        $Url = "https://$($(Get-D365EnvironmentSetting).Infrastructure.FullyQualifiedDomainName)"
+        $Url = "https://$($(Get-D365EnvironmentSettings).Infrastructure.FullyQualifiedDomainName)"
     }
     else {
         $Url = $Script:Url
