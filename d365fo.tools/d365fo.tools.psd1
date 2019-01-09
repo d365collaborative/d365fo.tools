@@ -84,6 +84,7 @@
 						'Get-D365InstanceName',
 
 						'Get-D365Label',
+						'Get-D365LabelFile',
 						'Get-D365LogicAppConfig',
 						'Get-D365Module',
 						'Get-D365OfflineAuthenticationAdminEmail',

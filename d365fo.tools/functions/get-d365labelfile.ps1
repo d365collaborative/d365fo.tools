@@ -49,8 +49,7 @@
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>
-function Get-D365Module {
-    [Alias("Get-D365Package")]
+function Get-D365LabelFile {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
@@ -59,7 +58,11 @@ function Get-D365Module {
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [string] $PackageDirectory = $Script:PackageDirectory,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 3 )]
+        [Alias("ModuleName")]
+        [string] $Module = "*",
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
         [string] $Name = "*"
     )
 
@@ -74,6 +77,8 @@ function Get-D365Module {
             return
         }
 
+        if($Name.Substring($Name.Length -1, 1) -ne "*") {$Name = "$Name*"}
+        
         Add-Type -Path $files
 
         Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
@@ -97,15 +102,50 @@ function Get-D365Module {
             Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
         }
 
+        Write-PSFMessage -Level Verbose -Message "Initializing the LabelProvider from the MetadataProvider."
+        $labelProvider = $metadataProvider.LabelFiles
+
+        $res = New-Object 'System.Collections.Generic.Dictionary[string, System.Collections.ArrayList]'
+
         Write-PSFMessage -Level Verbose -Message "Looping through all modules from the MetadataProvider."
         foreach ($obj in $metadataProvider.ModelManifest.ListModules()) {
             Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
-            if ($obj.Name -NotLike $Name) {continue}
+            if ($obj.Name -NotLike $Module) {continue}
 
-            [PSCustomObject]@{
-                Module   = $obj.Name
-                References  = $obj.References
+            Write-PSFMessage -Level Verbose -Message "$($obj.Name)"
+
+            $labelFiles = $labelProvider.ListObjects($obj.Name)
+
+            foreach ($objLabelFile in $labelFiles) {
+                Write-PSFMessage -Level Verbose -Message "$($objLabelFile)"
+
+                if($objLabelFile -like "*.*") {
+                    $chars = $objLabelFile.ToCharArray()
+                    $chars[$objLabelFile.LastIndexOf(".")] = "_"
+                    $objLabelFile = $chars -join ""
+                }
+
+                if ($objLabelFile -NotLike $Name) {continue}
+
+                $labelId = $objLabelFile.Substring(0, $objLabelFile.LastIndexOf("_"))
+                $langString = $objLabelFile.Substring($objLabelFile.LastIndexOf("_") + 1)
+
+                if(-not ($res.ContainsKey($labelId))) {
+                    $null = $res.Add($labelId, (New-object -TypeName "System.Collections.ArrayList"))
+                }
+
+                $null = $res[$labelId].Add($langString)                
             }
+
+            foreach ($item in $res.Keys) {
+
+                [PSCustomObject]@{
+                    LabelFileId   = $item
+                    Languages  = $res[$item]
+                    Module = $obj.Name
+                }
+            }
+            
         }
     }
 
