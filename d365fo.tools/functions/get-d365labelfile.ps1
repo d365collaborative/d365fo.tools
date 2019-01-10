@@ -79,7 +79,7 @@ function Get-D365LabelFile {
             return
         }
 
-        if($Name.Substring($Name.Length -1, 1) -ne "*") {$Name = "$Name*"}
+        # if($Name.Substring($Name.Length -1, 1) -ne "*") {$Name = "$Name*"}
         
         Add-Type -Path $files
 
@@ -127,16 +127,16 @@ function Get-D365LabelFile {
                     $objLabelFile = $chars -join ""
                 }
 
-                if ($objLabelFile -NotLike $Name) {continue}
-
                 $labelId = $objLabelFile.Substring(0, $objLabelFile.LastIndexOf("_"))
                 $langString = $objLabelFile.Substring($objLabelFile.LastIndexOf("_") + 1)
+
+                if ($labelId -NotLike $Name) {continue}
 
                 if(-not ($res.ContainsKey($labelId))) {
                     $null = $res.Add($labelId, (New-object -TypeName "System.Collections.ArrayList"))
                 }
 
-                $null = $res[$labelId].Add($langString)                
+                $null = $res[$labelId].Add($langString)
             }
 
             foreach ($item in $res.Keys) {

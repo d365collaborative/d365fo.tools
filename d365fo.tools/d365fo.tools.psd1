@@ -39,7 +39,7 @@
     # TypesToProcess = @('xml\d365fo.tools.Types.ps1xml')
 
     # Format files (.ps1xml) to be loaded when importing this module
-    # FormatsToProcess = @('xml\d365fo.tools.Format.ps1xml')
+    FormatsToProcess = @('xml\d365fo.tools.Format.ps1xml')
 
     # Functions to export from this module
     FunctionsToExport = @(
@@ -83,6 +83,7 @@
 						'Get-D365InstalledService',
 						'Get-D365InstanceName',
 
+						'Get-D365Label',
 						'Get-D365LabelOld',
 						'Get-D365LabelFile',
 						'Get-D365LogicAppConfig',
