@@ -1,4 +1,4 @@
-﻿Describe "Get-D365PackageLabelFile Unit Tests" -Tag "Unit" {
+﻿Describe "Get-D365PackageLabelFileOld Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -8,11 +8,11 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Get-D365PackageLabelFile).ParameterSets.Name | Should -Be 'Default', 'Specific'
+			(Get-Command Get-D365PackageLabelFileOld).ParameterSets.Name | Should -Be 'Default', 'Specific'
 		}
 		
 		It 'Should have the expected parameter PackageDirectory' {
-			$parameter = (Get-Command Get-D365PackageLabelFile).Parameters['PackageDirectory']
+			$parameter = (Get-Command Get-D365PackageLabelFileOld).Parameters['PackageDirectory']
 			$parameter.Name | Should -Be 'PackageDirectory'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
@@ -31,7 +31,7 @@
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter Name' {
-			$parameter = (Get-Command Get-D365PackageLabelFile).Parameters['Name']
+			$parameter = (Get-Command Get-D365PackageLabelFileOld).Parameters['Name']
 			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
@@ -50,7 +50,7 @@
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter Language' {
-			$parameter = (Get-Command Get-D365PackageLabelFile).Parameters['Language']
+			$parameter = (Get-Command Get-D365PackageLabelFileOld).Parameters['Language']
 			$parameter.Name | Should -Be 'Language'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
