@@ -52,7 +52,7 @@ function Start-D365Environment {
         [string[]] $ComputerName = @($env:computername),
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [switch] $All = [switch]::Present,
+        [switch] $All = $true,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [switch] $Aos,
@@ -68,7 +68,7 @@ function Start-D365Environment {
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
-        $All = ![switch]::Present
+        $All = $false
     }
 
     if ( (-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF))) {
@@ -78,7 +78,7 @@ function Start-D365Environment {
     }
 
     $Params = Get-DeepClone $PSBoundParameters
-    if ($Params.ContainsKey("ComputerName")) {$Params.Remove("ComputerName")}
+    if ($Params.ContainsKey("ComputerName")) {$null = $Params.Remove("ComputerName")}
 
     $Services = Get-ServiceList @Params
 

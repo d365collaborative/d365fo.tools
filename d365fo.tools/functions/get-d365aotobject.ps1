@@ -86,7 +86,7 @@ function Get-D365AOTObject {
         $SearchList = New-Object -TypeName "System.Collections.ArrayList"
 
         foreach ($item in $ObjectType) {
-            if ($SearchInPackages.IsPresent) {
+            if ($SearchInPackages) {
                 $SearchParent = Split-Path $Path -Leaf
 
                 $null = $SearchList.Add((Join-Path "$Path" "\$SearchParent\$item\*.xml"))
@@ -104,7 +104,7 @@ function Get-D365AOTObject {
 
         $Files = Get-ChildItem -Path ($SearchList.ToArray()) -Filter $Name
 
-        if($IncludePath.IsPresent) {
+        if($IncludePath) {
             $Files | Select-PSFObject -TypeName "D365FO.TOOLS.AotObject" "BaseName as Name",
             @{Name = "AotType"; Expression = {Split-Path(Split-Path -Path $_.Fullname -Parent) -leaf }},
             @{Name = "Model"; Expression = {Split-Path(($_.Fullname -Split $SearchParent)[0] ) -leaf }},

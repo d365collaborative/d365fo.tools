@@ -137,7 +137,7 @@ function Invoke-D365AzureStorageDownload {
 
             Write-PSFMessage -Level Verbose -Message "Start download from Azure Storage Account"
 
-            if ($GetLatest.IsPresent) {
+            if ($GetLatest) {
                 $files = $blobContainer.ListBlobs()
                 $File = ($files | Sort-Object -Descending { $_.Properties.LastModified } | Select-Object -First 1)
     

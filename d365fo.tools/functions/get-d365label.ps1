@@ -106,7 +106,7 @@ function Get-D365Label {
                 Value    = $obj.Value
             }
 
-            if ($IncludePath.IsPresent) {
+            if ($IncludePath) {
                 $res | Add-Member -MemberType NoteProperty -Name 'Path' -Value $FilePath
             }
 

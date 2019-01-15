@@ -71,7 +71,7 @@ Function Invoke-D365SqlScript {
     #The TrustedConnection is the real deal breaker. If $true user and password are ignored in Get-SqlCommand.
     $MyInvocation.MyCommand.Parameters.Keys | Get-Variable -ErrorAction Ignore | ForEach-Object { $Params.Add($_.Name, $_.Value) };
     
-    $Params.Remove('FilePath')
+    $null = $Params.Remove('FilePath')
     $Params.TrustedConnection = $UseTrustedConnection
 
     $sqlCommand = Get-SqlCommand @Params

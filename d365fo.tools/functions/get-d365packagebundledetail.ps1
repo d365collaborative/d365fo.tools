@@ -122,7 +122,7 @@ function Get-D365PackageBundleDetail {
         Write-PSFMessage -Level Verbose -Message "Extracting the zip file to $packageTemp" -Target $packageTemp
         Expand-Archive -Path $Path -DestinationPath $packageTemp
 
-        if ($Traverse.IsPresent) {
+        if ($Traverse) {
             $files = Get-ChildItem -Path $packageTemp -Filter "*.axscdp"
             
             foreach ($item in $files) {
@@ -161,7 +161,7 @@ function Get-D365PackageBundleDetail {
                 $Obj = [PSCustomObject]@{Hotfix = $strPackage
                 KBs = ($arrKbs -Join ";")}
 
-                if($IncludeRawManifest.IsPresent) {$Obj.RawManifest = $raw}
+                if($IncludeRawManifest) {$Obj.RawManifest = $raw}
 
                 $Obj | Select-PSFObject -TypeName "D365FO.TOOLS.PackageBundleManifestDetail"
             }
@@ -172,7 +172,7 @@ function Get-D365PackageBundleDetail {
     }
     
     end {
-        if(!$Keepfiles.IsPresent) {
+        if(!$Keepfiles) {
             Remove-Item -Path $packageTemp -Recurse -Force -ErrorAction SilentlyContinue
 
             if(![system.string]::IsNullOrEmpty($tempPathZip)) {

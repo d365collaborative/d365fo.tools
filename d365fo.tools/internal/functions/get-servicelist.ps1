@@ -34,7 +34,7 @@ Function Get-ServiceList {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [switch] $All = [switch]::Present,
+        [switch] $All = $true,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [switch] $Aos,
@@ -50,7 +50,7 @@ Function Get-ServiceList {
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
-        $All = ![switch]::Present
+        $All = $false
     }
 
     Write-PSFMessage -Level Verbose -Message "The PSBoundParameters was" -Target $PSBoundParameters
@@ -62,20 +62,20 @@ Function Get-ServiceList {
 
     [System.Collections.ArrayList]$Services = New-Object -TypeName "System.Collections.ArrayList"
 
-    if ($All.IsPresent) {
+    if ($All) {
         $null = $Services.AddRange(@($aosname, $batchname, $financialname, $dmfname))
     }
     else {
-        if ($Aos.IsPresent) {
+        if ($Aos) {
             $null = $Services.Add($aosname)
         }
-        if ($Batch.IsPresent) {
+        if ($Batch) {
             $null = $Services.Add($batchname)
         }
-        if ($FinancialReporter.IsPresent) {
+        if ($FinancialReporter) {
             $null = $Services.Add($financialname)
         }
-        if ($DMF.IsPresent) {
+        if ($DMF) {
             $null = $Services.Add($dmfname)
         }
     }

@@ -52,7 +52,7 @@ function Stop-D365Environment {
         [string[]] $ComputerName = @($env:computername),
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [switch] $All = [switch]::Present,
+        [switch] $All = $true,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [switch] $Aos,
@@ -78,7 +78,7 @@ function Stop-D365Environment {
     }
 
     $Params = Get-DeepClone $PSBoundParameters
-    if($Params.ContainsKey("ComputerName")){$Params.Remove("ComputerName")}
+    if($Params.ContainsKey("ComputerName")){$null = $Params.Remove("ComputerName")}
 
     $Services = Get-ServiceList @Params
     

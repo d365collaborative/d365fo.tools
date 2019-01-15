@@ -52,7 +52,7 @@ function Invoke-D365ModelUtil {
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
-        [switch] $Import = [switch]::Present
+        [switch] $Import = $true
     )
     
     if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
@@ -61,7 +61,7 @@ function Invoke-D365ModelUtil {
     if (-not (Test-PathExists -Path $executable, $Path -Type Leaf)) {return}
 
     Write-PSFMessage -Level Verbose -Message "Testing the execution mode" -Target $Import
-    if ($Import.IsPresent) {
+    if ($Import) {
         Write-PSFMessage -Level Verbose -Message "Building the parameter options."
         $param = @("-import",
             "-metadatastorepath=`"$MetaDataDir`"",

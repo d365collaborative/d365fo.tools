@@ -59,7 +59,7 @@ function Get-D365Environment {
         [string[]] $ComputerName = @($env:computername),
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [switch] $All = [switch]::Present,
+        [switch] $All = $true,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [switch] $Aos,
@@ -75,17 +75,17 @@ function Get-D365Environment {
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
-        $All = ![switch]::Present
+        $All = $false
     }
 
-    if (!$All.IsPresent -and !$Aos.IsPresent -and !$Batch.IsPresent -and !$FinancialReporter.IsPresent -and !$DMF.IsPresent) {
+    if ( (-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF))) {
         Write-PSFMessage -Level Host -Message "You have to use at least one switch when running this cmdlet. Please run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return
     }
 
     $Params = Get-DeepClone $PSBoundParameters
-    if($Params.ContainsKey("ComputerName")){$Params.Remove("ComputerName")}
+    if($Params.ContainsKey("ComputerName")){$null = $Params.Remove("ComputerName")}
 
     $Services = Get-ServiceList @Params
 
