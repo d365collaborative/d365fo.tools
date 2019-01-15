@@ -41,7 +41,7 @@ function Update-TopologyFile {
     $machine.Name = $env:computername
                 
     $serviceModelList = $machine.ServiceModelList
-    $serviceModelList.RemoveAll()
+    $null = $serviceModelList.RemoveAll()
  
     $instalInfoDll = Join-Path $Path 'Microsoft.Dynamics.AX.AXInstallationInfo.dll'
     [void][System.Reflection.Assembly]::LoadFile($instalInfoDll)

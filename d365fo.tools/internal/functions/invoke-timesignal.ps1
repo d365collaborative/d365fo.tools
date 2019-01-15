@@ -57,7 +57,7 @@ function Invoke-TimeSignal {
             $TimeSpan = New-TimeSpan -End $Time -Start (($Script:TimeSignals)[$Command])
 
             Write-PSFMessage -Level Verbose -Message "Total time spent inside the function was $TimeSpan" -Target $TimeSpan -FunctionName $Command -Tag "TimeSignal"
-            $Script:TimeSignals.Remove($Command)
+            $null = $Script:TimeSignals.Remove($Command)
         }
         else {
             Write-PSFMessage -Level Verbose -Message "The command '$Command' was never started to take part in time measurement."
