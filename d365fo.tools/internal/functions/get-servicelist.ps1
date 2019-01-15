@@ -31,7 +31,9 @@
         
 #>
 Function Get-ServiceList {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
+    
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [switch] $All = $true,

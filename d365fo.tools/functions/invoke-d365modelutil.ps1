@@ -38,7 +38,9 @@
         
 #>
 function Invoke-D365ModelUtil {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     [CmdletBinding()]
+    
     param (
         [Parameter(Mandatory = $True, ParameterSetName = 'Default', Position = 1 )]
         [Alias('Model')]

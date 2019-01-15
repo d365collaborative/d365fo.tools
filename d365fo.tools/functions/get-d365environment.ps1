@@ -52,7 +52,9 @@
         
 #>
 function Get-D365Environment {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
+    
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 1 )]

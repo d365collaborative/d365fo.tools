@@ -45,7 +45,9 @@
 #>
 function Start-D365Environment {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
+    
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 1 )]
