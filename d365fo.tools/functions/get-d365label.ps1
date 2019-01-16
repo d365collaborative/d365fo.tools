@@ -6,20 +6,28 @@
     .DESCRIPTION
         Get label from the label file from the running the Dynamics 365 Finance & Operations instance
         
+    .PARAMETER BinDir
+        The path to the bin directory for the environment
+        
+        Default path is the same as the AOS service PackagesLocalDirectory\bin
+        
+        Default value is fetched from the current configuration on the machine
+
+    .PARAMETER LabelFileId
+        Name / Id of the label "file" that you want to work against
+
+    .PARAMETER Language
+        Name / string representation of the language / culture you want to work against
+
+        Default value is "en-US"
+
     .PARAMETER Name
         Name of the label that you are looking for
         
         Accepts wildcards for searching. E.g. -Name "@PRO59*"
         
         Default value is "*" which will search for all labels
-        
-    .PARAMETER PackageDirectory
-        Path to the directory containing the installed packages / modules for the instance
-        
-        Normally it is located under the AOSService directory in "PackagesLocalDirectory"
-        
-        Default value is fetched from the current configuration on the machine
-        
+
     .EXAMPLE
         PS C:\> Get-D365Label -LabelFileId PRO
         

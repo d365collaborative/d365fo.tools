@@ -5,13 +5,13 @@
         
     .DESCRIPTION
         Get label file (ids) for packages / modules from the machine running the AOS service for Dynamics 365 Finance & Operations
+
+    .PARAMETER BinDir
+        The path to the bin directory for the environment
         
-    .PARAMETER Name
-        Name of the label file (id) that you are looking for
+        Default path is the same as the AOS service PackagesLocalDirectory\bin
         
-        Accepts wildcards for searching. E.g. -Name "Acc*Receivable*"
-        
-        Default value is "*" which will search for all label file (ids)
+        Default value is fetched from the current configuration on the machine
         
     .PARAMETER PackageDirectory
         Path to the directory containing the installed package / module
@@ -20,6 +20,18 @@
         
         Default value is fetched from the current configuration on the machine
         
+    .PARAMETER Module
+        Name of the module that you want to work against
+
+        Default value is "*" which will search for all modules
+    
+    .PARAMETER Name
+        Name of the label file (id) that you are looking for
+        
+        Accepts wildcards for searching. E.g. -Name "Acc*Receivable*"
+        
+        Default value is "*" which will search for all label file (ids)
+
     .EXAMPLE
         PS C:\> Get-D365LabelFile
         
@@ -79,8 +91,6 @@ function Get-D365LabelFile {
             return
         }
 
-        # if($Name.Substring($Name.Length -1, 1) -ne "*") {$Name = "$Name*"}
-        
         Add-Type -Path $files
 
         Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
