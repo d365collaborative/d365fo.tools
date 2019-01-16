@@ -12,39 +12,39 @@
         Default path is the same as the AOS service PackagesLocalDirectory\bin
         
         Default value is fetched from the current configuration on the machine
-
+        
     .PARAMETER LabelFileId
         Name / Id of the label "file" that you want to work against
-
+        
     .PARAMETER Language
         Name / string representation of the language / culture you want to work against
-
+        
         Default value is "en-US"
-
+        
     .PARAMETER Name
         Name of the label that you are looking for
         
         Accepts wildcards for searching. E.g. -Name "@PRO59*"
         
         Default value is "*" which will search for all labels
-
+        
     .EXAMPLE
         PS C:\> Get-D365Label -LabelFileId PRO
         
         Shows the entire list of labels that are available from the PRO label file.
         The language is defaulted to "en-US".
-
+        
     .EXAMPLE
         PS C:\> Get-D365Label -LabelFileId PRO -Language da
         
         Shows the entire list of labels that are available from the PRO label file.
         Shows only all "da" (Danish) labels.
-
+        
     .EXAMPLE
         PS C:\> Get-D365Label -LabelFileId PRO -Name "@PRO59*"
-                
+        
         Shows the labels available from the PRO label file where the name fits the search "@PRO59*"
-
+        
         A result set example:
         
         Name                 Value                                                                            Language
@@ -57,13 +57,13 @@
         @PRO590              Constant pack qty                                                                en-US
         @PRO593              Pack proposal release in BOM unit.                                               en-US
         @PRO598              Pack quantity now being released for the production in the packing unit.         en-US
-
+        
     .EXAMPLE
         PS C:\> Get-D365Label -LabelFileId PRO -Name "@PRO59*" -Language da,en-us
-            
+        
         Shows the labels available from the PRO label file where the name fits the search "@PRO59*".
         Shows for both "da" (Danish) and en-US (English)
-
+        
     .NOTES
         Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages, Labels
         

@@ -12,14 +12,14 @@
         Default path is the same as the AOS service PackagesLocalDirectory\bin
         
         Default value is fetched from the current configuration on the machine
-
+        
     .PARAMETER PackageDirectory
         Path to the directory containing the installed package / module
         
         Normally it is located under the AOSService directory in "PackagesLocalDirectory"
         
         Default value is fetched from the current configuration on the machine
-
+        
     .PARAMETER Name
         Name of the package / module that you are looking for
         

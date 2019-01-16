@@ -5,7 +5,7 @@
         
     .DESCRIPTION
         Get label file (ids) for packages / modules from the machine running the AOS service for Dynamics 365 Finance & Operations
-
+        
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -22,16 +22,16 @@
         
     .PARAMETER Module
         Name of the module that you want to work against
-
+        
         Default value is "*" which will search for all modules
-    
+        
     .PARAMETER Name
         Name of the label file (id) that you are looking for
         
         Accepts wildcards for searching. E.g. -Name "Acc*Receivable*"
         
         Default value is "*" which will search for all label file (ids)
-
+        
     .EXAMPLE
         PS C:\> Get-D365LabelFile
         
@@ -43,12 +43,12 @@
         Shows the list of label file (ids) for all installed packages / modules where the label file (ids) name fits the search "Acc*Receivable*"
         
         A result set example:
-
+        
         LabelFileId                        Languages              Module
         -----------                        ---------              ------
         AccountsReceivable                 {ar-AE, ar, cs, da...} ApplicationSuite
         AccountsReceivable_SalesTaxCodesSA {en-US}                ApplicationSuite
-
+        
         
     .EXAMPLE
         PS C:\> Get-D365LabelFile -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
