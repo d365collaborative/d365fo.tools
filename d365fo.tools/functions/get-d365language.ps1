@@ -6,19 +6,19 @@
     .DESCRIPTION
         Get installed languages from the running the Dynamics 365 Finance & Operations instance
         
-    .PARAMETER Name
-        Name of the language that you are looking for 
-        
-        Accepts wildcards for searching. E.g. -Name "fr*"
-        
-        Default value is "*" which will search for all languages
-        
-    .PARAMETER PackageDirectory
-        Path to the directory containing the installed packages / modules for the instance
+    .PARAMETER BinDir
+        Path to the directory containing the BinDir and its assemblies
         
         Normally it is located under the AOSService directory in "PackagesLocalDirectory"
         
         Default value is fetched from the current configuration on the machine
+
+    .PARAMETER Name
+        Name of the language that you are looking for
+        
+        Accepts wildcards for searching. E.g. -Name "fr*"
+        
+        Default value is "*" which will search for all languages
         
     .EXAMPLE
         PS C:\> Get-D365Language
