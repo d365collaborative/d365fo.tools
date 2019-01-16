@@ -7,7 +7,7 @@
         Get installed languages from the running the Dynamics 365 Finance & Operations instance
         
     .PARAMETER Name
-        Name of the language that you are looking for
+        Name of the language that you are looking for 
         
         Accepts wildcards for searching. E.g. -Name "fr*"
         
