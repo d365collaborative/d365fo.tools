@@ -42,7 +42,7 @@
         Shows the entire list of installed packages / modules located in "J:\AOSService\PackagesLocalDirectory" on the machine
         
     .NOTES
-        Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages
+        Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages 
         
         Author: Mötz Jensen (@Splaxi)
         
