@@ -1,4 +1,57 @@
-﻿function Invoke-D365LcsUpload {
+﻿<#
+.SYNOPSIS
+Upload a file to a LCS project
+
+.DESCRIPTION
+Upload a file to a LCS project using the API provided by Microsoft
+
+.PARAMETER ProjectId
+The project id for the Dynamics 365 for Finance & Operations project inside LCS
+
+.PARAMETER ClientId
+The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
+
+.PARAMETER Username
+The username of the account that you want to impersonate
+
+It can either be your personal account or a service account
+
+.PARAMETER Password
+The password of the account that you want to impersonate
+
+.PARAMETER FilePath
+Path to the file that you want to upload to the Asset Library on LCS
+
+.PARAMETER FileType
+Type of file you want to upload
+
+Valid options:
+"DeployablePackage"
+"DatabaseBackup"
+
+.PARAMETER FileName
+Name to be assigned / shown on LCS
+
+.PARAMETER FileDescription
+Description to be assigned / shown on LCS
+
+.PARAMETER LcsApiUri
+URI / URL to the LCS API you want to use
+
+Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+
+Valid options:
+"https://lcsapi.lcs.dynamics.com"
+"https://lcsapi.eu.lcs.dynamics.com"
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+
+function Invoke-D365LcsUpload {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingUserNameAndPassWordParams", "")]
     [CmdletBinding()]
@@ -39,13 +92,19 @@
 
     $authToken = Invoke-AadAuthentication -Resource $LcsApiUri -GrantType $grantType -ClientId $ClientId -Username $Username -Password $Password -Scope $scope
     
+    Write-PSFMessage -Level Verbose -Message "Auth token" -Target $authToken
+
     $bearerToken = "Bearer {0}" -f $authToken
 
     $blobDetails = Start-LcsUpload -Token $bearerToken -ProjectId $ProjectId -FileType $FileType -FilePath $FilePath -LcsApiUri $LcsApiUri -Name $FileName -Description $FileDescription
 
+    Write-PSFMessage -Level Verbose -Message "Start response" -Target $blobDetails
+
     $uploadResponse = Copy-FileToLcsBlob -FilePath $FilePath -FullUri $blobDetails.FileLocation
+
+    Write-PSFMessage -Level Verbose -Message "Upload response" -Target $uploadResponse
 
     $ackResponse = Complete-LcsUpload -Token $bearerToken -ProjectId $ProjectId -AssetId $blobDetails.Id -LcsApiUri $LcsApiUri
 
-    Write-PSFMessage -Level Verbose -Message $ackResponse -Target $ackResponse
+    Write-PSFMessage -Level Verbose -Message "Commit response" -Target $ackResponse
 }
