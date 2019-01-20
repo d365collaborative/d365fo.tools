@@ -84,6 +84,7 @@
 						'Get-D365InstanceName',
 
 						'Get-D365Label',
+						'Get-D365LcsUploadConfig',
 						'Get-D365LogicAppConfig',
 						'Get-D365OfflineAuthenticationAdminEmail',
 
@@ -117,6 +118,8 @@
 						'Invoke-D365DataFlush',
 						'Invoke-D365DBSync',
 						'Invoke-D365InstallLicense',
+
+						'Invoke-D365LcsUpload',
 						'Invoke-D365LogicApp',
 
 						'Invoke-D365ModelUtil',
@@ -150,6 +153,7 @@
 						'Set-D365ClickOnceTrustPrompt',
 
 						'Set-D365FavoriteBookmark',
+						'Set-D365LcsUploadConfig',
 						'Set-D365LogicAppConfig',
 						'Set-D365OfflineAuthenticationAdminEmail',
 						

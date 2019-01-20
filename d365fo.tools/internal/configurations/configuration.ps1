@@ -22,3 +22,11 @@ Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value @{} -
 Set-PSFConfig -FullName "d365fo.tools.active.logic.app" -Value @{} -Initialize -Description "Object that stores the Azure Logic App details that should be used during the module."
 
 Set-PSFConfig -FullName "d365fo.tools.tier2.bacpac.params" -Value "" -Initialize -Description "Object that stores json string from a hashtable with details for the Import-D365Bacpac cmdlet."
+
+Set-PSFConfig -FullName "d365fo.tools.lcs.upload.projectid" -Value "" -Initialize -Description "Project number for the specific LCS project that you want to upload to."
+Set-PSFConfig -FullName "d365fo.tools.lcs.upload.clientid" -Value "" -Initialize -Description "Client Id of the Azure Registered App that you configured to be able to use the API of LCS."
+Set-PSFConfig -FullName "d365fo.tools.lcs.upload.username" -Value "" -Initialize -Description "Username of the account that you want the tools to impersonate. Could be your personal, but you could also have created a `"Service Account`" to be used for the upload."
+Set-PSFConfig -FullName "d365fo.tools.lcs.upload.password" -Value "" -Initialize -Description "Password (clear text) of the user account you want to impersonate."
+Set-PSFConfig -FullName "d365fo.tools.lcs.upload.api.uri" -Value "" -Initialize -Description "URI / URL for the LCS API."
+
+

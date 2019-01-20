@@ -1,20 +1,19 @@
 ﻿function Invoke-D365LcsUpload {
-    #PSAvoidUsingPlainTextForPassword
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
     [CmdletBinding()]
     [OutputType()]
     param(
         [Parameter(Mandatory = $false, Position = 1)]
-        [int]$ProjectId = "",
-
+        [int]$ProjectId = $Script:LcsUploadProjectid,
+        
         [Parameter(Mandatory = $false, Position = 2)]
-        [string] $ClientId = "",
+        [string] $ClientId = $Script:LcsUploadClientid,
 
         [Parameter(Mandatory = $false, Position = 3)]
-        [string] $Username = "",
+        [string] $Username = $Script:LcsUploadUsername,
 
         [Parameter(Mandatory = $false, Position = 4)]
-        [string] $Password = "",
+        [string] $Password = $Script:LcsUploadPassword,
 
         [Parameter(Mandatory = $true, Position = 5)]
         [string]$FilePath,
@@ -31,7 +30,7 @@
 
         [Parameter(Mandatory = $false, Position = 9)]
         [ValidateSet("https://lcsapi.lcs.dynamics.com", "https://lcsapi.eu.lcs.dynamics.com")]
-        [string]$LcsApiUri = "https://lcsapi.lcs.dynamics.com"
+        [string]$LcsApiUri = $Script:LcsUploadApiUri
     )
 
     $scope = "openid"
