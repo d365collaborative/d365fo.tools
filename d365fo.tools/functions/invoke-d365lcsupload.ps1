@@ -109,6 +109,8 @@ function Invoke-D365LcsUpload {
     $grantType = "password"
 
     $authToken = Invoke-AadAuthentication -Resource $LcsApiUri -GrantType $grantType -ClientId $ClientId -Username $Username -Password $Password -Scope $scope
+
+    if (Test-PSFFunctionInterrupt) { return }
     
     Write-PSFMessage -Level Verbose -Message "Auth token" -Target $authToken
 
@@ -116,13 +118,19 @@ function Invoke-D365LcsUpload {
 
     $blobDetails = Start-LcsUpload -Token $bearerToken -ProjectId $ProjectId -FileType $FileType -FilePath $FilePath -LcsApiUri $LcsApiUri -Name $FileName -Description $FileDescription
 
+    if (Test-PSFFunctionInterrupt) { return }
+
     Write-PSFMessage -Level Verbose -Message "Start response" -Target $blobDetails
 
     $uploadResponse = Copy-FileToLcsBlob -FilePath $FilePath -FullUri $blobDetails.FileLocation
 
+    if (Test-PSFFunctionInterrupt) { return }
+
     Write-PSFMessage -Level Verbose -Message "Upload response" -Target $uploadResponse
 
     $ackResponse = Complete-LcsUpload -Token $bearerToken -ProjectId $ProjectId -AssetId $blobDetails.Id -LcsApiUri $LcsApiUri
+
+    if (Test-PSFFunctionInterrupt) { return }
 
     Write-PSFMessage -Level Verbose -Message "Commit response" -Target $ackResponse
 }
