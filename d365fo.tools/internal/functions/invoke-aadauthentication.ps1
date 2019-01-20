@@ -1,4 +1,59 @@
-﻿function Invoke-AadAuthentication {
+﻿<#
+.SYNOPSIS
+Authenticate against Azure Active Directory (AAD)
+
+.DESCRIPTION
+Authenticate against Azure Active Directory (AAD) and retrieve a token
+
+.PARAMETER Resource
+The resource / URL you want the authentication to be valid for
+
+.PARAMETER GrantType
+The type of grant you want the authentication request to be
+
+Valid options (non-validated):
+authorization_code
+refresh_token
+password
+client_credentials
+
+.PARAMETER ClientId
+The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
+
+.PARAMETER ClientSecret
+The secret obtained when you created a secret in relation to the Registered Application from the Azure Portal
+
+.PARAMETER Username
+The username of the account that you want to impersonate
+
+.PARAMETER Password
+The password of the account that you want to impersonate
+
+.PARAMETER Scope
+The scope value to apply to the authentication request
+
+.PARAMETER AuthProviderUri
+The URI / URL for the Authentication Provider you want to authenticate against
+
+Default value is "https://login.microsoftonline.com/common/oauth2"
+
+.EXAMPLE
+PS C:\> Invoke-AadAuthentication -Resource "https://lcsapi.lcs.dynamics.com" -GrantType "password" -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username claire@contoso.com -Password "pass@word1" -Scope openid
+
+This will create a http authentication request against the default AuthProviderUri ("https://login.microsoftonline.com/common/oauth2").
+The request will be for the Resource "https://lcsapi.lcs.dynamics.com".
+The GrantType will be "password".
+The ClientId will "9b4f4503-b970-4ade-abc6-2c086e4c4929".
+The Username is claire@contoso.com, and the Password is "pass@word1".
+The Scope is "openid"
+
+.NOTES
+Tags: Authentication, AAD, Azure Active Directory, Grant, ClientId
+
+Author: Mötz Jensen (@Splaxi)
+#>
+
+function Invoke-AadAuthentication {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingUserNameAndPassWordParams", "")]
     [CmdletBinding()]
