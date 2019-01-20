@@ -1,4 +1,5 @@
 ﻿function New-JsonRequest {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     [OutputType()]
     param (

@@ -1,4 +1,5 @@
 ﻿function Start-LcsUpload {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]

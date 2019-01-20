@@ -32,6 +32,7 @@
         
 #>
 function Convert-HashToArgStringSwitch {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     [CmdletBinding()]
     [OutputType([System.String])]
     param (

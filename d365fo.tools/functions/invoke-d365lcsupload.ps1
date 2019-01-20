@@ -1,5 +1,6 @@
 ﻿function Invoke-D365LcsUpload {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingUserNameAndPassWordParams", "")]
     [CmdletBinding()]
     [OutputType()]
     param(
@@ -45,4 +46,6 @@
     $uploadResponse = Copy-FileToLcsBlob -FilePath $FilePath -FullUri $blobDetails.FileLocation
 
     $ackResponse = Complete-LcsUpload -Token $bearerToken -ProjectId $ProjectId -AssetId $blobDetails.Id -LcsApiUri $LcsApiUri
+
+    Write-PSFMessage -Level Verbose -Message $ackResponse -Target $ackResponse
 }
