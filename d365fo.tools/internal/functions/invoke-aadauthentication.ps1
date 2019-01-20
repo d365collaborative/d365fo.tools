@@ -29,6 +29,8 @@
         [string]$AuthProviderUri = "https://login.microsoftonline.com/common/oauth2"
     )
 
+    Invoke-TimeSignal -Start
+
     $parms = @{}
     $parms.resource = [System.Web.HttpUtility]::UrlEncode($Resource)
     $parms.grant_type = [System.Web.HttpUtility]::UrlEncode($GrantType)
@@ -47,10 +49,19 @@
 
     $body = $body.Substring(1)
 
-    $Authorization = Invoke-RestMethod https://login.microsoftonline.com/common/oauth2/token `
-        -Method Post -ContentType "application/x-www-form-urlencoded" `
-        -Body $body `
-        -ErrorAction STOP
+    Write-PSFMessage -Level Verbose -Message "Authenticating against Azure Active Directory (AAD)." -Target $body
+
+    try {
+        $requestParams = @{Method = "Post"; ContentType = "application/x-www-form-urlencoded";
+                    Body = $body}
+
+        $Authorization = Invoke-RestMethod https://login.microsoftonline.com/common/oauth2/token @requestParams
+    }
+    catch {
+        Write-PSFMessage -Level Host -Message "Something went wrong while working against Azure Active Directory (AAD)" -Exception $PSItem.Exception -Target $body
+        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+        return
+    }
 
     $Authorization.access_token
 }

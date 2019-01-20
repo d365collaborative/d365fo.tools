@@ -35,6 +35,8 @@ function Copy-FileToLcsBlob {
         [System.Uri]$FullUri
     )
 
+    Invoke-TimeSignal -Start
+
     Write-PSFMessage -Level Verbose -Message "Initializing the needed .net objects to work against Azure Blob." -Target $FullUri
     $cloudblob = New-Object -TypeName Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob -ArgumentList @($FullUri)
 
@@ -46,6 +48,8 @@ function Copy-FileToLcsBlob {
         Stop-PSFFunction -Message "Stopping because of errors"
         return
     }
+ 
+    Invoke-TimeSignal -End
     
     $uploadResult
 }

@@ -105,6 +105,8 @@ function Invoke-D365LcsUpload {
         [string]$LcsApiUri = $Script:LcsUploadApiUri
     )
 
+    Invoke-TimeSignal -Start
+
     $scope = "openid"
     $grantType = "password"
 
@@ -133,4 +135,6 @@ function Invoke-D365LcsUpload {
     if (Test-PSFFunctionInterrupt) { return }
 
     Write-PSFMessage -Level Verbose -Message "Commit response" -Target $ackResponse
+
+    Invoke-TimeSignal -End
 }

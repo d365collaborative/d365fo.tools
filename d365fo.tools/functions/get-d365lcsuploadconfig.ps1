@@ -41,6 +41,7 @@ function Get-D365LcsUploadConfig {
         [ValidateSet("HashTable", "PSCustomObject")]
         [string] $OutputType = "HashTable"
     )
+    Invoke-TimeSignal -Start
 
     $res = [Ordered]@{}
 
@@ -59,4 +60,7 @@ function Get-D365LcsUploadConfig {
     else {
         $res | ConvertTo-PsCustomObject
     }
+
+    Invoke-TimeSignal -End
+
 }
