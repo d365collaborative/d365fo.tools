@@ -107,6 +107,12 @@ function Invoke-D365LcsUpload {
 
     Invoke-TimeSignal -Start
 
+    $fileNameExtracted = Split-Path $FilePath -Leaf
+
+    if ($FileName -eq "") {
+        $FileName = $fileNameExtracted
+    }
+
     $scope = "openid"
     $grantType = "password"
 
@@ -118,7 +124,7 @@ function Invoke-D365LcsUpload {
 
     $bearerToken = "Bearer {0}" -f $authToken
 
-    $blobDetails = Start-LcsUpload -Token $bearerToken -ProjectId $ProjectId -FileType $FileType -FilePath $FilePath -LcsApiUri $LcsApiUri -Name $FileName -Description $FileDescription
+    $blobDetails = Start-LcsUpload -Token $bearerToken -ProjectId $ProjectId -FileType $FileType -LcsApiUri $LcsApiUri -Name $FileName -Description $FileDescription
 
     if (Test-PSFFunctionInterrupt) { return }
 
