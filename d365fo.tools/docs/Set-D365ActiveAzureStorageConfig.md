@@ -89,7 +89,7 @@ Accept wildcard characters: False
 ```
 
 ### -Temporary
-Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
+Instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
 
 ```yaml
 Type: SwitchParameter

@@ -53,6 +53,8 @@ The path to the bin directory for the environment
 
 Default path is the same as the AOS service PackagesLocalDirectory\bin
 
+Default value is fetched from the current configuration on the machine
+
 ```yaml
 Type: String
 Parameter Sets: (All)
@@ -94,7 +96,7 @@ Aliases:
 
 Required: False
 Position: 5
-Default value: [switch]::Present
+Default value: True
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

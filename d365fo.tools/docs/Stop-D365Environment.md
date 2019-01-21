@@ -74,7 +74,7 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: [switch]::Present
+Default value: True
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

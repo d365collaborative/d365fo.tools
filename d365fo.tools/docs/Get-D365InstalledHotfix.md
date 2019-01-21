@@ -157,7 +157,7 @@ Author: Mötz Jensen (@Splaxi)
 
 This cmdlet is inspired by the work of "Ievgen Miroshnikov" (twitter: @IevgenMir)
 
-All credits goes to him for showing how to extract these informations
+All credits goes to him for showing how to extract these information
 
 His blog can be found here:
 https://ievgensaxblog.wordpress.com
