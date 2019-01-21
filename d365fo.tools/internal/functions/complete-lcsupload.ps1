@@ -1,34 +1,35 @@
-﻿<#
-.SYNOPSIS
-Complete the upload action in LCS
-
-.DESCRIPTION
-Signal to LCS that the upload of the blob has completed
-
-.PARAMETER Token
-The token to be used for the http request against the LCS API
-
-.PARAMETER ProjectId
-The project id for the Dynamics 365 for Finance & Operations project inside LCS
-
-.PARAMETER AssetId
-The unique id of the asset / file that you are trying to upload to LCS
-
-.PARAMETER LcsApiUri
-URI / URL to the LCS API you want to use
-
-.EXAMPLE
-PS C:\> Complete-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
-
-This will commit the upload process for the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
-The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
-The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-
-.NOTES
-Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Complete the upload action in LCS
+        
+    .DESCRIPTION
+        Signal to LCS that the upload of the blob has completed
+        
+    .PARAMETER Token
+        The token to be used for the http request against the LCS API
+        
+    .PARAMETER ProjectId
+        The project id for the Dynamics 365 for Finance & Operations project inside LCS
+        
+    .PARAMETER AssetId
+        The unique id of the asset / file that you are trying to upload to LCS
+        
+    .PARAMETER LcsApiUri
+        URI / URL to the LCS API you want to use
+        
+    .EXAMPLE
+        PS C:\> Complete-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        
+        This will commit the upload process for the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
+        The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
+        The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
+        
+    .NOTES
+        Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Complete-LcsUpload {

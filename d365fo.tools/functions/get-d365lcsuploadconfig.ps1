@@ -1,36 +1,37 @@
-﻿<#
-.SYNOPSIS
-Get the LCS configuration details
-
-.DESCRIPTION
-Get the LCS configuration details from the configuration store
-
-.PARAMETER OutputType
-The output type you want the cmdlet to return to you
-
-Default value is "HashTable"
-
-Valid options:
-HashTable
-PSCustomObject
-
-.EXAMPLE
-PS C:\> Get-D365LcsUploadConfig
-
-This will return the saved configuration for accessing the LCS API.
-The object return will be a HashTable.
-
-.EXAMPLE
-PS C:\> Get-D365LcsUploadConfig -OutputType "PSCustomObject"
-
-This will return the saved configuration for accessing the LCS API.
-The object return will be a PSCustomObject.
-
-.NOTES
-Tags: Environment, Url, Config, Configuration, LCS, Upload, ClientId
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get the LCS configuration details
+        
+    .DESCRIPTION
+        Get the LCS configuration details from the configuration store
+        
+    .PARAMETER OutputType
+        The output type you want the cmdlet to return to you
+        
+        Default value is "HashTable"
+        
+        Valid options:
+        HashTable
+        PSCustomObject
+        
+    .EXAMPLE
+        PS C:\> Get-D365LcsUploadConfig
+        
+        This will return the saved configuration for accessing the LCS API.
+        The object return will be a HashTable.
+        
+    .EXAMPLE
+        PS C:\> Get-D365LcsUploadConfig -OutputType "PSCustomObject"
+        
+        This will return the saved configuration for accessing the LCS API.
+        The object return will be a PSCustomObject.
+        
+    .NOTES
+        Tags: Environment, Url, Config, Configuration, LCS, Upload, ClientId
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Get-D365LcsUploadConfig {

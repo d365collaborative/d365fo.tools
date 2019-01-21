@@ -1,27 +1,28 @@
-﻿<#
-.SYNOPSIS
-Copy local file to Azure Blob Storage
-
-.DESCRIPTION
-Copy local file to Azure Blob Storage that is used by LCS
-
-.PARAMETER FilePath
-Path to the file you want to upload to the Azure Blob storage
-
-.PARAMETER FullUri
-The full URI, including SAS token and Policy Permissions to the blob
-
-.EXAMPLE
-PS C:\> Copy-FileToLcsBlob -FilePath "C:\temp\d365fo.tools\GOLDEN.bacpac" -FullUri "https://uswedpl1catalog.blob.core.windows.net/...."
-
-This will upload the "C:\temp\d365fo.tools\GOLDEN.bacpac" to the "https://uswedpl1catalog.blob.core.windows.net/...." Blob Storage location.
-It is required that the FullUri contains all the needed SAS tokens and Policy Permissions for the upload to succeed.
-
-.NOTES
-Tags: Azure Blob, LCS, Upload
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Copy local file to Azure Blob Storage
+        
+    .DESCRIPTION
+        Copy local file to Azure Blob Storage that is used by LCS
+        
+    .PARAMETER FilePath
+        Path to the file you want to upload to the Azure Blob storage
+        
+    .PARAMETER FullUri
+        The full URI, including SAS token and Policy Permissions to the blob
+        
+    .EXAMPLE
+        PS C:\> Copy-FileToLcsBlob -FilePath "C:\temp\d365fo.tools\GOLDEN.bacpac" -FullUri "https://uswedpl1catalog.blob.core.windows.net/...."
+        
+        This will upload the "C:\temp\d365fo.tools\GOLDEN.bacpac" to the "https://uswedpl1catalog.blob.core.windows.net/...." Blob Storage location.
+        It is required that the FullUri contains all the needed SAS tokens and Policy Permissions for the upload to succeed.
+        
+    .NOTES
+        Tags: Azure Blob, LCS, Upload
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Copy-FileToLcsBlob {

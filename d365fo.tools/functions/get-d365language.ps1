@@ -12,7 +12,7 @@
         Normally it is located under the AOSService directory in "PackagesLocalDirectory"
         
         Default value is fetched from the current configuration on the machine
-
+        
     .PARAMETER Name
         Name of the language that you are looking for
         
@@ -35,7 +35,7 @@
         fr-BE   French (Belgium)
         fr-CA   French (Canada)
         fr-CH   French (Switzerland)
-            
+        
     .NOTES
         Tags: PackagesLocalDirectory, Servicing, Language, Labels, Label
         

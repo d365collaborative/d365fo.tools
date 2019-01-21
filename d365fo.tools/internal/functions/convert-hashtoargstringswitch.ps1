@@ -1,4 +1,5 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Convert HashTable into an array
         
@@ -22,25 +23,25 @@
         
     .PARAMETER KeepCase
         Instruct the cmdlet to keep the naming case of the properties from the hashtable
-
+        
         Default value is: $true
-
+        
     .EXAMPLE
         PS C:\> $params = @{NoPrompt = $true; CreateParents = $false}
         PS C:\> $arguments = Convert-HashToArgStringSwitch -Inputs $params
         
         This will convert the $params into an array of strings, each with the "-Key:Value" pattern.
         
-        .EXAMPLE
+    .EXAMPLE
         PS C:\> $params = @{NoPrompt = $true; CreateParents = $false}
         PS C:\> $arguments = Convert-HashToArgStringSwitch -InputObject $params -KeyPrefix "&" -ValuePrefix "="
         
         This will convert the $params into an array of strings, each with the "&Key=Value" pattern.
         
     .NOTES
-    Tags: HashTable, Arguments
-    
-            Author: Mötz Jensen (@Splaxi)
+        Tags: HashTable, Arguments
+        
+        Author: Mötz Jensen (@Splaxi)
         
 #>
 

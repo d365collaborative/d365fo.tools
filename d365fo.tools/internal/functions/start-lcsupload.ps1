@@ -1,51 +1,52 @@
-﻿<#
-.SYNOPSIS
-Start the upload process to LCS
-
-.DESCRIPTION
-Start the flow of actions to upload a file to LCS
-
-.PARAMETER Token
-The token to be used for the http request against the LCS API
-
-.PARAMETER ProjectId
-The project id for the Dynamics 365 for Finance & Operations project inside LCS
-
-.PARAMETER FileType
-Type of file you want to upload
-
-Valid options:
-"DeployablePackage"
-"DatabaseBackup"
-
-.PARAMETER Name
-Name to be assigned / shown on LCS
-
-.PARAMETER Description
-Description to be assigned / shown on LCS
-
-.PARAMETER LcsApiUri
-URI / URL to the LCS API you want to use
-
-Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
-
-Valid options:
-"https://lcsapi.lcs.dynamics.com"
-"https://lcsapi.eu.lcs.dynamics.com"
-
-.EXAMPLE
-PS C:\> Start-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "DatabaseBackup" -Name "ReadyForTesting" -Description "Contains all customers & vendors" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
-
-This will contact the NON-EUROPE LCS API and instruct it that we want to upload a new file to the Asset Library.
-The token "Bearer JldjfafLJdfjlfsalfd..." is used to the authorize against the LCS API.
-The ProjectId is 123456789 and FileType is "DatabaseBackup".
-The file will be named "ReadyForTesting" and the Description will be "Contains all customers & vendors".
-
-.NOTES
-Tags: Url, LCS, Upload, Api, Token
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Start the upload process to LCS
+        
+    .DESCRIPTION
+        Start the flow of actions to upload a file to LCS
+        
+    .PARAMETER Token
+        The token to be used for the http request against the LCS API
+        
+    .PARAMETER ProjectId
+        The project id for the Dynamics 365 for Finance & Operations project inside LCS
+        
+    .PARAMETER FileType
+        Type of file you want to upload
+        
+        Valid options:
+        "DeployablePackage"
+        "DatabaseBackup"
+        
+    .PARAMETER Name
+        Name to be assigned / shown on LCS
+        
+    .PARAMETER Description
+        Description to be assigned / shown on LCS
+        
+    .PARAMETER LcsApiUri
+        URI / URL to the LCS API you want to use
+        
+        Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+        
+        Valid options:
+        "https://lcsapi.lcs.dynamics.com"
+        "https://lcsapi.eu.lcs.dynamics.com"
+        
+    .EXAMPLE
+        PS C:\> Start-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "DatabaseBackup" -Name "ReadyForTesting" -Description "Contains all customers & vendors" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        
+        This will contact the NON-EUROPE LCS API and instruct it that we want to upload a new file to the Asset Library.
+        The token "Bearer JldjfafLJdfjlfsalfd..." is used to the authorize against the LCS API.
+        The ProjectId is 123456789 and FileType is "DatabaseBackup".
+        The file will be named "ReadyForTesting" and the Description will be "Contains all customers & vendors".
+        
+    .NOTES
+        Tags: Url, LCS, Upload, Api, Token
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Start-LcsUpload {
