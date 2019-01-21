@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.4.95'
+    ModuleVersion     = '0.5.0'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -89,7 +89,7 @@
 						'Get-D365LabelFile',
 						'Get-D365LcsUploadConfig',
 						'Get-D365LogicAppConfig',
-						
+
 						'Get-D365Module',
 						'Get-D365OfflineAuthenticationAdminEmail',
 
