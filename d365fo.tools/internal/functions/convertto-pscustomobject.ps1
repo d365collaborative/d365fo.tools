@@ -46,6 +46,18 @@ function ConvertTo-PsCustomObject {
 
                 $output
             }
+            elseif ($myHashtable.GetType().Name -eq 'OrderedDictionary') {
+                $output = New-Object -TypeName PsObject
+                Add-Member -InputObject $output -MemberType ScriptMethod -Name AddNote -Value {
+                    Add-Member -InputObject $this -MemberType NoteProperty -Name $args[0] -Value $args[1]
+                }
+
+                $myHashtable.Keys | ForEach-Object {
+                    $output.AddNote($_, $myHashtable.$_)
+                }
+
+                $output
+            }
             else {
                 Write-PSFMessage -Level Warning -Message "Index `$i is not of type [hashtable]" -Target $i
             }

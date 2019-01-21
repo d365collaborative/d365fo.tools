@@ -143,6 +143,14 @@ foreach ($item in (Get-PSFConfig -FullName d365fo.tools.active*)) {
     New-Variable -Name $name -Value $item.Value -Scope Script
 }
 
+foreach ($item in (Get-PSFConfig -FullName d365fo.tools.lcs*)) {
+    $nameTemp = $item.FullName -replace "^d365fo.tools.", ""
+    $name = ($nameTemp -Split "\." | ForEach-Object { (Get-Culture).TextInfo.ToTitleCase($_) } ) -Join ""
+    
+    New-Variable -Name $name -Value $item.Value -Scope Script
+}
+
+
 $maskOutput = @(
     "AccessToken"
 )
