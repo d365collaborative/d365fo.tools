@@ -26,7 +26,7 @@
         Shows the entire list of installed languages that are available from the running instance
         
     .EXAMPLE
-        PS C:\> Get-D365Module -Name "fr*"
+        PS C:\> Get-D365Language -Name "fr*"
         
         Shows the list of installed languages where the name fits the search "fr*"
         
@@ -37,11 +37,16 @@
         fr-CH   French (Switzerland)
             
     .NOTES
-        Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages
+        Tags: PackagesLocalDirectory, Servicing, Language, Labels, Label
         
         Author: Mötz Jensen (@Splaxi)
         
-        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        This cmdlet is inspired by the work of "Pedro Tornich" (twitter: @ptornich)
+        
+        All credits goes to him for showing how to extract these information
+        
+        His github repository can be found here:
+        https://github.com/ptornich/LabelFileGenerator
         
 #>
 function Get-D365Language {

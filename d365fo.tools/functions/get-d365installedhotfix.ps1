@@ -59,16 +59,14 @@
         
         This cmdlet is inspired by the work of "Ievgen Miroshnikov" (twitter: @IevgenMir)
         
-        All credits goes to him for showing how to extract these informations
+        All credits goes to him for showing how to extract these information
         
         His blog can be found here:
         https://ievgensaxblog.wordpress.com
         
         The specific blog post that we based this cmdlet on can be found here:
         https://ievgensaxblog.wordpress.com/2017/11/17/d365foe-get-list-of-installed-metadata-hotfixes-using-metadata-api/
-        
-        
-        
+                
 #>
 function Get-D365InstalledHotfix {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

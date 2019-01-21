@@ -56,11 +56,16 @@
         Shows the list of label file (ids) for all installed packages / modules located in "J:\AOSService\PackagesLocalDirectory" on the machine
         
     .NOTES
-        Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages
+        Tags: PackagesLocalDirectory, Servicing, Language, Labels, Label
         
         Author: Mötz Jensen (@Splaxi)
         
-        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        This cmdlet is inspired by the work of "Pedro Tornich" (twitter: @ptornich)
+        
+        All credits goes to him for showing how to extract these information
+        
+        His github repository can be found here:
+        https://github.com/ptornich/LabelFileGenerator
         
 #>
 function Get-D365LabelFile {

@@ -65,11 +65,16 @@
         Shows for both "da" (Danish) and en-US (English)
         
     .NOTES
-        Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages, Labels
+        Tags: PackagesLocalDirectory, Servicing, Language, Labels, Label
         
         Author: Mötz Jensen (@Splaxi)
         
-        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
+        This cmdlet is inspired by the work of "Pedro Tornich" (twitter: @ptornich)
+        
+        All credits goes to him for showing how to extract these information
+        
+        His github repository can be found here:
+        https://github.com/ptornich/LabelFileGenerator
         
 #>
 function Get-D365Label {
@@ -103,7 +108,8 @@ function Get-D365Label {
         foreach ($item in $Language) {
             $culture = New-Object System.Globalization.CultureInfo -ArgumentList $item
 
-            Write-PSFMessage -Level Verbose -Message "Wildcard search"
+            Write-PSFMessage -Level Verbose -Message "Searching for label" -Target $culture
+            
             $labels = [Microsoft.Dynamics.Ax.Xpp.LabelHelper]::GetAllLabels($LabelFileId, $culture)
             
             foreach ($itemLabel in $labels) {
