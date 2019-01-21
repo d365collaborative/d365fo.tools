@@ -4,7 +4,7 @@
     , "Test-TrustedConnection"
     , "Add-D365EnvironmentConfig"
     , "Select-DefaultView"
-    . "New-JsonRequest"
+    , "New-JsonRequest"
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools
