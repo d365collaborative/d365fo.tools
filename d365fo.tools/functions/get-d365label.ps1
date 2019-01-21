@@ -1,118 +1,126 @@
 ﻿
 <#
     .SYNOPSIS
-        Get label from the resource file
+        Get label from the label file from Dynamics 365 Finance & Operations environment
         
     .DESCRIPTION
-        Get label details from the resource file
+        Get label from the label file from the running the Dynamics 365 Finance & Operations instance
         
-    .PARAMETER FilePath
-        The path to resource file that you want to get label details from
+    .PARAMETER BinDir
+        The path to the bin directory for the environment
+        
+        Default path is the same as the AOS service PackagesLocalDirectory\bin
+        
+        Default value is fetched from the current configuration on the machine
+        
+    .PARAMETER LabelFileId
+        Name / Id of the label "file" that you want to work against
+        
+    .PARAMETER Language
+        Name / string representation of the language / culture you want to work against
+        
+        Default value is "en-US"
         
     .PARAMETER Name
-        Name of the label you are looking for
+        Name of the label that you are looking for
         
-        Accepts wildcards for searching. E.g. -Name "@PRO*"
+        Accepts wildcards for searching. E.g. -Name "@PRO59*"
         
-        Default value is "*" which will search for all labels in the resource file
-        
-    .PARAMETER Value
-        Value of the label you are looking for
-        
-        Accepts wildcards for searching. E.g. -Name "*Qty*"
-        
-        Default value is "*" which will search for all values in the resource file
-        
-    .PARAMETER IncludePath
-        Switch to indicate whether you want the result set to include the path to the resource file or not
-        
-        Default is OFF - path details will not be part of the output
+        Default value is "*" which will search for all labels
         
     .EXAMPLE
-        PS C:\> Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll"
+        PS C:\> Get-D365Label -LabelFileId PRO
         
-        Will get all labels from the "PRO.resouce.dll" file
-        
-        The language is determined by the path to the resource file and nothing else
-        
-    .EXAMPLE
-        PS C:\> Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Name "@PRO505"
-        
-        Will get the label with the name "@PRO505" from the "PRO.resouce.dll" file
-        
-        The language is determined by the path to the resource file and nothing else
+        Shows the entire list of labels that are available from the PRO label file.
+        The language is defaulted to "en-US".
         
     .EXAMPLE
-        PS C:\> Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Value "*qty*"
+        PS C:\> Get-D365Label -LabelFileId PRO -Language da
         
-        Will get all the labels where the value fits the search "*qty*" from the "PRO.resouce.dll" file
-        
-        The language is determined by the path to the resource file and nothing else
+        Shows the entire list of labels that are available from the PRO label file.
+        Shows only all "da" (Danish) labels.
         
     .EXAMPLE
-        PS C:\> Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "da" | Get-D365Label -value "*batch*" -IncludePath
+        PS C:\> Get-D365Label -LabelFileId PRO -Name "@PRO59*"
         
-        Will get all the labels, across all label files, for the "ApplicationSuite", where the language is "da" and where the label value fits the search "*batch*".
+        Shows the labels available from the PRO label file where the name fits the search "@PRO59*"
         
-        The path to the label file is included in the output.
+        A result set example:
+        
+        Name                 Value                                                                            Language
+        ----                 -----                                                                            --------
+        @PRO59               Indicates if the type of the rebate value.                                       en-US
+        @PRO594              Pack consumption                                                                 en-US
+        @PRO595              Pack qty now being released to production in the BOM unit.                       en-US
+        @PRO596              Pack unit.                                                                       en-US
+        @PRO597              Pack proposal for release in the packing unit.                                   en-US
+        @PRO590              Constant pack qty                                                                en-US
+        @PRO593              Pack proposal release in BOM unit.                                               en-US
+        @PRO598              Pack quantity now being released for the production in the packing unit.         en-US
+        
+    .EXAMPLE
+        PS C:\> Get-D365Label -LabelFileId PRO -Name "@PRO59*" -Language da,en-us
+        
+        Shows the labels available from the PRO label file where the name fits the search "@PRO59*".
+        Shows for both "da" (Danish) and en-US (English)
         
     .NOTES
-        Tags: PackagesLocalDirectory, Label, Labels, Language, Development, Servicing
+        Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages, Labels
         
         Author: Mötz Jensen (@Splaxi)
         
-        There are several advanced scenarios for this cmdlet. See more on github and the wiki pages.
+        The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>
 function Get-D365Label {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 1 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Specific', Position = 1 )]
-        [Alias('Path')]
-        [string] $FilePath,
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
+        [string] $BinDir = "$Script:BinDir\bin",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
-        [string] $Name = "*",
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 2 )]
+        [string] $LabelFileId,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
-        [string] $Value = "*",
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 3 )]
+        [string[]] $Language = "en-US",
 
-        [switch] $IncludePath
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
+        [string] $Name = "*"
     )
 
-    BEGIN {}
+    begin {
+    }
 
-    PROCESS {
-        $assembly = [Reflection.Assembly]::LoadFile($FilePath)
+    process {
+        $files = @((Join-Path -Path $BinDir -ChildPath "Microsoft.Dynamics.AX.Xpp.AxShared.dll"))
+        
+        if (-not (Test-PathExists -Path $files -Type Leaf)) {
+            return
+        }
 
-        $resNames = $assembly.GetManifestResourceNames()
-        $resname = $resNames[0].Replace(".resources", "")
-        $resLanguage = $resname.Split(".")[1]
+        Add-Type -Path $files
 
-        $resMan = New-Object -TypeName System.Resources.ResourceManager -ArgumentList $resname, $assembly
+        foreach ($item in $Language) {
+            $culture = New-Object System.Globalization.CultureInfo -ArgumentList $item
 
-        $language = New-Object System.Globalization.CultureInfo -ArgumentList "en-US"
-        $resources = $resMan.GetResourceSet($language, $true, $true)
+            Write-PSFMessage -Level Verbose -Message "Wildcard search"
+            $labels = [Microsoft.Dynamics.Ax.Xpp.LabelHelper]::GetAllLabels($LabelFileId, $culture)
+            
+            foreach ($itemLabel in $labels) {
+                foreach ($key in $itemLabel.Keys) {
+                    if ($key -notlike $Name) { continue }
 
-        foreach ($obj in $resources) {
-            if ($obj.Name -NotLike $Name) { continue }
-            if ($obj.Value -NotLike $Value) { continue }
-            $res = [PSCustomObject]@{
-                Name     = $obj.Name
-                Language = $resLanguage
-                Value    = $obj.Value
+                    [PSCustomObject]@{
+                        Name     = $Key
+                        Value    = $itemLabel[$key]
+                        Language = $item
+                        PSTypeName = 'D365FO.TOOLS.Label'
+                    }
+                }
             }
-
-            if ($IncludePath) {
-                $res | Add-Member -MemberType NoteProperty -Name 'Path' -Value $FilePath
-            }
-
-            $res
         }
     }
 
-    END {}
+    end {
+    }
 }

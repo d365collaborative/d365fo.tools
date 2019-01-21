@@ -39,7 +39,7 @@
     # TypesToProcess = @('xml\d365fo.tools.Types.ps1xml')
 
     # Format files (.ps1xml) to be loaded when importing this module
-    # FormatsToProcess = @('xml\d365fo.tools.Format.ps1xml')
+    FormatsToProcess = @('xml\d365fo.tools.Format.ps1xml')
 
     # Functions to export from this module
     FunctionsToExport = @(
@@ -79,17 +79,20 @@
 						'Get-D365ExposedService',
 
 						'Get-D365InstalledHotfix',
-						'Get-D365InstalledPackage',
+						'Get-D365InstalledPackageOld',
 						'Get-D365InstalledService',
 						'Get-D365InstanceName',
 
 						'Get-D365Label',
 						'Get-D365Language',
+						'Get-D365LabelOld',
+						'Get-D365LabelFile',
 						'Get-D365LogicAppConfig',
+						'Get-D365Module',
 						'Get-D365OfflineAuthenticationAdminEmail',
 
 						'Get-D365PackageBundleDetail',
-						'Get-D365PackageLabelFile',
+						'Get-D365PackageLabelFileOld',
 						'Get-D365ProductInformation',
 
 						'Get-D365Runbook',
@@ -180,7 +183,9 @@
     VariablesToExport = ''
 
     # Aliases to export from this module
-    AliasesToExport   = ''
+    AliasesToExport   = @(
+						'Get-D365Package'
+						)
 
     # List of all modules packaged with this module
     ModuleList        = @()

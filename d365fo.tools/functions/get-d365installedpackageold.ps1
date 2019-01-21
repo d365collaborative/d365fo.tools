@@ -49,7 +49,7 @@
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>
-function Get-D365InstalledPackage {
+function Get-D365InstalledPackageOld {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]

@@ -16,6 +16,8 @@
         
         Default path is the same as the AOS service PackagesLocalDirectory\bin
         
+        Default value is fetched from the current configuration on the machine
+        
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
         

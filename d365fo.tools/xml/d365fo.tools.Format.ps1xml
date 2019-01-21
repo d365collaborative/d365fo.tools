@@ -27,5 +27,39 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		<View>
+			<Name>D365FO.TOOLS.Label</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.Label</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Width>20</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>80</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>8</Width>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Value</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Language</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
-<Configuration>
+</Configuration>
