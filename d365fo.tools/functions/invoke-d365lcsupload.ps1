@@ -144,4 +144,9 @@ function Invoke-D365LcsUpload {
     Write-PSFMessage -Level Verbose -Message "Commit response" -Target $ackResponse
 
     Invoke-TimeSignal -End
+
+    [PSCustomObject]@{
+        AssetId = $blobDetails.Id
+        Name = $FileName
+    }
 }
