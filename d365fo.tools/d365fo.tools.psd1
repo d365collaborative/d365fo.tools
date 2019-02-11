@@ -55,6 +55,8 @@
 
 						'Enable-D365MaintenanceMode',
 						'Enable-D365User',
+
+						'Export-D365Model',
 						'Export-D365SecurityDetails',
 
 						'Find-D365Command',
@@ -114,6 +116,7 @@
 
 						'Import-D365AadUser',
 						'Import-D365Bacpac',
+						'Import-D365Model',
 
 						'Initialize-D365TestAutomationCertificate',
 
@@ -127,7 +130,6 @@
 						'Invoke-D365LcsUpload',
 						'Invoke-D365LogicApp',
 
-						'Invoke-D365ModelUtil',
 						'Invoke-D365ReArmWindows',
 						'Invoke-D365RunbookAnalyzer',
 
@@ -146,6 +148,7 @@
 						'New-D365TopologyFile',
 
 						'Remove-D365Database',
+						'Remove-D365Model',
 						'Remove-D365User',
 
 						'Rename-D365Instance',
