@@ -45,7 +45,7 @@ Tags: ModelUtil, Axmodel, Model, Remove, Delete, Source Control, Vsts, Azure Dev
 #>
 
 function Remove-D365Model {
-    # [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     
     param (
