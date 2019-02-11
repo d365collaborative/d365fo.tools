@@ -1,19 +1,20 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Invoke the ModelUtil.exe
         
     .DESCRIPTION
         A cmdlet that wraps some of the cumbersome work into a streamlined process
-
+        
     .PARAMETER Command
         Instruct the cmdlet to what process you want to execute against the ModelUtil tool
-
+        
         Valid options:
         Import
         Export
         Delete
         Replace
-
+        
     .PARAMETER Path
         Used for import to point where to import from
         Used for export to point where to export the model to
@@ -22,10 +23,10 @@
         
     .PARAMETER Model
         Name of the model that you want to work against
-
+        
         Used for export to select the model that you want to export
         Used for delete to select the model that you want to delete
-
+        
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -42,20 +43,20 @@
         PS C:\> Invoke-ModelUtil -Command Import -Path "c:\temp\d365fo.tools\CustomModel.axmodel"
         
         This will execute the import functionality of ModelUtil.exe and have it import the "CustomModel.axmodel" file.
-
-        .EXAMPLE
+        
+    .EXAMPLE
         PS C:\> Invoke-ModelUtil -Command Export -Path "c:\temp\d365fo.tools" -Model CustomModel
         
         This will execute the export functionality of ModelUtil.exe and have it export the "CustomModel" model.
         The file will be placed in "c:\temp\d365fo.tools".
-
-        .EXAMPLE
+        
+    .EXAMPLE
         PS C:\> Invoke-ModelUtil -Command Delete -Model CustomModel
         
         This will execute the delete functionality of ModelUtil.exe and have it delete the "CustomModel" model.
         The folders in PackagesLocalDirectory for the "CustomModel" will NOT be deleted
-
-        .EXAMPLE
+        
+    .EXAMPLE
         PS C:\> Invoke-ModelUtil -Command Replace -Path "c:\temp\d365fo.tools\CustomModel.axmodel"
         
         This will execute the replace functionality of ModelUtil.exe and have it replace the "CustomModel" model.
