@@ -12,10 +12,9 @@
         Import
         Export
         Delete
+        Replace
 
     .PARAMETER Path
-        Path to the model package/file that you want to want to work against
-
         Used for import to point where to import from
         Used for export to point where to export the model to
         
@@ -45,11 +44,11 @@
         This will execute the import functionality of ModelUtil.exe and have it import the "ApplicationSuiteModernDesigns_App73.axmodel" file.
         
     .NOTES
-        Tags: AXModel, Model, ModelUtil, Servicing
+        Tags: AXModel, Model, ModelUtil, Servicing, Import, Export, Delete, Replace
         
         Author: Mötz Jensen (@Splaxi)
-        
 #>
+
 function Invoke-ModelUtil {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
@@ -85,8 +84,6 @@ function Invoke-ModelUtil {
     if (-not (Test-PathExists -Path $executable -Type Leaf)) {
         Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
     }
-
-
 
     [System.Collections.ArrayList] $params = New-Object -TypeName "System.Collections.ArrayList"
     
