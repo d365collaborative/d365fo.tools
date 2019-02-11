@@ -39,9 +39,26 @@
         Default path is the same as the aos service PackagesLocalDirectory
         
     .EXAMPLE
-        PS C:\> Invoke-ModelUtil -Path "c:\temp\d365fo.tools\ApplicationSuiteModernDesigns_App73.axmodel"
+        PS C:\> Invoke-ModelUtil -Command Import -Path "c:\temp\d365fo.tools\CustomModel.axmodel"
         
-        This will execute the import functionality of ModelUtil.exe and have it import the "ApplicationSuiteModernDesigns_App73.axmodel" file.
+        This will execute the import functionality of ModelUtil.exe and have it import the "CustomModel.axmodel" file.
+
+        .EXAMPLE
+        PS C:\> Invoke-ModelUtil -Command Export -Path "c:\temp\d365fo.tools" -Model CustomModel
+        
+        This will execute the export functionality of ModelUtil.exe and have it export the "CustomModel" model.
+        The file will be placed in "c:\temp\d365fo.tools".
+
+        .EXAMPLE
+        PS C:\> Invoke-ModelUtil -Command Delete -Model CustomModel
+        
+        This will execute the delete functionality of ModelUtil.exe and have it delete the "CustomModel" model.
+        The folders in PackagesLocalDirectory for the "CustomModel" will NOT be deleted
+
+        .EXAMPLE
+        PS C:\> Invoke-ModelUtil -Command Replace -Path "c:\temp\d365fo.tools\CustomModel.axmodel"
+        
+        This will execute the replace functionality of ModelUtil.exe and have it replace the "CustomModel" model.
         
     .NOTES
         Tags: AXModel, Model, ModelUtil, Servicing, Import, Export, Delete, Replace
