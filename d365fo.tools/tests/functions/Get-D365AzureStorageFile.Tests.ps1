@@ -37,9 +37,9 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter Blobname' {
-			$parameter = (Get-Command Get-D365AzureStorageFile).Parameters['Blobname']
-			$parameter.Name | Should -Be 'Blobname'
+		It 'Should have the expected parameter Container' {
+			$parameter = (Get-Command Get-D365AzureStorageFile).Parameters['Container']
+			$parameter.Name | Should -Be 'Container'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
@@ -81,7 +81,7 @@
 	Describe "Testing parameterset Default" {
 		<#
 		Default -
-		Default -AccountId -AccessToken -Blobname -Name -GetLatest
+		Default -AccountId -AccessToken -Container -Name -GetLatest
 		#>
 	}
 

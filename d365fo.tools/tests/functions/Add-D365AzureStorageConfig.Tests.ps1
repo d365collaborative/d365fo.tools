@@ -63,9 +63,9 @@
 			$parameter.ParameterSets['SAS'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['SAS'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter Blobname' {
-			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['Blobname']
-			$parameter.Name | Should -Be 'Blobname'
+		It 'Should have the expected parameter Container' {
+			$parameter = (Get-Command Add-D365AzureStorageConfig).Parameters['Container']
+			$parameter.Name | Should -Be 'Container'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
@@ -106,14 +106,14 @@
 	
 	Describe "Testing parameterset AccessToken" {
 		<#
-		AccessToken -Name -AccountId -AccessToken -Blobname
-		AccessToken -Name -AccountId -AccessToken -Blobname -ConfigStorageLocation -Force
+		AccessToken -Name -AccountId -AccessToken -Container
+		AccessToken -Name -AccountId -AccessToken -Container -ConfigStorageLocation -Force
 		#>
 	}
  	Describe "Testing parameterset SAS" {
 		<#
-		SAS -Name -AccountId -SAS -Blobname
-		SAS -Name -AccountId -SAS -Blobname -ConfigStorageLocation -Force
+		SAS -Name -AccountId -SAS -Container
+		SAS -Name -AccountId -SAS -Container -ConfigStorageLocation -Force
 		#>
 	}
 

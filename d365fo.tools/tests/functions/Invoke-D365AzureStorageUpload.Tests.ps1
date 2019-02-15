@@ -50,9 +50,9 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter Blobname' {
-			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['Blobname']
-			$parameter.Name | Should -Be 'Blobname'
+		It 'Should have the expected parameter Container' {
+			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['Container']
+			$parameter.Name | Should -Be 'Container'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
@@ -100,13 +100,13 @@
 	Describe "Testing parameterset Default" {
 		<#
 		Default -Filepath
-		Default -AccountId -AccessToken -SAS -Blobname -Filepath -DeleteOnUpload
+		Default -AccountId -AccessToken -SAS -Container -Filepath -DeleteOnUpload
 		#>
 	}
  	Describe "Testing parameterset Pipeline" {
 		<#
 		Pipeline -Filepath
-		Pipeline -AccountId -AccessToken -SAS -Blobname -Filepath -DeleteOnUpload
+		Pipeline -AccountId -AccessToken -SAS -Container -Filepath -DeleteOnUpload
 		#>
 	}
 
