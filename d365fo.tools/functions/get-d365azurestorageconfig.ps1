@@ -17,7 +17,7 @@
         This will show all Azure Storage Account configs
         
     .NOTES
-        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, Container
         
         Author: Mötz Jensen (@Splaxi)
         

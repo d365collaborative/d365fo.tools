@@ -82,7 +82,7 @@ function Set-D365ActiveAzureStorageConfig {
 
         $Script:AccountId = $azureDetails.AccountId
         $Script:AccessToken = $azureDetails.AccessToken
-        $Script:Blobname = $azureDetails.Blobname
+        $Script:Container = $azureDetails.Container
         $Script:SAS = $azureDetails.SAS
     }
 }

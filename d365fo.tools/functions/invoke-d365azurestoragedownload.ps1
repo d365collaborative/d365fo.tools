@@ -15,8 +15,8 @@
     .PARAMETER SAS
         The SAS key that you have created for the storage account or blob container
         
-    .PARAMETER Blobname
-        Name of the container / blog inside the storage account you where the file is
+    .PARAMETER Container
+        Name of the blob container inside the storage account you where the file is
         
     .PARAMETER FileName
         Name of the file that you want to download
@@ -30,12 +30,12 @@
         Switch to tell the cmdlet just to download the latest file from Azure regardless of name
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
+        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
         
         Will download the "OriginalUAT.bacpac" file from the storage account and save it to "c:\temp\OriginalUAT.bacpac"
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
+        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Path "c:\temp" -GetLatest
         
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
         The complete path to the file will returned as output from the cmdlet.
@@ -57,14 +57,14 @@
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\d365fo.tools".
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
+        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Container "backupfiles" -Path "c:\temp" -GetLatest
         
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
         A SAS key is used to gain access to the container and downloading the file from it.
         The complete path to the file will returned as output from the cmdlet.
         
     .NOTES
-        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac, Container
         
         Author: Mötz Jensen (@Splaxi)
         
@@ -84,7 +84,9 @@ function Invoke-D365AzureStorageDownload {
         [string] $SAS = $Script:SAS,
 
         [Parameter(Mandatory = $false)]
-        [string] $Blobname = $Script:Blobname,
+        [Alias('Blob')]
+        [Alias('Blobname')]
+        [string] $Container = $Script:Container,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true)]
         [Alias('Name')]
@@ -103,7 +105,7 @@ function Invoke-D365AzureStorageDownload {
         }
 
         if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
-            ([string]::IsNullOrEmpty($Blobname)) -or
+            ([string]::IsNullOrEmpty($Container)) -or
             (([string]::IsNullOrEmpty($AccessToken)) -and ([string]::IsNullOrEmpty($SAS)))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
@@ -133,7 +135,7 @@ function Invoke-D365AzureStorageDownload {
 
             $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
 
-            $blobContainer = $blobClient.GetContainerReference($Blobname.ToLower());
+            $blobContainer = $blobClient.GetContainerReference($Container.ToLower());
 
             Write-PSFMessage -Level Verbose -Message "Start download from Azure Storage Account"
 

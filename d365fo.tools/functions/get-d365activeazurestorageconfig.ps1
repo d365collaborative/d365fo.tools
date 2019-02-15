@@ -12,7 +12,7 @@
         This will get the active Azure Storage configuration
         
     .NOTES
-        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, Container
         
         Author: Mötz Jensen (@Splaxi)
         

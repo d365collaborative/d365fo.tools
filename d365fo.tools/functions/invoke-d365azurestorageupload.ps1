@@ -15,8 +15,8 @@
     .PARAMETER SAS
         The SAS key that you have created for the storage account or blob container
         
-    .PARAMETER Blobname
-        Name of the container / blog inside the storage account you want to store the file
+    .PARAMETER Container
+        Name of the blob container inside the storage account you want to store the file
         
     .PARAMETER Filepath
         Path to the file you want to upload
@@ -25,7 +25,7 @@
         Switch to tell the cmdlet if you want the local file to be deleted after the upload completes
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
+        PS C:\> Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
         
         This will upload the "c:\temp\bacpac\UAT_20180701.bacpac" up to the "backupfiles" container, inside the "miscfiles" Azure Storage Account that is access with the "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" token.
         After upload the local file will be deleted.
@@ -44,13 +44,13 @@
         This will use the default parameter values that are based on the configuration stored inside "Get-D365ActiveAzureStorageConfig" for the "Invoke-D365AzureStorageUpload" cmdlet.
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzureStorageUpload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Blobname "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
+        PS C:\> Invoke-D365AzureStorageUpload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Container "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
         
         This will upload the "c:\temp\bacpac\UAT_20180701.bacpac" up to the "backupfiles" container, inside the "miscfiles" Azure Storage Account.
         A SAS key is used to gain access to the container and uploading the file to it.
         
     .NOTES
-        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Bacpac
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Bacpac, Container
         
         Author: Mötz Jensen (@Splaxi)
         
@@ -70,7 +70,9 @@ function Invoke-D365AzureStorageUpload {
         [string] $SAS = $Script:SAS,
 
         [Parameter(Mandatory = $false)]
-        [string] $Blobname = $Script:Blobname,
+        [Alias('Blob')]
+        [Alias('Blobname')]
+        [string] $Container = $Script:Container,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipeline = $true)]
         [Parameter(Mandatory = $true, ParameterSetName = 'Pipeline', ValueFromPipelineByPropertyName = $true)]
@@ -82,7 +84,7 @@ function Invoke-D365AzureStorageUpload {
     )
     BEGIN {
         if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
-            ([string]::IsNullOrEmpty($Blobname)) -or
+            ([string]::IsNullOrEmpty($Container)) -or
             (([string]::IsNullOrEmpty($AccessToken)) -and ([string]::IsNullOrEmpty($SAS)))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
@@ -112,7 +114,7 @@ function Invoke-D365AzureStorageUpload {
 
             $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
 
-            $blobContainer = $blobClient.GetContainerReference($Blobname.ToLower());
+            $blobContainer = $blobClient.GetContainerReference($Container.ToLower());
         
             Write-PSFMessage -Level Verbose -Message "Start uploading the file to Azure"
 

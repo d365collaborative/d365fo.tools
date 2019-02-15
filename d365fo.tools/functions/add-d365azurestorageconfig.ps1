@@ -18,8 +18,8 @@
     .PARAMETER SAS
         The SAS key that you have created for the storage account or blob container
         
-    .PARAMETER Blobname
-        The name of the blob inside the Azure Storage Account you want to register in the configuration store
+    .PARAMETER Container
+        The name of the blob container inside the Azure Storage Account you want to register in the configuration store
         
     .PARAMETER ConfigStorageLocation
         Parameter used to instruct where to store the configuration objects
@@ -36,26 +36,26 @@
         Switch to instruct the cmdlet to overwrite already registered Azure Storage Account entry
         
     .EXAMPLE
-        PS C:\> Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
+        PS C:\> Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Container "testblob"
         
-        This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob".
+        This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and blob container "testblob".
         
     .EXAMPLE
-        PS C:\> Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob" -ConfigStorageLocation "System"
+        PS C:\> Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Container "testblob" -ConfigStorageLocation "System"
         
-        This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob".
+        This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and blob container "testblob".
         All configuration objects will be persisted in the system wide configuration store.
         This will enable all users to access the configuration objects and their values.
         
     .EXAMPLE
-        PS C:\> Add-D365AzureStorageConfig -Name UAT-Exports -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -AccountId "1234" -Blobname "testblob"
+        PS C:\> Add-D365AzureStorageConfig -Name UAT-Exports -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -AccountId "1234" -Container "testblob"
         
-        This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", SAS "sv=2018-03-28&si=unlisted&sr=c&sig=AUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" and Blob "testblob".
+        This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", SAS "sv=2018-03-28&si=unlisted&sr=c&sig=AUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" and blob container "testblob".
         The SAS key enables you to provide explicit access to a given blob container inside an Azure Storage Account.
         The SAS key can easily be revoked and that way you have control over the access to the container and its content.
         
     .NOTES
-        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, Container
         
         Author: Mötz Jensen (@Splaxi)
         
@@ -77,7 +77,8 @@ function Add-D365AzureStorageConfig {
 
         [Parameter(Mandatory = $true)]
         [Alias('Blob')]
-        [string] $Blobname,
+        [Alias('Blobname')]
+        [string] $Container,
 
         [ValidateSet('User', 'System')]
         [string] $ConfigStorageLocation = "User",
@@ -91,7 +92,7 @@ function Add-D365AzureStorageConfig {
 
     
     $Details = @{AccountId = $AccountId.ToLower();
-        Blobname           = $Blobname.ToLower();
+        Container           = $Container.ToLower();
     }
 
     if ($PSCmdlet.ParameterSetName -eq "AccessToken") { $Details.AccessToken = $AccessToken }
@@ -99,7 +100,7 @@ function Add-D365AzureStorageConfig {
         if ($SAS.StartsWith("?")) {
             $SAS = $SAS.Substring(1)
         }
-        
+
         $Details.SAS = $SAS
     }
 

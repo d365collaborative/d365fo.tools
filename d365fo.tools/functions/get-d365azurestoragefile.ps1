@@ -12,8 +12,8 @@
     .PARAMETER AccessToken
         The token that has the needed permissions for the search action
         
-    .PARAMETER Blobname
-        Name of the container / blog inside the storage account you want to look for files
+    .PARAMETER Container
+        Name of the blob container inside the storage account you want to look for files
         
     .PARAMETER Name
         Name of the file you are looking for
@@ -26,17 +26,17 @@
         Switch to instruct the cmdlet to only fetch the latest file from the Azure Storage Account
         
     .EXAMPLE
-        PS C:\> Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles"
+        PS C:\> Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles"
         
-        Will get all files in the blob / container
+        Will get all files in the blob container
         
     .EXAMPLE
-        PS C:\> Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Name "*UAT*"
+        PS C:\> Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Name "*UAT*"
         
-        Will get all files in the blob / container that fits the "*UAT*" search value
+        Will get all files in the blob container that fits the "*UAT*" search value
         
     .NOTES
-        Tags: Azure, Azure Storage, Token, Blob, File
+        Tags: Azure, Azure Storage, Token, Blob, File, Container
         
         Author: Mötz Jensen (@Splaxi)
 #>
@@ -50,7 +50,9 @@ function Get-D365AzureStorageFile {
         [string] $AccessToken = $Script:AccessToken,
 
         [Parameter(Mandatory = $false, Position = 3 )]
-        [string] $Blobname = $Script:Blobname,
+        [Alias('Blob')]
+        [Alias('Blobname')]
+        [string] $Container = $Script:Container,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
         [string] $Name = "*",
@@ -60,7 +62,7 @@ function Get-D365AzureStorageFile {
 
     BEGIN {
         if (([string]::IsNullOrEmpty($AccountId)) -or
-            ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Blobname))) {
+            ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Container))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
             return
@@ -77,7 +79,7 @@ function Get-D365AzureStorageFile {
 
         $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
 
-        $blobcontainer = $blobClient.GetContainerReference($Blobname);
+        $blobcontainer = $blobClient.GetContainerReference($Container);
 
         try {
             $files = $blobcontainer.ListBlobs() | Sort-Object -Descending { $_.Properties.LastModified }

@@ -115,7 +115,7 @@ if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.a
     $azure = Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account"
     $Script:AccountId = $azure.AccountId
     $Script:AccessToken = $azure.AccessToken
-    $Script:Blobname = $azure.Blobname
+    $Script:Container = $azure.Container
     $Script:SAS = $azure.SAS
 }
 
