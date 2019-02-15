@@ -146,6 +146,8 @@ function Invoke-D365AzureStorageDownload {
                 $NewFile = Join-Path $Path $($File.Name)
 
                 $File.DownloadToFile($NewFile, [System.IO.FileMode]::Create)
+
+                $FileName = $File.Name
             }
             else {
                 $NewFile = Join-Path $Path $FileName
