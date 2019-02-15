@@ -26,8 +26,8 @@
         
         The default path is "c:\temp\d365fo.tools"
         
-    .PARAMETER GetLatest
-        Switch to tell the cmdlet just to download the latest file from Azure regardless of name
+    .PARAMETER Latest
+        Instruct the cmdlet to download the latest file from Azure regardless of name
         
     .EXAMPLE
         PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
@@ -35,14 +35,14 @@
         Will download the "OriginalUAT.bacpac" file from the storage account and save it to "c:\temp\OriginalUAT.bacpac"
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Path "c:\temp" -GetLatest
+        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Path "c:\temp" -Latest
         
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
         The complete path to the file will returned as output from the cmdlet.
         
     .EXAMPLE
         PS C:\> $AzureParams = Get-D365ActiveAzureStorageConfig
-        PS C:\> Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
+        PS C:\> Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -Latest
         
         This will get the current Azure Storage Account configuration details
         and use them as parameters to download the latest file from an Azure Storage Account
@@ -51,13 +51,13 @@
         The complete path to the file will returned as output from the cmdlet.
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzureStorageDownload -GetLatest
+        PS C:\> Invoke-D365AzureStorageDownload -Latest
         
         This will use the default parameter values that are based on the configuration stored inside "Get-D365ActiveAzureStorageConfig".
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\d365fo.tools".
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Container "backupfiles" -Path "c:\temp" -GetLatest
+        PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Container "backupfiles" -Path "c:\temp" -Latest
         
         Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
         A SAS key is used to gain access to the container and downloading the file from it.
@@ -96,7 +96,8 @@ function Invoke-D365AzureStorageDownload {
         [string] $Path = $Script:DefaultTempPath,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 4 )]
-        [switch] $GetLatest
+        [Alias('GetLatest')]
+        [switch] $Latest
     )
 
     BEGIN {
@@ -139,7 +140,7 @@ function Invoke-D365AzureStorageDownload {
 
             Write-PSFMessage -Level Verbose -Message "Start download from Azure Storage Account"
 
-            if ($GetLatest) {
+            if ($Latest) {
                 $files = $blobContainer.ListBlobs()
                 $File = ($files | Sort-Object -Descending { $_.Properties.LastModified } | Select-Object -First 1)
     

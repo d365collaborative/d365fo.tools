@@ -17,7 +17,7 @@
         The parameter accepts wildcards. E.g. -Name *hotfix-20181024*
         
     .PARAMETER Latest
-        Switch to instruct the cmdlet to only get the latest runbook file, based on the last written attribute
+        Instruct the cmdlet to only get the latest runbook file, based on the last written attribute
         
     .EXAMPLE
         PS C:\> Get-D365Runbook

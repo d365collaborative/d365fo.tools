@@ -22,8 +22,8 @@
         
         Default value is "*" which will search for all packages
         
-    .PARAMETER GetLatest
-        Switch to instruct the cmdlet to only fetch the latest file from the Azure Storage Account
+    .PARAMETER Latest
+        Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
         
     .EXAMPLE
         PS C:\> Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles"
@@ -57,7 +57,8 @@ function Get-D365AzureStorageFile {
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
         [string] $Name = "*",
 
-        [switch] $GetLatest
+        [Alias('GetLatest')]
+        [switch] $Latest
     )
 
     BEGIN {
@@ -84,7 +85,7 @@ function Get-D365AzureStorageFile {
         try {
             $files = $blobcontainer.ListBlobs() | Sort-Object -Descending { $_.Properties.LastModified }
 
-            if ($GetLatest) {
+            if ($Latest) {
                 $files | Select-Object -First 1
             }
             else {
