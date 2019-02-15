@@ -89,9 +89,9 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter GetLatest' {
-			$parameter = (Get-Command Invoke-D365AzureStorageDownload).Parameters['GetLatest']
-			$parameter.Name | Should -Be 'GetLatest'
+		It 'Should have the expected parameter Latest' {
+			$parameter = (Get-Command Invoke-D365AzureStorageDownload).Parameters['Latest']
+			$parameter.Name | Should -Be 'Latest'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be 'Latest'
@@ -112,8 +112,8 @@
 	}
  	Describe "Testing parameterset Latest" {
 		<#
-		Latest -GetLatest
-		Latest -AccountId -AccessToken -SAS -Container -Path -GetLatest
+		Latest -Latest
+		Latest -AccountId -AccessToken -SAS -Container -Path -Latest
 		#>
 	}
 

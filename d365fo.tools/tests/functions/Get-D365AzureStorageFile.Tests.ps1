@@ -63,9 +63,9 @@
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter GetLatest' {
-			$parameter = (Get-Command Get-D365AzureStorageFile).Parameters['GetLatest']
-			$parameter.Name | Should -Be 'GetLatest'
+		It 'Should have the expected parameter Latest' {
+			$parameter = (Get-Command Get-D365AzureStorageFile).Parameters['Latest']
+			$parameter.Name | Should -Be 'Latest'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
@@ -81,7 +81,7 @@
 	Describe "Testing parameterset Default" {
 		<#
 		Default -
-		Default -AccountId -AccessToken -Container -Name -GetLatest
+		Default -AccountId -AccessToken -Container -Name -Latest
 		#>
 	}
 
