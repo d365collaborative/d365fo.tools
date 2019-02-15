@@ -13,8 +13,8 @@ Get a file from Azure
 ## SYNTAX
 
 ```
-Get-D365AzureStorageFile [[-AccountId] <String>] [[-AccessToken] <String>] [[-Blobname] <String>]
- [[-Name] <String>] [-GetLatest] [<CommonParameters>]
+Get-D365AzureStorageFile [[-AccountId] <String>] [[-AccessToken] <String>] [[-Container] <String>]
+ [[-Name] <String>] [-Latest] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,17 +24,17 @@ Get all files from an Azure Storage Account
 
 ### EXAMPLE 1
 ```
-Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles"
+Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles"
 ```
 
-Will get all files in the blob / container
+Will get all files in the blob container
 
 ### EXAMPLE 2
 ```
-Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Name "*UAT*"
+Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Name "*UAT*"
 ```
 
-Will get all files in the blob / container that fits the "*UAT*" search value
+Will get all files in the blob container that fits the "*UAT*" search value
 
 ## PARAMETERS
 
@@ -68,17 +68,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Blobname
-Name of the container / blog inside the storage account you want to look for files
+### -Container
+Name of the blob container inside the storage account you want to look for files
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: Blobname, Blob
 
 Required: False
 Position: 4
-Default value: $Script:Blobname
+Default value: $Script:Container
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -104,13 +104,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -GetLatest
-Switch to instruct the cmdlet to only fetch the latest file from the Azure Storage Account
+### -Latest
+Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: GetLatest
 
 Required: False
 Position: Named
@@ -128,7 +128,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Tags: Azure, Azure Storage, Token, Blob, File
+Tags: Azure, Azure Storage, Token, Blob, File, Container
 
 Author: Mötz Jensen (@Splaxi)
 

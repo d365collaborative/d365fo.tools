@@ -39,7 +39,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Tags: Azure, Azure Storage, Config, Configuration, Token, Blob
+Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, Container
 
 Author: Mötz Jensen (@Splaxi)
 

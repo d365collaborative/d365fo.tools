@@ -103,7 +103,7 @@ Accept wildcard characters: False
 ```
 
 ### -Latest
-Switch to instruct the cmdlet to only get the latest runbook file, based on the last written attribute
+Instruct the cmdlet to only get the latest runbook file, based on the last written attribute
 
 ```yaml
 Type: SwitchParameter

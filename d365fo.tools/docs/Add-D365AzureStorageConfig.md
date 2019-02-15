@@ -14,13 +14,13 @@ Save an Azure Storage Account config
 
 ### AccessToken
 ```
-Add-D365AzureStorageConfig -Name <String> -AccountId <String> -AccessToken <String> -Blobname <String>
+Add-D365AzureStorageConfig -Name <String> -AccountId <String> -AccessToken <String> -Container <String>
  [-ConfigStorageLocation <String>] [-Force] [<CommonParameters>]
 ```
 
 ### SAS
 ```
-Add-D365AzureStorageConfig -Name <String> -AccountId <String> -SAS <String> -Blobname <String>
+Add-D365AzureStorageConfig -Name <String> -AccountId <String> -SAS <String> -Container <String>
  [-ConfigStorageLocation <String>] [-Force] [<CommonParameters>]
 ```
 
@@ -31,26 +31,26 @@ Adds an Azure Storage Account config to the configuration store
 
 ### EXAMPLE 1
 ```
-Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob"
+Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Container "testblob"
 ```
 
-This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob".
+This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and blob container "testblob".
 
 ### EXAMPLE 2
 ```
-Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Blob "testblob" -ConfigStorageLocation "System"
+Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Container "testblob" -ConfigStorageLocation "System"
 ```
 
-This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and Blob "testblob".
+This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and blob container "testblob".
 All configuration objects will be persisted in the system wide configuration store.
 This will enable all users to access the configuration objects and their values.
 
 ### EXAMPLE 3
 ```
-Add-D365AzureStorageConfig -Name UAT-Exports -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -AccountId "1234" -Blobname "testblob"
+Add-D365AzureStorageConfig -Name UAT-Exports -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -AccountId "1234" -Container "testblob"
 ```
 
-This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", SAS "sv=2018-03-28&si=unlisted&sr=c&sig=AUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" and Blob "testblob".
+This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", SAS "sv=2018-03-28&si=unlisted&sr=c&sig=AUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" and blob container "testblob".
 The SAS key enables you to provide explicit access to a given blob container inside an Azure Storage Account.
 The SAS key can easily be revoked and that way you have control over the access to the container and its content.
 
@@ -116,13 +116,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Blobname
-The name of the blob inside the Azure Storage Account you want to register in the configuration store
+### -Container
+The name of the blob container inside the Azure Storage Account you want to register in the configuration store
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Blob
+Aliases: Blobname, Blob
 
 Required: True
 Position: Named
@@ -178,7 +178,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Tags: Azure, Azure Storage, Config, Configuration, Token, Blob
+Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, Container
 
 Author: Mötz Jensen (@Splaxi)
 

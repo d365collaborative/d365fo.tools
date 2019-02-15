@@ -15,13 +15,13 @@ Download a file to Azure
 ### Default (Default)
 ```
 Invoke-D365AzureStorageDownload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Blobname <String>] -FileName <String> [-Path <String>] [<CommonParameters>]
+ [-Container <String>] -FileName <String> [-Path <String>] [<CommonParameters>]
 ```
 
 ### Latest
 ```
 Invoke-D365AzureStorageDownload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Blobname <String>] [-Path <String>] [-GetLatest] [<CommonParameters>]
+ [-Container <String>] [-Path <String>] [-Latest] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,14 +31,14 @@ Download any file to an Azure Storage Account
 
 ### EXAMPLE 1
 ```
-Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
+Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
 ```
 
 Will download the "OriginalUAT.bacpac" file from the storage account and save it to "c:\temp\OriginalUAT.bacpac"
 
 ### EXAMPLE 2
 ```
-Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
+Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Path "c:\temp" -Latest
 ```
 
 Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
@@ -49,7 +49,7 @@ The complete path to the file will returned as output from the cmdlet.
 $AzureParams = Get-D365ActiveAzureStorageConfig
 ```
 
-PS C:\\\> Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -GetLatest
+PS C:\\\> Invoke-D365AzureStorageDownload @AzureParams -Path "c:\temp" -Latest
 
 This will get the current Azure Storage Account configuration details
 and use them as parameters to download the latest file from an Azure Storage Account
@@ -59,7 +59,7 @@ The complete path to the file will returned as output from the cmdlet.
 
 ### EXAMPLE 4
 ```
-Invoke-D365AzureStorageDownload -GetLatest
+Invoke-D365AzureStorageDownload -Latest
 ```
 
 This will use the default parameter values that are based on the configuration stored inside "Get-D365ActiveAzureStorageConfig".
@@ -67,7 +67,7 @@ Will download the file with the latest modified datetime from the storage accoun
 
 ### EXAMPLE 5
 ```
-Invoke-D365AzureStorageDownload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Blobname "backupfiles" -Path "c:\temp" -GetLatest
+Invoke-D365AzureStorageDownload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Container "backupfiles" -Path "c:\temp" -Latest
 ```
 
 Will download the file with the latest modified datetime from the storage account and save it to "c:\temp\".
@@ -121,17 +121,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Blobname
-Name of the container / blog inside the storage account you where the file is
+### -Container
+Name of the blob container inside the storage account you where the file is
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: Blobname, Blob
 
 Required: False
 Position: Named
-Default value: $Script:Blobname
+Default value: $Script:Container
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -168,13 +168,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -GetLatest
-Switch to tell the cmdlet just to download the latest file from Azure regardless of name
+### -Latest
+Instruct the cmdlet to download the latest file from Azure regardless of name
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Latest
-Aliases:
+Aliases: GetLatest
 
 Required: True
 Position: 5
@@ -192,7 +192,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac
+Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac, Container
 
 Author: Mötz Jensen (@Splaxi)
 
