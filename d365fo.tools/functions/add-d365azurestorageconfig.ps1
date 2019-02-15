@@ -95,7 +95,13 @@ function Add-D365AzureStorageConfig {
     }
 
     if ($PSCmdlet.ParameterSetName -eq "AccessToken") { $Details.AccessToken = $AccessToken }
-    if ($PSCmdlet.ParameterSetName -eq "SAS") { $Details.SAS = $SAS }
+    if ($PSCmdlet.ParameterSetName -eq "SAS") {
+        if ($SAS.StartsWith("?")) {
+            $SAS = $SAS.Substring(1)
+        }
+        
+        $Details.SAS = $SAS
+    }
 
     $Accounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
 
