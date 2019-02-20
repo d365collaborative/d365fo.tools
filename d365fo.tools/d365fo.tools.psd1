@@ -192,7 +192,8 @@
 
     # Aliases to export from this module
     AliasesToExport   = @(
-						'Get-D365Package'
+						'Get-D365Package',
+						'Get-D365Model'
 						)
 
     # List of all modules packaged with this module

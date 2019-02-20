@@ -58,6 +58,10 @@ function Export-D365Model {
 
     Invoke-TimeSignal -Start
     
+    if($Path.EndsWith("\")) {
+        $Path = $Path.Substring(0, $Path.Length - 1)
+    }
+
     Invoke-ModelUtil -Command "Export" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model
     
     Invoke-TimeSignal -End

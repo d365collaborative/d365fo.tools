@@ -58,6 +58,7 @@
 #>
 function Get-D365Module {
     [Alias("Get-D365Package")]
+    [Alias("Get-D365Model")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
