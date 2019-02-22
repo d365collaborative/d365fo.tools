@@ -82,7 +82,7 @@ function Invoke-AadAuthentication {
         [string] $Scope,
 
         [Parameter(Mandatory = $false, Position = 8)]
-        [string]$AuthProviderUri = "https://login.microsoftonline.com/common/oauth2"
+        [string] $AuthProviderUri = "https://login.microsoftonline.com/common/oauth2/token"
     )
 
     Invoke-TimeSignal -Start
@@ -111,7 +111,7 @@ function Invoke-AadAuthentication {
         $requestParams = @{Method = "Post"; ContentType = "application/x-www-form-urlencoded";
                     Body = $body}
 
-        $Authorization = Invoke-RestMethod https://login.microsoftonline.com/common/oauth2/token @requestParams
+        $Authorization = Invoke-RestMethod $AuthProviderUri @requestParams
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against Azure Active Directory (AAD)" -Exception $PSItem.Exception -Target $body
