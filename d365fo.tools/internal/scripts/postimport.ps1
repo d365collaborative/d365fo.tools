@@ -21,3 +21,6 @@ foreach ($file in (Get-ChildItem "$ModuleRoot\internal\tepp\*.tepp.ps1" -ErrorAc
 
 # Load Variables
 . Import-ModuleFile -Path "$ModuleRoot\internal\scripts\variables.ps1"
+
+# Add the System.Web type
+Add-Type -AssemblyName System.Web
