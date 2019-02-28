@@ -38,20 +38,21 @@
 function Switch-D365ActiveDatabase {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, Position = 1)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [Parameter(Mandatory = $true, Position = 1)]
+        [string]$NewDatabaseName,
 
         [Parameter(Mandatory = $false, Position = 2)]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string]$DatabaseServer = $Script:DatabaseServer,
 
         [Parameter(Mandatory = $false, Position = 3)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string]$DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
+        [string]$SqlUser = $Script:DatabaseUserName,
+
+        [Parameter(Mandatory = $false, Position = 5)]
+        [string]$SqlPwd = $Script:DatabaseUserPassword
         
-        [Parameter(Mandatory = $true, Position = 5)]
-        [string]$NewDatabaseName
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
