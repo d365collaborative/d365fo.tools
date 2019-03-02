@@ -9,13 +9,13 @@
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
 
     # Author of this module
-    Author            = 'Motz Jensen & Rasmus Andersen'
+    Author            = 'Mötz Jensen & Rasmus Andersen'
 
     # Company or vendor of this module
     CompanyName       = 'Essence Solutions'
 
     # Copyright statement for this module
-    Copyright         = '(c) 2018 Motz Jensen & Rasmus Andersen. All rights reserved.'
+    Copyright         = '(c) 2018 Mötz Jensen & Rasmus Andersen. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description       = 'A set of tools that will assist you when working with Dynamics 365 Finance & Operations development / demo machines.'
