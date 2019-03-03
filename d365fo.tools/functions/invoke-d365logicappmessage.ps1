@@ -22,12 +22,12 @@
         Switch to instruct the cmdlet to run the invocation as a job (async)
         
     .EXAMPLE
-        PS C:\> Invoke-D365SyncDB | Invoke-D365LogicApp
+        PS C:\> Invoke-D365SyncDB | Invoke-D365LogicAppMessage
         
         This will execute the sync process and when it is done it will invoke a Azure Logic App with the default parameters that have been configured for the system.
         
     .EXAMPLE
-        PS C:\> Invoke-D365SyncDB | Invoke-D365LogicApp -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
+        PS C:\> Invoke-D365SyncDB | Invoke-D365LogicAppMessage -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
         
         This will execute the sync process and when it is done it will invoke a Azure Logic App with the email, subject and URL parameters that are needed to invoke an Azure Logic App.
         
@@ -37,7 +37,7 @@
         Author: Mötz Jensen (@Splaxi)
         
 #>
-function Invoke-D365LogicApp {
+function Invoke-D365LogicAppMessage {
     param (
         [string] $Url = (Get-D365LogicAppConfig).Url,
 
