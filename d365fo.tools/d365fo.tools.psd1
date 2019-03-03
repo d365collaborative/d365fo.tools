@@ -128,6 +128,7 @@
 						'Invoke-D365InstallLicense',
 
 						'Invoke-D365LcsUpload',
+						'Invoke-D365LogicApp',
 						'Invoke-D365LogicAppMessage',
 
 						'Invoke-D365ReArmWindows',
