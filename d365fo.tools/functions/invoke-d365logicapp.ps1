@@ -23,7 +23,7 @@
         Author: Mötz Jensen (@Splaxi)
         
 #>
-function Invoke-D365LogicAppNew {
+function Invoke-D365LogicApp {
     param (
         [string] $Url = (Get-D365LogicAppConfig).Url,
 
