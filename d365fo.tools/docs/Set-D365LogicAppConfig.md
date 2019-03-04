@@ -13,7 +13,7 @@ Set the details for the logic app invoke cmdlet
 ## SYNTAX
 
 ```
-Set-D365LogicAppConfig [-Url] <String> [-Email] <String> [-Subject] <String>
+Set-D365LogicAppConfig [-Url] <String> [[-Email] <String>] [[-Subject] <String>]
  [[-ConfigStorageLocation] <String>] [-Temporary] [<CommonParameters>]
 ```
 
@@ -71,7 +71,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
@@ -86,7 +86,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: False

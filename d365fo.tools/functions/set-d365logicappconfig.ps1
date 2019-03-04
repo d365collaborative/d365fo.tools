@@ -58,10 +58,10 @@ function Set-D365LogicAppConfig {
         [Parameter(Mandatory = $true )]
         [string] $Url,
 
-        [Parameter(Mandatory = $true )]
+        [Parameter(Mandatory = $false )]
         [string] $Email,
 
-        [Parameter(Mandatory = $true )]
+        [Parameter(Mandatory = $false )]
         [string] $Subject,
 
         [ValidateSet('User', 'System')]
