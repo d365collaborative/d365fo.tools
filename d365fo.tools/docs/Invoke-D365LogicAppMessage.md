@@ -13,7 +13,8 @@ Invoke a http request for a Logic App
 ## SYNTAX
 
 ```
-Invoke-D365LogicAppMessage [[-Url] <String>] [[-Email] <String>] [[-Subject] <String>] [-IncludeAll] [-AsJob]
+Invoke-D365LogicAppMessage [[-Url] <String>] [[-Email] <String>] [[-Subject] <String>] [[-Message] <String>]
+ [-IncludeAll] [-AsJob]
 ```
 
 ## DESCRIPTION
@@ -78,6 +79,21 @@ Aliases:
 Required: False
 Position: 3
 Default value: (Get-D365LogicAppConfig).Subject
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Message
+The message you want to pass onto the Logic App
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

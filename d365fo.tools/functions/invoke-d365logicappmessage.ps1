@@ -14,7 +14,10 @@
         
     .PARAMETER Subject
         Subject string to apply to the email and to the IM message
-        
+
+    .PARAMETER Message
+        The message you want to pass onto the Logic App    
+
     .PARAMETER IncludeAll
         Switch to instruct the cmdlet to include all cmdlets (names only) from the pipeline
         
@@ -45,6 +48,8 @@ function Invoke-D365LogicAppMessage {
 
         [string] $Subject = (Get-D365LogicAppConfig).Subject,
 
+        [string] $Message,
+
         [switch] $IncludeAll,
         
         [switch] $AsJob
@@ -66,12 +71,16 @@ function Invoke-D365LogicAppMessage {
 
         if ($IncludeAll) {
             $strMessage = $arrList -Join ", "
+            $strMessage = "The following list of cmdlets has executed: $strMessage"
+        }
+        elseif (-not ($null -eq $Message) -and (-not("" -eq $Message))) {
+            $strMessage = $Message
         }
         else {
             $strMessage = $arrList[$MyInvocation.PipelinePosition - 2]
+            $strMessage = "The following list of cmdlets has executed: $strMessage"
         }
 
-        $strMessage = "The following list of cmdlets has executed: $strMessage"
         
         Invoke-PSNMessage -Url $URL -ReceiverEmail $Email -Subject $Subject -Message $strMessage -AsJob:$AsJob
     }
