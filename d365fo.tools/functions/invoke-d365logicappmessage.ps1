@@ -16,7 +16,7 @@
         Subject string to apply to the email and to the IM message
 
     .PARAMETER Message
-        The message you want to pass onto the Logic App    
+        The message you want to pass onto the Logic App
 
     .PARAMETER IncludeAll
         Switch to instruct the cmdlet to include all cmdlets (names only) from the pipeline
