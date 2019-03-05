@@ -74,7 +74,6 @@ function Invoke-D365CompileModule {
 
     $logFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.log"
     $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.xml"
-    $logXmErrorlFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.err.xml"
 
     $params = @("-metadata=`"$MetaDataDir`"",
         "-modelmodule=`"$Module`"",
