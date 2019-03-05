@@ -92,7 +92,7 @@ function Invoke-D365CompileModule {
         Write-PSFMessage -Level Output -Message "$line"
     }
 
-    #LABELC 
+    #LABELC
 
     $logFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.log"
     $logErrorFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.err"
@@ -102,7 +102,7 @@ function Invoke-D365CompileModule {
         "-output=`"$OutputDir\Resources`"",
         "-outlog=`"$logFile`"",
         "-errlog=`"$logErrorFile`""
-        ) 
+        )
     
     Write-PSFMessage -Level Debug -Message "labelc.exe"
 
@@ -110,7 +110,7 @@ function Invoke-D365CompileModule {
 
     foreach ($line in Get-Content "$logFile") {
         Write-PSFMessage -Level Output -Message "$line"
-    }  
+    }
 
     #REPORTC
 
