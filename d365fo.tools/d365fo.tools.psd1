@@ -143,7 +143,7 @@
 
 						'Invoke-D365TableBrowser',
 
-                        'Invoke-D365CompileModule',
+                                                'Invoke-D365CompileModule',
 
 						'New-D365Bacpac',
 						'New-D365CAReport',
