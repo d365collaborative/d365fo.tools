@@ -45,6 +45,7 @@
     FunctionsToExport = @(
 						'Add-D365AzureStorageConfig',
 						'Add-D365EnvironmentConfig',
+						'Add-WIFConfigAuthorityThumbprint',
 
 						'Backup-D365MetaDataDir',
 
