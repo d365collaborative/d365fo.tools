@@ -29,6 +29,15 @@ Initialize-D365TestAutomationCertificate
 
 This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate.
 
+### EXAMPLE 2
+```
+Initialize-D365TestAutomationCertificate -CertificateOnly
+```
+ 
+This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
+No actions will be taken regarding modifying the AOS wif.config file.
+Use this when installing RSAT on a machine different from the AOS where RSAT is pointing to.
+
 ## PARAMETERS
 
 ### -CertificateFileName
@@ -72,6 +81,21 @@ Aliases:
 Required: False
 Position: 4
 Default value: (ConvertTo-SecureString -String "Password1" -Force -AsPlainText)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CertificateOnly
+Switch specifying if only the certificate needs to be created
+
+```yaml
+Type: Switch
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: $false
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
