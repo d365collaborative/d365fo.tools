@@ -16,7 +16,7 @@
         This will open the wif.config file and insert the "12312323r424" thumbprint value into the file.
         
     .NOTES
-        Author: Kenny Saelen (@kennysaelen)        
+        Author: Kenny Saelen (@kennysaelen)
 #>
 function Add-WIFConfigAuthorityThumbprint
 {
@@ -55,11 +55,11 @@ function Add-WIFConfigAuthorityThumbprint
                 }
             }
         }
-        else 
+        else
         {
             Write-PSFMessage -Level Critical -Message "The wif.config file would not be located on the system."
             Stop-PSFFunction -Message  "Stopping because the wif.config file could not be located."
-            return   
+            return
         }
     }
     catch

@@ -76,7 +76,7 @@ function Initialize-D365TestAutomationCertificate {
             Add-WIFConfigAuthorityThumbprint -CertificateThumbprint $X509Certificate.Thumbprint
         }
 
-        Write-PSFMessage -Level Host -Message "Thumbprint for the generated certificate: $X509Certificate.Thumbprint"
+        Write-PSFMessage -Level Host -Message "Generated certificate: $X509Certificate"
     }
 
     catch {
