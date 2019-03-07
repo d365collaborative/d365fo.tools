@@ -70,6 +70,10 @@ function Invoke-D365ModuleCompile {
     if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
+    if (Test-PSFFunctionInterrupt) { return }
+
+    
+
     $logFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.log"
     $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.xml"
 
@@ -82,38 +86,5 @@ function Invoke-D365ModuleCompile {
         "-verbose"
     )
 
-    $pinfo = New-Object System.Diagnostics.ProcessStartInfo
-    $pinfo.FileName = "$executable"
-    
-    if (-not $ShowOriginalProgress) {
-        Write-PSFMessage -Level Verbose "Output and Error streams will be redirected (silence mode)"
-
-        $pinfo.RedirectStandardError = $true
-        $pinfo.RedirectStandardOutput = $true
-    }
-
-    $pinfo.UseShellExecute = $false
-    $pinfo.Arguments = "$($params -join " ")"
-    $p = New-Object System.Diagnostics.Process
-    $p.StartInfo = $pinfo
-
-    Write-PSFMessage -Level Verbose "Starting the $tool" -Target "$($params -join " ")"
-    $p.Start() | Out-Null
-    
-    if (-not $ShowOriginalProgress) {
-        $stdout = $p.StandardOutput.ReadToEnd()
-        $stderr = $p.StandardError.ReadToEnd()
-    }
-
-    Write-PSFMessage -Level Verbose "Waiting for the $tool to complete"
-    $p.WaitForExit()
-
-    if ($p.ExitCode -ne 0 -and (-not $ShowOriginalProgress)) {
-        Write-PSFMessage -Level Host "Exit code from $tool indicated an error happened. Will output both standard stream and error stream."
-        Write-PSFMessage -Level Host "Standard output was: \r\n $stdout"
-        Write-PSFMessage -Level Host "Error output was: \r\n $stderr"
-    }
-    else {
-        Write-PSFMessage -Level Verbose "Standard output was: \r\n $stdout"
-    }
+    Invoke-Process -Executable $executable -Params $params
 }
