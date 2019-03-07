@@ -73,7 +73,7 @@ function Initialize-D365TestAutomationCertificate {
         if($false -eq $CertificateOnly)
         {
             # Modify the wif.config of the AOS to have this thumbprint added to the https://fakeacs.accesscontrol.windows.net/ authority
-            Add-WIFConfigAuthorityThumbprint -CertificateThumbprint $X509Certificate.Thumbprint
+            Add-D365WIFConfigAuthorityThumbprint -CertificateThumbprint $X509Certificate.Thumbprint
         }
 
         Write-PSFMessage -Level Host -Message "Generated certificate: $X509Certificate"
