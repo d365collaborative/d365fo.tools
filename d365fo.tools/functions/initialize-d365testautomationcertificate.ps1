@@ -22,10 +22,12 @@
         
     .EXAMPLE
         PS C:\> Initialize-D365TestAutomationCertificate
+
         This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate.
         
     .EXAMPLE
         PS C:\> Initialize-D365TestAutomationCertificate -CertificateOnly
+        
         This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
         No actions will be taken regarding modifying the AOS wif.config file.
         Use this when installing RSAT on a machine different from the AOS where RSAT is pointing to.
