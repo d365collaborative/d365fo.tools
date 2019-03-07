@@ -9,6 +9,8 @@
         [string[]] $Params
     )
 
+    Invoke-TimeSignal -Start
+
     if (-not (Test-PathExists -Path $Executable -Type Leaf)) {return}
 
     if (Test-PSFFunctionInterrupt) { return }
@@ -45,8 +47,13 @@
         Write-PSFMessage -Level Host "Exit code from $tool indicated an error happened. Will output both standard stream and error stream."
         Write-PSFMessage -Level Host "Standard output was: \r\n $stdout"
         Write-PSFMessage -Level Host "Error output was: \r\n $stderr"
+
+        Stop-PSFFunction -Message "Stopping because an Exit Code from $tool wasn't 0 (zero) like expected." -StepsUpward 1
+        return
     }
     else {
         Write-PSFMessage -Level Verbose "Standard output was: \r\n $stdout"
     }
+
+    Invoke-TimeSignal -End
 }

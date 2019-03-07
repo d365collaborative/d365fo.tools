@@ -63,6 +63,8 @@ function Invoke-D365ModuleLabelGeneration {
         [switch] $ShowOriginalProgress
     )
 
+    Invoke-TimeSignal -Start
+
     $tool = "labelc.exe"
     $executable = Join-Path $BinDir $tool
 
@@ -81,6 +83,8 @@ function Invoke-D365ModuleLabelGeneration {
     )
     
     Invoke-Process -Executable $executable -Params $params
+
+    Invoke-TimeSignal -End
 
     [PSCustomObject]@{
         OutLogFile = $logFile

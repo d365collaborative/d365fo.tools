@@ -63,6 +63,8 @@ function Invoke-D365ModuleCompile {
         [switch] $ShowOriginalProgress
     )
 
+    Invoke-TimeSignal -Start
+
     $tool = "xppc.exe"
     $executable = Join-Path $BinDir $tool
 
@@ -70,9 +72,7 @@ function Invoke-D365ModuleCompile {
     if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
-    if (Test-PSFFunctionInterrupt) { return }
-
-    
+    if (Test-PSFFunctionInterrupt) { return }  
 
     $logFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.log"
     $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.xml"
@@ -87,6 +87,8 @@ function Invoke-D365ModuleCompile {
     )
 
     Invoke-Process -Executable $executable -Params $params
+
+    Invoke-TimeSignal -End
 
     [PSCustomObject]@{
         LogFile = $logFile

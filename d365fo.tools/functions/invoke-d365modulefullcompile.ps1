@@ -60,6 +60,8 @@ function Invoke-D365ModuleFullCompile {
         [string] $BinDir = $Script:BinDirTools
     )
 
+    Invoke-TimeSignal -Start
+
     if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
@@ -68,4 +70,6 @@ function Invoke-D365ModuleFullCompile {
     Invoke-D365ModuleLabelGeneration @PSBoundParameters
 
     Invoke-D365ModuleReportsCompile @PSBoundParameters
+    
+    Invoke-TimeSignal -End
 }

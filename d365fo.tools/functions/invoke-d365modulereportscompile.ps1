@@ -63,6 +63,8 @@ function Invoke-D365ModuleReportsCompile {
         [switch] $ShowOriginalProgress
     )
 
+    Invoke-TimeSignal -Start
+
     $tool = "ReportsC.exe"
     $executable = Join-Path $BinDir $tool
 
@@ -82,6 +84,8 @@ function Invoke-D365ModuleReportsCompile {
     )
 
     Invoke-Process -Executable $executable -Params $params
+
+    Invoke-TimeSignal -End
 
     [PSCustomObject]@{
         LogFile = $logFile
