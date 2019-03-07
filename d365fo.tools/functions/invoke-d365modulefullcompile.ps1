@@ -37,7 +37,7 @@
         
 #>
 
-function Invoke-D365ModuleLabelGeneration {
+function Invoke-D365ModuleFullCompile {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
@@ -60,29 +60,12 @@ function Invoke-D365ModuleLabelGeneration {
         [string] $BinDir = $Script:BinDirTools
     )
 
-    $labelc = Join-Path $BinDir "labelc.exe"
-
     if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $labelc -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
-    #LABELC
+    Invoke-D365ModuleCompile @PSBoundParameters
 
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.log"
-    $logErrorFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.err"
-  
-    $params = @("-metadata=`"$MetaDataDir`"",
-        "-modelmodule=`"$Module`"",
-        "-output=`"$OutputDir\Resources`"",
-        "-outlog=`"$logFile`"",
-        "-errlog=`"$logErrorFile`""
-        )
-    
-    Write-PSFMessage -Level Debug -Message "labelc.exe"
+    Invoke-D365ModuleLabelGeneration @PSBoundParameters
 
-    Start-Process -FilePath $labelc -ArgumentList ($params -join " ") -NoNewWindow -Wait
-
-    foreach ($line in Get-Content "$logFile") {
-        Write-PSFMessage -Level Output -Message "$line"
-    }
+    Invoke-D365ModuleReportsCompile @PSBoundParameters
 }

@@ -63,8 +63,6 @@ function Invoke-D365ModuleReportsCompile {
     $reportsc = Join-Path $BinDir "ReportsC.exe"
 
     if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $Path,$xppc -Type Leaf)) {return}
-    if (-not (Test-PathExists -Path $Path,$labelc -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $Path,$reportsc -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
