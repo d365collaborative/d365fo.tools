@@ -131,6 +131,11 @@
 						'Invoke-D365LogicApp',
 						'Invoke-D365LogicAppMessage',
 
+						'Invoke-D365ModuleCompile',
+						'Invoke-D365ModuleLabelGeneration',
+						'Invoke-D365ModuleReportsCompile',
+						'Invoke-D365ModuleFullCompile'
+
 						'Invoke-D365ReArmWindows',
 						'Invoke-D365RunbookAnalyzer',
 
@@ -142,8 +147,6 @@
 						'Invoke-D365SqlScript',
 
 						'Invoke-D365TableBrowser',
-
-						'Invoke-D365CompileModule',
 
 						'New-D365Bacpac',
 						'New-D365CAReport',
