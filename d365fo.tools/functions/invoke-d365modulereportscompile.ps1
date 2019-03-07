@@ -66,11 +66,9 @@ function Invoke-D365ModuleReportsCompile {
     $tool = "ReportsC.exe"
     $executable = Join-Path $BinDir $tool
 
-    if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
+    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
     if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
-
-    #REPORTC
 
     $logFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.log"
     $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.xml"
@@ -81,13 +79,12 @@ function Invoke-D365ModuleReportsCompile {
         "-output=`"$OutputDir\Reports`"",
         "-log=`"$logFile`"",
         "-xmlLog=`"$logXmlFile`""
-        )
+    )
 
-    Write-PSFMessage -Level Debug -Message "reportsc.exe"
+    Invoke-Process -Executable $executable -Params $params
 
-    Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
-
-    foreach ($line in Get-Content "$logFile") {
-        Write-PSFMessage -Level Output -Message "$line"
+    [PSCustomObject]@{
+        LogFile = $logFile,
+        XmlLogFile = $logXmlFile
     }
 }
