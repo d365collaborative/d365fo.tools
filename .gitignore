@@ -20,4 +20,3 @@ TestResults/*
 
 # ignore the publishing Directory
 publish/*
-d365fo.tools/functions/test.ps1
