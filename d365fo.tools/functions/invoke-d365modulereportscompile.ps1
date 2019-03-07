@@ -57,13 +57,17 @@ function Invoke-D365ModuleReportsCompile {
         [string] $ReferenceDir = $Script:MetaDataDir,
 
         [Parameter(Mandatory = $False, Position = 6 )]
-        [string] $BinDir = $Script:BinDirTools
+        [string] $BinDir = $Script:BinDirTools,
+
+        [Parameter(Mandatory = $False, Position = 7 )]
+        [switch] $ShowOriginalProgress
     )
 
-    $reportsc = Join-Path $BinDir "ReportsC.exe"
+    $tool = "ReportsC.exe"
+    $executable = Join-Path $BinDir $tool
 
     if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $Path,$reportsc -Type Leaf)) {return}
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
     #REPORTC
@@ -81,7 +85,7 @@ function Invoke-D365ModuleReportsCompile {
 
     Write-PSFMessage -Level Debug -Message "reportsc.exe"
 
-    Start-Process -FilePath $reportsc -ArgumentList ($params -join " ") -NoNewWindow -Wait
+    Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
 
     foreach ($line in Get-Content "$logFile") {
         Write-PSFMessage -Level Output -Message "$line"
