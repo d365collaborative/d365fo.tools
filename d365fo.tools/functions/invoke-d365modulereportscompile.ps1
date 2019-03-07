@@ -60,8 +60,6 @@ function Invoke-D365ModuleReportsCompile {
         [string] $BinDir = $Script:BinDirTools
     )
 
-    $xppc = Join-Path $BinDir "xppc.exe"
-    $labelc = Join-Path $BinDir "labelc.exe"
     $reportsc = Join-Path $BinDir "ReportsC.exe"
 
     if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
@@ -70,48 +68,6 @@ function Invoke-D365ModuleReportsCompile {
     if (-not (Test-PathExists -Path $Path,$reportsc -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
-    #XPPC
-<#
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.log"
-    $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.xml"
-
-    $params = @("-metadata=`"$MetaDataDir`"",
-        "-modelmodule=`"$Module`"",
-        "-output=`"$OutputDir\bin`"",
-        "-referencefolder=`"$ReferenceDir`"",
-        "-log=`"$logFile`"",
-        "-xmlLog=`"$logXmlFile`"",
-        "-verbose"
-        )
-
-    Write-PSFMessage -Level Debug -Message "xppc.exe"
-
-    Start-Process -FilePath $xppc -ArgumentList ($params -join " ") -NoNewWindow -Wait
-
-    foreach ($line in Get-Content "$logFile") {
-        Write-PSFMessage -Level Output -Message "$line"
-    }
-
-    #LABELC
-
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.log"
-    $logErrorFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.err"
-  
-    $params = @("-metadata=`"$MetaDataDir`"",
-        "-modelmodule=`"$Module`"",
-        "-output=`"$OutputDir\Resources`"",
-        "-outlog=`"$logFile`"",
-        "-errlog=`"$logErrorFile`""
-        )
-    
-    Write-PSFMessage -Level Debug -Message "labelc.exe"
-
-    Start-Process -FilePath $labelc -ArgumentList ($params -join " ") -NoNewWindow -Wait
-
-    foreach ($line in Get-Content "$logFile") {
-        Write-PSFMessage -Level Output -Message "$line"
-    }
-#>
     #REPORTC
 
     $logFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.log"

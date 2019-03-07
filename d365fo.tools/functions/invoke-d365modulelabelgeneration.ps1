@@ -60,9 +60,7 @@ function Invoke-D365ModuleLabelGeneration {
         [string] $BinDir = $Script:BinDirTools
     )
 
-    $xppc = Join-Path $BinDir "xppc.exe"
     $labelc = Join-Path $BinDir "labelc.exe"
-    $reportsc = Join-Path $BinDir "ReportsC.exe"
 
     if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
     if (-not (Test-PathExists -Path $Path,$xppc -Type Leaf)) {return}
