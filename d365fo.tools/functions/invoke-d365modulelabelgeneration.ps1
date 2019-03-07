@@ -37,7 +37,7 @@
         
 #>
 
-function Invoke-D365CompileModule {
+function Invoke-D365ModuleLabelGeneration {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
@@ -70,30 +70,6 @@ function Invoke-D365CompileModule {
     if (-not (Test-PathExists -Path $Path,$reportsc -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
-    #XPPC
-<#
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.log"
-    $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.xml"
-
-    $params = @("-metadata=`"$MetaDataDir`"",
-        "-modelmodule=`"$Module`"",
-        "-output=`"$OutputDir\bin`"",
-        "-referencefolder=`"$ReferenceDir`"",
-        "-log=`"$logFile`"",
-        "-xmlLog=`"$logXmlFile`"",
-        "-verbose"
-        )
-
-    Write-PSFMessage -Level Debug -Message "xppc.exe"
-
-    Start-Process -FilePath $xppc -ArgumentList ($params -join " ") -NoNewWindow -Wait
-
-    foreach ($line in Get-Content "$logFile") {
-        Write-PSFMessage -Level Output -Message "$line"
-    }
-
-    #>
-
     #LABELC
 
     $logFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.log"
@@ -113,27 +89,4 @@ function Invoke-D365CompileModule {
     foreach ($line in Get-Content "$logFile") {
         Write-PSFMessage -Level Output -Message "$line"
     }
-
-    <#
-    #REPORTC
-
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.log"
-    $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.xml"
-
-    $params = @("-metadata=`"$MetaDataDir`"",
-        "-modelmodule=`"$Module`"",
-        "-LabelsPath=`"$MetaDataDir`"",
-        "-output=`"$OutputDir\Reports`"",
-        "-log=`"$logFile`"",
-        "-xmlLog=`"$logXmlFile`""
-        )
-
-    Write-PSFMessage -Level Debug -Message "reportsc.exe"
-
-    Start-Process -FilePath $reportsc -ArgumentList ($params -join " ") -NoNewWindow -Wait
-
-    foreach ($line in Get-Content "$logFile") {
-        Write-PSFMessage -Level Output -Message "$line"
-    }
-    #>
 }

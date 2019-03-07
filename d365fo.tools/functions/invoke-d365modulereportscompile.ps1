@@ -37,7 +37,7 @@
         
 #>
 
-function Invoke-D365CompileModule {
+function Invoke-D365ModuleReportsCompile {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
