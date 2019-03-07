@@ -89,7 +89,7 @@ function Invoke-D365ModuleCompile {
     Invoke-Process -Executable $executable -Params $params
 
     [PSCustomObject]@{
-        LogFile = $logFile,
+        LogFile = $logFile
         XmlLogFile = $logXmlFile
     }
 }

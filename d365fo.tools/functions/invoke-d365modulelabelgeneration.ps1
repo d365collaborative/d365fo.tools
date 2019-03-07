@@ -67,7 +67,7 @@ function Invoke-D365ModuleLabelGeneration {
     $executable = Join-Path $BinDir $tool
 
     if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $labelc -Type Leaf)) {return}
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
     $logFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.log"
@@ -83,7 +83,7 @@ function Invoke-D365ModuleLabelGeneration {
     Invoke-Process -Executable $executable -Params $params
 
     [PSCustomObject]@{
-        OutLogFile = $logFile,
+        OutLogFile = $logFile
         ErrorLogFile = $logErrorFile
     }
 }
