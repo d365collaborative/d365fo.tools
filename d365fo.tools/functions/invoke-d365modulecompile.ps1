@@ -1,15 +1,15 @@
 ﻿<#
     .SYNOPSIS
-        Compile a package
+        Compile a package / module / model
         
     .DESCRIPTION
-        Compile a package using the builtin "xppc.exe" executable to compile source code, "labelc.exe" to compile label files and "reportsc.exe" to compile reports
+        Compile a package / module / model using the builtin "xppc.exe" executable to compile source code
         
     .PARAMETER Module
         The package to compile
         
     .PARAMETER OutputDir
-        The path to the folder to save assemblies
+        The path to the folder to save generated artifacts
 
     .PARAMETER LogDir
         The path to the folder to save logs
@@ -17,9 +17,13 @@
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
         
+        Default path is the same as the aos service PackagesLocalDirectory
+
     .PARAMETER ReferenceDir
         The full path of a folder containing all assemblies referenced from X++ code
         
+        Default path is the same as the aos service PackagesLocalDirectory
+
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -28,17 +32,28 @@
     .EXAMPLE
         PS C:\> Invoke-D365CompileModule -Module MyModel
         
-        This will use the default paths and start the xppc.exe with the needed parameters to copmile MyModel package.
+        This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
+        The default output from the compile will be silenced.
+    
+        If an error should occur, both the standard output and error output will be written to the console / host.
+
+    .EXAMPLE
+        PS C:\> Invoke-D365CompileModule -Module MyModel -ShowOriginalProgress
         
+        This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
+        The output from the compile will be written to the console / host.
+
     .NOTES
-        Tags: Compile, Model, Servicing
+        Tags: Compile, Model, Servicing, X++
         
         Author: Ievgen Miroshnikov (@IevgenMir)
         
+        Author: Mötz Jensen (@Splaxi)
 #>
 
 function Invoke-D365ModuleCompile {
     [CmdletBinding()]
+    [OutputType('[PsCustomObject]')]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
         [string] $Module,

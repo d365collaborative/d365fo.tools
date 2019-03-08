@@ -20,7 +20,7 @@ The standard output will be redirected to a local variable.
 The error output will be redirected to a local variable.
 The standard output will be written to the verbose stream before exiting.
 
-If an error should occur, both the standard and error output will be written to the console / host.
+If an error should occur, both the standard output and error output will be written to the console / host.
 
 .Example
 PS C:\> Invoke-Process -ShowOriginalProgress -Path "C:\AOSService\PackagesLocalDirectory\Bin\xppc.exe" -Params @("-metadata=`"C:\AOSService\PackagesLocalDirectory\Bin`"", "-modelmodule=`"ApplicationSuite`"", "-output=`"C:\AOSService\PackagesLocalDirectory\Bin`"", "-referencefolder=`"C:\AOSService\PackagesLocalDirectory\Bin`"", "-log=`"C:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.$Module.xppc.log`"", "-xmlLog=`"C:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.ApplicationSuite.xppc.xml`"", "-verbose")
