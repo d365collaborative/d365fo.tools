@@ -1,4 +1,5 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Compile a package
         
@@ -10,7 +11,7 @@
         
     .PARAMETER OutputDir
         The path to the folder to save assemblies
-
+        
     .PARAMETER LogDir
         The path to the folder to save logs
         

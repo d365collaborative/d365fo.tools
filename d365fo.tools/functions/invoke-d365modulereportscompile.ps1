@@ -1,4 +1,5 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Generate labels for a package / module / model
         
@@ -10,7 +11,7 @@
         
     .PARAMETER OutputDir
         The path to the folder to save generated artifacts
-
+        
     .PARAMETER LogDir
         The path to the folder to save logs
         
@@ -18,31 +19,31 @@
         The path to the meta data directory for the environment
         
         Default path is the same as the aos service PackagesLocalDirectory
-
+        
     .PARAMETER ReferenceDir
         The full path of a folder containing all assemblies referenced from X++ code
         
         Default path is the same as the aos service PackagesLocalDirectory
-
+        
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
         Default path is the same as the aos service PackagesLocalDirectory\bin
-    
+        
     .EXAMPLE
         PS C:\> Invoke-D365ModuleReportsCompile -Module MyModel
         
         This will use the default paths and start the ReportsC.exe with the needed parameters to compile the reports from the MyModel package.
         The default output from the reports compile will be silenced.
-    
+        
         If an error should occur, both the standard output and error output will be written to the console / host.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365ModuleReportsCompile -Module MyModel -ShowOriginalProgress
         
         This will use the default paths and start the ReportsC.exe with the needed parameters to compile the reports from the MyModel package.
         The output from the compile will be written to the console / host.
-
+        
     .NOTES
         Tags: Compile, Model, Servicing, Report, Reports
         
