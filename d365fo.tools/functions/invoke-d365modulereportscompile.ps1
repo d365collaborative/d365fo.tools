@@ -83,7 +83,7 @@ function Invoke-D365ModuleReportsCompile {
         "-xmlLog=`"$logXmlFile`""
     )
 
-    Invoke-Process -Executable $executable -Params $params
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress $ShowOriginalProgress
 
     Invoke-TimeSignal -End
 

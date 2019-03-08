@@ -57,12 +57,15 @@ function Invoke-D365ModuleFullCompile {
         [string] $ReferenceDir = $Script:MetaDataDir,
 
         [Parameter(Mandatory = $False, Position = 6 )]
-        [string] $BinDir = $Script:BinDirTools
+        [string] $BinDir = $Script:BinDirTools,
+
+        [Parameter(Mandatory = $False, Position = 7 )]
+        [switch] $ShowOriginalProgress
     )
 
     Invoke-TimeSignal -Start
 
-    if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
+    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
     Invoke-D365ModuleCompile @PSBoundParameters
