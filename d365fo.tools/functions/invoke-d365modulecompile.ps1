@@ -102,7 +102,7 @@ function Invoke-D365ModuleCompile {
         "-verbose"
     )
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress $ShowOriginalProgress
+    Invoke-Process -Executable $executable -Params $params $ShowOriginalProgress
 
     Invoke-TimeSignal -End
 
