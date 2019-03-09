@@ -36,7 +36,7 @@
         Default is $false which will silence the standard output
 
     .EXAMPLE
-        PS C:\> Invoke-D365CompileModule -Module MyModel
+        PS C:\> Invoke-D365ModuleCompile -Module MyModel
         
         This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
         The default output from the compile will be silenced.
@@ -44,7 +44,7 @@
         If an error should occur, both the standard output and error output will be written to the console / host.
         
     .EXAMPLE
-        PS C:\> Invoke-D365CompileModule -Module MyModel -ShowOriginalProgress
+        PS C:\> Invoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress
         
         This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
         The output from the compile will be written to the console / host.

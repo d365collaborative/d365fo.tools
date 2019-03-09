@@ -25,9 +25,14 @@
         The path to the bin directory for the environment
         
         Default path is the same as the aos service PackagesLocalDirectory\bin
+
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+
+        Default is $false which will silence the standard output
         
     .EXAMPLE
-        PS C:\> Invoke-D365CompileModule -Module MyModel
+        PS C:\> Invoke-D365ModuleFullCompile -Module MyModel
         
         This will use the default paths and start the xppc.exe with the needed parameters to copmile MyModel package.
         
