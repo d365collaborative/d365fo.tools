@@ -51,6 +51,8 @@
 
 						'Clear-D365MonitorData',
 
+						'Publish-D365SsrsReport',
+
 						'Disable-D365MaintenanceMode'
 						'Disable-D365User',
 
