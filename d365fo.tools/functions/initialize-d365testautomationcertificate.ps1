@@ -14,7 +14,7 @@
         
     .PARAMETER Password
         The password that you want to use to protect your certificate with
-
+        
     .PARAMETER CertificateOnly
         Switch specifying if only the certificate needs to be created.
         If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side.
@@ -22,7 +22,7 @@
         
     .EXAMPLE
         PS C:\> Initialize-D365TestAutomationCertificate
-
+        
         This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate.
         
     .EXAMPLE
@@ -31,7 +31,7 @@
         This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
         No actions will be taken regarding modifying the AOS wif.config file.
         Use this when installing RSAT on a machine different from the AOS where RSAT is pointing to.
-
+        
     .NOTES
         Tags: Automated Test, Test, Regression, Certificate, Thumbprint
         
