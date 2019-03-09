@@ -52,6 +52,8 @@
         The cmdlet will be using the default 127.0.0.1 while deploying the report.
         
     .NOTES
+        Tags: SSRS, Report, Reports, Deploy, Publish
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>
