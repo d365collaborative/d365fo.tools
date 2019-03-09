@@ -1,58 +1,59 @@
-﻿<#
-.SYNOPSIS
-Deploy Report
-
-.DESCRIPTION
-Deploy SSRS Report to SQL Server Reporting Services
-
-.PARAMETER Module
-Name of the module that you want to works against
-
-Accepts an array of strings
-
-Default value is "*" and will work against all modules loaded on the machine
-
-.PARAMETER ReportName
-Name of the report that you want to deploy
-
-Default value is "*" and will deploy all reports from the module(s) that you speficied
-
-.PARAMETER LogFile
-Path to the file that should contain the logging information
-
-Default value is "c:\temp\d365fo.tools\AxReportDeployment.log"
-
+﻿
+<#
+    .SYNOPSIS
+        Deploy Report
+        
+    .DESCRIPTION
+        Deploy SSRS Report to SQL Server Reporting Services
+        
+    .PARAMETER Module
+        Name of the module that you want to works against
+        
+        Accepts an array of strings
+        
+        Default value is "*" and will work against all modules loaded on the machine
+        
+    .PARAMETER ReportName
+        Name of the report that you want to deploy
+        
+        Default value is "*" and will deploy all reports from the module(s) that you speficied
+        
+    .PARAMETER LogFile
+        Path to the file that should contain the logging information
+        
+        Default value is "c:\temp\d365fo.tools\AxReportDeployment.log"
+        
     .PARAMETER PackageDirectory
         Path to the PackagesLocalDirectory
         
         Default path is the same as the AOS Service PackagesLocalDirectory
-
-.PARAMETER ToolsBasePath
-Base path to the folder containing the needed PowerShell manifests that the cmdlet utilizes
-
-Default path is the same as the AOS Service PackagesLocalDirectory
-
-.PARAMETER ReportServerIp
-IP Address of the server that has SQL Reporting Services installed
-
-Default value is "127.0.01"
-
-.EXAMPLE
-PS C:\> Publish-D365SsrsReport -Module ApplicationSuite -ReportName TaxVatRegister.Report
-
-This will deploy the report which is named "TaxVatRegister.Report".
-The cmdlet will look for the report inside the ApplicationSuite module.
-The cmdlet will be using the default 127.0.0.1 while deploying the report.
-
-.EXAMPLE
-PS C:\> Publish-D365SsrsReport -Module ApplicationSuite -ReportName *
-
-This will deploy the all reports from the ApplicationSuite module.
-The cmdlet will be using the default 127.0.0.1 while deploying the report.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+        
+    .PARAMETER ToolsBasePath
+        Base path to the folder containing the needed PowerShell manifests that the cmdlet utilizes
+        
+        Default path is the same as the AOS Service PackagesLocalDirectory
+        
+    .PARAMETER ReportServerIp
+        IP Address of the server that has SQL Reporting Services installed
+        
+        Default value is "127.0.01"
+        
+    .EXAMPLE
+        PS C:\> Publish-D365SsrsReport -Module ApplicationSuite -ReportName TaxVatRegister.Report
+        
+        This will deploy the report which is named "TaxVatRegister.Report".
+        The cmdlet will look for the report inside the ApplicationSuite module.
+        The cmdlet will be using the default 127.0.0.1 while deploying the report.
+        
+    .EXAMPLE
+        PS C:\> Publish-D365SsrsReport -Module ApplicationSuite -ReportName *
+        
+        This will deploy the all reports from the ApplicationSuite module.
+        The cmdlet will be using the default 127.0.0.1 while deploying the report.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Publish-D365SsrsReport {
