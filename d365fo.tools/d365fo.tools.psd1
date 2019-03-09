@@ -3,19 +3,19 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.5.6'
+    ModuleVersion     = '0.5.7'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
 
     # Author of this module
-    Author            = 'Motz Jensen & Rasmus Andersen'
+    Author            = 'Mötz Jensen & Rasmus Andersen'
 
     # Company or vendor of this module
     CompanyName       = 'Essence Solutions'
 
     # Copyright statement for this module
-    Copyright         = '(c) 2018 Motz Jensen & Rasmus Andersen. All rights reserved.'
+    Copyright         = '(c) 2018 Mötz Jensen & Rasmus Andersen. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description       = 'A set of tools that will assist you when working with Dynamics 365 Finance & Operations development / demo machines.'
@@ -45,6 +45,7 @@
     FunctionsToExport = @(
 						'Add-D365AzureStorageConfig',
 						'Add-D365EnvironmentConfig',
+						'Add-D365WIFConfigAuthorityThumbprint',
 
 						'Backup-D365MetaDataDir',
 

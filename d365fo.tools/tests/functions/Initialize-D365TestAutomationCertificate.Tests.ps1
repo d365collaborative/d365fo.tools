@@ -50,12 +50,25 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter CertificateOnly' {
+			$parameter = (Get-Command Initialize-D365TestAutomationCertificate).Parameters['CertificateOnly']
+			$parameter.Name | Should -Be 'CertificateOnly'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 4
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -
-		__AllParameterSets -CertificateFileName -PrivateKeyFileName -Password
+		__AllParameterSets -CertificateFileName -PrivateKeyFileName -Password -CertificateOnly
 		#>
 	}
 
