@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Generate labels for a package / module / model
+        Generate reports for a package / module / model
         
     .DESCRIPTION
-        Generate labels for a package / module / model using the builtin "ReportsC.exe"
+        Generate reports for a package / module / model using the builtin "ReportsC.exe"
         
     .PARAMETER Module
         Name of the package that you want to work against
