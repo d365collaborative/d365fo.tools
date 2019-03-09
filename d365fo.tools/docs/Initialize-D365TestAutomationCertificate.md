@@ -14,7 +14,7 @@ Create and configure test automation certificate
 
 ```
 Initialize-D365TestAutomationCertificate [[-CertificateFileName] <String>] [[-PrivateKeyFileName] <String>]
- [[-Password] <SecureString>] [<CommonParameters>]
+ [[-Password] <SecureString>] [-CertificateOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,6 +28,15 @@ Initialize-D365TestAutomationCertificate
 ```
 
 This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate.
+
+### EXAMPLE 2
+```
+Initialize-D365TestAutomationCertificate -CertificateOnly
+```
+
+This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
+No actions will be taken regarding modifying the AOS wif.config file.
+Use this when installing RSAT on a machine different from the AOS where RSAT is pointing to.
 
 ## PARAMETERS
 
@@ -72,6 +81,23 @@ Aliases:
 Required: False
 Position: 4
 Default value: (ConvertTo-SecureString -String "Password1" -Force -AsPlainText)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CertificateOnly
+Switch specifying if only the certificate needs to be created.
+If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side.
+If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
