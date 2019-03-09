@@ -25,7 +25,7 @@ Compile a package / module / model using the builtin "xppc.exe" executable to co
 
 ### EXAMPLE 1
 ```
-Invoke-D365CompileModule -Module MyModel
+Invoke-D365ModuleCompile -Module MyModel
 ```
 
 This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
@@ -35,7 +35,7 @@ If an error should occur, both the standard output and error output will be writ
 
 ### EXAMPLE 2
 ```
-Invoke-D365CompileModule -Module MyModel -ShowOriginalProgress
+Invoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress
 ```
 
 This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
@@ -140,7 +140,9 @@ Accept wildcard characters: False
 ```
 
 ### -ShowOriginalProgress
-{{Fill ShowOriginalProgress Description}}
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
 
 ```yaml
 Type: SwitchParameter
