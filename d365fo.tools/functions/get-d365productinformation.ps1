@@ -7,7 +7,7 @@
         Gets detailed information about application and platform
         
     .EXAMPLE
-        PS C:\> Get-ProductInfoProvider
+        PS C:\> Get-D365ProductInformation
         
         This will get product, platform and application version details for the environment
         
