@@ -11,12 +11,12 @@
         
     .PARAMETER Params
         Array of string parameters that you want to pass to the executable
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
-
+        
         Default is $false which will silence the standard output
-                
+        
     .EXAMPLE
         PS C:\> Invoke-Process -Path "C:\AOSService\PackagesLocalDirectory\Bin\xppc.exe" -Params "-metadata=`"C:\AOSService\PackagesLocalDirectory\Bin`"", "-modelmodule=`"ApplicationSuite`"", "-output=`"C:\AOSService\PackagesLocalDirectory\Bin`"", "-referencefolder=`"C:\AOSService\PackagesLocalDirectory\Bin`"", "-log=`"C:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.$Module.xppc.log`"", "-xmlLog=`"C:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.ApplicationSuite.xppc.xml`"", "-verbose"
         
