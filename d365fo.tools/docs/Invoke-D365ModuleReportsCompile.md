@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-D365ModuleReportsCompile
 
 ## SYNOPSIS
-Generate labels for a package / module / model
+Generate reports for a package / module / model
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Invoke-D365ModuleReportsCompile [-Module] <String> [[-OutputDir] <String>] [[-Lo
 ```
 
 ## DESCRIPTION
-Generate labels for a package / module / model using the builtin "ReportsC.exe"
+Generate reports for a package / module / model using the builtin "ReportsC.exe"
 
 ## EXAMPLES
 
