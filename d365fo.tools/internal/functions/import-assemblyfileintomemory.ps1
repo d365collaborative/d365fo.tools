@@ -1,25 +1,26 @@
-﻿<#
-.SYNOPSIS
-Imports a .NET dll file into memory
-
-.DESCRIPTION
-Imports a .NET dll file into memory, by creating a copy (temporary file) and imports it using reflection
-
-.PARAMETER Path
-Path to the dll file you want to import
-
-Accepts an array of strings
-
-.EXAMPLE
-PS C:\> Import-AssemblyFileIntoMemory -Path "C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.BusinessPlatform.ProductInformation.Framework.dll"
-
-This will create an new file named "C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.BusinessPlatform.ProductInformation.Framework.dll_shawdow.dll"
-The new file is then imported into memory using .NET Reflection.
-After the file has been imported, it will be deleted from disk.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Imports a .NET dll file into memory
+        
+    .DESCRIPTION
+        Imports a .NET dll file into memory, by creating a copy (temporary file) and imports it using reflection
+        
+    .PARAMETER Path
+        Path to the dll file you want to import
+        
+        Accepts an array of strings
+        
+    .EXAMPLE
+        PS C:\> Import-AssemblyFileIntoMemory -Path "C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.BusinessPlatform.ProductInformation.Framework.dll"
+        
+        This will create an new file named "C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.BusinessPlatform.ProductInformation.Framework.dll_shawdow.dll"
+        The new file is then imported into memory using .NET Reflection.
+        After the file has been imported, it will be deleted from disk.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Import-AssemblyFileIntoMemory {
