@@ -98,7 +98,7 @@ function Invoke-D365ModuleLabelGeneration {
         "-errlog=`"$logErrorFile`""
     )
     
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress $ShowOriginalProgress
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
 
     Invoke-TimeSignal -End
 
