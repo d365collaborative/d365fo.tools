@@ -7,7 +7,7 @@
         Update the topology file based on the already installed list of services on the machine
         
     .PARAMETER Path
-        Path to the folder where the topology XML file file that you want to work against is placed
+        Path to the folder where the topology XML file that you want to work against is placed
         
         Should only contain a path to a folder, not a file
         

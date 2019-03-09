@@ -81,6 +81,8 @@ function Publish-D365SsrsReport {
         [string[]]$ReportServerIp = "127.0.0.1"
     )
 
+    Invoke-TimeSignal -Start
+
     $LogDirectory = Split-Path $LogFile -Parent
     $toolsPath = Join-Path $ToolsBasePath "Plugins\AxReportVmRoleStartupTask"
     
@@ -92,7 +94,10 @@ function Publish-D365SsrsReport {
 
     if (-not (Test-PathExists -Path $aosCommonManifest, $reportingManifest -Type Leaf)) { return }
 
+    Write-PSFMessage -Level Verbose -Message "Importing the Microsoft AosCommon PowerShell manifest file." -Target $aosCommonManifest
     Import-Module "$aosCommonManifest" -Force -DisableNameChecking
+    
+    Write-PSFMessage -Level Verbose -Message "Importing the Microsoft Reporting PowerShell manifest file." -Target $reportingManifest
     Import-Module "$reportingManifest" -Force -DisableNameChecking
 
     # create JSON config string for Deploy-AxReports
@@ -103,10 +108,18 @@ function Publish-D365SsrsReport {
         "ReportName"                                         = $ReportName
     }
 
+    Write-PSFMessage -Level Verbose -Message "Done building the settings object that will be parsed." -Target $settings
+    
     $jsonConfig = ConvertTo-Json $settings
+
+    Write-PSFMessage -Level Verbose -Message "Settings object converted to json." -Target $jsonConfig
+
     $jsonConfig = [System.Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($jsonConfig))
 
     try {
+    
+        Write-PSFMessage -Level Verbose -Message "Invoking the 'Deploy-AxReport' cmdlet from Microsoft."
+
         Deploy-AxReport -Config $jsonConfig -Log $LogFile
     }
     catch {
@@ -114,4 +127,6 @@ function Publish-D365SsrsReport {
         Stop-PSFFunction -Message "Stopping because of errors"
         return
     }
+
+    Invoke-TimeSignal -End
 }
