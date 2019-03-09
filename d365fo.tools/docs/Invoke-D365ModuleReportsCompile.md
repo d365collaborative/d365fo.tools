@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-D365ModuleReportsCompile
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Generate labels for a package / module / model
 
 ## SYNTAX
 
@@ -19,51 +19,62 @@ Invoke-D365ModuleReportsCompile [-Module] <String> [[-OutputDir] <String>] [[-Lo
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Generate labels for a package / module / model using the builtin "ReportsC.exe"
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Invoke-D365ModuleReportsCompile -Module MyModel
 ```
 
-{{ Add example description here }}
+This will use the default paths and start the ReportsC.exe with the needed parameters to compile the reports from the MyModel package.
+The default output from the reports compile will be silenced.
+
+If an error should occur, both the standard output and error output will be written to the console / host.
+
+### EXAMPLE 2
+```
+Invoke-D365ModuleReportsCompile -Module MyModel -ShowOriginalProgress
+```
+
+This will use the default paths and start the ReportsC.exe with the needed parameters to compile the reports from the MyModel package.
+The output from the compile will be written to the console / host.
 
 ## PARAMETERS
 
-### -BinDir
-{{Fill BinDir Description}}
+### -Module
+Name of the package that you want to work against
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 6
+Required: True
+Position: 2
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputDir
+The path to the folder to save generated artifacts
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Output
+
+Required: False
+Position: 3
+Default value: (Join-Path $Script:MetaDataDir $Module)
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -LogDir
-{{Fill LogDir Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -MetaDataDir
-{{Fill MetaDataDir Description}}
+The path to the folder to save logs
 
 ```yaml
 Type: String
@@ -72,43 +83,15 @@ Aliases:
 
 Required: False
 Position: 4
-Default value: None
+Default value: (Join-Path $Script:DefaultTempPath $Module)
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Module
-{{Fill Module Description}}
+### -MetaDataDir
+The path to the meta data directory for the environment
 
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -OutputDir
-{{Fill OutputDir Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Output
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ReferenceDir
-{{Fill ReferenceDir Description}}
+Default path is the same as the aos service PackagesLocalDirectory
 
 ```yaml
 Type: String
@@ -117,13 +100,49 @@ Aliases:
 
 Required: False
 Position: 5
-Default value: None
+Default value: $Script:MetaDataDir
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ReferenceDir
+The full path of a folder containing all assemblies referenced from X++ code
+
+Default path is the same as the aos service PackagesLocalDirectory
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: $Script:MetaDataDir
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BinDir
+The path to the bin directory for the environment
+
+Default path is the same as the aos service PackagesLocalDirectory\bin
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: $Script:BinDirTools
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -ShowOriginalProgress
-{{Fill ShowOriginalProgress Description}}
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
 
 ```yaml
 Type: SwitchParameter
@@ -131,8 +150,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
-Default value: None
+Position: 8
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -143,11 +162,13 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## INPUTS
 
-### None
-
 ## OUTPUTS
 
-### System.Object
 ## NOTES
+Tags: Compile, Model, Servicing, Report, Reports
+
+Author: Ievgen Miroshnikov (@IevgenMir)
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
