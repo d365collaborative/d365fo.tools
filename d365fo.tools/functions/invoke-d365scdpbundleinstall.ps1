@@ -4,15 +4,21 @@
         Invoke the SCDPBundleInstall.exe file
         
     .DESCRIPTION
-        A cmdlet that wraps some of the cumbersome work into a streamlined process
+        A cmdlet that wraps some of the cumbersome work of installing updates / hotfixes into a streamlined process
         
     .PARAMETER InstallOnly
-        Switch to instruct the cmdlet to only run the Install option and ignore any TFS / VSTS folders and source control in general
+        Instructs the cmdlet to only run the Install option and ignore any TFS / VSTS folders and source control in general
         
         Use it when testing an update on a local development machine (VM) / onebox
         
     .PARAMETER Command
-        Parameter description
+        The command / job you want the cmdlet to execute
+
+        Valid options are:
+        Prepare
+        Install
+
+        Default value is "Prepare"
         
     .PARAMETER Path
         Path to the update package that you want to install into the environment
@@ -46,9 +52,11 @@
         This will install the "HotfixPackageBundle.axscdppkg" into the default PackagesLocalDirectory location on the machine.
         
     .NOTES
+        Tags: Hotfix, Hotfixes, Updates, Prepare, VSTS, axscdppkg
+
         Author: Mötz Jensen (@splaxi)
+
         Author: Tommy Skaue (@skaue)
-        
 #>
 function Invoke-D365SCDPBundleInstall {
     [CmdletBinding(DefaultParameterSetName = 'InstallOnly')]
