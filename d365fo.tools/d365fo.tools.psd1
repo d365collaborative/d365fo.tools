@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.5.7'
+    ModuleVersion     = '0.5.8'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -131,6 +131,11 @@
 						'Invoke-D365LcsUpload',
 						'Invoke-D365LogicApp',
 						'Invoke-D365LogicAppMessage',
+
+						'Invoke-D365ModuleCompile',
+						'Invoke-D365ModuleLabelGeneration',
+						'Invoke-D365ModuleReportsCompile',
+						'Invoke-D365ModuleFullCompile'
 
 						'Invoke-D365ReArmWindows',
 						'Invoke-D365RunbookAnalyzer',
