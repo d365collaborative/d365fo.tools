@@ -5,6 +5,7 @@
     , "Add-D365EnvironmentConfig"
     , "Select-DefaultView"
     , "New-JsonRequest"
+    , "Invoke-Process"
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools
