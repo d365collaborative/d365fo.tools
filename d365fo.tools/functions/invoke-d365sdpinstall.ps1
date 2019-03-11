@@ -117,6 +117,12 @@ function Invoke-D365SDPInstall {
         return
     }
 
+    <#
+    Test for loaded assemblies
+    
+    [System.AppDomain]::CurrentDomain.GetAssemblies() | Where-Object Location | Sort-Object -Property FullName | Select-Object -Property Name, Location, Version | fl
+    #>
+
     Invoke-TimeSignal -Start
 
     $Util = Join-Path $Path "AXUpdateInstaller.exe"
