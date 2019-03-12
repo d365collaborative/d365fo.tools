@@ -105,8 +105,8 @@ function Invoke-D365BestPractice {
 
 	Invoke-TimeSignal -End
 
-	[PSCustomObject]@{ 
-		LogFile = $logFile 
-		XmlLogFile = $logXmlFile  
-	} 
+	[PSCustomObject]@{
+		LogFile = $logFile
+		XmlLogFile = $logXmlFile
+	}
 }
