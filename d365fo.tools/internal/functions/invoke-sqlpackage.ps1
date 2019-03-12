@@ -105,7 +105,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/Action:import")
         $null = $Params.Add("/TargetServerName:$DatabaseServer")
         $null = $Params.Add("/TargetDatabaseName:$DatabaseName")
-        $null = $Params.Add("/SourceFile:$FilePath")
+        $null = $Params.Add("/SourceFile:`"$FilePath`"")
         $null = $Params.Add("/Properties:CommandTimeout=1200")
         
         if (!$UseTrustedConnection) {
