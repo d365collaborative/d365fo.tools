@@ -1,7 +1,7 @@
 ﻿
 <#
     .SYNOPSIS
-        Runs the Best Practice checks
+        Run the Best Practice checks against modules and models
         
     .DESCRIPTION
         A cmdlet that wraps some of the cumbersome work into a streamlined process
@@ -22,25 +22,35 @@
     .PARAMETER Model
         Name of the Model to analyse
         
-    .PARAMETER XmlLog
-        Path where you want to store the Xml log output generated from the best practice analyser
+    .PARAMETER LogDir
+        Path where you want to store the log outputs generated from the best practice analyser
 
 	.PARAMETER PackagesRoot
-        Indicates to use binary metadata
+        Instructs the cmdlet to use binary metadata
+
+	.PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+
+        Default is $false which will silence the standard output
         
     .EXAMPLE
         PS C:\> Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel"
         
         This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module
+		The default output will be silenced.
+		The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml"
+		The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log"
         
     .NOTES
+		Tags: Best Practice, BP, BPs, Module, Model, Quality
+
         Author: Gert Van Der Heyden (@gertvdheyden)
-        
 #>
 
 function Invoke-D365BestPractice {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [CmdletBinding()]
+    [OutputType('[PsCustomObject]')]
     param (
         [Parameter(Mandatory = $false, Position = 1 )]
         [string] $BinDir = "$Script:PackageDirectory\bin",
@@ -56,32 +66,47 @@ function Invoke-D365BestPractice {
         [string] $Model,
 
         [Parameter(Mandatory = $false, Position = 5 )]
-        [string] $XmlLog = (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml"),
+        [string] $LogDir = (Join-Path $Script:DefaultTempPath $Module),
 
 		[Parameter(Mandatory = $false, Position = 6 )]
-        [switch] $PackagesRoot
+        [switch] $PackagesRoot,
 
-
+        [Parameter(Mandatory = $false, Position = 7 )]
+        [switch] $ShowOriginalProgress
     )
-    
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
 
-    $executable = Join-Path $BinDir "xppbp.exe"
+	Invoke-TimeSignal -Start
+
+    $tool = "xppbp.exe"
+    $executable = Join-Path $BinDir $tool
+
+    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
+    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
     if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
 
-    $param = @(
+	$logFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.log"
+    $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.xml"
+
+    $params = @(
         "-metadata=`"$MetaDataDir`"",
         "-all",
         "-module=`"$Module`"",
         "-model=`"$Model`"",
-        "-xmlLog=`"$XmlLog`""
+        "-xmlLog=`"$logXmlFile`"",
+        "-log=`"$logFile`""
         )
 	
 	if ($PackagesRoot -eq $true)
 	{
-		$param +="-packagesroot=`"$MetaDataDir`""
+		$params +="-packagesroot=`"$MetaDataDir`""
 	}
 
-    Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
-    Start-Process -FilePath $executable -ArgumentList  ($param -join " ") -NoNewWindow -Wait
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+
+	Invoke-TimeSignal -End
+
+	[PSCustomObject]@{ 
+		LogFile = $logFile 
+		XmlLogFile = $logXmlFile  
+	} 
 }
