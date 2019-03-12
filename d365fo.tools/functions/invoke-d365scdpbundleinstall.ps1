@@ -13,11 +13,11 @@
         
     .PARAMETER Command
         The command / job you want the cmdlet to execute
-
+        
         Valid options are:
         Prepare
         Install
-
+        
         Default value is "Prepare"
         
     .PARAMETER Path
@@ -53,9 +53,9 @@
         
     .NOTES
         Tags: Hotfix, Hotfixes, Updates, Prepare, VSTS, axscdppkg
-
+        
         Author: Mötz Jensen (@splaxi)
-
+        
         Author: Tommy Skaue (@skaue)
 #>
 function Invoke-D365SCDPBundleInstall {

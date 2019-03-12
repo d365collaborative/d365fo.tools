@@ -42,7 +42,9 @@ function Get-ApplicationEnvironment {
     $null = $Files2Process.Add("Microsoft.Dynamics.AX.Framework.EncryptionEngine")
     $null = $Files2Process.Add("Microsoft.Dynamics.AX.Security.Instrumentation")
     $null = $Files2Process.Add("Microsoft.Dynamics.ApplicationPlatform.Environment")
-        
+
+    #Import-AssemblyFileIntoMemory -Path $($Files2Process.ToArray())
+    
     foreach ($name in $Files2Process) {
             
         $ShadowClone = Join-Path $BasePath "$name`_shadow.dll"
