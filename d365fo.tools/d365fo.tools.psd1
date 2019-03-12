@@ -151,6 +151,8 @@
 
 						'Invoke-D365TableBrowser',
 
+						'Invoke-D365BestPractice',
+
 						'New-D365Bacpac',
 						'New-D365CAReport',
 						'New-D365ISVLicense',

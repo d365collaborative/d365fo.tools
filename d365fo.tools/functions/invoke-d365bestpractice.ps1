@@ -1,7 +1,7 @@
 ﻿
 <#
     .SYNOPSIS
-        Runs the Best Practices checks
+        Runs the Best Practice checks
         
     .DESCRIPTION
         A cmdlet that wraps some of the cumbersome work into a streamlined process
@@ -26,10 +26,10 @@
         Path where you want to store the Xml log output generated from the best practice analyser
 
 	.PARAMETER PackagesRoot
-        Indicates to use binary metadata 
+        Indicates to use binary metadata
         
     .EXAMPLE
-        PS C:\> Invoke-D365BestPractices -module "ApplicationSuite" -model "MyOverLayerModel"
+        PS C:\> Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel"
         
         This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module
         
@@ -38,7 +38,7 @@
         
 #>
 
-function Invoke-D365BestPractices {
+function Invoke-D365BestPractice {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [CmdletBinding()]
     param (
@@ -59,7 +59,7 @@ function Invoke-D365BestPractices {
         [string] $XmlLog = (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml"),
 
 		[Parameter(Mandatory = $false, Position = 6 )]
-        [switch] $PackagesRoot 
+        [switch] $PackagesRoot
 
 
     )
@@ -74,13 +74,13 @@ function Invoke-D365BestPractices {
         "-all",
         "-module=`"$Module`"",
         "-model=`"$Model`"",
-        "-xmlLog=`"$XmlLog`""	
+        "-xmlLog=`"$XmlLog`""
         )
 	
 	if ($PackagesRoot -eq $true)
 	{
-		$param +="-packagesroot=`"$MetaDataDir`""	
-	}       
+		$param +="-packagesroot=`"$MetaDataDir`""
+	}
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
     Start-Process -FilePath $executable -ArgumentList  ($param -join " ") -NoNewWindow -Wait
