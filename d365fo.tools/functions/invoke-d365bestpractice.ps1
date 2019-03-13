@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Run the Best Practice checks against modules and models
+        Run the Best Practice
         
     .DESCRIPTION
-        A cmdlet that wraps some of the cumbersome work into a streamlined process
+        Run the Best Practice checks against modules and models
         
     .PARAMETER BinDir
         The path to the bin directory for the environment
@@ -36,10 +36,10 @@
     .EXAMPLE
         PS C:\> Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel"
         
-        This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module
-		The default output will be silenced.
-		The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml"
-		The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log"
+        This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.
+        The default output will be silenced.
+		The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
+		The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
         
     .NOTES
 		Tags: Best Practice, BP, BPs, Module, Model, Quality
