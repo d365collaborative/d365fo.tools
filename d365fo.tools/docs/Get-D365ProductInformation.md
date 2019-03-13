@@ -23,7 +23,7 @@ Gets detailed information about application and platform
 
 ### EXAMPLE 1
 ```
-Get-ProductInfoProvider
+Get-D365ProductInformation
 ```
 
 This will get product, platform and application version details for the environment
