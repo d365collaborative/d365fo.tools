@@ -1,19 +1,20 @@
-﻿<#
-.SYNOPSIS
-Test if any D365 assemblies are loaded
-
-.DESCRIPTION
-Test is any D365 assemblies are loaded into memory and will be a blocking issue
-
-.EXAMPLE
-PS C:\> Test-AssembliesLoaded
-
-This will test in any D365 specific assemblies are loaded into memory.
-If is, a Stop-PSFFunction test will state that we should stop execution.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Test if any D365 assemblies are loaded
+        
+    .DESCRIPTION
+        Test is any D365 assemblies are loaded into memory and will be a blocking issue
+        
+    .EXAMPLE
+        PS C:\> Test-AssembliesLoaded
+        
+        This will test in any D365 specific assemblies are loaded into memory.
+        If is, a Stop-PSFFunction test will state that we should stop execution.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Test-AssembliesLoaded {

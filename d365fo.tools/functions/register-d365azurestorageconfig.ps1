@@ -1,10 +1,11 @@
-﻿<#
-.SYNOPSIS
-Register Azure Storage Configurations
-
-.DESCRIPTION
-Register all Azure Storage Configurations
-
+﻿
+<#
+    .SYNOPSIS
+        Register Azure Storage Configurations
+        
+    .DESCRIPTION
+        Register all Azure Storage Configurations
+        
     .PARAMETER ConfigStorageLocation
         Parameter used to instruct where to store the configuration objects
         
@@ -15,17 +16,17 @@ Register all Azure Storage Configurations
         "System"
         
         "System" will store the configuration as default for all users, so they can access the configuration objects
-
-.EXAMPLE
-PS C:\> Register-D365AzureStorageConfig -ConfigStorageLocation "System"
-
-This will store all Azure Storage Configurations as defaults for all users on the machine.
-
-.NOTES
-Tags: Configuration, Azure, Storage
-
-Author: Mötz Jensen (@Splaxi)
-
+        
+    .EXAMPLE
+        PS C:\> Register-D365AzureStorageConfig -ConfigStorageLocation "System"
+        
+        This will store all Azure Storage Configurations as defaults for all users on the machine.
+        
+    .NOTES
+        Tags: Configuration, Azure, Storage
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Register-D365AzureStorageConfig {
