@@ -24,13 +24,13 @@
         
     .PARAMETER LogDir
         Path where you want to store the log outputs generated from the best practice analyser
-
-	.PARAMETER PackagesRoot
+        
+    .PARAMETER PackagesRoot
         Instructs the cmdlet to use binary metadata
-
-	.PARAMETER ShowOriginalProgress
+        
+    .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
-
+        
         Default is $false which will silence the standard output
         
     .EXAMPLE
@@ -38,12 +38,12 @@
         
         This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.
         The default output will be silenced.
-		The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
-		The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
+        The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
+        The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
         
     .NOTES
-		Tags: Best Practice, BP, BPs, Module, Model, Quality
-
+        Tags: Best Practice, BP, BPs, Module, Model, Quality
+        
         Author: Gert Van Der Heyden (@gertvdheyden)
 #>
 
