@@ -29,8 +29,6 @@ function Get-ApplicationEnvironment {
         }
     }
 
-    $break = $false
-
     Write-PSFMessage -Level Verbose -Message "Shadow cloning all relevant assemblies to the Microsoft.Dynamics.ApplicationPlatform.Environment.dll to avoid locking issues. This enables us to install updates while having d365fo.tools loaded"
 
     $BasePath = "$AOSPath"
