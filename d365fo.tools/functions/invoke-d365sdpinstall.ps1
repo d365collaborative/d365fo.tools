@@ -121,7 +121,8 @@ function Invoke-D365SDPInstall {
 
     if (Test-PSFFunctionInterrupt) {
         Write-PSFMessage -Level Host -Message "It seems that you have executed some cmdlets that required to <c='em'>load</c> some Dynamics 356 Finance & Operations <c='em'>assemblies</c> into memory. Please <c='em'>close and restart</c> you PowerShell session / console, and <c='em'>start a fresh</c>. Please note that you should execute the failed command <c='em'>immediately</c> after importing the module."
-        return }
+        return
+    }
 
     Invoke-TimeSignal -Start
 

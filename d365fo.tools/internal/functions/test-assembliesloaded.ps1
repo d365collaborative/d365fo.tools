@@ -4,7 +4,7 @@
         Test if any D365 assemblies are loaded
         
     .DESCRIPTION
-        Test is any D365 assemblies are loaded into memory and will be a blocking issue
+        Test if any D365 assemblies are loaded into memory and will be a blocking issue
         
     .EXAMPLE
         PS C:\> Test-AssembliesLoaded
