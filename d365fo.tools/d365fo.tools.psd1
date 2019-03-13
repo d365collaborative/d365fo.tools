@@ -158,6 +158,7 @@
 						'New-D365ISVLicense',
 						'New-D365TopologyFile',
 
+						'Register-D365AzureStorageConfig',
 						'Remove-D365Database',
 						'Remove-D365Model',
 						'Remove-D365User',
