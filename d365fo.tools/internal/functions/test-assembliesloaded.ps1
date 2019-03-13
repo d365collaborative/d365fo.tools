@@ -23,10 +23,10 @@ function Test-AssembliesLoaded {
     )
 
     Invoke-TimeSignal -Start
-    
+
     $assembliesLoaded = [System.AppDomain]::CurrentDomain.GetAssemblies() | Where-Object Location -ne $null
 
-    $assembliesBlocking = $assembliesLoaded.location -match "AOSService|Dynamics|PackagesLocalDirectory"   
+    $assembliesBlocking = $assembliesLoaded.location -match "AOSService|Dynamics|PackagesLocalDirectory"
 
     if ($assembliesBlocking.Count -gt 0) {
         Stop-PSFFunction -Message "Stopping because some assembly (DLL) files seems to be loaded into memory." -StepsUpward 1
