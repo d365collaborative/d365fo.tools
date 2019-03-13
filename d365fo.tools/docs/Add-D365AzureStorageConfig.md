@@ -15,13 +15,13 @@ Save an Azure Storage Account config
 ### AccessToken
 ```
 Add-D365AzureStorageConfig -Name <String> -AccountId <String> -AccessToken <String> -Container <String>
- [-ConfigStorageLocation <String>] [-Force] [<CommonParameters>]
+ [-Force] [<CommonParameters>]
 ```
 
 ### SAS
 ```
-Add-D365AzureStorageConfig -Name <String> -AccountId <String> -SAS <String> -Container <String>
- [-ConfigStorageLocation <String>] [-Force] [<CommonParameters>]
+Add-D365AzureStorageConfig -Name <String> -AccountId <String> -SAS <String> -Container <String> [-Force]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,15 +37,6 @@ Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "d
 This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and blob container "testblob".
 
 ### EXAMPLE 2
-```
-Add-D365AzureStorageConfig -Name "UAT-Exports" -AccountId "1234" -AccessToken "dafdfasdfasdf" -Container "testblob" -ConfigStorageLocation "System"
-```
-
-This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", AccessToken "dafdfasdfasdf" and blob container "testblob".
-All configuration objects will be persisted in the system wide configuration store.
-This will enable all users to access the configuration objects and their values.
-
-### EXAMPLE 3
 ```
 Add-D365AzureStorageConfig -Name UAT-Exports -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -AccountId "1234" -Container "testblob"
 ```
@@ -127,29 +118,6 @@ Aliases: Blobname, Blob
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ConfigStorageLocation
-Parameter used to instruct where to store the configuration objects
-
-The default value is "User" and this will store all configuration for the active user
-
-Valid options are:
-"User"
-"System"
-
-"System" will store the configuration so all users can access the configuration objects
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: User
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
