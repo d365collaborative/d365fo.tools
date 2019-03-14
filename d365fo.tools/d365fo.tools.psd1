@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.5.10'
+    ModuleVersion     = '0.5.11'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -151,11 +151,14 @@
 
 						'Invoke-D365TableBrowser',
 
+						'Invoke-D365BestPractice',
+
 						'New-D365Bacpac',
 						'New-D365CAReport',
 						'New-D365ISVLicense',
 						'New-D365TopologyFile',
 
+						'Register-D365AzureStorageConfig',
 						'Remove-D365Database',
 						'Remove-D365Model',
 						'Remove-D365User',

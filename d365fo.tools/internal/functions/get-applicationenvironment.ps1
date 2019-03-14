@@ -29,46 +29,24 @@ function Get-ApplicationEnvironment {
         }
     }
 
-    $break = $false
-
     Write-PSFMessage -Level Verbose -Message "Shadow cloning all relevant assemblies to the Microsoft.Dynamics.ApplicationPlatform.Environment.dll to avoid locking issues. This enables us to install updates while having d365fo.tools loaded"
 
     $BasePath = "$AOSPath"
     [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
         
-    $null = $Files2Process.Add("Microsoft.Dynamics.AX.Authentication.Instrumentation")
-    $null = $Files2Process.Add("Microsoft.Dynamics.AX.Configuration.Base")
-    $null = $Files2Process.Add("Microsoft.Dynamics.BusinessPlatform.SharedTypes")
-    $null = $Files2Process.Add("Microsoft.Dynamics.AX.Framework.EncryptionEngine")
-    $null = $Files2Process.Add("Microsoft.Dynamics.AX.Security.Instrumentation")
-    $null = $Files2Process.Add("Microsoft.Dynamics.ApplicationPlatform.Environment")
+    $null = $Files2Process.Add((Join-Path $BasePath "Microsoft.Dynamics.AX.Authentication.Instrumentation.dll"))
+    $null = $Files2Process.Add((Join-Path $BasePath "Microsoft.Dynamics.AX.Configuration.Base.dll"))
+    $null = $Files2Process.Add((Join-Path $BasePath "Microsoft.Dynamics.BusinessPlatform.SharedTypes.dll"))
+    $null = $Files2Process.Add((Join-Path $BasePath "Microsoft.Dynamics.AX.Framework.EncryptionEngine.dll"))
+    $null = $Files2Process.Add((Join-Path $BasePath "Microsoft.Dynamics.AX.Security.Instrumentation.dll"))
+    $null = $Files2Process.Add((Join-Path $BasePath "Microsoft.Dynamics.ApplicationPlatform.Environment.dll"))
 
-    #Import-AssemblyFileIntoMemory -Path $($Files2Process.ToArray())
-    
-    foreach ($name in $Files2Process) {
-            
-        $ShadowClone = Join-Path $BasePath "$name`_shadow.dll"
-        $Path = Join-Path $BasePath "$name.dll"
-            
-        if (Test-Path -Path $Path -PathType Leaf) {
-            Copy-Item -Path $Path -Destination $ShadowClone -Force
+    Import-AssemblyFileIntoMemory -Path $($Files2Process.ToArray())
 
-            $null = [AppDomain]::CurrentDomain.Load(([System.IO.File]::ReadAllBytes($ShadowClone)))
+    if (Test-PSFFunctionInterrupt) { return }
 
-            Remove-Item -Path $ShadowClone -Force
-        }
-        else {
-            Write-PSFMessage -Level Verbose -Message "Unable to load all needed files. Setting break variable."
-
-            $break = $true
-            break
-        }
-    }
-
-    if ($break -eq $false) {
-        Write-PSFMessage -Level Verbose -Message "All assemblies loaded. Getting environment details."
-        $environment = [Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory]::GetApplicationEnvironment()
-    }
+    Write-PSFMessage -Level Verbose -Message "All assemblies loaded. Getting environment details."
+    $environment = [Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory]::GetApplicationEnvironment()
     
     $environment
 }
