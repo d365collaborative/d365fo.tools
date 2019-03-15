@@ -61,5 +61,65 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		<View>
+			<Name>D365FO.TOOLS.ModuleCompileOutput</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.ModuleCompileOutput</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>LogFile</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>XmlLogFile</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
+			<Name>D365FO.TOOLS.ModuleReportsCompileOutput</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.ModuleReportsCompileOutput</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>LogFile</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>XmlLogFile</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
+			<Name>D365FO.TOOLS.ModuleLabelGenerationOutput</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.ModuleLabelGenerationOutput</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>OutLogFile</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ErrorLogFile</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

@@ -109,5 +109,6 @@ function Invoke-D365ModuleLabelGeneration {
     [PSCustomObject]@{
         OutLogFile = $logFile
         ErrorLogFile = $logErrorFile
+        PSTypeName = 'D365FO.TOOLS.ModuleLabelGenerationOutput'
     }
 }
