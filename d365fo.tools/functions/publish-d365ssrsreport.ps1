@@ -60,7 +60,7 @@
 
 function Publish-D365SsrsReport {
     [CmdletBinding()]
-    [OutputType()]
+    [OutputType('[PsCustomObject]')]
     param (
         [Parameter(Mandatory = $false)]
         [string[]] $Module = "*",
@@ -129,4 +129,8 @@ function Publish-D365SsrsReport {
     }
 
     Invoke-TimeSignal -End
+    
+    [PSCustomObject]@{
+		LogFile = $LogFile
+	}
 }
