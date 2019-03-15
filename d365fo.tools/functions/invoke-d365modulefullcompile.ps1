@@ -74,11 +74,18 @@ function Invoke-D365ModuleFullCompile {
     if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
-    Invoke-D365ModuleCompile @PSBoundParameters
+    $resModuleCompile = Invoke-D365ModuleCompile @PSBoundParameters
 
-    Invoke-D365ModuleLabelGeneration @PSBoundParameters
+    $resLabelGeneration = Invoke-D365ModuleLabelGeneration @PSBoundParameters
 
-    Invoke-D365ModuleReportsCompile @PSBoundParameters
-    
+    $resReportsCompile = Invoke-D365ModuleReportsCompile @PSBoundParameters
+
     Invoke-TimeSignal -End
+
+    $resModuleCompile | Select-PSFObject @{Name = "OutputOrigin"; Expression = {"ModuleCompile"}}, "LogFile as LogFile", "XmlLogFile as XmlLogFile", @{Name = "ErrorLogFile"; Expression = {""}}
+
+    $resLabelGeneration | Select-PSFObject @{Name = "OutputOrigin"; Expression = {"LabelGeneration"}}, "OutLogFile as LogFile", @{Name = "XmlLogFile"; Expression = {""}}, "ErrorLogFile as ErrorLogFile"
+
+    $resReportsCompile | Select-PSFObject @{Name = "OutputOrigin"; Expression = {"ReportsCompile"}}, "LogFile as LogFile", "XmlLogFile as XmlLogFile", @{Name = "ErrorLogFile"; Expression = {""}}
+
 }
