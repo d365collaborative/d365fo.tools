@@ -45,6 +45,7 @@
 
 function Invoke-D365ModuleFullCompile {
     [CmdletBinding()]
+    [OutputType('[PsCustomObject]')]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
         [string] $Module,
