@@ -32,8 +32,8 @@
         Instruct the cmdlet to show the standard output in the console
         
         Default is $false which will silence the standard output
-
-	.PARAMETER RunFixers
+        
+    .PARAMETER RunFixers
         Instructs the cmdlet to invoke the fixers for the identified warnings
         
     .EXAMPLE

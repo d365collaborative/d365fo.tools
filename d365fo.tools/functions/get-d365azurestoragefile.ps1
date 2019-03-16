@@ -11,10 +11,10 @@
         
     .PARAMETER AccessToken
         The token that has the needed permissions for the search action
-
+        
     .PARAMETER SAS
         The SAS key that you have created for the storage account or blob container
-
+        
     .PARAMETER Container
         Name of the blob container inside the storage account you want to look for files
         
@@ -39,13 +39,13 @@
         
         This will get the latest (newest) file from the blob container "backupfiles".
         It will use the AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" to gain access to the container.
-
+        
     .EXAMPLE
         PS C:\> Get-D365AzureStorageFile -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Name "*UAT*"
         
         This will get all files in the blob container "backupfiles" that fits the "*UAT*" search value.
         It will use the AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" to gain access to the container.
-
+        
     .EXAMPLE
         PS C:\> Get-D365AzureStorageFile -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Container "backupfiles" -Latest
         
