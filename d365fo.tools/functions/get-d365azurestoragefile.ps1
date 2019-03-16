@@ -43,63 +43,73 @@
 function Get-D365AzureStorageFile {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $false, Position = 1 )]
+        [Parameter(Mandatory = $false)]
         [string] $AccountId = $Script:AccountId,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
+        [Parameter(Mandatory = $false)]
         [string] $AccessToken = $Script:AccessToken,
 
-        [Parameter(Mandatory = $false, Position = 3 )]
+        [Parameter(Mandatory = $false)]
+        [string] $SAS = $Script:SAS,
+
+        [Parameter(Mandatory = $false)]
         [Alias('Blob')]
         [Alias('Blobname')]
         [string] $Container = $Script:Container,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default')]
+        [Alias('FileName')]
         [string] $Name = "*",
 
+        [Parameter(Mandatory = $true, ParameterSetName = 'Latest')]
         [Alias('GetLatest')]
         [switch] $Latest
     )
 
-    BEGIN {
-        if (([string]::IsNullOrEmpty($AccountId)) -or
-            ([string]::IsNullOrEmpty($AccessToken)) -or ([string]::IsNullOrEmpty($Container))) {
-            Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
-            Stop-PSFFunction -Message "Stopping because of missing parameters"
-            return
-        }
+    if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
+        ([string]::IsNullOrEmpty($Container)) -or
+        (([string]::IsNullOrEmpty($AccessToken)) -and ([string]::IsNullOrEmpty($SAS)))) {
+        Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
+        Stop-PSFFunction -Message "Stopping because of missing parameters"
+        return
     }
 
+    Invoke-TimeSignal -Start
 
-    PROCESS {
-        if (Test-PSFFunctionInterrupt) { return }
+    if ([string]::IsNullOrEmpty($SAS)) {
+        Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with AccessToken"
 
-        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId -StorageAccountKey $AccessToken
+        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
+    }
+    else {
+        Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with SAS"
 
-        $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
+        $conString = $("BlobEndpoint=https://{0}.blob.core.windows.net/;QueueEndpoint=https://{0}.queue.core.windows.net/;FileEndpoint=https://{0}.file.core.windows.net/;TableEndpoint=https://{0}.table.core.windows.net/;SharedAccessSignature={1}" -f $AccountId.ToLower(), $SAS)
+        $storageContext = new-AzureStorageContext -ConnectionString $conString
+    }
 
-        $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
+    $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
 
-        $blobcontainer = $blobClient.GetContainerReference($Container);
+    $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
 
-        try {
-            $files = $blobcontainer.ListBlobs() | Sort-Object -Descending { $_.Properties.LastModified }
+    $blobcontainer = $blobClient.GetContainerReference($Container);
 
-            if ($Latest) {
-                $files | Select-Object -First 1
-            }
-            else {
+    try {
+        $files = $blobcontainer.ListBlobs() | Sort-Object -Descending { $_.Properties.LastModified }
+
+        if ($Latest) {
+            $files | Select-Object -First 1
+        }
+        else {
     
-                foreach ($obj in $files) {
-                    if ($obj.Name -NotLike $Name) { continue }
+            foreach ($obj in $files) {
+                if ($obj.Name -NotLike $Name) { continue }
 
-                    $obj
-                }
+                $obj
             }
         }
-        catch {
-            Write-PSFMessage -Level Warning -Message "Something broke" -ErrorRecord $_
-        }
     }
-    END {}
+    catch {
+        Write-PSFMessage -Level Warning -Message "Something broke" -ErrorRecord $_
+    }
 }
