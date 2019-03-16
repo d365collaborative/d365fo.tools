@@ -149,6 +149,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## OUTPUTS
 
+### [PsCustomObject]
 ## NOTES
 Tags: Compile, Model, Servicing
 

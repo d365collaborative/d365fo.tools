@@ -14,7 +14,7 @@ Run the Best Practice
 
 ```
 Invoke-D365BestPractice [[-BinDir] <String>] [[-MetaDataDir] <String>] [-Module] <String> [-Model] <String>
- [[-LogDir] <String>] [-PackagesRoot] [-ShowOriginalProgress] [<CommonParameters>]
+ [[-LogDir] <String>] [-PackagesRoot] [-ShowOriginalProgress] [-RunFixers] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -140,6 +140,21 @@ Aliases:
 
 Required: False
 Position: 8
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RunFixers
+Instructs the cmdlet to invoke the fixers for the identified warnings
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
