@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -82,7 +82,7 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: [switch]::Present
+Default value: True
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -156,6 +156,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Environment, Service, Services, Aos, Batch, Servicing
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

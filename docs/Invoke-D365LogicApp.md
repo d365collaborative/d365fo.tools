@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -13,7 +13,7 @@ Invoke a http request for a Logic App
 ## SYNTAX
 
 ```
-Invoke-D365LogicApp [[-Url] <String>] [[-Email] <String>] [[-Subject] <String>] [-IncludeAll] [-AsJob]
+Invoke-D365LogicApp [[-Url] <String>] [[-Payload] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,13 +27,6 @@ Invoke-D365SyncDB | Invoke-D365LogicApp
 ```
 
 This will execute the sync process and when it is done it will invoke a Azure Logic App with the default parameters that have been configured for the system.
-
-### EXAMPLE 2
-```
-Invoke-D365SyncDB | Invoke-D365LogicApp -Email administrator@contoso.com -Subject "Work is done" -Url https://prod-35.westeurope.logic.azure.com:443/
-```
-
-This will execute the sync process and when it is done it will invoke a Azure Logic App with the email, subject and URL parameters that are needed to invoke an Azure Logic App.
 
 ## PARAMETERS
 
@@ -52,8 +45,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Email
-The email address of the receiver of the message that the cmdlet will send
+### -Payload
+The data content you want to send to the LogicApp
 
 ```yaml
 Type: String
@@ -62,61 +55,22 @@ Aliases:
 
 Required: False
 Position: 2
-Default value: (Get-D365LogicAppConfig).Email
+Default value: {}
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Subject
-Subject string to apply to the email and to the IM message
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: (Get-D365LogicAppConfig).Subject
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -IncludeAll
-Switch to instruct the cmdlet to include all cmdlets (names only) from the pipeline
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AsJob
-Switch to instruct the cmdlet to run the invocation as a job (async)
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
 ## OUTPUTS
 
 ## NOTES
+Tags: LogicApp, Logic App, Configuration, Url, Notification
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

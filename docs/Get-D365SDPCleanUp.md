@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -39,6 +39,10 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: CleanUp, Retention, Servicing, Cut Off, DeployablePackage, Deployable Package
+
+Author: Mötz Jensen (@Splaxi)
+
 This cmdlet is based on the findings from Alex Kwitny (@AlexOnDAX)
 
 See his blog for more info:

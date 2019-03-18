@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -14,7 +14,7 @@ Save an environment config
 
 ```
 Add-D365EnvironmentConfig [-Name] <String> [-URL] <String> [[-SqlUser] <String>] [[-SqlPwd] <String>]
- [[-Company] <String>] [[-TfsUri] <String>] [-Force] [<CommonParameters>]
+ [[-Company] <String>] [[-TfsUri] <String>] [[-ConfigStorageLocation] <String>] [-Force] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -134,6 +134,29 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ConfigStorageLocation
+Parameter used to instruct where to store the configuration objects
+
+The default value is "User" and this will store all configuration for the active user
+
+Valid options are:
+"User"
+"System"
+
+"System" will store the configuration so all users can access the configuration objects
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: User
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Force
 Switch to instruct the cmdlet to overwrite already registered environment entry
 
@@ -158,6 +181,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+Tags: Environment, Url, Config, Configuration, Tfs, Vsts, Sql, SqlUser, SqlPwd
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -25,8 +25,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPwd] <String>] [[-AxRuntimeUserPwd] <String>]
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
- [[-AxDbReadonlyUserPwd] <String>]
- [[-CustomSqlFile] <String>] [-ImportOnly] [<CommonParameters>]
+ [[-AxDbReadonlyUserPwd] <String>] [[-CustomSqlFile] <String>] [-ImportOnly] [<CommonParameters>]
 ```
 
 ### ImportTier2
@@ -35,8 +34,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] <String> [-AxRuntimeUserPwd] <String>
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
- [-AxDbReadonlyUserPwd] <String>
- [[-CustomSqlFile] <String>] [<CommonParameters>]
+ [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,18 +47,25 @@ Import a bacpac file to either a Tier1 or Tier2 environment
 Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
 ```
 
+PS C:\\\> Switch-D365ActiveDatabase -NewDatabaseName "ImportedDatabase"
+
 This will instruct the cmdlet that the import will be working against a SQL Server instance.
 It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+The next thing to do is to switch the active database out with the new one you just imported.
+"ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
 
 ### EXAMPLE 2
 ```
 Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -AxDbReadonlyUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
 ```
 
+PS C:\\\> Switch-D365ActiveDatabase -NewDatabaseName "ImportedDatabase" -SqlUser "sqladmin" -SqlPwd "XyzXyz"
+
 This will instruct the cmdlet that the import will be working against an Azure DB instance.
-It requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2
-environment.
+It requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2 environment.
 It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+The next thing to do is to switch the active database out with the new one you just imported.
+"ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
 
 ## PARAMETERS
 
@@ -463,6 +468,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Database, Bacpac, Tier1, Tier2, Golden Config, Config, Configuration
+
 Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
 

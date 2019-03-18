@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -23,7 +23,7 @@ Gets detailed information about application and platform
 
 ### EXAMPLE 1
 ```
-Get-ProductInfoProvider
+Get-D365ProductInformation
 ```
 
 This will get product, platform and application version details for the environment
@@ -39,9 +39,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
-The call to the dll file gets all relevant product details for the environment.
+Tags: Build, Version, Reference, ProductVersion, ProductDetails, Product
 
 Author: Rasmus Andersen (@ITRasmus)
+
+The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
+The call to the dll file gets all relevant product details for the environment.
 
 ## RELATED LINKS

@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -33,8 +33,7 @@ This will get all details available for the environment
 Get-D365EnvironmentSettings | Format-Custom -Property *
 ```
 
-This will get all details available for the environment and format it to show all details in a long 
-custom object.
+This will get all details available for the environment and format it to show all details in a long custom object.
 
 ## PARAMETERS
 
@@ -47,7 +46,12 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations. 
+Tags: Environment, Configuration, WebConfig, Web.Config, Decryption
+
+Author: Rasmus Andersen (@ITRasmus)
+Author: Mötz Jensen (@Splaxi)
+
+The cmdlet wraps the call against a dll file that is shipped with Dynamics 365 for Finance & Operations.
 The call to the dll file gets all relevant details for the installation.
 
 ## RELATED LINKS

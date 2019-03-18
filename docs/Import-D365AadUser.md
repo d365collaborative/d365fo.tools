@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -322,8 +322,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: User, Users, Security, Configuration, Permission, AAD, Azure Active Directory, Group, Groups
+
 Author: Rasmus Andersen (@ITRasmus)
 Author: Charles Colombel (@dropshind)
+Author: Mötz Jensen (@Splaxi)
 
 At no circumstances can this cmdlet be used to import users into a PROD environment.
 
@@ -331,8 +334,5 @@ Only users from an Azure Active Directory that you have access to, can be import
 Use AAD B2B implementation if you want to support external people.
 
 Every imported users will get the System Administration / Administrator role assigned on import
-
-Author: Rasmus Andersen (@ITRasmus)
-Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

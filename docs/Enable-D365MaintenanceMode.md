@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -139,9 +139,15 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: MaintenanceMode, Maintenance, License, Configuration, Servicing
+
 Author: Mötz Jensen (@splaxi)
 Author: Tommy Skaue (@skaue)
 
-The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed
+With administrator privileges:
+The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed.
+
+Without administrator privileges:
+Will stop all services, execute a Sql script and start all services.
 
 ## RELATED LINKS

@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -14,14 +14,14 @@ Upload a file to Azure
 
 ### Default (Default)
 ```
-Invoke-D365AzureStorageUpload [[-AccountId] <String>] [[-AccessToken] <String>] [[-Blobname] <String>]
- [-Filepath] <String> [-DeleteOnUpload] [<CommonParameters>]
+Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
+ [-Container <String>] -Filepath <String> [-DeleteOnUpload] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Invoke-D365AzureStorageUpload [[-AccountId] <String>] [[-AccessToken] <String>] [[-Blobname] <String>]
- [-Filepath] <String> [-DeleteOnUpload] [<CommonParameters>]
+Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
+ [-Container <String>] -Filepath <String> [-DeleteOnUpload] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,7 +31,7 @@ Upload any file to an Azure Storage Account
 
 ### EXAMPLE 1
 ```
-Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Blobname "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
+Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
 ```
 
 This will upload the "c:\temp\bacpac\UAT_20180701.bacpac" up to the "backupfiles" container, inside the "miscfiles" Azure Storage Account that is access with the "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" token.
@@ -46,6 +46,23 @@ PS C:\\\> New-D365Bacpac | Invoke-D365AzureStorageUpload @AzureParams
 
 This will get the current Azure Storage Account configuration details and use them as parameters to upload the file to an Azure Storage Account.
 
+### EXAMPLE 3
+```
+New-D365Bacpac | Invoke-D365AzureStorageUpload
+```
+
+This will generate a new bacpac file using the "New-D365Bacpac" cmdlet.
+The file will be uploaded to an Azure Storage Account using the "Invoke-D365AzureStorageUpload" cmdlet.
+This will use the default parameter values that are based on the configuration stored inside "Get-D365ActiveAzureStorageConfig" for the "Invoke-D365AzureStorageUpload" cmdlet.
+
+### EXAMPLE 4
+```
+Invoke-D365AzureStorageUpload -AccountId "miscfiles" -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -Container "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
+```
+
+This will upload the "c:\temp\bacpac\UAT_20180701.bacpac" up to the "backupfiles" container, inside the "miscfiles" Azure Storage Account.
+A SAS key is used to gain access to the container and uploading the file to it.
+
 ## PARAMETERS
 
 ### -AccountId
@@ -57,7 +74,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: Named
 Default value: $Script:AccountId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -72,14 +89,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: $Script:AccessToken
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Blobname
-Name of the container / blog inside the storage account you want to store the file
+### -SAS
+The SAS key that you have created for the storage account or blob container
 
 ```yaml
 Type: String
@@ -87,8 +104,23 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
-Default value: $Script:Blobname
+Position: Named
+Default value: $Script:SAS
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Container
+Name of the blob container inside the storage account you want to store the file
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Blobname, Blob
+
+Required: False
+Position: Named
+Default value: $Script:Container
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -99,10 +131,10 @@ Path to the file you want to upload
 ```yaml
 Type: String
 Parameter Sets: Default
-Aliases: File
+Aliases: Path, File
 
 Required: True
-Position: 5
+Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
@@ -111,10 +143,10 @@ Accept wildcard characters: False
 ```yaml
 Type: String
 Parameter Sets: Pipeline
-Aliases: File
+Aliases: Path, File
 
 Required: True
-Position: 5
+Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
@@ -144,9 +176,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet supports piping and can be used in advanced scenarios.
-See more on github and the wiki pages.
+Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Bacpac, Container
 
 Author: Mötz Jensen (@Splaxi)
+
+The cmdlet supports piping and can be used in advanced scenarios.
+See more on github and the wiki pages.
 
 ## RELATED LINKS

@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -156,6 +156,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: License, Install, ISV, 3.
+Party, Servicing
+
 Author: Mötz Jensen (@splaxi)
 
 ## RELATED LINKS

@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -39,8 +39,10 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet uses CIM objects to access the activation details
+Tags: Windows, License, Activation, Arm, Rearm
 
 Author: Mötz Jensen (@Splaxi)
+
+The cmdlet uses CIM objects to access the activation details
 
 ## RELATED LINKS

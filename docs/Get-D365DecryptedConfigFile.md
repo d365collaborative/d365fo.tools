@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -69,9 +69,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Used for getting the Password for the database and other service accounts used in environment
+Tags: Configuration, Service Account, Sql, SqlUser, SqlPwd, WebConfig, Web.Config, Decryption
 
 Author : Rasmus Andersen (@ITRasmus)
 Author : Mötz Jensen (@splaxi)
+
+Used for getting the Password for the database and other service accounts used in environment
 
 ## RELATED LINKS

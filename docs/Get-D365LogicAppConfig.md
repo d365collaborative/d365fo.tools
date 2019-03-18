@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -40,6 +40,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: LogicApp, Logic App, Configuration, Url, Email
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
