@@ -95,5 +95,5 @@ function Get-D365Environment {
         Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
     }
     
-    $Results | Select-Object Server, DisplayName, Status, Name
+    $Results | Select-PSFObject -TypeName "D365FO.TOOLS.Environment.Service" Server, DisplayName, Status, Name
 }
