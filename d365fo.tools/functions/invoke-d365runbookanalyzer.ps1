@@ -42,7 +42,7 @@ function Invoke-D365RunbookAnalyzer {
         if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
 
         $null = $sb = New-Object System.Text.StringBuilder
-        $null = $sb.AppendLine("<D365FOTools-Runbook-Analyzer-Output>")
+        $null = $sb.AppendLine("<D365FO.Tools-Runbook-Analyzer-Output>")
 
         [xml]$xmlRunbook = Get-Content $Path
 
