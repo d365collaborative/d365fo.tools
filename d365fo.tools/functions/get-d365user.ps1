@@ -9,7 +9,7 @@
     .PARAMETER DatabaseServer
         The name of the database server
         
-        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
         
         If Azure use the full address to the database server, e.g. server.database.windows.net
         
@@ -20,24 +20,32 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER Email
-        The search string to select which user(s) should be updated.
+        The search string to select which user(s) should be updated
         
         The parameter supports wildcards. E.g. -Email "*@contoso.com*"
         
         Default value is "*" to get all users
-        
+
+    .PARAMETER ExcludeSystemUsers
+        Instructs the cmdlet to filter out all known system users
+
     .EXAMPLE
         PS C:\> Get-D365User
         
-        This will get all users from the environment
+        This will get all users from the environment.
         
+    .EXAMPLE
+        PS C:\> Get-D365User -ExcludeSystemUsers
+        
+        This will get all users from the environment, but filter out all known system user accounts.
+
     .EXAMPLE
         PS C:\> Get-D365User -Email "*contoso.com"
         
-        This will search for all users with an e-mail address containing 'contoso.com' from the environment
+        This will search for all users with an e-mail address containing 'contoso.com' from the environment.
         
     .NOTES
         Tags: User, Users
@@ -61,9 +69,13 @@ function Get-D365User {
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $false, Position = 5)]
-        [string]$Email = "*"
+        [string]$Email = "*",
+
+        [switch]$ExcludeSystemUsers
 
     )
+
+    $exclude = @("DAXMDSRunner.com", "dynamics.com")
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
@@ -85,7 +97,7 @@ function Get-D365User {
         $reader = $sqlCommand.ExecuteReader()
 
         while ($reader.Read() -eq $true) {
-            [PSCustomObject]@{
+            $res = [PSCustomObject]@{
                 UserId           = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
                 Name             = "$($reader.GetString($($reader.GetOrdinal("NAME"))))"
                 NetworkAlias     = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
@@ -95,8 +107,16 @@ function Get-D365User {
                 Enabled           = [bool][int]"$($reader.GetInt32($($reader.GetOrdinal("ENABLE"))))"
                 Email            = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
                 Company            = "$($reader.GetString($($reader.GetOrdinal("COMPANY"))))"
-
             }
+
+            if($ExcludeSystemUsers){
+                $temp = $res.Email.Split("@")[1]
+                if($exclude -contains $temp) {
+                    continue
+                }
+            }
+
+            $res
         }
     }
     catch {
@@ -113,6 +133,4 @@ function Get-D365User {
 
         $sqlCommand.Dispose()
     }
-    
-
 }
