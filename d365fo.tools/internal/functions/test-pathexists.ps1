@@ -17,8 +17,14 @@
         Either 'Leaf' or 'Container'
         
     .PARAMETER Create
-        Switch to instruct the cmdlet to create the directory if it doesn't exist
+        Instruct the cmdlet to create the directory if it doesn't exist
         
+    .PARAMETER ShouldNotExist
+        Instruct the cmdlet to return true if the file doesn't exists
+
+    .PARAMETER DontBreak
+        Instruct the cmdlet NOT to break execution whenever the test condition normally should
+
     .EXAMPLE
         PS C:\> Test-PathExists "c:\temp","c:\temp\dir" -Type Container
         
@@ -40,7 +46,11 @@ function Test-PathExists {
         [Parameter(Mandatory = $True, Position = 2 )]
         [string] $Type,
 
-        [switch] $Create
+        [switch] $Create,
+
+        [switch] $ShouldNotExist,
+
+        [switch] $DontBreak
     )
     
     $res = $false
@@ -51,20 +61,30 @@ function Test-PathExists {
         Write-PSFMessage -Level Verbose -Message "Testing the path: $item" -Target $item
         $temp = Test-Path -Path $item -Type $Type
 
-        if ((!$temp) -and ($Create) -and ($Type -eq "Container")) {
+        if ((-not $temp) -and ($Create) -and ($Type -eq "Container")) {
             Write-PSFMessage -Level Verbose -Message "Creating the path: $item" -Target $item
             $null = New-Item -Path $item -ItemType Directory -Force -ErrorAction Stop
             $temp = $true
         }
-        elseif (!$temp) {
+        elseif ($ShouldNotExist) {
+            Write-PSFMessage -Level Verbose -Message "The should NOT exists: $item" -Target $item
+        }
+        elseif (-not $temp ) {
             Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> path wasn't found. Please ensure the path <c='em'>exists</c> and you have enough <c='em'>permission</c> to access the path."
         }
         
         $null = $arrList.Add($temp)
     }
 
-    if ($arrList.Contains($false)) {
-        Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
+    if ($arrList.Contains($false) -and (-not $ShouldNotExist)) {
+        if (-not $DontBreak) {
+            Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
+        }
+    }
+    elseif ($arrList.Contains($true) -and $ShouldNotExist) {
+        if (-not $DontBreak) {
+            Stop-PSFFunction -Message "Stopping because file exists." -StepsUpward 1
+        }
     }
     else {
         $res = $true

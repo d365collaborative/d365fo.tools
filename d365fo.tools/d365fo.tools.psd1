@@ -48,6 +48,7 @@
 						'Add-D365WIFConfigAuthorityThumbprint',
 
 						'Backup-D365MetaDataDir',
+						'Backup-D365Runbook',
 
 						'Clear-D365MonitorData',
 
