@@ -21,10 +21,10 @@
         
     .PARAMETER ShouldNotExist
         Instruct the cmdlet to return true if the file doesn't exists
-
+        
     .PARAMETER DontBreak
         Instruct the cmdlet NOT to break execution whenever the test condition normally should
-
+        
     .EXAMPLE
         PS C:\> Test-PathExists "c:\temp","c:\temp\dir" -Type Container
         

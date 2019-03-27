@@ -28,10 +28,10 @@
         The parameter supports wildcards. E.g. -Email "*@contoso.com*"
         
         Default value is "*" to get all users
-
+        
     .PARAMETER ExcludeSystemUsers
         Instructs the cmdlet to filter out all known system users
-
+        
     .EXAMPLE
         PS C:\> Get-D365User
         
@@ -41,7 +41,7 @@
         PS C:\> Get-D365User -ExcludeSystemUsers
         
         This will get all users from the environment, but filter out all known system user accounts.
-
+        
     .EXAMPLE
         PS C:\> Get-D365User -Email "*contoso.com"
         
