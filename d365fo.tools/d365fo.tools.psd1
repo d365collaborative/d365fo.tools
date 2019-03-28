@@ -74,6 +74,7 @@
 						'Get-D365AzureStorageFile',
 						'Get-D365ClickOnceTrustPrompt',
 
+						'Get-D365Database',
 						'Get-D365DatabaseAccess',
 						'Get-D365DecryptedConfigFile',
 						'Get-D365DotNetClass',
