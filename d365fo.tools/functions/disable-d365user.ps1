@@ -64,51 +64,71 @@ function Disable-D365User {
         [Parameter(Mandatory = $false, Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $false, Position = 5)]
-        [string]$Email
+        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 5)]
+        [string]$Email = "*"
 
     )
 
-    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+    begin {
+        Invoke-TimeSignal -Start
 
-    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-        SqlUser = $SqlUser; SqlPwd = $SqlPwd
-    }
+        $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
-
-    $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\disable-user.sql") -join [Environment]::NewLine
-    
-    $null = $sqlCommand.Parameters.AddWithValue('@Email', $Email.Replace("*", "%"))
-
-    try {
-        Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
-        
-        $sqlCommand.Connection.Open()
-
-        $reader = $sqlCommand.ExecuteReader()
-        $NumAffected = 0
-
-        while ($reader.Read() -eq $true) {
-            Write-PSFMessage -Level Verbose -Message "User $($reader.GetString(0)), $($reader.GetString(1)), $($reader.GetString(2)) Updated"
-            $NumAffected++
+        $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+            SqlUser = $SqlUser; SqlPwd = $SqlPwd
         }
 
-        $reader.Close()
-        Write-PSFMessage -Level Verbose -Message "Users updated : $NumAffected"
-    }
-    catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
-        return
-    }
-    finally {
-        $reader.close()
+        $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
+        try {
+            $sqlCommand.Connection.Open()
+        }
+        catch {
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
+        }
+    }
+
+    process {
+        if (Test-PSFFunctionInterrupt) { return }
+        
+        $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\disable-user.sql") -join [Environment]::NewLine
+    
+        $null = $sqlCommand.Parameters.AddWithValue('@Email', $Email.Replace("*", "%"))
+
+        try {
+            Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+
+            $reader = $sqlCommand.ExecuteReader()
+            $NumAffected = 0
+
+            while ($reader.Read() -eq $true) {
+                Write-PSFMessage -Level Verbose -Message "User $($reader.GetString(0)), $($reader.GetString(1)), $($reader.GetString(2)) Updated"
+                $NumAffected++
+            }
+
+            $reader.Close()
+            Write-PSFMessage -Level Verbose -Message "Users updated : $NumAffected"
+        }
+        catch {
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
+        }
+        finally {
+            $reader.close()
+            $sqlCommand.Parameters.Clear()
+        }
+    }
+
+    end {
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
             $sqlCommand.Connection.Close()
         }
 
         $sqlCommand.Dispose()
+
+        Invoke-TimeSignal -End
     }
 }

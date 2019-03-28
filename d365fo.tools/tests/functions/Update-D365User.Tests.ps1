@@ -73,7 +73,7 @@
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 5
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter Company' {
