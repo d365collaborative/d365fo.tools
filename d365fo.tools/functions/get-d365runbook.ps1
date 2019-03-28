@@ -74,24 +74,18 @@ function Get-D365Runbook {
     process {
         if (Test-PSFFunctionInterrupt) { return }
 
-        $files = Get-ChildItem -Path "$Path\*.xml" | Sort-Object -Descending { $_.Properties.LastModified }
+        $files = Get-ChildItem -Path "$Path\*.xml" | Sort-Object -Descending { $_.LastWriteTime }
 
         if ($Latest) {
             $obj = $files | Select-Object -First 1
 
-            [PSCustomObject]@{
-                File     = $obj.Fullname
-                Filename = $obj.Name
-            }
+            $obj | Select-PSFObject "Name as Filename", "LastWriteTime as LastModified", "Fullname as File"
         }
         else {
             foreach ($obj in $files) {
                 if ($obj.Name -NotLike $Name) { continue }
 
-                [PSCustomObject]@{
-                    File     = $obj.Fullname
-                    Filename = $obj.Name
-                }
+                $obj | Select-PSFObject "Name as Filename", "LastWriteTime as LastModified", "Fullname as File"
             }
         }
     }

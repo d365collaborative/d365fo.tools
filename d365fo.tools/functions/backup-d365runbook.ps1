@@ -75,11 +75,6 @@ function Backup-D365Runbook {
         }
 
         Write-PSFMessage -Level Verbose -Message "Copying from: $File" -Target $item
-        Copy-Item -Path $File -Destination $destinationFile -Force:$Force
-
-        [PSCustomObject]@{
-            File     = $destinationFile
-            Filename = $fileName
-        }
+        Copy-Item -Path $File -Destination $destinationFile -Force:$Force -PassThru | Select-PSFObject "Name as Filename", "LastWriteTime as LastModified", "Fullname as File"        
     }
 }

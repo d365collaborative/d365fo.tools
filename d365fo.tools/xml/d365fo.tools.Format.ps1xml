@@ -121,5 +121,46 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>D365FO.TOOLS.Azure.Blob</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.Azure.Blob</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Width>70</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>12</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>9</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>30</Width>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Size</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>IsDeleted</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>LastModified</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>
