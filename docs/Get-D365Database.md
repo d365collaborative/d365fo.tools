@@ -5,45 +5,55 @@ online version:
 schema: 2.0.0
 ---
 
-# Disable-D365User
+# Get-D365Database
 
 ## SYNOPSIS
-Disables the user in D365FO
+Get databases from the server
 
 ## SYNTAX
 
 ```
-Disable-D365User [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
- [[-SqlPwd] <String>] [[-Email] <String>] [<CommonParameters>]
+Get-D365Database [[-Name] <String[]>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
+ [[-SqlUser] <String>] [[-SqlPwd] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Sets the enabled to 0 in the userinfo table.
+Get the names of databases on either SQL Server or in Azure SQL Database instance
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Disable-D365User
+Get-D365Database
 ```
 
-This will Disable all users for the environment
+This will show all databases on the default SQL Server / Azure SQL Database instance.
 
 ### EXAMPLE 2
 ```
-Disable-D365User -Email "claire@contoso.com"
+Get-D365Database -Name AXDB_ORIGINAL
 ```
 
-This will Disable the user with the email address "claire@contoso.com"
-
-### EXAMPLE 3
-```
-Disable-D365User -Email "*contoso.com"
-```
-
-This will Disable all users that matches the search "*contoso.com" in their email address
+This will show if the AXDB_ORIGINAL database exists on the default SQL Server / Azure SQL Database instance.
 
 ## PARAMETERS
+
+### -Name
+Name of the database that you are looking for
+
+Default value is "*" which will show all databases
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: *
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -DatabaseServer
 The name of the database server
@@ -59,7 +69,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 3
 Default value: $Script:DatabaseServer
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -74,7 +84,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: $Script:DatabaseName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -89,7 +99,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: $Script:DatabaseUserName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -104,28 +114,9 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: $Script:DatabaseUserPassword
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Email
-The search string to select which user(s) should be disabled.
-
-The parameter supports wildcards.
-E.g.
--Email "*@contoso.com*"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: *
-Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -137,8 +128,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## OUTPUTS
 
+### [PsCustomObject]
 ## NOTES
-Tags: User, Users, Security, Configuration, Permission
+Tags: Database, DB, Servicing
 
 Author: Mötz Jensen (@Splaxi)
 
