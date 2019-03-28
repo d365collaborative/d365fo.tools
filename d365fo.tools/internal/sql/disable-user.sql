@@ -10,6 +10,7 @@ update userinfo
 set [ENABLE] = 0,RECVERSION = RECVERSION +1
 where NETWORKALIAS like @Email
 and [ENABLE] = 1
+AND [Id] <> 'admin'
 
 SELECT ID, [NAME], NETWORKALIAS
 FROM #usersdisabled
