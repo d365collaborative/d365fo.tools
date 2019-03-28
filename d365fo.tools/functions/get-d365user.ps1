@@ -104,14 +104,17 @@ function Get-D365User {
                 NetworkDomain    = "$($reader.GetString($($reader.GetOrdinal("NETWORKDOMAIN"))))"
                 Sid              = "$($reader.GetString($($reader.GetOrdinal("SID"))))"
                 IdentityProvider = "$($reader.GetString($($reader.GetOrdinal("IDENTITYPROVIDER"))))"
-                Enabled           = [bool][int]"$($reader.GetInt32($($reader.GetOrdinal("ENABLE"))))"
+                Enabled          = [bool][int]"$($reader.GetInt32($($reader.GetOrdinal("ENABLE"))))"
                 Email            = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
-                Company            = "$($reader.GetString($($reader.GetOrdinal("COMPANY"))))"
+                Company          = "$($reader.GetString($($reader.GetOrdinal("COMPANY"))))"
             }
 
-            if($ExcludeSystemUsers){
+            if ($ExcludeSystemUsers) {
                 $temp = $res.Email.Split("@")[1]
-                if($exclude -contains $temp) {
+                if ($exclude -contains $temp) {
+                    continue
+                }
+                elseif ($res.UserId -eq 'Guest') {
                     continue
                 }
             }
