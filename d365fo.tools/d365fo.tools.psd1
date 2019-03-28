@@ -167,6 +167,7 @@
 
 						'Rename-D365Instance',
 						'Rename-D365ComputerName',
+						'Restart-D365Environment',
 
 						'Set-D365ActiveAzureStorageConfig',
 						'Set-D365ActiveEnvironmentConfig',
