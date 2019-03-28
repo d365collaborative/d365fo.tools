@@ -54,6 +54,17 @@ function Switch-D365ActiveDatabase {
         [string]$NewDatabaseName
     )
 
+    $Params = Get-DeepClone $PSBoundParameters
+    if ($Params.ContainsKey("NewDatabaseName")) { $null = $Params.Remove("NewDatabaseName") }
+    
+    $dbName = Get-D365Database -Name "$DatabaseName`_original" @Params
+
+    if (-not($null -eq $dbName)) {
+        Write-PSFMessage -Level Host -Message "There <c='em'>already exists</c> a database named: <c='em'>`"$DatabaseName`_original`"</c> on the server. You need to run the <c='em'>Remove-D365Database</c> cmdlet to remove the already existing database. Re-run this cmdlet once the other database has been removed."
+        Stop-PSFFunction -Message "Stopping because database already exists on the server."
+        return
+    }
+
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $NewDatabaseName;
@@ -87,7 +98,7 @@ function Switch-D365ActiveDatabase {
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-    if($DatabaseServer -like "*database.windows.net") {
+    if ($DatabaseServer -like "*database.windows.net") {
         $commandText = (Get-Content "$script:ModuleRoot\internal\sql\switch-database-tier2.sql") -join [Environment]::NewLine
     }
     else {
