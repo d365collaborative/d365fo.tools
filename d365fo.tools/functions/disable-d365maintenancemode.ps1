@@ -32,6 +32,11 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user.
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+                
     .EXAMPLE
         PS C:\> Disable-D365MaintenanceMode
         
