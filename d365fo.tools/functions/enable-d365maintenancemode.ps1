@@ -69,7 +69,10 @@ function Enable-D365MaintenanceMode {
         [string] $SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
-        [string] $SqlPwd = $Script:DatabaseUserPassword
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
+
+        [Parameter(Mandatory = $False)]
+        [switch] $ShowOriginalProgress
     )
 
     if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
@@ -79,7 +82,6 @@ function Enable-D365MaintenanceMode {
     }
     
     if(-not ($Script:IsAdminRuntime)) {
-        
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
         
         Stop-D365Environment -All
@@ -98,6 +100,7 @@ function Enable-D365MaintenanceMode {
         Start-D365Environment -Aos
     }
     else {
+        Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode using executable."
 
         $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
 
@@ -116,7 +119,7 @@ function Enable-D365MaintenanceMode {
 
         Stop-D365Environment -All
 
-        Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
 
         Start-D365Environment -Aos
     }
