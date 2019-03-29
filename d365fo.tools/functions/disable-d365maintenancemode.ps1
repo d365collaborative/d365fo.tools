@@ -85,10 +85,10 @@ function Disable-D365MaintenanceMode {
         return
     }
 
+    Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress
+
     if(-not ($Script:IsAdminRuntime)) {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
-        
-        Stop-D365Environment -All
         
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
@@ -100,8 +100,6 @@ function Disable-D365MaintenanceMode {
         }
 
         Invoke-D365SqlScript @Params -FilePath $("$script:ModuleRoot\internal\sql\disable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
-
-        Start-D365Environment -All
     }
     else {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode using executable."
@@ -121,10 +119,8 @@ function Disable-D365MaintenanceMode {
             "-setupmode", "maintenancemode",
             "-isinmaintenancemode", "false")
 
-        Stop-D365Environment -All
-        
         Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
-
-        Start-D365Environment -All
     }
+
+    Start-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress    
 }

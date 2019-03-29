@@ -66,7 +66,11 @@ function Stop-D365Environment {
         [switch] $FinancialReporter,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
-        [switch] $DMF
+        [switch] $DMF,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 6 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
+        [switch] $ShowOriginalProgress
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
@@ -79,20 +83,26 @@ function Stop-D365Environment {
         return
     }
 
+    $warningActionValue = "SilentlyContinue"
+    if ($ShowOriginalProgress) {$warningActionValue = "Continue"}
+
     $Params = Get-DeepClone $PSBoundParameters
-    if($Params.ContainsKey("ComputerName")){$null = $Params.Remove("ComputerName")}
+    if ($Params.ContainsKey("ComputerName")) {$null = $Params.Remove("ComputerName")}
+    if ($Params.ContainsKey("ShowOriginalProgress")) {$null = $Params.Remove("ShowOriginalProgress")}
 
     $Services = Get-ServiceList @Params
     
     $Results = foreach ($server in $ComputerName) {
         Write-PSFMessage -Level Verbose -Message "Working against: $server - stopping services"
-        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Stop-Service -Force -ErrorAction SilentlyContinue
+        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Stop-Service -Force -ErrorAction SilentlyContinue -WarningAction $warningActionValue
     }
 
     $Results = foreach ($server in $ComputerName) {
         Write-PSFMessage -Level Verbose -Message "Working against: $server - listing services"
         Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
     }
-
+    
+    Write-PSFMessage -Level Verbose "Results are: $Results" -Target ($Results.Name -join ",")
+    
     $Results | Select-PSFObject -TypeName "D365FO.TOOLS.Environment.Service" Server, DisplayName, Status, Name
 }
