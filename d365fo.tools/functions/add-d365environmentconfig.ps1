@@ -64,8 +64,7 @@ function Add-D365EnvironmentConfig {
     param (
         [Parameter(Mandatory = $true)]
         [string] $Name,
-
-        [Parameter(Mandatory = $true)]
+        
         [string] $URL,
 
         [string] $SqlUser = "sqladmin",
