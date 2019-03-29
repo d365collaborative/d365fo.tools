@@ -43,7 +43,7 @@
     .EXAMPLE
         PS C:\> Get-D365Runbook | Backup-D365Runbook
         
-        This will save a copy of all runbooks from the default location and save them to "c:\temp\d365fo.tools\RunbookBackups"
+        This will save a copy of all runbooks from the default location and save them to "c:\temp\d365fo.tools\runbookbackups"
         
     .EXAMPLE
         PS C:\> notepad.exe (Get-D365Runbook -Latest).File
