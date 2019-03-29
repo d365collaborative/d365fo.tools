@@ -19,20 +19,20 @@
         PS C:\> Backup-D365Runbook -File "C:\DynamicsAX\InstallationRecords\Runbooks\Runbook_20190327.xml"
         
         This will backup the "C:\DynamicsAX\InstallationRecords\Runbooks\Runbook_20190327.xml".
-        The default destination folder is used, "c:\temp\d365fo.tools\runbookbackups\".
+        The default destination folder is used, "c:\temp\d365fo.tools\RunbookBackups\".
         
     .EXAMPLE
         PS C:\> Backup-D365Runbook -File "C:\DynamicsAX\InstallationRecords\Runbooks\Runbook_20190327.xml" -Force
         
         This will backup the "C:\DynamicsAX\InstallationRecords\Runbooks\Runbook_20190327.xml".
-        The default destination folder is used, "c:\temp\d365fo.tools\runbookbackups\".
+        The default destination folder is used, "c:\temp\d365fo.tools\RunbookBackups\".
         If the file already exists in the destination folder, it will be overwritten.
         
     .EXAMPLE
         PS C:\> Get-D365Runbook | Backup-D365Runbook
         
         This will backup all runbook files found with the "Get-D365Runbook" cmdlet.
-        The default destination folder is used, "c:\temp\d365fo.tools\runbookbackups\".
+        The default destination folder is used, "c:\temp\d365fo.tools\RunbookBackups\".
         
     .NOTES
         Tags: Runbook, Backup, Analysis

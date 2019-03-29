@@ -25,7 +25,16 @@
         This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
         The output will be saved into the "C:\Temp\d365fo.tools\runbook-analyze-results.xml" file.
         
+    .EXAMPLE
+        PS C:\> Get-D365Runbook -Latest | Backup-D365Runbook -Force | Invoke-D365RunbookAnalyzer
+
+        This will get the latest runbook from the default location.
+        This will backup the file onto the default "c:\temp\d365fo.tools\RunbookBackups\".
+        This will start the Runbook Analyzer on the backup file.
+
     .NOTES
+        Tags: Runbook, Servicing, Hotfix, DeployablePackage, Deployable Package, InstallationRecordsDirectory, Installation Records Directory
+
         Author: Mötz Jensen (@Splaxi)
         
 #>

@@ -41,9 +41,9 @@
         The output will be saved into the "C:\Temp\d365fo.tools\runbook-analyze-results.xml" file.
         
     .EXAMPLE
-        PS C:\> Get-D365Runbook | ForEach-Object {$_.File | Copy-Item -Destination c:\temp\d365fo.tools }
+        PS C:\> Get-D365Runbook | Backup-D365Runbook
         
-        This will save a copy of all runbooks from the default location and save them to "c:\temp\d365fo.tools"
+        This will save a copy of all runbooks from the default location and save them to "c:\temp\d365fo.tools\RunbookBackups"
         
     .EXAMPLE
         PS C:\> notepad.exe (Get-D365Runbook -Latest).File
