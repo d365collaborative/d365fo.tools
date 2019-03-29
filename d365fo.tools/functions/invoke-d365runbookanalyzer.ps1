@@ -69,6 +69,14 @@ function Invoke-D365RunbookAnalyzer {
 
             $null = $sb.AppendLine("</FailedStepInfo>")
         }
+        
+        $inProgressSteps = $xmlRunbook.SelectNodes("//RunbookStepList/Step/StepState[text()='InProgress']")
+
+        $null = $sb.AppendLine("<InProgressStepInfo>")
+
+        $inProgressSteps | ForEach-Object { $null = $sb.AppendLine( $_.ParentNode.OuterXml)}
+
+        $null = $sb.AppendLine("</InProgressStepInfo>")
 
         $unprocessedSteps = $xmlRunbook.SelectNodes("//RunbookStepList/Step/StepState[text()='NotStarted']")
 
@@ -77,6 +85,8 @@ function Invoke-D365RunbookAnalyzer {
         $unprocessedSteps | ForEach-Object { $null = $sb.AppendLine( $_.ParentNode.OuterXml)}
 
         $null = $sb.AppendLine("</UnprocessedStepInfo>")
+
+        
 
         $null = $sb.AppendLine("</D365FO.Tools.Runbook.Analyzer.Output>")
 
