@@ -29,6 +29,11 @@
     .PARAMETER DMF
         Start the Data Management Framework service
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+    
     .EXAMPLE
         PS C:\> Stop-D365Environment -All
         
