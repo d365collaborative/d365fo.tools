@@ -75,15 +75,8 @@ function Add-D365EnvironmentConfig {
 
         [string] $TfsUri,
 
-        [ValidateSet('User', 'System')]
-        [string] $ConfigStorageLocation = "User",
-
         [switch] $Force
     )
-
-    $configScope = Test-ConfigStorageLocation -ConfigStorageLocation $ConfigStorageLocation
-
-    if (Test-PSFFunctionInterrupt) { return }
 
     $Details = @{URL = $URL; Company = $Company;
         SqlUser = $SqlUser; SqlPwd = $SqlPwd;
@@ -97,7 +90,7 @@ function Add-D365EnvironmentConfig {
             $Environments[$Name] = $Details
 
             Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
-            Register-PSFConfig -FullName "d365fo.tools.environments" -Scope $configScope
+            Register-PSFConfig -FullName "d365fo.tools.environments"
         }
         else {
             Write-PSFMessage -Level Host -Message "An environment with that name <c='em'>already exists</c>. You want to <c='em'>overwrite</c> the already registered details please supply the <c='em'>-Force</c> parameter."
@@ -109,6 +102,6 @@ function Add-D365EnvironmentConfig {
         $null = $Environments.Add($Name, $Details)
 
         Set-PSFConfig -FullName "d365fo.tools.environments" -Value $Environments
-        Register-PSFConfig -FullName "d365fo.tools.environments" -Scope $configScope
+        Register-PSFConfig -FullName "d365fo.tools.environments"
     }
 }
