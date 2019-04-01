@@ -122,5 +122,5 @@ function Disable-D365MaintenanceMode {
         Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
     }
 
-    Start-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress    
+    Start-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress
 }
