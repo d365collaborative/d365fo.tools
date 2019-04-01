@@ -45,7 +45,7 @@
     .NOTES
         Tags: MaintenanceMode, Maintenance, License, Configuration, Servicing
         
-        Author: Mötz Jensen (@splaxi)
+        Author: Mtz Jensen (@splaxi)
         Author: Tommy Skaue (@skaue)
         
         With administrator privileges:
