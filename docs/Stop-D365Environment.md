@@ -14,13 +14,13 @@ Cmdlet to stop the different services in a Dynamics 365 Finance & Operations env
 
 ### Default (Default)
 ```
-Stop-D365Environment [[-ComputerName] <String[]>] [-All] [<CommonParameters>]
+Stop-D365Environment [[-ComputerName] <String[]>] [-All] [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ### Specific
 ```
 Stop-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
- [<CommonParameters>]
+ [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -134,6 +134,23 @@ Aliases:
 
 Required: False
 Position: 6
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

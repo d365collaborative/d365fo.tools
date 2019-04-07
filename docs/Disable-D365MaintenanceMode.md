@@ -14,7 +14,8 @@ Sets the environment back into operating state
 
 ```
 Disable-D365MaintenanceMode [[-MetaDataDir] <String>] [[-BinDir] <String>] [[-DatabaseServer] <String>]
- [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [<CommonParameters>]
+ [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [-ShowOriginalProgress]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -126,6 +127,23 @@ Aliases:
 Required: False
 Position: 7
 Default value: $Script:DatabaseUserPassword
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

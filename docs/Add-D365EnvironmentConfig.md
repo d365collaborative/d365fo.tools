@@ -13,8 +13,8 @@ Save an environment config
 ## SYNTAX
 
 ```
-Add-D365EnvironmentConfig [-Name] <String> [-URL] <String> [[-SqlUser] <String>] [[-SqlPwd] <String>]
- [[-Company] <String>] [[-TfsUri] <String>] [[-ConfigStorageLocation] <String>] [-Force] [<CommonParameters>]
+Add-D365EnvironmentConfig [-Name] <String> [[-URL] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>]
+ [[-Company] <String>] [[-TfsUri] <String>] [-Force] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,7 +65,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
@@ -130,29 +130,6 @@ Aliases:
 Required: False
 Position: 6
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ConfigStorageLocation
-Parameter used to instruct where to store the configuration objects
-
-The default value is "User" and this will store all configuration for the active user
-
-Valid options are:
-"User"
-"System"
-
-"System" will store the configuration so all users can access the configuration objects
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: User
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
