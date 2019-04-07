@@ -32,6 +32,11 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user.
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
     .EXAMPLE
         PS C:\> Disable-D365MaintenanceMode
         
@@ -68,7 +73,10 @@ function Disable-D365MaintenanceMode {
         [string] $SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
-        [string] $SqlPwd = $Script:DatabaseUserPassword
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
+
+        [Parameter(Mandatory = $False)]
+        [switch] $ShowOriginalProgress
     )
     
     if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
@@ -77,11 +85,10 @@ function Disable-D365MaintenanceMode {
         return
     }
 
+    Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress
+
     if(-not ($Script:IsAdminRuntime)) {
-        
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
-        
-        Stop-D365Environment -All
         
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
@@ -93,10 +100,9 @@ function Disable-D365MaintenanceMode {
         }
 
         Invoke-D365SqlScript @Params -FilePath $("$script:ModuleRoot\internal\sql\disable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
-
-        Start-D365Environment -All
     }
     else {
+        Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode using executable."
 
         $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
 
@@ -113,10 +119,8 @@ function Disable-D365MaintenanceMode {
             "-setupmode", "maintenancemode",
             "-isinmaintenancemode", "false")
 
-        Stop-D365Environment -All
-
-        Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
-
-        Start-D365Environment -All
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
     }
+
+    Start-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress
 }

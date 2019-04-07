@@ -95,18 +95,37 @@
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter ShowOriginalProgress' {
+			$parameter = (Get-Command Start-D365Environment).Parameters['ShowOriginalProgress']
+			$parameter.Name | Should -Be 'ShowOriginalProgress'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'Default', 'Specific'
+			$parameter.ParameterSets.Keys | Should -Contain 'Default'
+			$parameter.ParameterSets['Default'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['Default'].Position | Should -Be 6
+			$parameter.ParameterSets['Default'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Contain 'Specific'
+			$parameter.ParameterSets['Specific'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['Specific'].Position | Should -Be 6
+			$parameter.ParameterSets['Specific'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset Default" {
 		<#
 		Default -
-		Default -ComputerName -All
+		Default -ComputerName -All -ShowOriginalProgress
 		#>
 	}
  	Describe "Testing parameterset Specific" {
 		<#
 		Specific -
-		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF
+		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF -ShowOriginalProgress
 		#>
 	}
 

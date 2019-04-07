@@ -29,6 +29,11 @@
     .PARAMETER DMF
         Start the Data Management Framework service
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
     .EXAMPLE
         PS C:\> Start-D365Environment -All
         
@@ -66,7 +71,11 @@ function Start-D365Environment {
         [switch] $FinancialReporter,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
-        [switch] $DMF
+        [switch] $DMF,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 6 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
+        [switch] $ShowOriginalProgress
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
@@ -74,25 +83,31 @@ function Start-D365Environment {
     }
 
     if ( (-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF))) {
-        Write-PSFMessage -Level Host -Message "You have to use at least one switch when running this cmdlet. Please run the cmdlet again."
+        Write-PSFMessage -Level Host -Message "You have to use at least <c='em'>one switch</c> when running this cmdlet. Please run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return
     }
 
+    $warningActionValue = "SilentlyContinue"
+    if ($ShowOriginalProgress) {$warningActionValue = "Continue"}
+
     $Params = Get-DeepClone $PSBoundParameters
     if ($Params.ContainsKey("ComputerName")) {$null = $Params.Remove("ComputerName")}
+    if ($Params.ContainsKey("ShowOriginalProgress")) {$null = $Params.Remove("ShowOriginalProgress")}
 
     $Services = Get-ServiceList @Params
 
     $Results = foreach ($server in $ComputerName) {
         Write-PSFMessage -Level Verbose -Message "Working against: $server - starting services"
-        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Start-Service -ErrorAction SilentlyContinue
+        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Start-Service -ErrorAction SilentlyContinue -WarningAction $warningActionValue
     }
 
     $Results = foreach ($server in $ComputerName) {
         Write-PSFMessage -Level Verbose -Message "Working against: $server - listing services"
         Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
     }
+
+    Write-PSFMessage -Level Verbose "Results are: $Results" -Target ($Results.Name -join ",")
 
     $Results | Select-PSFObject -TypeName "D365FO.TOOLS.Environment.Service" Server, DisplayName, Status, Name
 }
