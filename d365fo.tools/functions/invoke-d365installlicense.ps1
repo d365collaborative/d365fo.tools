@@ -45,6 +45,12 @@
         
         This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
         
+    .EXAMPLE
+        PS C:\> Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt -ShowOriginalProgress
+        
+        This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
+        The output from the installation process will be written to the console / host.
+
     .NOTES
         Tags: License, Install, ISV, 3. Party, Servicing
         
