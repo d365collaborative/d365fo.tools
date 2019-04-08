@@ -35,14 +35,29 @@
         Default is $false which will silence the standard output
         
     .EXAMPLE
+        PS C:\> Start-D365Environment
+        
+        This will run the cmdlet with the default parameters.
+        Default is "-All".
+        This will start all D365FO services on the machine.
+
+    .EXAMPLE
+        PS C:\> Start-D365Environment -ShowOriginalProgress
+        
+        This will run the cmdlet with the default parameters.
+        Default is "-All".
+        This will start all D365FO services on the machine.
+        The progress of starting the different services will be written to the console / host.
+
+    .EXAMPLE
         PS C:\> Start-D365Environment -All
         
-        Will start all D365FO service on the machine
+        This will start all D365FO services on the machine.
         
     .EXAMPLE
         PS C:\> Start-D365Environment -Aos -Batch
         
-        Will start Aos & Batch services on the machine
+        This will start the Aos & Batch D365FO services on the machine.
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
