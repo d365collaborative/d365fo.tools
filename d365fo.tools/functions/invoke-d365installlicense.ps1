@@ -69,13 +69,18 @@ function Invoke-D365InstallLicense {
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
         [Parameter(Mandatory = $false, Position = 7 )]
-        [string] $BinDir = "$Script:BinDir"
+        [string] $BinDir = "$Script:BinDir",
+
+        [Parameter(Mandatory = $False)]
+        [switch] $ShowOriginalProgress
     )
 
     $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
 
     if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
     if (-not (Test-PathExists -Path $Path,$executable -Type Leaf)) {return}
+
+    Invoke-TimeSignal -Start
 
     $params = @("-isemulated", "true",
         "-sqluser", "$SqlUser",
@@ -87,5 +92,7 @@ function Invoke-D365InstallLicense {
         "-setupmode", "importlicensefile",
         "-licensefilename", "`"$Path`"")
 
-    Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+
+    Invoke-TimeSignal -End
 }
