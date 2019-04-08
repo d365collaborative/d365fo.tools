@@ -34,12 +34,21 @@
     .EXAMPLE
         PS C:\> Invoke-D365ModuleFullCompile -Module MyModel
         
-        This will use the default paths and start the xppc.exe with the needed parameters to copmile MyModel package.
+        This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
+        The default output from all the different steps will be silenced.
+
+    .EXAMPLE
+        PS C:\> Invoke-D365ModuleFullCompile -Module MyModel -ShowOriginalProgress
         
+        This will use the default paths and start the xppc.exe with the needed parameters to copmile MyModel package.
+        The default output from the different steps will be written to the console / host.
+
     .NOTES
         Tags: Compile, Model, Servicing
         
         Author: Ievgen Miroshnikov (@IevgenMir)
+
+        Author: Mötz Jensen (@Splaxi)
         
 #>
 
