@@ -94,8 +94,7 @@ function Enable-D365MaintenanceMode {
         return
     }
     
-    $tempStop = Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress
-    $tempStop
+    Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
 
     if(-not ($Script:IsAdminRuntime)) {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
@@ -132,6 +131,5 @@ function Enable-D365MaintenanceMode {
         Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
     }
 
-    $tempStart = Start-D365Environment -Aos -ShowOriginalProgress:$ShowOriginalProgress
-    $tempStart
+    Start-D365Environment -Aos -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
 }
