@@ -30,6 +30,16 @@ Enable-D365MaintenanceMode
 
 This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
 
+### EXAMPLE 2
+```
+Enable-D365MaintenanceMode -ShowOriginalProgress
+```
+
+This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
+The output from stopping the services will be written to the console / host.
+The output from the "deployment" process will be written to the console / host.
+The output from starting the services will be written to the console / host.
+
 ## PARAMETERS
 
 ### -MetaDataDir

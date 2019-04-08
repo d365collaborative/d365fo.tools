@@ -28,7 +28,16 @@ Compile a package using the builtin "xppc.exe" executable to compile source code
 Invoke-D365ModuleFullCompile -Module MyModel
 ```
 
+This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
+The default output from all the different steps will be silenced.
+
+### EXAMPLE 2
+```
+Invoke-D365ModuleFullCompile -Module MyModel -ShowOriginalProgress
+```
+
 This will use the default paths and start the xppc.exe with the needed parameters to copmile MyModel package.
+The default output from the different steps will be written to the console / host.
 
 ## PARAMETERS
 
@@ -154,5 +163,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 Tags: Compile, Model, Servicing
 
 Author: Ievgen Miroshnikov (@IevgenMir)
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

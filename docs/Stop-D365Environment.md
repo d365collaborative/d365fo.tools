@@ -30,17 +30,36 @@ Can stop all relevant services that is running in a D365FO environment
 
 ### EXAMPLE 1
 ```
+Stop-D365Environment
+```
+
+This will run the cmdlet with the default parameters.
+Default is "-All".
+This will stop all D365FO services on the machine.
+
+### EXAMPLE 2
+```
+Stop-D365Environment -ShowOriginalProgress
+```
+
+This will run the cmdlet with the default parameters.
+Default is "-All".
+This will Stop all D365FO services on the machine.
+The progress of Stopping the different services will be written to the console / host.
+
+### EXAMPLE 3
+```
 Stop-D365Environment -All
 ```
 
-Will stop all D365FO service on the machine
+This will stop all D365FO services on the machine.
 
-### EXAMPLE 2
+### EXAMPLE 4
 ```
 Stop-D365Environment -Aos -Batch
 ```
 
-Will stop Aos & Batch services on the machine
+This will stop the Aos & Batch D365FO services on the machine.
 
 ## PARAMETERS
 
