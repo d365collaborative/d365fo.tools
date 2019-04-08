@@ -34,7 +34,7 @@
         The path to the bin directory for the environment
         
         Default path is the same as the aos service PackagesLocalDirectory\bin
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -50,7 +50,7 @@
         
         This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
         The output from the installation process will be written to the console / host.
-
+        
     .NOTES
         Tags: License, Install, ISV, 3. Party, Servicing
         

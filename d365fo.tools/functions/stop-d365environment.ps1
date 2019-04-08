@@ -33,14 +33,14 @@
         Instruct the cmdlet to show the standard output in the console
         
         Default is $false which will silence the standard output
-
+        
     .EXAMPLE
         PS C:\> Stop-D365Environment
         
         This will run the cmdlet with the default parameters.
         Default is "-All".
         This will stop all D365FO services on the machine.
-
+        
     .EXAMPLE
         PS C:\> Stop-D365Environment -ShowOriginalProgress
         
@@ -48,7 +48,7 @@
         Default is "-All".
         This will Stop all D365FO services on the machine.
         The progress of Stopping the different services will be written to the console / host.
-
+        
     .EXAMPLE
         PS C:\> Stop-D365Environment -All
         

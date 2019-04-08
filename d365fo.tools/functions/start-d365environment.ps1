@@ -40,7 +40,7 @@
         This will run the cmdlet with the default parameters.
         Default is "-All".
         This will start all D365FO services on the machine.
-
+        
     .EXAMPLE
         PS C:\> Start-D365Environment -ShowOriginalProgress
         
@@ -48,7 +48,7 @@
         Default is "-All".
         This will start all D365FO services on the machine.
         The progress of starting the different services will be written to the console / host.
-
+        
     .EXAMPLE
         PS C:\> Start-D365Environment -All
         
