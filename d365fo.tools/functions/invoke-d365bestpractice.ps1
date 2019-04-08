@@ -56,8 +56,9 @@
         Tags: Best Practice, BP, BPs, Module, Model, Quality
         
         Author: Gert Van Der Heyden (@gertvdheyden)
-        Author: Mötz Jensen (@Splaxi)
         
+        Author: Mötz Jensen (@Splaxi)
+
 #>
 
 function Invoke-D365BestPractice {
