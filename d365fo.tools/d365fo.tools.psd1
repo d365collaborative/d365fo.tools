@@ -105,6 +105,7 @@
 						'Get-D365ProductInformation',
 
 						'Get-D365Runbook',
+						'Get-D365RunbookId',
 
 						'Get-D365SDPCleanUp',
 						'Get-D365Table',
