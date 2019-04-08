@@ -43,11 +43,21 @@
         The default output will be silenced.
         The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
         The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
+
+    .EXAMPLE
+        PS C:\> Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel" -ShowOriginalProgress
         
+        This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.        
+        The output from the best practice check process will be written to the console / host.
+        The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
+        The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
+
     .NOTES
         Tags: Best Practice, BP, BPs, Module, Model, Quality
         
         Author: Gert Van Der Heyden (@gertvdheyden)
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Invoke-D365BestPractice {
