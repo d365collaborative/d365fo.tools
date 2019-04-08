@@ -14,13 +14,13 @@ Restart the different services
 
 ### Default (Default)
 ```
-Restart-D365Environment [[-ComputerName] <String[]>] [-All] [<CommonParameters>]
+Restart-D365Environment [[-ComputerName] <String[]>] [-All] [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ### Specific
 ```
 Restart-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
- [<CommonParameters>]
+ [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,13 +37,22 @@ This will stop all services and then start all services again.
 
 ### EXAMPLE 2
 ```
+Restart-D365Environment -All -ShowOriginalProgress
+```
+
+This will stop all services and then start all services again.
+The progress of Stopping the different services will be written to the console / host.
+The progress of Starting the different services will be written to the console / host.
+
+### EXAMPLE 3
+```
 Restart-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
 ```
 
 This will work against the machines: "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1".
 This will stop all services and then start all services again.
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 Restart-D365Environment -Aos -Batch
 ```
@@ -143,6 +152,23 @@ Aliases:
 
 Required: False
 Position: 6
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
