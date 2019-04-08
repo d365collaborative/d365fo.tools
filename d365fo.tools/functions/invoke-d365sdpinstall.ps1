@@ -121,6 +121,15 @@ function Invoke-D365SDPInstall {
 
     if (Test-PSFFunctionInterrupt) {
         Write-PSFMessage -Level Host -Message "It seems that you have executed some cmdlets that required to <c='em'>load</c> some Dynamics 356 Finance & Operations <c='em'>assemblies</c> into memory. Please <c='em'>close and restart</c> you PowerShell session / console, and <c='em'>start a fresh</c>. Please note that you should execute the failed command <c='em'>immediately</c> after importing the module."
+        Stop-PSFFunction -Message "Stopping because of loaded assemblies."
+        return
+    }
+
+    $arrRunbookIds = Get-D365Runbook | Get-D365RunbookId
+
+    if($arrRunbookIds.Runbookid -contains $RunbookId) {
+        Write-PSFMessage -Level Host -Message "It seems that you have entered an <c='em'>already used RunbookId</c>. Please consider if you are <c='em'>trying to re-run some steps</c> or simply pass <c='em'>another RunbookId</c>."
+        Stop-PSFFunction -Message "Stopping because of RunbookId already used on this machine."
         return
     }
 
