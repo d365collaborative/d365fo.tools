@@ -30,11 +30,23 @@
     .PARAMETER DMF
         Instructs the cmdlet to work against the DMF service
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+
     .EXAMPLE
         PS C:\> Restart-D365Environment -All
         
         This will stop all services and then start all services again.
         
+    .EXAMPLE
+        PS C:\> Restart-D365Environment -All -ShowOriginalProgress
+        
+        This will stop all services and then start all services again.
+        The progress of Stopping the different services will be written to the console / host.
+        The progress of Starting the different services will be written to the console / host.
+
     .EXAMPLE
         PS C:\> Restart-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
         
@@ -75,10 +87,13 @@ function Restart-D365Environment {
         [switch] $FinancialReporter,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
-        [switch] $DMF
+        [switch] $DMF,
+
+        [Parameter(Mandatory = $False)]
+        [switch] $ShowOriginalProgress
     )
 
-    Stop-D365Environment @PSBoundParameters
+    Stop-D365Environment @PSBoundParameters | Format-Table
 
-    Start-D365Environment @PSBoundParameters
+    Start-D365Environment @PSBoundParameters | Format-Table
 }
