@@ -127,7 +127,7 @@ function Invoke-D365SDPInstall {
 
     $arrRunbookIds = Get-D365Runbook | Get-D365RunbookId
 
-    if($arrRunbookIds.Runbookid -contains $RunbookId) {
+    if(($Command -eq "RunAll") -and ($arrRunbookIds.Runbookid -contains $RunbookId)) {
         Write-PSFMessage -Level Host -Message "It seems that you have entered an <c='em'>already used RunbookId</c>. Please consider if you are <c='em'>trying to re-run some steps</c> or simply pass <c='em'>another RunbookId</c>."
         Stop-PSFFunction -Message "Stopping because of RunbookId already used on this machine."
         return
