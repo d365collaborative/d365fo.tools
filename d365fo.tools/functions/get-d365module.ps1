@@ -26,6 +26,9 @@
         Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
         
         Default value is "*" which will search for all packages / modules
+
+    .PARAMETER Expand
+        Adds the version of the package / module to the output
         
     .EXAMPLE
         PS C:\> Get-D365Module
@@ -68,7 +71,10 @@ function Get-D365Module {
         [string] $PackageDirectory = $Script:PackageDirectory,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
-        [string] $Name = "*"
+        [string] $Name = "*",
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
+        [switch] $Expand
     )
 
     [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
@@ -112,9 +118,32 @@ function Get-D365Module {
         Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
         if ($obj.Name -NotLike $Name) {continue}
 
-        [PSCustomObject]@{
-            Module     = $obj.Name
-            References = $obj.References
+        if ($Expand -eq $true)
+        {
+            $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
+
+            if (Test-Path -Path $modulepath -PathType Container)
+            {
+                $version = (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll" | Select-Object -ExpandProperty VersionInfo).FileVersion
+            }
+            else
+            {
+                $version = ""
+            }
+			
+            [PSCustomObject]@{
+                Module     = $obj.Name
+                References = $obj.References
+                Version    = $version
+            }
         }
+        else
+        {
+
+            [PSCustomObject]@{
+                Module     = $obj.Name
+                References = $obj.References
+            }
+		}
     }
 }
