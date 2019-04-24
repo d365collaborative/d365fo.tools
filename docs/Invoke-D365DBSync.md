@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -197,9 +197,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
+Tags: Database, Sync, SyncDB, Synchronization, Servicing
 
 Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
+
+When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
 
 ## RELATED LINKS

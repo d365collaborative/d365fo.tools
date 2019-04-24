@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -18,7 +18,7 @@ Get-D365ExposedService [-ClientId] <String> [-ClientSecret] <String> [[-D365FO] 
 ```
 
 ## DESCRIPTION
-Function for getting which sevices there are exposed from D365
+Function for getting which services there are exposed from D365
 
 ## EXAMPLES
 
@@ -101,8 +101,10 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ### System.String
 ## NOTES
-Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
+Tags: DMF, OData, RestApi, Data Management Framework
 
 Author: Rasmus Andersen (@ITRasmus)
+
+Idea taken from http://www.ksaelen.be/wordpresses/dynamicsaxblog/2016/01/dynamics-ax-7-tip-what-services-are-exposed/
 
 ## RELATED LINKS

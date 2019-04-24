@@ -71,52 +71,50 @@ function Get-D365Module {
         [string] $Name = "*"
     )
 
-    begin {
-    }
-
-    process {
-        $files = @((Join-Path -Path $BinDir -ChildPath "Microsoft.Dynamics.AX.Metadata.Storage.dll"),
-            (Join-Path -Path $BinDir -ChildPath "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll"))
+    [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
         
-        if(-not (Test-PathExists -Path $files -Type Leaf)) {
-            return
-        }
+    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Delta.dll"))
+    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Diff.dll"))
+    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Merge.dll"))
+    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Core.dll"))
+    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.dll"))
+    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Core.dll"))
+    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Storage.dll"))
+    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll"))
 
-        Add-Type -Path $files
+    Import-AssemblyFileIntoMemory -Path $($Files2Process.ToArray())
 
-        Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
-        if ($Script:IsOnebox) {
-            Write-PSFMessage -Level Verbose -Message "Machine is onebox. Will continue with DiskProvider."
+    if (Test-PSFFunctionInterrupt) { return }
 
-            $diskProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.DiskProvider.DiskProviderConfiguration
-            $diskProviderConfiguration.AddMetadataPath($PackageDirectory)
-            $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
-            $metadataProvider = $metadataProviderFactory.CreateDiskProvider($diskProviderConfiguration)
+    Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
+    if ($Script:IsOnebox) {
+        Write-PSFMessage -Level Verbose -Message "Machine is onebox. Will continue with DiskProvider."
 
-            Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
-        }
-        else {
-            Write-PSFMessage -Level Verbose -Message "Machine is NOT onebox. Will continue with RuntimeProvider."
+        $diskProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.DiskProvider.DiskProviderConfiguration
+        $diskProviderConfiguration.AddMetadataPath($PackageDirectory)
+        $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
+        $metadataProvider = $metadataProviderFactory.CreateDiskProvider($diskProviderConfiguration)
 
-            $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
-            $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
-            $metadataProvider = $metadataProviderFactory.CreateRuntimeProvider($runtimeProviderConfiguration)
+        Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
+    }
+    else {
+        Write-PSFMessage -Level Verbose -Message "Machine is NOT onebox. Will continue with RuntimeProvider."
 
-            Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
-        }
+        $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
+        $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
+        $metadataProvider = $metadataProviderFactory.CreateRuntimeProvider($runtimeProviderConfiguration)
 
-        Write-PSFMessage -Level Verbose -Message "Looping through all modules from the MetadataProvider."
-        foreach ($obj in $metadataProvider.ModelManifest.ListModules()) {
-            Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
-            if ($obj.Name -NotLike $Name) {continue}
-
-            [PSCustomObject]@{
-                Module   = $obj.Name
-                References  = $obj.References
-            }
-        }
+        Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
     }
 
-    end {
+    Write-PSFMessage -Level Verbose -Message "Looping through all modules from the MetadataProvider."
+    foreach ($obj in $($metadataProvider.ModelManifest.ListModules() | Sort-Object Name)) {
+        Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
+        if ($obj.Name -NotLike $Name) {continue}
+
+        [PSCustomObject]@{
+            Module     = $obj.Name
+            References = $obj.References
+        }
     }
 }

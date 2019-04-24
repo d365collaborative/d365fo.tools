@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -255,9 +255,11 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The cmdlet supports piping and can be used in advanced scenarios.
-See more on github and the wiki pages.
+Tags: Table, Tables, Fields, TableField, Table Field, TableName, TableId
 
 Author: Mötz Jensen (@splaxi)
+
+The cmdlet supports piping and can be used in advanced scenarios.
+See more on github and the wiki pages.
 
 ## RELATED LINKS

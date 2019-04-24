@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -8,98 +8,131 @@ schema: 2.0.0
 # Get-D365Label
 
 ## SYNOPSIS
-Get label from the resource file
+Get label from the label file from Dynamics 365 Finance & Operations environment
 
 ## SYNTAX
 
-### Default (Default)
 ```
-Get-D365Label [-FilePath] <String> [[-Name] <String>] [[-Value] <String>] [-IncludePath] [<CommonParameters>]
-```
-
-### Specific
-```
-Get-D365Label [-FilePath] <String> [[-Name] <String>] [[-Value] <String>] [-IncludePath] [<CommonParameters>]
+Get-D365Label [[-BinDir] <String>] [-LabelFileId] <String> [[-Language] <String[]>] [[-Name] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get label details from the resource file
+Get label from the label file from the running the Dynamics 365 Finance & Operations instance
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll"
+Get-D365Label -LabelFileId PRO
 ```
 
-Will get all labels from the "PRO.resouce.dll" file
-
-The language is determined by the path to the resource file and nothing else
+Shows the entire list of labels that are available from the PRO label file.
+The language is defaulted to "en-US".
 
 ### EXAMPLE 2
 ```
-Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Name "@PRO505"
+Get-D365Label -LabelFileId PRO -Language da
 ```
 
-Will get the label with the name "@PRO505" from the "PRO.resouce.dll" file
-
-The language is determined by the path to the resource file and nothing else
+Shows the entire list of labels that are available from the PRO label file.
+Shows only all "da" (Danish) labels.
 
 ### EXAMPLE 3
 ```
-Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Value "*qty*"
+Get-D365Label -LabelFileId PRO -Name "@PRO59*"
 ```
 
-Will get all the labels where the value fits the search "*qty*" from the "PRO.resouce.dll" file
+Shows the labels available from the PRO label file where the name fits the search "@PRO59*"
 
-The language is determined by the path to the resource file and nothing else
+A result set example:
+
+Name                 Value                                                                            Language
+----                 -----                                                                            --------
+@PRO59               Indicates if the type of the rebate value. 
+en-US
+@PRO594              Pack consumption                                                                 en-US
+@PRO595              Pack qty now being released to production in the BOM unit. 
+en-US
+@PRO596              Pack unit. 
+en-US
+@PRO597              Pack proposal for release in the packing unit. 
+en-US
+@PRO590              Constant pack qty                                                                en-US
+@PRO593              Pack proposal release in BOM unit. 
+en-US
+@PRO598              Pack quantity now being released for the production in the packing unit. 
+en-US
 
 ### EXAMPLE 4
 ```
-Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "da" | Get-D365Label -value "*batch*" -IncludePath
+Get-D365Label -LabelFileId PRO -Name "@PRO59*" -Language da,en-us
 ```
 
-Will get all the labels, across all label files, for the "ApplicationSuite", where the language is "da" and where the label value fits the search "*batch*".
-
-The path to the label file is included in the output.
+Shows the labels available from the PRO label file where the name fits the search "@PRO59*".
+Shows for both "da" (Danish) and en-US (English)
 
 ## PARAMETERS
 
-### -FilePath
-The path to resource file that you want to get label details from
+### -BinDir
+The path to the bin directory for the environment
+
+Default path is the same as the AOS service PackagesLocalDirectory\bin
+
+Default value is fetched from the current configuration on the machine
 
 ```yaml
 Type: String
-Parameter Sets: Default
-Aliases: Path
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: "$Script:BinDir\bin"
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LabelFileId
+Name / Id of the label "file" that you want to work against
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
 Required: True
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-```yaml
-Type: String
-Parameter Sets: Specific
-Aliases: Path
+### -Language
+Name / string representation of the language / culture you want to work against
 
-Required: True
-Position: 2
-Default value: None
+Default value is "en-US"
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: En-US
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
 ### -Name
-Name of the label you are looking for
+Name of the label that you are looking for
 
 Accepts wildcards for searching.
 E.g.
--Name "@PRO*"
+-Name "@PRO59*"
 
-Default value is "*" which will search for all labels in the resource file
+Default value is "*" which will search for all labels
 
 ```yaml
 Type: String
@@ -107,46 +140,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 5
 Default value: *
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Value
-Value of the label you are looking for
-
-Accepts wildcards for searching.
-E.g.
--Name "*Qty*"
-
-Default value is "*" which will search for all values in the resource file
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: *
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -IncludePath
-Switch to indicate whether you want the result set to include the path to the resource file or not
-
-Default is OFF - path details will not be part of the output
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -160,9 +155,15 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-There are several advanced scenarios for this cmdlet.
-See more on github and the wiki pages.
+Tags: PackagesLocalDirectory, Servicing, Language, Labels, Label
 
 Author: Mötz Jensen (@Splaxi)
+
+This cmdlet is inspired by the work of "Pedro Tornich" (twitter: @ptornich)
+
+All credits goes to him for showing how to extract these information
+
+His github repository can be found here:
+https://github.com/ptornich/LabelFileGenerator
 
 ## RELATED LINKS

@@ -59,6 +59,7 @@
 
 function Invoke-D365ModuleLabelGeneration {
     [CmdletBinding()]
+    [OutputType('[PsCustomObject]')]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
         [string] $Module,
@@ -109,5 +110,6 @@ function Invoke-D365ModuleLabelGeneration {
     [PSCustomObject]@{
         OutLogFile = $logFile
         ErrorLogFile = $logErrorFile
+        PSTypeName = 'D365FO.TOOLS.ModuleLabelGenerationOutput'
     }
 }

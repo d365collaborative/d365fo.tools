@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -14,13 +14,13 @@ Cmdlet to start the different services in a Dynamics 365 Finance & Operations en
 
 ### Default (Default)
 ```
-Start-D365Environment [[-ComputerName] <String[]>] [-All] [<CommonParameters>]
+Start-D365Environment [[-ComputerName] <String[]>] [-All] [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ### Specific
 ```
 Start-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
- [<CommonParameters>]
+ [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,17 +30,36 @@ Can start all relevant services that is running in a D365FO environment
 
 ### EXAMPLE 1
 ```
+Start-D365Environment
+```
+
+This will run the cmdlet with the default parameters.
+Default is "-All".
+This will start all D365FO services on the machine.
+
+### EXAMPLE 2
+```
+Start-D365Environment -ShowOriginalProgress
+```
+
+This will run the cmdlet with the default parameters.
+Default is "-All".
+This will start all D365FO services on the machine.
+The progress of starting the different services will be written to the console / host.
+
+### EXAMPLE 3
+```
 Start-D365Environment -All
 ```
 
-Will start all D365FO service on the machine
+This will start all D365FO services on the machine.
 
-### EXAMPLE 2
+### EXAMPLE 4
 ```
 Start-D365Environment -Aos -Batch
 ```
 
-Will start Aos & Batch services on the machine
+This will start the Aos & Batch D365FO services on the machine.
 
 ## PARAMETERS
 
@@ -74,7 +93,7 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: [switch]::Present
+Default value: True
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -134,6 +153,23 @@ Aliases:
 
 Required: False
 Position: 6
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

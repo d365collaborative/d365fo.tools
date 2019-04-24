@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -15,7 +15,8 @@ party solution
 
 ```
 Invoke-D365InstallLicense [-Path] <String> [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
- [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-MetaDataDir] <String>] [[-BinDir] <String>] [<CommonParameters>]
+ [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-MetaDataDir] <String>] [[-BinDir] <String>]
+ [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,6 +31,14 @@ Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
 ```
 
 This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
+
+### EXAMPLE 2
+```
+Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt -ShowOriginalProgress
+```
+
+This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
+The output from the installation process will be written to the console / host.
 
 ## PARAMETERS
 
@@ -147,6 +156,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
 For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
@@ -156,6 +182,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: License, Install, ISV, 3.
+Party, Servicing
+
 Author: Mötz Jensen (@splaxi)
 
 ## RELATED LINKS

@@ -59,6 +59,7 @@
 
 function Invoke-D365ModuleReportsCompile {
     [CmdletBinding()]
+    [OutputType('[PsCustomObject]')]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
         [string] $Module,
@@ -110,5 +111,6 @@ function Invoke-D365ModuleReportsCompile {
     [PSCustomObject]@{
         LogFile = $logFile
         XmlLogFile = $logXmlFile
+        PSTypeName = 'D365FO.TOOLS.ModuleReportsCompileOutput'
     }
 }

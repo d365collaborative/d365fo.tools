@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -56,6 +56,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+Tags: Environment, Url, Config, Configuration, Tfs, Vsts, Sql, SqlUser, SqlPwd
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

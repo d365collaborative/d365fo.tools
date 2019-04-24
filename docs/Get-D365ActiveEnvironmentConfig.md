@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -28,6 +28,17 @@ Get-D365ActiveEnvironmentConfig
 
 This will get the active environment configuration
 
+### EXAMPLE 2
+```
+$params = @{}
+```
+
+PS C:\\\> $params.SqlUser = (Get-D365ActiveEnvironmentConfig).SqlUser
+PS C:\\\> $params.SqlPwd = (Get-D365ActiveEnvironmentConfig).SqlPwd
+
+This gives you a hashtable with the SqlUser and SqlPwd values from the active environment.
+This enables you to use the $params as splatting for other cmdlets.
+
 ## PARAMETERS
 
 ### CommonParameters
@@ -39,7 +50,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+Tags: Environment, Url, Config, Configuration, Tfs, Vsts, Sql, SqlUser, SqlPwd
 
 Author: Mötz Jensen (@Splaxi)
 

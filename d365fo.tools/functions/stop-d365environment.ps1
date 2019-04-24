@@ -29,15 +29,35 @@
     .PARAMETER DMF
         Start the Data Management Framework service
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .EXAMPLE
+        PS C:\> Stop-D365Environment
+        
+        This will run the cmdlet with the default parameters.
+        Default is "-All".
+        This will stop all D365FO services on the machine.
+        
+    .EXAMPLE
+        PS C:\> Stop-D365Environment -ShowOriginalProgress
+        
+        This will run the cmdlet with the default parameters.
+        Default is "-All".
+        This will Stop all D365FO services on the machine.
+        The progress of Stopping the different services will be written to the console / host.
+        
     .EXAMPLE
         PS C:\> Stop-D365Environment -All
         
-        Will stop all D365FO service on the machine
+        This will stop all D365FO services on the machine.
         
     .EXAMPLE
         PS C:\> Stop-D365Environment -Aos -Batch
         
-        Will stop Aos & Batch services on the machine
+        This will stop the Aos & Batch D365FO services on the machine.
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
@@ -66,7 +86,11 @@ function Stop-D365Environment {
         [switch] $FinancialReporter,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
-        [switch] $DMF
+        [switch] $DMF,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 6 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
+        [switch] $ShowOriginalProgress
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
@@ -79,20 +103,26 @@ function Stop-D365Environment {
         return
     }
 
+    $warningActionValue = "SilentlyContinue"
+    if ($ShowOriginalProgress) {$warningActionValue = "Continue"}
+
     $Params = Get-DeepClone $PSBoundParameters
-    if($Params.ContainsKey("ComputerName")){$null = $Params.Remove("ComputerName")}
+    if ($Params.ContainsKey("ComputerName")) {$null = $Params.Remove("ComputerName")}
+    if ($Params.ContainsKey("ShowOriginalProgress")) {$null = $Params.Remove("ShowOriginalProgress")}
 
     $Services = Get-ServiceList @Params
     
     $Results = foreach ($server in $ComputerName) {
         Write-PSFMessage -Level Verbose -Message "Working against: $server - stopping services"
-        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Stop-Service -Force -ErrorAction SilentlyContinue
+        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Stop-Service -Force -ErrorAction SilentlyContinue -WarningAction $warningActionValue
     }
 
     $Results = foreach ($server in $ComputerName) {
         Write-PSFMessage -Level Verbose -Message "Working against: $server - listing services"
         Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
     }
-
-    $Results | Select-Object Server, DisplayName, Status, Name
+    
+    Write-PSFMessage -Level Verbose "Results are: $Results" -Target ($Results.Name -join ",")
+    
+    $Results | Select-PSFObject -TypeName "D365FO.TOOLS.Environment.Service" Server, DisplayName, Status, Name
 }

@@ -25,7 +25,16 @@
         This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
         The output will be saved into the "C:\Temp\d365fo.tools\runbook-analyze-results.xml" file.
         
+    .EXAMPLE
+        PS C:\> Get-D365Runbook -Latest | Backup-D365Runbook -Force | Invoke-D365RunbookAnalyzer
+        
+        This will get the latest runbook from the default location.
+        This will backup the file onto the default "c:\temp\d365fo.tools\runbookbackups\".
+        This will start the Runbook Analyzer on the backup file.
+        
     .NOTES
+        Tags: Runbook, Servicing, Hotfix, DeployablePackage, Deployable Package, InstallationRecordsDirectory, Installation Records Directory
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>
@@ -42,7 +51,7 @@ function Invoke-D365RunbookAnalyzer {
         if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
 
         $null = $sb = New-Object System.Text.StringBuilder
-        $null = $sb.AppendLine("<D365FOTools-Runbook-Analyzer-Output>")
+        $null = $sb.AppendLine("<D365FO.Tools.Runbook.Analyzer.Output>")
 
         [xml]$xmlRunbook = Get-Content $Path
 
@@ -60,6 +69,14 @@ function Invoke-D365RunbookAnalyzer {
 
             $null = $sb.AppendLine("</FailedStepInfo>")
         }
+        
+        $inProgressSteps = $xmlRunbook.SelectNodes("//RunbookStepList/Step/StepState[text()='InProgress']")
+
+        $null = $sb.AppendLine("<InProgressStepInfo>")
+
+        $inProgressSteps | ForEach-Object { $null = $sb.AppendLine( $_.ParentNode.OuterXml)}
+
+        $null = $sb.AppendLine("</InProgressStepInfo>")
 
         $unprocessedSteps = $xmlRunbook.SelectNodes("//RunbookStepList/Step/StepState[text()='NotStarted']")
 
@@ -69,7 +86,9 @@ function Invoke-D365RunbookAnalyzer {
 
         $null = $sb.AppendLine("</UnprocessedStepInfo>")
 
-        $null = $sb.AppendLine("</D365FOTools-Runbook-Analyzer-Output>")
+        
+
+        $null = $sb.AppendLine("</D365FO.Tools.Runbook.Analyzer.Output>")
 
         [xml]$xmlRaw = $sb.ToString()
         

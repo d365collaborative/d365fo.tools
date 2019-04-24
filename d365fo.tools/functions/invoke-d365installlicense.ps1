@@ -35,10 +35,21 @@
         
         Default path is the same as the aos service PackagesLocalDirectory\bin
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
     .EXAMPLE
         PS C:\> Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
         
         This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt -ShowOriginalProgress
+        
+        This will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.
+        The output from the installation process will be written to the console / host.
         
     .NOTES
         Tags: License, Install, ISV, 3. Party, Servicing
@@ -69,13 +80,18 @@ function Invoke-D365InstallLicense {
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
         [Parameter(Mandatory = $false, Position = 7 )]
-        [string] $BinDir = "$Script:BinDir"
+        [string] $BinDir = "$Script:BinDir",
+
+        [Parameter(Mandatory = $False)]
+        [switch] $ShowOriginalProgress
     )
 
     $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
 
     if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
     if (-not (Test-PathExists -Path $Path,$executable -Type Leaf)) {return}
+
+    Invoke-TimeSignal -Start
 
     $params = @("-isemulated", "true",
         "-sqluser", "$SqlUser",
@@ -87,5 +103,7 @@ function Invoke-D365InstallLicense {
         "-setupmode", "importlicensefile",
         "-licensefilename", "`"$Path`"")
 
-    Start-Process -FilePath $executable -ArgumentList ($params -join " ") -NoNewWindow -Wait
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+
+    Invoke-TimeSignal -End
 }

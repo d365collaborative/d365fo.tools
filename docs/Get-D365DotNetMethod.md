@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -119,6 +119,10 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: .Net, DotNet, Class, Method, Methods, Development
+
+Author: Mötz Jensen (@Splaxi)
+
 The cmdlet supports piping and can be used in advanced scenarios.
 See more on github and the wiki pages.
 

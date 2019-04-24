@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -25,7 +25,7 @@ Invoke-D365SCDPBundleInstall [[-Command] <String>] [-Path] <String> [[-MetaDataD
 ```
 
 ## DESCRIPTION
-A cmdlet that wraps some of the cumbersome work into a streamlined process
+A cmdlet that wraps some of the cumbersome work of installing updates / hotfixes into a streamlined process
 
 ## EXAMPLES
 
@@ -39,7 +39,7 @@ This will install the "HotfixPackageBundle.axscdppkg" into the default PackagesL
 ## PARAMETERS
 
 ### -InstallOnly
-Switch to instruct the cmdlet to only run the Install option and ignore any TFS / VSTS folders and source control in general
+Instructs the cmdlet to only run the Install option and ignore any TFS / VSTS folders and source control in general
 
 Use it when testing an update on a local development machine (VM) / onebox
 
@@ -56,7 +56,13 @@ Accept wildcard characters: False
 ```
 
 ### -Command
-Parameter description
+The command / job you want the cmdlet to execute
+
+Valid options are:
+Prepare
+Install
+
+Default value is "Prepare"
 
 ```yaml
 Type: String
@@ -177,7 +183,10 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: Hotfix, Hotfixes, Updates, Prepare, VSTS, axscdppkg
+
 Author: Mötz Jensen (@splaxi)
+
 Author: Tommy Skaue (@skaue)
 
 ## RELATED LINKS

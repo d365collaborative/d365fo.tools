@@ -114,5 +114,6 @@ function Invoke-D365ModuleCompile {
     [PSCustomObject]@{
         LogFile = $logFile
         XmlLogFile = $logXmlFile
+        PSTypeName = 'D365FO.TOOLS.ModuleCompileOutput'
     }
 }

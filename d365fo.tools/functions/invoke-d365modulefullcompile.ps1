@@ -34,17 +34,27 @@
     .EXAMPLE
         PS C:\> Invoke-D365ModuleFullCompile -Module MyModel
         
+        This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
+        The default output from all the different steps will be silenced.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365ModuleFullCompile -Module MyModel -ShowOriginalProgress
+        
         This will use the default paths and start the xppc.exe with the needed parameters to copmile MyModel package.
+        The default output from the different steps will be written to the console / host.
         
     .NOTES
         Tags: Compile, Model, Servicing
         
         Author: Ievgen Miroshnikov (@IevgenMir)
         
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Invoke-D365ModuleFullCompile {
     [CmdletBinding()]
+    [OutputType('[PsCustomObject]')]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
         [string] $Module,
@@ -74,11 +84,18 @@ function Invoke-D365ModuleFullCompile {
     if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
     if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
 
-    Invoke-D365ModuleCompile @PSBoundParameters
+    $resModuleCompile = Invoke-D365ModuleCompile @PSBoundParameters
 
-    Invoke-D365ModuleLabelGeneration @PSBoundParameters
+    $resLabelGeneration = Invoke-D365ModuleLabelGeneration @PSBoundParameters
 
-    Invoke-D365ModuleReportsCompile @PSBoundParameters
-    
+    $resReportsCompile = Invoke-D365ModuleReportsCompile @PSBoundParameters
+
     Invoke-TimeSignal -End
+
+    $resModuleCompile #| Select-PSFObject -TypeName "D365FO.TOOLS.ModuleCompileOutput" @{Name = "OutputOrigin"; Expression = {"ModuleCompile"}}, "LogFile as LogFile", "XmlLogFile as XmlLogFile", @{Name = "ErrorLogFile"; Expression = {""}}
+
+    $resLabelGeneration #| Select-PSFObject @{Name = "OutputOrigin"; Expression = {"LabelGeneration"}}, "OutLogFile as LogFile", @{Name = "XmlLogFile"; Expression = {""}}, "ErrorLogFile as ErrorLogFile"
+
+    $resReportsCompile #| Select-PSFObject @{Name = "OutputOrigin"; Expression = {"ReportsCompile"}}, "LogFile as LogFile", "XmlLogFile as XmlLogFile", @{Name = "ErrorLogFile"; Expression = {""}}
+
 }

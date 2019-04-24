@@ -43,8 +43,10 @@ function Update-TopologyFile {
     $serviceModelList = $machine.ServiceModelList
     $null = $serviceModelList.RemoveAll()
  
-    $instalInfoDll = Join-Path $Path 'Microsoft.Dynamics.AX.AXInstallationInfo.dll'
-    [void][System.Reflection.Assembly]::LoadFile($instalInfoDll)
+    [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
+
+    $null = $Files2Process.Add((Join-Path $Path 'Microsoft.Dynamics.AX.AXInstallationInfo.dll'))
+    Import-AssemblyFileIntoMemory -Path $($Files2Process.ToArray())
  
     $models = [Microsoft.Dynamics.AX.AXInstallationInfo.AXInstallationInfo]::GetInstalledServiceModel()
 

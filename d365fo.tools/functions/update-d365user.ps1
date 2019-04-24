@@ -61,79 +61,96 @@ function Update-D365User {
         [Parameter(Mandatory = $false, Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $true, Position = 5)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5)]
         [string]$Email,
 
         [Parameter(Mandatory = $false, Position = 6)]
         [string]$Company
 
     )
-
-    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
-
-    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
-        SqlUser = $SqlUser; SqlPwd = $SqlPwd
-    }
-
-    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
-
-    $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
-
-    $null = $sqlCommand.Parameters.Add("@Email", $Email.Replace("*", "%"))
-
-    $sqlCommand_Update = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
-
-    $sqlCommand_Update.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
-
-    try {
-        Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
-
-        $sqlCommand.Connection.Open()
+    begin {
+        Invoke-TimeSignal -Start
         
-        $reader = $sqlCommand.ExecuteReader()
+        $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-        $sqlCommand_Update.Connection.Open()
+        $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+            SqlUser = $SqlUser; SqlPwd = $SqlPwd
+        }
 
-        while ($reader.Read() -eq $true) {
-            Write-PSFMessage -Level Verbose -Message "Building the update statement with the needed details."
+        $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
+        
+        $sqlCommand_Update = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
-            $userId = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
-            $networkAlias = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
+        try {
+            $sqlCommand.Connection.Open()
 
-            $userAuth = Get-D365UserAuthenticationDetail $networkAlias
-
-            $null = $sqlCommand_Update.Parameters.Add("@id", $userId)
-            $null = $sqlCommand_Update.Parameters.Add("@networkDomain", $userAuth["NetworkDomain"])
-            $null = $sqlCommand_Update.Parameters.Add("@sid", $userAuth["SID"])
-            $null = $sqlCommand_Update.Parameters.Add("@identityProvider", $userAuth["IdentityProvider"])
-
-            $null = $sqlCommand_Update.Parameters.Add("@Company", $Company)
-
-            Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $sqlCommand_Update)
-
-            $null = $sqlCommand_Update.ExecuteNonQuery()
-
-            $sqlCommand_Update.Parameters.Clear()
+            $sqlCommand_Update.Connection.Open()
+        }
+        catch {
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
         }
     }
-    catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
-        return
-    }
-    finally {
-        $reader.close()
 
+    process {
+        $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\get-user.sql") -join [Environment]::NewLine
+
+        $null = $sqlCommand.Parameters.Add("@Email", $Email.Replace("*", "%"))
+
+        $sqlCommand_Update.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\update-user.sql") -join [Environment]::NewLine
+
+        try {
+            Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+        
+            $reader = $sqlCommand.ExecuteReader()
+
+            while ($reader.Read() -eq $true) {
+                Write-PSFMessage -Level Verbose -Message "Building the update statement with the needed details."
+
+                $userId = "$($reader.GetString($($reader.GetOrdinal("ID"))))"
+                $networkAlias = "$($reader.GetString($($reader.GetOrdinal("NETWORKALIAS"))))"
+
+                $userAuth = Get-D365UserAuthenticationDetail $networkAlias
+
+                $null = $sqlCommand_Update.Parameters.AddWithValue("@id", $userId)
+                $null = $sqlCommand_Update.Parameters.AddWithValue("@networkDomain", $userAuth["NetworkDomain"])
+                $null = $sqlCommand_Update.Parameters.AddWithValue("@sid", $userAuth["SID"])
+                $null = $sqlCommand_Update.Parameters.AddWithValue("@identityProvider", $userAuth["IdentityProvider"])
+
+                $null = $sqlCommand_Update.Parameters.AddWithValue("@Company", $Company)
+
+                Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $sqlCommand_Update)
+
+                $null = $sqlCommand_Update.ExecuteNonQuery()
+
+                $sqlCommand_Update.Parameters.Clear()
+            }
+        }
+        catch {
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors"
+            return
+        }
+        finally {
+            $reader.close()
+            $sqlCommand.Parameters.Clear()
+        }
+    }
+    
+    end {
         if ($sqlCommand_Update.Connection.State -ne [System.Data.ConnectionState]::Closed) {
             $sqlCommand_Update.Connection.Close()
         }
 
         $sqlCommand_Update.Dispose()
-        
+    
         if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
             $sqlCommand.Connection.Close()
         }
 
         $sqlCommand.Dispose()
+
+        Invoke-TimeSignal -End
     }
 }

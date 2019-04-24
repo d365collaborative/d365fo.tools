@@ -33,6 +33,9 @@
         
         Default is $false which will silence the standard output
         
+    .PARAMETER RunFixers
+        Instructs the cmdlet to invoke the fixers for the identified warnings
+        
     .EXAMPLE
         PS C:\> Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel"
         
@@ -41,10 +44,21 @@
         The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
         The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
         
+    .EXAMPLE
+        PS C:\> Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel" -ShowOriginalProgress
+        
+        This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.
+        The output from the best practice check process will be written to the console / host.
+        The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
+        The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
+        
     .NOTES
         Tags: Best Practice, BP, BPs, Module, Model, Quality
         
         Author: Gert Van Der Heyden (@gertvdheyden)
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Invoke-D365BestPractice {
@@ -72,7 +86,10 @@ function Invoke-D365BestPractice {
         [switch] $PackagesRoot,
 
         [Parameter(Mandatory = $false, Position = 7 )]
-        [switch] $ShowOriginalProgress
+        [switch] $ShowOriginalProgress,
+
+        [Parameter(Mandatory = $false, Position = 8 )]
+        [switch] $RunFixers
     )
 
 	Invoke-TimeSignal -Start
@@ -99,6 +116,11 @@ function Invoke-D365BestPractice {
 	if ($PackagesRoot -eq $true)
 	{
 		$params +="-packagesroot=`"$MetaDataDir`""
+	}
+
+	if ($RunFixers -eq $true)
+	{
+		$params +="-runfixers"
 	}
 
     Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress

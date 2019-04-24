@@ -25,6 +25,7 @@
 
 function ConvertTo-Hashtable {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseCmdletCorrectly', '')]
     [CmdletBinding()]
     param (
         [Parameter(ValueFromPipeline)]

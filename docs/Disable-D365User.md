@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -124,8 +124,8 @@ Aliases:
 
 Required: False
 Position: 6
-Default value: None
-Accept pipeline input: False
+Default value: *
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -138,6 +138,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: User, Users, Security, Configuration, Permission
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

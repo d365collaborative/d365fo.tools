@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -14,7 +14,7 @@ Get users from the environment
 
 ```
 Get-D365User [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>]
- [[-Email] <String>] [<CommonParameters>]
+ [[-Email] <String>] [-ExcludeSystemUsers] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,21 +27,28 @@ Get all relevant user details from the Dynamics 365 for Finance & Operations
 Get-D365User
 ```
 
-This will get all users from the environment
+This will get all users from the environment.
 
 ### EXAMPLE 2
+```
+Get-D365User -ExcludeSystemUsers
+```
+
+This will get all users from the environment, but filter out all known system user accounts.
+
+### EXAMPLE 3
 ```
 Get-D365User -Email "*contoso.com"
 ```
 
-This will search for all users with an e-mail address containing 'contoso.com' from the environment
+This will search for all users with an e-mail address containing 'contoso.com' from the environment.
 
 ## PARAMETERS
 
 ### -DatabaseServer
 The name of the database server
 
-If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
 
 If Azure use the full address to the database server, e.g.
 server.database.windows.net
@@ -89,7 +96,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -104,7 +111,7 @@ Accept wildcard characters: False
 ```
 
 ### -Email
-The search string to select which user(s) should be updated.
+The search string to select which user(s) should be updated
 
 The parameter supports wildcards.
 E.g.
@@ -124,6 +131,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ExcludeSystemUsers
+Instructs the cmdlet to filter out all known system users
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
 For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
@@ -133,6 +155,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-General notes
+Tags: User, Users
+
+Author: Mötz Jensen (@Splaxi)
+Author: Rasmus Andersen (@ITRasmus)
 
 ## RELATED LINKS

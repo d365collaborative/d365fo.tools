@@ -157,10 +157,7 @@ function Invoke-D365AzureStorageDownload {
                 $blockBlob.DownloadToFile($NewFile, [System.IO.FileMode]::Create)
             }
 
-            [PSCustomObject]@{
-                File     = $NewFile
-                Filename = $FileName
-            }
+            Get-Item -Path $NewFile | Select-PSFObject "Name as Filename", @{Name = "Size"; Expression = {[PSFSize]$_.Length}}, "LastWriteTime as LastModified", "Fullname as File"
         }
         catch {
             Write-PSFMessage -Level Host -Message "Something went wrong while downloading the file from Azure" -Exception $PSItem.Exception

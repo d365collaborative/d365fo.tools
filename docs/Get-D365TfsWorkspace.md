@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -70,6 +70,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: TFS, VSTS, URL, URI, Servicing, Development
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

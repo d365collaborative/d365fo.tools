@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.5.11'
+    ModuleVersion     = '0.5.26'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -26,7 +26,7 @@
     # Modules that must be imported into the global environment prior to importing
     # this module
     RequiredModules   = @(
-        @{ ModuleName = 'PSFramework'; ModuleVersion = '0.10.30.165' },
+        @{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' },
         @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
 		@{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' },
 		@{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
@@ -48,6 +48,7 @@
 						'Add-D365WIFConfigAuthorityThumbprint',
 
 						'Backup-D365MetaDataDir',
+						'Backup-D365Runbook',
 
 						'Clear-D365MonitorData',
 
@@ -73,6 +74,7 @@
 						'Get-D365AzureStorageFile',
 						'Get-D365ClickOnceTrustPrompt',
 
+						'Get-D365Database',
 						'Get-D365DatabaseAccess',
 						'Get-D365DecryptedConfigFile',
 						'Get-D365DotNetClass',
@@ -103,6 +105,7 @@
 						'Get-D365ProductInformation',
 
 						'Get-D365Runbook',
+						'Get-D365RunbookId',
 
 						'Get-D365SDPCleanUp',
 						'Get-D365Table',
@@ -165,6 +168,7 @@
 
 						'Rename-D365Instance',
 						'Rename-D365ComputerName',
+						'Restart-D365Environment',
 
 						'Set-D365ActiveAzureStorageConfig',
 						'Set-D365ActiveEnvironmentConfig',

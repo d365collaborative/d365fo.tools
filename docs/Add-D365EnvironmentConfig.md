@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -13,7 +13,7 @@ Save an environment config
 ## SYNTAX
 
 ```
-Add-D365EnvironmentConfig [-Name] <String> [-URL] <String> [[-SqlUser] <String>] [[-SqlPwd] <String>]
+Add-D365EnvironmentConfig [-Name] <String> [[-URL] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>]
  [[-Company] <String>] [[-TfsUri] <String>] [-Force] [<CommonParameters>]
 ```
 
@@ -65,7 +65,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
@@ -158,6 +158,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-You will have to run the Initialize-D365Config cmdlet first, before this will be capable of working.
+Tags: Environment, Url, Config, Configuration, Tfs, Vsts, Sql, SqlUser, SqlPwd
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
