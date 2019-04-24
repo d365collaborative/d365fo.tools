@@ -124,17 +124,21 @@ function Get-D365Module {
 
             if (Test-Path -Path $modulepath -PathType Container)
             {
-                $version = (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll" | Select-Object -ExpandProperty VersionInfo).FileVersion
+                $fileversion = Get-FileVersion -Path (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll").FullName
+                $version = $fileversion.FileVersion
+                $versionUpdated = $fileversion.FileVersionUpdated
             }
             else
             {
                 $version = ""
+				$versionUpdated = ""
             }
 			
             [PSCustomObject]@{
-                Module     = $obj.Name
-                References = $obj.References
-                Version    = $version
+                Module          = $obj.Name
+                References      = $obj.References
+                Version         = $version
+                VersionUpdated  = $versionUpdated
             }
         }
         else
@@ -144,6 +148,6 @@ function Get-D365Module {
                 Module     = $obj.Name
                 References = $obj.References
             }
-		}
+        }
     }
 }
