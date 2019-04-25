@@ -50,10 +50,10 @@ function Invoke-D365LcsUpload {
     [OutputType()]
     param(
         [Parameter(Mandatory = $false, Position = 1)]
-        [int]$ProjectId = $Script:LcsUploadProjectid,
+        [int] $ProjectId = $Script:LcsUploadProjectId,
         
         [Parameter(Mandatory = $false, Position = 2)]
-        [string] $ClientId = $Script:LcsUploadClientid,
+        [string] $ClientId = $Script:LcsUploadClientId,
 
         [Parameter(Mandatory = $false, Position = 3)]
         [string] $Username = $Script:LcsUploadUsername,
