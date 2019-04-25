@@ -68,7 +68,7 @@ function Set-D365LcsUploadConfig {
     [OutputType()]
     param(
         [Parameter(Mandatory = $false, Position = 1)]
-        [int]$ProjectId,
+        [int] $ProjectId,
 
         [Parameter(Mandatory = $false, Position = 2)]
         [string] $ClientId,
@@ -80,8 +80,7 @@ function Set-D365LcsUploadConfig {
         [string] $Password,
 
         [Parameter(Mandatory = $false, Position = 9)]
-        [ValidateSet("https://lcsapi.lcs.dynamics.com", "https://lcsapi.eu.lcs.dynamics.com")]
-        [string]$LcsApiUri = "https://lcsapi.lcs.dynamics.com",
+        [string] $LcsApiUri = "https://lcsapi.lcs.dynamics.com",
 
         [ValidateSet('User', 'System')]
         [string] $ConfigStorageLocation = "User",
