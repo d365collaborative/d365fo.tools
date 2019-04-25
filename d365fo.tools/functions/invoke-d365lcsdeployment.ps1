@@ -20,9 +20,6 @@
     .PARAMETER Password
         The password of the account that you want to impersonate
 
-    .PARAMETER FileName
-        Name to be assigned / shown on LCS
-        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -43,7 +40,7 @@
         
 #>
 
-function Invoke-D365LcsUpload {
+function Invoke-D365LcsDeployment {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingUserNameAndPassWordParams", "")]
     [CmdletBinding()]
@@ -70,12 +67,6 @@ function Invoke-D365LcsUpload {
 
     Invoke-TimeSignal -Start
 
-    $fileNameExtracted = Split-Path $FilePath -Leaf
-
-    if ($FileName -eq "") {
-        $FileName = $fileNameExtracted
-    }
-
     $scope = "openid"
     $grantType = "password"
 
@@ -87,28 +78,13 @@ function Invoke-D365LcsUpload {
 
     $bearerToken = "Bearer {0}" -f $authToken
 
-    $blobDetails = Start-LcsUpload -Token $bearerToken -ProjectId $ProjectId -FileType $FileType -LcsApiUri $LcsApiUri -Name $FileName -Description $FileDescription
+    $deploymentStatus = Start-LcsDeployment -Token $bearerToken -ProjectId $ProjectId -AssetId $AssetId
 
     if (Test-PSFFunctionInterrupt) { return }
-
-    Write-PSFMessage -Level Verbose -Message "Start response" -Target $blobDetails
-
-    $uploadResponse = Copy-FileToLcsBlob -FilePath $FilePath -FullUri $blobDetails.FileLocation
-
-    if (Test-PSFFunctionInterrupt) { return }
-
-    Write-PSFMessage -Level Verbose -Message "Upload response" -Target $uploadResponse
-
-    $ackResponse = Complete-LcsUpload -Token $bearerToken -ProjectId $ProjectId -AssetId $blobDetails.Id -LcsApiUri $LcsApiUri
-
-    if (Test-PSFFunctionInterrupt) { return }
-
-    Write-PSFMessage -Level Verbose -Message "Commit response" -Target $ackResponse
 
     Invoke-TimeSignal -End
 
     [PSCustomObject]@{
-        AssetId = $blobDetails.Id
-        Name = $FileName
+        AssetId = $AssetId
     }
 }
