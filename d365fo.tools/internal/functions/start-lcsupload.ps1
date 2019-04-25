@@ -16,8 +16,12 @@
         Type of file you want to upload
         
         Valid options:
-        "DeployablePackage"
-        "DatabaseBackup"
+        "Model"
+        "Process Data Package"
+        "Software Deployable Package"
+        "GER Configuration"
+        "Data Package"
+        "PowerBI Report Model"
         
     .PARAMETER Name
         Name to be assigned / shown on LCS
