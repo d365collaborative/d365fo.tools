@@ -93,19 +93,19 @@ function Invoke-D365LcsUpload {
         [string] $Password = $Script:LcsUploadPassword,
 
         [Parameter(Mandatory = $true, Position = 5)]
-        [string]$FilePath,
+        [string] $FilePath,
 
         [Parameter(Mandatory = $false, Position = 6)]
-        [string]$FileType = "Software Deployable Package",
+        [string] $FileType = "Software Deployable Package",
 
         [Parameter(Mandatory = $false, Position = 7)]
-        [string]$FileName,
+        [string] $FileName,
 
         [Parameter(Mandatory = $false, Position = 8)]
-        [string]$FileDescription,
+        [string] $FileDescription,
 
         [Parameter(Mandatory = $false, Position = 9)]
-        [string]$LcsApiUri = $Script:LcsUploadApiUri
+        [string] $LcsApiUri = $Script:LcsUploadApiUri
     )
 
     Invoke-TimeSignal -Start
