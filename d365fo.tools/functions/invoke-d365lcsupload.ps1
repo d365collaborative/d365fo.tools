@@ -92,8 +92,7 @@ function Invoke-D365LcsUpload {
         [string]$FilePath,
 
         [Parameter(Mandatory = $false, Position = 6)]
-        [ValidateSet("DeployablePackage", "DatabaseBackup")]
-        [string]$FileType = "DatabaseBackup",
+        [string]$FileType = "Software Deployable Package",
 
         [Parameter(Mandatory = $false, Position = 7)]
         [string]$FileName,
@@ -102,7 +101,6 @@ function Invoke-D365LcsUpload {
         [string]$FileDescription,
 
         [Parameter(Mandatory = $false, Position = 9)]
-        [ValidateSet("https://lcsapi.lcs.dynamics.com", "https://lcsapi.eu.lcs.dynamics.com")]
         [string]$LcsApiUri = $Script:LcsUploadApiUri
     )
 
