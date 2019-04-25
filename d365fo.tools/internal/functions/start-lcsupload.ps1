@@ -60,7 +60,6 @@ function Start-LcsUpload {
         [int]$ProjectId,
 
         [Parameter(Mandatory = $true)]
-        [ValidateSet('DeployablePackage', 'DatabaseBackup')]
         [string]$FileType,
 
         [Parameter(Mandatory = $false)]
@@ -85,8 +84,12 @@ function Start-LcsUpload {
     $fileTypeValue = 0
 
     switch ($FileType) {
-        "DeployablePackage" { $fileTypeValue = 10 }
-        "DatabaseBackup" { $fileTypeValue = 17 }
+        "Model" { $fileTypeValue = 1 }
+        "Process Data Package" { $fileTypeValue = 4 }
+        "Software Deployable Package" { $fileTypeValue = 10 }
+        "GER Configuration" { $fileTypeValue = 12 }
+        "Data Package" { $fileTypeValue = 15 }
+        "PowerBI Report Model" { $fileTypeValue = 19 }
     }
 
     $jsonFile = "{ `"Name`": `"$Name`", `"FileName`": `"$fileName`", `"FileDescription`": $jsonDescription, `"SizeByte`": 0, `"FileType`": $fileTypeValue }"
