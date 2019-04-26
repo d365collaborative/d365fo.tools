@@ -26,22 +26,37 @@
         Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
         
         Default value is "*" which will search for all packages / modules
+
+    .PARAMETER Expand
+        Adds the version of the package / module to the output
         
     .EXAMPLE
         PS C:\> Get-D365Module
         
-        Shows the entire list of installed packages / modules located in the default location on the machine
+        Shows the entire list of installed packages / modules located in the default location on the machine.
         
+    .EXAMPLE
+        PS C:\> Get-D365Module -Expand
+        
+        Shows the entire list of installed packages / modules located in the default location on the machine.
+        Will include the file version for each package / module.
+
     .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor"
         
-        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor"
+        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
         A result set example:
         ApplicationFoundationFormAdaptor
         ApplicationPlatformFormAdaptor
         ApplicationSuiteFormAdaptor
         ApplicationWorkspacesFormAdaptor
+
+    .EXAMPLE
+        PS C:\> Get-D365Module -Name "Application*Adaptor" -Expand
+        
+        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
+        Will include the file version for each package / module.
         
     .EXAMPLE
         PS C:\> Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
@@ -68,7 +83,10 @@ function Get-D365Module {
         [string] $PackageDirectory = $Script:PackageDirectory,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
-        [string] $Name = "*"
+        [string] $Name = "*",
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
+        [switch] $Expand
     )
 
     [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
@@ -112,9 +130,36 @@ function Get-D365Module {
         Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
         if ($obj.Name -NotLike $Name) {continue}
 
-        [PSCustomObject]@{
-            Module     = $obj.Name
-            References = $obj.References
+        if ($Expand -eq $true)
+        {
+            $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
+
+            if (Test-Path -Path $modulepath -PathType Container)
+            {
+                $fileversion = Get-FileVersion -Path (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll").FullName
+                $version = $fileversion.FileVersion
+                $versionUpdated = $fileversion.FileVersionUpdated
+            }
+            else
+            {
+                $version = ""
+				$versionUpdated = ""
+            }
+			
+            [PSCustomObject]@{
+                Module          = $obj.Name
+                References      = $obj.References
+                Version         = $version
+                VersionUpdated  = $versionUpdated
+            }
+        }
+        else
+        {
+
+            [PSCustomObject]@{
+                Module     = $obj.Name
+                References = $obj.References
+            }
         }
     }
 }
