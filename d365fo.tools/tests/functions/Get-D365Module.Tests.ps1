@@ -50,12 +50,25 @@
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter Expand' {
+			$parameter = (Get-Command Get-D365Module).Parameters['Expand']
+			$parameter.Name | Should -Be 'Expand'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'Default'
+			$parameter.ParameterSets.Keys | Should -Contain 'Default'
+			$parameter.ParameterSets['Default'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['Default'].Position | Should -Be 4
+			$parameter.ParameterSets['Default'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset Default" {
 		<#
 		Default -
-		Default -BinDir -PackageDirectory -Name
+		Default -BinDir -PackageDirectory -Name -Expand
 		#>
 	}
 
