@@ -33,18 +33,30 @@
     .EXAMPLE
         PS C:\> Get-D365Module
         
-        Shows the entire list of installed packages / modules located in the default location on the machine
+        Shows the entire list of installed packages / modules located in the default location on the machine.
         
+    .EXAMPLE
+        PS C:\> Get-D365Module -Expand
+        
+        Shows the entire list of installed packages / modules located in the default location on the machine.
+        Will include the file version for each package / module.
+
     .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor"
         
-        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor"
+        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
         A result set example:
         ApplicationFoundationFormAdaptor
         ApplicationPlatformFormAdaptor
         ApplicationSuiteFormAdaptor
         ApplicationWorkspacesFormAdaptor
+
+    .EXAMPLE
+        PS C:\> Get-D365Module -Name "Application*Adaptor" -Expand
+        
+        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
+        Will include the file version for each package / module.
         
     .EXAMPLE
         PS C:\> Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
