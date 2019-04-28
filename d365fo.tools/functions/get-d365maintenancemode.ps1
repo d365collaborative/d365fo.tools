@@ -48,18 +48,9 @@ function Get-D365MaintenanceMode {
         [string] $SqlPwd = $Script:DatabaseUserPassword
     )
 
-        Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (which requires local admin)."
+        Write-PSFMessage -Level Verbose -Message "Getting Maintenance Mode using SQL scripts."
 
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
-
-        $Params = @{
-            DatabaseServer = $DatabaseServer
-            DatabaseName   = $DatabaseName
-            SqlUser        = $SqlUser
-            SqlPwd         = $SqlPwd
-        }
-
-    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
         SqlUser = $SqlUser; SqlPwd = $SqlPwd
@@ -75,7 +66,7 @@ function Get-D365MaintenanceMode {
         $reader = $sqlCommand.ExecuteReader()
 
         while ($reader.Read() -eq $true) {
-            [PSCustomObject]@{                
+            [PSCustomObject]@{
                 MaintenanceModeEnabled          = [bool][int]"$($reader.GetString($($reader.GetOrdinal("VALUE"))))"
             }
         }
