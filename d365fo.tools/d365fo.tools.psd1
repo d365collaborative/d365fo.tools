@@ -97,6 +97,7 @@
 						'Get-D365LcsUploadConfig',
 						'Get-D365LogicAppConfig',
 
+						'Get-D365MaintenanceMode',
 						'Get-D365Module',
 						'Get-D365OfflineAuthenticationAdminEmail',
 
