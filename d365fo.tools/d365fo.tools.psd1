@@ -26,10 +26,11 @@
     # Modules that must be imported into the global environment prior to importing
     # this module
     RequiredModules   = @(
-        @{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' },
-        @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
-		@{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' },
-		@{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
+		  @{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' }
+		, @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }
+		, @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
+		, @{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
+		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.2.0' }
     )
 
     # Assemblies that must be loaded prior to importing this module
@@ -170,6 +171,7 @@
 						'Rename-D365ComputerName',
 						'Restart-D365Environment',
 
+						'Send-D365MessageToUsers',
 						'Set-D365ActiveAzureStorageConfig',
 						'Set-D365ActiveEnvironmentConfig',
 						'Set-D365Admin',
