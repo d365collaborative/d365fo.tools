@@ -1,23 +1,24 @@
-﻿<#
-.SYNOPSIS
-Remove broadcast message configuration
-
-.DESCRIPTION
-Remove a broadcast message configuration from the configuration store
-
+﻿
+<#
+    .SYNOPSIS
+        Remove broadcast message configuration
+        
+    .DESCRIPTION
+        Remove a broadcast message configuration from the configuration store
+        
     .PARAMETER Name
         Name of the broadcast message configuration you want to remove from the configuration store
         
     .PARAMETER Temporary
         Instruct the cmdlet to only temporarily remove the broadcast message configuration from the configuration store
-
-.EXAMPLE
-PS C:\> Remove-D365BroadcastMessageConfig -Name "UAT"
-
-This will remove the broadcast message configuration name "UAT" from the machine.
-
-.NOTES
-Tags: Servicing, Broadcast, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
+        
+    .EXAMPLE
+        PS C:\> Remove-D365BroadcastMessageConfig -Name "UAT"
+        
+        This will remove the broadcast message configuration name "UAT" from the machine.
+        
+    .NOTES
+        Tags: Servicing, Broadcast, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
         
         Author: Mötz Jensen (@Splaxi)
 #>
