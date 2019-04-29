@@ -73,6 +73,7 @@
 
 						'Get-D365AzureStorageConfig',
 						'Get-D365AzureStorageFile',
+						'Get-D365BroadcastMessage',
 						'Get-D365ClickOnceTrustPrompt',
 
 						'Get-D365Database',
@@ -171,7 +172,7 @@
 						'Rename-D365ComputerName',
 						'Restart-D365Environment',
 
-						'Send-D365MessageToUsers',
+						'Send-D365BroadcastMessage',
 						'Set-D365ActiveAzureStorageConfig',
 						'Set-D365ActiveEnvironmentConfig',
 						'Set-D365Admin',
