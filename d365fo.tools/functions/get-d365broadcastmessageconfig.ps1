@@ -37,6 +37,7 @@
 #>
 
 function Get-D365BroadcastMessageConfig {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [CmdletBinding()]
     [OutputType('PSCustomObject')]
     param (

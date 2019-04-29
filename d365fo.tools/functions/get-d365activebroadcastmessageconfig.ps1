@@ -6,6 +6,9 @@
     .DESCRIPTION
         Get active broadcast message configuration from the configuration store
         
+    .PARAMETER OutputAsHashtable
+        Instruct the cmdlet to return a hastable object
+        
     .EXAMPLE
         PS C:\> Get-D365ActiveBroadcastMessageConfig
         

@@ -25,6 +25,7 @@
 #>
 
 function Set-D365ActiveBroadcastMessageConfig {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     [OutputType()]
     param (

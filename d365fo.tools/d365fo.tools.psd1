@@ -45,7 +45,7 @@
     # Functions to export from this module
     FunctionsToExport = @(
 						'Add-D365AzureStorageConfig',
-						'Add-D365BroadcastMessageConfig',						
+						'Add-D365BroadcastMessageConfig',
 						'Add-D365EnvironmentConfig',
 						'Add-D365WIFConfigAuthorityThumbprint',
 
@@ -68,6 +68,7 @@
 						'Find-D365Command',
 
 						'Get-D365ActiveAzureStorageConfig',
+						'Get-D365ActiveBroadcastMessageConfig',
 						'Get-D365ActiveEnvironmentConfig',
 
 						'Get-D365AOTObject',
@@ -75,6 +76,7 @@
 						'Get-D365AzureStorageConfig',
 						'Get-D365AzureStorageFile',
 						'Get-D365BroadcastMessage',
+						'Get-D365BroadcastMessageConfig',
 						'Get-D365ClickOnceTrustPrompt',
 
 						'Get-D365Database',
@@ -174,8 +176,11 @@
 						'Restart-D365Environment',
 
 						'Send-D365BroadcastMessage',
+
 						'Set-D365ActiveAzureStorageConfig',
+						'Set-D365ActiveBroadcastMessageConfig',
 						'Set-D365ActiveEnvironmentConfig',
+
 						'Set-D365Admin',
 
 						'Set-D365ClickOnceTrustPrompt',
