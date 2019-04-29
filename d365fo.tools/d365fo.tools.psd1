@@ -52,6 +52,7 @@
 						'Backup-D365MetaDataDir',
 						'Backup-D365Runbook',
 
+						'Clear-D365ActiveBroadcastMessageConfig',
 						'Clear-D365MonitorData',
 
 						'Publish-D365SsrsReport',
@@ -167,6 +168,8 @@
 						'New-D365TopologyFile',
 
 						'Register-D365AzureStorageConfig',
+
+						'Remove-D365BroadcastMessageConfig',
 						'Remove-D365Database',
 						'Remove-D365Model',
 						'Remove-D365User',
