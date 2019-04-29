@@ -30,3 +30,4 @@ Set-PSFConfig -FullName "d365fo.tools.lcs.upload.password" -Value "" -Initialize
 Set-PSFConfig -FullName "d365fo.tools.lcs.upload.api.uri" -Value "" -Initialize -Description "URI / URL for the LCS API."
 
 
+Set-PSFConfig -FullName "d365fo.tools.active.broadcast.message.config.name" -Value "" -Initialize -Description "Name of the broadcast message configuration that should be the default / active configuration for the module."

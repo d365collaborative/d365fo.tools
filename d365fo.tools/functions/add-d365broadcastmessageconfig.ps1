@@ -38,10 +38,10 @@
         The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
         
     .PARAMETER Temporary
-        Instruct the cmdlet to only temporarily add the broadcast message configuration in the configuration storage
+        Instruct the cmdlet to only temporarily add the broadcast message configuration in the configuration store
         
     .PARAMETER Force
-        Instruct the cmdlet to overwrite already stored broadcast message configuration
+        Instruct the cmdlet to overwrite the broadcast message configuration with the same name
         
     .EXAMPLE
         PS C:\> Add-D365BroadcastMessageConfig -Name "UAT" -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
@@ -55,7 +55,7 @@
         It will use the default end time which is 60 minutes.
         
     .NOTES
-        Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
+        Tags: Servicing, Broadcast, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
         
         Author: Mötz Jensen (@Splaxi)
         

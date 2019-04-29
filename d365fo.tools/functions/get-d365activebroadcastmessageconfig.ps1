@@ -27,7 +27,7 @@ function Get-D365ActiveBroadcastMessageConfig {
         [switch] $OutputAsHashtable
     )
 
-    $configName = (Get-PSFConfig -FullName "d365fo.tools.active.broadcast.name").Value
+    $configName = (Get-PSFConfig -FullName "d365fo.tools.active.broadcast.message.config.name").Value
 
     if ($configName -eq "") {
         Write-PSFMessage -Level Host -Message "It looks like there <c='em'>isn't configured</c> an active broadcast message configuration."

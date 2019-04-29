@@ -11,7 +11,7 @@
         Name of the broadcast message configuration you want to load into the active broadcast message configuration
         
     .PARAMETER Temporary
-        Instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
+        Instruct the cmdlet to only temporarily override the persisted settings in the configuration store
         
     .EXAMPLE
         PS C:\> Set-D365ActiveBroadcastMessageConfig -Name "UAT"
@@ -47,6 +47,6 @@ function Set-D365ActiveBroadcastMessageConfig {
         return
     }
 
-    Set-PSFConfig -FullName "d365fo.tools.active.broadcast.name" -Value $Name
-    if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.azure.storage.account"  -Scope UserDefault }
+    Set-PSFConfig -FullName "d365fo.tools.active.broadcast.message.config.name" -Value $Name
+    if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.broadcast.message.config.name"  -Scope UserDefault }
 }
