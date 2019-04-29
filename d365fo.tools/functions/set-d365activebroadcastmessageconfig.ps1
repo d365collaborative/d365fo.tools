@@ -1,4 +1,30 @@
-﻿function Set-D365ActiveBroadcastMessageConfig {
+﻿
+<#
+        
+    .SYNOPSIS
+        Set the active broadcast message configuration
+        
+    .DESCRIPTION
+        Updates the current active broadcast message configuration with a new one
+        
+    .PARAMETER Name
+        Name of the broadcast message configuration you want to load into the active broadcast message configuration
+        
+    .PARAMETER Temporary
+        Instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
+        
+    .EXAMPLE
+        PS C:\> Set-D365ActiveBroadcastMessageConfig -Name "UAT"
+        
+        This will set the broadcast message configuration named "UAT" as the active configuration.
+        
+    .NOTES
+        Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
+        
+        Author: Mötz Jensen (@Splaxi)
+#>
+
+function Set-D365ActiveBroadcastMessageConfig {
     [CmdletBinding()]
     [OutputType()]
     param (
@@ -22,5 +48,4 @@
 
     Set-PSFConfig -FullName "d365fo.tools.active.broadcast.name" -Value $Name
     if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.azure.storage.account"  -Scope UserDefault }
-
 }

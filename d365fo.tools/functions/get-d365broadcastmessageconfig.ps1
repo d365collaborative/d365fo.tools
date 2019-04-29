@@ -13,23 +13,23 @@
         
     .PARAMETER OutputAsHashtable
         Instruct the cmdlet to return a hastable object
-
+        
     .EXAMPLE
         PS C:\> Get-D365BroadcastMessageConfig
-
+        
         This will display all broadcast message configurations on the machine.
         
     .EXAMPLE
         PS C:\> Get-D365BroadcastMessageConfig -OutputAsHashtable
-
+        
         This will display all broadcast message configurations on the machine.
         Every object will be output as a hashtable, for you to utilize as parameters for other cmdlets.
-
+        
     .EXAMPLE
         PS C:\> Get-D365BroadcastMessageConfig -Name "UAT"
-
+        
         This will display the broadcast message configuration that is saved with the name "UAT" on the machine.
-
+        
     .NOTES
         Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
         
@@ -38,6 +38,7 @@
 
 function Get-D365BroadcastMessageConfig {
     [CmdletBinding()]
+    [OutputType('PSCustomObject')]
     param (
         [string] $Name = "*",
 

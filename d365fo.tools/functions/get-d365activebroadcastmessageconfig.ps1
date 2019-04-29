@@ -1,4 +1,22 @@
 ﻿
+<#
+    .SYNOPSIS
+        Get active broadcast message configuration
+        
+    .DESCRIPTION
+        Get active broadcast message configuration from the configuration store
+        
+    .EXAMPLE
+        PS C:\> Get-D365ActiveBroadcastMessageConfig
+        
+        This will get the active broadcast message configuration.
+        
+    .NOTES
+        Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
+        
+        Author: Mötz Jensen (@Splaxi)
+#>
+
 function Get-D365ActiveBroadcastMessageConfig {
     [CmdletBinding()]
     [OutputType()]
