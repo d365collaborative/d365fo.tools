@@ -23,6 +23,7 @@ Tags: Servicing, Broadcast, Message, Users, Environment, Config, Configuration, 
 #>
 
 function Remove-D365BroadcastMessageConfig {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     [OutputType()]
     param (
