@@ -1,0 +1,129 @@
+﻿
+<#
+    .SYNOPSIS
+        Save a broadcast message config
+        
+    .DESCRIPTION
+        Adds a broadcast message config to the configuration store
+        
+    .PARAMETER Name
+        The logical name of the broadcast configuration you are about to register in the configuration store
+        
+    .PARAMETER Tenant
+        Azure Active Directory (AAD) tenant id (Guid) that the D365FO environment is connected to, that you want to send a message to
+        
+    .PARAMETER URL
+        URL / URI for the D365FO environment you want to send a message to
+        
+    .PARAMETER ClientId
+        The ClientId obtained from the Azure Portal when you created a Registered Application
+        
+    .PARAMETER ClientSecret
+        The ClientSecret obtained from the Azure Portal when you created a Registered Application
+        
+    .PARAMETER TimeZone
+        Id of the Time Zone your environment is running in
+        
+        You might experience that the local VM running the D365FO is running another Time Zone than the computer you are running this cmdlet from
+        
+        All available .NET Time Zones can be traversed with tab for this parameter
+        
+        The default value is "UTC"
+        
+    .PARAMETER EndingInMinutes
+        Specify how many minutes into the future you want this message / maintenance window to last
+        
+        Default value is 60 minutes
+        
+        The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
+        
+    .PARAMETER Temporary
+        Instruct the cmdlet to only temporarily add the broadcast message configuration in the configuration storage
+        
+    .PARAMETER Force
+        Instruct the cmdlet to overwrite already stored broadcast message configuration
+        
+    .EXAMPLE
+        PS C:\> Add-D365BroadcastMessageConfig -Name "UAT" -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
+        
+        This will create a new broadcast message configuration with the name "UAT".
+        It will save "e674da86-7ee5-40a7-b777-1111111111111" as the Azure Active Directory guid.
+        It will save "https://usnconeboxax1aos.cloud.onebox.dynamics.com" as the D365FO environment.
+        It will save "dea8d7a9-1602-4429-b138-111111111111" as the ClientId.
+        It will save "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" as ClientSecret.
+        It will use the default value "UTC" Time Zone for converting the different time and dates.
+        It will use the default end time which is 60 minutes.
+
+    .NOTES
+        Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
+        
+        Author: Mötz Jensen (@Splaxi)
+        
+#>
+
+function Add-D365BroadcastMessageConfig {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, Position = 0)]
+        [string] $Name,
+
+        [Parameter(Mandatory = $false, Position = 1)]
+        [Alias('$AADGuid')]
+        [string] $Tenant,
+
+        [Parameter(Mandatory = $false, Position = 2)]
+        [Alias('URI')]
+        [string] $URL,
+
+        [Parameter(Mandatory = $false, Position = 3)]
+        [string] $ClientId,
+
+        [Parameter(Mandatory = $false, Position = 4)]
+        [string] $ClientSecret,
+
+        [Parameter(Mandatory = $false, Position = 5)]
+        [string] $TimeZone = "UTC",
+
+        [Parameter(Mandatory = $false, Position = 6)]
+        [int] $EndingInMinutes = 60,
+
+        [switch] $Temporary,
+
+        [switch] $Force
+    )
+
+    if (((Get-PSFConfig -FullName "d365fo.tools.broadcast.*.name").Value -contains $Name) -and (-not $Force)) {
+        Write-PSFMessage -Level Host -Message "A broadcast message configuration with <c='em'>$Name</c> as name <c='em'>already exists</c>. If you want to <c='em'>overwrite</c> the current configuration, please supply the <c='em'>-Force</c> parameter."
+        Stop-PSFFunction -Message "Stopping because a broadcast message configuration already exists with that name."
+        return
+    }
+
+    $configName = ""
+
+    #The ':keys' label is used to have a continue inside the switch statement itself
+    :keys foreach ($key in $PSBoundParameters.Keys) {
+        
+        $configurationValue = $PSBoundParameters.Item($key)
+        $configurationName = $key.ToLower()
+
+        Write-PSFMessage -Level Verbose -Message "Working on $key with $configurationValue" -Target $value
+        
+        switch ($key) {
+            "Name" {
+                $configName = $key.ToLower()
+                $configurationName = "d365fo.tools.broadcast.$configName.name"
+            }
+
+            "Temporary" {
+                continue keys
+            }
+
+            Default {
+                $configName = "d365fo.tools.broadcast.$configName.$configurationName"
+            }
+        }
+
+        Set-PSFConfig -FullName $configurationName -Value $configValue
+        if (-not $Temporary) { Register-PSFConfig -FullName $configurationName -Scope UserDefault }
+    }
+}

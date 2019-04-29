@@ -1,0 +1,26 @@
+﻿function Set-D365ActiveBroadcastMessageConfig {
+    [CmdletBinding()]
+    [OutputType()]
+    param (
+        [Parameter(Mandatory = $true, Position = 1)]
+        [string] $Name,
+
+        [switch] $Temporary
+    )
+
+    if($Name -match '\*') {
+        Write-PSFMessage -Level Host -Message "The name cannot contain <c='em'>wildcard character</c>."
+        Stop-PSFFunction -Message "Stopping because the name contains wildcard character."
+        return
+    }
+
+    if (-not ((Get-PSFConfig -FullName "d365fo.tools.broadcast.*.name").Value -contains $Name)) {
+        Write-PSFMessage -Level Host -Message "A broadcast message configuration with that name <c='em'>doesn't exists</c>."
+        Stop-PSFFunction -Message "Stopping because a broadcast message configuration with that name doesn't exists."
+        return
+    }
+
+    Set-PSFConfig -FullName "d365fo.tools.active.broadcast.name" -Value $Name
+    if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.azure.storage.account"  -Scope UserDefault }
+
+}

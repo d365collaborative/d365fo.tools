@@ -11,7 +11,7 @@
         
     .PARAMETER URL
         URL / URI for the D365FO environment you want to send a message to
-
+        
     .PARAMETER ClientId
         The ClientId obtained from the Azure Portal when you created a Registered Application
         
@@ -45,7 +45,7 @@
         PS C:\> Send-D365BroadcastMessage -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
         
         This will send a message to all active users that are working on the D365FO environment located at "https://usnconeboxax1aos.cloud.onebox.dynamics.com".
-        It will authenticate against the Azure Active Directory with the "e674da86-7ee5-40a7-b777-1111111111111" GUID.
+        It will authenticate against the Azure Active Directory with the "e674da86-7ee5-40a7-b777-1111111111111" guid.
         It will use the ClientId "dea8d7a9-1602-4429-b138-111111111111" and ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" go get access to the environment.
         It will use the default value "UTC" Time Zone for converting the different time and dates.
         It will use the default start time which is NOW.

@@ -45,6 +45,7 @@
     # Functions to export from this module
     FunctionsToExport = @(
 						'Add-D365AzureStorageConfig',
+						'Add-D365BroadcastMessageConfig',						
 						'Add-D365EnvironmentConfig',
 						'Add-D365WIFConfigAuthorityThumbprint',
 
