@@ -1,17 +1,18 @@
-﻿<#
-.SYNOPSIS
-Update the broadcast message config variables
-
-.DESCRIPTION
-Update the active broadcast message config variables that the module will use as default values
-
-.EXAMPLE
-PS C:\> Update-BroadcastVariables
-
-This will update the broadcast variables.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
+﻿
+<#
+    .SYNOPSIS
+        Update the broadcast message config variables
+        
+    .DESCRIPTION
+        Update the active broadcast message config variables that the module will use as default values
+        
+    .EXAMPLE
+        PS C:\> Update-BroadcastVariables
+        
+        This will update the broadcast variables.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
 #>
 
 function Update-BroadcastVariables {

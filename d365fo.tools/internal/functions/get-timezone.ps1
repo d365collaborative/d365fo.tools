@@ -1,24 +1,25 @@
-﻿<#
-.SYNOPSIS
-Get time zone
-
-.DESCRIPTION
-Extract the time zone object from the supplied parameter
-
-Uses regex to determine whether or not the parameter is the ID or the DisplayName of a time zone
-
-.PARAMETER InputObject
-String value that you want converted into a time zone object
-
-.EXAMPLE
-PS C:\> Get-TimeZone -InputObject "UTC"
-
-This will return the time zone object based on the UTC id.
-
-.NOTES
-Tag: Time, TimeZone,
-
-Author: Mötz Jensen (@Splaxi)
+﻿
+<#
+    .SYNOPSIS
+        Get time zone
+        
+    .DESCRIPTION
+        Extract the time zone object from the supplied parameter
+        
+        Uses regex to determine whether or not the parameter is the ID or the DisplayName of a time zone
+        
+    .PARAMETER InputObject
+        String value that you want converted into a time zone object
+        
+    .EXAMPLE
+        PS C:\> Get-TimeZone -InputObject "UTC"
+        
+        This will return the time zone object based on the UTC id.
+        
+    .NOTES
+        Tag: Time, TimeZone,
+        
+        Author: Mötz Jensen (@Splaxi)
 #>
 
 function Get-TimeZone {
