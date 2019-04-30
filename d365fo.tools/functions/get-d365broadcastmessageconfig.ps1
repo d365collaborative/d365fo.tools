@@ -34,22 +34,22 @@
         Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
         
         Author: Mötz Jensen (@Splaxi)
-
+        
     .LINK
         Add-D365BroadcastMessageConfig
-
+        
     .LINK
         Clear-D365ActiveBroadcastMessageConfig
-
+        
     .LINK
         Get-D365ActiveBroadcastMessageConfig
-
+        
     .LINK
         Remove-D365BroadcastMessageConfig
-
-	.LINK
+        
+    .LINK
         Send-D365BroadcastMessage
-		
+        
     .LINK
         Set-D365ActiveBroadcastMessageConfig
 #>

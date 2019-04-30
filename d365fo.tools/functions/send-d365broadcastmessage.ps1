@@ -40,14 +40,14 @@
         Default value is 60 minutes
         
         The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
-    
-        .EXAMPLE
+        
+    .EXAMPLE
         PS C:\> Send-D365BroadcastMessage
-
+        
         This will send a message to all active users that are working on default D365FO environment.
         
         See the RELATED LINKS section for the supporting cmdlets needed to store a default configuration.
-
+        
     .EXAMPLE
         PS C:\> Send-D365BroadcastMessage -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
         
@@ -57,7 +57,7 @@
         It will use the default value "UTC" Time Zone for converting the different time and dates.
         It will use the default start time which is NOW.
         It will use the default end time which is 60 minutes.
-
+        
     .NOTES
         
         The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
@@ -65,25 +65,25 @@
         Tags: Servicing, Message, Users, Environment
         
         Author: Mötz Jensen (@Splaxi)
-      
+        
     .LINK
         Add-D365BroadcastMessageConfig
-
+        
     .LINK
         Clear-D365ActiveBroadcastMessageConfig
-
+        
     .LINK
         Get-D365ActiveBroadcastMessageConfig
-
+        
     .LINK
         Get-D365BroadcastMessageConfig
-
+        
     .LINK
         Remove-D365BroadcastMessageConfig
-
+        
     .LINK
         Set-D365ActiveBroadcastMessageConfig
-
+        
 #>
 
 function Send-D365BroadcastMessage {
