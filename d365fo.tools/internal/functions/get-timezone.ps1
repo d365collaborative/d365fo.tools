@@ -23,7 +23,7 @@ Author: Mötz Jensen (@Splaxi)
 
 function Get-TimeZone {
     [CmdletBinding()]
-    [OutputType('[System.TimeZoneInfo]')]
+    [OutputType('System.TimeZoneInfo')]
     param (
         [Parameter(Mandatory = $true, Position = 1)]
         [string] $InputObject
