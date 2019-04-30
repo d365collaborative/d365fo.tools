@@ -58,7 +58,24 @@
         Tags: Servicing, Broadcast, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
         
         Author: Mötz Jensen (@Splaxi)
-        
+
+    .LINK
+        Clear-D365ActiveBroadcastMessageConfig
+
+    .LINK
+        Get-D365ActiveBroadcastMessageConfig
+
+    .LINK
+        Get-D365BroadcastMessageConfig
+
+    .LINK
+        Remove-D365BroadcastMessageConfig
+
+	.LINK
+        Send-D365BroadcastMessage
+		
+    .LINK
+        Set-D365ActiveBroadcastMessageConfig
 #>
 
 function Add-D365BroadcastMessageConfig {
