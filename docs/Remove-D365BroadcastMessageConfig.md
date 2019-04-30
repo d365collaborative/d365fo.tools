@@ -74,3 +74,16 @@ Tags: Servicing, Broadcast, Message, Users, Environment, Config, Configuration, 
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
+
+[Add-D365BroadcastMessageConfig]()
+
+[Clear-D365ActiveBroadcastMessageConfig]()
+
+[Get-D365ActiveBroadcastMessageConfig]()
+
+[Get-D365BroadcastMessageConfig]()
+
+[Send-D365BroadcastMessage]()
+
+[Set-D365ActiveBroadcastMessageConfig]()
+

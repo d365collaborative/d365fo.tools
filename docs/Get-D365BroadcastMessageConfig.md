@@ -92,3 +92,16 @@ Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, C
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
+
+[Add-D365BroadcastMessageConfig]()
+
+[Clear-D365ActiveBroadcastMessageConfig]()
+
+[Get-D365ActiveBroadcastMessageConfig]()
+
+[Remove-D365BroadcastMessageConfig]()
+
+[Send-D365BroadcastMessage]()
+
+[Set-D365ActiveBroadcastMessageConfig]()
+

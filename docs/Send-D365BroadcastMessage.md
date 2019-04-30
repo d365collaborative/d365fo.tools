@@ -25,6 +25,15 @@ Utilize the same messaging framework available from LCS and send a broadcast mes
 
 ### EXAMPLE 1
 ```
+Send-D365BroadcastMessage
+```
+
+This will send a message to all active users that are working on default D365FO environment.
+
+See the RELATED LINKS section for the supporting cmdlets needed to store a default configuration.
+
+### EXAMPLE 2
+```
 Send-D365BroadcastMessage -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
 ```
 
@@ -175,3 +184,16 @@ Tags: Servicing, Message, Users, Environment
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
+
+[Add-D365BroadcastMessageConfig]()
+
+[Clear-D365ActiveBroadcastMessageConfig]()
+
+[Get-D365ActiveBroadcastMessageConfig]()
+
+[Get-D365BroadcastMessageConfig]()
+
+[Remove-D365BroadcastMessageConfig]()
+
+[Set-D365ActiveBroadcastMessageConfig]()
+
