@@ -13,8 +13,9 @@ Send broadcast message to online users in D365FO
 ## SYNTAX
 
 ```
-Send-D365BroadcastMessage [-Tenant] <String> [-URL] <String> [-ClientId] <String> [-ClientSecret] <String>
- [[-TimeZone] <String>] [[-StartTime] <DateTime>] [[-EndingInMinutes] <Int32>] [<CommonParameters>]
+Send-D365BroadcastMessage [[-Tenant] <String>] [[-URL] <String>] [[-ClientId] <String>]
+ [[-ClientSecret] <String>] [[-TimeZone] <String>] [[-StartTime] <DateTime>] [[-EndingInMinutes] <Int32>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,9 +45,9 @@ Type: String
 Parameter Sets: (All)
 Aliases: $AADGuid
 
-Required: True
+Required: False
 Position: 2
-Default value: None
+Default value: $Script:BroadcastTenant
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -59,9 +60,9 @@ Type: String
 Parameter Sets: (All)
 Aliases: URI
 
-Required: True
+Required: False
 Position: 3
-Default value: None
+Default value: $Script:BroadcastUrl
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -74,9 +75,9 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 4
-Default value: None
+Default value: $Script:BroadcastClientId
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -89,9 +90,9 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 5
-Default value: None
+Default value: $Script:BroadcastClientSecret
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -112,7 +113,7 @@ Aliases:
 
 Required: False
 Position: 6
-Default value: UTC
+Default value: $Script:BroadcastTimeZone
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -152,7 +153,7 @@ Aliases:
 
 Required: False
 Position: 8
-Default value: 60
+Default value: $Script:BroadcastEndingInMinutes
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
