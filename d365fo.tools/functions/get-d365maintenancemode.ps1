@@ -31,12 +31,12 @@
         Tags: MaintenanceMode, Maintenance, License, Configuration, Servicing
         
         Author: Mötz Jensen (@splaxi)
-
+        
     .LINK
-    Enable-D365MaintenanceMode
-
+        Enable-D365MaintenanceMode
+        
     .LINK
-    Disable-D365MaintenanceMode
+        Disable-D365MaintenanceMode
 #>
 function Get-D365MaintenanceMode {
     [CmdletBinding(DefaultParameterSetName = 'Default')]

@@ -61,13 +61,13 @@
         
         Without administrator privileges:
         Will stop all services, execute a Sql script and start all services.
-
+        
     .LINK
-    Enable-D365MaintenanceMode
-
+        Enable-D365MaintenanceMode
+        
     .LINK
-    Get-D365MaintenanceMode
-    
+        Get-D365MaintenanceMode
+        
 #>
 function Disable-D365MaintenanceMode {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
