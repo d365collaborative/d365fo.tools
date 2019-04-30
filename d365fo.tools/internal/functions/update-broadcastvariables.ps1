@@ -16,6 +16,8 @@
 #>
 
 function Update-BroadcastVariables {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     [OutputType()]
     param ( )

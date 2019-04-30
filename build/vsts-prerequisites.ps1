@@ -9,4 +9,4 @@ foreach ($module in $modules) {
     Import-Module $module -Force -PassThru
 }
 
-(Get-Module -ListAvailable).ModuleBase
+#(Get-Module -ListAvailable).ModuleBase
