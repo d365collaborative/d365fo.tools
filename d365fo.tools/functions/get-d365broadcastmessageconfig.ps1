@@ -45,14 +45,17 @@ function Get-D365BroadcastMessageConfig {
 
         [switch] $OutputAsHashtable
     )
-
+    
     Write-PSFMessage -Level Verbose -Message "Fetch all configurations based on $Name" -Target $Name
 
+    $Name = $Name.ToLower()
     $configurations = Get-PSFConfig -FullName "d365fo.tools.broadcast.$Name.name"
 
     foreach ($configName in $configurations.Value.ToLower()) {
         Write-PSFMessage -Level Verbose -Message "Working against the $configName configuration" -Target $configName
         $res = @{}
+
+        $configName = $configName.ToLower()
 
         foreach ($config in Get-PSFConfig -FullName "d365fo.tools.broadcast.$configName.*") {
             $propertyName = $config.FullName.ToString().Replace("d365fo.tools.broadcast.$configName.", "")

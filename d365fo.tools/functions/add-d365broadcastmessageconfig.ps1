@@ -105,25 +105,36 @@ function Add-D365BroadcastMessageConfig {
         
         $configurationValue = $PSBoundParameters.Item($key)
         $configurationName = $key.ToLower()
+        $fullConfigName = ""
 
-        Write-PSFMessage -Level Verbose -Message "Working on $key with $configurationValue" -Target $value
+        Write-PSFMessage -Level Verbose -Message "Working on $key with $configurationValue" -Target $configurationValue
         
         switch ($key) {
             "Name" {
-                $configName = $key.ToLower()
-                $configurationName = "d365fo.tools.broadcast.$configName.name"
+                $configName = $Name.ToLower()
+                $fullConfigName = "d365fo.tools.broadcast.$configName.name"
             }
 
-            "Temporary" {
+            {"Temporary","Force" -contains $_} {
                 continue keys
             }
 
+            "TimeZone" {
+                $timeZoneFound = Get-TimeZone -InputObject $TimeZone
+
+                if (Test-PSFFunctionInterrupt) { return }
+                
+                $fullConfigName = "d365fo.tools.broadcast.$configName.$configurationName"
+                $configurationValue = $timeZoneFound.Id
+            }
+
             Default {
-                $configName = "d365fo.tools.broadcast.$configName.$configurationName"
+                $fullConfigName = "d365fo.tools.broadcast.$configName.$configurationName"
             }
         }
 
-        Set-PSFConfig -FullName $configurationName -Value $configValue
-        if (-not $Temporary) { Register-PSFConfig -FullName $configurationName -Scope UserDefault }
+        Write-PSFMessage -Level Verbose -Message "Setting $fullConfigName to $configurationValue" -Target $configurationValue
+        Set-PSFConfig -FullName $fullConfigName -Value $configurationValue
+        if (-not $Temporary) { Register-PSFConfig -FullName $fullConfigName -Scope UserDefault }
     }
 }

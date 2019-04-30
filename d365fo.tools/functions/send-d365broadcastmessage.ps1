@@ -110,14 +110,9 @@ function Send-D365BroadcastMessage {
 
     $endTime = $StartTime.AddMinutes($EndingInMinutes)
     
-    try {
-        $timeZoneFound = [System.TimeZoneInfo]::FindSystemTimeZoneById($TimeZone)
-    }
-    catch {
-        Write-PSFMessage -Level Host -Message "Unable to translate the <c='em'>$TimeZone</c> to a known .NET timezone value. Please make sure you filled in a valid timezone."
-        Stop-PSFFunction -Message "Stopping because timezone wasn't found."
-        return
-    }
+    $timeZoneFound = Get-TimeZone -InputObject $TimeZone
+
+    if (Test-PSFFunctionInterrupt) { return }
     
     $startTimeConverted = [System.TimeZoneInfo]::ConvertTime($startTime, [System.TimeZoneInfo]::Local, $timeZoneFound)
     $endTimeConverted = [System.TimeZoneInfo]::ConvertTime($endTime, [System.TimeZoneInfo]::Local, $timeZoneFound)

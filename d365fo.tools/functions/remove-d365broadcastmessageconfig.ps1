@@ -48,9 +48,9 @@ function Remove-D365BroadcastMessageConfig {
         return
     }
 
-    $res = Get-D365ActiveBroadcastMessageConfig
+    $res = (Get-PSFConfig -FullName "d365fo.tools.active.broadcast.message.config.name").Value
 
-    if ($res.Name -eq $Name) {
+    if ($res -eq $Name) {
         Write-PSFMessage -Level Host -Message "The active broadcast message configuration is the <c='em'>same as the one you're trying to remove</c>. Please set another configuration as active, before removing this one. You could also call Clear-D365ActiveBroadcastMessageConfig."
         Stop-PSFFunction -Message "Stopping because the active broadcast message configuration is the same as the one trying to be removed."
         return
