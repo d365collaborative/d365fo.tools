@@ -179,3 +179,8 @@ Without administrator privileges:
 Will stop all services, execute a Sql script and start all services.
 
 ## RELATED LINKS
+
+[Get-D365MaintenanceMode]()
+
+[Disable-D365MaintenanceMode]()
+

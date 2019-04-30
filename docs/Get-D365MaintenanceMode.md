@@ -110,3 +110,8 @@ Tags: MaintenanceMode, Maintenance, License, Configuration, Servicing
 Author: Mötz Jensen (@splaxi)
 
 ## RELATED LINKS
+
+[Enable-D365MaintenanceMode]()
+
+[Disable-D365MaintenanceMode]()
+
