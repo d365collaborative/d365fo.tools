@@ -45,7 +45,8 @@
         PS C:\> Send-D365BroadcastMessage
 
         This will send a message to all active users that are working on default D365FO environment.
-        See the RELATED LINKS section for the cmdlets needed to store a default configuration.
+        
+        See the RELATED LINKS section for the supporting cmdlets needed to store a default configuration.
 
     .EXAMPLE
         PS C:\> Send-D365BroadcastMessage -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -URL "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
