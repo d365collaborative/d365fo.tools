@@ -26,7 +26,7 @@
         Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
         
         Default value is "*" which will search for all packages / modules
-
+        
     .PARAMETER Expand
         Adds the version of the package / module to the output
         
@@ -40,7 +40,7 @@
         
         Shows the entire list of installed packages / modules located in the default location on the machine.
         Will include the file version for each package / module.
-
+        
     .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor"
         
@@ -51,7 +51,7 @@
         ApplicationPlatformFormAdaptor
         ApplicationSuiteFormAdaptor
         ApplicationWorkspacesFormAdaptor
-
+        
     .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor" -Expand
         

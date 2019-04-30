@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.5.27'
+    ModuleVersion     = '0.5.28'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -26,10 +26,11 @@
     # Modules that must be imported into the global environment prior to importing
     # this module
     RequiredModules   = @(
-        @{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' },
-        @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }, #4.3.1
-		@{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' },
-		@{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
+		  @{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' }
+		, @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }
+		, @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
+		, @{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
+		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.2.0' }
     )
 
     # Assemblies that must be loaded prior to importing this module
@@ -44,12 +45,14 @@
     # Functions to export from this module
     FunctionsToExport = @(
 						'Add-D365AzureStorageConfig',
+						'Add-D365BroadcastMessageConfig',
 						'Add-D365EnvironmentConfig',
 						'Add-D365WIFConfigAuthorityThumbprint',
 
 						'Backup-D365MetaDataDir',
 						'Backup-D365Runbook',
 
+						'Clear-D365ActiveBroadcastMessageConfig',
 						'Clear-D365MonitorData',
 
 						'Publish-D365SsrsReport',
@@ -66,12 +69,15 @@
 						'Find-D365Command',
 
 						'Get-D365ActiveAzureStorageConfig',
+						'Get-D365ActiveBroadcastMessageConfig',
 						'Get-D365ActiveEnvironmentConfig',
 
 						'Get-D365AOTObject',
 
 						'Get-D365AzureStorageConfig',
 						'Get-D365AzureStorageFile',
+						'Get-D365BroadcastMessage',
+						'Get-D365BroadcastMessageConfig',
 						'Get-D365ClickOnceTrustPrompt',
 
 						'Get-D365Database',
@@ -97,6 +103,7 @@
 						'Get-D365LcsUploadConfig',
 						'Get-D365LogicAppConfig',
 
+						'Get-D365MaintenanceMode',
 						'Get-D365Module',
 						'Get-D365OfflineAuthenticationAdminEmail',
 
@@ -162,6 +169,8 @@
 						'New-D365TopologyFile',
 
 						'Register-D365AzureStorageConfig',
+
+						'Remove-D365BroadcastMessageConfig',
 						'Remove-D365Database',
 						'Remove-D365Model',
 						'Remove-D365User',
@@ -170,8 +179,12 @@
 						'Rename-D365ComputerName',
 						'Restart-D365Environment',
 
+						'Send-D365BroadcastMessage',
+
 						'Set-D365ActiveAzureStorageConfig',
+						'Set-D365ActiveBroadcastMessageConfig',
 						'Set-D365ActiveEnvironmentConfig',
+
 						'Set-D365Admin',
 
 						'Set-D365ClickOnceTrustPrompt',

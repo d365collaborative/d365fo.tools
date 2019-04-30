@@ -155,6 +155,9 @@ $maskOutput = @(
     "AccessToken"
 )
 
+#Active broadcast message config extraction
+Update-BroadcastVariables
+
 (Get-Variable -Scope Script) | ForEach-Object {
     $val = $null
 
