@@ -65,28 +65,28 @@ function Send-D365BroadcastMessage {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(Mandatory = $false, Position = 1)]
         [Alias('$AADGuid')]
-        [string] $Tenant,
+        [string] $Tenant = $Script:BroadcastTenant,
 
-        [Parameter(Mandatory = $true, Position = 2)]
+        [Parameter(Mandatory = $false, Position = 2)]
         [Alias('URI')]
-        [string] $URL,
+        [string] $URL = $Script:BroadcastUrl,
 
-        [Parameter(Mandatory = $true, Position = 3)]
-        [string] $ClientId,
+        [Parameter(Mandatory = $false, Position = 3)]
+        [string] $ClientId = $Script:BroadcastClientId,
 
-        [Parameter(Mandatory = $true, Position = 4)]
-        [string] $ClientSecret,
+        [Parameter(Mandatory = $false, Position = 4)]
+        [string] $ClientSecret = $Script:BroadcastClientSecret,
 
         [Parameter(Mandatory = $false, Position = 5)]
-        [string] $TimeZone = "UTC",
+        [string] $TimeZone = $Script:BroadcastTimeZone,
 
         [Parameter(Mandatory = $false, Position = 6)]
         [datetime] $StartTime = (Get-Date),
 
         [Parameter(Mandatory = $false, Position = 7)]
-        [int] $EndingInMinutes = 60
+        [int] $EndingInMinutes = $Script:BroadcastEndingInMinutes
     )
 
     $bearerParms = @{

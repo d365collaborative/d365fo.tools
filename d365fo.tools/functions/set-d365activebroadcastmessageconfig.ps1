@@ -49,4 +49,6 @@ function Set-D365ActiveBroadcastMessageConfig {
 
     Set-PSFConfig -FullName "d365fo.tools.active.broadcast.message.config.name" -Value $Name
     if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.broadcast.message.config.name"  -Scope UserDefault }
+
+    Update-BroadcastVariables
 }
