@@ -27,21 +27,36 @@
         
         Default value is "*" which will search for all packages / modules
         
+    .PARAMETER Expand
+        Adds the version of the package / module to the output
+        
     .EXAMPLE
         PS C:\> Get-D365Module
         
-        Shows the entire list of installed packages / modules located in the default location on the machine
+        Shows the entire list of installed packages / modules located in the default location on the machine.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Module -Expand
+        
+        Shows the entire list of installed packages / modules located in the default location on the machine.
+        Will include the file version for each package / module.
         
     .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor"
         
-        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor"
+        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
         A result set example:
         ApplicationFoundationFormAdaptor
         ApplicationPlatformFormAdaptor
         ApplicationSuiteFormAdaptor
         ApplicationWorkspacesFormAdaptor
+        
+    .EXAMPLE
+        PS C:\> Get-D365Module -Name "Application*Adaptor" -Expand
+        
+        Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
+        Will include the file version for each package / module.
         
     .EXAMPLE
         PS C:\> Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
@@ -68,7 +83,10 @@ function Get-D365Module {
         [string] $PackageDirectory = $Script:PackageDirectory,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
-        [string] $Name = "*"
+        [string] $Name = "*",
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
+        [switch] $Expand
     )
 
     [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
@@ -86,9 +104,20 @@ function Get-D365Module {
 
     if (Test-PSFFunctionInterrupt) { return }
 
+	Write-PSFMessage -Level Verbose -Message "Intializing RuntimeProvider."
+
+    $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
+    $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
+    $metadataProvider = $metadataProviderFactory.CreateRuntimeProvider($runtimeProviderConfiguration)
+
+    Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
+
+	$modules = $metadataProvider.ModelManifest.ListModules()
+
     Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
-    if ($Script:IsOnebox) {
-        Write-PSFMessage -Level Verbose -Message "Machine is onebox. Will continue with DiskProvider."
+    
+	if ($Script:IsOnebox) {
+        Write-PSFMessage -Level Verbose -Message "Machine is onebox. Initializing DiskProvider too."
 
         $diskProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.DiskProvider.DiskProviderConfiguration
         $diskProviderConfiguration.AddMetadataPath($PackageDirectory)
@@ -96,25 +125,53 @@ function Get-D365Module {
         $metadataProvider = $metadataProviderFactory.CreateDiskProvider($diskProviderConfiguration)
 
         Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
+
+        $diskModules = $metadataProvider.ModelManifest.ListModules()
+
+        foreach ($module in $diskModules){
+            if ($modules.Name -NotContains $module.Name)
+            {
+                $modules += $module
+            }
+        }
     }
-    else {
-        Write-PSFMessage -Level Verbose -Message "Machine is NOT onebox. Will continue with RuntimeProvider."
 
-        $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
-        $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
-        $metadataProvider = $metadataProviderFactory.CreateRuntimeProvider($runtimeProviderConfiguration)
+    Write-PSFMessage -Level Verbose -Message "Looping through all modules."
 
-        Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
-    }
-
-    Write-PSFMessage -Level Verbose -Message "Looping through all modules from the MetadataProvider."
-    foreach ($obj in $($metadataProvider.ModelManifest.ListModules() | Sort-Object Name)) {
+    foreach ($obj in $($modules | Sort-Object Name)) {
         Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
         if ($obj.Name -NotLike $Name) {continue}
 
-        [PSCustomObject]@{
-            Module     = $obj.Name
-            References = $obj.References
+        if ($Expand -eq $true)
+        {
+            $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
+
+            if (Test-Path -Path $modulepath -PathType Container)
+            {
+                $fileversion = Get-FileVersion -Path (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll").FullName
+                $version = $fileversion.FileVersion
+                $versionUpdated = $fileversion.FileVersionUpdated
+            }
+            else
+            {
+                $version = ""
+                $versionUpdated = ""
+            }
+			
+            [PSCustomObject]@{
+                Module          = $obj.Name
+                References      = $obj.References
+                Version         = $version
+                VersionUpdated  = $versionUpdated
+            }
+        }
+        else
+        {
+
+            [PSCustomObject]@{
+                Module     = $obj.Name
+                References = $obj.References
+            }
         }
     }
 }

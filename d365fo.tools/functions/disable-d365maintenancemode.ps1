@@ -61,6 +61,13 @@
         
         Without administrator privileges:
         Will stop all services, execute a Sql script and start all services.
+        
+    .LINK
+        Enable-D365MaintenanceMode
+        
+    .LINK
+        Get-D365MaintenanceMode
+        
 #>
 function Disable-D365MaintenanceMode {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
@@ -96,7 +103,7 @@ function Disable-D365MaintenanceMode {
     Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
 
     if(-not ($Script:IsAdminRuntime)) {
-        Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (requires local admin)."
+        Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (which requires local admin)."
         
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 

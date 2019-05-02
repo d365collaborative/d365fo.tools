@@ -15,6 +15,6 @@ foreach ($module in $modules) {
     Import-Module $module -Force -PassThru
 }
 
-(Get-Module -ListAvailable).ModuleBase
+#(Get-Module -ListAvailable).ModuleBase
 
 & "$PSScriptRoot\..\d365fo.tools\tests\pester.ps1"

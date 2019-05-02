@@ -13,7 +13,8 @@ Get installed package / module from Dynamics 365 Finance & Operations environmen
 ## SYNTAX
 
 ```
-Get-D365Module [[-BinDir] <String>] [[-PackageDirectory] <String>] [[-Name] <String>] [<CommonParameters>]
+Get-D365Module [[-BinDir] <String>] [[-PackageDirectory] <String>] [[-Name] <String>] [-Expand]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,14 +27,22 @@ Get installed package / module from the machine running the AOS service for Dyna
 Get-D365Module
 ```
 
-Shows the entire list of installed packages / modules located in the default location on the machine
+Shows the entire list of installed packages / modules located in the default location on the machine.
 
 ### EXAMPLE 2
+```
+Get-D365Module -Expand
+```
+
+Shows the entire list of installed packages / modules located in the default location on the machine.
+Will include the file version for each package / module.
+
+### EXAMPLE 3
 ```
 Get-D365Module -Name "Application*Adaptor"
 ```
 
-Shows the list of installed packages / modules where the name fits the search "Application*Adaptor"
+Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
 
 A result set example:
 ApplicationFoundationFormAdaptor
@@ -41,7 +50,15 @@ ApplicationPlatformFormAdaptor
 ApplicationSuiteFormAdaptor
 ApplicationWorkspacesFormAdaptor
 
-### EXAMPLE 3
+### EXAMPLE 4
+```
+Get-D365Module -Name "Application*Adaptor" -Expand
+```
+
+Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
+Will include the file version for each package / module.
+
+### EXAMPLE 5
 ```
 Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
 ```
@@ -105,6 +122,21 @@ Aliases:
 Required: False
 Position: 4
 Default value: *
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Expand
+Adds the version of the package / module to the output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
