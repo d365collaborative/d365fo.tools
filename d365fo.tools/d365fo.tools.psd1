@@ -30,7 +30,7 @@
 		, @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }
 		, @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
 		, @{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
-		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.2.0' }
+		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.2.3' }
     )
 
     # Assemblies that must be loaded prior to importing this module
