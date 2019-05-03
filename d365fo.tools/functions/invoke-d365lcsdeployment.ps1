@@ -75,7 +75,5 @@ function Invoke-D365LcsDeployment {
 
     Invoke-TimeSignal -End
 
-    [PSCustomObject]@{
-        AssetId = $AssetId
-    }
+    $deploymentStatus
 }

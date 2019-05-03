@@ -16,7 +16,7 @@
         The object return will be a HashTable.
         
     .EXAMPLE
-        PS C:\> Get-D365LcsApiConfig -OutputAsHashtable "PSCustomObject"
+        PS C:\> Get-D365LcsApiConfig -OutputAsHashtable
         
         This will return the saved configuration for accessing the LCS API.
         The object return will be a PSCustomObject.

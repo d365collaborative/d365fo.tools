@@ -1,16 +1,18 @@
 ﻿
 <#
     .SYNOPSIS
-        Short description
+        Update module variables
         
     .DESCRIPTION
-        Long description
+        Loads configuration variables again, to make sure things are updated based on changed configuration
         
     .EXAMPLE
-        An example
+        PS C:\> Update-ModuleVariables
+
+        This will update internal variables that the module is dependent on.
         
     .NOTES
-        General notes
+        Author: Mötz Jensen (@Splaxi)
 #>
 
 function Update-ModuleVariables {
