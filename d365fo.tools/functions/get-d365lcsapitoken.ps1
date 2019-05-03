@@ -76,13 +76,13 @@ function Get-D365LcsApiToken {
     [OutputType()]
     param(
         [Parameter(Mandatory = $false, Position = 1)]
-        [string] $ClientId = $Script:LcsApiClientid,
+        [string] $ClientId = $Script:LcsApiClientId,
 
-        [Parameter(Mandatory = $false, Position = 2)]
-        [string] $Username = $Script:LcsApiUsername,
+        [Parameter(Mandatory = $true, Position = 2)]
+        [string] $Username,
 
-        [Parameter(Mandatory = $false, Position = 3)]
-        [string] $Password = $Script:LcsApiPassword,
+        [Parameter(Mandatory = $true, Position = 3)]
+        [string] $Password,
 
         [Parameter(Mandatory = $false, Position = 4)]
         [string] $LcsApiUri = $Script:LcsApiApiUri
@@ -96,7 +96,7 @@ function Get-D365LcsApiToken {
     $tokenParms.Username = $Username
     $tokenParms.Password = $Password
     $tokenParms.Scope = "openid"
-    $tokenParms.AuthProviderUri = "https://login.microsoftonline.com/common/oauth2/token"
+    $tokenParms.AuthProviderUri = $Script:AADOAuthEndpoint
 
     Invoke-PasswordGrant @tokenParms
 

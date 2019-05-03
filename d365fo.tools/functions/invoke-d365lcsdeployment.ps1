@@ -59,7 +59,7 @@ function Invoke-D365LcsDeployment {
     $tokenParms.Username = $Username
     $tokenParms.Password = $Password
     $tokenParms.Scope = "openid"
-    $tokenParms.AuthProviderUri = "https://login.microsoftonline.com/common/oauth2/token"
+    $tokenParms.AuthProviderUri = $Script:AADOAuthEndpoint
 
     $bearerToken = Invoke-PasswordGrant @tokenParms
     

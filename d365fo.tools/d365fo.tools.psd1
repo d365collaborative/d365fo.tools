@@ -101,6 +101,7 @@
 						'Get-D365LabelOld',
 						'Get-D365LabelFile',
 						'Get-D365LcsApiConfig',
+						'Get-D365LcsApiToken',
 						'Get-D365LogicAppConfig',
 
 						'Get-D365MaintenanceMode',
@@ -140,6 +141,7 @@
 						'Invoke-D365DBSync',
 						'Invoke-D365InstallLicense',
 
+						'Invoke-D365LcsApiRefreshToken',
 						'Invoke-D365LcsUpload',
 						'Invoke-D365LogicApp',
 						'Invoke-D365LogicAppMessage',

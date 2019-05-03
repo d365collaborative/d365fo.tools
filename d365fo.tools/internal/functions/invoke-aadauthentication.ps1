@@ -36,12 +36,12 @@
     .PARAMETER AuthProviderUri
         The URI / URL for the Authentication Provider you want to authenticate against
         
-        Default value is "https://login.microsoftonline.com/common/oauth2"
+        Default value is "https://login.microsoftonline.com/common/oauth2/token"
         
     .EXAMPLE
         PS C:\> Invoke-AadAuthentication -Resource "https://lcsapi.lcs.dynamics.com" -GrantType "password" -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username claire@contoso.com -Password "pass@word1" -Scope openid
         
-        This will create a http authentication request against the default AuthProviderUri ("https://login.microsoftonline.com/common/oauth2").
+        This will create a http authentication request against the default AuthProviderUri ("https://login.microsoftonline.com/common/oauth2/token").
         The request will be for the Resource "https://lcsapi.lcs.dynamics.com".
         The GrantType will be "password".
         The ClientId will "9b4f4503-b970-4ade-abc6-2c086e4c4929".
@@ -82,7 +82,7 @@ function Invoke-AadAuthentication {
         [string] $Scope,
 
         [Parameter(Mandatory = $false, Position = 8)]
-        [string] $AuthProviderUri = "https://login.microsoftonline.com/common/oauth2/token"
+        [string] $AuthProviderUri = $Script:AADOAuthEndpoint
     )
 
     Invoke-TimeSignal -Start

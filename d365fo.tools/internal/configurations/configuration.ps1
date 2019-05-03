@@ -33,3 +33,6 @@ Set-PSFConfig -FullName "d365fo.tools.lcs.refreshtoken" -Value "" -Initialize -D
 Set-PSFConfig -FullName "d365fo.tools.active.broadcast.message.config.name" -Value "" -Initialize -Description "Name of the broadcast message configuration that should be the default / active configuration for the module."
 
 Set-PSFConfig -FullName "d365fo.tools.path.sqlpackage" -Value "C:\Program Files (x86)\Microsoft SQL Server\140\DAC\bin\SqlPackage.exe" -Initialize -Description "Path to the default location where SqlPackage.exe is located."
+
+Set-PSFConfig -FullName "d365fo.tools.azure.common.oauth.token" -Value "https://login.microsoftonline.com/common/oauth2/token" -Initialize -Description "URI / URL for the Azure Active Directory OAuth 2.0 endpoint for tokens"
+
