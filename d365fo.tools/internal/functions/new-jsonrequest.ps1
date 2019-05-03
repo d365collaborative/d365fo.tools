@@ -14,6 +14,13 @@
         
     .PARAMETER Content
         The content that you want to include in the HttpRequestMessage
+
+        .PARAMETER HttpMethod
+    The method of the HTTP request you wanne make
+
+    Valid options are:
+    GET
+    POST
         
     .EXAMPLE
         PS C:\> New-JsonRequest -Token "Bearer JldjfafLJdfjlfsalfd..." -Uri "https://lcsapi.lcs.dynamics.com/box/fileasset/CommitFileAsset/123456789?assetId=958ae597-f089-4811-abbd-c1190917eaae"
@@ -34,18 +41,24 @@ function New-JsonRequest {
     [OutputType()]
     param (
         [Parameter(Mandatory = $true, Position = 1)]
-        [string]$Uri,
+        [string] $Uri,
         
         [Parameter(Mandatory = $true, Position = 2)]
-        [string]$Token,
+        [string] $Token,
 
         [Parameter(Mandatory = $false, Position = 3)]
-        [string]$Content
+        [string] $Content,
+
+        [Parameter(Mandatory = $false, Position = 4)]
+        [ValidateSet('POST', 'GET')]
+        [string] $HttpMethod = "POST"
         
     )
 
+    $httpMethodObject = [System.Net.Http.HttpMethod]::New($HttpMethod)
+
     Write-PSFMessage -Level Verbose -Message "Building a HttpRequestMessage." -Target $Uri
-    $request = New-Object -TypeName System.Net.Http.HttpRequestMessage -ArgumentList @([System.Net.Http.HttpMethod]::Post, $Uri)
+    $request = New-Object -TypeName System.Net.Http.HttpRequestMessage -ArgumentList @($httpMethodObject, $Uri)
     
     if (-not ($Content -eq "")) {
         Write-PSFMessage -Level Verbose -Message "Adding content to the HttpRequestMessage." -Target $Content

@@ -91,7 +91,9 @@ function Invoke-D365LcsUpload {
         [string] $FileDescription,
 
         [Parameter(Mandatory = $false, Position = 9)]
-        [string] $LcsApiUri = $Script:LcsApiLcsApiUri
+        [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
+
+        [switch] $WaitForValidation
     )
 
     Invoke-TimeSignal -Start
@@ -123,6 +125,8 @@ function Invoke-D365LcsUpload {
     if (Test-PSFFunctionInterrupt) { return }
 
     Write-PSFMessage -Level Verbose -Message "Commit response" -Target $ackResponse
+
+    
 
     Invoke-TimeSignal -End
 

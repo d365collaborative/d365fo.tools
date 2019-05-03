@@ -102,6 +102,7 @@
 						'Get-D365LabelFile',
 						'Get-D365LcsApiConfig',
 						'Get-D365LcsApiToken',
+						'Get-D365LcsAssetValidationStatus',
 						'Get-D365LogicAppConfig',
 
 						'Get-D365MaintenanceMode',
