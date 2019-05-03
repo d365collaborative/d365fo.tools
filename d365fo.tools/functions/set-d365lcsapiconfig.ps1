@@ -93,6 +93,7 @@ function Set-D365LcsApiConfig {
         }
 
         Write-PSFMessage -Level Verbose -Message "Setting $fullConfigName to $configurationValue" -Target $configurationValue
+        
         Set-PSFConfig -FullName $fullConfigName -Value $configurationValue
         if (-not $Temporary) { Register-PSFConfig -FullName $fullConfigName -Scope UserDefault }
     }
