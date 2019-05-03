@@ -16,13 +16,13 @@
         PSCustomObject
         
     .EXAMPLE
-        PS C:\> Get-D365LcsUploadConfig
+        PS C:\> Get-D365LcsApiConfig
         
         This will return the saved configuration for accessing the LCS API.
         The object return will be a HashTable.
         
     .EXAMPLE
-        PS C:\> Get-D365LcsUploadConfig -OutputType "PSCustomObject"
+        PS C:\> Get-D365LcsApiConfig -OutputType "PSCustomObject"
         
         This will return the saved configuration for accessing the LCS API.
         The object return will be a PSCustomObject.
@@ -34,32 +34,28 @@
         
 #>
 
-function Get-D365LcsUploadConfig {
+function Get-D365LcsApiConfig {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $false, Position = 1)]
-        [ValidateSet("HashTable", "PSCustomObject")]
-        [string] $OutputType = "HashTable"
+        [switch] $OutputAsHashtable
     )
+
     Invoke-TimeSignal -Start
 
     $res = [Ordered]@{}
 
     Write-PSFMessage -Level Verbose -Message "Extracting all the LCS configuration and building the result object."
 
-    foreach ($item in (Get-PSFConfig -FullName d365fo.tools.lcs*)) {
-        $nameTemp = $item.FullName -replace "^d365fo.tools.lcs.upload.", ""
-        $name = ($nameTemp -Split "\." | ForEach-Object { (Get-Culture).TextInfo.ToTitleCase($_) } ) -Join ""
-        
-        $res.$name = $item.Value
+    foreach ($config in Get-PSFConfig -FullName "d365fo.tools.lcs.*") {
+        $propertyName = $config.FullName.ToString().Replace("d365fo.tools.lcs.", "")
+        $res.$propertyName = $config.Value
     }
 
-    if ($OutputType -eq "HashTable") {
+    if($OutputAsHashtable) {
         $res
-    }
-    else {
-        $res | ConvertTo-PsCustomObject
+    } else {
+        [PSCustomObject]$res
     }
 
     Invoke-TimeSignal -End

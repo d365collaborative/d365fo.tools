@@ -12,14 +12,6 @@
     .PARAMETER ClientId
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
         
-    .PARAMETER Username
-        The username of the account that you want to impersonate
-        
-        It can either be your personal account or a service account
-        
-    .PARAMETER Password
-        The password of the account that you want to impersonate
-        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -29,22 +21,8 @@
         "https://lcsapi.lcs.dynamics.com"
         "https://lcsapi.eu.lcs.dynamics.com"
         
-    .PARAMETER ConfigStorageLocation
-        Parameter used to instruct where to store the configuration objects
-        
-        The default value is "User" and this will store all configuration for the active user
-        
-        Valid options are:
-        "User"
-        "System"
-        
-        "System" will store the configuration so all users can access the configuration objects
-        
     .PARAMETER Temporary
         Instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
-        
-    .PARAMETER Clear
-        Instruct the cmdlet to clear out all the stored configuration values
         
     .EXAMPLE
         PS C:\> Set-D365LcsUploadConfig -ProjectId 123456789 -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username claire@contoso.com -Password "pass@word1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
@@ -73,79 +51,51 @@ function Set-D365LcsUploadConfig {
         [Parameter(Mandatory = $false, Position = 2)]
         [string] $ClientId,
 
-        [Parameter(Mandatory = $false, Position = 3)]
-        [string] $Username,
+        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 3)]
+        [Alias('access_token')]
+        [Alias('AccessToken')]
+        [string] $BearerToken,
 
-        [Parameter(Mandatory = $false, Position = 4)]
-        [string] $Password,
+        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 4)]
+        [Alias('expires_on')]
+        [long] $ActiveTokenExpiresOn,
 
-        [Parameter(Mandatory = $false, Position = 9)]
+        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 5)]
+        [Alias('refresh_token')]
+        [string] $RefreshToken,
+
+        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 6)]
+        [Alias('resource')]
         [string] $LcsApiUri = "https://lcsapi.lcs.dynamics.com",
+        
+        [switch] $Temporary
 
-        [ValidateSet('User', 'System')]
-        [string] $ConfigStorageLocation = "User",
 
-        [switch] $Temporary,
-
-        [switch] $Clear
     )
 
-    $configScope = Test-ConfigStorageLocation -ConfigStorageLocation $ConfigStorageLocation
+    #The ':keys' label is used to have a continue inside the switch statement itself
+    :keys foreach ($key in $PSBoundParameters.Keys) {
+        
+        $configurationValue = $PSBoundParameters.Item($key)
+        $configurationName = $key.ToLower()
+        $fullConfigName = ""
 
-    if (Test-PSFFunctionInterrupt) { return }
+        Write-PSFMessage -Level Verbose -Message "Working on $key with $configurationValue" -Target $configurationValue
+        
+        switch ($key) {
+            "Temporary" {
+                continue keys
+            }
 
-    if ($Clear) {
-
-        Write-PSFMessage -Level Verbose -Message "Clearing all the d365fo.tools.lcs configurations."
-
-        foreach ($item in (Get-PSFConfig -FullName d365fo.tools.lcs*)) {
-            Set-PSFConfig -Fullname $item.FullName -Value ""
-            if (-not $Temporary) { Register-PSFConfig -FullName $item.FullName -Scope $configScope }
-        }
-    }
-    else {
-        foreach ($key in $PSBoundParameters.Keys) {
-            $value = $PSBoundParameters.Item($key)
-
-            Write-PSFMessage -Level Verbose -Message "Working on $key with $value" -Target $value
-
-            switch ($key) {
-                "ProjectId" {
-                    Set-PSFConfig -FullName "d365fo.tools.lcs.upload.projectid" -Value $value
-                    if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.lcs.upload.projectid" -Scope $configScope }
-                }
-
-                "ClientId" {
-                    Set-PSFConfig -FullName "d365fo.tools.lcs.upload.clientid" -Value $value
-                    if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.lcs.upload.clientid" -Scope $configScope }
-                }
-
-                "Username" {
-                    Set-PSFConfig -FullName "d365fo.tools.lcs.upload.username" -Value $value
-                    if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.lcs.upload.username" -Scope $configScope }
-                }
-
-                "Password" {
-                    Set-PSFConfig -FullName "d365fo.tools.lcs.upload.password" -Value $value
-                    if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.lcs.upload.password" -Scope $configScope }
-                }
-
-                "LcsApiUri" {
-                    Set-PSFConfig -FullName "d365fo.tools.lcs.upload.api.uri" -Value $value
-                    if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.lcs.upload.api.uri" -Scope $configScope }
-                }
-
-                Default {}
+            Default {
+                $fullConfigName = "d365fo.tools.lcs.$configurationName"
             }
         }
+
+        Write-PSFMessage -Level Verbose -Message "Setting $fullConfigName to $configurationValue" -Target $configurationValue
+        Set-PSFConfig -FullName $fullConfigName -Value $configurationValue
+        if (-not $Temporary) { Register-PSFConfig -FullName $fullConfigName -Scope UserDefault }
     }
 
-    Write-PSFMessage -Level Verbose -Message "Rebuilding the LCS variables."
-
-    foreach ($item in (Get-PSFConfig -FullName d365fo.tools.lcs*)) {
-        $nameTemp = $item.FullName -replace "^d365fo.tools.", ""
-        $name = ($nameTemp -Split "\." | ForEach-Object { (Get-Culture).TextInfo.ToTitleCase($_) } ) -Join ""
-        
-        Set-Variable -Name $name -Value $item.Value
-    }
+    Update-LcsUploadVariables
 }

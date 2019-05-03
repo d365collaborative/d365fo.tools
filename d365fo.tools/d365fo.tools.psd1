@@ -100,7 +100,7 @@
 						'Get-D365Language',
 						'Get-D365LabelOld',
 						'Get-D365LabelFile',
-						'Get-D365LcsUploadConfig',
+						'Get-D365LcsApiConfig',
 						'Get-D365LogicAppConfig',
 
 						'Get-D365MaintenanceMode',
@@ -190,7 +190,7 @@
 						'Set-D365ClickOnceTrustPrompt',
 
 						'Set-D365FavoriteBookmark',
-						'Set-D365LcsUploadConfig',
+						'Set-D365LcsApiConfig',
 						'Set-D365LogicAppConfig',
 						'Set-D365OfflineAuthenticationAdminEmail',
 						

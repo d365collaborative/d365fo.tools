@@ -29,7 +29,8 @@ $Script:IISHostFile = 'C:\Windows\System32\inetsrv\Config\applicationHost.config
 
 $Script:MRConfigFile = 'C:\FinancialReporting\Server\ApplicationService\bin\MRServiceHost.settings.config'
 
-$Script:SqlPackage = 'C:\Program Files (x86)\Microsoft SQL Server\140\DAC\bin\SqlPackage.exe'
+#Update all module variables
+Update-ModuleVariables
 
 $environment = Get-ApplicationEnvironment
 
@@ -143,16 +144,15 @@ foreach ($item in (Get-PSFConfig -FullName d365fo.tools.active*)) {
     New-Variable -Name $name -Value $item.Value -Scope Script
 }
 
-foreach ($item in (Get-PSFConfig -FullName d365fo.tools.lcs*)) {
-    $nameTemp = $item.FullName -replace "^d365fo.tools.", ""
-    $name = ($nameTemp -Split "\." | ForEach-Object { (Get-Culture).TextInfo.ToTitleCase($_) } ) -Join ""
-    
-    New-Variable -Name $name -Value $item.Value -Scope Script
-}
-
+#Active LCS Upload config extraction
+Update-LcsUploadVariables
 
 $maskOutput = @(
-    "AccessToken"
+    "AccessToken",
+    "Token",
+    "BearerToken",
+    "Password",
+    "RefreshToken"
 )
 
 #Active broadcast message config extraction

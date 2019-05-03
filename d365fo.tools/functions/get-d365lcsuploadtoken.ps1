@@ -1,5 +1,4 @@
-﻿
-<#
+﻿<#
     .SYNOPSIS
         Upload a file to a LCS project
         
@@ -27,12 +26,8 @@
         Type of file you want to upload
         
         Valid options:
-        "Model"
-        "Process Data Package"
-        "Software Deployable Package"
-        "GER Configuration"
-        "Data Package"
-        "PowerBI Report Model"
+        "DeployablePackage"
+        "DatabaseBackup"
         
     .PARAMETER FileName
         Name to be assigned / shown on LCS
@@ -74,65 +69,36 @@
         
 #>
 
-function Invoke-D365LcsUpload {
+function Get-D365LcsApiToken {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingUserNameAndPassWordParams", "")]
     [CmdletBinding()]
     [OutputType()]
     param(
         [Parameter(Mandatory = $false, Position = 1)]
-        [int]$ProjectId = $Script:LcsApiProjectId,
-        
+        [string] $ClientId = $Script:LcsApiClientid,
+
         [Parameter(Mandatory = $false, Position = 2)]
-        [Alias('Token')]
-        [string] $BearerToken = $Script:LcsApiBearerToken,
+        [string] $Username = $Script:LcsApiUsername,
 
-        [Parameter(Mandatory = $true, Position = 5)]
-        [string] $FilePath,
+        [Parameter(Mandatory = $false, Position = 3)]
+        [string] $Password = $Script:LcsApiPassword,
 
-        [Parameter(Mandatory = $false, Position = 6)]
-        [string] $FileType = "Software Deployable Package",
-
-        [Parameter(Mandatory = $false, Position = 7)]
-        [string] $FileName,
-
-        [Parameter(Mandatory = $false, Position = 8)]
-        [string] $FileDescription,
-
-        [Parameter(Mandatory = $false, Position = 9)]
-        [string] $LcsApiUri = $Script:LcsApiLcsApiUri
+        [Parameter(Mandatory = $false, Position = 4)]
+        [string] $LcsApiUri = $Script:LcsApiApiUri
     )
 
     Invoke-TimeSignal -Start
 
-    $fileNameExtracted = Split-Path $FilePath -Leaf
+    $tokenParms = @{}
+    $tokenParms.Resource = $LcsApiUri
+    $tokenParms.ClientId = $ClientId
+    $tokenParms.Username = $Username
+    $tokenParms.Password = $Password
+    $tokenParms.Scope = "openid"
+    $tokenParms.AuthProviderUri = "https://login.microsoftonline.com/common/oauth2/token"
 
-    if ($FileName -eq "") {
-        $FileName = $fileNameExtracted
-    }
-
-    $blobDetails = Start-LcsUpload -Token $BearerToken -ProjectId $ProjectId -FileType $FileType -LcsApiUri $LcsApiUri -Name $FileName -Description $FileDescription
-
-    if (Test-PSFFunctionInterrupt) { return }
-
-    Write-PSFMessage -Level Verbose -Message "Start response" -Target $blobDetails
-
-    $uploadResponse = Copy-FileToLcsBlob -FilePath $FilePath -FullUri $blobDetails.FileLocation
-
-    if (Test-PSFFunctionInterrupt) { return }
-
-    Write-PSFMessage -Level Verbose -Message "Upload response" -Target $uploadResponse
-
-    $ackResponse = Complete-LcsUpload -Token $BearerToken -ProjectId $ProjectId -AssetId $blobDetails.Id -LcsApiUri $LcsApiUri
-
-    if (Test-PSFFunctionInterrupt) { return }
-
-    Write-PSFMessage -Level Verbose -Message "Commit response" -Target $ackResponse
+    Invoke-PasswordGrant @tokenParms
 
     Invoke-TimeSignal -End
-
-    [PSCustomObject]@{
-        AssetId = $blobDetails.Id
-        Name = $FileName
-    }
 }

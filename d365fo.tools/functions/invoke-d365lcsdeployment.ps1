@@ -8,17 +8,9 @@
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
-        
-    .PARAMETER ClientId
-        The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
-        
-    .PARAMETER Username
-        The username of the account that you want to impersonate
-        
-        It can either be your personal account or a service account
-        
-    .PARAMETER Password
-        The password of the account that you want to impersonate
+
+    .PARAMETER BearerToken
+        The token you want to use when working against the LCS api
 
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
@@ -28,8 +20,6 @@
         Valid options:
         "https://lcsapi.lcs.dynamics.com"
         "https://lcsapi.eu.lcs.dynamics.com"
-        
-    .EXAMPLE
         
     .EXAMPLE
         
@@ -47,37 +37,32 @@ function Invoke-D365LcsDeployment {
     [OutputType()]
     param(
         [Parameter(Mandatory = $false, Position = 1)]
-        [int] $ProjectId = $Script:LcsUploadProjectId,
+        [int] $ProjectId = $Script:LcsApiProjectId,
         
         [Parameter(Mandatory = $false, Position = 2)]
-        [string] $ClientId = $Script:LcsUploadClientId,
-
-        [Parameter(Mandatory = $false, Position = 3)]
-        [string] $Username = $Script:LcsUploadUsername,
-
-        [Parameter(Mandatory = $false, Position = 4)]
-        [string] $Password = $Script:LcsUploadPassword,
+        [Alias('Token')]
+        [string] $BearerToken = $Script:LcsApiBearerToken,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5)]
         [string] $AssetId,
 
         [Parameter(Mandatory = $false, Position = 9)]
-        [string] $LcsApiUri = $Script:LcsUploadApiUri
+        [string] $LcsApiUri = $Script:LcsApiApiUri
     )
 
     Invoke-TimeSignal -Start
 
-    $scope = "openid"
-    $grantType = "password"
+    $tokenParms = @{}
+    $tokenParms.Resource = $LcsApiUri
+    $tokenParms.GrantType = $grantType
+    $tokenParms.ClientId = $ClientId
+    $tokenParms.Username = $Username
+    $tokenParms.Password = $Password
+    $tokenParms.Scope = "openid"
+    $tokenParms.AuthProviderUri = "https://login.microsoftonline.com/common/oauth2/token"
 
-    $authToken = Invoke-AadAuthentication -Resource $LcsApiUri -GrantType $grantType -ClientId $ClientId -Username $Username -Password $Password -Scope $scope
-
-    if (Test-PSFFunctionInterrupt) { return }
+    $bearerToken = Invoke-PasswordGrant @tokenParms
     
-    Write-PSFMessage -Level Verbose -Message "Auth token" -Target $authToken
-
-    $bearerToken = "Bearer {0}" -f $authToken
-
     $deploymentStatus = Start-LcsDeployment -Token $bearerToken -ProjectId $ProjectId -AssetId $AssetId
 
     if (Test-PSFFunctionInterrupt) { return }
