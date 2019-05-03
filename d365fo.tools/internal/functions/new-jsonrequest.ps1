@@ -14,13 +14,13 @@
         
     .PARAMETER Content
         The content that you want to include in the HttpRequestMessage
-
-        .PARAMETER HttpMethod
-    The method of the HTTP request you wanne make
-
-    Valid options are:
-    GET
-    POST
+        
+    .PARAMETER HttpMethod
+        The method of the HTTP request you wanne make
+        
+        Valid options are:
+        GET
+        POST
         
     .EXAMPLE
         PS C:\> New-JsonRequest -Token "Bearer JldjfafLJdfjlfsalfd..." -Uri "https://lcsapi.lcs.dynamics.com/box/fileasset/CommitFileAsset/123456789?assetId=958ae597-f089-4811-abbd-c1190917eaae"

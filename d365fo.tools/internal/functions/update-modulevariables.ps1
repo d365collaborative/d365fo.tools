@@ -8,7 +8,7 @@
         
     .EXAMPLE
         PS C:\> Update-ModuleVariables
-
+        
         This will update internal variables that the module is dependent on.
         
     .NOTES

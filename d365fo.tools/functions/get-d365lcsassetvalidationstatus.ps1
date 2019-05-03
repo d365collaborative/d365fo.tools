@@ -1,10 +1,11 @@
-﻿<#
-.SYNOPSIS
-Get the validation status from LCS
-
-.DESCRIPTION
-Get the validation status for a given file in the Asset Library in LCS
-
+﻿
+<#
+    .SYNOPSIS
+        Get the validation status from LCS
+        
+    .DESCRIPTION
+        Get the validation status for a given file in the Asset Library in LCS
+        
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
         
@@ -13,27 +14,27 @@ Get the validation status for a given file in the Asset Library in LCS
         
     .PARAMETER AssetId
         The unique id of the asset / file that you are trying to deploy from LCS
-
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
-
-.PARAMETER WaitForValidation
-Instruct the cmdlet to wait for the validation process to complete
-
-The cmdlet will sleep for 60 seconds, before requesting the status of the validation process from LCS
-
-.EXAMPLE
-PS C:\> Get-D365LcsAssetValidationStatus -ProjectId 123456789 -BearerToken "sdaflkja21jlkfjfdsa" -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
-
-This will check the validation status for the file in the Asset Library with AssetId "958ae597-f089-4811-abbd-c1190917eaae".
-It will test against the Asset Library located under the LCS project 123456789.
+        
+    .PARAMETER WaitForValidation
+        Instruct the cmdlet to wait for the validation process to complete
+        
+        The cmdlet will sleep for 60 seconds, before requesting the status of the validation process from LCS
+        
+    .EXAMPLE
+        PS C:\> Get-D365LcsAssetValidationStatus -ProjectId 123456789 -BearerToken "sdaflkja21jlkfjfdsa" -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        
+        This will check the validation status for the file in the Asset Library with AssetId "958ae597-f089-4811-abbd-c1190917eaae".
+        It will test against the Asset Library located under the LCS project 123456789.
         The BearerToken "sdaflkja21jlkfjfdsa" is used to authenticate against the LCS API endpoint.
-
+        
         The file is validated against the NON-EUROPE LCS API.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Get-D365LcsAssetValidationStatus {
