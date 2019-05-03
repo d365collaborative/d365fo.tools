@@ -11,7 +11,10 @@
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
-        
+
+    .PARAMETER AssetId
+        The unique id of the asset / file that you are trying to deploy from LCS
+
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -22,7 +25,10 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
     .EXAMPLE
-        
+    PS C:\> Invoke-D365LcsDeployment -AssetId "adfasdfaf"
+
+    This will deploy the file from LCS
+    
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deploy
         

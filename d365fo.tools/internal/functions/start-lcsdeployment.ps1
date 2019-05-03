@@ -13,7 +13,7 @@
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
         
     .PARAMETER AssetId
-        The unique id of the asset / file that you are trying to upload to LCS
+        The unique id of the asset / file that you are trying to deploy from LCS
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use

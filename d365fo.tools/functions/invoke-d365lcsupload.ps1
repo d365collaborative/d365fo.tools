@@ -9,16 +9,8 @@
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
         
-    .PARAMETER ClientId
-        The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
-        
-    .PARAMETER Username
-        The username of the account that you want to impersonate
-        
-        It can either be your personal account or a service account
-        
-    .PARAMETER Password
-        The password of the account that you want to impersonate
+.PARAMETER BearerToken
+        The token you want to use when working against the LCS api
         
     .PARAMETER FilePath
         Path to the file that you want to upload to the Asset Library on LCS
