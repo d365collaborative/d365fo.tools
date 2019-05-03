@@ -6,14 +6,8 @@
     .DESCRIPTION
         Get the LCS configuration details from the configuration store
         
-    .PARAMETER OutputType
-        The output type you want the cmdlet to return to you
-        
-        Default value is "HashTable"
-        
-        Valid options:
-        HashTable
-        PSCustomObject
+    .PARAMETER OutputAsHashtable
+        Instruct the cmdlet to return a hastable object
         
     .EXAMPLE
         PS C:\> Get-D365LcsApiConfig
@@ -22,7 +16,7 @@
         The object return will be a HashTable.
         
     .EXAMPLE
-        PS C:\> Get-D365LcsApiConfig -OutputType "PSCustomObject"
+        PS C:\> Get-D365LcsApiConfig -OutputAsHashtable "PSCustomObject"
         
         This will return the saved configuration for accessing the LCS API.
         The object return will be a PSCustomObject.

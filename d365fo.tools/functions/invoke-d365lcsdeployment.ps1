@@ -8,10 +8,10 @@
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
-
+        
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
-
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
