@@ -12,6 +12,17 @@
     .PARAMETER ClientId
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
         
+    .PARAMETER BearerToken
+        The token you want to use when working against the LCS api
+        
+    .PARAMETER ActiveTokenExpiresOn
+        The point in time where the current bearer token will expire
+        
+        The time is measured in Unix Time, total seconds since 1970-01-01
+        
+    .PARAMETER RefreshToken
+        The Refresh Token that you want to use for the authentication process
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
