@@ -25,7 +25,7 @@
         Instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
         
     .EXAMPLE
-        PS C:\> Set-D365LcsUploadConfig -ProjectId 123456789 -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username claire@contoso.com -Password "pass@word1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Set-D365LcsApiConfig -ProjectId 123456789 -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username claire@contoso.com -Password "pass@word1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will save the ProjectId 123456789 and ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" to be default values when using the Invoke-D365LcsUpload cmdlet.
         The Username Claire@contoso.com and the Password "pass@word1" will also be stored as default values when using the Invoke-D365LcsUpload cmdlet.
@@ -38,7 +38,7 @@
         
 #>
 
-function Set-D365LcsUploadConfig {
+function Set-D365LcsApiConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingUserNameAndPassWordParams", "")]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

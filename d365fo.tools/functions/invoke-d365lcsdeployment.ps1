@@ -46,8 +46,8 @@ function Invoke-D365LcsDeployment {
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5)]
         [string] $AssetId,
 
-        [Parameter(Mandatory = $false, Position = 9)]
-        [string] $LcsApiUri = $Script:LcsApiApiUri
+        [Parameter(Mandatory = $false, Position = 4)]
+        [string] $LcsApiUri = $Script:LcsApiLcsApiUri
     )
 
     Invoke-TimeSignal -Start

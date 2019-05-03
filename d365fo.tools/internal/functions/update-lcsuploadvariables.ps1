@@ -26,7 +26,7 @@ function Update-LcsUploadVariables {
 
     foreach ($item in $hashParameters.Keys) {
             
-        $name = "LcsUpload" + (Get-Culture).TextInfo.ToTitleCase($item)
+        $name = "LcsApi" + (Get-Culture).TextInfo.ToTitleCase($item)
         
         Write-PSFMessage -Level Verbose -Message "$name - $($hashParameters[$item])" -Target $hashParameters[$item]
         Set-Variable -Name $name -Value $hashParameters[$item] -Scope Script
