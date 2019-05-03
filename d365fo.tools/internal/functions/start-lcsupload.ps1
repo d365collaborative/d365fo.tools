@@ -58,22 +58,22 @@ function Start-LcsUpload {
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string]$Token,
+        [string] $Token,
 
         [Parameter(Mandatory = $true)]
-        [int]$ProjectId,
+        [int] $ProjectId,
 
         [Parameter(Mandatory = $true)]
-        [string]$FileType,
+        [string] $FileType,
 
         [Parameter(Mandatory = $false)]
-        [string]$Name,
+        [string] $Name,
 
         [Parameter(Mandatory = $false)]
-        [string]$Description,
+        [string] $Description,
 
         [Parameter(Mandatory = $false)]
-        [string]$LcsApiUri
+        [string] $LcsApiUri
     )
 
     Invoke-TimeSignal -Start
@@ -108,15 +108,17 @@ function Start-LcsUpload {
     $request = New-JsonRequest -Uri $createUri -Content $jsonFile -Token $Token
 
     try {
-        Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
+        Write-PSFMessage -Level Verbose -Message "Invoke LCS request." -Target $request
         $result = Get-AsyncResult -task $client.SendAsync($request)
 
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
+        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $responseString
+        
         $asset = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
-    
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
+        Write-PSFMessage -Level Verbose -Message "Extracting the asset json response received from LCS." -Target $asset
+        
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
             if (($asset) -and ($asset.Message)) {
                 Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)

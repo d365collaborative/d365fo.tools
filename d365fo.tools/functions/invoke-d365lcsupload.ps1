@@ -111,6 +111,10 @@ function Invoke-D365LcsUpload {
         $FileName = $fileNameExtracted
     }
 
+    if (-not ($BearerToken.StartsWith("Bearer "))) {
+        $BearerToken = "Bearer $BearerToken"
+    }
+    
     $blobDetails = Start-LcsUpload -Token $BearerToken -ProjectId $ProjectId -FileType $FileType -LcsApiUri $LcsApiUri -Name $FileName -Description $FileDescription
 
     if (Test-PSFFunctionInterrupt) { return }
