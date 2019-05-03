@@ -98,5 +98,7 @@ function Get-LcsAssetValidationStatus {
         return
     }
 
+    Invoke-TimeSignal -End
+
     $asset
 }
