@@ -1,10 +1,11 @@
-﻿<#
-.SYNOPSIS
-Start LCS deployment
-
-.DESCRIPTION
-Start the deployment of a deployable package from the LCS API
-
+﻿
+<#
+    .SYNOPSIS
+        Start LCS deployment
+        
+    .DESCRIPTION
+        Start the deployment of a deployable package from the LCS API
+        
     .PARAMETER Token
         The token to be used for the http request against the LCS API
         
@@ -13,18 +14,18 @@ Start the deployment of a deployable package from the LCS API
         
     .PARAMETER AssetId
         The unique id of the asset / file that you are trying to upload to LCS
-
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
-
-.EXAMPLE
-PS C:\> Start-LcsDeployment  -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
-
-This will start the deployment of the file located in the Asset Library with the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
+        
+    .EXAMPLE
+        PS C:\> Start-LcsDeployment  -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        
+        This will start the deployment of the file located in the Asset Library with the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
         The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-
-.NOTES
+        
+    .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deployable Package
         
         Author: Mötz Jensen (@Splaxi)
