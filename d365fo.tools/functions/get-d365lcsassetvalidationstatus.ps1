@@ -63,7 +63,7 @@ function Get-D365LcsAssetValidationStatus {
 
     do {
         Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Asset Validation Status"
-        Start-Sleep -Seconds 6 #should be 60
+        Start-Sleep -Seconds 60
         $status = Get-LcsAssetValidationStatus -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri
     }
     while (($status.DisplayStatus -eq "Process") -and $WaitForValidation)
