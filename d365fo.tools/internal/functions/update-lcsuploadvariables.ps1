@@ -22,7 +22,7 @@ function Update-LcsUploadVariables {
     [OutputType()]
     param ( )
     
-    $hashParameters = Get-D365LcsUploadConfig -OutputAsHashtable
+    $hashParameters = Get-D365LcsApiConfig -OutputAsHashtable
 
     foreach ($item in $hashParameters.Keys) {
             
