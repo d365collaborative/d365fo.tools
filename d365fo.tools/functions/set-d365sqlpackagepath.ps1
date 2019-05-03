@@ -19,6 +19,7 @@
 #>
 
 function Set-D365SqlPackagePath {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     [OutputType()]
     param (
