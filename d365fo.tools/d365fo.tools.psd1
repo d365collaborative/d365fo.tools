@@ -142,6 +142,7 @@
 						'Invoke-D365InstallLicense',
 
 						'Invoke-D365LcsApiRefreshToken',
+						'Invoke-D365LcsDeployment',
 						'Invoke-D365LcsUpload',
 						'Invoke-D365LogicApp',
 						'Invoke-D365LogicAppMessage',
@@ -198,6 +199,7 @@
 						
 						'Set-D365SDPCleanUp',
 						'Set-D365StartPage',
+						'Set-D365SqlPackagePath',
 						'Set-D365SysAdmin',
 
 						'Set-D365Tier2Params',
