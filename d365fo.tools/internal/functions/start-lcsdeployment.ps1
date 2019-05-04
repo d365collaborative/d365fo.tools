@@ -36,48 +36,31 @@ function Start-LcsDeployment {
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string] $Token,
+        [int] $ProjectId,
+    
+        [Alias('Token')]
+        [string] $BearerToken,
 
         [Parameter(Mandatory = $true)]
-        [int] $ProjectId,
-
-        [Parameter(Mandatory = $false)]
         [string] $AssetId,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $true)]
+        [string] $EnvironmentId,
+        
+        [Parameter(Mandatory = $true)]
         [string] $LcsApiUri
     )
 
     Invoke-TimeSignal -Start
-
-    if ($Description -eq "") {
-        $jsonDescription = "null"
-    }
-    else {
-        $jsonDescription = "`"$Description`""
-    }
-    
-    $fileTypeValue = 0
-
-    switch ($FileType) {
-        "Model" { $fileTypeValue = 1 }
-        "Process Data Package" { $fileTypeValue = 4 }
-        "Software Deployable Package" { $fileTypeValue = 10 }
-        "GER Configuration" { $fileTypeValue = 12 }
-        "Data Package" { $fileTypeValue = 15 }
-        "PowerBI Report Model" { $fileTypeValue = 19 }
-    }
-
-    $jsonFile = "{ `"Name`": `"$Name`", `"FileName`": `"$fileName`", `"FileDescription`": $jsonDescription, `"SizeByte`": 0, `"FileType`": $fileTypeValue }"
 
     Write-PSFMessage -Level Verbose -Message "Json payload for LCS generated." -Target $jsonFile
     
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
 
-    $createUri = "$LcsApiUri/box/fileasset/CreateFileAsset/$ProjectId"
+    $deployUri = "$LcsApiUri/environment/servicing/v1/applyupdate/$($ProjectId)?assetId=$AssetId&environmentId=$EnvironmentId"
 
-    $request = New-JsonRequest -Uri $createUri -Content $jsonFile -Token $Token
+    $request = New-JsonRequest -Uri $deployUri -Token $BearerToken -HttpMethod "POST"
 
     try {
         Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
@@ -91,24 +74,41 @@ function Start-LcsDeployment {
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
             if (($asset) -and ($asset.Message)) {
-                Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)
-                Stop-PSFFunction -Message "Stopping because of errors"
+                $errorText = ""
+                if ($asset.ActivityId) {
+                    $errorText = "Error $( $asset.LcsErrorCode) in request for status of environment servicing action: '$( $asset.Message)' (Activity Id: '$( $asset.ActivityId)')"
+                }
+                else {
+                    $errorText = "Error $( $asset.LcsErrorCode) in request for status of environment servicing action: '$( $asset.Message)'"
+                }
+            }
+            elseif ($asset.ActivityId) {
+                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($asset.ActivityId)')"
             }
             else {
-                Write-PSFMessage -Level Host -Message "API Call returned $($result.StatusCode)." -Target $($result.ReasonPhrase)
-                Stop-PSFFunction -Message "Stopping because of errors"
+                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
             }
+
+            Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)
+            Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
+            Stop-PSFFunction -Message "Stopping because of errors"
         }
 
-        if (-not ($asset.Id)) {
-            if ($asset.Message) {
-                Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)
-                Stop-PSFFunction -Message "Stopping because of errors"
+        
+        if (-not ( $asset.LcsEnvironmentActionStatus)) {
+            if ( $asset.Message) {
+                $errorText = "Error in request for status of environment servicing action: '$( $asset.Message)' (Activity Id: '$( $asset.ActivityId)')"
+            }
+            elseif ( $asset.ActivityId) {
+                $errorText = "Error in request for status of environment servicing action. Activity Id: '$($activity.ActivityId)'"
             }
             else {
-                Write-PSFMessage -Level Host -Message "Unknown error creating new file asset." -Target $asset
-                Stop-PSFFunction -Message "Stopping because of errors"
+                $errorText = "Unknown error in request for status of environment servicing action"
             }
+
+            Write-PSFMessage -Level Host -Message "Unknown error creating new file asset." -Target $asset
+            Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
+            Stop-PSFFunction -Message "Stopping because of errors"
         }
     }
     catch {

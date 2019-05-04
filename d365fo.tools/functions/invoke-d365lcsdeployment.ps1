@@ -49,29 +49,23 @@ function Invoke-D365LcsDeployment {
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 3)]
         [string] $AssetId,
 
-        [Parameter(Mandatory = $false, Position = 4)]
+        [Parameter(Mandatory = $true, Position = 4)]
+        [string] $EnvironmentId,
+
+        [Parameter(Mandatory = $false, Position = 5)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri
     )
 
     Invoke-TimeSignal -Start
 
-    $tokenParms = @{}
-    $tokenParms.Resource = $LcsApiUri
-    $tokenParms.GrantType = $grantType
-    $tokenParms.ClientId = $ClientId
-    $tokenParms.Username = $Username
-    $tokenParms.Password = $Password
-    $tokenParms.Scope = "openid"
-    $tokenParms.AuthProviderUri = $Script:AADOAuthEndpoint
+    if (-not ($BearerToken.StartsWith("Bearer "))) {
+        $BearerToken = "Bearer $BearerToken"
+    }
 
-    $bearerToken = Invoke-PasswordGrant @tokenParms
-    
-    $deploymentStatus = Start-LcsDeployment -Token $bearerToken -ProjectId $ProjectId -AssetId $AssetId
-
-    if (Test-PSFFunctionInterrupt) { return }
+    $deploymentStatus = Start-LcsDeployment -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
 
     Invoke-TimeSignal -End
 
