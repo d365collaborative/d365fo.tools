@@ -24,6 +24,7 @@ Set-PSFConfig -FullName "d365fo.tools.active.logic.app" -Value @{} -Initialize -
 Set-PSFConfig -FullName "d365fo.tools.tier2.bacpac.params" -Value "" -Initialize -Description "Object that stores json string from a hashtable with details for the Import-D365Bacpac cmdlet."
 
 Set-PSFConfig -FullName "d365fo.tools.lcs.projectid" -Value "" -Initialize -Description "Project number for the specific LCS project that you want to upload to."
+Set-PSFConfig -FullName "d365fo.tools.lcs.environmentid" -Value "" -Initialize -Description "Environment Id for the specific LCS environment that you want to deploy against to."
 Set-PSFConfig -FullName "d365fo.tools.lcs.clientid" -Value "" -Initialize -Description "Client Id of the Azure Registered App that you configured to be able to use the API of LCS."
 Set-PSFConfig -FullName "d365fo.tools.lcs.lcsapiuri" -Value "" -Initialize -Description "URI / URL for the LCS API."
 Set-PSFConfig -FullName "d365fo.tools.lcs.activetokenexpireson" -Value "" -Initialize -Description "The time when the currently stored bearer token will expire. Measured in seconds from 1970-01-01 (UnixTime)."
