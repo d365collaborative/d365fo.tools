@@ -39,6 +39,27 @@
         The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
+    .LINK
+Get-D365LcsApiConfig
+
+.LINK
+Get-D365LcsApiToken
+
+.LINK
+Get-D365LcsAssetValidationStatus
+
+.LINK
+Get-D365LcsDeploymentStatus
+
+.LINK
+Invoke-D365LcsApiRefreshToken
+
+.LINK
+Invoke-D365LcsUpload
+
+.LINK
+Set-D365LcsApiConfig
+
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deploy
         
