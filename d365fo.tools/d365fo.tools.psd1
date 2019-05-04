@@ -103,6 +103,7 @@
 						'Get-D365LcsApiConfig',
 						'Get-D365LcsApiToken',
 						'Get-D365LcsAssetValidationStatus',
+						'Get-D365LcsDeploymentStatus',
 						'Get-D365LogicAppConfig',
 
 						'Get-D365MaintenanceMode',

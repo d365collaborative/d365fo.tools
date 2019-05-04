@@ -36,9 +36,9 @@
         
 #>
 
-function Invoke-D365LcsDeployment {
+function Get-D365LcsDeploymentStatus {
     [CmdletBinding()]
-    [OutputType()]
+    [OutputType('PSCustomObject')]
     param(
         [Parameter(Mandatory = $false, Position = 1)]
         [int] $ProjectId = $Script:LcsApiProjectId,
@@ -48,7 +48,7 @@ function Invoke-D365LcsDeployment {
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 3)]
-        [string] $AssetId,
+        [string] $ActionHistoryId,
 
         [Parameter(Mandatory = $true, Position = 4)]
         [string] $EnvironmentId,
@@ -63,7 +63,7 @@ function Invoke-D365LcsDeployment {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $deploymentStatus = Start-LcsDeployment -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+    $deploymentStatus = Get-LcsDeploymentStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActionHistoryId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
 
     Invoke-TimeSignal -End
 
