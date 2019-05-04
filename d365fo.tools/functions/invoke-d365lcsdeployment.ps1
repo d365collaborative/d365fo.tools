@@ -15,6 +15,11 @@
     .PARAMETER AssetId
         The unique id of the asset / file that you are trying to deploy from LCS
         
+    .PARAMETER EnvironmentId
+        The unique id of the environment that you want to work against
+
+        The Id can be located inside the LCS portal
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         

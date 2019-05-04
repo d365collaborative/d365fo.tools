@@ -12,9 +12,14 @@
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
-    .PARAMETER AssetId
-        The unique id of the asset / file that you are trying to deploy from LCS
+    .PARAMETER ActionHistoryId
+        The unique id of the action that you started from the Invoke-D365LcsDeployment cmdlet
         
+    .PARAMETER EnvironmentId
+        The unique id of the environment that you want to work against
+
+        The Id can be located inside the LCS portal
+
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
