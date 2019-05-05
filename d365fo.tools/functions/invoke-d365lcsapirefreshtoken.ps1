@@ -33,10 +33,28 @@
         
         This will fetch the current LCS API details from Get-D365LcsApiConfig.
         Then it will pipe these information directly to Invoke-D365LcsApiRefreshToken, which will fetch a new token object.
-        The new token object is piped directly into Set-D365LcsApiConfig, which will save the needed details.
+        The new token object is piped directly into Set-D365LcsApiConfig, which will save the needed details into the configuration store.
         
-    .LINK
-        Get-D365LcsApiToken
+.LINK
+Get-D365LcsApiConfig
+
+.LINK
+Get-D365LcsApiToken
+
+.LINK
+Get-D365LcsAssetValidationStatus
+
+.LINK
+Get-D365LcsDeploymentStatus
+
+.LINK
+Invoke-D365LcsDeployment
+
+.LINK
+Invoke-D365LcsUpload
+
+.LINK
+Set-D365LcsApiConfig
         
     .NOTES
         Tags: LCS, API, Token, BearerToken
@@ -48,16 +66,16 @@ function Invoke-D365LcsApiRefreshToken {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = "Simple", Position = 1)]
-        [Parameter(Mandatory = $true, ParameterSetName = "Object", Position = 1)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = "Simple")]
+        [Parameter(Mandatory = $true, ParameterSetName = "Object")]
         [string] $ClientId,
 
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = "Simple", Position = 2)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = "Simple")]
         [Alias('refresh_token')]
         [Alias('Token')]
         [string] $RefreshToken,
 
-        [Parameter(Mandatory = $false, ParameterSetName = "Object", Position = 2)]
+        [Parameter(Mandatory = $false, ParameterSetName = "Object")]
         [PSCustomObject] $InputObject
     )
 
