@@ -35,26 +35,26 @@
         Then it will pipe these information directly to Invoke-D365LcsApiRefreshToken, which will fetch a new token object.
         The new token object is piped directly into Set-D365LcsApiConfig, which will save the needed details into the configuration store.
         
-.LINK
-Get-D365LcsApiConfig
-
-.LINK
-Get-D365LcsApiToken
-
-.LINK
-Get-D365LcsAssetValidationStatus
-
-.LINK
-Get-D365LcsDeploymentStatus
-
-.LINK
-Invoke-D365LcsDeployment
-
-.LINK
-Invoke-D365LcsUpload
-
-.LINK
-Set-D365LcsApiConfig
+    .LINK
+        Get-D365LcsApiConfig
+        
+    .LINK
+        Get-D365LcsApiToken
+        
+    .LINK
+        Get-D365LcsAssetValidationStatus
+        
+    .LINK
+        Get-D365LcsDeploymentStatus
+        
+    .LINK
+        Invoke-D365LcsDeployment
+        
+    .LINK
+        Invoke-D365LcsUpload
+        
+    .LINK
+        Set-D365LcsApiConfig
         
     .NOTES
         Tags: LCS, API, Token, BearerToken

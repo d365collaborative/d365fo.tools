@@ -19,13 +19,13 @@
 			$parameter.ParameterSets.Keys | Should -Be 'Object', 'Simple'
 			$parameter.ParameterSets.Keys | Should -Contain 'Object'
 			$parameter.ParameterSets['Object'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['Object'].Position | Should -Be 1
+			$parameter.ParameterSets['Object'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Object'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Object'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Object'].ValueFromRemainingArguments | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Contain 'Simple'
 			$parameter.ParameterSets['Simple'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['Simple'].Position | Should -Be 1
+			$parameter.ParameterSets['Simple'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Simple'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Simple'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Simple'].ValueFromRemainingArguments | Should -Be $False
@@ -38,7 +38,7 @@
 			$parameter.ParameterSets.Keys | Should -Be 'Simple'
 			$parameter.ParameterSets.Keys | Should -Contain 'Simple'
 			$parameter.ParameterSets['Simple'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['Simple'].Position | Should -Be 2
+			$parameter.ParameterSets['Simple'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Simple'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Simple'].ValueFromPipelineByPropertyName | Should -Be $True
 			$parameter.ParameterSets['Simple'].ValueFromRemainingArguments | Should -Be $False
@@ -51,7 +51,7 @@
 			$parameter.ParameterSets.Keys | Should -Be 'Object'
 			$parameter.ParameterSets.Keys | Should -Contain 'Object'
 			$parameter.ParameterSets['Object'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['Object'].Position | Should -Be 2
+			$parameter.ParameterSets['Object'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Object'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Object'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Object'].ValueFromRemainingArguments | Should -Be $False
