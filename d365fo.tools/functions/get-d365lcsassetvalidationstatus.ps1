@@ -8,12 +8,12 @@
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
-
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
-
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER AssetId
@@ -21,7 +21,7 @@
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
-
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER WaitForValidation
@@ -37,36 +37,36 @@
         The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
         The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-
-        .EXAMPLE
+        
+    .EXAMPLE
         PS C:\> Get-D365LcsAssetValidationStatus -AssetId "958ae597-f089-4811-abbd-c1190917eaae"
-
+        
         This will start the deployment of the file located in the Asset Library.
         The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
-
+        
         All default values will come from the configuration available from Get-D365LcsApiConfig.
-
-.LINK
-Get-D365LcsApiConfig
-
-.LINK
-Get-D365LcsApiToken
-
-.LINK
-Get-D365LcsDeploymentStatus
-
-.LINK
-Invoke-D365LcsApiRefreshToken
-
-.LINK
-Invoke-D365LcsDeployment
-
-.LINK
-Invoke-D365LcsUpload
-
-.LINK
-Set-D365LcsApiConfig
-
+        
+    .LINK
+        Get-D365LcsApiConfig
+        
+    .LINK
+        Get-D365LcsApiToken
+        
+    .LINK
+        Get-D365LcsDeploymentStatus
+        
+    .LINK
+        Invoke-D365LcsApiRefreshToken
+        
+    .LINK
+        Invoke-D365LcsDeployment
+        
+    .LINK
+        Invoke-D365LcsUpload
+        
+    .LINK
+        Set-D365LcsApiConfig
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         

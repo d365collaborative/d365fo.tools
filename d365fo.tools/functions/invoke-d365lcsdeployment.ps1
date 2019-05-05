@@ -8,24 +8,24 @@
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
-
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
         Default value can be configured using Set-D365LcsApiConfig
-
+        
     .PARAMETER AssetId
         The unique id of the asset / file that you are trying to deploy from LCS
         
     .PARAMETER EnvironmentId
         The unique id of the environment that you want to work against
-
+        
         The Id can be located inside the LCS portal
-
+        
         Default value can be configured using Set-D365LcsApiConfig
-
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -36,7 +36,7 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
         Default value can be configured using Set-D365LcsApiConfig
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365LcsDeployment -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -52,30 +52,30 @@
         
         This will start the deployment of the file located in the Asset Library.
         The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
-
+        
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
     .LINK
-Get-D365LcsApiConfig
-
-.LINK
-Get-D365LcsApiToken
-
-.LINK
-Get-D365LcsAssetValidationStatus
-
-.LINK
-Get-D365LcsDeploymentStatus
-
-.LINK
-Invoke-D365LcsApiRefreshToken
-
-.LINK
-Invoke-D365LcsUpload
-
-.LINK
-Set-D365LcsApiConfig
-
+        Get-D365LcsApiConfig
+        
+    .LINK
+        Get-D365LcsApiToken
+        
+    .LINK
+        Get-D365LcsAssetValidationStatus
+        
+    .LINK
+        Get-D365LcsDeploymentStatus
+        
+    .LINK
+        Invoke-D365LcsApiRefreshToken
+        
+    .LINK
+        Invoke-D365LcsUpload
+        
+    .LINK
+        Set-D365LcsApiConfig
+        
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deploy
         

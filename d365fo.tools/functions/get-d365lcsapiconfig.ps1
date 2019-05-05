@@ -7,7 +7,7 @@
         Get the LCS configuration details from the configuration store
         
         All settings retrieved from this cmdlets is to be considered the default parameter values across the different cmdlets
-
+        
     .PARAMETER OutputAsHashtable
         Instruct the cmdlet to return a hashtable object
         
@@ -22,28 +22,28 @@
         
         This will return the saved configuration for accessing the LCS API.
         The object returned will be a Hashtable.
-
-.LINK
-Get-D365LcsApiToken
-
-.LINK
-Get-D365LcsAssetValidationStatus
-
-.LINK
-Get-D365LcsDeploymentStatus
-
-.LINK
-Invoke-D365LcsApiRefreshToken
-
-.LINK
-Invoke-D365LcsDeployment
-
-.LINK
-Invoke-D365LcsUpload
-
-.LINK
-Set-D365LcsApiConfig
-
+        
+    .LINK
+        Get-D365LcsApiToken
+        
+    .LINK
+        Get-D365LcsAssetValidationStatus
+        
+    .LINK
+        Get-D365LcsDeploymentStatus
+        
+    .LINK
+        Invoke-D365LcsApiRefreshToken
+        
+    .LINK
+        Invoke-D365LcsDeployment
+        
+    .LINK
+        Invoke-D365LcsUpload
+        
+    .LINK
+        Set-D365LcsApiConfig
+        
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, ClientId
         
