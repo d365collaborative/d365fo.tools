@@ -14,13 +14,13 @@
     .EXAMPLE
         PS C:\> Get-D365LcsApiConfig
         
-        This will return the saved configuration for accessing the LCS API.
-        The object return will be a PSCustomObject.
+        This will output the current LCS API configuration.
+        The object returned will be a PSCustomObject.
         
     .EXAMPLE
         PS C:\> Get-D365LcsApiConfig -OutputAsHashtable
         
-        This will return the saved configuration for accessing the LCS API.
+        This will output the current LCS API configuration.
         The object returned will be a Hashtable.
         
     .LINK
