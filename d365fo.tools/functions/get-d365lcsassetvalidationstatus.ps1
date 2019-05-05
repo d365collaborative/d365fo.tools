@@ -111,6 +111,8 @@ function Get-D365LcsAssetValidationStatus {
         [switch] $WaitForValidation
     )
 
+    Invoke-TimeSignal -Start
+
     if (-not ($BearerToken.StartsWith("Bearer "))) {
         $BearerToken = "Bearer $BearerToken"
     }
@@ -121,6 +123,8 @@ function Get-D365LcsAssetValidationStatus {
         $status = Get-LcsAssetValidationStatus -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri
     }
     while (($status.DisplayStatus -eq "Process") -and $WaitForValidation)
+
+    Invoke-TimeSignal -End
 
     $status | Select-PSFObject "ID as AssetId", "DisplayStatus as Status"
 }

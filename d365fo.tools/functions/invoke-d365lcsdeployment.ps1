@@ -4,7 +4,7 @@
         Start the deployment of a deployable package
         
     .DESCRIPTION
-        Deploy a deployable package from the Asset Library from a LCS projcet using the API provided by Microsoft
+        Deploy a deployable package from the Asset Library from a LCS project using the API provided by Microsoft
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS

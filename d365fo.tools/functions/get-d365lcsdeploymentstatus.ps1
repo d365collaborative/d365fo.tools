@@ -4,7 +4,7 @@
         Start the deployment of a deployable package
         
     .DESCRIPTION
-        Deploy a deployable package from the Asset Library from a LCS projcet using the API provided by Microsoft
+        Deploy a deployable package from the Asset Library from a LCS project using the API provided by Microsoft
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -36,7 +36,12 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
         Default value can be configured using Set-D365LcsApiConfig
+
+    .PARAMETER WaitForCompletion
+        Instruct the cmdlet to wait for the deployment process to complete
         
+        The cmdlet will sleep for 300 seconds, before requesting the status of the deployment process from LCS
+
     .EXAMPLE
         PS C:\> Get-D365LcsDeploymentStatus -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -56,6 +61,16 @@
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
+    .EXAMPLE
+        PS C:\> Get-D365LcsDeploymentStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -WaitForCompletion
+        
+        This will check the deployment status of specific activity against an environment.
+        The activity is identified by the ActionHistoryId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
+        The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        The cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the deployment is either success or failure.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+
     .LINK
         Get-D365LcsApiConfig
         
@@ -102,7 +117,9 @@ function Get-D365LcsDeploymentStatus {
         [string] $EnvironmentId,
 
         [Parameter(Mandatory = $false)]
-        [string] $LcsApiUri = $Script:LcsApiLcsApiUri
+        [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
+
+        [switch] $WaitForCompletion
     )
 
     Invoke-TimeSignal -Start
@@ -111,7 +128,13 @@ function Get-D365LcsDeploymentStatus {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $deploymentStatus = Get-LcsDeploymentStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActionHistoryId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+    do {
+        Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
+
+        Start-Sleep -Seconds 300
+        $deploymentStatus = Get-LcsDeploymentStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActionHistoryId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+    }
+    while ((($deploymentStatus.LcsEnvironmentActionStatus -eq "InProgress") -or ($deploymentStatus.LcsEnvironmentActionStatus -eq "NotStarted") -or ($deploymentStatus.LcsEnvironmentActionStatus -eq "PreparingEnvironment")) -and $WaitForCompletion)
 
     Invoke-TimeSignal -End
 
