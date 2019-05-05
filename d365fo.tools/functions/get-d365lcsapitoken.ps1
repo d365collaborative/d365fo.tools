@@ -6,9 +6,6 @@
     .DESCRIPTION
         Upload a file to a LCS project using the API provided by Microsoft
         
-    .PARAMETER ProjectId
-        The project id for the Dynamics 365 for Finance & Operations project inside LCS
-        
     .PARAMETER ClientId
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
         
@@ -19,22 +16,6 @@
         
     .PARAMETER Password
         The password of the account that you want to impersonate
-        
-    .PARAMETER FilePath
-        Path to the file that you want to upload to the Asset Library on LCS
-        
-    .PARAMETER FileType
-        Type of file you want to upload
-        
-        Valid options:
-        "DeployablePackage"
-        "DatabaseBackup"
-        
-    .PARAMETER FileName
-        Name to be assigned / shown on LCS
-        
-    .PARAMETER FileDescription
-        Description to be assigned / shown on LCS
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
@@ -76,16 +57,16 @@ function Get-D365LcsApiToken {
     [CmdletBinding()]
     [OutputType()]
     param(
-        [Parameter(Mandatory = $false, Position = 1)]
+        [Parameter(Mandatory = $false)]
         [string] $ClientId = $Script:LcsApiClientId,
 
-        [Parameter(Mandatory = $true, Position = 2)]
+        [Parameter(Mandatory = $true)]
         [string] $Username,
 
-        [Parameter(Mandatory = $true, Position = 3)]
+        [Parameter(Mandatory = $true)]
         [string] $Password,
 
-        [Parameter(Mandatory = $false, Position = 4)]
+        [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiApiUri
     )
 

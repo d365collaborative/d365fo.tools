@@ -7,7 +7,7 @@
         Get the LCS configuration details from the configuration store
         
     .PARAMETER OutputAsHashtable
-        Instruct the cmdlet to return a hastable object
+        Instruct the cmdlet to return a hashtable object
         
     .EXAMPLE
         PS C:\> Get-D365LcsApiConfig
