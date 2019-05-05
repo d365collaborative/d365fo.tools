@@ -41,11 +41,30 @@
     .EXAMPLE
         PS C:\> Get-D365LcsAssetValidationStatus -AssetId "958ae597-f089-4811-abbd-c1190917eaae"
         
-        This will start the deployment of the file located in the Asset Library.
+        This will check the validation status for the file in the Asset Library.
         The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
+    .EXAMPLE
+        PS C:\> Get-D365LcsAssetValidationStatus -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -WaitForValidation
+        
+        This will check the validation status for the file in the Asset Library.
+        The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
+        The cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.
+
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+    .EXAMPLE
+        PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" | Get-D365LcsAssetValidationStatus -WaitForValidation
+        
+        This will start the upload of a file to the Asset Library and check the validation status for the file in the Asset Library.
+        The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
+        The output object received from Invoke-D365LcsUpload is piped directly to Get-D365LcsAssetValidationStatus.
+        The cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.
+
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+
     .LINK
         Get-D365LcsApiConfig
         
