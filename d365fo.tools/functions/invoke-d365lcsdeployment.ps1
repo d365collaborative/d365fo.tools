@@ -38,7 +38,7 @@
         Default value can be configured using Set-D365LcsApiConfig
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsDeployment -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Invoke-D365LcsDeployment -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will start the deployment of the file located in the Asset Library.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
