@@ -41,12 +41,26 @@
         Instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
         
     .EXAMPLE
-        PS C:\> Set-D365LcsApiConfig -ProjectId 123456789 -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -BearerToken "sdaflkja21jlkfjfdsa" -ActiveTokenExpiresOn 1556909205 -RefreshToken "Tsdljfasfe2j32324" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Set-D365LcsApiConfig -ProjectId 123456789 -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -BearerToken "JldjfafLJdfjlfsalfd..." -ActiveTokenExpiresOn 1556909205 -RefreshToken "Tsdljfasfe2j32324" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will save the ProjectId 123456789 and ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" to be default values when using the Invoke-D365LcsUpload cmdlet.
-        The Username Claire@contoso.com and the Password "pass@word1" will also be stored as default values when using the Invoke-D365LcsUpload cmdlet.
-        The NON-EUROPE LCS API address will be configured as the endpoint when using the Invoke-D365LcsUpload cmdlet.
+        This will set the LCS API configuration.
+        The ProjectId 123456789 will be saved as the default ProjectId for all cmdlets that will interact with LCS, if they require a ProjectId.
+        The ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" will be saved as the default ClientId for all cmdlets that will interact with LCS, if they require a ClientId.
+        The BearerToken "JldjfafLJdfjlfsalfd..." will be saved as the default BearerToken. Remember the BearerToken will expire, so you should fill in the ActiveTokenExpiresOn and RefreshToken parameters also.
+        The ActiveTokenExpiresOn 1556909205 will be saved to assist the module in determine whether the BearerToken is still valid or not.
+        The RefreshToken "Tsdljfasfe2j32324" will be saved as the default RefreshToken for all cmdlets that will interact with tokens.
+        The LcsApiUri "https://lcsapi.lcs.dynamics.com" will be saved as the default LCS HTTP endpoint for all cmdlets that will interact with LCS.
+
+    .EXAMPLE
+        PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword" | Set-D365LcsApiConfig
         
+        This will obtain a valid OAuth 2.0 access token from Azure Active Directory and save the needed details.
+        The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
+        The output object received from Get-D365LcsApiToken is piped directly to Set-D365LcsApiConfig.
+        Set-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, ClientId
         

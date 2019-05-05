@@ -9,6 +9,8 @@
     .PARAMETER ClientId
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
         
+        Default value can be configured using Set-D365LcsApiConfig
+
     .PARAMETER Username
         The username of the account that you want to impersonate
         
@@ -26,23 +28,33 @@
         "https://lcsapi.lcs.dynamics.com"
         "https://lcsapi.eu.lcs.dynamics.com"
         
+        Default value can be configured using Set-D365LcsApiConfig
+
     .EXAMPLE
-        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username claire@contoso.com -Password "pass@word1" -FilePath "C:\temp\d365fo.tools\GOLDEN.bacpac" -FileType "DatabaseBackup" -FileName "ReadyForTesting" -FileDescription "Contains all customers & vendors" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-D365LcsApiToken -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username "serviceaccount@domain.com" -Password "TopSecretPassword" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will upload the "C:\temp\d365fo.tools\GOLDEN.bacpac" file to the LCS project 123456789.
-        It will authenticate against the AAD with the ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929", the Username Claire@contoso.com and the Password "pass@word1".
-        The file will be placed in the sub folder "Database Backup".
-        The file will be named "ReadyForTesting" inside the Asset Library in LCS.
-        The file is uploaded against the NON-EUROPE LCS API.
-        
+        This will obtain a valid OAuth 2.0 access token from Azure Active Directory.
+        The ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" is used in the OAuth 2.0 Grant Flow to authenticate.
+        The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
+        The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
+
     .EXAMPLE
-        PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\GOLDEN.bacpac" -FileType "DatabaseBackup" -FileName "ReadyForTesting" -FileDescription "Contains all customers & vendors"
+        PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword"
         
-        This will upload the "C:\temp\d365fo.tools\GOLDEN.bacpac" file.
-        The file will be placed in the sub folder "Database Backup".
-        The file will be named "ReadyForTesting" inside the Asset Library in LCS.
+        This will obtain a valid OAuth 2.0 access token from Azure Active Directory.
+        The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
+
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+    .EXAMPLE
+        PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword" | Set-D365LcsApiConfig
         
-        The ProjectId, ClientId, Username, Password and LcsApiUri parameters are read from the configuration storage, that is configured by the Set-D365LcsUploadConfig cmdlet.
+        This will obtain a valid OAuth 2.0 access token from Azure Active Directory and save the needed details.
+        The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
+        The output object received from Get-D365LcsApiToken is piped directly to Set-D365LcsApiConfig.
+        Set-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
         
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token

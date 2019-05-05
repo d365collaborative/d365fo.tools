@@ -7,7 +7,7 @@
         Invoke the refresh logic that refreshes the token object based on the ClientId and RefreshToken
         
     .PARAMETER ClientId
-        The ClientId obtained from the Azure Portal when you created a Registered Application
+        The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
         
     .PARAMETER RefreshToken
         The Refresh Token that you want to use for the authentication process
@@ -21,11 +21,11 @@
         This will use the ClientId "dea8d7a9-1602-4429-b138-111111111111" and RefreshToken "Tsdljfasfe2j32324" to obtain a new token object from Azure Active Directory
         
     .EXAMPLE
-        PS C:\> $temp = Get-D365LcsApiToken -LcsApiUri "https://lcsapi.eu.lcs.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -Username "serviceaccount@domain.com" -Password "TopSecretPassword"
-        PS C:\> $temp = Invoke-D365LcsApiRefreshToken -ClientId "dea8d7a9-1602-4429-b138-111111111111" -InputObject $temp
+        PS C:\> $temp = Get-D365LcsApiToken -LcsApiUri "https://lcsapi.eu.lcs.dynamics.com" -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username "serviceaccount@domain.com" -Password "TopSecretPassword"
+        PS C:\> $temp = Invoke-D365LcsApiRefreshToken -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -InputObject $temp
         
         This will obtain a new token object from the Get-D365LcsApiToken cmdlet and store it in $temp.
-        Then it will pass $temp to the Invoke-D365LcsApiRefreshToken along with the ClientId "dea8d7a9-1602-4429-b138-111111111111".
+        Then it will pass $temp to the Invoke-D365LcsApiRefreshToken along with the ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929".
         The new token object will be save into $temp.
         
     .EXAMPLE

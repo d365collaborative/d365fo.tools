@@ -30,7 +30,7 @@
         The cmdlet will sleep for 60 seconds, before requesting the status of the validation process from LCS
         
     .EXAMPLE
-        PS C:\> Get-D365LcsAssetValidationStatus -ProjectId 123456789 -BearerToken "sdaflkja21jlkfjfdsa" -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-D365LcsAssetValidationStatus -ProjectId 123456789 -BearerToken "JldjfafLJdfjlfsalfd..." -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will check the validation status for the file in the Asset Library.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.

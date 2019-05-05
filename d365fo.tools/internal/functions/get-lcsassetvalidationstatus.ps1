@@ -19,11 +19,11 @@
         URI / URL to the LCS API you want to use
         
     .EXAMPLE
-        PS C:\> Get-LcsAssetValidationStatus -ProjectId 123456789 -BearerToken "sdaflkja21jlkfjfdsa" -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsAssetValidationStatus -ProjectId 123456789 -BearerToken "JldjfafLJdfjlfsalfd..." -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will check the file with the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in validated or not.
         It will test against the Asset Library located under the LCS project 123456789.
-        The BearerToken "sdaflkja21jlkfjfdsa" is used to authenticate against the LCS API endpoint.
+        The BearerToken "JldjfafLJdfjlfsalfd..." is used to authenticate against the LCS API endpoint.
         The file will be named "ReadyForTesting" inside the Asset Library in LCS.
         The file is validated against the NON-EUROPE LCS API.
         
