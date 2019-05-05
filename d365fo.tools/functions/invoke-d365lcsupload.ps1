@@ -8,9 +8,13 @@
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
+
+        Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
+
+        Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER FilePath
         Path to the file that you want to upload to the Asset Library on LCS
@@ -26,6 +30,8 @@
         "Data Package"
         "PowerBI Report Model"
         
+        Default value is "Software Deployable Package"
+
     .PARAMETER FileName
         Name to be assigned / shown on LCS
         
@@ -40,24 +46,52 @@
         Valid options:
         "https://lcsapi.lcs.dynamics.com"
         "https://lcsapi.eu.lcs.dynamics.com"
+
+        Default value can be configured using Set-D365LcsApiConfig
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "sdaflkja21jlkfjfdsa" -FilePath "C:\temp\d365fo.tools\GOLDEN.bacpac" -FileType "DatabaseBackup" -FileName "ReadyForTesting" -FileDescription "Contains all customers & vendors" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "Software Deployable Package" -FileName "Release-2019-05-05" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will upload the "C:\temp\d365fo.tools\GOLDEN.bacpac" file to the LCS project 123456789.
-        The file will be placed in the sub folder "Database Backup".
-        The file will be named "ReadyForTesting" inside the Asset Library in LCS.
-        The file is uploaded against the NON-EUROPE LCS API.
+        This will start the upload of a file to the Asset Library.
+        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+        The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
+        The file type "Software Deployable Package" determines where inside the Asset Library the file will end up.
+        The name inside the Asset Library is based on the FileName "Release-2019-05-05".
+        The description inside the Asset Library is based on the FileDescription "Build based on sprint: SuperSprint-1".
+        The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
+        The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\GOLDEN.bacpac" -FileType "DatabaseBackup" -FileName "ReadyForTesting" -FileDescription "Contains all customers & vendors"
+        PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "Software Deployable Package" -FileName "Release-2019-05-05"
         
-        This will upload the "C:\temp\d365fo.tools\GOLDEN.bacpac" file.
-        The file will be placed in the sub folder "Database Backup".
-        The file will be named "ReadyForTesting" inside the Asset Library in LCS.
+        This will start the upload of a file to the Asset Library.
+        The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
+        The file type "Software Deployable Package" determines where inside the Asset Library the file will end up.
+        The name inside the Asset Library is based on the FileName "Release-2019-05-05".
         
-        The ProjectId, ClientId, Username, Password and LcsApiUri parameters are read from the configuration storage, that is configured by the Set-D365LcsUploadConfig cmdlet.
-        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+        .LINK
+Get-D365LcsApiConfig
+
+.LINK
+Get-D365LcsApiToken
+
+.LINK
+Get-D365LcsAssetValidationStatus
+
+.LINK
+Get-D365LcsDeploymentStatus
+
+.LINK
+Invoke-D365LcsApiRefreshToken
+
+.LINK
+Invoke-D365LcsDeployment
+
+.LINK
+Set-D365LcsApiConfig
+
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token
         
@@ -69,26 +103,26 @@ function Invoke-D365LcsUpload {
     [CmdletBinding()]
     [OutputType()]
     param(
-        [Parameter(Mandatory = $false, Position = 1)]
+        [Parameter(Mandatory = $false)]
         [int]$ProjectId = $Script:LcsApiProjectId,
         
-        [Parameter(Mandatory = $false, Position = 2)]
+        [Parameter(Mandatory = $false)]
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
-        [Parameter(Mandatory = $true, Position = 5)]
+        [Parameter(Mandatory = $true)]
         [string] $FilePath,
 
-        [Parameter(Mandatory = $false, Position = 6)]
+        [Parameter(Mandatory = $false)]
         [string] $FileType = "Software Deployable Package",
 
-        [Parameter(Mandatory = $false, Position = 7)]
+        [Parameter(Mandatory = $false)]
         [string] $FileName,
 
-        [Parameter(Mandatory = $false, Position = 8)]
+        [Parameter(Mandatory = $false)]
         [string] $FileDescription,
 
-        [Parameter(Mandatory = $false, Position = 9)]
+        [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri
     )
 
