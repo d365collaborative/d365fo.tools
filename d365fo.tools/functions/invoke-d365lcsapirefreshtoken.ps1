@@ -16,14 +16,17 @@
         The entire object that you received from the Get-D365LcsApiToken command, which contains the needed RefreshToken
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsApiRefreshToken -ClientId "dea8d7a9-1602-4429-b138-111111111111" -RefreshToken "Tsdljfasfe2j32324"
+        PS C:\> Invoke-D365LcsApiRefreshToken -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -RefreshToken "Tsdljfasfe2j32324"
         
-        This will use the ClientId "dea8d7a9-1602-4429-b138-111111111111" and RefreshToken "Tsdljfasfe2j32324" to obtain a new token object from Azure Active Directory
-        
+        This will refresh an OAuth 2.0 access token, and obtain a (new) valid OAuth 2.0 access token from Azure Active Directory.
+        The ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" is used in the OAuth 2.0 "Refresh Token" Grant Flow to authenticate.
+        The RefreshToken "Tsdljfasfe2j32324" is used to prove to Azure Active Directoy that we are allowed to obtain a new valid Access Token.
+
     .EXAMPLE
         PS C:\> $temp = Get-D365LcsApiToken -LcsApiUri "https://lcsapi.eu.lcs.dynamics.com" -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username "serviceaccount@domain.com" -Password "TopSecretPassword"
         PS C:\> $temp = Invoke-D365LcsApiRefreshToken -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -InputObject $temp
-        
+
+        This will refresh an OAuth 2.0 access token, and obtain a (new) valid OAuth 2.0 access token from Azure Active Directory.
         This will obtain a new token object from the Get-D365LcsApiToken cmdlet and store it in $temp.
         Then it will pass $temp to the Invoke-D365LcsApiRefreshToken along with the ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929".
         The new token object will be save into $temp.
@@ -31,8 +34,9 @@
     .EXAMPLE
         PS C:\> Get-D365LcsApiConfig | Invoke-D365LcsApiRefreshToken | Set-D365LcsApiConfig
         
+        This will refresh an OAuth 2.0 access token, and obtain a (new) valid OAuth 2.0 access token from Azure Active Directory.
         This will fetch the current LCS API details from Get-D365LcsApiConfig.
-        Then it will pipe these information directly to Invoke-D365LcsApiRefreshToken, which will fetch a new token object.
+        The output from Get-D365LcsApiConfig is piped directly to Invoke-D365LcsApiRefreshToken, which will fetch a new token object.
         The new token object is piped directly into Set-D365LcsApiConfig, which will save the needed details into the configuration store.
         
     .LINK
