@@ -6,6 +6,8 @@
     .DESCRIPTION
         Get the LCS configuration details from the configuration store
         
+        All settings retrieved from this cmdlets is to be considered the default parameter values across the different cmdlets
+
     .PARAMETER OutputAsHashtable
         Instruct the cmdlet to return a hashtable object
         
@@ -13,14 +15,35 @@
         PS C:\> Get-D365LcsApiConfig
         
         This will return the saved configuration for accessing the LCS API.
-        The object return will be a HashTable.
+        The object return will be a PSCustomObject.
         
     .EXAMPLE
         PS C:\> Get-D365LcsApiConfig -OutputAsHashtable
         
         This will return the saved configuration for accessing the LCS API.
-        The object return will be a PSCustomObject.
-        
+        The object returned will be a Hashtable.
+
+.LINK
+Get-D365LcsApiToken
+
+.LINK
+Get-D365LcsAssetValidationStatus
+
+.LINK
+Get-D365LcsDeploymentStatus
+
+.LINK
+Invoke-D365LcsApiRefreshToken
+
+.LINK
+Invoke-D365LcsDeployment
+
+.LINK
+Invoke-D365LcsUpload
+
+.LINK
+Set-D365LcsApiConfig
+
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, ClientId
         
@@ -53,5 +76,4 @@ function Get-D365LcsApiConfig {
     }
 
     Invoke-TimeSignal -End
-
 }
