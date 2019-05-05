@@ -50,7 +50,7 @@
         The ActiveTokenExpiresOn 1556909205 will be saved to assist the module in determine whether the BearerToken is still valid or not.
         The RefreshToken "Tsdljfasfe2j32324" will be saved as the default RefreshToken for all cmdlets that will interact with tokens.
         The LcsApiUri "https://lcsapi.lcs.dynamics.com" will be saved as the default LCS HTTP endpoint for all cmdlets that will interact with LCS.
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword" | Set-D365LcsApiConfig
         
@@ -60,7 +60,7 @@
         Set-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
-
+        
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, ClientId
         

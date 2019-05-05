@@ -36,12 +36,12 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
         Default value can be configured using Set-D365LcsApiConfig
-
+        
     .PARAMETER WaitForCompletion
         Instruct the cmdlet to wait for the deployment process to complete
         
         The cmdlet will sleep for 300 seconds, before requesting the status of the deployment process from LCS
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsDeploymentStatus -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -70,7 +70,7 @@
         The cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the deployment is either success or failure.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
-
+        
     .LINK
         Get-D365LcsApiConfig
         

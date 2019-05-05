@@ -10,7 +10,7 @@
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
         
         Default value can be configured using Set-D365LcsApiConfig
-
+        
     .PARAMETER Username
         The username of the account that you want to impersonate
         
@@ -29,7 +29,7 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
         Default value can be configured using Set-D365LcsApiConfig
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsApiToken -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username "serviceaccount@domain.com" -Password "TopSecretPassword" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -37,15 +37,15 @@
         The ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" is used in the OAuth 2.0 Grant Flow to authenticate.
         The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword"
         
         This will obtain a valid OAuth 2.0 access token from Azure Active Directory.
         The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
-
+        
         All default values will come from the configuration available from Get-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword" | Set-D365LcsApiConfig
         
@@ -56,27 +56,27 @@
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
-.LINK
-Get-D365LcsApiConfig
-
-.LINK
-Get-D365LcsAssetValidationStatus
-
-.LINK
-Get-D365LcsDeploymentStatus
-
-.LINK
-Invoke-D365LcsApiRefreshToken
-
-.LINK
-Invoke-D365LcsDeployment
-
-.LINK
-Invoke-D365LcsUpload
-
-.LINK
-Set-D365LcsApiConfig
-
+    .LINK
+        Get-D365LcsApiConfig
+        
+    .LINK
+        Get-D365LcsAssetValidationStatus
+        
+    .LINK
+        Get-D365LcsDeploymentStatus
+        
+    .LINK
+        Invoke-D365LcsApiRefreshToken
+        
+    .LINK
+        Invoke-D365LcsDeployment
+        
+    .LINK
+        Invoke-D365LcsUpload
+        
+    .LINK
+        Set-D365LcsApiConfig
+        
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token
         

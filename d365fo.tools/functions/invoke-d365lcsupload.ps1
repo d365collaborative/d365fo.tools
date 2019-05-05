@@ -8,12 +8,12 @@
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
-
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
-
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER FilePath
@@ -31,7 +31,7 @@
         "PowerBI Report Model"
         
         Default value is "Software Deployable Package"
-
+        
     .PARAMETER FileName
         Name to be assigned / shown on LCS
         
@@ -46,7 +46,7 @@
         Valid options:
         "https://lcsapi.lcs.dynamics.com"
         "https://lcsapi.eu.lcs.dynamics.com"
-
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .EXAMPLE
@@ -70,7 +70,7 @@
         The name inside the Asset Library is based on the FileName "Release-2019-05-05".
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip"
         
@@ -78,28 +78,28 @@
         The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
-
-        .LINK
-Get-D365LcsApiConfig
-
-.LINK
-Get-D365LcsApiToken
-
-.LINK
-Get-D365LcsAssetValidationStatus
-
-.LINK
-Get-D365LcsDeploymentStatus
-
-.LINK
-Invoke-D365LcsApiRefreshToken
-
-.LINK
-Invoke-D365LcsDeployment
-
-.LINK
-Set-D365LcsApiConfig
-
+        
+    .LINK
+        Get-D365LcsApiConfig
+        
+    .LINK
+        Get-D365LcsApiToken
+        
+    .LINK
+        Get-D365LcsAssetValidationStatus
+        
+    .LINK
+        Get-D365LcsDeploymentStatus
+        
+    .LINK
+        Invoke-D365LcsApiRefreshToken
+        
+    .LINK
+        Invoke-D365LcsDeployment
+        
+    .LINK
+        Set-D365LcsApiConfig
+        
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token
         
