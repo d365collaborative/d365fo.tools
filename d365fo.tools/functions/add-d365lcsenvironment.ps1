@@ -11,12 +11,12 @@
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
-
+        
     .PARAMETER EnvironmentId
         The unique id of the environment that you want to work against
         
         The Id can be located inside the LCS portal
-
+        
     .PARAMETER Temporary
         Instruct the cmdlet to only temporarily add the broadcast message configuration in the configuration store
         
@@ -51,7 +51,7 @@
         
     .LINK
         Set-D365LcsApiConfig
-
+        
     .NOTES
         Tags: Servicing, Broadcast, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
         
