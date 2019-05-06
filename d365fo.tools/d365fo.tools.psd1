@@ -47,6 +47,7 @@
 						'Add-D365AzureStorageConfig',
 						'Add-D365BroadcastMessageConfig',
 						'Add-D365EnvironmentConfig',
+						'Add-D365LcsEnvironment',
 						'Add-D365WIFConfigAuthorityThumbprint',
 
 						'Backup-D365MetaDataDir',
@@ -100,10 +101,12 @@
 						'Get-D365Language',
 						'Get-D365LabelOld',
 						'Get-D365LabelFile',
+						
 						'Get-D365LcsApiConfig',
 						'Get-D365LcsApiToken',
 						'Get-D365LcsAssetValidationStatus',
 						'Get-D365LcsDeploymentStatus',
+						'Get-D365LcsEnvironment',
 						'Get-D365LogicAppConfig',
 
 						'Get-D365MaintenanceMode',
@@ -177,6 +180,7 @@
 
 						'Remove-D365BroadcastMessageConfig',
 						'Remove-D365Database',
+						'Remove-D365LcsEnvironment',
 						'Remove-D365Model',
 						'Remove-D365User',
 
