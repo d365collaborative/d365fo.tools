@@ -104,6 +104,9 @@ function Add-D365BroadcastMessageConfig {
         [Parameter(Mandatory = $false, Position = 6)]
         [int] $EndingInMinutes = 60,
 
+        [Parameter(Mandatory = $false, Position = 7)]
+        [switch] $OnPremise,
+
         [switch] $Temporary,
 
         [switch] $Force
