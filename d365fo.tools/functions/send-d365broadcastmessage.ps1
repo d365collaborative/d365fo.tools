@@ -135,22 +135,22 @@ function Send-D365BroadcastMessage {
         [switch] $OnPremise = $Script:BroadcastOnPremise
     )
 
+     $bearerParms = @{
+            Resource        = $URL
+            ClientId        = $ClientId
+            ClientSecret    = $ClientSecret
+        }
+
     if ($OnPremise)
     {
         $bearerParms = @{
             AuthProviderUri = "$Tenant/oauth2/token"
-            Resource        = $URL
-            ClientId        = $ClientId
-            ClientSecret    = $ClientSecret
         }
     }
     else
     {    
         $bearerParms = @{
             AuthProviderUri = "https://login.microsoftonline.com/$Tenant/oauth2/token"
-            Resource        = $URL
-            ClientId        = $ClientId
-            ClientSecret    = $ClientSecret
         }        
     }
 
