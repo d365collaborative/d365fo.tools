@@ -37,6 +37,11 @@
         
         The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
         
+    .PARAMETER OnPremise
+        Specify if environnement is an D365 OnPremise
+        
+        Default value is "Not set" (= Cloud Environnement)
+
     .PARAMETER Temporary
         Instruct the cmdlet to only temporarily add the broadcast message configuration in the configuration store
         

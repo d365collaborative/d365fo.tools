@@ -147,7 +147,7 @@ function Send-D365BroadcastMessage {
     }
     else
     {   
-        $bearerParms.AuthProviderUri= "https://login.microsoftonline.com/$Tenant/oauth2/token"               
+        $bearerParms.AuthProviderUri = "https://login.microsoftonline.com/$Tenant/oauth2/token"               
     }
 
     $bearer = Invoke-ClientCredentialsGrant @bearerParms | Get-BearerToken
