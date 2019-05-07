@@ -146,8 +146,8 @@ function Send-D365BroadcastMessage {
         $bearerParms.AuthProviderUri = "$Tenant/oauth2/token"
     }
     else
-    {   
-        $bearerParms.AuthProviderUri = "https://login.microsoftonline.com/$Tenant/oauth2/token"               
+    {
+        $bearerParms.AuthProviderUri = "https://login.microsoftonline.com/$Tenant/oauth2/token"
     }
 
     $bearer = Invoke-ClientCredentialsGrant @bearerParms | Get-BearerToken
@@ -157,7 +157,7 @@ function Send-D365BroadcastMessage {
         BearerToken = $bearer
     }
 
-    $headers = New-AuthorizationHeaderBearerToken @headerParms 
+    $headers = New-AuthorizationHeaderBearerToken @headerParms
 
     [System.UriBuilder] $messageEndpoint = $URL
 
@@ -190,7 +190,7 @@ function Send-D365BroadcastMessage {
 
     try {
         [PSCustomObject]@{
-            MessageId = Invoke-RestMethod -Method Post -Uri $messageEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json' -Body $body           
+            MessageId = Invoke-RestMethod -Method Post -Uri $messageEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json' -Body $body
         }
     }
     catch {
