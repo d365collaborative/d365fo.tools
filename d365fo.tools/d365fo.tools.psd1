@@ -117,6 +117,8 @@
 						'Get-D365PackageLabelFileOld',
 						'Get-D365ProductInformation',
 
+						'Get-D365RsatCertificateThumbprint',
+						
 						'Get-D365Runbook',
 						'Get-D365RunbookId',
 
