@@ -42,6 +42,7 @@
 function Initialize-D365RsatCertificate {
     [Alias('Initialize-D365TestAutomationCertificate')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingCmdletAliases", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]

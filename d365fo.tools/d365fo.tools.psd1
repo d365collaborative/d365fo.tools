@@ -118,7 +118,8 @@
 						'Get-D365ProductInformation',
 
 						'Get-D365RsatCertificateThumbprint',
-						
+						'Get-D365RsatSoapHostname',
+
 						'Get-D365Runbook',
 						'Get-D365RunbookId',
 
