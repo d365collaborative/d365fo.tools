@@ -21,12 +21,12 @@
         If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine.
         
     .EXAMPLE
-        PS C:\> Initialize-D365TestAutomationCertificate
+        PS C:\> Initialize-D365RsatCertificate
         
         This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate.
-        
+        initialize-d365rsatcertificate
     .EXAMPLE
-        PS C:\> Initialize-D365TestAutomationCertificate -CertificateOnly
+        PS C:\> Initialize-D365RsatCertificate -CertificateOnly
         
         This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
         No actions will be taken regarding modifying the AOS wif.config file.
@@ -39,7 +39,8 @@
         Author: Mötz Jensen (@Splaxi)
         
 #>
-function Initialize-D365TestAutomationCertificate {
+function Initialize-D365RsatCertificate {
+    [Alias('Initialize-D365TestAutomationCertificate')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
     [CmdletBinding()]
     param (

@@ -48,8 +48,8 @@
 						'Add-D365BroadcastMessageConfig',
 						'Add-D365EnvironmentConfig',
 						'Add-D365LcsEnvironment',
-						'Add-D365WIFConfigAuthorityThumbprint',
-
+						'Add-D365RsatWifConfigAuthorityThumbprint',
+						
 						'Backup-D365MetaDataDir',
 						'Backup-D365Runbook',
 
@@ -136,8 +136,8 @@
 						'Import-D365AadUser',
 						'Import-D365Bacpac',
 						'Import-D365Model',
-
-						'Initialize-D365TestAutomationCertificate',
+						
+						'Initialize-D365RsatCertificate',
 
 						'Invoke-D365AzureStorageDownload',
 						'Invoke-D365AzureStorageUpload',
