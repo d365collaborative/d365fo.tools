@@ -16,7 +16,11 @@
         This will open the wif.config file and insert the "12312323r424" thumbprint value into the file.
         
     .NOTES
+        Tags: RSAT, Certificate, Testing, Regression Suite Automation Test, Regression, Test, Automation
+        
         Author: Kenny Saelen (@kennysaelen)
+        
+        Author: Mötz Jensen (@Splaxi)
 #>
 function Add-D365RsatWifConfigAuthorityThumbprint {
     [Alias("Add-D365WIFConfigAuthorityThumbprint")]

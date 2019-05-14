@@ -158,6 +158,9 @@ $maskOutput = @(
 #Active broadcast message config extraction
 Update-BroadcastVariables
 
+#Update different PSF Configuration variables values
+Update-PsfConfigVariables
+
 (Get-Variable -Scope Script) | ForEach-Object {
     $val = $null
 

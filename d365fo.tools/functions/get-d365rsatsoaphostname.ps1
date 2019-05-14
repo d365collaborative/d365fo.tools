@@ -13,7 +13,7 @@
         It will display the SOAP URL / URI correctly formatted, to be used during the configuration of Rsat.
         
     .NOTES
-        Tags: RSAT, Certificate, Testing, Regression Suite Automation Test, Regression, Test, Automation.
+        Tags: RSAT, Testing, Regression Suite Automation Test, Regression, Test, Automation, SOAP
         
         Author: Mötz Jensen (@Splaxi)
         

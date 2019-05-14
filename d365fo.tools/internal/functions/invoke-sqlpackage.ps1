@@ -77,7 +77,7 @@ function Invoke-SqlPackage {
         [string[]]$Properties
     )
               
-    $executable = $Script:SqlPackage
+    $executable = $Script:SqlPackagePath
 
     Invoke-TimeSignal -Start
 

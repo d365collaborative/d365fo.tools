@@ -205,7 +205,9 @@
 						'Set-D365LcsApiConfig',
 						'Set-D365LogicAppConfig',
 						'Set-D365OfflineAuthenticationAdminEmail',
+						
 						'Set-D365RsatTier2Crypto',
+						'Set-D365RsatConfiguration',
 						
 						'Set-D365SDPCleanUp',
 						'Set-D365StartPage',
