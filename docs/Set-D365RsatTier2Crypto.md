@@ -5,29 +5,28 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365RsatSoapHostname
+# Set-D365RsatTier2Crypto
 
 ## SYNOPSIS
-Get the SOAP hostname for the D365FO environment
+Set the needed configuration to work on Tier2+ environments
 
 ## SYNTAX
 
 ```
-Get-D365RsatSoapHostname [<CommonParameters>]
+Set-D365RsatTier2Crypto [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get the SOAP hostname from the IIS configuration, to be used during the Rsat configuration
+Set the needed registry settings for when you are running RSAT against a Tier2+ environment
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365RsatSoapHostname
+Set-D365RsatTier2Crypto
 ```
 
-This will get the SOAP hostname from IIS.
-It will display the SOAP URL / URI correctly formatted, to be used during the configuration of Rsat.
+This will configure the registry to support RSAT against a Tier2+ environment.
 
 ## PARAMETERS
 
@@ -40,7 +39,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Tags: RSAT, Testing, Regression Suite Automation Test, Regression, Test, Automation, SOAP
+Tags: RSAT, Testing, Regression Suite Automation Test, Regression, Test, Automation, Configuration
 
 Author: Mötz Jensen (@Splaxi)
 

@@ -55,6 +55,10 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Tags: RSAT, Certificate, Testing, Regression Suite Automation Test, Regression, Test, Automation
+
 Author: Kenny Saelen (@kennysaelen)
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

@@ -28,7 +28,6 @@ Initialize-D365RsatCertificate
 ```
 
 This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates and modify the wif.config of the AOS to include the thumbprint and trust the certificate.
-initialize-d365rsatcertificate
 
 ### EXAMPLE 2
 ```
@@ -115,6 +114,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 Tags: Automated Test, Test, Regression, Certificate, Thumbprint
 
 Author: Kenny Saelen (@kennysaelen)
+
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
