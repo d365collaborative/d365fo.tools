@@ -25,3 +25,9 @@ $global:MayContainCommand = @{
 	"Write-Information" = @()
 	"Write-Debug" = @()
 }
+
+$global:MayContainAlias = @(
+	'Initialize-D365RsatCertificate'
+	, 'Add-D365RsatWifConfigAuthorityThumbprint'
+)
+
