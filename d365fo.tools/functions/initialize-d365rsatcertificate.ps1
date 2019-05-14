@@ -47,16 +47,16 @@ function Initialize-D365RsatCertificate {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false, Position = 1)]
-        [string]$CertificateFileName = (Join-Path $env:TEMP "TestAuthCert.cer"),
+        [string] $CertificateFileName = (Join-Path $env:TEMP "TestAuthCert.cer"),
 
         [Parameter(Mandatory = $false, Position = 2)]
-        [string]$PrivateKeyFileName = (Join-Path $env:TEMP "TestAuthCert.pfx"),
+        [string] $PrivateKeyFileName = (Join-Path $env:TEMP "TestAuthCert.pfx"),
 
         [Parameter(Mandatory = $false, Position = 3)]
-        [Security.SecureString]$Password = (ConvertTo-SecureString -String "Password1" -Force -AsPlainText),
+        [Security.SecureString] $Password = (ConvertTo-SecureString -String "Password1" -Force -AsPlainText),
 
         [Parameter(Mandatory = $false, Position = 4)]
-        [switch]$CertificateOnly
+        [switch] $CertificateOnly
     )
 
     if (-not $Script:IsAdminRuntime) {
@@ -78,7 +78,7 @@ function Initialize-D365RsatCertificate {
         if($false -eq $CertificateOnly)
         {
             # Modify the wif.config of the AOS to have this thumbprint added to the https://fakeacs.accesscontrol.windows.net/ authority
-            Add-D365WIFConfigAuthorityThumbprint -CertificateThumbprint $X509Certificate.Thumbprint
+            Add-D365RsatWifConfigAuthorityThumbprint -CertificateThumbprint $X509Certificate.Thumbprint
         }
 
         Write-PSFMessage -Level Host -Message "Generated certificate: $X509Certificate"

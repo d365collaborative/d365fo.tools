@@ -63,6 +63,9 @@ Describe "Verifying integrity of module files" {
 			
             It "[$name] Should not contain aliases" {
                 if ($global:MayContainAlias -notcontains $file.Name) {
+					$outputtemptest = "$name $($file.Name)"
+					Write-Host $outputtemptest
+					
                     $tokens | Where-Object TokenFlags -eq CommandName | Where-Object { Test-Path "alias:\$($_.Text)" } | Measure-Object | Select-Object -ExpandProperty Count | Should -Be 0
                 }
             }
