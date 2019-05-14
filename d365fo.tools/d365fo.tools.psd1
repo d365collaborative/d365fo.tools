@@ -235,8 +235,11 @@
 
     # Aliases to export from this module
     AliasesToExport   = @(
-						'Get-D365Package',
-						'Get-D365Model'
+						'Get-D365Package'
+						, 'Get-D365Model'
+						, 'Initialize-D365TestAutomationCertificate'
+						, 'Add-D365WIFConfigAuthorityThumbprint'
+
 						)
 
     # List of all modules packaged with this module
