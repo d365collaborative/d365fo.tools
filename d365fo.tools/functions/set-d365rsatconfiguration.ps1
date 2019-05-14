@@ -46,6 +46,8 @@
 #>
 
 function Set-D365RsatConfiguration {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+
     [CmdletBinding()]
     [OutputType()]
     param (

@@ -16,6 +16,9 @@
 #>
 
 function Update-PsfConfigVariables {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+
     [CmdletBinding()]
     [OutputType()]
     param ()
