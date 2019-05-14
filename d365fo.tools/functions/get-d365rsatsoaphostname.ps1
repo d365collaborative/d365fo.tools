@@ -1,21 +1,22 @@
-﻿<#
-.SYNOPSIS
-Get the SOAP hostname for the D365FO environment
-
-.DESCRIPTION
-Get the SOAP hostname from the IIS configuration, to be used during the Rsat configuration
-
-.EXAMPLE
-PS C:\> Get-D365RsatSoapHostname
-
-This will get the SOAP hostname from IIS.
-It will display the SOAP URL / URI correctly formatted, to be used during the configuration of Rsat.
-
-.NOTES
-Tags: RSAT, Certificate, Testing, Regression Suite Automation Test, Regression, Test, Automation.
-
-Author: Mötz Jensen (@Splaxi)
-
+﻿
+<#
+    .SYNOPSIS
+        Get the SOAP hostname for the D365FO environment
+        
+    .DESCRIPTION
+        Get the SOAP hostname from the IIS configuration, to be used during the Rsat configuration
+        
+    .EXAMPLE
+        PS C:\> Get-D365RsatSoapHostname
+        
+        This will get the SOAP hostname from IIS.
+        It will display the SOAP URL / URI correctly formatted, to be used during the configuration of Rsat.
+        
+    .NOTES
+        Tags: RSAT, Certificate, Testing, Regression Suite Automation Test, Regression, Test, Automation.
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 
 function Get-D365RsatSoapHostname {
