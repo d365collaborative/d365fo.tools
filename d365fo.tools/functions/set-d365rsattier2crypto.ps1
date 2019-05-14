@@ -17,6 +17,8 @@ Author: Mötz Jensen (@Splaxi)
 #>
 
 function Set-D365RsatTier2Crypto {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+
     [CmdletBinding()]
     [OutputType()]
     param ()
