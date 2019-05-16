@@ -19,7 +19,7 @@
         This will set the broadcast message configuration named "UAT" as the active configuration.
         
     .NOTES
-        Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
+        Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret, OnPremise
         
         Author: Mötz Jensen (@Splaxi)
         
