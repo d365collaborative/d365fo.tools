@@ -14,8 +14,8 @@ Save a broadcast message config
 
 ```
 Add-D365BroadcastMessageConfig [-Name] <String> [[-Tenant] <String>] [[-URL] <String>] [[-ClientId] <String>]
- [[-ClientSecret] <String>] [[-TimeZone] <String>] [[-EndingInMinutes] <Int32>] [-Temporary] [-Force]
- [<CommonParameters>]
+ [[-ClientSecret] <String>] [[-TimeZone] <String>] [[-EndingInMinutes] <Int32>] [-OnPremise] [-Temporary]
+ [-Force] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -150,6 +150,23 @@ Aliases:
 Required: False
 Position: 7
 Default value: 60
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OnPremise
+Specify if environnement is an D365 OnPremise
+
+Default value is "Not set" (= Cloud Environnement)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

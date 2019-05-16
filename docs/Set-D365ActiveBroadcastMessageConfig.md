@@ -69,7 +69,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
+Tags: Servicing, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret, OnPremise
 
 Author: Mötz Jensen (@Splaxi)
 
