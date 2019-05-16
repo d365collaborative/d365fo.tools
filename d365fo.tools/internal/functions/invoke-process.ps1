@@ -66,7 +66,8 @@ function Invoke-Process {
 
     $pinfo = New-Object System.Diagnostics.ProcessStartInfo
     $pinfo.FileName = "$Path"
-    
+    $pinfo.WorkingDirectory = Split-Path -Path $Path -Parent
+
     if (-not $ShowOriginalProgress) {
         Write-PSFMessage -Level Verbose "Output and Error streams will be redirected (silence mode)"
 

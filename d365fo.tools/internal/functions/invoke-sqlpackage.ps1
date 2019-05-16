@@ -92,7 +92,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/SourceServerName:$DatabaseServer")
         $null = $Params.Add("/SourceDatabaseName:$DatabaseName")
         $null = $Params.Add("/TargetFile:`"$FilePath`"")
-        $null = $Params.Add("/Properties:CommandTimeout=1200")
+        $null = $Params.Add("/Properties:CommandTimeout=0")
     
         if (!$UseTrustedConnection) {
             $null = $Params.Add("/SourceUser:$SqlUser")
@@ -106,7 +106,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/TargetServerName:$DatabaseServer")
         $null = $Params.Add("/TargetDatabaseName:$DatabaseName")
         $null = $Params.Add("/SourceFile:`"$FilePath`"")
-        $null = $Params.Add("/Properties:CommandTimeout=1200")
+        $null = $Params.Add("/Properties:CommandTimeout=0")
         
         if (!$UseTrustedConnection) {
             $null = $Params.Add("/TargetUser:$SqlUser")
