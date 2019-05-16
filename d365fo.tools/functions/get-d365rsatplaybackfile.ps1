@@ -16,6 +16,11 @@ Name of Test Case that you are looking for
 
 Default value is "*" which will search for all Test Cases and their corresponding files
 
+.PARAMETER ExecutionUsername
+Name of the user account has been running the RSAT tests on a machine that isn't the same as the current user
+
+Will enable you to log on to RSAT server that is running the tests from a console, automated, and is other account than the current user
+
 .EXAMPLE
 PS C:\> Get-D365RsatPlaybackFile
 
