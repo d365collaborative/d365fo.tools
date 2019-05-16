@@ -41,7 +41,7 @@
         Specify if environnement is an D365 OnPremise
         
         Default value is "Not set" (= Cloud Environnement)
-
+        
     .PARAMETER Temporary
         Instruct the cmdlet to only temporarily add the broadcast message configuration in the configuration store
         

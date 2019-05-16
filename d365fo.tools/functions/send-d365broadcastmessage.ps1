@@ -41,11 +41,11 @@
         
         The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
         
-     .PARAMETER OnPremise
+    .PARAMETER OnPremise
         Specify if environnement is an D365 OnPremise
         
         Default value is "Not set" (= Cloud Environnement)
-
+        
     .EXAMPLE
         PS C:\> Send-D365BroadcastMessage
         
@@ -73,13 +73,13 @@
         It will use the default value "UTC" Time Zone for converting the different time and dates.
         It will use the default start time which is NOW.
         It will use the default end time which is 60 minutes.
-
+        
     .NOTES
         
         The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
         
         For OnPremise environnement use -OnPremise flag to added "namespaces/AXSF" path to D365 URL and allow to get token from local ADFS server
-
+        
         Tags: Servicing, Message, Users, Environment
         
         Author: Mötz Jensen (@Splaxi)
