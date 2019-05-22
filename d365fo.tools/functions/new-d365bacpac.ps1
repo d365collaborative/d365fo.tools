@@ -204,7 +204,7 @@ function New-D365Bacpac {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Execution of custom SQL script"
                 $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
-                if (!$res) {return}
+                if (Test-PSFFunctionInterrupt) { return }
             }
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Export of the bacpac file from SQL"
