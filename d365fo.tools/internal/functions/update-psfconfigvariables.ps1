@@ -26,7 +26,7 @@ function Update-PsfConfigVariables {
     foreach ($config in Get-PSFConfig -FullName "d365fo.tools.path.*") {
         $item = $config.FullName.Replace("d365fo.tools.path.", "")
         $name = (Get-Culture).TextInfo.ToTitleCase($item) + "Path"
-    
+        
         Set-Variable -Name $name -Value $config.Value -Scope Script
     }
 }

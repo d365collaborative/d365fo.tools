@@ -135,6 +135,13 @@ function Invoke-D365SDPInstall {
 
     Invoke-TimeSignal -Start
 
+    # Input is a relative path, hence we set the path to the current directory
+    if ($Path -eq ".") {
+        $currentPath = [System.IO.Directory]::GetCurrentDirectory()
+        Write-PSFMessage -Level Verbose "Updating path to '$currentPath' as relative paths are not supported"
+        $Path = $currentPath
+    }
+
     $Util = Join-Path $Path "AXUpdateInstaller.exe"
     $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
 
