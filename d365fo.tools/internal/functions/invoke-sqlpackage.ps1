@@ -118,7 +118,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/Properties:$item")
     }
 
-    Write-PSFMessage -Level Verbose "Start sqlpackage.exe with parameters" -Target $Params
+    Write-PSFMessage -Level Verbose "Start sqlpackage.exe with parameters `"$executable`" $($Params.ToArray() -join " ")" -Target "$($Params.ToArray() -join " ")"
     
     #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
     Start-Process -FilePath $executable -ArgumentList ($Params -join " ") -NoNewWindow -Wait
