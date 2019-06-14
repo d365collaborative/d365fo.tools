@@ -11,10 +11,10 @@
         
     .PARAMETER D365FO
         Instruct the cmdlet that you want the populate the D365FO favorite entry
-
+        
     .PARAMETER AzureDevOps
         Instruct the cmdlet that you want the populate the AzureDevOps favorite entry
-
+        
     .EXAMPLE
         PS C:\> Set-D365FavoriteBookmark -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
         
