@@ -73,8 +73,16 @@ function Set-AdminUser {
 
     $UpdateAdminUser = $AdminUserUpdater.GetMethod("UpdateAdminUser", $CombinedBinding)
     
-    Write-PSFMessage -Level Verbose -Message "Updating Admin using the values $SignInName, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd"
-    $params = $SignInName, $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
+    Write-PSFMessage -Level Verbose -Message "Testing for PU26 or higher"
+    if((($UpdateAdminUser.GetParameters()).Name) -contains "providerName") {
+        Write-PSFMessage -Level Verbose -Message "PU26 or higher found. Will adjust parameters."
+        $params = $SignInName, $null, $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
+    }
+    else {
+        Write-PSFMessage -Level Verbose -Message "Lower PU found. Will adjust parameters."
+        $params = $SignInName, $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
+    }
 
+    Write-PSFMessage -Level Verbose -Message "Updating Admin using the values $SignInName, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd"
     $UpdateAdminUser.Invoke($null, $params)
 }
