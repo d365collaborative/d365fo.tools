@@ -70,7 +70,7 @@
         The cmdlet will create a new database and import the content of the bacpac file into this
         
         Nothing else will be executed
-
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
