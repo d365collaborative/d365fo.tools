@@ -21,6 +21,10 @@
     .PARAMETER SqlPwd
         Alternative SQL user password, Default is the one provided by the DataAccess object
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Set-D365Admin "claire@contoso.com"
         
@@ -50,7 +54,9 @@ function Set-D365Admin {
         [string]$SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 5)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword
+        [string]$SqlPwd = $Script:DatabaseUserPassword,
+
+        [switch] $EnableException
 
     )
 

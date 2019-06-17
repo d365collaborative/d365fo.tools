@@ -22,6 +22,10 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+
     .EXAMPLE
         PS C:\> Invoke-ClearAzureSpecificObjects -DatabaseServer TestServer.database.windows.net -DatabaseName ExportClone -SqlUser User123 -SqlPwd "Password123"
         
@@ -48,7 +52,9 @@ Function Invoke-ClearAzureSpecificObjects {
         [string] $SqlUser,
 
         [Parameter(Mandatory = $true)]
-        [string] $SqlPwd
+        [string] $SqlPwd,
+
+        [switch] $EnableException
     )
         
     $sqlCommand = Get-SQLCommand @PsBoundParameters -TrustedConnection $false
@@ -69,8 +75,9 @@ Function Invoke-ClearAzureSpecificObjects {
         $true
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while clearing the Azure specific objects from the Azure DB" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+        $messageString = "Something went wrong while <c='em'>clearing</c> the <c='em'>Azure</c> specific objects in the database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
         return
     }
     finally {

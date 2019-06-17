@@ -17,6 +17,10 @@
         
         Default is $false which will silence the standard output
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+
     .EXAMPLE
         PS C:\> Invoke-Process -Path "C:\AOSService\PackagesLocalDirectory\Bin\xppc.exe" -Params "-metadata=`"C:\AOSService\PackagesLocalDirectory\Bin`"", "-modelmodule=`"ApplicationSuite`"", "-output=`"C:\AOSService\PackagesLocalDirectory\Bin`"", "-referencefolder=`"C:\AOSService\PackagesLocalDirectory\Bin`"", "-log=`"C:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.$Module.xppc.log`"", "-xmlLog=`"C:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.ApplicationSuite.xppc.xml`"", "-verbose"
         
@@ -53,7 +57,9 @@ function Invoke-Process {
         [string[]] $Params,
 
         [Parameter(Mandatory = $False, Position = 3 )]
-        [switch] $ShowOriginalProgress
+        [switch] $ShowOriginalProgress,
+
+        [switch] $EnableException
     )
 
     Invoke-TimeSignal -Start
@@ -96,7 +102,8 @@ function Invoke-Process {
         Write-PSFMessage -Level Host "Standard output was: \r\n $stdout"
         Write-PSFMessage -Level Host "Error output was: \r\n $stderr"
 
-        Stop-PSFFunction -Message "Stopping because an Exit Code from $tool wasn't 0 (zero) like expected." -StepsUpward 1
+        $messageString = "Stopping because an Exit Code from $tool wasn't 0 (zero) like expected."
+        Stop-PSFFunction -Message "Stopping because of Exit Code." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>',''))) -StepsUpward 1
         return
     }
     else {

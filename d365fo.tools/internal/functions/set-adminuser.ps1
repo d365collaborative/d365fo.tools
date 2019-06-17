@@ -24,7 +24,11 @@
         
     .PARAMETER SqlPwd
         The password for the SQL Server user.
-        
+
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+
     .EXAMPLE
         PS C:\> Set-AdminUser -SignInName "Claire@contoso.com" -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
         
@@ -40,10 +44,16 @@ function Set-AdminUser {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     Param (
         [string] $SignInName,
+
         [string] $DatabaseServer,
+
         [string] $DatabaseName,
+
         [string] $SqlUser,
-        [string] $SqlPwd
+
+        [string] $SqlPwd,
+
+        [switch] $EnableException
     )
 
     $WebConfigFile = Join-Path $Script:AOSPath $Script:WebConfig
@@ -83,6 +93,15 @@ function Set-AdminUser {
         $params = $SignInName, $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
     }
 
-    Write-PSFMessage -Level Verbose -Message "Updating Admin using the values $SignInName, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd"
-    $UpdateAdminUser.Invoke($null, $params)
+    try {
+        Write-PSFMessage -Level Verbose -Message "Updating Admin using the values $SignInName, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd"
+        $UpdateAdminUser.Invoke($null, $params)
+    }
+    catch {
+        $messageString = "Something went wrong while <c='em'>provisioning</c> the environment to the new administrator: $SignInName."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $SignInName
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
+        return
+    }
+    
 }

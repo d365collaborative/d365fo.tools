@@ -22,6 +22,10 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user.
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Get-AzureServiceObjective -DatabaseServer dbserver1.database.windows.net -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
         
@@ -45,7 +49,9 @@ function Get-AzureServiceObjective {
         [string] $SqlUser,
 
         [Parameter(Mandatory = $true)]
-        [string] $SqlPwd
+        [string] $SqlPwd,
+
+        [switch] $EnableException
     )
         
     $sqlCommand = Get-SqlCommand @PsBoundParameters -TrustedConnection $false
@@ -78,14 +84,16 @@ function Get-AzureServiceObjective {
             }
         }
         else {
-            Write-PSFMessage -Level Host -Message "The query to detect <c='em'>edition</c> and <c='em'>service objectives</c> from the Azure DB instance <c='em'>failed</c>."
-            Stop-PSFFunction -Message "Stopping because of missing parameters"
+            $messageString = "The query to detect <c='em'>edition</c> and <c='em'>service objectives</c> from the Azure DB instance <c='em'>failed</c>."
+            Write-PSFMessage -Level Host -Message $messageString -Target (Get-SqlString $SqlCommand)
+            Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>','')))
             return
         }
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        $messageString = "Something went wrong while working against the database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
         return
     }
 }
