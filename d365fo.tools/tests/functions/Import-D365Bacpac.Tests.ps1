@@ -322,24 +322,37 @@
 			$parameter.ParameterSets['ImportTier1'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['ImportTier1'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter EnableException' {
+			$parameter = (Get-Command Import-D365Bacpac).Parameters['EnableException']
+			$parameter.Name | Should -Be 'EnableException'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset ImportTier1" {
 		<#
 		ImportTier1 -ImportModeTier1 -BacpacFile -NewDatabaseName
-		ImportTier1 -ImportModeTier1 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -CustomSqlFile -ImportOnly
+		ImportTier1 -ImportModeTier1 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -CustomSqlFile -ImportOnly -EnableException
 		#>
 	}
  	Describe "Testing parameterset ImportOnlyTier2" {
 		<#
 		ImportOnlyTier2 -ImportModeTier2 -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -ImportOnly
-		ImportOnlyTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd -CustomSqlFile -ImportOnly
+		ImportOnlyTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd -CustomSqlFile -ImportOnly -EnableException
 		#>
 	}
  	Describe "Testing parameterset ImportTier2" {
 		<#
 		ImportTier2 -ImportModeTier2 -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd
-		ImportTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd -CustomSqlFile
+		ImportTier2 -ImportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BacpacFile -NewDatabaseName -AxDeployExtUserPwd -AxDbAdminPwd -AxRuntimeUserPwd -AxMrRuntimeUserPwd -AxRetailRuntimeUserPwd -AxRetailDataSyncUserPwd -AxDbReadonlyUserPwd -CustomSqlFile -EnableException
 		#>
 	}
 
