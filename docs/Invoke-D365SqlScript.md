@@ -14,7 +14,8 @@ Execute a SQL Script
 
 ```
 Invoke-D365SqlScript [-FilePath] <String> [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
- [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-TrustedConnection] <Boolean>] [<CommonParameters>]
+ [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-TrustedConnection] <Boolean>] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -121,6 +122,22 @@ Aliases:
 
 Required: False
 Position: 7
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

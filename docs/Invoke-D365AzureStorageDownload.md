@@ -15,13 +15,13 @@ Download a file to Azure
 ### Default (Default)
 ```
 Invoke-D365AzureStorageDownload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] -FileName <String> [-Path <String>] [<CommonParameters>]
+ [-Container <String>] -FileName <String> [-Path <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ### Latest
 ```
 Invoke-D365AzureStorageDownload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] [-Path <String>] [-Latest] [<CommonParameters>]
+ [-Container <String>] [-Path <String>] [-Latest] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -178,6 +178,22 @@ Aliases: GetLatest
 
 Required: True
 Position: 5
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

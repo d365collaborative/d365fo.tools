@@ -16,7 +16,7 @@ Import a bacpac file
 ```
 Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String>
- [[-CustomSqlFile] <String>] [-ImportOnly] [<CommonParameters>]
+ [[-CustomSqlFile] <String>] [-ImportOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ### ImportOnlyTier2
@@ -25,7 +25,8 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPwd] <String>] [[-AxRuntimeUserPwd] <String>]
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
- [[-AxDbReadonlyUserPwd] <String>] [[-CustomSqlFile] <String>] [-ImportOnly] [<CommonParameters>]
+ [[-AxDbReadonlyUserPwd] <String>] [[-CustomSqlFile] <String>] [-ImportOnly] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ### ImportTier2
@@ -34,7 +35,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] <String> [-AxRuntimeUserPwd] <String>
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
- [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [<CommonParameters>]
+ [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -453,6 +454,22 @@ Parameter Sets: ImportOnlyTier2
 Aliases:
 
 Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: False
 Accept pipeline input: False

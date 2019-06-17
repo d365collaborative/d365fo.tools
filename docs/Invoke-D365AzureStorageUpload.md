@@ -15,13 +15,13 @@ Upload a file to Azure
 ### Default (Default)
 ```
 Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] -Filepath <String> [-DeleteOnUpload] [<CommonParameters>]
+ [-Container <String>] -Filepath <String> [-DeleteOnUpload] [-EnableException] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
 Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] -Filepath <String> [-DeleteOnUpload] [<CommonParameters>]
+ [-Container <String>] -Filepath <String> [-DeleteOnUpload] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -154,6 +154,22 @@ Accept wildcard characters: False
 
 ### -DeleteOnUpload
 Switch to tell the cmdlet if you want the local file to be deleted after the upload completes
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
 
 ```yaml
 Type: SwitchParameter
