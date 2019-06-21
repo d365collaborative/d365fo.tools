@@ -229,7 +229,7 @@
 						
 						'Update-D365User',
 
-						'D365ExternalUser'
+						'Add-D365ExternalUser'
 						)
 
     # Cmdlets to export from this module
