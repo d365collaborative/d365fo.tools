@@ -227,7 +227,9 @@
 
 						'Test-D365Command',
 						
-						'Update-D365User'
+						'Update-D365User',
+
+						'D365ExternalUser'
 						)
 
     # Cmdlets to export from this module
