@@ -141,6 +141,7 @@
 						'Import-D365AadUser',
 						'Import-D365Bacpac',
 						'Import-D365Model',
+						'Import-D365ExternalUser',
 						
 						'Initialize-D365RsatCertificate',
 
