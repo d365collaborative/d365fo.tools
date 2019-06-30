@@ -10,16 +10,20 @@
         Email for the Admin
         
     .PARAMETER DatabaseServer
-        Alternative SQL Database server, Default is the one provided by the DataAccess object
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
         
     .PARAMETER DatabaseName
-        Alternative SQL Database, Default is the one provided by the DataAccess object
+        The name of the database
         
     .PARAMETER SqlUser
-        Alternative SQL user, Default is the one provided by the DataAccess object
+        The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        Alternative SQL user password, Default is the one provided by the DataAccess object
+        The password for the SQL Server user
         
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions

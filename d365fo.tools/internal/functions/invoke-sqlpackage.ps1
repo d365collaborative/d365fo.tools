@@ -23,7 +23,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER TrustedConnection
         Should the sqlpackage work with TrustedConnection or not

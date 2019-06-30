@@ -28,7 +28,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER BackupDirectory
         The path where to store the temporary backup file when the script needs to handle that

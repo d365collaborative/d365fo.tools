@@ -23,7 +23,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER TrustedConnection
         Switch to instruct the cmdlet whether the connection should be using Windows Authentication or not

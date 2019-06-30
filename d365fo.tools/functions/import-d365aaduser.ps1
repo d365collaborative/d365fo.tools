@@ -18,16 +18,20 @@
         Default is DAT
         
     .PARAMETER DatabaseServer
-        Alternative SQL Database server, Default is the one provided by the DataAccess object
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
         
     .PARAMETER DatabaseName
-        Alternative SQL Database, Default is the one provided by the DataAccess object
+        The name of the database
         
     .PARAMETER SqlUser
-        Alternative SQL user, Default is the one provided by the DataAccess object
+        The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        Alternative SQL user password, Default is the one provided by the DataAccess object
+        The password for the SQL Server user
         
     .PARAMETER IdPrefix
         A text that will be prefixed into the ID field. E.g. -IdPrefix "EXT-" will import users and set ID starting with "EXT-..."
@@ -103,51 +107,51 @@ function Import-D365AadUser {
     [CmdletBinding(DefaultParameterSetName = 'UserListImport')]
     param (
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "GroupNameImport")]
-        [String]$AadGroupName,
+        [String] $AadGroupName,
 
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "UserListImport")]
         [string[]]$Users,
 
         [Parameter(Mandatory = $false, Position = 2)]
-        [string]$StartupCompany = 'DAT',
+        [string] $StartupCompany = 'DAT',
 
         [Parameter(Mandatory = $false, Position = 3)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
         [Parameter(Mandatory = $false, Position = 4)]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string] $DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 5)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 6)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $false, Position = 7)]
-        [string]$IdPrefix = "",
+        [string] $IdPrefix = "",
 
         [Parameter(Mandatory = $false, Position = 8)]
-        [string]$NameSuffix = "",
+        [string] $NameSuffix = "",
 
         [Parameter(Mandatory = $false, Position = 9)]
         [ValidateSet('Login', 'FirstName')]
-        [string]$IdValue = "Login",
+        [string] $IdValue = "Login",
 
         [Parameter(Mandatory = $false, Position = 10)]
         [ValidateSet('FirstName', 'DisplayName')]
-        [string]$NameValue = "DisplayName",
+        [string] $NameValue = "DisplayName",
 
         [Parameter(Mandatory = $false, Position = 11)]
-        [PSCredential]$AzureAdCredential,
+        [PSCredential] $AzureAdCredential,
 
         [Parameter(Mandatory = $false, Position = 12, ParameterSetName = "UserListImport")]
-        [switch]$SkipAzureAd,
+        [switch] $SkipAzureAd,
 
         [Parameter(Mandatory = $false, Position = 13, ParameterSetName = "GroupNameImport")]
-        [switch]$ForceExactAadGroupName,
+        [switch] $ForceExactAadGroupName,
 
         [Parameter(Mandatory = $true, Position = 14, ParameterSetName = "GroupIdImport")]
-        [string]$AadGroupId
+        [string] $AadGroupId
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -155,7 +159,6 @@ function Import-D365AadUser {
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
         SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
-
 
     $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
@@ -267,7 +270,7 @@ function Import-D365AadUser {
             $tenant = Get-TenantFromEmail $user.Mail
 
             Write-PSFMessage -Level Verbose -Message "Getting domain from $($user.Mail)."
-            $networkDomain = get-NetworkDomain $user.Mail
+            $networkDomain = Get-NetworkDomain $user.Mail
 
             Write-PSFMessage -Level Verbose -Message "InstanceProvider : $InstanceProvider"
             Write-PSFMessage -Level Verbose -Message "Tenant : $Tenant"

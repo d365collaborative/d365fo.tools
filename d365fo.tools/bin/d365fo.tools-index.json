@@ -232,7 +232,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",
@@ -277,7 +277,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",
@@ -346,7 +346,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",
@@ -1504,7 +1504,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",
@@ -1620,7 +1620,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",
@@ -2637,7 +2637,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",
@@ -2801,7 +2801,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",
@@ -3066,7 +3066,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",
@@ -3503,7 +3503,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",
@@ -3744,7 +3744,7 @@
                        ],
                        [
                            "SqlPwd",
-                           "The password for the SQL Server user.",
+                           "The password for the SQL Server user",
                            "",
                            false,
                            "false",

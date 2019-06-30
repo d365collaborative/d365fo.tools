@@ -23,7 +23,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions

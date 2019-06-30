@@ -1,29 +1,34 @@
-
 <#
     .SYNOPSIS
-        Add new user from outside AAD (Azure Active Directory)
+        Import an user from an external Azure Active Directory (AAD)
         
     .DESCRIPTION
-        Add new user with system administrator role
+        Imports an user from an AAD that is NOT the same as the AAD tenant that the D365FO environment is running under
         
     .PARAMETER Id
-        New user id
+        The internal Id that the user must be imported with
+
+        The Id has to unique across the entire user base
         
     .PARAMETER Name
-        New user name
+        The display name of the user inside the D365FO environment
         
     .PARAMETER Email
-        New user email address
+        The email address of the user that you want to import
+
+        This is also the sign-in user name / e-mail address to gain access to the system
+
+        If the external AAD tenant has multiple custom domain names, you have to use the domain that they have configured as default
 
 	.PARAMETER Company
-        New user default company
+        Default company that should be configured for the user, for when they sign-in to the D365 environment
 
 		Default value is "DAT"
 
 	.PARAMETER Enabled
-        New user status
+        Should the imported user be enabled or not?
 
-		Default value is "true"
+		Default value is 1, which equals true / yes
         
     .PARAMETER DatabaseServer
         The name of the database server
@@ -42,78 +47,56 @@
         The password for the SQL Server user
         
     .EXAMPLE
-        PS C:\> Add-D365LcsEnvironment -Name "UAT" -ProjectId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+        PS C:\> Import-D365ExternalUser -Id "John" -Name "John Doe" -Email "John@contoso.com"
         
-        This will create a new lcs environment entry.
-        The name of the registration is determined by the Name "UAT".
-        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-        The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-        
-    .LINK
-        Get-D365LcsApiConfig
-        
-    .LINK
-        Get-D365LcsApiToken
-        
-    .LINK
-        Get-D365LcsAssetValidationStatus
-        
-    .LINK
-        Get-D365LcsDeploymentStatus
-        
-    .LINK
-        Invoke-D365LcsApiRefreshToken
-        
-    .LINK
-        Invoke-D365LcsUpload
-        
-    .LINK
-        Set-D365LcsApiConfig
+        This will import an user from an external Azure Active Directory.
+        The new user will get the system wide Id "John".
+        The name of the new user will be "John Doe".
+        The e-mail address / sign-in e-mail address will be registered as "John@contoso.com".
         
     .NOTES
-        Tags: Servicing, Broadcast, Message, Users, Environment, Config, Configuration, ClientId, ClientSecret
-        
+        Tags: User, Users, Security, Configuration, Permission, AAD, Azure Active Directory
+
         Author: Anderson Joyle (@AndersonJoyle)
+
+        Author: Mötz Jensen (@Splaxi)
 #>
 
 function Import-D365ExternalUser {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, Position = 1)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
-
-        [Parameter(Mandatory = $false, Position = 2)]
-        [string]$DatabaseName = $Script:DatabaseName,
-
-        [Parameter(Mandatory = $false, Position = 3)]
-        [string]$SqlUser = $Script:DatabaseUserName,
-
-        [Parameter(Mandatory = $false, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
-
-		[Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [string] $Id,
 
-		[Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [string] $Name,
 
-		[Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [string] $Email,
 
-		[Parameter(Mandatory = $true)]
-        [string] $SID,
-
-		[Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $false)]
         [int] $Enabled = 1,
 
-		[Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $false)]
         [string] $Company = "DAT",
 
-		[Parameter(Mandatory = $false)]
-        [string] $Language = "en-us"
+        [Parameter(Mandatory = $false)]
+        [string] $Language = "en-us",
+
+        [Parameter(Mandatory = $false)]
+        [string]$DatabaseServer = $Script:DatabaseServer,
+
+        [Parameter(Mandatory = $false)]
+        [string]$DatabaseName = $Script:DatabaseName,
+
+        [Parameter(Mandatory = $false)]
+        [string]$SqlUser = $Script:DatabaseUserName,
+
+        [Parameter(Mandatory = $false)]
+        [string]$SqlPwd = $Script:DatabaseUserPassword
     )
 
-	begin {
+    begin {
         Invoke-TimeSignal -Start
 
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -136,8 +119,14 @@ function Import-D365ExternalUser {
 
     process {
         if (Test-PSFFunctionInterrupt) { return }
+        
         try {
-            $provider = 'https://sts.windows.net/' + $Email.split('@')[1]
+            $userAuth = Get-D365UserAuthenticationDetail $Email
+
+            $provider = $userAuth.NetworkDomain
+            $sid = $userAuth.SID
+            
+            Write-PSFMessage -Level Verbose -Message "Extracted sid: $sid"
 
             Import-AadUserIntoD365FO $SqlCommand $Email $Name $Id $SID $Company $provider $provider
 
