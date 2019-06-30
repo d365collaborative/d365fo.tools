@@ -86,7 +86,7 @@ function Set-AdminUser {
     Write-PSFMessage -Level Verbose -Message "Testing for PU26 or higher"
     if((($UpdateAdminUser.GetParameters()).Name) -contains "providerName") {
         Write-PSFMessage -Level Verbose -Message "PU26 or higher found. Will adjust parameters."
-        $params = $SignInName, $null, $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
+        $params = $SignInName, "AAD-Global", $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
     }
     else {
         Write-PSFMessage -Level Verbose -Message "Lower PU found. Will adjust parameters."
@@ -103,5 +103,4 @@ function Set-AdminUser {
         Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
         return
     }
-    
 }
