@@ -25,6 +25,10 @@
     .PARAMETER NewDatabaseName
         The database that takes the DatabaseName's place
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
         
@@ -51,7 +55,9 @@ function Switch-D365ActiveDatabase {
         [string]$SqlPwd = $Script:DatabaseUserPassword,
         
         [Parameter(Mandatory = $true, Position = 5)]
-        [string]$NewDatabaseName
+        [string]$NewDatabaseName,
+
+        [switch] $EnableException
     )
 
     $Params = Get-DeepClone $PSBoundParameters
@@ -60,8 +66,9 @@ function Switch-D365ActiveDatabase {
     $dbName = Get-D365Database -Name "$DatabaseName`_original" @Params
 
     if (-not($null -eq $dbName)) {
-        Write-PSFMessage -Level Host -Message "There <c='em'>already exists</c> a database named: <c='em'>`"$DatabaseName`_original`"</c> on the server. You need to run the <c='em'>Remove-D365Database</c> cmdlet to remove the already existing database. Re-run this cmdlet once the other database has been removed."
-        Stop-PSFFunction -Message "Stopping because database already exists on the server."
+        $messageString = "There <c='em'>already exists</c> a database named: <c='em'>`"$DatabaseName`_original`"</c> on the server. You need to run the <c='em'>Remove-D365Database</c> cmdlet to remove the already existing database. Re-run this cmdlet once the other database has been removed."
+        Write-PSFMessage -Level Host -Message $messageString -Target $DatabaseName
+        Stop-PSFFunction -Message "Stopping because database already exists on the server." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
         return
     }
 
@@ -77,13 +84,15 @@ function Switch-D365ActiveDatabase {
 
     try {
         Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+        Write-PSFMessage -Level Verbose -Message "Testing the new database for being a valid AXDB database." -Target (Get-SqlString $SqlCommand)
 
         $sqlCommand.Connection.Open()
         $null = $sqlCommand.ExecuteScalar()
     }
     catch {
-        Write-PSFMessage -Level Host -Message "It seems that the new database either doesn't exists, isn't a valid AxDB database or your don't have enough permissions." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        $messageString = "It seems that the new database either <c='em'>doesn't exists</c>, isn't a <c='em'>valid</c> AxDB database or your don't have enough <c='em'>permissions</c>."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
         return
     }
     finally {
@@ -112,14 +121,16 @@ function Switch-D365ActiveDatabase {
 
     try {
         Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+        Write-PSFMessage -Level Verbose -Message "Switching out the AXDB database with: $NewDatabaseName." -Target (Get-SqlString $SqlCommand)
 
         $sqlCommand.Connection.Open()
 
         $null = $sqlCommand.ExecuteNonQuery()
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the DB" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        $messageString = "Something went wrong while <c='em'>switching</c> out the AXDB database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
         return
     }
     finally {

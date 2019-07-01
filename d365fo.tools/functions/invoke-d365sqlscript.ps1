@@ -23,10 +23,14 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER TrustedConnection
         Switch to instruct the cmdlet whether the connection should be using Windows Authentication or not
+        
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
         PS C:\> Invoke-D365SqlScript -FilePath "C:\temp\d365fo.tools\DeleteUser.sql"
@@ -56,7 +60,9 @@ Function Invoke-D365SqlScript {
         [string] $SqlPwd = $Script:DatabaseUserPassword,
         
         [Parameter(Mandatory = $false, Position = 6)]
-        [bool] $TrustedConnection = $false
+        [bool] $TrustedConnection = $false,
+
+        [switch] $EnableException
     )
 
     if (-not (Test-PathExists -Path $FilePath -Type Leaf)) { return }
@@ -86,8 +92,9 @@ Function Invoke-D365SqlScript {
         $null = $sqlCommand.ExecuteNonQuery()
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+        $messageString = "Something went wrong while <c='em'>executing custom sql script</c> against the database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
         return
     }
     finally {

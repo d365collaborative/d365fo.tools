@@ -24,6 +24,10 @@
     .PARAMETER DeleteOnUpload
         Switch to tell the cmdlet if you want the local file to be deleted after the upload completes
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Invoke-D365AzureStorageUpload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -Filepath "c:\temp\bacpac\UAT_20180701.bacpac" -DeleteOnUpload
         
@@ -80,7 +84,9 @@ function Invoke-D365AzureStorageUpload {
         [Alias('Path')]
         [string] $Filepath,
 
-        [switch] $DeleteOnUpload
+        [switch] $DeleteOnUpload,
+
+        [switch] $EnableException
     )
     BEGIN {
         if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
@@ -132,8 +138,9 @@ function Invoke-D365AzureStorageUpload {
             }
         }
         catch {
-            Write-PSFMessage -Level Host -Message "Something went wrong while working against the Azure Storage Account" -Exception $PSItem.Exception
-            Stop-PSFFunction -Message "Stopping because of errors"
+            $messageString = "Something went wrong while <c='em'>uploading</c> the file from Azure."
+            Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $FileName
+            Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
             return
         }
         finally {

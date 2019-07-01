@@ -23,7 +23,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER TrustedConnection
         Should the sqlpackage work with TrustedConnection or not
@@ -33,6 +33,10 @@
         
     .PARAMETER Properties
         Array of all the properties that needs to be parsed to the sqlpackage.exe
+        
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
         PS C:\> $BaseParams = @{
@@ -74,7 +78,9 @@ function Invoke-SqlPackage {
         
         [string]$FilePath,
         
-        [string[]]$Properties
+        [string[]]$Properties,
+
+        [switch] $EnableException
     )
               
     $executable = $Script:SqlPackagePath
@@ -121,6 +127,7 @@ function Invoke-SqlPackage {
     Write-PSFMessage -Level Verbose "Start sqlpackage.exe with parameters `"$executable`" $($Params.ToArray() -join " ")" -Target "$($Params.ToArray() -join " ")"
     
     #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
     Start-Process -FilePath $executable -ArgumentList ($Params -join " ") -NoNewWindow -Wait
     
     Invoke-TimeSignal -End

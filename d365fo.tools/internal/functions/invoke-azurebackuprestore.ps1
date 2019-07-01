@@ -25,6 +25,10 @@
     .PARAMETER NewDatabaseName
         Name of the new / cloned database in the Azure SQL Database instance
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Invoke-AzureBackupRestore -DatabaseServer TestServer.database.windows.net -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName ExportClone
         
@@ -53,7 +57,9 @@ Function Invoke-AzureBackupRestore {
         [string] $SqlPwd,
 
         [Parameter(Mandatory = $true)]
-        [string] $NewDatabaseName
+        [string] $NewDatabaseName,
+
+        [switch] $EnableException
     )
 
     Invoke-TimeSignal -Start
@@ -72,14 +78,16 @@ Function Invoke-AzureBackupRestore {
 
     try {
         Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+        Write-PSFMessage -Level Verbose -Message "Starting the cloning process of the Azure DB." -Target (Get-SqlString $SqlCommand)
 
         $sqlCommand.Connection.Open()
         
         $null = $sqlCommand.ExecuteNonQuery()
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while creating the copy of the Azure DB" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        $messageString = "Something went wrong while <c='em'>cloning</c> the Azure DB database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
         return
     }
     finally {
@@ -101,25 +109,28 @@ Function Invoke-AzureBackupRestore {
 
     try {
         Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+        Write-PSFMessage -Level Verbose -Message "Start to wait for the cloning process of the Azure DB to complete."
 
         $sqlCommand.Connection.Open()
 
         $operation_row_count = 0
         #Loop every minute until we get a row, if we get a row copy is done
         while ($operation_row_count -eq 0) {
-            Write-PSFMessage -Level Verbose -Message "Waiting for the creation of the copy."
             $Reader = $sqlCommand.ExecuteReader()
             $Datatable = New-Object System.Data.DataTable
             $Datatable.Load($Reader)
             $operation_row_count = $Datatable.Rows.Count
+            $time = (Get-Date).ToString("HH:mm:ss")
+            Write-PSFMessage -Level Verbose -Message "Cloning not complete Sleeping for 60 seconds. [$time]"
             Start-Sleep -s 60
         }
 
         $true
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while checking for the new copy of the Azure DB" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+        $messageString = "Something went wrong while <c='em'>waiting</c> for the clone process of the Azure DB database to complete."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
         return
     }
     finally {

@@ -22,6 +22,10 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Remove-D365Database -DatabaseName "ExportClone"
         
@@ -46,7 +50,9 @@ function Remove-D365Database {
         [string]$SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword
+        [string]$SqlPwd = $Script:DatabaseUserPassword,
+
+        [switch] $EnableException
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -78,8 +84,9 @@ function Remove-D365Database {
         $db.Drop()
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while removing the DB" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        $messageString = "Something went wrong while <c='em'>removing the Database."
+        Write-PSFMessage -Level Host -Message $messageString
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>',''))) -StepsUpward 1
         return
     }
 }

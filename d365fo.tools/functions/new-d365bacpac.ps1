@@ -28,7 +28,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER BackupDirectory
         The path where to store the temporary backup file when the script needs to handle that
@@ -44,6 +44,10 @@
         
     .PARAMETER ExportOnly
         Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
+        
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
         PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac"
@@ -123,7 +127,9 @@ function New-D365Bacpac {
         [Parameter(Mandatory = $false, Position = 8 )]
         [string]$CustomSqlFile,
 
-        [switch]$ExportOnly
+        [switch]$ExportOnly,
+
+        [switch] $EnableException
 
     )
     
@@ -251,6 +257,11 @@ function New-D365Bacpac {
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Remove database from Azure DB"
             Remove-D365Database @Params
+
+            if (Test-PSFFunctionInterrupt) {
+                $messageString = "The bacpac file was created correctly, but there was an error while <c='em'>removing</c> the cloned database."
+                Write-PSFMessage -Level Host -Message $messageString
+            }
 
             [PSCustomObject]@{
                 File     = $BacpacFile

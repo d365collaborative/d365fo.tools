@@ -31,7 +31,7 @@ function Get-D365UserAuthenticationDetail {
 
     [string]$identityProvider = Get-CanonicalIdentityProvider
     
-    $networkDomain = get-NetworkDomain $Email
+    $networkDomain = Get-NetworkDomain $Email
 
     $instanceProviderName = $instanceProvider.TrimEnd('/')
     $instanceProviderName = $instanceProviderName.Substring($instanceProviderName.LastIndexOf('/')+1)

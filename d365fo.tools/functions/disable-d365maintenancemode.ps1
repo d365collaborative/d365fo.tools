@@ -30,7 +30,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console

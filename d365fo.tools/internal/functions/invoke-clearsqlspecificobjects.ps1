@@ -25,6 +25,10 @@
     .PARAMETER TrustedConnection
         Should the connection use a Trusted Connection or not
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Invoke-ClearSqlSpecificObjects -DatabaseServer localhost -DatabaseName ExportClone -SqlUser User123 -SqlPwd "Password123"
         
@@ -54,7 +58,9 @@ Function Invoke-ClearSqlSpecificObjects {
         [string] $SqlPwd,
         
         [Parameter(Mandatory = $false)]
-        [boolean] $TrustedConnection
+        [boolean] $TrustedConnection,
+
+        [switch] $EnableException
     )
     
     $sqlCommand = Get-SQLCommand @PsBoundParameters
@@ -73,8 +79,9 @@ Function Invoke-ClearSqlSpecificObjects {
         $true
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+        $messageString = "Something went wrong while <c='em'>clearing</c> the <c='em'>SQL</c> specific objects in the database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
         return
     }
     finally {

@@ -71,6 +71,10 @@
         
         Nothing else will be executed
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
         PS C:\> Switch-D365ActiveDatabase -NewDatabaseName "ImportedDatabase"
@@ -165,7 +169,9 @@ function Import-D365Bacpac {
 
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2')]
-        [switch]$ImportOnly
+        [switch]$ImportOnly,
+
+        [switch] $EnableException
     )
 
     if (-not (Test-PathExists -Path $BacpacFile -Type Leaf)) {

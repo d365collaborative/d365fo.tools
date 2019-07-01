@@ -16,14 +16,14 @@ Generate a bacpac file from a database
 ```
 New-D365Bacpac [-ExportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [-SqlUser] <String>
  [-SqlPwd] <String> [[-NewDatabaseName] <String>] [[-BacpacFile] <String>] [[-CustomSqlFile] <String>]
- [-ExportOnly] [<CommonParameters>]
+ [-ExportOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ### ExportTier1
 ```
 New-D365Bacpac [-ExportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
  [[-SqlPwd] <String>] [[-BackupDirectory] <String>] [[-NewDatabaseName] <String>] [[-BacpacFile] <String>]
- [[-CustomSqlFile] <String>] [-ExportOnly] [<CommonParameters>]
+ [[-CustomSqlFile] <String>] [-ExportOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -258,6 +258,22 @@ Accept wildcard characters: False
 
 ### -ExportOnly
 Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
 
 ```yaml
 Type: SwitchParameter

@@ -25,6 +25,10 @@
     .PARAMETER TrustedConnection
         Should the connection use a Trusted Connection or not
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Set-SqlBacpacValues -DatabaseServer localhost -DatabaseName "AxDB" -SqlUser "User123" -SqlPwd "Password123"
         
@@ -56,7 +60,9 @@ function Set-SqlBacpacValues {
         [string] $SqlPwd,
         
         [Parameter(Mandatory = $false)]
-        [bool] $TrustedConnection
+        [bool] $TrustedConnection,
+
+        [switch] $EnableException
     )
     
     $Params = @{DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
@@ -80,8 +86,9 @@ function Set-SqlBacpacValues {
         $true
     }
     catch {
-        Write-PSFMessage -Level Critical -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        $messageString = "Something went wrong while working against the database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
         return
     }
     finally {

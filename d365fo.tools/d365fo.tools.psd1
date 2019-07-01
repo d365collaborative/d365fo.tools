@@ -61,6 +61,7 @@
 						'Disable-D365MaintenanceMode'
 						'Disable-D365User',
 
+						'Enable-D365Exception',
 						'Enable-D365MaintenanceMode',
 						'Enable-D365User',
 

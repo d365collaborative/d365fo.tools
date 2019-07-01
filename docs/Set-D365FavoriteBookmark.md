@@ -12,8 +12,14 @@ Enable the favorite bar and add an URL
 
 ## SYNTAX
 
+### D365FO (Default)
 ```
-Set-D365FavoriteBookmark [[-URL] <String>] [<CommonParameters>]
+Set-D365FavoriteBookmark [-URL <String>] [-D365FO] [<CommonParameters>]
+```
+
+### AzureDevOps
+```
+Set-D365FavoriteBookmark [-URL <String>] [-AzureDevOps] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,9 +52,39 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -D365FO
+Instruct the cmdlet that you want the populate the D365FO favorite entry
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: D365FO
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AzureDevOps
+Instruct the cmdlet that you want the populate the AzureDevOps favorite entry
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: AzureDevOps
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

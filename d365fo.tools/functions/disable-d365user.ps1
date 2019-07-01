@@ -20,7 +20,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER Email
         The search string to select which user(s) should be disabled.
