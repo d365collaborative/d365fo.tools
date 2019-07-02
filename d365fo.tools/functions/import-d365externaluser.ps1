@@ -1,4 +1,5 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Import an user from an external Azure Active Directory (AAD)
         
@@ -7,7 +8,7 @@
         
     .PARAMETER Id
         The internal Id that the user must be imported with
-
+        
         The Id has to unique across the entire user base
         
     .PARAMETER Name
@@ -15,25 +16,25 @@
         
     .PARAMETER Email
         The email address of the user that you want to import
-
+        
         This is also the sign-in user name / e-mail address to gain access to the system
-
+        
         If the external AAD tenant has multiple custom domain names, you have to use the domain that they have configured as default
-
-	.PARAMETER Company
+        
+    .PARAMETER Company
         Default company that should be configured for the user, for when they sign-in to the D365 environment
-
-		Default value is "DAT"
-
-	.PARAMETER Language
+        
+        Default value is "DAT"
+        
+    .PARAMETER Language
         Language that should be configured for the user, for when they sign-in to the D365 environment
-
+        
         Default value is "en-US"
-
-	.PARAMETER Enabled
+        
+    .PARAMETER Enabled
         Should the imported user be enabled or not?
-
-		Default value is 1, which equals true / yes
+        
+        Default value is 1, which equals true / yes
         
     .PARAMETER DatabaseServer
         The name of the database server
@@ -61,9 +62,9 @@
         
     .NOTES
         Tags: User, Users, Security, Configuration, Permission, AAD, Azure Active Directory
-
+        
         Author: Anderson Joyle (@AndersonJoyle)
-
+        
         Author: Mötz Jensen (@Splaxi)
 #>
 
