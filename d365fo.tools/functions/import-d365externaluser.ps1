@@ -25,6 +25,11 @@
 
 		Default value is "DAT"
 
+	.PARAMETER Language
+        Language that should be configured for the user, for when they sign-in to the D365 environment
+
+        Default value is "en-US"
+
 	.PARAMETER Enabled
         Should the imported user be enabled or not?
 
