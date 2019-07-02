@@ -96,7 +96,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-The password for the SQL Server user.
+The password for the SQL Server user
 
 ```yaml
 Type: String
