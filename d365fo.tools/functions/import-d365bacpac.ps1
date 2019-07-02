@@ -105,71 +105,71 @@ function Import-D365Bacpac {
     [CmdletBinding(DefaultParameterSetName = 'ImportTier1')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier1', Position = 0)]
-        [switch]$ImportModeTier1,
+        [switch] $ImportModeTier1,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 0)]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 0)]
-        [switch]$ImportModeTier2,
+        [switch] $ImportModeTier2,
 
         [Parameter(Mandatory = $false, Position = 1 )]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
         [Parameter(Mandatory = $false, Position = 2 )]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string] $DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 3 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 3)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1', Position = 3)]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', ValueFromPipelineByPropertyName = $true, Position = 3)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 4)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1', Position = 4)]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', ValueFromPipelineByPropertyName = $true, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5 )]
         [Alias('File')]
-        [string]$BacpacFile,
+        [string] $BacpacFile,
 
         [Parameter(Mandatory = $true, Position = 6 )]
-        [string]$NewDatabaseName,
+        [string] $NewDatabaseName,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 7)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 7)]
-        [string]$AxDeployExtUserPwd,
+        [string] $AxDeployExtUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 8)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 8)]
-        [string]$AxDbAdminPwd,
+        [string] $AxDbAdminPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 9)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 9)]
-        [string]$AxRuntimeUserPwd,
+        [string] $AxRuntimeUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 10)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 10)]
-        [string]$AxMrRuntimeUserPwd,
-
+        [string] $AxMrRuntimeUserPwd,
+ 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 11)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 11)]
-        [string]$AxRetailRuntimeUserPwd,
+        [string] $AxRetailRuntimeUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 12)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 12)]
-        [string]$AxRetailDataSyncUserPwd,
+        [string] $AxRetailDataSyncUserPwd,
         
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 13)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 13)]
-        [string]$AxDbReadonlyUserPwd,
+        [string] $AxDbReadonlyUserPwd,
         
         [Parameter(Mandatory = $false, Position = 14 )]
-        [string]$CustomSqlFile,
-
+        [string] $CustomSqlFile,
+ 
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2')]
-        [switch]$ImportOnly,
+        [switch] $ImportOnly,
 
         [switch] $EnableException
     )

@@ -33,6 +33,8 @@ function Get-DeepClone {
 
             foreach($key in $InputObject.keys)
             {
+                if($key -eq "EnableException") {continue}
+                
                 $clone[$key] = Get-DeepClone $InputObject[$key]
             }
 
