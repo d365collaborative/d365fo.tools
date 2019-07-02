@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Import an user from an external Azure Active Directory (AAD)
         
