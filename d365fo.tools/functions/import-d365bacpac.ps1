@@ -205,6 +205,11 @@ function Import-D365Bacpac {
         FilePath = $BacpacFile
     }
 
+    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
+        if (-not (Test-PathExists -Path (Split-Path $DiagnosticFile -Parent) -Type Container -Create)) { return }
+        $ImportParams.DiagnosticFile = $DiagnosticFile
+    }
+
     Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB"
     if ($ImportModeTier2) {
         Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings"
