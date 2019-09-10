@@ -95,39 +95,39 @@ function New-D365Bacpac {
     [CmdletBinding(DefaultParameterSetName = 'ExportTier2')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier1', Position = 0)]
-        [switch]$ExportModeTier1,
+        [switch] $ExportModeTier1,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', Position = 0)]
-        [switch]$ExportModeTier2,
+        [switch] $ExportModeTier2,
 
         [Parameter(Mandatory = $false, Position = 1 )]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
         [Parameter(Mandatory = $false, Position = 2 )]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string] $DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 3 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', ValueFromPipelineByPropertyName = $true, Position = 3)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', ValueFromPipelineByPropertyName = $true, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'ExportTier1', Position = 5 )]
-        [string]$BackupDirectory = "C:\Temp\d365fo.tools\SqlBackups",
+        [string] $BackupDirectory = "C:\Temp\d365fo.tools\SqlBackups",
 
         [Parameter(Mandatory = $false, Position = 6 )]
-        [string]$NewDatabaseName = "$Script:DatabaseName`_export",
+        [string] $NewDatabaseName = "$Script:DatabaseName`_export",
 
         [Parameter(Mandatory = $false, Position = 7 )]
         [Alias('File')]
-        [string]$BacpacFile = "C:\Temp\d365fo.tools\$DatabaseName.bacpac",
+        [string] $BacpacFile = "C:\Temp\d365fo.tools\$DatabaseName.bacpac",
 
         [Parameter(Mandatory = $false, Position = 8 )]
-        [string]$CustomSqlFile,
+        [string] $CustomSqlFile,
 
-        [switch]$ExportOnly,
+        [switch] $ExportOnly,
 
         [switch] $EnableException
 
