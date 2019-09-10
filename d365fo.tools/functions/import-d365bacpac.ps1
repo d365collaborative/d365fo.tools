@@ -213,11 +213,11 @@ function Import-D365Bacpac {
 
         if ($null -eq $Objectives) { return }
 
-        $Properties = @("DatabaseEdition=$($Objectives.DatabaseEdition)",
-            "DatabaseServiceObjective=$($Objectives.DatabaseServiceObjective)"
-        )
+        [System.Collections.ArrayList] $Properties = New-Object -TypeName "System.Collections.ArrayList"
+        $null = $Properties.Add("DatabaseEdition=$($Objectives.DatabaseEdition)")
+        $null = $Properties.Add("DatabaseServiceObjective=$($Objectives.DatabaseServiceObjective)")
 
-        $ImportParams.Properties = $Properties
+        $ImportParams.Properties = $Properties.ToArray()
     }
     
     $Params = Get-DeepClone $BaseParams
@@ -226,7 +226,7 @@ function Import-D365Bacpac {
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings"
     $res = Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection
 
-    if (-not ($res)) {return}
+    if (-not ($res)) { return }
     
     Write-PSFMessage -Level Verbose "Importing completed"
 
@@ -249,21 +249,21 @@ function Import-D365Bacpac {
 
             $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
 
-            if (-not ($res)) {return}
+            if (-not ($res)) { return }
         }
         else {
             Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database"
 
             $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection
             
-            if (-not ($res)) {return}
+            if (-not ($res)) { return }
         }
 
         if ($ExecuteCustomSQL) {
             Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
             $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
-            if (-not ($res)) {return}
+            if (-not ($res)) { return }
         }
     }
 
