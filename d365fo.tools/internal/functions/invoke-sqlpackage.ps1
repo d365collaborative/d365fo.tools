@@ -36,7 +36,7 @@
         
     .PARAMETER DiagnosticFile
         Path to where you want the SqlPackage to output a diagnostics file to assist you in troubleshooting
-
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts

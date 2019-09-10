@@ -66,14 +66,14 @@
         
     .PARAMETER DiagnosticFile
         Path to where you want the import to output a diagnostics file to assist you in troubleshooting the import
-
+        
     .PARAMETER ImportOnly
         Switch to instruct the cmdlet to only import the bacpac into the new database
         
         The cmdlet will create a new database and import the content of the bacpac file into this
         
         Nothing else will be executed
-
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -96,7 +96,7 @@
         It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
         The next thing to do is to switch the active database out with the new one you just imported.
         "ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
-
+        
     .EXAMPLE
         PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt"
         
