@@ -40,8 +40,11 @@
         The path where you want the cmdlet to store the bacpac file that will be generated
         
     .PARAMETER CustomSqlFile
-        The path to a custom sql server script file that you want executed against the database
+        The path to a custom sql server script file that you want executed against the database before it is exported
         
+    .PARAMETER DiagnosticFile
+        Path to where you want the export to output a diagnostics file to assist you in troubleshooting the export
+
     .PARAMETER ExportOnly
         Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
         
@@ -67,7 +70,7 @@
         Will delete the copy database.
         
     .EXAMPLE
-        PS C:\> New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
+        PS C:\> New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac"
         
         Normally used for a Tier-2 export and preparation for Tier-1 import
         
@@ -82,7 +85,18 @@
         
         Will export a bacpac file.
         The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
+
+    .EXAMPLE
+        PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -DiagnosticFile "C:\temp\ImportLog.txt"
         
+        Will backup the "AXDB" database and restore is as "Testing1" again the localhost SQL Server.
+        Will run the prepping process against the restored database.
+        Will export a bacpac file to "C:\Temp\Bacpac\Testing1.bacpac".
+        Will delete the restored database.
+        It will use trusted connection (Windows authentication) while working against the SQL Server.
+        
+        It will output a diagnostic file to "C:\temp\ImportLog.txt".
+
     .NOTES
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         

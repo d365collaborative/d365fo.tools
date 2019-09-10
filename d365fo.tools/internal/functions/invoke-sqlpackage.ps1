@@ -34,6 +34,9 @@
     .PARAMETER Properties
         Array of all the properties that needs to be parsed to the sqlpackage.exe
         
+    .PARAMETER DiagnosticFile
+        Path to where you want the SqlPackage to output a diagnostics file to assist you in troubleshooting
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
