@@ -127,6 +127,8 @@ function New-D365Bacpac {
         [Parameter(Mandatory = $false, Position = 8 )]
         [string] $CustomSqlFile,
 
+        [string] $DiagnosticFile,
+
         [switch] $ExportOnly,
 
         [switch] $EnableException
@@ -138,7 +140,7 @@ function New-D365Bacpac {
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
     
     if ($PSBoundParameters.ContainsKey("CustomSqlFile")) {
-        if (-not (Test-PathExists -Path $CustomSqlFile -Type Leaf)) {return}
+        if (-not (Test-PathExists -Path $CustomSqlFile -Type Leaf)) { return }
         $ExecuteCustomSQL = $true
     }
 
@@ -154,9 +156,10 @@ function New-D365Bacpac {
     
     if (-not (Test-PathExists -Path (Split-Path $BacpacFile -Parent) -Type Container -Create)) { return }
 
-    $Properties = @("VerifyFullTextDocumentTypesSupported=false",
-        "Storage=File"
-    )
+    [System.Collections.ArrayList] $Properties = New-Object -TypeName "System.Collections.ArrayList"
+
+    $null = $Properties.Add("VerifyFullTextDocumentTypesSupported=false")
+    $null = $Properties.Add("Storage=File")
 
     $BaseParams = @{
         DatabaseServer = $DatabaseServer
@@ -168,7 +171,12 @@ function New-D365Bacpac {
     $ExportParams = @{
         Action     = "export"
         FilePath   = $BacpacFile
-        Properties = $Properties
+        Properties = $Properties.ToArray()
+    }
+
+    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
+        if (-not (Test-PathExists -Path (Split-Path $DiagnosticFile -Parent) -Type Container -Create)) { return }
+        $ExportParams.DiagnosticFile = $DiagnosticFile
     }
 
     if ($ExportOnly) {
@@ -178,7 +186,7 @@ function New-D365Bacpac {
         Write-PSFMessage -Level Verbose -Message "Invoking the sqlpackage with parameters" -Target $BaseParams
         $res = Invoke-SqlPackage @BaseParams @ExportParams
 
-        if (!$res) {return}
+        if (!$res) { return }
 
         [PSCustomObject]@{
             File     = $BacpacFile
@@ -216,7 +224,7 @@ function New-D365Bacpac {
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Export of the bacpac file from SQL"
             $res = Invoke-SqlPackage @Params @ExportParams -TrustedConnection $UseTrustedConnection
             
-            if (!$res) {return}
+            if (!$res) { return }
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Remove database from SQL"
             Remove-D365Database @Params
@@ -247,13 +255,13 @@ function New-D365Bacpac {
                 Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Execution of custom SQL script"
                 $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $false
 
-                if (!$res) {return}
+                if (!$res) { return }
             }
             
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Export of the bacpac file from Azure DB"
             $res = Invoke-SqlPackage @Params @ExportParams -TrustedConnection $false
 
-            if (!$res) {return}
+            if (!$res) { return }
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Remove database from Azure DB"
             Remove-D365Database @Params

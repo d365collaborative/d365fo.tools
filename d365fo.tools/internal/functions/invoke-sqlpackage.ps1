@@ -64,21 +64,23 @@ function Invoke-SqlPackage {
     [OutputType([System.Boolean])]
     param (
         [ValidateSet('Import', 'Export')]
-        [string]$Action,
+        [string] $Action,
         
-        [string]$DatabaseServer,
+        [string] $DatabaseServer,
         
-        [string]$DatabaseName,
+        [string] $DatabaseName,
         
-        [string]$SqlUser,
+        [string] $SqlUser,
         
-        [string]$SqlPwd,
+        [string] $SqlPwd,
         
-        [string]$TrustedConnection,
+        [string] $TrustedConnection,
         
-        [string]$FilePath,
+        [string] $FilePath,
         
-        [string[]]$Properties,
+        [string[]] $Properties,
+
+        [string] $DiagnosticFile,
 
         [switch] $EnableException
     )
@@ -122,6 +124,11 @@ function Invoke-SqlPackage {
 
     foreach ($item in $Properties) {
         $null = $Params.Add("/Properties:$item")
+    }
+
+    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
+        $null = $Params.Add("/Diagnostics:true")
+        $null = $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"")
     }
 
     Write-PSFMessage -Level Verbose "Start sqlpackage.exe with parameters `"$executable`" $($Params.ToArray() -join " ")" -Target "$($Params.ToArray() -join " ")"
