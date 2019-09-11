@@ -54,9 +54,7 @@
         
         This will invoke the sync engine and have it work against the database.
         It will run with the PartialList as the SyncMode.
-        It will run the sync process against "" & "".
-
-
+        It will run the sync process against "" & "".s
         
     .EXAMPLE
         PS C:\> Invoke-D365DBSyncPartial -Verbose
