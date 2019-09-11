@@ -87,7 +87,7 @@
         The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
         
     .EXAMPLE
-        PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -DiagnosticFile "C:\temp\ImportLog.txt"
+        PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -DiagnosticFile "C:\temp\ExportLog.txt"
         
         Will backup the "AXDB" database and restore is as "Testing1" again the localhost SQL Server.
         Will run the prepping process against the restored database.
@@ -95,7 +95,7 @@
         Will delete the restored database.
         It will use trusted connection (Windows authentication) while working against the SQL Server.
         
-        It will output a diagnostic file to "C:\temp\ImportLog.txt".
+        It will output a diagnostic file to "C:\temp\ExportLog.txt".
         
     .NOTES
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
