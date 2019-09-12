@@ -10,10 +10,10 @@
         The sync mode the sync engine will use
         
         Default value is: "PartialList"
-        
-    .PARAMETER SyncModeParameters
-        The parameters you want to pass on to the database synchronoziation engine
-        
+
+    .PARAMETER SyncList
+        The list of objects that you want to pass on to the database synchronoziation engine
+
     .PARAMETER LogPath
         The path where the log file will be saved
         
@@ -49,7 +49,7 @@
         The password for the SQL Server user
         
     .EXAMPLE
-        PS C:\> Invoke-D365DBSyncPartial -SyncModeParameters "CustCustomerEntity","SalesTable"
+        PS C:\> Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable"
         
         Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
         This will invoke the sync engine and have it work against the database.
@@ -57,7 +57,7 @@
         It will run the sync process against "CustCustomerEntity" and "SalesTable"
         
     .EXAMPLE
-        PS C:\> Invoke-D365DBSyncPartial -SyncModeParameters "CustCustomerEntity","SalesTable" -Verbose
+        PS C:\> Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -Verbose
         
         Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
         This will invoke the sync engine and have it work against the database.
@@ -73,6 +73,9 @@
         Author: Mötz Jensen (@Splaxi)
         
         When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
+
+        Inspired by:
+        https://axdynamx.blogspot.com/2017/10/how-to-synchronize-manually-database.html
         
 #>
 
@@ -83,7 +86,7 @@ function Invoke-D365DBSyncPartial {
         #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
         [string] $SyncMode = 'PartialList',
 
-        [string[]] $SyncModeParameters,
+        [string[]] $SyncList,
 
         [string] $LogPath = "C:\temp\D365FO.Tools\Sync",
 
@@ -134,8 +137,9 @@ function Invoke-D365DBSyncPartial {
     }
     
     Write-PSFMessage -Level Debug -Message "Build the parameters for the command to execute."
-    $param = " -syncmode=$($SyncMode.ToLower())"
-    $param += " -verbosity=$($Verbosity.ToLower())"
+    $param = " -syncmode=`"$($SyncMode.ToLower())`""
+    $param = " -synclist=`"$($SyncList -join ",")`""
+    $param += " -verbosity=`"$($Verbosity.ToLower())`""
     $param += " -metadatabinaries=`"$MetadataDir`""
     $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
 
