@@ -10,10 +10,10 @@
         The sync mode the sync engine will use
         
         Default value is: "PartialList"
-
+        
     .PARAMETER SyncList
         The list of objects that you want to pass on to the database synchronoziation engine
-
+        
     .PARAMETER LogPath
         The path where the log file will be saved
         
@@ -73,7 +73,7 @@
         Author: Mötz Jensen (@Splaxi)
         
         When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
-
+        
         Inspired by:
         https://axdynamx.blogspot.com/2017/10/how-to-synchronize-manually-database.html
         
