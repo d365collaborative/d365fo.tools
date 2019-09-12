@@ -18,7 +18,7 @@ $global:BannedCommands = @(
 #>
 $global:MayContainCommand = @{
 	"Write-Host"  = @()
-	"Write-Verbose" = @('invoke-d365dbsync.ps1')
+	"Write-Verbose" = @('invoke-d365dbsync.ps1','invoke-d365dbsyncpartial.ps1')
 	"Write-Warning" = @()
 	"Write-Error"  = @()
 	"Write-Output" = @('convertto-hashtable.ps1')
