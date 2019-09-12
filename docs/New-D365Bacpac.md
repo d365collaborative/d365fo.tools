@@ -16,14 +16,14 @@ Generate a bacpac file from a database
 ```
 New-D365Bacpac [-ExportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [-SqlUser] <String>
  [-SqlPwd] <String> [[-NewDatabaseName] <String>] [[-BacpacFile] <String>] [[-CustomSqlFile] <String>]
- [-ExportOnly] [-EnableException] [<CommonParameters>]
+ [-DiagnosticFile <String>] [-ExportOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ### ExportTier1
 ```
 New-D365Bacpac [-ExportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
  [[-SqlPwd] <String>] [[-BackupDirectory] <String>] [[-NewDatabaseName] <String>] [[-BacpacFile] <String>]
- [[-CustomSqlFile] <String>] [-ExportOnly] [-EnableException] [<CommonParameters>]
+ [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ExportOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -57,7 +57,7 @@ Will delete the copy database.
 
 ### EXAMPLE 3
 ```
-New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
+New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac"
 ```
 
 Normally used for a Tier-2 export and preparation for Tier-1 import
@@ -74,6 +74,19 @@ New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatab
 
 Will export a bacpac file.
 The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
+
+### EXAMPLE 5
+```
+New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -DiagnosticFile "C:\temp\ExportLog.txt"
+```
+
+Will backup the "AXDB" database and restore is as "Testing1" again the localhost SQL Server.
+Will run the prepping process against the restored database.
+Will export a bacpac file to "C:\Temp\Bacpac\Testing1.bacpac".
+Will delete the restored database.
+It will use trusted connection (Windows authentication) while working against the SQL Server.
+
+It will output a diagnostic file to "C:\temp\ExportLog.txt".
 
 ## PARAMETERS
 
@@ -242,7 +255,7 @@ Accept wildcard characters: False
 ```
 
 ### -CustomSqlFile
-The path to a custom sql server script file that you want executed against the database
+The path to a custom sql server script file that you want executed against the database before it is exported
 
 ```yaml
 Type: String
@@ -251,6 +264,21 @@ Aliases:
 
 Required: False
 Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiagnosticFile
+Path to where you want the export to output a diagnostics file to assist you in troubleshooting the export
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -288,8 +316,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
