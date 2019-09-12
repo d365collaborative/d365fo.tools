@@ -150,8 +150,9 @@
 
 						'Invoke-D365DataFlush',
 						'Invoke-D365DBSync',
+						'Invoke-D365DBSyncPartial',
 						'Invoke-D365InstallLicense',
-
+						
 						'Invoke-D365LcsApiRefreshToken',
 						'Invoke-D365LcsDeployment',
 						'Invoke-D365LcsUpload',

@@ -153,6 +153,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter DiagnosticFile' {
+			$parameter = (Get-Command New-D365Bacpac).Parameters['DiagnosticFile']
+			$parameter.Name | Should -Be 'DiagnosticFile'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter ExportOnly' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['ExportOnly']
 			$parameter.Name | Should -Be 'ExportOnly'
@@ -184,13 +197,13 @@
 	Describe "Testing parameterset ExportTier2" {
 		<#
 		ExportTier2 -ExportModeTier2 -SqlUser -SqlPwd
-		ExportTier2 -ExportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -NewDatabaseName -BacpacFile -CustomSqlFile -ExportOnly -EnableException
+		ExportTier2 -ExportModeTier2 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -NewDatabaseName -BacpacFile -CustomSqlFile -DiagnosticFile -ExportOnly -EnableException
 		#>
 	}
  	Describe "Testing parameterset ExportTier1" {
 		<#
 		ExportTier1 -ExportModeTier1
-		ExportTier1 -ExportModeTier1 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BackupDirectory -NewDatabaseName -BacpacFile -CustomSqlFile -ExportOnly -EnableException
+		ExportTier1 -ExportModeTier1 -DatabaseServer -DatabaseName -SqlUser -SqlPwd -BackupDirectory -NewDatabaseName -BacpacFile -CustomSqlFile -DiagnosticFile -ExportOnly -EnableException
 		#>
 	}
 
