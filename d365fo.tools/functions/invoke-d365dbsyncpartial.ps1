@@ -10,10 +10,10 @@
         The sync mode the sync engine will use
         
         Default value is: "PartialList"
-
+        
     .PARAMETER SyncModeParameters
         The parameters you want to pass on to the database synchronoziation engine
-
+        
     .PARAMETER LogPath
         The path where the log file will be saved
         
@@ -21,7 +21,7 @@
         Parameter used to instruct the level of verbosity the sync engine has to report back
         
         Default value is: "Normal"
-
+        
     .PARAMETER BinDirTools
         Path to where the tools on the machine can be found
         
@@ -63,7 +63,7 @@
         This will invoke the sync engine and have it work against the database.
         It will run with the default value "PartialList" as the SyncMode.
         It will run the sync process against "CustCustomerEntity" and "SalesTable"
-
+        
         It will output the same level of details that Visual Studio would normally do.
         
     .NOTES
