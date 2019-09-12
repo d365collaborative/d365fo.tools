@@ -5,7 +5,6 @@
         
     .DESCRIPTION
         Uses the sync.exe (engine) to synchronize the database for the environment
-
         
     .PARAMETER SyncMode
         The sync mode the sync engine will use
@@ -50,16 +49,22 @@
         The password for the SQL Server user
         
     .EXAMPLE
-        PS C:\> Invoke-D365DBSyncPartial -SyncModeParameters "",""
+        PS C:\> Invoke-D365DBSyncPartial -SyncModeParameters "CustCustomerEntity","SalesTable"
         
+        Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
         This will invoke the sync engine and have it work against the database.
-        It will run with the PartialList as the SyncMode.
-        It will run the sync process against "" & "".s
+        It will run with the default value "PartialList" as the SyncMode.
+        It will run the sync process against "CustCustomerEntity" and "SalesTable"
         
     .EXAMPLE
-        PS C:\> Invoke-D365DBSyncPartial -Verbose
+        PS C:\> Invoke-D365DBSyncPartial -SyncModeParameters "CustCustomerEntity","SalesTable" -Verbose
         
-        This will invoke the sync engine and have it work against the database. It will output the same level of details that Visual Studio would normally do.
+        Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
+        This will invoke the sync engine and have it work against the database.
+        It will run with the default value "PartialList" as the SyncMode.
+        It will run the sync process against "CustCustomerEntity" and "SalesTable"
+
+        It will output the same level of details that Visual Studio would normally do.
         
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
