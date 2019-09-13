@@ -38,6 +38,7 @@
     .NOTES
         Author: Rasmus Andersen (@ITRasmus)
         Author: Mötz Jensen (@Splaxi)
+        Author: Mark Furrer (@devax_mf)
         
 #>
 function Set-AdminUser {
