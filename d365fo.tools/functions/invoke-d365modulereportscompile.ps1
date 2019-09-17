@@ -61,27 +61,23 @@ function Invoke-D365ModuleReportsCompile {
     [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $True)]
         [string] $Module,
 
-        [Parameter(Mandatory = $False, Position = 2 )]
         [Alias('Output')]
         [string] $OutputDir = (Join-Path $Script:MetaDataDir $Module),
 
-        [Parameter(Mandatory = $False, Position = 3 )]
         [string] $LogDir = (Join-Path $Script:DefaultTempPath $Module),
 
-        [Parameter(Mandatory = $False, Position = 4 )]
         [string] $MetaDataDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 5)]
         [string] $ReferenceDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 6 )]
         [string] $BinDir = $Script:BinDirTools,
 
-        [Parameter(Mandatory = $False, Position = 7 )]
-        [switch] $ShowOriginalProgress
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
     Invoke-TimeSignal -Start
@@ -104,7 +100,7 @@ function Invoke-D365ModuleReportsCompile {
         "-xmlLog=`"$logXmlFile`""
     )
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
     Invoke-TimeSignal -End
 

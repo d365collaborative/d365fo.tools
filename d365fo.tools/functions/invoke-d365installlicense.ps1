@@ -60,30 +60,25 @@
 function Invoke-D365InstallLicense {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $True)]
         [Alias('File')]
         [string] $Path,
 
-        [Parameter(Mandatory = $false, Position = 2)]
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 3)]
         [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 4)]
         [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 5)]
         [string] $SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $false, Position = 6 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $false, Position = 7 )]
         [string] $BinDir = "$Script:BinDir",
 
-        [Parameter(Mandatory = $False)]
-        [switch] $ShowOriginalProgress
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
     $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
@@ -103,7 +98,7 @@ function Invoke-D365InstallLicense {
         "-setupmode", "importlicensefile",
         "-licensefilename", "`"$Path`"")
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
     Invoke-TimeSignal -End
 }

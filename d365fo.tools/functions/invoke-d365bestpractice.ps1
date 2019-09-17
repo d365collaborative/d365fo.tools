@@ -66,42 +66,38 @@ function Invoke-D365BestPractice {
     [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $false, Position = 1 )]
-        [string] $BinDir = "$Script:PackageDirectory\bin",
-
-        [Parameter(Mandatory = $false, Position = 2 )]
-        [string] $MetaDataDir = "$Script:MetaDataDir",
-
-        [Parameter(Mandatory = $true, Position = 3 )]
+        [Parameter(Mandatory = $true)]
         [Alias('Package')]
         [string] $Module,
 
-        [Parameter(Mandatory = $true, Position = 4 )]
+        [Parameter(Mandatory = $true)]
         [string] $Model,
 
-        [Parameter(Mandatory = $false, Position = 5 )]
+        [string] $BinDir = "$Script:PackageDirectory\bin",
+
+        [string] $MetaDataDir = "$Script:MetaDataDir",
+
         [string] $LogDir = (Join-Path $Script:DefaultTempPath $Module),
 
-		[Parameter(Mandatory = $false, Position = 6 )]
         [switch] $PackagesRoot,
 
-        [Parameter(Mandatory = $false, Position = 7 )]
         [switch] $ShowOriginalProgress,
 
-        [Parameter(Mandatory = $false, Position = 8 )]
-        [switch] $RunFixers
+        [switch] $RunFixers,
+
+        [switch] $OutputCommandOnly
     )
 
-	Invoke-TimeSignal -Start
+    Invoke-TimeSignal -Start
 
     $tool = "xppbp.exe"
     $executable = Join-Path $BinDir $tool
 
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
+    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
+    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
 
-	$logFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.log"
+    $logFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.log"
     $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.xml"
 
     $params = @(
@@ -111,24 +107,24 @@ function Invoke-D365BestPractice {
         "-model=`"$Model`"",
         "-xmlLog=`"$logXmlFile`"",
         "-log=`"$logFile`""
-        )
+    )
 	
-	if ($PackagesRoot -eq $true)
-	{
-		$params +="-packagesroot=`"$MetaDataDir`""
-	}
+    if ($PackagesRoot -eq $true) {
+        $params += "-packagesroot=`"$MetaDataDir`""
+    }
 
-	if ($RunFixers -eq $true)
-	{
-		$params +="-runfixers"
-	}
+    if ($RunFixers -eq $true) {
+        $params += "-runfixers"
+    }
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
-	Invoke-TimeSignal -End
+    Invoke-TimeSignal -End
 
-	[PSCustomObject]@{
-		LogFile = $logFile
-		XmlLogFile = $logXmlFile
-	}
+    if (-not $OutputCommandOnly) {
+        [PSCustomObject]@{
+            LogFile    = $logFile
+            XmlLogFile = $logXmlFile
+        }
+    }
 }

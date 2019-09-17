@@ -48,15 +48,16 @@ function Invoke-Process {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(Mandatory = $true)]
         
         [Alias('Executable')]
         [string] $Path,
 
-        [Parameter(Mandatory = $true, Position = 2)]
+        [Parameter(Mandatory = $true)]
         [string[]] $Params,
 
-        [Parameter(Mandatory = $False, Position = 3 )]
+        [switch] $OutputCommandOnly,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $EnableException
@@ -87,6 +88,12 @@ function Invoke-Process {
     $p.StartInfo = $pinfo
 
     Write-PSFMessage -Level Verbose "Starting the $tool" -Target "$($params -join " ")"
+
+    if($OutputCommandOnly){
+        Write-PSFMessage -Level Host "$Path $($pinfo.Arguments)"
+        return
+    }
+    
     $p.Start() | Out-Null
     
     if (-not $ShowOriginalProgress) {
