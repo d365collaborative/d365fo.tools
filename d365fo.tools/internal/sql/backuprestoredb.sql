@@ -13,6 +13,6 @@ exec sp_executesql  @MoveCommand,N'@MoveResult varchar(1000) output',@MoveResult
 
 Declare @RestoreCommand as varchar(4000)
 
-set  @RestoreCommand =  ' RESTORE DATABASE [' + @NewName + '] FROM  DISK = ''' + @BackupTo + ''' WITH  FILE = 1, ' + @MoveResult + ',  NOUNLOAD,  STATS = 5'
+set  @RestoreCommand =  ' RESTORE DATABASE [' + @NewName + '] FROM  DISK = ''' + @BackupTo + ''' WITH  FILE = 1, ' + @MoveResult + ',  NOUNLOAD,  REPLACE, STATS = 5'
               
 exec (@RestoreCommand)

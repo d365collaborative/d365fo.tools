@@ -121,10 +121,10 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 0)]
         [switch] $ImportModeTier2,
 
-        [Parameter(Mandatory = $false, Position = 1 )]
+        [Parameter(Position = 1 )]
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
+        [Parameter(Position = 2 )]
         [string] $DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 3 )]
@@ -174,7 +174,7 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 13)]
         [string] $AxDbReadonlyUserPwd,
         
-        [Parameter(Mandatory = $false, Position = 14 )]
+        [Parameter(Position = 14 )]
         [string] $CustomSqlFile,
 
         [string] $DiagnosticFile,
@@ -182,6 +182,10 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2')]
         [switch] $ImportOnly,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly,
 
         [switch] $EnableException
     )
@@ -239,47 +243,49 @@ function Import-D365Bacpac {
     $Params.DatabaseName = $NewDatabaseName
     
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings"
-    $res = Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection
+    Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
-    if (-not ($res)) { return }
+    if ($OutputCommandOnly) { return }
+
+    if ($ImportOnly) { return }
+
+    if (Test-PSFFunctionInterrupt) { return }
     
     Write-PSFMessage -Level Verbose "Importing completed"
 
-    if (-not ($ImportOnly)) {
-        Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
+    Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
 
-        if ($ImportModeTier2) {
-            Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database"
+    if ($ImportModeTier2) {
+        Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database"
 
-            $InstanceValues = Get-InstanceValues @BaseParams -TrustedConnection $UseTrustedConnection
+        $InstanceValues = Get-InstanceValues @BaseParams -TrustedConnection $UseTrustedConnection
 
-            if ($null -eq $InstanceValues) { return }
+        if ($null -eq $InstanceValues) { return }
 
-            $AzureParams = @{
-                AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd;
-                AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd;
-                AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd;
-                AxDbReadonlyUserPwd = $AxDbReadonlyUserPwd;
-            }
-
-            $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
-
-            if (-not ($res)) { return }
+        $AzureParams = @{
+            AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd;
+            AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd;
+            AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd;
+            AxDbReadonlyUserPwd = $AxDbReadonlyUserPwd;
         }
-        else {
-            Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database"
 
-            $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection
+        $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
+
+        if (-not ($res)) { return }
+    }
+    else {
+        Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database"
+
+        $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection
             
-            if (-not ($res)) { return }
-        }
+        if (-not ($res)) { return }
+    }
 
-        if ($ExecuteCustomSQL) {
-            Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
-            $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
+    if ($ExecuteCustomSQL) {
+        Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
+        $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
-            if (-not ($res)) { return }
-        }
+        if (-not ($res)) { return }
     }
 
     Invoke-TimeSignal -End

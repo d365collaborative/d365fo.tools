@@ -85,14 +85,18 @@ function Invoke-SqlPackage {
 
         [string] $DiagnosticFile,
 
-        [switch] $EnableException
+        [switch] $EnableException,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
               
     $executable = $Script:SqlPackagePath
 
     Invoke-TimeSignal -Start
 
-    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
+    if (!(Test-PathExists -Path $executable -Type Leaf)) { return }
 
     Write-PSFMessage -Level Verbose -Message "Starting to prepare the parameters for sqlpackage.exe"
 
@@ -134,13 +138,14 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"")
     }
 
-    Write-PSFMessage -Level Verbose "Start sqlpackage.exe with parameters `"$executable`" $($Params.ToArray() -join " ")" -Target "$($Params.ToArray() -join " ")"
-    
     #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
-    Start-Process -FilePath $executable -ArgumentList ($Params -join " ") -NoNewWindow -Wait
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     
+    if (Test-PSFFunctionInterrupt) {
+        Write-PSFMessage -Level Critical -Message "The SqlPackage.exe exited with an error."
+        Stop-PSFFunction -Message "Stopping because of errors." -StepsUpward 1
+        return
+    }
+
     Invoke-TimeSignal -End
-    
-    $true
 }

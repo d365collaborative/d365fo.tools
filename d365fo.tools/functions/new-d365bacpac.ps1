@@ -114,10 +114,10 @@ function New-D365Bacpac {
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', Position = 0)]
         [switch] $ExportModeTier2,
 
-        [Parameter(Mandatory = $false, Position = 1 )]
+        [Parameter(Position = 1 )]
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
+        [Parameter(Position = 2 )]
         [string] $DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 3 )]
@@ -128,22 +128,26 @@ function New-D365Bacpac {
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier2', ValueFromPipelineByPropertyName = $true, Position = 4)]
         [string] $SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'ExportTier1', Position = 5 )]
+        [Parameter(ParameterSetName = 'ExportTier1', Position = 5 )]
         [string] $BackupDirectory = "C:\Temp\d365fo.tools\SqlBackups",
 
-        [Parameter(Mandatory = $false, Position = 6 )]
+        [Parameter(Position = 6 )]
         [string] $NewDatabaseName = "$Script:DatabaseName`_export",
 
-        [Parameter(Mandatory = $false, Position = 7 )]
+        [Parameter(Position = 7 )]
         [Alias('File')]
         [string] $BacpacFile = "C:\Temp\d365fo.tools\$DatabaseName.bacpac",
 
-        [Parameter(Mandatory = $false, Position = 8 )]
+        [Parameter(Position = 8 )]
         [string] $CustomSqlFile,
 
         [string] $DiagnosticFile,
 
         [switch] $ExportOnly,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly,
 
         [switch] $EnableException
 
@@ -198,9 +202,11 @@ function New-D365Bacpac {
         Write-PSFMessage -Level Verbose -Message "Invoking the export of the bacpac file only."
 
         Write-PSFMessage -Level Verbose -Message "Invoking the sqlpackage with parameters" -Target $BaseParams
-        $res = Invoke-SqlPackage @BaseParams @ExportParams
+        Invoke-SqlPackage @BaseParams @ExportParams -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
-        if (!$res) { return }
+        if ($OutputCommandOnly) { return }
+
+        if (Test-PSFFunctionInterrupt) { return }
 
         [PSCustomObject]@{
             File     = $BacpacFile
@@ -215,30 +221,38 @@ function New-D365Bacpac {
                 TrustedConnection = $UseTrustedConnection
             }
             
-            Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - SQL backup & restore process"
-            $res = Invoke-SqlBackupRestore @BaseParams @Params
+            if (-not $OutputCommandOnly) {
+                Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - SQL backup & restore process"
+                $res = Invoke-SqlBackupRestore @BaseParams @Params
 
-            if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
+                if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
 
-            $Params = Get-DeepClone $BaseParams
-            $Params.DatabaseName = $NewDatabaseName
+                $Params = Get-DeepClone $BaseParams
+                $Params.DatabaseName = $NewDatabaseName
 
-            Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Clear SQL objects"
-            $res = Invoke-ClearSqlSpecificObjects @Params -TrustedConnection $UseTrustedConnection
+                Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Clear SQL objects"
+                $res = Invoke-ClearSqlSpecificObjects @Params
 
-            if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
+                if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
 
-            if ($ExecuteCustomSQL) {
-                Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Execution of custom SQL script"
-                $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
+                if ($ExecuteCustomSQL) {
+                    Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Execution of custom SQL script"
+                    $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile
 
-                if (Test-PSFFunctionInterrupt) { return }
+                    if (Test-PSFFunctionInterrupt) { return }
+                }
+            }
+            else {
+                $Params = Get-DeepClone $BaseParams
+                $Params.DatabaseName = $NewDatabaseName
             }
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Export of the bacpac file from SQL"
-            $res = Invoke-SqlPackage @Params @ExportParams -TrustedConnection $UseTrustedConnection
+            Invoke-SqlPackage @Params @ExportParams -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
             
-            if (!$res) { return }
+            if ($OutputCommandOnly) { return }
+
+            if (Test-PSFFunctionInterrupt) { return }
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Remove database from SQL"
             Remove-D365Database @Params
@@ -253,30 +267,34 @@ function New-D365Bacpac {
                 NewDatabaseName = $NewDatabaseName
             }
 
-            Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Creation of Azure DB copy"
-            $res = Invoke-AzureBackupRestore @BaseParams @Params
+            if (-not $OutputCommandOnly) {
+                Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Creation of Azure DB copy"
+                $res = Invoke-AzureBackupRestore @BaseParams @Params
             
-            if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
+                if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
             
-            $Params = Get-DeepClone $BaseParams
-            $Params.DatabaseName = $NewDatabaseName
-            Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Clear Azure DB objects"
-            $res = Invoke-ClearAzureSpecificObjects @Params
+                $Params = Get-DeepClone $BaseParams
+                $Params.DatabaseName = $NewDatabaseName
+                Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Clear Azure DB objects"
+                $res = Invoke-ClearAzureSpecificObjects @Params
 
-            if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
+                if ((Test-PSFFunctionInterrupt) -or (-not $res)) { return }
 
-            if ($ExecuteCustomSQL) {
-                Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Execution of custom SQL script"
-                $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $false
+                if ($ExecuteCustomSQL) {
+                    Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Execution of custom SQL script"
+                    $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $false
 
-                if (!$res) { return }
+                    if (!$res) { return }
+                }
             }
-            
+
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Export of the bacpac file from Azure DB"
-            $res = Invoke-SqlPackage @Params @ExportParams -TrustedConnection $false
+            Invoke-SqlPackage @Params @ExportParams -TrustedConnection $false -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
-            if (!$res) { return }
+            if ($OutputCommandOnly) { return }
 
+            if (Test-PSFFunctionInterrupt) { return }
+            
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Remove database from Azure DB"
             Remove-D365Database @Params
 
