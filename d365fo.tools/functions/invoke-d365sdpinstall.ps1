@@ -127,7 +127,7 @@ function Invoke-D365SDPInstall {
 
     $arrRunbookIds = Get-D365Runbook | Get-D365RunbookId
 
-    if(($Command -eq "RunAll") -and ($arrRunbookIds.Runbookid -contains $RunbookId)) {
+    if (($Command -eq "RunAll") -and ($arrRunbookIds.Runbookid -contains $RunbookId)) {
         Write-PSFMessage -Level Host -Message "It seems that you have entered an <c='em'>already used RunbookId</c>. Please consider if you are <c='em'>trying to re-run some steps</c> or simply pass <c='em'>another RunbookId</c>."
         Stop-PSFFunction -Message "Stopping because of RunbookId already used on this machine."
         return
@@ -152,11 +152,15 @@ function Invoke-D365SDPInstall {
     if ($QuickInstallAll) {
         Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"
         $param = "quickinstallall"
+        #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+        #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
         Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
     }
     elseif ($DevInstall) {
         Write-PSFMessage -Level Verbose "Using DevInstall mode"
         $param = "devinstall"
+        #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+        #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
         Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
     }
     else {

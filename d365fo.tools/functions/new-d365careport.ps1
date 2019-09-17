@@ -79,5 +79,8 @@ function New-D365CAReport {
         )
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
+
+    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     Start-Process -FilePath $executable -ArgumentList  ($param -join " ") -NoNewWindow -Wait
 }

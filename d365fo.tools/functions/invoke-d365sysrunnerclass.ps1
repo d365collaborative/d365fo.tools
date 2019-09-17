@@ -52,6 +52,6 @@ function Invoke-D365SysRunnerClass {
     )
 
     $executingUrl = "$Url`?cmp=$Company&mi=SysClassRunner&cls=$ClassName"
-
+    
     Start-Process $executingUrl
 }

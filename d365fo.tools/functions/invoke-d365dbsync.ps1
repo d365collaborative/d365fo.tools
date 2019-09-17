@@ -103,7 +103,7 @@ function Invoke-D365DBSync {
     #! we rely on. So the testing of how to run this cmdlet is a bit different than others
 
     Write-PSFMessage -Level Debug -Message "Testing if run on LocalHostedTier1 and console isn't elevated"
-    if ($Script:EnvironmentType -eq [EnvironmentType]::LocalHostedTier1 -and !$script:IsAdminRuntime){
+    if ($Script:EnvironmentType -eq [EnvironmentType]::LocalHostedTier1 -and !$script:IsAdminRuntime) {
         Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c='em'>non-elevated</c> and on a <c='em'>local VM / local vhd</c>. Being on a local VM / local VHD requires you to run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`""
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return
@@ -115,9 +115,9 @@ function Invoke-D365DBSync {
     }
 
     $executable = Join-Path $BinDirTools "SyncEngine.exe"
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
-    if (-not (Test-PathExists -Path $MetadataDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) {return}
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+    if (-not (Test-PathExists -Path $MetadataDir -Type Container)) { return }
+    if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) { return }
 
     Write-PSFMessage -Level Debug -Message "Testing if the SyncEngine is already running."
     $syncEngine = Get-Process -Name "SyncEngine" -ErrorAction SilentlyContinue
@@ -135,6 +135,8 @@ function Invoke-D365DBSync {
     $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
 
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
+    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     $process = Start-Process -FilePath $executable -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"
     
     $lineTotalCount = 0

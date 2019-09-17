@@ -137,8 +137,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/Diagnostics:true")
         $null = $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"")
     }
-
-    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+    
     Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     
     if (Test-PSFFunctionInterrupt) {
