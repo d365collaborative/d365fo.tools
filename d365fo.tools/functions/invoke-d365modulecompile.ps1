@@ -107,11 +107,11 @@ function Invoke-D365ModuleCompile {
 
     Invoke-TimeSignal -End
 
-    if (-not $OutputCommandOnly) {
-        [PSCustomObject]@{
-            LogFile    = $logFile
-            XmlLogFile = $logXmlFile
-            PSTypeName = 'D365FO.TOOLS.ModuleCompileOutput'
-        }
+    if ($OutputCommandOnly) { return }
+        
+    [PSCustomObject]@{
+        LogFile    = $logFile
+        XmlLogFile = $logXmlFile
+        PSTypeName = 'D365FO.TOOLS.ModuleCompileOutput'
     }
 }

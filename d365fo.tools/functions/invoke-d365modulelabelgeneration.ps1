@@ -103,11 +103,11 @@ function Invoke-D365ModuleLabelGeneration {
 
     Invoke-TimeSignal -End
 
-    if (-not $OutputCommandOnly) {
-        [PSCustomObject]@{
-            OutLogFile   = $logFile
-            ErrorLogFile = $logErrorFile
-            PSTypeName   = 'D365FO.TOOLS.ModuleLabelGenerationOutput'
-        }
+    if ($OutputCommandOnly) { return }
+        
+    [PSCustomObject]@{
+        OutLogFile   = $logFile
+        ErrorLogFile = $logErrorFile
+        PSTypeName   = 'D365FO.TOOLS.ModuleLabelGenerationOutput'
     }
 }

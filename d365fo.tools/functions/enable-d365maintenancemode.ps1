@@ -140,7 +140,7 @@ function Enable-D365MaintenanceMode {
         Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     }
 
-    if (-not $OutputCommandOnly) {
-        Start-D365Environment -Aos -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
-    }
+    if ($OutputCommandOnly) { return }
+    
+    Start-D365Environment -Aos -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
 }

@@ -121,10 +121,10 @@ function Invoke-D365BestPractice {
 
     Invoke-TimeSignal -End
 
-    if (-not $OutputCommandOnly) {
-        [PSCustomObject]@{
-            LogFile    = $logFile
-            XmlLogFile = $logXmlFile
-        }
+    if ($OutputCommandOnly) { return }
+        
+    [PSCustomObject]@{
+        LogFile    = $logFile
+        XmlLogFile = $logXmlFile
     }
 }
