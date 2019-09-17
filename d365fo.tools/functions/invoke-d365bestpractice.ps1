@@ -36,6 +36,11 @@
     .PARAMETER RunFixers
         Instructs the cmdlet to invoke the fixers for the identified warnings
         
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .EXAMPLE
         PS C:\> Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel"
         

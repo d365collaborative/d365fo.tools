@@ -48,6 +48,16 @@
     .PARAMETER ExportOnly
         Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -78,7 +88,6 @@
         Will run the prepping process against the copy database.
         Will export a bacpac file.
         Will delete the copy database.
-        
         
     .EXAMPLE
         PS C:\> New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac -ExportOnly

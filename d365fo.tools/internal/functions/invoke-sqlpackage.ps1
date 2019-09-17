@@ -37,6 +37,16 @@
     .PARAMETER DiagnosticFile
         Path to where you want the SqlPackage to output a diagnostics file to assist you in troubleshooting
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+
+        Will include full path to the executable and the needed parameters based on your selection
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -85,11 +95,11 @@ function Invoke-SqlPackage {
 
         [string] $DiagnosticFile,
 
-        [switch] $EnableException,
-
         [switch] $ShowOriginalProgress,
 
-        [switch] $OutputCommandOnly
+        [switch] $OutputCommandOnly,
+
+        [switch] $EnableException
     )
               
     $executable = $Script:SqlPackagePath

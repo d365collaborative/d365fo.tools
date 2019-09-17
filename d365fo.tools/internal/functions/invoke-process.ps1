@@ -12,6 +12,11 @@
     .PARAMETER Params
         Array of string parameters that you want to pass to the executable
         
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
