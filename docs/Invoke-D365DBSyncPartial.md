@@ -1,4 +1,4 @@
-﻿---
+---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -220,10 +220,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 Tags: Database, Sync, SyncDB, Synchronization, Servicing
 
-Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
-
-When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
 
 Inspired by:
 https://axdynamx.blogspot.com/2017/10/how-to-synchronize-manually-database.html

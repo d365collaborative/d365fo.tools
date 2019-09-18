@@ -1,4 +1,4 @@
-﻿---
+---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -16,14 +16,16 @@ Generate a bacpac file from a database
 ```
 New-D365Bacpac [-ExportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [-SqlUser] <String>
  [-SqlPwd] <String> [[-NewDatabaseName] <String>] [[-BacpacFile] <String>] [[-CustomSqlFile] <String>]
- [-DiagnosticFile <String>] [-ExportOnly] [-EnableException] [<CommonParameters>]
+ [-DiagnosticFile <String>] [-ExportOnly] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ### ExportTier1
 ```
 New-D365Bacpac [-ExportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
  [[-SqlPwd] <String>] [[-BackupDirectory] <String>] [[-NewDatabaseName] <String>] [[-BacpacFile] <String>]
- [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ExportOnly] [-EnableException] [<CommonParameters>]
+ [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ExportOnly] [-ShowOriginalProgress]
+ [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -286,6 +288,40 @@ Accept wildcard characters: False
 
 ### -ExportOnly
 Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
 
 ```yaml
 Type: SwitchParameter

@@ -1,4 +1,4 @@
-﻿---
+---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -13,8 +13,9 @@ Run the Best Practice
 ## SYNTAX
 
 ```
-Invoke-D365BestPractice [[-BinDir] <String>] [[-MetaDataDir] <String>] [-Module] <String> [-Model] <String>
- [[-LogDir] <String>] [-PackagesRoot] [-ShowOriginalProgress] [-RunFixers] [<CommonParameters>]
+Invoke-D365BestPractice [-Module] <String> [-Model] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>]
+ [[-LogDir] <String>] [-PackagesRoot] [-ShowOriginalProgress] [-RunFixers] [-OutputCommandOnly]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,6 +45,36 @@ The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.
 
 ## PARAMETERS
 
+### -Module
+Name of the Module to analyse
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Package
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Model
+Name of the Model to analyse
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -BinDir
 The path to the bin directory for the environment
 
@@ -55,7 +86,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 3
 Default value: "$Script:PackageDirectory\bin"
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -72,38 +103,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
-Default value: "$Script:MetaDataDir"
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Module
-Name of the Module to analyse
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Package
-
-Required: True
 Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Model
-Name of the Model to analyse
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 5
-Default value: None
+Default value: "$Script:MetaDataDir"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -117,7 +118,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: (Join-Path $Script:DefaultTempPath $Module)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -132,7 +133,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -149,7 +150,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -164,7 +165,24 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

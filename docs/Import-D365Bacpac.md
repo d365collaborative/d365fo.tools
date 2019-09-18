@@ -1,4 +1,4 @@
-﻿---
+---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -16,7 +16,8 @@ Import a bacpac file
 ```
 Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String>
- [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ImportOnly] [-EnableException] [<CommonParameters>]
+ [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ImportOnly] [-ShowOriginalProgress]
+ [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ### ImportOnlyTier2
@@ -26,7 +27,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPwd] <String>] [[-AxRuntimeUserPwd] <String>]
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
  [[-AxDbReadonlyUserPwd] <String>] [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ImportOnly]
- [-EnableException] [<CommonParameters>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ### ImportTier2
@@ -35,8 +36,8 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] <String> [-AxRuntimeUserPwd] <String>
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
- [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-EnableException]
- [<CommonParameters>]
+ [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ShowOriginalProgress]
+ [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -479,6 +480,40 @@ Parameter Sets: ImportOnlyTier2
 Aliases:
 
 Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: False
 Accept pipeline input: False
