@@ -53,7 +53,11 @@ function Export-D365Model {
         [string] $BinDir = "$Script:PackageDirectory\bin",
 
         [Parameter(Mandatory = $false, Position = 4 )]
-        [string] $MetaDataDir = "$Script:MetaDataDir"
+        [string] $MetaDataDir = "$Script:MetaDataDir",
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
     Invoke-TimeSignal -Start

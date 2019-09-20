@@ -59,7 +59,11 @@ function Import-D365Model {
         [Parameter(Mandatory = $false, Position = 3 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [switch] $Replace
+        [switch] $Replace,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
     Invoke-TimeSignal -Start
