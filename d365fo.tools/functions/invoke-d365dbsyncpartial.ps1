@@ -150,38 +150,6 @@ function Invoke-D365DBSyncPartial {
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
     #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
     Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
-    # Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$true -OutputCommandOnly:$false
-    # $process = Start-Process -FilePath $executable -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"
-    <#
-    $lineTotalCount = 0
-    $lineCount = 0
-
-    Invoke-TimeSignal -Start
-
-    while ($process.HasExited -eq $false) {
-        foreach ($line in Get-Content "$LogPath\output.log") {
-            $lineCount++
-            if ($lineCount -gt $lineTotalCount) {
-                Write-Verbose $line
-                $lineTotalCount++
-            }
-        }
-        $lineCount = 0
-        Start-Sleep -Seconds 2
-
-    }
-
-    foreach ($line in Get-Content "$LogPath\output.log") {
-        $lineCount++
-        if ($lineCount -gt $lineTotalCount) {
-            Write-Verbose $line
-            $lineTotalCount++
-        }
-    }
-
-    foreach ($line in Get-Content "$LogPath\error.log") {
-        Write-PSFMessage -Level Critical -Message "$line"
-    }
-#>
+    
     Invoke-TimeSignal -End
 }
