@@ -141,11 +141,12 @@ function Invoke-D365DBSyncPartial {
     }
     
     Write-PSFMessage -Level Debug -Message "Build the parameters for the command to execute."
-    $params = " -syncmode=`"$($SyncMode.ToLower())`""
-    $params = " -synclist=`"$($SyncList -join ",")`""
-    $params += " -verbosity=`"$($Verbosity.ToLower())`""
-    $params += " -metadatabinaries=`"$MetadataDir`""
-    $params += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
+    $params = @(" -syncmode=$($SyncMode.ToLower())",
+        "-synclist=`"$($SyncList -join ",")`"",
+        "-verbosity=$($Verbosity.ToLower())",
+        "-metadatabinaries=`"$MetadataDir`"",
+        "-connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
+    )
 
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
     #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process

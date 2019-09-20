@@ -72,7 +72,7 @@ function Invoke-ModelUtil {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     
     param (
-        [Parameter(Mandatory = $true, Position = 1 )]
+        [Parameter(Mandatory = $true)]
         [ValidateSet('Import', 'Export', 'Delete', 'Replace')]
         [string] $Command,
 
@@ -85,11 +85,13 @@ function Invoke-ModelUtil {
         [Parameter(Mandatory = $True, ParameterSetName = 'Delete', Position = 1 )]
         [string] $Model,
 
-        [Parameter(Mandatory = $false)]
         [string] $BinDir = "$Script:PackageDirectory\bin",
 
-        [Parameter(Mandatory = $false)]
-        [string] $MetaDataDir = "$Script:MetaDataDir"
+        [string] $MetaDataDir = "$Script:MetaDataDir",
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
     Invoke-TimeSignal -Start
@@ -103,8 +105,6 @@ function Invoke-ModelUtil {
         Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
     }
 
-    [System.Collections.ArrayList] $params = New-Object -TypeName "System.Collections.ArrayList"
-    
     Write-PSFMessage -Level Verbose -Message "Building the parameter options."
     switch ($Command.ToLowerInvariant()) {
         'import' {
@@ -112,37 +112,40 @@ function Invoke-ModelUtil {
                 Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
             }
 
-            $null = $params.Add("-import")
-            $null = $params.Add("-metadatastorepath=`"$MetaDataDir`"")
-            $null = $params.Add("-file=`"$Path`"")
+            $params = @("-import"
+                , "-metadatastorepath=`"$MetaDataDir`""
+                , "-file=`"$Path`""
+            )
         }
         'export' {
-            $null = $params.Add("-export")
-            $null = $params.Add("-metadatastorepath=`"$MetaDataDir`"")
-            $null = $params.Add("-outputpath=`"$Path`"")
-            $null = $params.Add("-modelname=`"$Model`"")
+            $params = @("-export"
+                , "-metadatastorepath=`"$MetaDataDir`""
+                , "-outputpath=`"$Path`""
+                , "-modelname=`"$Model`""
+            )
         }
         'delete' {
-            $null = $params.Add("-delete")
-            $null = $params.Add("-metadatastorepath=`"$MetaDataDir`"")
-            $null = $params.Add("-modelname=`"$Model`"")
+            $params = @("-delete"
+                , "-metadatastorepath=`"$MetaDataDir`""
+                , "-modelname=`"$Model`""
+            )
         }
         'replace' {
             if (-not (Test-PathExists -Path $Path -Type Leaf)) {
                 Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
             }
 
-            $null = $params.Add("-replace")
-            $null = $params.Add("-metadatastorepath=`"$MetaDataDir`"")
-            $null = $params.Add("-file=`"$Path`"")
+            $params = @("-replace"
+                , "-metadatastorepath=`"$MetaDataDir`""
+                , "-file=`"$Path`""
+            )
         }
+        
     }
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $($params.ToArray() -join " ")
-
-    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
-    Start-Process -FilePath $executable -ArgumentList ($($params.ToArray() -join " ")) -NoNewWindow -Wait
+    
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
     Invoke-TimeSignal -End
 }
