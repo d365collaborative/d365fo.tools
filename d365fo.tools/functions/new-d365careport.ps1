@@ -41,27 +41,25 @@ function New-D365CAReport {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, Position = 1 )]
         [Alias('File')]
         [string] $Path = (Join-Path $Script:DefaultTempPath "CAReport.xlsx"),
 
-        [Parameter(Mandatory = $false, Position = 2 )]
-        [string] $BinDir = "$Script:PackageDirectory\bin",
-
-        [Parameter(Mandatory = $false, Position = 3 )]
-        [string] $MetaDataDir = "$Script:MetaDataDir",
-
-        [Parameter(Mandatory = $true, Position = 4 )]
+        [Parameter(Mandatory = $true)]
         [Alias('Package')]
         [string] $Module,
-
-        [Parameter(Mandatory = $true, Position = 5 )]
+        
+        [Parameter(Mandatory = $true)]
         [string] $Model,
 
-        [Parameter(Mandatory = $false, Position = 6 )]
-        [string] $XmlLog = (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml")
+        [string] $BinDir = "$Script:PackageDirectory\bin",
 
+        [string] $MetaDataDir = "$Script:MetaDataDir",
 
+        [string] $XmlLog = (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml"),
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
     
     if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
@@ -69,7 +67,7 @@ function New-D365CAReport {
     $executable = Join-Path $BinDir "xppbp.exe"
     if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
 
-    $param = @(
+    $params = @(
         "-metadata=`"$MetaDataDir`"",
         "-all",
         "-module=`"$Module`"",
@@ -80,7 +78,5 @@ function New-D365CAReport {
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
 
-    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
-    Start-Process -FilePath $executable -ArgumentList  ($param -join " ") -NoNewWindow -Wait
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 }
