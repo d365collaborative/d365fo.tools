@@ -136,7 +136,7 @@ function Invoke-D365DBSync {
     }
     
     Write-PSFMessage -Level Debug -Message "Build the parameters for the command to execute."
-    $params = @(" -syncmode=$($SyncMode.ToLower())",
+    $params = @("-syncmode=$($SyncMode.ToLower())",
         "-verbosity=$($Verbosity.ToLower())",
         "-metadatabinaries=`"$MetadataDir`"",
         "-connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""

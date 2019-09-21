@@ -141,7 +141,7 @@ function Invoke-D365DBSyncPartial {
     }
     
     Write-PSFMessage -Level Debug -Message "Build the parameters for the command to execute."
-    $params = @(" -syncmode=$($SyncMode.ToLower())",
+    $params = @("-syncmode=$($SyncMode.ToLower())",
         "-synclist=`"$($SyncList -join ",")`"",
         "-verbosity=$($Verbosity.ToLower())",
         "-metadatabinaries=`"$MetadataDir`"",
