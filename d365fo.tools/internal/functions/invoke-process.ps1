@@ -12,6 +12,11 @@
     .PARAMETER Params
         Array of string parameters that you want to pass to the executable
         
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -48,15 +53,16 @@ function Invoke-Process {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(Mandatory = $true)]
         
         [Alias('Executable')]
         [string] $Path,
 
-        [Parameter(Mandatory = $true, Position = 2)]
+        [Parameter(Mandatory = $true)]
         [string[]] $Params,
 
-        [Parameter(Mandatory = $False, Position = 3 )]
+        [switch] $OutputCommandOnly,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $EnableException
@@ -87,6 +93,12 @@ function Invoke-Process {
     $p.StartInfo = $pinfo
 
     Write-PSFMessage -Level Verbose "Starting the $tool" -Target "$($params -join " ")"
+
+    if($OutputCommandOnly){
+        Write-PSFMessage -Level Host "$Path $($pinfo.Arguments)"
+        return
+    }
+    
     $p.Start() | Out-Null
     
     if (-not $ShowOriginalProgress) {

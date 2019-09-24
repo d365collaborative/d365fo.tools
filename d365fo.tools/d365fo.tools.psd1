@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.5.40'
+    ModuleVersion     = '0.5.46'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -150,8 +150,9 @@
 
 						'Invoke-D365DataFlush',
 						'Invoke-D365DBSync',
+						'Invoke-D365DBSyncPartial',
 						'Invoke-D365InstallLicense',
-
+						
 						'Invoke-D365LcsApiRefreshToken',
 						'Invoke-D365LcsDeployment',
 						'Invoke-D365LcsUpload',

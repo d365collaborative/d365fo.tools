@@ -52,5 +52,7 @@ function Rename-D365ComputerName {
     $rsconfig = "$Script:SQLTools\rsconfig.exe"
     $arguments = "-s localhost -a Windows -c -d `"$SSRSReportDatabase`""
 
+    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     Start-Process -Wait -NoNewWindow -FilePath $rsconfig -ArgumentList $arguments -Verbose
 }

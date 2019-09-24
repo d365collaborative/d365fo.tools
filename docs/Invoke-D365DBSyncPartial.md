@@ -1,11 +1,11 @@
-﻿---
+---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
 schema: 2.0.0
 ---
 
-# Invoke-D365DBSync
+# Invoke-D365DBSyncPartial
 
 ## SYNOPSIS
 Invoke the synchronization process used in Visual Studio
@@ -13,9 +13,9 @@ Invoke the synchronization process used in Visual Studio
 ## SYNTAX
 
 ```
-Invoke-D365DBSync [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-LogPath] <String>]
- [[-SyncMode] <String>] [[-Verbosity] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
- [[-SqlUser] <String>] [[-SqlPwd] <String>] [<CommonParameters>]
+Invoke-D365DBSyncPartial [[-SyncMode] <String>] [[-SyncList] <String[]>] [[-LogPath] <String>]
+ [[-Verbosity] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>]
+ [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,25 +25,32 @@ Uses the sync.exe (engine) to synchronize the database for the environment
 
 ### EXAMPLE 1
 ```
-Invoke-D365DBSync
+Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable"
 ```
 
+Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
 This will invoke the sync engine and have it work against the database.
+It will run with the default value "PartialList" as the SyncMode.
+It will run the sync process against "CustCustomerEntity" and "SalesTable"
 
 ### EXAMPLE 2
 ```
-Invoke-D365DBSync -Verbose
+Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -Verbose
 ```
 
+Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
 This will invoke the sync engine and have it work against the database.
+It will run with the default value "PartialList" as the SyncMode.
+It will run the sync process against "CustCustomerEntity" and "SalesTable"
+
 It will output the same level of details that Visual Studio would normally do.
 
 ## PARAMETERS
 
-### -BinDirTools
-Path to where the tools on the machine can be found
+### -SyncMode
+The sync mode the sync engine will use
 
-Default value is normally the AOS Service PackagesLocalDirectory\bin
+Default value is: "PartialList"
 
 ```yaml
 Type: String
@@ -52,24 +59,22 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: $Script:BinDirTools
+Default value: PartialList
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -MetadataDir
-Path to where the tools on the machine can be found
-
-Default value is normally the AOS Service PackagesLocalDirectory
+### -SyncList
+The list of objects that you want to pass on to the database synchronoziation engine
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 2
-Default value: $Script:MetaDataDir
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -89,23 +94,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SyncMode
-The sync mode the sync engine will use
-
-Default value is: "FullAll"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: FullAll
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Verbosity
 Parameter used to instruct the level of verbosity the sync engine has to report back
 
@@ -117,8 +105,42 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 4
 Default value: Normal
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BinDirTools
+Path to where the tools on the machine can be found
+
+Default value is normally the AOS Service PackagesLocalDirectory\bin
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: $Script:BinDirTools
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MetadataDir
+Path to where the tools on the machine can be found
+
+Default value is normally the AOS Service PackagesLocalDirectory
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: $Script:MetaDataDir
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -137,7 +159,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: $Script:DatabaseServer
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -152,7 +174,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: $Script:DatabaseName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -167,7 +189,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: $Script:DatabaseUserName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -182,7 +204,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: $Script:DatabaseUserPassword
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -198,9 +220,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 Tags: Database, Sync, SyncDB, Synchronization, Servicing
 
-Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
 
-When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
+Inspired by:
+https://axdynamx.blogspot.com/2017/10/how-to-synchronize-manually-database.html
 
 ## RELATED LINKS

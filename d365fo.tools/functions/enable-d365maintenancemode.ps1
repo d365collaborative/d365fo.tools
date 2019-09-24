@@ -37,6 +37,11 @@
         
         Default is $false which will silence the standard output
         
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+
+        Will include full path to the executable and the needed parameters based on your selection
+
     .EXAMPLE
         PS C:\> Enable-D365MaintenanceMode
         
@@ -69,28 +74,23 @@
         Disable-D365MaintenanceMode
 #>
 function Enable-D365MaintenanceMode {
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [string] $BinDir = "$Script:BinDir",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
         [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 5 )]
         [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
         [string] $SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $False)]
-        [switch] $ShowOriginalProgress
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
     if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
@@ -99,9 +99,11 @@ function Enable-D365MaintenanceMode {
         return
     }
     
-    Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
+    if (-not $OutputCommandOnly) {
+        Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
+    }
 
-    if(-not ($Script:IsAdminRuntime)) {
+    if (-not ($Script:IsAdminRuntime)) {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (which requires local admin)."
 
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -113,14 +115,21 @@ function Enable-D365MaintenanceMode {
             SqlPwd         = $SqlPwd
         }
 
-        Invoke-D365SqlScript @Params -FilePath $("$script:ModuleRoot\internal\sql\enable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
+        if ($OutputCommandOnly) {
+            $scriptContent = Get-content -Path $("$script:ModuleRoot\internal\sql\disable-maintenancemode.sql") -Raw
+            Write-PSFMessage -Level Host -Message "It seems that you're want the command, but you're running in a non-elevated console. Will output the SQL script that is avaiable."
+            Write-PSFMessage -Level Host -Message "$scriptContent"
+        }
+        else {
+            Invoke-D365SqlScript @Params -FilePath $("$script:ModuleRoot\internal\sql\enable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
+        }
     }
     else {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode using executable."
 
         $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
 
-        if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) { return }
+        if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
         if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
 
         $params = @("-isemulated", "true",
@@ -133,8 +142,10 @@ function Enable-D365MaintenanceMode {
             "-setupmode", "maintenancemode",
             "-isinmaintenancemode", "true")
 
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     }
 
+    if ($OutputCommandOnly) { return }
+    
     Start-D365Environment -Aos -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
 }

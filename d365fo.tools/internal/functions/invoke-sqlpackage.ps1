@@ -34,6 +34,19 @@
     .PARAMETER Properties
         Array of all the properties that needs to be parsed to the sqlpackage.exe
         
+    .PARAMETER DiagnosticFile
+        Path to where you want the SqlPackage to output a diagnostics file to assist you in troubleshooting
+        
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+
+        Will include full path to the executable and the needed parameters based on your selection
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -64,21 +77,27 @@ function Invoke-SqlPackage {
     [OutputType([System.Boolean])]
     param (
         [ValidateSet('Import', 'Export')]
-        [string]$Action,
+        [string] $Action,
         
-        [string]$DatabaseServer,
+        [string] $DatabaseServer,
         
-        [string]$DatabaseName,
+        [string] $DatabaseName,
         
-        [string]$SqlUser,
+        [string] $SqlUser,
         
-        [string]$SqlPwd,
+        [string] $SqlPwd,
         
-        [string]$TrustedConnection,
+        [string] $TrustedConnection,
         
-        [string]$FilePath,
+        [string] $FilePath,
         
-        [string[]]$Properties,
+        [string[]] $Properties,
+
+        [string] $DiagnosticFile,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly,
 
         [switch] $EnableException
     )
@@ -87,7 +106,7 @@ function Invoke-SqlPackage {
 
     Invoke-TimeSignal -Start
 
-    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
+    if (!(Test-PathExists -Path $executable -Type Leaf)) { return }
 
     Write-PSFMessage -Level Verbose -Message "Starting to prepare the parameters for sqlpackage.exe"
 
@@ -124,13 +143,18 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/Properties:$item")
     }
 
-    Write-PSFMessage -Level Verbose "Start sqlpackage.exe with parameters `"$executable`" $($Params.ToArray() -join " ")" -Target "$($Params.ToArray() -join " ")"
+    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
+        $null = $Params.Add("/Diagnostics:true")
+        $null = $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"")
+    }
     
-    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
-    Start-Process -FilePath $executable -ArgumentList ($Params -join " ") -NoNewWindow -Wait
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     
+    if (Test-PSFFunctionInterrupt) {
+        Write-PSFMessage -Level Critical -Message "The SqlPackage.exe exited with an error."
+        Stop-PSFFunction -Message "Stopping because of errors." -StepsUpward 1
+        return
+    }
+
     Invoke-TimeSignal -End
-    
-    $true
 }

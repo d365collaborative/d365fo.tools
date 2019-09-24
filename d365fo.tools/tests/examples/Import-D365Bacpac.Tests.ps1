@@ -59,6 +59,36 @@ $result = Invoke-Expression $example
 $result | Should -BeTrue
 }
 }
+################################### New Example test ###################################
+
+$exampleRaw = "Import-D365Bacpac -ImportModeTier1 -BacpacFile `"C:\temp\uat.bacpac`" -NewDatabaseName `"ImportedDatabase`" -DiagnosticFile `"C:\temp\ImportLog.txt`""
+#Remember to escape any variables names in the line above.
+#Remember to you need to output $true to the pester test, otherwise is fails.
+#; `$var -eq `$true
+
+#Here you declare any variable(s) you need to complete the test.
+
+$example = $exampleRaw -replace "`n.*" -replace "PS C:\\>"
+
+Describe "Specific example testing for $commandName" {
+
+It "Example - $example" {
+# mock the tested command so we don't actually do anything
+# because it can be unsafe and we don't have the environment setup
+# (so the only thing we are testing is that the code is semantically
+# correct and provides all the needed params)
+Mock $commandName {
+# I am returning true here,
+# but some of the examples drill down to the returned object
+# so in strict mode we would fail
+$true
+}
+# here simply invoke the example
+$result = Invoke-Expression $example
+# and check that we got result from the mock
+$result | Should -BeTrue
+}
+}
 ################################### Entire help loaded ###################################
 
 <#
@@ -73,19 +103,20 @@ SYNOPSIS
     
 SYNTAX
     Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>] 
-    [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String> [[-CustomSqlFile] <String>] [-ImportOnly] [
-    <CommonParameters>]
+    [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String> [[-CustomSqlFile] <String>] [-DiagnosticFil
+    e <String>] [-ImportOnly] [-EnableException] [<CommonParameters>]
     
     Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [-SqlUser] <String> [-
     SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String> [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPw
     d] <String>] [[-AxRuntimeUserPwd] <String>] [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [
-    [-AxRetailDataSyncUserPwd] <String>] [[-AxDbReadonlyUserPwd] <String>] [[-CustomSqlFile] <String>] -ImportOnly [<Co
-    mmonParameters>]
+    [-AxRetailDataSyncUserPwd] <String>] [[-AxDbReadonlyUserPwd] <String>] [[-CustomSqlFile] <String>] [-DiagnosticFile
+     <String>] -ImportOnly [-EnableException] [<CommonParameters>]
     
     Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [-SqlUser] <String> [-
     SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String> [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] 
     <String> [-AxRuntimeUserPwd] <String> [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailD
-    ataSyncUserPwd] <String> [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [<CommonParameters>]
+    ataSyncUserPwd] <String> [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-E
+    nableException] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -239,10 +270,19 @@ PARAMETERS
         Accept wildcard characters?  false
         
     -CustomSqlFile <String>
-        Parameter description
+        Path to the sql script file that you want the cmdlet to execute against your data after it has been imported
         
         Required?                    false
         Position?                    15
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -DiagnosticFile <String>
+        Path to where you want the import to output a diagnostics file to assist you in troubleshooting the import
+        
+        Required?                    false
+        Position?                    named
         Default value                
         Accept pipeline input?       false
         Accept wildcard characters?  false
@@ -253,6 +293,16 @@ PARAMETERS
         The cmdlet will create a new database and import the content of the bacpac file into this
         
         Nothing else will be executed
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -EnableException [<SwitchParameter>]
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
         Required?                    false
         Position?                    named
@@ -305,6 +355,18 @@ NOTES
     It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
     The next thing to do is to switch the active database out with the new one you just imported.
     "ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS C:\>Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -Dia
+    gnosticFile "C:\temp\ImportLog.txt"
+    
+    This will instruct the cmdlet that the import will be working against a SQL Server instance.
+    It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+    It will output a diagnostic file to "C:\temp\ImportLog.txt".
     
     
     

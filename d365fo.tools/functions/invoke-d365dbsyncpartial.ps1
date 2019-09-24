@@ -6,6 +6,22 @@
     .DESCRIPTION
         Uses the sync.exe (engine) to synchronize the database for the environment
         
+    .PARAMETER SyncMode
+        The sync mode the sync engine will use
+        
+        Default value is: "PartialList"
+        
+    .PARAMETER SyncList
+        The list of objects that you want to pass on to the database synchronoziation engine
+        
+    .PARAMETER LogPath
+        The path where the log file will be saved
+        
+    .PARAMETER Verbosity
+        Parameter used to instruct the level of verbosity the sync engine has to report back
+        
+        Default value is: "Normal"
+        
     .PARAMETER BinDirTools
         Path to where the tools on the machine can be found
         
@@ -15,18 +31,6 @@
         Path to where the tools on the machine can be found
         
         Default value is normally the AOS Service PackagesLocalDirectory
-        
-    .PARAMETER LogPath
-        The path where the log file will be saved
-        
-    .PARAMETER SyncMode
-        The sync mode the sync engine will use
-        
-        Default value is: "FullAll"
-    .PARAMETER Verbosity
-        Parameter used to instruct the level of verbosity the sync engine has to report back
-        
-        Default value is: "Normal"
         
     .PARAMETER DatabaseServer
         The name of the database server
@@ -45,57 +49,58 @@
         The password for the SQL Server user
         
     .EXAMPLE
-        PS C:\> Invoke-D365DBSync
+        PS C:\> Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable"
         
+        Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
         This will invoke the sync engine and have it work against the database.
+        It will run with the default value "PartialList" as the SyncMode.
+        It will run the sync process against "CustCustomerEntity" and "SalesTable"
         
     .EXAMPLE
-        PS C:\> Invoke-D365DBSync -Verbose
+        PS C:\> Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -Verbose
         
-        This will invoke the sync engine and have it work against the database. It will output the same level of details that Visual Studio would normally do.
+        Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
+        This will invoke the sync engine and have it work against the database.
+        It will run with the default value "PartialList" as the SyncMode.
+        It will run the sync process against "CustCustomerEntity" and "SalesTable"
+        
+        It will output the same level of details that Visual Studio would normally do.
         
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
         
-        Author: Rasmus Andersen (@ITRasmus)
         Author: Mötz Jensen (@Splaxi)
         
-        When running the 'FullAll' (default) the command requires an elevated console / Run As Administrator.
+        Inspired by:
+        https://axdynamx.blogspot.com/2017/10/how-to-synchronize-manually-database.html
         
 #>
 
-function Invoke-D365DBSync {
+function Invoke-D365DBSyncPartial {
     [CmdletBinding()]
     param (
 
-        [Parameter(Mandatory = $false, Position = 0)]
-        [string]$BinDirTools = $Script:BinDirTools,
-
-        [Parameter(Mandatory = $false, Position = 1)]
-        [string]$MetadataDir = $Script:MetaDataDir,
-
-        [Parameter(Mandatory = $false, Position = 2)]
-        [string]$LogPath = "C:\temp\D365FO.Tools\Sync",
-
-        [Parameter(Mandatory = $false, Position = 3)]
         #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
-        [string]$SyncMode = 'FullAll',
-        
-        [Parameter(Mandatory = $false, Position = 4)]
+        [string] $SyncMode = 'PartialList',
+
+        [string[]] $SyncList,
+
+        [string] $LogPath = "C:\temp\D365FO.Tools\Sync",
+
         [ValidateSet('Normal', 'Quiet', 'Minimal', 'Normal', 'Detailed', 'Diagnostic')]
-        [string]$Verbosity = 'Normal',
+        [string] $Verbosity = 'Normal',
 
-        [Parameter(Mandatory = $false, Position = 5)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string] $BinDirTools = $Script:BinDirTools,
 
-        [Parameter(Mandatory = $false, Position = 6)]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string] $MetadataDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $false, Position = 7)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 8)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword
+        [string] $DatabaseName = $Script:DatabaseName,
+
+        [string] $SqlUser = $Script:DatabaseUserName,
+
+        [string] $SqlPwd = $Script:DatabaseUserPassword
     )
 
     #! The way the sync engine works is that it uses the connection string for some operations,
@@ -129,8 +134,9 @@ function Invoke-D365DBSync {
     }
     
     Write-PSFMessage -Level Debug -Message "Build the parameters for the command to execute."
-    $param = " -syncmode=$($SyncMode.ToLower())"
-    $param += " -verbosity=$($Verbosity.ToLower())"
+    $param = " -syncmode=`"$($SyncMode.ToLower())`""
+    $param = " -synclist=`"$($SyncList -join ",")`""
+    $param += " -verbosity=`"$($Verbosity.ToLower())`""
     $param += " -metadatabinaries=`"$MetadataDir`""
     $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
 

@@ -38,6 +38,7 @@
     .NOTES
         Author: Rasmus Andersen (@ITRasmus)
         Author: Mötz Jensen (@Splaxi)
+        Author: Mark Furrer (@devax_mf)
         
 #>
 function Set-AdminUser {
@@ -64,7 +65,16 @@ function Set-AdminUser {
     
     Write-PSFMessage -Level Verbose -Message "MetaDataDirectory: $MetaDataNodeDirectory" -Target $MetaDataNodeDirectory
 
-    $AdminFile = "$MetaDataNodeDirectory\Bin\AdminUserProvisioning.exe"
+    $AdminFileLocationPu29AndUp  = "$MetaDataNodeDirectory\Bin\Microsoft.Dynamics.AdminUserProvisioningLib.dll"
+    $AdminFileLocationBeforePu29 = "$MetaDataNodeDirectory\Bin\AdminUserProvisioning.exe"
+    if ( Test-Path -Path $AdminFileLocationPu29AndUp -PathType Leaf ) {
+        $AdminFile = $AdminFileLocationPu29AndUp
+        $AdminLibNameSpace = "Microsoft.Dynamics.AdminUserProvisioningLib"
+    } else {
+        $AdminFile = $AdminFileLocationBeforePu29
+        $AdminLibNameSpace = "Microsoft.Dynamics.AdminUserProvisioning"
+    }
+    Write-PSFMessage -Level Verbose -Message "Path to AdminFile: $AdminFile"
 
     $TempFileName = New-TemporaryFile
     $TempFileName = $TempFileName.BaseName
@@ -75,7 +85,7 @@ function Set-AdminUser {
 
     $adminAssembly = [System.Reflection.Assembly]::LoadFile($AdminDll)
 
-    $AdminUserUpdater = $adminAssembly.GetType("Microsoft.Dynamics.AdminUserProvisioning.AdminUserUpdater")
+    $AdminUserUpdater = $adminAssembly.GetType("$AdminLibNameSpace.AdminUserUpdater")
 
     $PublicBinding = [System.Reflection.BindingFlags]::Public
     $StaticBinding = [System.Reflection.BindingFlags]::Static
@@ -83,18 +93,23 @@ function Set-AdminUser {
 
     $UpdateAdminUser = $AdminUserUpdater.GetMethod("UpdateAdminUser", $CombinedBinding)
     
-    Write-PSFMessage -Level Verbose -Message "Testing for PU26 or higher"
-    if((($UpdateAdminUser.GetParameters()).Name) -contains "providerName") {
-        Write-PSFMessage -Level Verbose -Message "PU26 or higher found. Will adjust parameters."
+    Write-PSFMessage -Level Verbose -Message "Adjusting parameter set to the PU that is in use in this environment."
+    if((($UpdateAdminUser.GetParameters()).Name) -contains "hostUrl") {
+        Write-PSFMessage -Level Verbose -Message "PU29 or higher found. Will adjust parameters."
+        $params = $SignInName, "AAD-Global", $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd, "$Script:AOSPath\", $Script:Url
+    }
+    elseif((($UpdateAdminUser.GetParameters()).Name) -contains "providerName") {
+        Write-PSFMessage -Level Verbose -Message "PU26/27/28 found. Will adjust parameters."
         $params = $SignInName, "AAD-Global", $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
     }
     else {
-        Write-PSFMessage -Level Verbose -Message "Lower PU found. Will adjust parameters."
+        Write-PSFMessage -Level Verbose -Message "PU below PU26 found. Will adjust parameters."
         $params = $SignInName, $null, $null, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd
     }
 
     try {
-        Write-PSFMessage -Level Verbose -Message "Updating Admin using the values $SignInName, $DatabaseServer, $DatabaseName, $SqlUser, $SqlPwd"
+	    $paramsString = $params -join ", "
+        Write-PSFMessage -Level Verbose -Message "Updating Admin using the values $paramsString"
         $UpdateAdminUser.Invoke($null, $params)
     }
     catch {

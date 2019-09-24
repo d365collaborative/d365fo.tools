@@ -35,6 +35,11 @@
         
         Default is $false which will silence the standard output
         
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .EXAMPLE
         PS C:\> Invoke-D365ModuleCompile -Module MyModel
         
@@ -61,27 +66,23 @@ function Invoke-D365ModuleCompile {
     [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $True)]
         [string] $Module,
 
-        [Parameter(Mandatory = $False, Position = 2 )]
         [Alias('Output')]
         [string] $OutputDir = (Join-Path $Script:MetaDataDir $Module),
 
-        [Parameter(Mandatory = $False, Position = 3 )]
         [string] $LogDir = (Join-Path $Script:DefaultTempPath $Module),
 
-        [Parameter(Mandatory = $False, Position = 4 )]
         [string] $MetaDataDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 5)]
         [string] $ReferenceDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 6 )]
         [string] $BinDir = $Script:BinDirTools,
 
-        [Parameter(Mandatory = $False, Position = 7 )]
-        [switch] $ShowOriginalProgress
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
     Invoke-TimeSignal -Start
@@ -89,9 +90,9 @@ function Invoke-D365ModuleCompile {
     $tool = "xppc.exe"
     $executable = Join-Path $BinDir $tool
 
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
-    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
+    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
 
     if (Test-PSFFunctionInterrupt) { return }
 
@@ -107,12 +108,14 @@ function Invoke-D365ModuleCompile {
         "-verbose"
     )
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
     Invoke-TimeSignal -End
 
+    if ($OutputCommandOnly) { return }
+        
     [PSCustomObject]@{
-        LogFile = $logFile
+        LogFile    = $logFile
         XmlLogFile = $logXmlFile
         PSTypeName = 'D365FO.TOOLS.ModuleCompileOutput'
     }
