@@ -93,10 +93,10 @@ function Start-LcsDatabaseRefresh {
             if (($refreshJob) -and ($refreshJob.ErrorMessage)) {
                 $errorText = ""
                 if ($refreshJob.OperationActivityId) {
-                    $errorText = "Error in request for database refresh environment: '$( $refreshJob.ErrorMessage)' (Activity Id: '$( $refreshJob.OperationActivityId)')"
+                    $errorText = "Error in request for database refresh of environment: '$( $refreshJob.ErrorMessage)' (Activity Id: '$( $refreshJob.OperationActivityId)')"
                 }
                 else {
-                    $errorText = "Error in request for database refresh environment: '$( $refreshJob.ErrorMessage)'"
+                    $errorText = "Error in request for database refresh of environment: '$( $refreshJob.ErrorMessage)'"
                 }
             }
             elseif ($refreshJob.OperationActivityId) {
@@ -106,7 +106,7 @@ function Start-LcsDatabaseRefresh {
                 $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
             }
 
-            Write-PSFMessage -Level Host -Message "Error performing database refresh." -Target $($refreshJob.ErrorMessage)
+            Write-PSFMessage -Level Host -Message "Error performing database refresh of environment." -Target $($refreshJob.ErrorMessage)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
@@ -114,10 +114,10 @@ function Start-LcsDatabaseRefresh {
         
         if (-not ($refreshJob.IsSuccess)) {
             if ( $refreshJob.ErrorMessage) {
-                $errorText = "Error in request for database refresh environment: '$( $refreshJob.ErrorMessage)' (Activity Id: '$( $refreshJob.OperationActivityId)')"
+                $errorText = "Error in request for database refresh of environment: '$( $refreshJob.ErrorMessage)' (Activity Id: '$( $refreshJob.OperationActivityId)')"
             }
             elseif ( $refreshJob.OperationActivityId) {
-                $errorText = "Error in request for database refresh environment. Activity Id: '$($activity.OperationActivityId)'"
+                $errorText = "Error in request for database refresh of environment. Activity Id: '$($activity.OperationActivityId)'"
             }
             else {
                 $errorText = "Unknown error in request for database refresh."

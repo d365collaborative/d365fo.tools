@@ -68,26 +68,24 @@ function Set-D365LcsApiConfig {
     [CmdletBinding()]
     [OutputType()]
     param(
-        [Parameter(Mandatory = $false)]
         [int] $ProjectId,
 
-        [Parameter(Mandatory = $false)]
         [string] $ClientId,
 
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias('access_token')]
         [Alias('AccessToken')]
         [string] $BearerToken,
 
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias('expires_on')]
         [long] $ActiveTokenExpiresOn,
 
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias('refresh_token')]
         [string] $RefreshToken,
 
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias('resource')]
         [string] $LcsApiUri = "https://lcsapi.lcs.dynamics.com",
         
