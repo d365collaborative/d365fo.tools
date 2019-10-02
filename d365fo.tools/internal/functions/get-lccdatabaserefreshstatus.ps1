@@ -33,7 +33,7 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
     .EXAMPLE
-        PS C:\> Get-LcsDeploymentStatus -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsDatabaseRefreshStatus -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will start the deployment of the file located in the Asset Library with the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
         The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
