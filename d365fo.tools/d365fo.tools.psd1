@@ -155,6 +155,7 @@
 						'Invoke-D365InstallLicense',
 						
 						'Invoke-D365LcsApiRefreshToken',
+						'Invoke-D365LcsDatabaseRefresh',
 						'Invoke-D365LcsDeployment',
 						'Invoke-D365LcsUpload',
 						'Invoke-D365LogicApp',

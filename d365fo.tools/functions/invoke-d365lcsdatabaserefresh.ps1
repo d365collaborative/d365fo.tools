@@ -16,12 +16,15 @@
         
         Default value can be configured using Set-D365LcsApiConfig
             
-    .PARAMETER EnvironmentId
+    .PARAMETER SourceEnvironmentId
         The unique id of the environment that you want to work against
         
         The Id can be located inside the LCS portal
+
+    .PARAMETER SourceEnvironmentId
+        The unique id of the environment that you want to work against
         
-        Default value can be configured using Set-D365LcsApiConfig
+        The Id can be located inside the LCS portal
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
@@ -114,5 +117,5 @@ function Invoke-D365LcsDatabaseRefresh {
     ##Call the status endpoint to help peolpe out
     Invoke-TimeSignal -End
 
-    $deploymentStatus
+    $refreshJob
 }

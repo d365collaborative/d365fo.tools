@@ -63,6 +63,7 @@
 #>
 
 function Get-D365LcsDatabaseBackups {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     [OutputType()]
     param (

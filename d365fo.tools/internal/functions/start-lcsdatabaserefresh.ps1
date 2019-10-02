@@ -12,10 +12,12 @@
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
         
-    .PARAMETER AssetId
-        The unique id of the asset / file that you are trying to deploy from LCS
+    .PARAMETER SourceEnvironmentId
+        The unique id of the environment that you want to work against
         
-    .PARAMETER EnvironmentId
+        The Id can be located inside the LCS portal
+
+    .PARAMETER SourceEnvironmentId
         The unique id of the environment that you want to work against
         
         The Id can be located inside the LCS portal
