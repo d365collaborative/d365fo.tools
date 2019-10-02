@@ -15,7 +15,7 @@
         The token you want to use when working against the LCS api
         
         Default value can be configured using Set-D365LcsApiConfig
-                
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -34,9 +34,9 @@
         
         This will get all available database backups from the Asset Library inside LCS.
         It will use default values for all parameters.
-
+        
         All default values will come from the configuration available from Get-D365LcsApiConfig.
-
+        
         The default values can be configured using Set-D365LcsApiConfig
         
     .LINK
@@ -44,10 +44,10 @@
         
     .LINK
         Get-D365LcsApiToken
-            
+        
     .LINK
         Invoke-D365LcsApiRefreshToken
-            
+        
     .LINK
         Set-D365LcsApiConfig
         

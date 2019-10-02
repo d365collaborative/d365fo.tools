@@ -11,7 +11,7 @@
         
     .PARAMETER ClientId
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
-            
+        
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
