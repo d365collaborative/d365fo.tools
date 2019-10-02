@@ -83,7 +83,7 @@
         
 #>
 
-function Invoke-D365LcsDeployment {
+function Invoke-D365LcsDatabaseRefresh {
     [CmdletBinding()]
     [OutputType()]
     param(
@@ -94,11 +94,11 @@ function Invoke-D365LcsDeployment {
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 3)]
-        [string] $AssetId,
-
         [Parameter(Mandatory = $true)]
-        [string] $EnvironmentId,
+        [string] $SourceEnvironmentId,
+        
+        [Parameter(Mandatory = $true)]
+        [string] $TargetEnvironmentId,
 
         [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri
@@ -110,8 +110,11 @@ function Invoke-D365LcsDeployment {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $deploymentStatus = Start-LcsDeployment -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+    $refreshJob = Start-LcsDatabaseRefresh -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -TargetEnvironmentId $TargetEnvironmentId -LcsApiUri $LcsApiUri
 
+    if (Test-PSFFunctionInterrupt) { return }
+
+    ##Call the status endpoint to help peolpe out
     Invoke-TimeSignal -End
 
     $deploymentStatus
