@@ -91,6 +91,4 @@ function Get-D365LcsDatabaseBackups {
     $backups.DatabaseAssets
 
     Invoke-TimeSignal -End
-
-    # $status | Select-PSFObject "ID as AssetId", "DisplayStatus as Status"
 }

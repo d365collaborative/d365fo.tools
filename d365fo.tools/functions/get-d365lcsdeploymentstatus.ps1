@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Start the deployment of a deployable package
+        Get the Deployment status from LCS
         
     .DESCRIPTION
-        Deploy a deployable package from the Asset Library from a LCS project using the API provided by Microsoft
+        Get the Deployment status for activity against an environment from the Dynamics LCS Portal
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -23,8 +23,6 @@
         The unique id of the environment that you want to work against
         
         The Id can be located inside the LCS portal
-        
-        Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
