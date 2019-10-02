@@ -15,12 +15,12 @@
         The token you want to use when working against the LCS api
         
         Default value can be configured using Set-D365LcsApiConfig
-            
+        
     .PARAMETER SourceEnvironmentId
         The unique id of the environment that you want to work against
         
         The Id can be located inside the LCS portal
-
+        
     .PARAMETER TargetEnvironmentId
         The unique id of the environment that you want to work against
         

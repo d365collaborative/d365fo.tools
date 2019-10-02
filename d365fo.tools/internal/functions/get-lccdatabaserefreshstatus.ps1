@@ -15,7 +15,7 @@
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
-    .PARAMETER ActionHistoryId
+    .PARAMETER OperationActivityId
         The unique id of the action you got from when starting the deployment to the environment
         
     .PARAMETER EnvironmentId

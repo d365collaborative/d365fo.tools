@@ -16,7 +16,7 @@
         
         Default value can be configured using Set-D365LcsApiConfig
         
-    .PARAMETER ActionHistoryId
+    .PARAMETER OperationActivityId
         The unique id of the action that you started from the Invoke-D365LcsDeployment cmdlet
         
     .PARAMETER EnvironmentId
@@ -130,7 +130,7 @@ function Get-D365LcsDatabaseRefreshStatus {
         Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
 
         Start-Sleep -Seconds 300
-        $databaseRefreshStatus = Get-LcsDeploymentStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActionHistoryId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+        $databaseRefreshStatus = Get-LcsDatabaseRefreshStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActionHistoryId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
     }
     while ((($databaseRefreshStatus.OperationStatus -eq "InProgress") -or ($databaseRefreshStatus.OperationStatus -eq "NotStarted") -or ($databaseRefreshStatus.OperationStatus -eq "RollbackInProgress")) -and $WaitForCompletion)
 
