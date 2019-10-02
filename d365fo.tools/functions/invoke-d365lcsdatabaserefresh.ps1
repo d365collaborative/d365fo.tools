@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Start the deployment of a deployable package
+        Start a database refresh between 2 environments
         
     .DESCRIPTION
-        Deploy a deployable package from the Asset Library from a LCS project using the API provided by Microsoft
+        Start a database refresh between 2 environments from a LCS project
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -15,10 +15,7 @@
         The token you want to use when working against the LCS api
         
         Default value can be configured using Set-D365LcsApiConfig
-        
-    .PARAMETER AssetId
-        The unique id of the asset / file that you are trying to deploy from LCS
-        
+            
     .PARAMETER EnvironmentId
         The unique id of the environment that you want to work against
         

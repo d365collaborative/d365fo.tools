@@ -26,6 +26,12 @@
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
+        Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+        
+        Valid options:
+        "https://lcsapi.lcs.dynamics.com"
+        "https://lcsapi.eu.lcs.dynamics.com"
+        
     .EXAMPLE
         PS C:\> Get-LcsDeploymentStatus -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
