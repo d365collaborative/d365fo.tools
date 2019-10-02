@@ -1,13 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Get the status of a LCS deployment
+        Get database backups from LCS project
         
     .DESCRIPTION
-        Get the deployment status for an environment in LCS
-        
-    .PARAMETER Token
-        The token to be used for the http request against the LCS API
+        Get the available database backups from the Asset Library in LCS project
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -15,29 +12,19 @@
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
-    .PARAMETER ActionHistoryId
-        The unique id of the action you got from when starting the deployment to the environment
-        
-    .PARAMETER EnvironmentId
-        The unique id of the environment that you want to work against
-        
-        The Id can be located inside the LCS portal
-        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
     .EXAMPLE
-        PS C:\> Get-LcsdatabasesObject -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-D365LcsDatabaseBackups -ProjectId 123456789 -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will start the deployment of the file located in the Asset Library with the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
-        The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
+        This will get all available database backups from the Asset Library inside LCS.
+        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+        The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
-    .LINK
-        Start-LcsDeployment
-        
     .NOTES
-        Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deployable Package
+        Tags: Environment, LCS, Api, AAD, Token, Bacpac, Backup
         
         Author: Mötz Jensen (@Splaxi)
 #>
@@ -96,7 +83,7 @@ function Get-LcsDatabaseBackups {
 
             Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($databasesObject.ErrorMessage)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
-            Stop-PSFFunction -Message "Stopping because of errors"
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
 
         
@@ -113,12 +100,12 @@ function Get-LcsDatabaseBackups {
 
             Write-PSFMessage -Level Host -Message "Unknown error creating new file asset." -Target $databasesObject
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
-            Stop-PSFFunction -Message "Stopping because of errors"
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         return
     }
 
