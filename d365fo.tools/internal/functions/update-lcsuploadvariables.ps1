@@ -1,21 +1,21 @@
 ﻿
 <#
     .SYNOPSIS
-        Update the broadcast message config variables
+        Update the LCS API config variables
         
     .DESCRIPTION
-        Update the active broadcast message config variables that the module will use as default values
+        Update the active LCS API config variables that the module will use as default values
         
     .EXAMPLE
-        PS C:\> Update-BroadcastVariables
+        PS C:\> Update-LcsApiVariables
         
-        This will update the broadcast variables.
+        This will update the LCS API variables.
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
 #>
 
-function Update-LcsUploadVariables {
+function Update-LcsApiVariables {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]

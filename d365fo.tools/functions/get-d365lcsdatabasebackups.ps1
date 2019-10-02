@@ -91,7 +91,7 @@
         
 #>
 
-function Get-D365LcsAssetValidationStatus {
+function Get-D365LcsDatabaseBackups {
     [CmdletBinding()]
     [OutputType()]
     param (
@@ -102,13 +102,8 @@ function Get-D365LcsAssetValidationStatus {
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
-        [string] $AssetId,
-
         [Parameter(Mandatory = $false)]
-        [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
-
-        [switch] $WaitForValidation
+        [string] $LcsApiUri = $Script:LcsApiLcsApiUri
     )
 
     Invoke-TimeSignal -Start
@@ -117,14 +112,9 @@ function Get-D365LcsAssetValidationStatus {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    do {
-        Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Asset Validation Status"
-        Start-Sleep -Seconds 60
-        $status = Get-LcsAssetValidationStatus -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri
-    }
-    while (($status.DisplayStatus -eq "Process") -and $WaitForValidation)
+    Get-LcsDatabaseBackups -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri
 
     Invoke-TimeSignal -End
 
-    $status | Select-PSFObject "ID as AssetId", "DisplayStatus as Status"
+    # $status | Select-PSFObject "ID as AssetId", "DisplayStatus as Status"
 }

@@ -11,12 +11,7 @@
         
     .PARAMETER ClientId
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
-        
-    .PARAMETER EnvironmentId
-        The unique id of the environment that you want to work against
-        
-        The Id can be located inside the LCS portal
-        
+            
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
@@ -79,9 +74,6 @@ function Set-D365LcsApiConfig {
         [Parameter(Mandatory = $false)]
         [string] $ClientId,
 
-        [Parameter(Mandatory = $false)]
-        [string] $EnvironmentId,
-
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
         [Alias('access_token')]
         [Alias('AccessToken')]
@@ -129,5 +121,5 @@ function Set-D365LcsApiConfig {
         if (-not $Temporary) { Register-PSFConfig -FullName $fullConfigName -Scope UserDefault }
     }
 
-    Update-LcsUploadVariables
+    Update-LcsApiVariables
 }
