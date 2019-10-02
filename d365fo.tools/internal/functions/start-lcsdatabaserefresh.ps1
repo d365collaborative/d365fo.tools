@@ -17,7 +17,7 @@
         
         The Id can be located inside the LCS portal
 
-    .PARAMETER SourceEnvironmentId
+    .PARAMETER TargetEnvironmentId
         The unique id of the environment that you want to work against
         
         The Id can be located inside the LCS portal
