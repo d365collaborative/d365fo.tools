@@ -17,12 +17,12 @@
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER SourceEnvironmentId
-        The unique id of the environment that you want to work against
+        The unique id of the environment that you want to use as the source for the database refresh
         
         The Id can be located inside the LCS portal
         
     .PARAMETER TargetEnvironmentId
-        The unique id of the environment that you want to work against
+        The unique id of the environment that you want to use as the target for the database refresh
         
         The Id can be located inside the LCS portal
         
@@ -101,7 +101,9 @@ function Invoke-D365LcsDatabaseRefresh {
         [string] $TargetEnvironmentId,
 
         [Parameter(Mandatory = $false)]
-        [string] $LcsApiUri = $Script:LcsApiLcsApiUri
+        [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
+
+        [switch] $SkipInitialStatusFetch
     )
 
     Invoke-TimeSignal -Start
@@ -114,8 +116,11 @@ function Invoke-D365LcsDatabaseRefresh {
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    ##Call the status endpoint to help peolpe out
-    Invoke-TimeSignal -End
-
     $refreshJob
+
+    if (-not $SkipInitialStatusFetch) {
+        Get-D365LcsDatabaseRefreshStatus -ProjectId $ProjectId -BearerToken $BearerToken -OperationActivityId $($refreshJob.OperationActivityId) -EnvironmentId $TargetEnvironmentId -LcsApiUri $LcsApiUri -WaitForCompletion:$false -SleepInSeconds 60
+    }
+    
+    Invoke-TimeSignal -End
 }

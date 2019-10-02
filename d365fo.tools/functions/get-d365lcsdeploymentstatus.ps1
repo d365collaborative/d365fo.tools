@@ -117,7 +117,9 @@ function Get-D365LcsDeploymentStatus {
         [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
-        [switch] $WaitForCompletion
+        [switch] $WaitForCompletion,
+
+        [int] $SleepInSeconds = 300
     )
 
     Invoke-TimeSignal -Start
@@ -129,7 +131,7 @@ function Get-D365LcsDeploymentStatus {
     do {
         Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
 
-        Start-Sleep -Seconds 300
+        Start-Sleep -Seconds $SleepInSeconds
         $deploymentStatus = Get-LcsDeploymentStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActionHistoryId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
     }
     while ((($deploymentStatus.LcsEnvironmentActionStatus -eq "InProgress") -or ($deploymentStatus.LcsEnvironmentActionStatus -eq "NotStarted") -or ($deploymentStatus.LcsEnvironmentActionStatus -eq "PreparingEnvironment")) -and $WaitForCompletion)

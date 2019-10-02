@@ -43,7 +43,7 @@
         The cmdlet will sleep for 300 seconds, before requesting the status of the deployment process from LCS
         
     .EXAMPLE
-        PS C:\> Get-D365LcsDeploymentStatus -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-D365LcsDatabaseRefreshStatus -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will check the deployment status of specific activity against an environment.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
@@ -53,7 +53,7 @@
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
-        PS C:\> Get-D365LcsDeploymentStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+        PS C:\> Get-D365LcsDatabaseRefreshStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
         
         This will check the deployment status of specific activity against an environment.
         The activity is identified by the ActionHistoryId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
@@ -62,7 +62,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
     .EXAMPLE
-        PS C:\> Get-D365LcsDeploymentStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -WaitForCompletion
+        PS C:\> Get-D365LcsDatabaseRefreshStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -WaitForCompletion
         
         This will check the deployment status of specific activity against an environment.
         The activity is identified by the ActionHistoryId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
@@ -117,7 +117,9 @@ function Get-D365LcsDatabaseRefreshStatus {
         [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
-        [switch] $WaitForCompletion
+        [switch] $WaitForCompletion,
+
+        [int] $SleepInSeconds = 300
     )
 
     Invoke-TimeSignal -Start
@@ -129,7 +131,7 @@ function Get-D365LcsDatabaseRefreshStatus {
     do {
         Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
 
-        Start-Sleep -Seconds 300
+        Start-Sleep -Seconds $SleepInSeconds
         $databaseRefreshStatus = Get-LcsDatabaseRefreshStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActionHistoryId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
     }
     while ((($databaseRefreshStatus.OperationStatus -eq "InProgress") -or ($databaseRefreshStatus.OperationStatus -eq "NotStarted") -or ($databaseRefreshStatus.OperationStatus -eq "RollbackInProgress")) -and $WaitForCompletion)
