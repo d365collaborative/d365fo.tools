@@ -36,28 +36,28 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzCopyTransfer -SourceUri 'https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...' -DestinationUri 'c:\temp\d365fo.tools\GOLDER.bacpac'
+        PS C:\> Invoke-D365AzCopyTransfer -SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=..." -DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac"
         
         This will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.
-        The file that will be transfered/downloaded is SourceUri 'https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...'.
-        The file will be transfered/downloaded to DestinationUri 'c:\temp\d365fo.tools\GOLDER.bacpac'.
+        The file that will be transfered/downloaded is SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...".
+        The file will be transfered/downloaded to DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac".
         
         If there exists a file already, the file will NOT be overwritten.
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzCopyTransfer -SourceUri 'https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...' -DestinationUri 'c:\temp\d365fo.tools\GOLDER.bacpac' -Force
+        PS C:\> Invoke-D365AzCopyTransfer -SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=..." -DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac" -Force
         
         This will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.
-        The file that will be transfered/downloaded is SourceUri 'https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...'.
-        The file will be transfered/downloaded to DestinationUri 'c:\temp\d365fo.tools\GOLDER.bacpac'.
+        The file that will be transfered/downloaded is SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...".
+        The file will be transfered/downloaded to DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac".
         If there exists a file already, the file will  be overwritten, because Force has been supplied.
         
     .EXAMPLE
-        PS C:\> Invoke-D365AzCopyTransfer -SourceUri 'https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...' -DestinationUri 'https://456.blob.core.windows.net/targetcontainer/filename?sv=2015-12-11&sr=...'
+        PS C:\> Invoke-D365AzCopyTransfer -SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=..." -DestinationUri "https://456.blob.core.windows.net/targetcontainer/filename?sv=2015-12-11&sr=..."
         
         This will transfer a file from an Azure Storage Blob Container to another Azure Storage Blob Container.
-        The file that will be transfered/downloaded is SourceUri 'https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...'.
-        The file will be transfered/downloaded to DestinationUri 'https://456.blob.core.windows.net/targetcontainer/filename?sv=2015-12-11&sr=...'.
+        The file that will be transfered/downloaded is SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...".
+        The file will be transfered/downloaded to DestinationUri "https://456.blob.core.windows.net/targetcontainer/filename?sv=2015-12-11&sr=...".
         
         For this to work, you need to make sure both SourceUri and DestinationUri has an valid SAS token/key included.
         
