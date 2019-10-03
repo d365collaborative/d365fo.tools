@@ -56,6 +56,8 @@
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
+        The default values can be configured using Set-D365LcsApiConfig.
+
     .LINK
         Get-D365LcsApiConfig
         

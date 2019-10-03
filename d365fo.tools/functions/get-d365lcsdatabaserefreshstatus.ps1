@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Start the deployment of a deployable package
+        Get the status of a database refresh from LCS
         
     .DESCRIPTION
-        Deploy a deployable package from the Asset Library from a LCS project using the API provided by Microsoft
+        Get the current status of a database refresh against an environment from a LCS project
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -17,14 +17,14 @@
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER OperationActivityId
-        The unique id of the action that you started from the Invoke-D365LcsDeployment cmdlet
+        The unique id of the operaction activity that identitfies the database refresh
+        
+        It will be part of the output from the Invoke-D365LcsDeployment cmdlet
         
     .PARAMETER EnvironmentId
         The unique id of the environment that you want to work against
         
         The Id can be located inside the LCS portal
-        
-        Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
@@ -43,34 +43,38 @@
         The cmdlet will sleep for 300 seconds, before requesting the status of the deployment process from LCS
         
     .EXAMPLE
-        PS C:\> Get-D365LcsDatabaseRefreshStatus -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-D365LcsDatabaseRefreshStatus -ProjectId 123456789 -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will check the deployment status of specific activity against an environment.
+        This will check the database refresh status of a specific OperationActivityId against an environment.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-        The activity is identified by the ActionHistoryId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
+        The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from the Invoke-D365LcsDatabaseRefresh execution.
         The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-        The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
+        The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
-        PS C:\> Get-D365LcsDatabaseRefreshStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+        PS C:\> Get-D365LcsDatabaseRefreshStatus -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
         
-        This will check the deployment status of specific activity against an environment.
-        The activity is identified by the ActionHistoryId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
+        This will check the database refresh status of a specific OperationActivityId against an environment.
+        The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from the Invoke-D365LcsDatabaseRefresh execution.
         The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
+        The default values can be configured using Set-D365LcsApiConfig.
+
     .EXAMPLE
-        PS C:\> Get-D365LcsDatabaseRefreshStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -WaitForCompletion
+        PS C:\> Get-D365LcsDatabaseRefreshStatus -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -WaitForCompletion
         
         This will check the deployment status of specific activity against an environment.
-        The activity is identified by the ActionHistoryId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
+        The activity is identified by the OperationActivityId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
         The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         The cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the deployment is either success or failure.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
+        The default values can be configured using Set-D365LcsApiConfig.
+
     .LINK
         Get-D365LcsApiConfig
         
@@ -93,8 +97,8 @@
         Set-D365LcsApiConfig
         
     .NOTES
-        Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deploy
-        
+        Tags: Environment, Config, Configuration, LCS, Database backup, Api, Backup, Restore, Refresh
+                
         Author: Mötz Jensen (@Splaxi)
         
 #>

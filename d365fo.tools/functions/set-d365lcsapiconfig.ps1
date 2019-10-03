@@ -54,7 +54,9 @@
         The output object received from Get-D365LcsApiToken is piped directly to Set-D365LcsApiConfig.
         Set-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).
         
-        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        These values will then be available as default values for all LCS cmdlets across the module.
+        
+        You can validate the current default values by calling Get-D365LcsApiConfig.
         
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, ClientId

@@ -55,6 +55,8 @@
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
+        The default values can be configured using Set-D365LcsApiConfig.
+
     .LINK
         Get-D365LcsApiConfig
         
@@ -77,7 +79,7 @@
         Set-D365LcsApiConfig
         
     .NOTES
-        Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deploy
+        Tags: Environment, Config, Configuration, LCS, Database backup, Api, Backup, Restore, Refresh
         
         Author: Mötz Jensen (@Splaxi)
         

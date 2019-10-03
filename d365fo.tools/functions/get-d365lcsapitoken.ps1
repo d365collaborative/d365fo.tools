@@ -45,6 +45,8 @@
         The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+        The default values can be configured using Set-D365LcsApiConfig.
         
     .EXAMPLE
         PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword" | Set-D365LcsApiConfig
@@ -55,6 +57,8 @@
         Set-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+        The default values can be configured using Set-D365LcsApiConfig.
         
     .LINK
         Get-D365LcsApiConfig
