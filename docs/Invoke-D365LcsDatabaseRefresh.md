@@ -49,6 +49,30 @@ The default values can be configured using Set-D365LcsApiConfig.
 
 ### EXAMPLE 3
 ```
+$databaseRefresh = Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -SkipInitialStatusFetch
+```
+
+PS C:\\\> $databaseRefresh | Get-D365LcsDatabaseRefreshStatus -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e9" -SleepInSeconds 60
+
+This will start the database refresh between the Source and Target environments.
+The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+It will skip the first database refesh status fetch and only output the details from starting the refresh.
+
+The output from Invoke-D365LcsDatabaseRefresh is stored in the $databaseRefresh.
+This will enable you to pass the $databaseRefresh variable to other cmdlets which should make things easier for you.
+
+Will pipe the $databaseRefresh variable to the Get-D365LcsDatabaseRefreshStatus cmdlet and get the status from the database refresh job.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+
+$databaseRefresh = Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId be9aa4a4-7621-4b7e-b6f5-d518bf0012de -TargetEnvironmentId 43bcc00a-d94c-47cd-a20f-3c7aee98b5a9
+
+### EXAMPLE 4
+```
 Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -SkipInitialStatusFetch
 ```
 

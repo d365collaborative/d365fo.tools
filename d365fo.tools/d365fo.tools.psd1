@@ -147,7 +147,7 @@
 						
 						'Initialize-D365RsatCertificate',
 
-						'Invoke-D365AzCopyDownload',
+						'Invoke-D365AzCopyTransfer',
 						
 						'Invoke-D365AzureStorageDownload',
 						'Invoke-D365AzureStorageUpload',
