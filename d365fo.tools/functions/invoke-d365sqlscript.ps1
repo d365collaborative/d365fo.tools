@@ -78,6 +78,8 @@ Function Invoke-D365SqlScript {
     $MyInvocation.MyCommand.Parameters.Keys | Get-Variable -ErrorAction Ignore | ForEach-Object { $Params.Add($_.Name, $_.Value) };
     
     $null = $Params.Remove('FilePath')
+    $null = $Params.Remove('EnableException')
+    
     $Params.TrustedConnection = $UseTrustedConnection
 
     $sqlCommand = Get-SqlCommand @Params
