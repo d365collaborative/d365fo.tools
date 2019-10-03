@@ -5,43 +5,40 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-D365LcsDeployment
+# Get-D365LcsDatabaseBackups
 
 ## SYNOPSIS
-Start the deployment of a deployable package
+Get database backups from LCS project
 
 ## SYNTAX
 
 ```
-Invoke-D365LcsDeployment [-ProjectId <Int32>] [-BearerToken <String>] [-AssetId] <String>
- -EnvironmentId <String> [-LcsApiUri <String>] [<CommonParameters>]
+Get-D365LcsDatabaseBackups [[-ProjectId] <Int32>] [[-BearerToken] <String>] [[-LcsApiUri] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Deploy a deployable package from the Asset Library from a LCS project using the API provided by Microsoft
+Get the available database backups from the Asset Library in LCS project
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Invoke-D365LcsDeployment -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+Get-D365LcsDatabaseBackups -ProjectId 123456789 -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 ```
 
-This will start the deployment of the file located in the Asset Library.
+This will get all available database backups from the Asset Library inside LCS.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
-The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
 The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
 
 ### EXAMPLE 2
 ```
-Invoke-D365LcsDeployment -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+Get-D365LcsDatabaseBackups
 ```
 
-This will start the deployment of the file located in the Asset Library.
-The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
-The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+This will get all available database backups from the Asset Library inside LCS.
+It will use default values for all parameters.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -60,7 +57,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 1
 Default value: $Script:LcsApiProjectId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -77,42 +74,8 @@ Parameter Sets: (All)
 Aliases: Token
 
 Required: False
-Position: Named
+Position: 2
 Default value: $Script:LcsApiBearerToken
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AssetId
-The unique id of the asset / file that you are trying to deploy from LCS
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 4
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -EnvironmentId
-The unique id of the environment that you want to work against
-
-The Id can be located inside the LCS portal
-
-Default value can be configured using Set-D365LcsApiConfig
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -134,7 +97,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 3
 Default value: $Script:LcsApiLcsApiUri
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -148,8 +111,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deploy
-
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
@@ -158,13 +119,7 @@ Author: Mötz Jensen (@Splaxi)
 
 [Get-D365LcsApiToken]()
 
-[Get-D365LcsAssetValidationStatus]()
-
-[Get-D365LcsDeploymentStatus]()
-
 [Invoke-D365LcsApiRefreshToken]()
-
-[Invoke-D365LcsUpload]()
 
 [Set-D365LcsApiConfig]()
 

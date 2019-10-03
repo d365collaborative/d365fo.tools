@@ -22,6 +22,12 @@
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
+        Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+        
+        Valid options:
+        "https://lcsapi.lcs.dynamics.com"
+        "https://lcsapi.eu.lcs.dynamics.com"
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER WaitForValidation
@@ -46,6 +52,8 @@
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
+        The default values can be configured using Set-D365LcsApiConfig.
+        
     .EXAMPLE
         PS C:\> Get-D365LcsAssetValidationStatus -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -WaitForValidation
         
@@ -54,6 +62,8 @@
         The cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
         
     .EXAMPLE
         PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" | Get-D365LcsAssetValidationStatus -WaitForValidation
@@ -64,6 +74,8 @@
         The cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
         
     .LINK
         Get-D365LcsApiConfig
@@ -102,7 +114,7 @@ function Get-D365LcsAssetValidationStatus {
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 3)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [string] $AssetId,
 
         [Parameter(Mandatory = $false)]

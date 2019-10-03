@@ -82,7 +82,7 @@ Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook fr
 ### -Path
 Path to the update package that you want to install into the environment
 
-The cmdlet only supports a path to an already extracted and unblocked zip-file
+The cmdlet only supports a path to an unblocked zip-file
 
 ```yaml
 Type: String

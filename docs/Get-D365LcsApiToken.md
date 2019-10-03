@@ -42,6 +42,8 @@ The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is use
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
+The default values can be configured using Set-D365LcsApiConfig.
+
 ### EXAMPLE 3
 ```
 Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword" | Set-D365LcsApiConfig
@@ -53,6 +55,8 @@ The output object received from Get-D365LcsApiToken is piped directly to Set-D36
 Set-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
 
 ## PARAMETERS
 

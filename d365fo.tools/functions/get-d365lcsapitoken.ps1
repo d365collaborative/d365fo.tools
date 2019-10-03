@@ -39,12 +39,28 @@
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
+        PS C:\> Get-D365LcsApiToken -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username "serviceaccount@domain.com" -Password "TopSecretPassword" -LcsApiUri "https://lcsapi.lcs.dynamics.com" | Set-D365LcsApiConfig -ProjectId 123456789
+        
+        This will obtain a valid OAuth 2.0 access token from Azure Active Directory.
+        The ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" is used in the OAuth 2.0 Grant Flow to authenticate.
+        The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
+        The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
+
+        The output object received from Get-D365LcsApiToken is piped directly to Set-D365LcsApiConfig.
+
+        Set-D365LcsApiConfig will save the ClientId, LcsApiUri, ProjectId, access_token(BearerToken), refresh_token(RefreshToken), expires_on(ActiveTokenExpiresOn) details for the module to use them across other LCS cmdlets.
+
+        This should be your default approach in using and leveraging the module, so you don't have to supply the same parameters for every single cmdlet.
+
+    .EXAMPLE
         PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword"
         
         This will obtain a valid OAuth 2.0 access token from Azure Active Directory.
         The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
         
     .EXAMPLE
         PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword" | Set-D365LcsApiConfig
@@ -55,6 +71,8 @@
         Set-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
         
     .LINK
         Get-D365LcsApiConfig

@@ -5,44 +5,43 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365LcsDeploymentStatus
+# Invoke-D365LcsDatabaseRefresh
 
 ## SYNOPSIS
-Get the Deployment status from LCS
+Start a database refresh between 2 environments
 
 ## SYNTAX
 
 ```
-Get-D365LcsDeploymentStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-ActionHistoryId] <String>
- [-EnvironmentId] <String> [[-LcsApiUri] <String>] [-WaitForCompletion] [[-SleepInSeconds] <Int32>]
- [<CommonParameters>]
+Invoke-D365LcsDatabaseRefresh [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-SourceEnvironmentId] <String>
+ [-TargetEnvironmentId] <String> [[-LcsApiUri] <String>] [-SkipInitialStatusFetch] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get the Deployment status for activity against an environment from the Dynamics LCS Portal
+Start a database refresh between 2 environments from a LCS project
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365LcsDeploymentStatus -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+Invoke-D365LcsDatabaseRefresh -ProjectId 123456789 -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 ```
 
-This will check the deployment status of specific activity against an environment.
+This will start the database refresh between the Source and Target environments.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-The activity is identified by the ActionHistoryId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
-The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
+The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
 The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
 
 ### EXAMPLE 2
 ```
-Get-D365LcsDeploymentStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
 ```
 
-This will check the deployment status of specific activity against an environment.
-The activity is identified by the ActionHistoryId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
-The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+This will start the database refresh between the Source and Target environments.
+The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -50,13 +49,13 @@ The default values can be configured using Set-D365LcsApiConfig.
 
 ### EXAMPLE 3
 ```
-Get-D365LcsDeploymentStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -WaitForCompletion
+Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -SkipInitialStatusFetch
 ```
 
-This will check the deployment status of specific activity against an environment.
-The activity is identified by the ActionHistoryId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
-The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-The cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the deployment is either success or failure.
+This will start the database refresh between the Source and Target environments.
+The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+It will skip the first database refesh status fetch and only output the details from starting the refresh.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -98,8 +97,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ActionHistoryId
-The unique id of the action that you started from the Invoke-D365LcsDeployment cmdlet
+### -SourceEnvironmentId
+The unique id of the environment that you want to use as the source for the database refresh
+
+The Id can be located inside the LCS portal
 
 ```yaml
 Type: String
@@ -109,12 +110,12 @@ Aliases:
 Required: True
 Position: 3
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -EnvironmentId
-The unique id of the environment that you want to work against
+### -TargetEnvironmentId
+The unique id of the environment that you want to use as the target for the database refresh
 
 The Id can be located inside the LCS portal
 
@@ -153,10 +154,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WaitForCompletion
-Instruct the cmdlet to wait for the deployment process to complete
+### -SkipInitialStatusFetch
+Instruct the cmdlet to skip the first fetch of the database refresh status
 
-The cmdlet will sleep for 300 seconds, before requesting the status of the deployment process from LCS
+Useful when you have a large script that handles this status validation and you don't want to spend time with this cmdlet
 
 ```yaml
 Type: SwitchParameter
@@ -170,23 +171,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SleepInSeconds
-Time in secounds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
-
-Default value is 300
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: 300
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -194,9 +178,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### PSCustomObject
 ## NOTES
-Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deploy
+Tags: Environment, Config, Configuration, LCS, Database backup, Api, Backup, Restore, Refresh
 
 Author: Mötz Jensen (@Splaxi)
 
@@ -208,9 +191,9 @@ Author: Mötz Jensen (@Splaxi)
 
 [Get-D365LcsAssetValidationStatus]()
 
-[Invoke-D365LcsApiRefreshToken]()
+[Get-D365LcsDeploymentStatus]()
 
-[Invoke-D365LcsDeployment]()
+[Invoke-D365LcsApiRefreshToken]()
 
 [Invoke-D365LcsUpload]()
 

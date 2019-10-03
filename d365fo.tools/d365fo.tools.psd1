@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.5.46'
+    ModuleVersion     = '0.5.47'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -106,6 +106,8 @@
 						'Get-D365LcsApiConfig',
 						'Get-D365LcsApiToken',
 						'Get-D365LcsAssetValidationStatus',
+						'Get-D365LcsDatabaseBackups',
+						'Get-D365LcsDatabaseRefreshStatus',
 						'Get-D365LcsDeploymentStatus',
 						'Get-D365LcsEnvironment',
 						'Get-D365LogicAppConfig',
@@ -145,6 +147,8 @@
 						
 						'Initialize-D365RsatCertificate',
 
+						'Invoke-D365AzCopyDownload',
+						
 						'Invoke-D365AzureStorageDownload',
 						'Invoke-D365AzureStorageUpload',
 
@@ -152,8 +156,10 @@
 						'Invoke-D365DBSync',
 						'Invoke-D365DBSyncPartial',
 						'Invoke-D365InstallLicense',
+						'Invoke-D365InstallAzCopy',
 						
 						'Invoke-D365LcsApiRefreshToken',
+						'Invoke-D365LcsDatabaseRefresh',
 						'Invoke-D365LcsDeployment',
 						'Invoke-D365LcsUpload',
 						'Invoke-D365LogicApp',
@@ -202,6 +208,8 @@
 						'Set-D365ActiveEnvironmentConfig',
 
 						'Set-D365Admin',
+
+						'Set-D365AzCopyPath',
 
 						'Set-D365ClickOnceTrustPrompt',
 

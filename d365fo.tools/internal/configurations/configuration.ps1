@@ -40,3 +40,5 @@ Set-PSFConfig -FullName "d365fo.tools.azure.common.oauth.token" -Value "https://
 Set-PSFConfig -FullName "d365fo.tools.path.rsat" -Value "C:\Program Files (x86)\Regression Suite Automation Tool" -Initialize -Description "Path to the default location where RSAT is located."
 
 Set-PSFConfig -FullName "d365fo.tools.path.rsatplayback" -Value "C:\Users\$($env:UserName)\AppData\Roaming\regressionTool\playback" -Initialize -Description "Path to the playback output location where RSAT is writing all the output values."
+
+Set-PSFConfig -FullName "d365fo.tools.path.azcopy" -Value "C:\temp\d365fo.tools\AzCopy\AzCopy.exe" -Initialize -Description "Path to the default location where AzCopy.exe is located."

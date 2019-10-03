@@ -11,7 +11,7 @@
     .PARAMETER Path
         Path to the update package that you want to install into the environment
         
-        The cmdlet only supports a path to an already extracted and unblocked zip-file
+        The cmdlet only supports a path to an unblocked zip-file
         
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
@@ -138,6 +138,19 @@ function Invoke-D365SDPInstall {
     }
 
     Invoke-TimeSignal -Start
+
+    #Test if input is a zipFile that needs to be extracted first
+    if($Path.EndsWith(".zip")){
+        Unblock-File -Path $Path
+        
+        $extractedPath = $path.Remove($path.Length-4)
+        if(!(Test-Path $extractedPath)){
+            Expand-Archive -Path $Path -DestinationPath $extractedPath
+            
+            #lets work with the extracted directory from now on
+            $Path = $extractedPath
+        }
+    }
 
     # Input is a relative path, hence we set the path to the current directory
     if ($Path -eq ".") {

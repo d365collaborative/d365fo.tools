@@ -6,6 +6,7 @@
     , "Select-DefaultView"
     , "New-JsonRequest"
     , "Invoke-Process"
+    , "Invoke-D365AzCopyTransfer"
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools

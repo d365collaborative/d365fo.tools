@@ -145,7 +145,7 @@ foreach ($item in (Get-PSFConfig -FullName d365fo.tools.active*)) {
 }
 
 #Active LCS Upload config extraction
-Update-LcsUploadVariables
+Update-LcsApiVariables
 
 $maskOutput = @(
     "AccessToken",

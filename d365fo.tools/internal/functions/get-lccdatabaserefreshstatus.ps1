@@ -15,7 +15,7 @@
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
-    .PARAMETER ActionHistoryId
+    .PARAMETER OperationActivityId
         The unique id of the action you got from when starting the deployment to the environment
         
     .PARAMETER EnvironmentId
@@ -33,14 +33,17 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
     .EXAMPLE
-        PS C:\> Get-LcsDeploymentStatus -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsDatabaseRefreshStatus -ProjectId 123456789 -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -Token "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will start the deployment of the file located in the Asset Library with the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
-        The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
+        This will check the database refresh status of a specific OperationActivityId against an environment.
+        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+        The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from the Invoke-D365LcsDatabaseRefresh execution.
+        The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .LINK
-        Start-LcsDeployment
+        Start-LcsDatabaseRefresh
         
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deployable Package
@@ -48,7 +51,7 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 
-function Get-LcsDeploymentStatus {
+function Get-LcsDatabaseRefreshStatus {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]
     param(
@@ -59,7 +62,7 @@ function Get-LcsDeploymentStatus {
         [string] $BearerToken,
 
         [Parameter(Mandatory = $true)]
-        [string] $ActionHistoryId,
+        [string] $OperationActivityId,
 
         [Parameter(Mandatory = $true)]
         [string] $EnvironmentId,
@@ -75,8 +78,8 @@ function Get-LcsDeploymentStatus {
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
 
-    $deployStatusUri = "$LcsApiUri/environment/servicing/v1/monitorupdate/$($ProjectId)?environmentId=$EnvironmentId&actionHistoryId=$ActionHistoryId"
-
+    $deployStatusUri = "$LcsApiUri/databasemovement/v1/fetchstatus/project/$($ProjectId)/environment/$($EnvironmentId)/operationactivity/$($OperationActivityId)"
+    
     $request = New-JsonRequest -Uri $deployStatusUri -Token $BearerToken -HttpMethod "GET"
 
     try {
@@ -86,55 +89,55 @@ function Get-LcsDeploymentStatus {
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
-        $deploymentStatus = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        $databaseRefreshStatus = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
     
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
-            if (($deploymentStatus) -and ($deploymentStatus.Message)) {
+            if (($databaseRefreshStatus) -and ($databaseRefreshStatus.ErrorMessage)) {
                 $errorText = ""
-                if ($deploymentStatus.ActivityId) {
-                    $errorText = "Error $( $deploymentStatus.LcsErrorCode) in request for status of environment servicing action: '$( $deploymentStatus.Message)' (Activity Id: '$( $deploymentStatus.ActivityId)')"
+                if ($databaseRefreshStatus.OperationActivityId) {
+                    $errorText = "Error in request for database refresh status of environment: '$( $databaseRefreshStatus.ErrorMessage)' (Activity Id: '$( $databaseRefreshStatus.OperationActivityId)')"
                 }
                 else {
-                    $errorText = "Error $( $deploymentStatus.LcsErrorCode) in request for status of environment servicing action: '$( $deploymentStatus.Message)'"
+                    $errorText = "Error in request for database refresh status of environment: '$( $databaseRefreshStatus.ErrorMessage)'"
                 }
             }
-            elseif ($deploymentStatus.ActivityId) {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($deploymentStatus.ActivityId)')"
+            elseif ($databaseRefreshStatus.OperationActivityId) {
+                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($databaseRefreshStatus.OperationActivityId)')"
             }
             else {
                 $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
             }
 
-            Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($deploymentStatus.Message)
+            Write-PSFMessage -Level Host -Message "Error getting database refresh status." -Target $($databaseRefreshStatus.ErrorMessage)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
-            Stop-PSFFunction -Message "Stopping because of errors"
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
 
         
-        if (-not ( $deploymentStatus.LcsEnvironmentActionStatus)) {
-            if ( $deploymentStatus.Message) {
-                $errorText = "Error in request for status of environment servicing action: '$( $deploymentStatus.Message)' (Activity Id: '$( $deploymentStatus.ActivityId)')"
+        if (-not ($databaseRefreshStatus.IsSuccess)) {
+            if ($databaseRefreshStatus.ErrorMessage) {
+                $errorText = "Error in request for database refresh status of environment: '$( $databaseRefreshStatus.ErrorMessage)' (Activity Id: '$( $databaseRefreshStatus.OperationActivityId)')"
             }
-            elseif ( $deploymentStatus.ActivityId) {
-                $errorText = "Error in request for status of environment servicing action. Activity Id: '$($activity.ActivityId)'"
+            elseif ( $databaseRefreshStatus.OperationActivityId) {
+                $errorText = "Error in request for database refresh status of environment. Activity Id: '$($activity.OperationActivityId)'"
             }
             else {
-                $errorText = "Unknown error in request for status of environment servicing action"
+                $errorText = "Unknown error in request for database refresh status."
             }
 
-            Write-PSFMessage -Level Host -Message "Unknown error creating new file asset." -Target $deploymentStatus
+            Write-PSFMessage -Level Host -Message "Unknown error requesting database refresh status." -Target $databaseRefreshStatus
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
-            Stop-PSFFunction -Message "Stopping because of errors"
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         return
     }
 
     Invoke-TimeSignal -End
     
-    $deploymentStatus
+    $databaseRefreshStatus
 }

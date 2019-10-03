@@ -12,11 +12,6 @@
     .PARAMETER ClientId
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal
         
-    .PARAMETER EnvironmentId
-        The unique id of the environment that you want to work against
-        
-        The Id can be located inside the LCS portal
-        
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
@@ -59,7 +54,9 @@
         The output object received from Get-D365LcsApiToken is piped directly to Set-D365LcsApiConfig.
         Set-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).
         
-        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        These values will then be available as default values for all LCS cmdlets across the module.
+        
+        You can validate the current default values by calling Get-D365LcsApiConfig.
         
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, ClientId
@@ -73,29 +70,24 @@ function Set-D365LcsApiConfig {
     [CmdletBinding()]
     [OutputType()]
     param(
-        [Parameter(Mandatory = $false)]
         [int] $ProjectId,
 
-        [Parameter(Mandatory = $false)]
         [string] $ClientId,
 
-        [Parameter(Mandatory = $false)]
-        [string] $EnvironmentId,
-
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias('access_token')]
         [Alias('AccessToken')]
         [string] $BearerToken,
 
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias('expires_on')]
         [long] $ActiveTokenExpiresOn,
 
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias('refresh_token')]
         [string] $RefreshToken,
 
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias('resource')]
         [string] $LcsApiUri = "https://lcsapi.lcs.dynamics.com",
         
@@ -129,5 +121,5 @@ function Set-D365LcsApiConfig {
         if (-not $Temporary) { Register-PSFConfig -FullName $fullConfigName -Scope UserDefault }
     }
 
-    Update-LcsUploadVariables
+    Update-LcsApiVariables
 }

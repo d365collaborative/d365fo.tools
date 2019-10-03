@@ -49,6 +49,8 @@ The name inside the Asset Library is based on the FileName "Release-2019-05-05".
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
+The default values can be configured using Set-D365LcsApiConfig.
+
 ### EXAMPLE 3
 ```
 Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip"
@@ -58,6 +60,8 @@ This will start the upload of a file to the Asset Library.
 The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
 
 ## PARAMETERS
 
