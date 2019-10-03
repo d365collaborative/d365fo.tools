@@ -39,9 +39,9 @@
         
     .PARAMETER SkipInitialStatusFetch
         Instruct the cmdlet to skip the first fetch of the database refresh status
-
+        
         Useful when you have a large script that handles this status validation and you don't want to spend time with this cmdlet
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365LcsDatabaseRefresh -ProjectId 123456789 -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -62,7 +62,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -SkipInitialStatusFetch
         
@@ -70,11 +70,11 @@
         The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
         The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         It will skip the first database refesh status fetch and only output the details from starting the refresh.
-
+        
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .LINK
         Get-D365LcsApiConfig
         

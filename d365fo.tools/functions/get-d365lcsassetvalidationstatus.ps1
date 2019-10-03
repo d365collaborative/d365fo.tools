@@ -53,7 +53,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsAssetValidationStatus -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -WaitForValidation
         
@@ -64,7 +64,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" | Get-D365LcsAssetValidationStatus -WaitForValidation
         
@@ -76,7 +76,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .LINK
         Get-D365LcsApiConfig
         

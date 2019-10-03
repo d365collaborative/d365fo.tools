@@ -42,7 +42,7 @@
         
     .PARAMETER SleepInSeconds
         Time in secounds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
-
+        
         Default value is 300
         
     .EXAMPLE
@@ -65,7 +65,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsDeploymentStatus -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -WaitForCompletion
         
@@ -77,7 +77,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .LINK
         Get-D365LcsApiConfig
         

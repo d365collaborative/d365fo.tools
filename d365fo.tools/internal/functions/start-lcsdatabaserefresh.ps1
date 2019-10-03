@@ -43,7 +43,7 @@
         
     .LINK
         Get-LcsDatabaseRefreshStatus
-
+        
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deployable Package
         
