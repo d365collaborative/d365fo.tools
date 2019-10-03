@@ -5,16 +5,16 @@
         
     .DESCRIPTION
         Transfer a file using the AzCopy tool
-                
+        
         You can upload a local file to an Azure Storage Blob Container
-
+        
         You can download a file located in an Azure Storage Blob Container to a local folder
-
+        
         You can transfer a file located in an Azure Storage Blob Container to another Azure Storage Blob Container, across regions and subscriptions, if you have SAS tokens/keys as part of your uri
-
+        
     .PARAMETER SourceUri
         Source file uri that you want to transfer
-       
+        
     .PARAMETER DestinationUri
         Destination file uri that you want to transfer the file to
         
@@ -27,10 +27,10 @@
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
         Will include full path to the executable and the needed parameters based on your selection
-
+        
     .PARAMETER Force
         Instruct the cmdlet to overwrite already existing file
-
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -41,9 +41,9 @@
         This will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.
         The file that will be transfered/downloaded is SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...".
         The file will be transfered/downloaded to DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac".
-
+        
         If there exists a file already, the file will NOT be overwritten.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365AzCopyTransfer -SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=..." -DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac" -Force
         
@@ -54,13 +54,13 @@
         
     .EXAMPLE
         PS C:\> Invoke-D365AzCopyTransfer -SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=..." -DestinationUri "https://456.blob.core.windows.net/targetcontainer/filename?sv=2015-12-11&sr=..."
-
+        
         This will transfer a file from an Azure Storage Blob Container to another Azure Storage Blob Container.
         The file that will be transfered/downloaded is SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...".
         The file will be transfered/downloaded to DestinationUri "https://456.blob.core.windows.net/targetcontainer/filename?sv=2015-12-11&sr=...".
-
+        
         For this to work, you need to make sure both SourceUri and DestinationUri has an valid SAS token/key included.
-
+        
         If there exists a file already, the file will NOT be overwritten.
         
     .NOTES

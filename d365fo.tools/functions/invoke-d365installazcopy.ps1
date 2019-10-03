@@ -8,12 +8,12 @@
         
     .PARAMETER Url
         Url/Uri to where the latest AzCopy download is located
-
+        
         The default value is for v10 as of writing
-
+        
     .PARAMETER Path
         Path to where you want the AzCopy to be extracted to
-
+        
         Default value is: "C:\temp\d365fo.tools\AzCopy\AzCopy.exe"
         
     .EXAMPLE
