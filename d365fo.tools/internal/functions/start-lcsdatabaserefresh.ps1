@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Start LCS deployment
+        Start a database refresh between 2 environments
         
     .DESCRIPTION
-        Start the deployment of a deployable package from the LCS API
+        Start a database refresh between 2 environments from a LCS project
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
@@ -13,12 +13,12 @@
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
         
     .PARAMETER SourceEnvironmentId
-        The unique id of the environment that you want to work against
+        The unique id of the environment that you want to use as the source for the database refresh
         
         The Id can be located inside the LCS portal
         
     .PARAMETER TargetEnvironmentId
-        The unique id of the environment that you want to work against
+        The unique id of the environment that you want to use as the target for the database refresh
         
         The Id can be located inside the LCS portal
         
@@ -32,13 +32,13 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
     .EXAMPLE
-        PS C:\> Start-LcsDatabaseRefresh -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsDatabaseRefresh -ProjectId 123456789 -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will start the deployment of the file located in the Asset Library.
+        This will start the database refresh between the Source and Target environments.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-        The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
-        The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-        The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
+        The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+        The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .LINK
