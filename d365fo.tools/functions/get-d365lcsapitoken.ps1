@@ -45,13 +45,13 @@
         The ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" is used in the OAuth 2.0 Grant Flow to authenticate.
         The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like "serviceaccount@domain.com".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-
+        
         The output object received from Get-D365LcsApiToken is piped directly to Set-D365LcsApiConfig.
-
+        
         Set-D365LcsApiConfig will save the ClientId, LcsApiUri, ProjectId, access_token(BearerToken), refresh_token(RefreshToken), expires_on(ActiveTokenExpiresOn) details for the module to use them across other LCS cmdlets.
-
+        
         This should be your default approach in using and leveraging the module, so you don't have to supply the same parameters for every single cmdlet.
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password "TopSecretPassword"
         
