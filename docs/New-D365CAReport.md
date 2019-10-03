@@ -13,8 +13,9 @@ Generate the Customization's Analysis Report (CAR)
 ## SYNTAX
 
 ```
-New-D365CAReport [[-Path] <String>] [[-BinDir] <String>] [[-MetaDataDir] <String>] [-Module] <String>
- [-Model] <String> [[-XmlLog] <String>] [<CommonParameters>]
+New-D365CAReport [[-Path] <String>] [-Module] <String> [-Model] <String> [[-BinDir] <String>]
+ [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,8 +41,38 @@ Parameter Sets: (All)
 Aliases: File
 
 Required: False
-Position: 2
+Position: 1
 Default value: (Join-Path $Script:DefaultTempPath "CAReport.xlsx")
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Module
+Name of the Module to analyse
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Package
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Model
+Name of the Model to analyse
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -57,7 +88,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: "$Script:PackageDirectory\bin"
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -74,38 +105,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
-Default value: "$Script:MetaDataDir"
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Module
-Name of the Module to analyse
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Package
-
-Required: True
 Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Model
-Name of the Model to analyse
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 6
-Default value: None
+Default value: "$Script:MetaDataDir"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -119,8 +120,42 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 6
 Default value: (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml")
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

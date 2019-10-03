@@ -14,7 +14,7 @@ Remove a model from Dynamics 365 for Finance & Operations
 
 ```
 Remove-D365Model [-Model] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>] [-DeleteFolders]
- [<CommonParameters>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -96,6 +96,40 @@ Accept wildcard characters: False
 Instruct the cmdlet to delete the model folder
 
 This is useful when you are trying to clean up the folders in your source control / branch
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
 
 ```yaml
 Type: SwitchParameter
