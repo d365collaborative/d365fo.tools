@@ -137,6 +137,8 @@ function Invoke-D365SDPInstall {
 
     #Test if input is a zipFile that needs to be extracted first
     if($Path.EndsWith(".zip")){
+        Unblock-File -Path $Path
+        
         $extractedPath = $path.Remove($path.Length-4)
         if(!(Test-Path $extractedPath)){
             Expand-Archive -Path $Path -DestinationPath $extractedPath
