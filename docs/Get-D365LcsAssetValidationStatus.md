@@ -13,8 +13,8 @@ Get the validation status from LCS
 ## SYNTAX
 
 ```
-Get-D365LcsAssetValidationStatus [-ProjectId <Int32>] [-BearerToken <String>] [-AssetId] <String>
- [-LcsApiUri <String>] [-WaitForValidation] [<CommonParameters>]
+Get-D365LcsAssetValidationStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-AssetId] <String>
+ [[-LcsApiUri] <String>] [-WaitForValidation] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,6 +43,8 @@ The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", wh
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
+The default values can be configured using Set-D365LcsApiConfig.
+
 ### EXAMPLE 3
 ```
 Get-D365LcsAssetValidationStatus -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -WaitForValidation
@@ -53,6 +55,8 @@ The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", wh
 The cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
 
 ### EXAMPLE 4
 ```
@@ -65,6 +69,8 @@ The output object received from Invoke-D365LcsUpload is piped directly to Get-D3
 The cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
 
 ## PARAMETERS
 
@@ -79,7 +85,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 1
 Default value: $Script:LcsApiProjectId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -96,7 +102,7 @@ Parameter Sets: (All)
 Aliases: Token
 
 Required: False
-Position: Named
+Position: 2
 Default value: $Script:LcsApiBearerToken
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -111,7 +117,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 4
+Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -119,6 +125,12 @@ Accept wildcard characters: False
 
 ### -LcsApiUri
 URI / URL to the LCS API you want to use
+
+Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+
+Valid options:
+"https://lcsapi.lcs.dynamics.com"
+"https://lcsapi.eu.lcs.dynamics.com"
 
 Default value can be configured using Set-D365LcsApiConfig
 
@@ -128,7 +140,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 4
 Default value: $Script:LcsApiLcsApiUri
 Accept pipeline input: False
 Accept wildcard characters: False

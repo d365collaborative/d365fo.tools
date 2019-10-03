@@ -13,9 +13,9 @@ Set the LCS configuration details
 ## SYNTAX
 
 ```
-Set-D365LcsApiConfig [[-ProjectId] <Int32>] [[-ClientId] <String>] [[-EnvironmentId] <String>]
- [[-BearerToken] <String>] [[-ActiveTokenExpiresOn] <Int64>] [[-RefreshToken] <String>] [[-LcsApiUri] <String>]
- [-Temporary] [<CommonParameters>]
+Set-D365LcsApiConfig [[-ProjectId] <Int32>] [[-ClientId] <String>] [[-BearerToken] <String>]
+ [[-ActiveTokenExpiresOn] <Int64>] [[-RefreshToken] <String>] [[-LcsApiUri] <String>] [-Temporary]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,7 +47,9 @@ The Username "serviceaccount@domain.com" and Password "TopSecretPassword" is use
 The output object received from Get-D365LcsApiToken is piped directly to Set-D365LcsApiConfig.
 Set-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).
 
-All default values will come from the configuration available from Get-D365LcsApiConfig.
+These values will then be available as default values for all LCS cmdlets across the module.
+
+You can validate the current default values by calling Get-D365LcsApiConfig.
 
 ## PARAMETERS
 
@@ -81,23 +83,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -EnvironmentId
-The unique id of the environment that you want to work against
-
-The Id can be located inside the LCS portal
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -BearerToken
 The token you want to use when working against the LCS api
 
@@ -107,7 +92,7 @@ Parameter Sets: (All)
 Aliases: AccessToken, access_token
 
 Required: False
-Position: 4
+Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -124,7 +109,7 @@ Parameter Sets: (All)
 Aliases: expires_on
 
 Required: False
-Position: 5
+Position: 4
 Default value: 0
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -139,7 +124,7 @@ Parameter Sets: (All)
 Aliases: refresh_token
 
 Required: False
-Position: 6
+Position: 5
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -160,7 +145,7 @@ Parameter Sets: (All)
 Aliases: resource
 
 Required: False
-Position: 7
+Position: 6
 Default value: Https://lcsapi.lcs.dynamics.com
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
