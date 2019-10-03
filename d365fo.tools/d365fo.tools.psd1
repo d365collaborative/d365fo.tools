@@ -154,6 +154,7 @@
 						'Invoke-D365DBSync',
 						'Invoke-D365DBSyncPartial',
 						'Invoke-D365InstallLicense',
+						'Invoke-D365InstallAzCopy',
 						
 						'Invoke-D365LcsApiRefreshToken',
 						'Invoke-D365LcsDatabaseRefresh',
@@ -205,6 +206,8 @@
 						'Set-D365ActiveEnvironmentConfig',
 
 						'Set-D365Admin',
+
+						'Set-D365AzCopyPath',
 
 						'Set-D365ClickOnceTrustPrompt',
 
