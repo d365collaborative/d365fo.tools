@@ -41,6 +41,9 @@
         The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
+    .LINK
+        Get-LcsDatabaseRefreshStatus
+
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deployable Package
         

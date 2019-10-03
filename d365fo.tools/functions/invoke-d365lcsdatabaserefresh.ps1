@@ -37,6 +37,11 @@
         
         Default value can be configured using Set-D365LcsApiConfig
         
+    .PARAMETER SkipInitialStatusFetch
+        Instruct the cmdlet to skip the first fetch of the database refresh status
+
+        Useful when you have a large script that handles this status validation and you don't want to spend time with this cmdlet
+
     .EXAMPLE
         PS C:\> Invoke-D365LcsDatabaseRefresh -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
