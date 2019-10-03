@@ -141,7 +141,7 @@ function Get-D365LcsDatabaseRefreshStatus {
         Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
 
         Start-Sleep -Seconds $SleepInSeconds
-        $databaseRefreshStatus = Get-LcsDatabaseRefreshStatus -BearerToken $BearerToken -ProjectId $ProjectId -OperationActivityId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+        $databaseRefreshStatus = Get-LcsDatabaseRefreshStatus -BearerToken $BearerToken -ProjectId $ProjectId -OperationActivityId $OperationActivityId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
     }
     while ((($databaseRefreshStatus.OperationStatus -eq "InProgress") -or ($databaseRefreshStatus.OperationStatus -eq "NotStarted") -or ($databaseRefreshStatus.OperationStatus -eq "RollbackInProgress")) -and $WaitForCompletion)
 
