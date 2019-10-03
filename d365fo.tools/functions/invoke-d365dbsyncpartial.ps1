@@ -48,6 +48,16 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .EXAMPLE
         PS C:\> Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable"
         
@@ -100,9 +110,16 @@ function Invoke-D365DBSyncPartial {
 
         [string] $SqlUser = $Script:DatabaseUserName,
 
-        [string] $SqlPwd = $Script:DatabaseUserPassword
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
+
     )
 
+    Invoke-TimeSignal -Start
+    
     #! The way the sync engine works is that it uses the connection string for some operations,
     #! but for FullSync / FullAll it depends on the database details from the same assemblies that
     #! we rely on. So the testing of how to run this cmdlet is a bit different than others
@@ -134,46 +151,16 @@ function Invoke-D365DBSyncPartial {
     }
     
     Write-PSFMessage -Level Debug -Message "Build the parameters for the command to execute."
-    $param = " -syncmode=`"$($SyncMode.ToLower())`""
-    $param = " -synclist=`"$($SyncList -join ",")`""
-    $param += " -verbosity=`"$($Verbosity.ToLower())`""
-    $param += " -metadatabinaries=`"$MetadataDir`""
-    $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
+    $params = @("-syncmode=$($SyncMode.ToLower())",
+        "-synclist=`"$($SyncList -join ",")`"",
+        "-verbosity=$($Verbosity.ToLower())",
+        "-metadatabinaries=`"$MetadataDir`"",
+        "-connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
+    )
 
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
     #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
-    $process = Start-Process -FilePath $executable -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     
-    $lineTotalCount = 0
-    $lineCount = 0
-
-    Invoke-TimeSignal -Start
-
-    while ($process.HasExited -eq $false) {
-        foreach ($line in Get-Content "$LogPath\output.log") {
-            $lineCount++
-            if ($lineCount -gt $lineTotalCount) {
-                Write-Verbose $line
-                $lineTotalCount++
-            }
-        }
-        $lineCount = 0
-        Start-Sleep -Seconds 2
-
-    }
-
-    foreach ($line in Get-Content "$LogPath\output.log") {
-        $lineCount++
-        if ($lineCount -gt $lineTotalCount) {
-            Write-Verbose $line
-            $lineTotalCount++
-        }
-    }
-
-    foreach ($line in Get-Content "$LogPath\error.log") {
-        Write-PSFMessage -Level Critical -Message "$line"
-    }
-
     Invoke-TimeSignal -End
 }

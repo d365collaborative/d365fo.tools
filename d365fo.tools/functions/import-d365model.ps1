@@ -27,6 +27,16 @@
     .PARAMETER Replace
         Instruct the cmdlet to replace an already existing model
         
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .EXAMPLE
         PS C:\> Import-D365Model -Path c:\temp\d365fo.tools\CustomModel.axmodel
         
@@ -59,7 +69,11 @@ function Import-D365Model {
         [Parameter(Mandatory = $false, Position = 3 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [switch] $Replace
+        [switch] $Replace,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
     Invoke-TimeSignal -Start

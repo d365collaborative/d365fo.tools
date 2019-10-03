@@ -128,12 +128,38 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter ShowOriginalProgress' {
+			$parameter = (Get-Command Invoke-D365DBSync).Parameters['ShowOriginalProgress']
+			$parameter.Name | Should -Be 'ShowOriginalProgress'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter OutputCommandOnly' {
+			$parameter = (Get-Command Invoke-D365DBSync).Parameters['OutputCommandOnly']
+			$parameter.Name | Should -Be 'OutputCommandOnly'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -
-		__AllParameterSets -BinDirTools -MetadataDir -LogPath -SyncMode -Verbosity -DatabaseServer -DatabaseName -SqlUser -SqlPwd
+		__AllParameterSets -BinDirTools -MetadataDir -LogPath -SyncMode -Verbosity -DatabaseServer -DatabaseName -SqlUser -SqlPwd -ShowOriginalProgress -OutputCommandOnly
 		#>
 	}
 
