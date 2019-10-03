@@ -15,7 +15,7 @@ Invoke the synchronization process used in Visual Studio
 ```
 Invoke-D365DBSync [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-LogPath] <String>]
  [[-SyncMode] <String>] [[-Verbosity] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
- [[-SqlUser] <String>] [[-SqlPwd] <String>] [<CommonParameters>]
+ [[-SqlUser] <String>] [[-SqlPwd] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -184,6 +184,40 @@ Aliases:
 Required: False
 Position: 9
 Default value: $Script:DatabaseUserPassword
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
