@@ -40,6 +40,11 @@
         
         The cmdlet will sleep for 300 seconds, before requesting the status of the deployment process from LCS
         
+    .PARAMETER SleepInSeconds
+        Time in secounds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
+
+        Default value is 300
+        
     .EXAMPLE
         PS C:\> Get-D365LcsDeploymentStatus -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
