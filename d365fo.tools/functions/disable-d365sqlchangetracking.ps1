@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Sets the environment into maintenance mode
+        Disable Change Tracking for the environment
         
     .DESCRIPTION
-        Sets the Dynamics 365 environment into maintenance mode to enable the user to update the license configuration
+        Disables the SQL Server Change Tracking for the environments database and all tables inside the database
         
     .PARAMETER DatabaseServer
         The name of the database server
@@ -21,6 +21,10 @@
         
     .PARAMETER SqlPwd
         The password for the SQL Server user
+        
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
         PS C:\> Disable-D365SqlChangeTracking

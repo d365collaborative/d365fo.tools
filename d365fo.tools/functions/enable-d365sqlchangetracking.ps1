@@ -1,10 +1,12 @@
 ﻿
 <#
     .SYNOPSIS
-        Enable Change Tracking on the SQL Server
+        Enable Change Tracking for the environment
         
     .DESCRIPTION
-        Enable the Change Tracking mechanism on the SQL Server to be used with the Data Entities
+        Enable the SQL Server Change Tracking for the environments database
+
+        It is a requirement for the Data Entities refresh to be able to complete correctly
 
     .PARAMETER DatabaseServer
         The name of the database server
@@ -22,6 +24,10 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+
     .EXAMPLE
         PS C:\> Enable-D365SqlChangeTracking
         
