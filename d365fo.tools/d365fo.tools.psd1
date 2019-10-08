@@ -133,6 +133,7 @@
 						'Get-D365Table',
 						'Get-D365TableField',
 						'Get-D365TableSequence',
+						'Get-D365TablesInChangedTracking',
 						'Get-D365Tier2Params',
 						'Get-D365TfsUri',
 						'Get-D365TfsWorkspace',
