@@ -59,10 +59,12 @@
 						'Publish-D365SsrsReport',
 
 						'Disable-D365MaintenanceMode'
+						'Disable-D365SqlChangeTracking',
 						'Disable-D365User',
 
 						'Enable-D365Exception',
 						'Enable-D365MaintenanceMode',
+						'Enable-D365SqlChangeTracking',
 						'Enable-D365User',
 
 						'Export-D365Model',

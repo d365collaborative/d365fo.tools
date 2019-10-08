@@ -41,19 +41,47 @@ function Disable-D365SqlChangeTracking {
 
         [string] $SqlUser = $Script:DatabaseUserName,
 
-        [string] $SqlPwd = $Script:DatabaseUserPassword
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
+
+        [switch] $EnableException
     )
 
-    Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (which requires local admin)."
+    Invoke-TimeSignal -Start
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
-
-    $Params = @{
-        DatabaseServer = $DatabaseServer
-        DatabaseName   = $DatabaseName
-        SqlUser        = $SqlUser
-        SqlPwd         = $SqlPwd
+    
+    $Params = @{DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd; TrustedConnection = $UseTrustedConnection;
     }
 
-    Invoke-D365SqlScript @Params -FilePath $("$script:ModuleRoot\internal\sql\disable-changetracking.sql") -TrustedConnection $UseTrustedConnection
+    $sqlCommand = Get-SQLCommand @Params
+
+    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\disable-changetracking.sql") -join [Environment]::NewLine
+    $commandText = $commandText.Replace('@DATABASENAME', $DatabaseName)
+
+    $sqlCommand.CommandText = $commandText
+
+    try {
+        Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+
+        $sqlCommand.Connection.Open()
+
+        $null = $sqlCommand.ExecuteNonQuery()
+    }
+    catch {
+        $messageString = "Something went wrong while working against the database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
+        return
+    }
+    finally {
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()
+        }
+
+        $sqlCommand.Dispose()
+    }
+
+    Invoke-TimeSignal -End
+
 }
