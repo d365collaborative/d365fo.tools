@@ -31,9 +31,9 @@
         
     .EXAMPLE
         PS C:\> Get-D365TablesInChangedTracking
-     
+        
         This will list all tables that are taking part in the SQL Server Change Tracking.
-
+        
     .EXAMPLE
         PS C:\> Get-D365TablesInChangedTracking -Name CustTable
         

@@ -5,9 +5,9 @@
         
     .DESCRIPTION
         Enable the SQL Server Change Tracking for the environments database
-
+        
         It is a requirement for the Data Entities refresh to be able to complete correctly
-
+        
     .PARAMETER DatabaseServer
         The name of the database server
         
@@ -27,12 +27,12 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
-
+        
     .EXAMPLE
         PS C:\> Enable-D365SqlChangeTracking
         
         This will enable the Change Tracking on the Sql Server.
-
+        
     .NOTES
         Tags: MaintenanceMode, Maintenance, License, Configuration, Servicing
         
