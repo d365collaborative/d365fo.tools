@@ -1,13 +1,12 @@
 ﻿USE [@DATABASENAME]
 
 --Disable change tracking on tables where it is enabled.
-DECLARE
-@SQL VARCHAR(1000)
+DECLARE @SQL VARCHAR(1000)
 SET QUOTED_IDENTIFIER OFF
 DECLARE changeTrackingCursor CURSOR FOR
 SELECT 'ALTER TABLE [' + t.name + '] DISABLE CHANGE_TRACKING'
-FROM sys.change_tracking_tables c, sys.tables t
-WHERE t.object_id = c.object_id
+FROM sys.change_tracking_tables ct
+INNER JOIN sys.tables t ON ct.object_id = t.object_id
 
 OPEN changeTrackingCursor
 FETCH changeTrackingCursor INTO @SQL

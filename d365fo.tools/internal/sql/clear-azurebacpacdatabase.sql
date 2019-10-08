@@ -28,20 +28,21 @@ BEGIN
 END
 
 --Disable change tracking on tables where it is enabled.
-declare
-@SQL varchar(1000)
-set quoted_identifier off
-declare changeTrackingCursor CURSOR for
-select 'ALTER TABLE [' + t.name + '] DISABLE CHANGE_TRACKING'
-from sys.change_tracking_tables c, sys.tables t
-where t.object_id = c.object_id
+DECLARE @SQL VARCHAR(1000)
+SET QUOTED_IDENTIFIER OFF
+DECLARE changeTrackingCursor CURSOR FOR
+SELECT 'ALTER TABLE [' + t.name + '] DISABLE CHANGE_TRACKING'
+FROM sys.change_tracking_tables ct
+INNER JOIN sys.tables t ON ct.object_id = t.object_id
+
 OPEN changeTrackingCursor
-FETCH changeTrackingCursor into @SQL
+FETCH changeTrackingCursor INTO @SQL
 WHILE @@Fetch_Status = 0
 BEGIN
-exec(@SQL)
-FETCH changeTrackingCursor into @SQL
+	EXEC(@SQL)
+	FETCH changeTrackingCursor INTO @SQL
 END
+
 CLOSE changeTrackingCursor
 DEALLOCATE changeTrackingCursor
 
