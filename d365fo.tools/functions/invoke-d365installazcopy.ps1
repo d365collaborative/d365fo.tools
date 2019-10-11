@@ -51,7 +51,7 @@ function Invoke-D365InstallAzCopy {
 
     Expand-Archive -Path $downloadPath -DestinationPath $tempExtractPath -Force
 
-    (Get-Item "$tempExtractPath\*\azcopy.exe").CopyTo($Path, $true)
+    $null = (Get-Item "$tempExtractPath\*\azcopy.exe").CopyTo($Path, $true)
 
     $tempExtractPath | Remove-Item -Force -Recurse
     $downloadPath | Remove-Item -Force -Recurse

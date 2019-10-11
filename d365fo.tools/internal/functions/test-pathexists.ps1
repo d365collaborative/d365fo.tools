@@ -40,6 +40,7 @@ function Test-PathExists {
     [OutputType([System.Boolean])]
     param (
         [Parameter(Mandatory = $True, Position = 1 )]
+        [AllowEmptyString()]
         [string[]] $Path,
 
         [ValidateSet('Leaf', 'Container')]
@@ -58,6 +59,12 @@ function Test-PathExists {
     $arrList = New-Object -TypeName "System.Collections.ArrayList"
          
     foreach ($item in $Path) {
+
+        if([string]::IsNullOrEmpty($item)) {
+            Stop-PSFFunction -Message "Stopping because path was either null or empty string." -StepsUpward 1
+            return
+        }
+
         Write-PSFMessage -Level Verbose -Message "Testing the path: $item" -Target $item
         $temp = Test-Path -Path $item -Type $Type
 
