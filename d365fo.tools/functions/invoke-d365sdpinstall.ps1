@@ -150,11 +150,11 @@ function Invoke-D365SDPInstall {
     Invoke-TimeSignal -Start
 
     #Test if input is a zipFile that needs to be extracted first
-    if($Path.EndsWith(".zip")){
+    if ($Path.EndsWith(".zip")) {
         Unblock-File -Path $Path
         
-        $extractedPath = $path.Remove($path.Length-4)
-        if(!(Test-Path $extractedPath)){
+        $extractedPath = $path.Remove($path.Length - 4)
+        if (!(Test-Path $extractedPath)) {
             Expand-Archive -Path $Path -DestinationPath $extractedPath
             
             #lets work with the extracted directory from now on
@@ -174,7 +174,7 @@ function Invoke-D365SDPInstall {
 
     $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
 
-    if (-not (Test-PathExists -Path $topologyFile, $Util -Type Leaf)) { return }
+    if (-not (Test-PathExists -Path $topologyFile, $executable -Type Leaf)) { return }
         
     Get-ChildItem -Path $Path -Recurse | Unblock-File
 
