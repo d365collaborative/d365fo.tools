@@ -83,6 +83,8 @@ function Invoke-D365AzCopyTransfer {
         [Parameter(Mandatory = $true)]
         [string] $DestinationUri,
 
+        [string] $FileName,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly,
@@ -96,22 +98,34 @@ function Invoke-D365AzCopyTransfer {
 
     Invoke-TimeSignal -Start
 
-    [System.Collections.ArrayList]$Params = New-Object -TypeName "System.Collections.ArrayList"
+    if (-not [string]::IsNullOrEmpty($FileName)) {
+        if ($DestinationUri -like "*?*") {
+            $DestinationUri = $DestinationUri.Replace("?", "/$FileName?")
+        }
+        else {
+            if ([System.IO.File]::GetAttributes($DestinationUri).HasFlag([System.IO.FileAttributes]::Directory)) {
+                $DestinationUri = Join-Path $DestinationUri $FileName
+            }
+        }
+    }
 
-    $null = $Params.Add("copy")
-    $null = $Params.Add("`"$SourceUri`"")
-    $null = $Params.Add("`"$DestinationUri`"")
+    $params = New-Object System.Collections.Generic.List[string]
+
+    $params.Add("copy")
+    $params.Add("`"$SourceUri`"")
+    $params.Add("`"$DestinationUri`"")
 
     if (-not $Force) {
-        $null = $Params.Add("--overwrite=false")
+        $params.Add("--overwrite=false")
     }
 
     Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    if($DestinationUri -notlike "*https*") {
-        $filePath = Get-ChildItem -Path $DestinationUri -Recurse -File | Select-Object -First 1
+    if ($DestinationUri -notlike "*https*") {
+        $filePath = Get-ChildItem -Path $DestinationUri -Recurse -File | Sort-Object CreationTime -Descending | Select-Object -First 1
+        $FileName = $filePath.Name
     }
     else {
         $filePath = $DestinationUri
@@ -119,9 +133,15 @@ function Invoke-D365AzCopyTransfer {
 
     #Filename is missing. If Https / SAS, we need some work.
     #If local file, it should be easy to solve
-    [PSCustomObject] @{
+    $res = @{
         File = $filePath
     }
+
+    if (-not [string]::IsNullOrEmpty($FileName)) {
+        $res.FileName = $FileName
+    }
+
+    [PSCustomObject]$res
 
     Invoke-TimeSignal -End
 }

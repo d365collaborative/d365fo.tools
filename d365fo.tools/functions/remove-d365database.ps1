@@ -40,17 +40,13 @@ function Remove-D365Database {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, Position = 1)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 2)]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 3)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
 
         [switch] $EnableException
     )
@@ -86,7 +82,7 @@ function Remove-D365Database {
     catch {
         $messageString = "Something went wrong while <c='em'>removing the Database."
         Write-PSFMessage -Level Host -Message $messageString
-        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>',''))) -StepsUpward 1
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
         return
     }
 }

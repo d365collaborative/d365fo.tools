@@ -115,6 +115,8 @@ function Invoke-ModelUtil {
         Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
     }
 
+    $params = New-Object System.Collections.Generic.List[string]
+
     Write-PSFMessage -Level Verbose -Message "Building the parameter options."
     switch ($Command.ToLowerInvariant()) {
         'import' {
@@ -122,40 +124,36 @@ function Invoke-ModelUtil {
                 Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
             }
 
-            $params = @("-import"
-                , "-metadatastorepath=`"$MetaDataDir`""
-                , "-file=`"$Path`""
-            )
+            $params.Add("-import")
+            $params.Add("-metadatastorepath=`"$MetaDataDir`"")
+            $params.Add("-file=`"$Path`"")
         }
         'export' {
-            $params = @("-export"
-                , "-metadatastorepath=`"$MetaDataDir`""
-                , "-outputpath=`"$Path`""
-                , "-modelname=`"$Model`""
-            )
+            $params.Add("-export")
+            $params.Add("-metadatastorepath=`"$MetaDataDir`"")
+            $params.Add("-outputpath=`"$Path`"")
+            $params.Add("-modelname=`"$Model`"")
         }
         'delete' {
-            $params = @("-delete"
-                , "-metadatastorepath=`"$MetaDataDir`""
-                , "-modelname=`"$Model`""
-            )
+            $params.Add("-delete")
+            $params.Add("-metadatastorepath=`"$MetaDataDir`"")
+            $params.Add("-modelname=`"$Model`"")
         }
         'replace' {
             if (-not (Test-PathExists -Path $Path -Type Leaf)) {
                 Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
             }
 
-            $params = @("-replace"
-                , "-metadatastorepath=`"$MetaDataDir`""
-                , "-file=`"$Path`""
-            )
+            $params.Add("-replace")
+            $params.Add("-metadatastorepath=`"$MetaDataDir`"")
+            $params.Add("-file=`"$Path`"")
         }
         
     }
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $($params.ToArray() -join " ")
     
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
     Invoke-TimeSignal -End
 }

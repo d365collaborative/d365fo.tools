@@ -1,7 +1,7 @@
 ﻿
 <#
     .SYNOPSIS
-        The multiple paths
+        Test multiple paths
         
     .DESCRIPTION
         Easy way to test multiple paths for public functions and have the same error handling

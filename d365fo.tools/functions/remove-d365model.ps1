@@ -60,13 +60,13 @@ function Remove-D365Model {
     [CmdletBinding()]
     
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $true)]
         [string] $Model,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
+        [Parameter(Mandatory = $false)]
         [string] $BinDir = "$Script:PackageDirectory\bin",
 
-        [Parameter(Mandatory = $false, Position = 3 )]
+        [Parameter(Mandatory = $false)]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
         [switch] $DeleteFolders,
@@ -78,7 +78,7 @@ function Remove-D365Model {
 
     Invoke-TimeSignal -Start
     
-    Invoke-ModelUtil -Command "Delete" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model
+    Invoke-ModelUtil -Command "Delete" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
     if (Test-PSFFunctionInterrupt) { return }
 
