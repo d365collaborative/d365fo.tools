@@ -17,6 +17,9 @@
         
     .PARAMETER DestinationUri
         Destination file uri that you want to transfer the file to
+
+    .PARAMETER FileName
+        You might only pass a blob container or folder name in the DestinationUri parameter and want to give the transfered file another name than the original file name
         
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
