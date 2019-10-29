@@ -37,6 +37,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter FileName' {
+			$parameter = (Get-Command Invoke-D365AzCopyTransfer).Parameters['FileName']
+			$parameter.Name | Should -Be 'FileName'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 2
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter ShowOriginalProgress' {
 			$parameter = (Get-Command Invoke-D365AzCopyTransfer).Parameters['ShowOriginalProgress']
 			$parameter.Name | Should -Be 'ShowOriginalProgress'
@@ -94,7 +107,7 @@
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -SourceUri -DestinationUri
-		__AllParameterSets -SourceUri -DestinationUri -ShowOriginalProgress -OutputCommandOnly -Force -EnableException
+		__AllParameterSets -SourceUri -DestinationUri -FileName -ShowOriginalProgress -OutputCommandOnly -Force -EnableException
 		#>
 	}
 
