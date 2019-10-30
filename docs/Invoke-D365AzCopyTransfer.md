@@ -13,8 +13,8 @@ Transfer a file using AzCopy
 ## SYNTAX
 
 ```
-Invoke-D365AzCopyTransfer [-SourceUri] <String> [-DestinationUri] <String> [-ShowOriginalProgress]
- [-OutputCommandOnly] [-Force] [-EnableException] [<CommonParameters>]
+Invoke-D365AzCopyTransfer [-SourceUri] <String> [-DestinationUri] <String> [[-FileName] <String>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [-Force] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -89,6 +89,21 @@ Aliases: DestinationFile
 
 Required: True
 Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FileName
+You might only pass a blob container or folder name in the DestinationUri parameter and want to give the transfered file another name than the original file name
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
