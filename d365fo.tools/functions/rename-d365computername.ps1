@@ -13,6 +13,36 @@
         
     .PARAMETER SSRSReportDatabase
         Name of the SSRS reporting database
+
+            .PARAMETER DatabaseServer
+        The name of the database server
+        
+        If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
+        
+        If Azure use the full address to the database server, e.g. server.database.windows.net
+        
+    .PARAMETER DatabaseName
+        The name of the database
+        
+    .PARAMETER SqlUser
+        The login name for the SQL Server instance
+        
+    .PARAMETER SqlPwd
+        The password for the SQL Server user
+        
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
+
+            .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
         PS C:\> Rename-D365ComputerName -NewName "Demo-8.1" -SSRSReportDatabase "ReportServer"
@@ -28,11 +58,24 @@
 function Rename-D365ComputerName {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(Mandatory = $true)]
         [string] $NewName,
 
-        [Parameter(Mandatory = $false,Position = 2)]
-        [string] $SSRSReportDatabase = "DynamicsAxReportServer"
+        [string] $SSRSReportDatabase = "DynamicsAxReportServer",
+
+        [string] $DatabaseServer = $Script:DatabaseServer,
+
+        [string] $DatabaseName = $Script:DatabaseName,
+
+        [string] $SqlUser = $Script:DatabaseUserName,
+
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly,
+
+        [switch] $EnableException
     )
 
     Write-PSFMessage -Level Verbose -Message "Testing for elevated runtime"
@@ -43,16 +86,71 @@ function Rename-D365ComputerName {
         return
     }
 
+    $executable = "$Script:SQLTools\rsconfig.exe"
+
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+
+    if (Test-PSFFunctionInterrupt) { return }
+
     Write-PSFMessage -Level Verbose -Message "Renaming computer to $NewName"
 
     Rename-Computer -NewName $NewName -Force
 
+    Write-PSFMessage -Level Verbose -Message "Renaming local server name inside SQL Server to $NewName"
+
+    $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
+    
+    $Params = @{DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd; TrustedConnection = $UseTrustedConnection;
+    }
+
+    $oldComputerName = $env:COMPUTERNAME
+
+    $sqlCommand = Get-SQLCommand @Params
+
+    $commandText = (Get-Content "$script:ModuleRoot\internal\sql\rename-computer.sql") -join [Environment]::NewLine
+    $commandText = $commandText.Replace('@OldComputerName', $oldComputerName)
+    $commandText = $commandText.Replace('@NewComputerName', $NewName)
+
+    $sqlCommand.CommandText = $commandText
+
+    try {
+        Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
+
+        $sqlCommand.Connection.Open()
+
+        $null = $sqlCommand.ExecuteNonQuery()
+    }
+    catch {
+        $messageString = "Something went wrong while working against the database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
+        return
+    }
+    finally {
+        if ($sqlCommand.Connection.State -ne [System.Data.ConnectionState]::Closed) {
+            $sqlCommand.Connection.Close()
+        }
+
+        $sqlCommand.Dispose()
+    }
+
+    $sqlCommand = Get-SQLCommand @Params
+
     Write-PSFMessage -Level Verbose -Message "Setting SSRS Reporting server database server to localhost"
 
-    $rsconfig = "$Script:SQLTools\rsconfig.exe"
-    $arguments = "-s localhost -a Windows -c -d `"$SSRSReportDatabase`""
+    $params = New-Object System.Collections.Generic.List[string]
+    $params.Add("-s")
+    $params.Add("localhost")
+    $params.Add("-a")
+    $params.Add("Windows")
+    $params.Add("-c")
+    $params.Add("-d")
+    $params.Add("`"$SSRSReportDatabase`"")
 
-    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
-    Start-Process -Wait -NoNewWindow -FilePath $rsconfig -ArgumentList $arguments -Verbose
+    Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+
+    if (-not $OutputCommandOnly) {
+        Write-PSFMessage -Level Host -Message "Computer has been <c='em'>renamed</c>. Please <c='em'>restart the computer</c> to make sure that all changes are being applied correctly."
+    }
 }
