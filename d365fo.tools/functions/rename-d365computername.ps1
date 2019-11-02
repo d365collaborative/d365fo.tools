@@ -13,8 +13,8 @@
         
     .PARAMETER SSRSReportDatabase
         Name of the SSRS reporting database
-
-            .PARAMETER DatabaseServer
+        
+    .PARAMETER DatabaseServer
         The name of the database server
         
         If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).
@@ -39,8 +39,8 @@
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
         Will include full path to the executable and the needed parameters based on your selection
-
-            .PARAMETER EnableException
+        
+    .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
         
