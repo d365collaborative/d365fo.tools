@@ -65,9 +65,9 @@ function Invoke-D365ModuleFullCompile {
         [string] $Module,
 
         [Alias('Output')]
-        [string] $OutputDir = (Join-Path $Script:MetaDataDir $Module),
+        [string] $OutputDir = $Script:MetaDataDir,
 
-        [string] $LogDir = (Join-Path $Script:DefaultTempPath $Module),
+        [string] $LogDir = $Script:DefaultTempPath,
 
         [string] $MetaDataDir = $Script:MetaDataDir,
 
@@ -80,23 +80,34 @@ function Invoke-D365ModuleFullCompile {
         [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
+    begin {
 
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
+        Invoke-TimeSignal -Start
 
-    $resModuleCompile = Invoke-D365ModuleCompile @PSBoundParameters
+        if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
+        if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+    }
 
-    $resLabelGeneration = Invoke-D365ModuleLabelGeneration @PSBoundParameters
+    process {
+        # $Params = Get-DeepClone $PSBoundParameters
 
-    $resReportsCompile = Invoke-D365ModuleReportsCompile @PSBoundParameters
+        # $Params.OutputDir = (Join-Path $OutputDir $Module)
+        # $Params.LogDir = (Join-Path $LogDir $Module)
 
-    Invoke-TimeSignal -End
+        $resModuleCompile = Invoke-D365ModuleCompile @PSBoundParameters
 
-    $resModuleCompile #| Select-PSFObject -TypeName "D365FO.TOOLS.ModuleCompileOutput" @{Name = "OutputOrigin"; Expression = {"ModuleCompile"}}, "LogFile as LogFile", "XmlLogFile as XmlLogFile", @{Name = "ErrorLogFile"; Expression = {""}}
+        $resLabelGeneration = Invoke-D365ModuleLabelGeneration @PSBoundParameters
 
-    $resLabelGeneration #| Select-PSFObject @{Name = "OutputOrigin"; Expression = {"LabelGeneration"}}, "OutLogFile as LogFile", @{Name = "XmlLogFile"; Expression = {""}}, "ErrorLogFile as ErrorLogFile"
+        $resReportsCompile = Invoke-D365ModuleReportsCompile @PSBoundParameters
+    
+        $resModuleCompile
 
-    $resReportsCompile #| Select-PSFObject @{Name = "OutputOrigin"; Expression = {"ReportsCompile"}}, "LogFile as LogFile", "XmlLogFile as XmlLogFile", @{Name = "ErrorLogFile"; Expression = {""}}
+        $resLabelGeneration
 
+        $resReportsCompile
+    }
+
+    end {
+        Invoke-TimeSignal -End
+    }
 }

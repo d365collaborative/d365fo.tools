@@ -70,9 +70,9 @@ function Invoke-D365ModuleReportsCompile {
         [string] $Module,
 
         [Alias('Output')]
-        [string] $OutputDir = (Join-Path $Script:MetaDataDir $Module),
+        [string] $OutputDir = $Script:MetaDataDir,
 
-        [string] $LogDir = (Join-Path $Script:DefaultTempPath $Module),
+        [string] $LogDir = $Script:DefaultTempPath,
 
         [string] $MetaDataDir = $Script:MetaDataDir,
 
@@ -97,15 +97,20 @@ function Invoke-D365ModuleReportsCompile {
     }
     
     process {
+        $logDirModule = Join-Path $LogDir $Module
+        $outputDirModule = Join-Path $OutputDir $Module
+        
+        if (-not (Test-PathExists -Path $logDirModule -Type Container -Create)) { return }
+
         if (Test-PSFFunctionInterrupt) { return }
 
-        $logFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.log"
-        $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.xml"
+        $logFile = Join-Path $logDirModule "Dynamics.AX.$Module.ReportsC.log"
+        $logXmlFile = Join-Path $logDirModule "Dynamics.AX.$Module.ReportsC.xml"
 
         $params = @("-metadata=`"$MetaDataDir`"",
             "-modelmodule=`"$Module`"",
             "-LabelsPath=`"$MetaDataDir`"",
-            "-output=`"$OutputDir\Reports`"",
+            "-output=`"$outputDirModule\Reports`"",
             "-log=`"$logFile`"",
             "-xmlLog=`"$logXmlFile`""
         )
