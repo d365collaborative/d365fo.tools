@@ -66,7 +66,7 @@ Aliases: Output
 
 Required: False
 Position: 2
-Default value: (Join-Path $Script:MetaDataDir $Module)
+Default value: $Script:MetaDataDir
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -81,7 +81,7 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: (Join-Path $Script:DefaultTempPath $Module)
+Default value: $Script:DefaultTempPath
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
