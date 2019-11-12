@@ -66,7 +66,7 @@ function Invoke-D365ModuleReportsCompile {
     [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $True)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [string] $Module,
 
         [Alias('Output')]
@@ -85,33 +85,43 @@ function Invoke-D365ModuleReportsCompile {
         [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
 
-    $tool = "ReportsC.exe"
-    $executable = Join-Path $BinDir $tool
+        $tool = "ReportsC.exe"
+        $executable = Join-Path $BinDir $tool
 
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
-    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
+        if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
+        if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+        if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+    }
+    
+    process {
+        if (Test-PSFFunctionInterrupt) { return }
 
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.log"
-    $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.xml"
+        $logFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.log"
+        $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.ReportsC.xml"
 
-    $params = @("-metadata=`"$MetaDataDir`"",
-        "-modelmodule=`"$Module`"",
-        "-LabelsPath=`"$MetaDataDir`"",
-        "-output=`"$OutputDir\Reports`"",
-        "-log=`"$logFile`"",
-        "-xmlLog=`"$logXmlFile`""
-    )
+        $params = @("-metadata=`"$MetaDataDir`"",
+            "-modelmodule=`"$Module`"",
+            "-LabelsPath=`"$MetaDataDir`"",
+            "-output=`"$OutputDir\Reports`"",
+            "-log=`"$logFile`"",
+            "-xmlLog=`"$logXmlFile`""
+        )
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
-    Invoke-TimeSignal -End
+        if ($OutputCommandOnly) { return }
 
-    [PSCustomObject]@{
-        LogFile = $logFile
-        XmlLogFile = $logXmlFile
-        PSTypeName = 'D365FO.TOOLS.ModuleReportsCompileOutput'
+        [PSCustomObject]@{
+            LogFile    = $logFile
+            XmlLogFile = $logXmlFile
+            PSTypeName = 'D365FO.TOOLS.ModuleReportsCompileOutput'
+        }
+    }
+
+    end {
+        Invoke-TimeSignal -End
     }
 }

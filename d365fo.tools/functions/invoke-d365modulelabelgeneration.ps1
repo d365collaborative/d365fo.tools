@@ -66,7 +66,7 @@ function Invoke-D365ModuleLabelGeneration {
     [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $True)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [string] $Module,
 
         [Alias('Output')]
@@ -85,34 +85,42 @@ function Invoke-D365ModuleLabelGeneration {
         [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
 
-    $tool = "labelc.exe"
-    $executable = Join-Path $BinDir $tool
+        $tool = "labelc.exe"
+        $executable = Join-Path $BinDir $tool
 
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
-    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+        if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
+        if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+        if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+    }
 
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.log"
-    $logErrorFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.err"
+    process {
+        if (Test-PSFFunctionInterrupt) { return }
+
+        $logFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.log"
+        $logErrorFile = Join-Path $LogDir "Dynamics.AX.$Module.labelc.err"
   
-    $params = @("-metadata=`"$MetaDataDir`"",
-        "-modelmodule=`"$Module`"",
-        "-output=`"$OutputDir\Resources`"",
-        "-outlog=`"$logFile`"",
-        "-errlog=`"$logErrorFile`""
-    )
+        $params = @("-metadata=`"$MetaDataDir`"",
+            "-modelmodule=`"$Module`"",
+            "-output=`"$OutputDir\Resources`"",
+            "-outlog=`"$logFile`"",
+            "-errlog=`"$logErrorFile`""
+        )
     
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
-    Invoke-TimeSignal -End
-
-    if ($OutputCommandOnly) { return }
+        if ($OutputCommandOnly) { return }
         
-    [PSCustomObject]@{
-        OutLogFile   = $logFile
-        ErrorLogFile = $logErrorFile
-        PSTypeName   = 'D365FO.TOOLS.ModuleLabelGenerationOutput'
+        [PSCustomObject]@{
+            OutLogFile   = $logFile
+            ErrorLogFile = $logErrorFile
+            PSTypeName   = 'D365FO.TOOLS.ModuleLabelGenerationOutput'
+        }
+    }
+
+    end {
+        Invoke-TimeSignal -End
     }
 }

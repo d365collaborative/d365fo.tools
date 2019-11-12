@@ -66,7 +66,7 @@ function Invoke-D365ModuleCompile {
     [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $True)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [string] $Module,
 
         [Alias('Output')]
@@ -85,38 +85,46 @@ function Invoke-D365ModuleCompile {
         [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
 
-    $tool = "xppc.exe"
-    $executable = Join-Path $BinDir $tool
+        $tool = "xppc.exe"
+        $executable = Join-Path $BinDir $tool
 
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
-    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+        if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
+        if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+        if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
 
-    if (Test-PSFFunctionInterrupt) { return }
+    }
 
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.log"
-    $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.xml"
+    process {
+        if (Test-PSFFunctionInterrupt) { return }
 
-    $params = @("-metadata=`"$MetaDataDir`"",
-        "-modelmodule=`"$Module`"",
-        "-output=`"$OutputDir\bin`"",
-        "-referencefolder=`"$ReferenceDir`"",
-        "-log=`"$logFile`"",
-        "-xmlLog=`"$logXmlFile`"",
-        "-verbose"
-    )
+        $logFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.log"
+        $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.xml"
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        $params = @("-metadata=`"$MetaDataDir`"",
+            "-modelmodule=`"$Module`"",
+            "-output=`"$OutputDir\bin`"",
+            "-referencefolder=`"$ReferenceDir`"",
+            "-log=`"$logFile`"",
+            "-xmlLog=`"$logXmlFile`"",
+            "-verbose"
+        )
 
-    Invoke-TimeSignal -End
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
-    if ($OutputCommandOnly) { return }
-        
-    [PSCustomObject]@{
-        LogFile    = $logFile
-        XmlLogFile = $logXmlFile
-        PSTypeName = 'D365FO.TOOLS.ModuleCompileOutput'
+        if ($OutputCommandOnly) { return }
+
+        [PSCustomObject]@{
+            LogFile    = $logFile
+            XmlLogFile = $logXmlFile
+            PSTypeName = 'D365FO.TOOLS.ModuleCompileOutput'
+        }
+    
+    }
+
+    end {
+        Invoke-TimeSignal -End
     }
 }
