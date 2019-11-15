@@ -48,7 +48,6 @@ function Backup-D365Runbook {
         [Alias('Path')]
         [string] $File,
 
-        [Parameter(Mandatory = $false)]
         [string] $DestinationPath = $(Join-Path $Script:DefaultTempPath "RunbookBackups"),
 
         [switch] $Force
@@ -68,7 +67,7 @@ function Backup-D365Runbook {
         $destinationFile = $(Join-Path $DestinationPath $fileName)
 
         if (-not $Force) {
-            if ((-not (Test-PathExists -Path $destinationFile -Type Leaf -ShouldNotExist -DontBreak))) {
+            if ((-not (Test-PathExists -Path $destinationFile -Type Leaf -ShouldNotExist -ErrorAction SilentlyContinue -WarningAction SilentlyContinue))) {
                 Write-PSFMessage -Level Host -Message "The <c='em'>$destinationFile</c> already exists. Consider changing the <c='em'>destination</c> path or set the <c='em'>Force</c> parameter to overwrite the file."
                 return
             }
