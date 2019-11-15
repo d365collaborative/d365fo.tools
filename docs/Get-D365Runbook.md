@@ -13,7 +13,7 @@ Get a Dynamics 365 Runbook
 ## SYNTAX
 
 ```
-Get-D365Runbook [[-Path] <String>] [-Name <String>] [-Latest] [<CommonParameters>]
+Get-D365Runbook [[-Path] <String>] [[-Name] <String>] [-Latest] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -77,7 +77,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 1
 Default value: (Join-Path $Script:InstallationRecordsDir "Runbooks")
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
@@ -96,7 +96,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 2
 Default value: *
 Accept pipeline input: False
 Accept wildcard characters: False
