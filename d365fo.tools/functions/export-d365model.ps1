@@ -48,21 +48,19 @@
 #>
 
 function Export-D365Model {
-    # [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     [CmdletBinding()]
     
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $true)]
         [Alias('File')]
         [string] $Path,
 
-        [Parameter(Mandatory = $True, Position = 2 )]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias('Module')]
         [string] $Model,
 
-        [Parameter(Mandatory = $false, Position = 3 )]
         [string] $BinDir = "$Script:PackageDirectory\bin",
 
-        [Parameter(Mandatory = $false, Position = 4 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
         [switch] $ShowOriginalProgress,
@@ -70,13 +68,19 @@ function Export-D365Model {
         [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
     
-    if($Path.EndsWith("\")) {
-        $Path = $Path.Substring(0, $Path.Length - 1)
+        if ($Path.EndsWith("\")) {
+            $Path = $Path.Substring(0, $Path.Length - 1)
+        }
     }
 
-    Invoke-ModelUtil -Command "Export" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model
+    process {
+        Invoke-ModelUtil -Command "Export" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    }
     
-    Invoke-TimeSignal -End
+    end {
+        Invoke-TimeSignal -End
+    }
 }

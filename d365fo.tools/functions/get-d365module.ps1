@@ -76,101 +76,96 @@ function Get-D365Module {
     [Alias("Get-D365Model")]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
         [string] $BinDir = "$Script:BinDir\bin",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [string] $PackageDirectory = $Script:PackageDirectory,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
         [string] $Name = "*",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
         [switch] $Expand
     )
 
-    [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
+    begin {
+        [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
         
-    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Delta.dll"))
-    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Diff.dll"))
-    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Merge.dll"))
-    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Core.dll"))
-    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.dll"))
-    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Core.dll"))
-    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Storage.dll"))
-    $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll"))
+        $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Delta.dll"))
+        $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Diff.dll"))
+        $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Merge.dll"))
+        $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Management.Core.dll"))
+        $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.dll"))
+        $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Core.dll"))
+        $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.AX.Metadata.Storage.dll"))
+        $null = $Files2Process.Add((Join-Path $BinDir "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll"))
 
-    Import-AssemblyFileIntoMemory -Path $($Files2Process.ToArray())
+        Import-AssemblyFileIntoMemory -Path $($Files2Process.ToArray())
+    }
 
-    if (Test-PSFFunctionInterrupt) { return }
+    process {
+        if (Test-PSFFunctionInterrupt) { return }
 
-	Write-PSFMessage -Level Verbose -Message "Intializing RuntimeProvider."
+        Write-PSFMessage -Level Verbose -Message "Intializing RuntimeProvider."
 
-    $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
-    $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
-    $metadataProvider = $metadataProviderFactory.CreateRuntimeProvider($runtimeProviderConfiguration)
-
-    Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
-
-	$modules = $metadataProvider.ModelManifest.ListModules()
-
-    Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
-    
-	if ($Script:IsOnebox) {
-        Write-PSFMessage -Level Verbose -Message "Machine is onebox. Initializing DiskProvider too."
-
-        $diskProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.DiskProvider.DiskProviderConfiguration
-        $diskProviderConfiguration.AddMetadataPath($PackageDirectory)
+        $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
         $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
-        $metadataProvider = $metadataProviderFactory.CreateDiskProvider($diskProviderConfiguration)
+        $metadataProvider = $metadataProviderFactory.CreateRuntimeProvider($runtimeProviderConfiguration)
 
         Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
 
-        $diskModules = $metadataProvider.ModelManifest.ListModules()
+        $modules = $metadataProvider.ModelManifest.ListModules()
 
-        foreach ($module in $diskModules){
-            if ($modules.Name -NotContains $module.Name)
-            {
-                $modules += $module
+        Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
+    
+        if ($Script:IsOnebox) {
+            Write-PSFMessage -Level Verbose -Message "Machine is onebox. Initializing DiskProvider too."
+
+            $diskProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.DiskProvider.DiskProviderConfiguration
+            $diskProviderConfiguration.AddMetadataPath($PackageDirectory)
+            $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
+            $metadataProvider = $metadataProviderFactory.CreateDiskProvider($diskProviderConfiguration)
+
+            Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
+
+            $diskModules = $metadataProvider.ModelManifest.ListModules()
+
+            foreach ($module in $diskModules) {
+                if ($modules.Name -NotContains $module.Name) {
+                    $modules += $module
+                }
             }
         }
-    }
 
-    Write-PSFMessage -Level Verbose -Message "Looping through all modules."
+        Write-PSFMessage -Level Verbose -Message "Looping through all modules."
 
-    foreach ($obj in $($modules | Sort-Object Name)) {
-        Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
-        if ($obj.Name -NotLike $Name) {continue}
+        foreach ($obj in $($modules | Sort-Object Name)) {
+            Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
+            if ($obj.Name -NotLike $Name) { continue }
 
-        if ($Expand -eq $true)
-        {
-            $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
+            if ($Expand -eq $true) {
+                $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
 
-            if (Test-Path -Path $modulepath -PathType Container)
-            {
-                $fileversion = Get-FileVersion -Path (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll").FullName
-                $version = $fileversion.FileVersion
-                $versionUpdated = $fileversion.FileVersionUpdated
-            }
-            else
-            {
-                $version = ""
-                $versionUpdated = ""
-            }
+                if (Test-Path -Path $modulepath -PathType Container) {
+                    $fileversion = Get-FileVersion -Path (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll").FullName
+                    $version = $fileversion.FileVersion
+                    $versionUpdated = $fileversion.FileVersionUpdated
+                }
+                else {
+                    $version = ""
+                    $versionUpdated = ""
+                }
 			
-            [PSCustomObject]@{
-                Module          = $obj.Name
-                References      = $obj.References
-                Version         = $version
-                VersionUpdated  = $versionUpdated
+                [PSCustomObject]@{
+                    Module         = $obj.Name
+                    References     = $obj.References
+                    Version        = $version
+                    VersionUpdated = $versionUpdated
+                }
             }
-        }
-        else
-        {
+            else {
 
-            [PSCustomObject]@{
-                Module     = $obj.Name
-                References = $obj.References
+                [PSCustomObject]@{
+                    Module     = $obj.Name
+                    References = $obj.References
+                }
             }
         }
     }
