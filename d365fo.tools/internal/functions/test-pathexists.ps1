@@ -21,10 +21,7 @@
         
     .PARAMETER ShouldNotExist
         Instruct the cmdlet to return true if the file doesn't exists
-        
-    .PARAMETER DontBreak
-        Instruct the cmdlet NOT to break execution whenever the test condition normally should
-        
+
     .EXAMPLE
         PS C:\> Test-PathExists "c:\temp","c:\temp\dir" -Type Container
         
@@ -39,19 +36,17 @@ function Test-PathExists {
     [CmdletBinding()]
     [OutputType([System.Boolean])]
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $True)]
         [AllowEmptyString()]
         [string[]] $Path,
 
         [ValidateSet('Leaf', 'Container')]
-        [Parameter(Mandatory = $True, Position = 2 )]
+        [Parameter(Mandatory = $True)]
         [string] $Type,
 
         [switch] $Create,
 
-        [switch] $ShouldNotExist,
-
-        [switch] $DontBreak
+        [switch] $ShouldNotExist
     )
     
     $res = $false
@@ -60,7 +55,7 @@ function Test-PathExists {
          
     foreach ($item in $Path) {
 
-        if([string]::IsNullOrEmpty($item)) {
+        if ([string]::IsNullOrEmpty($item)) {
             Stop-PSFFunction -Message "Stopping because path was either null or empty string." -StepsUpward 1
             return
         }
@@ -76,7 +71,7 @@ function Test-PathExists {
         elseif ($ShouldNotExist) {
             Write-PSFMessage -Level Verbose -Message "The should NOT exists: $item" -Target $item
         }
-        elseif (-not $temp ) {
+        elseif ((-not $temp) -and ($WarningPreference -ne [System.Management.Automation.ActionPreference]::SilentlyContinue)) {
             Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> path wasn't found. Please ensure the path <c='em'>exists</c> and you have enough <c='em'>permission</c> to access the path."
         }
         
@@ -84,14 +79,13 @@ function Test-PathExists {
     }
 
     if ($arrList.Contains($false) -and (-not $ShouldNotExist)) {
-        if (-not $DontBreak) {
-            Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
-        }
+        # The $ErrorActionPreference variable determines the behavior we are after, but the "Stop-PSFFunction -WarningAction" is where we need to put in the value.
+        Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1 -WarningAction $ErrorActionPreference
+        
     }
     elseif ($arrList.Contains($true) -and $ShouldNotExist) {
-        if (-not $DontBreak) {
-            Stop-PSFFunction -Message "Stopping because file exists." -StepsUpward 1
-        }
+        # The $ErrorActionPreference variable determines the behavior we are after, but the "Stop-PSFFunction -WarningAction" is where we need to put in the value.
+        Stop-PSFFunction -Message "Stopping because file exists." -StepsUpward 1 -WarningAction $ErrorActionPreference
     }
     else {
         $res = $true
