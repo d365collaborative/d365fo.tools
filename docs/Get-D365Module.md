@@ -80,7 +80,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 1
 Default value: "$Script:BinDir\bin"
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -99,7 +99,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 2
 Default value: $Script:PackageDirectory
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -120,7 +120,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 3
 Default value: *
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -135,7 +135,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
