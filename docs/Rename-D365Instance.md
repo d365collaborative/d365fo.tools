@@ -43,7 +43,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -58,7 +58,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 2
 Default value: $Script:AOSPath
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -73,7 +73,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 3
 Default value: $Script:IISHostFile
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -88,7 +88,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 4
 Default value: $Script:Hosts
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -103,7 +103,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: Bak
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -118,7 +118,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 6
 Default value: $Script:MRConfigFile
 Accept pipeline input: False
 Accept wildcard characters: False
