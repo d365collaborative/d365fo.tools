@@ -41,22 +41,17 @@
 function Rename-D365Instance {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(Mandatory = $true)]
         [string]$NewName,
 
-        [Parameter(Mandatory = $false, Position = 2)]
         [string]$AosServiceWebRootPath = $Script:AOSPath,
 
-        [Parameter(Mandatory = $false, Position = 3)]
         [string]$IISServerApplicationHostConfigFile = $Script:IISHostFile,
 
-        [Parameter(Mandatory = $false, Position = 4)]
         [string]$HostsFile = $Script:Hosts,
 
-        [Parameter(Mandatory = $false, Position = 5)]
         [string]$BackupExtension = "bak",
 
-        [Parameter(Mandatory = $false, Position = 6)]
         [string]$MRConfigFile = $Script:MRConfigFile
 
     )
