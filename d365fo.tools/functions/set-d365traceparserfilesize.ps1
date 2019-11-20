@@ -8,14 +8,14 @@
         
     .PARAMETER FileSizeInMB
         The maximum size that you want to allow the TraceParser file to grow to
-
+        
         Original value inside the configuration is 1024 (MB)
-
+        
     .PARAMETER Path
-    The path to the TraceParser.config file that you want to edit
-
-    The default path is: "\AosService\Webroot\Services\TraceParserService\TraceParserService.config"
-
+        The path to the TraceParser.config file that you want to edit
+        
+        The default path is: "\AosService\Webroot\Services\TraceParserService\TraceParserService.config"
+        
     .EXAMPLE
         PS C:\> Set-D365TraceParserFileSize -FileSizeInMB 2048
         
