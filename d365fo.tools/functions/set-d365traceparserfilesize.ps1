@@ -43,5 +43,5 @@ function Set-D365TraceParserFileSize {
     
     $fileSize.Node."#text" = "$FileSizeInMB"
 
-    $xmlDoc.Save($filePath)
+    $xmlDoc.Save($Path)
 }

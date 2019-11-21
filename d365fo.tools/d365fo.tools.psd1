@@ -231,6 +231,8 @@
 
 						'Set-D365Tier2Params',
 
+						'Set-D365TraceParserFileSize',
+
 						'Set-D365WorkstationMode',
 
 						'Start-D365Environment',
