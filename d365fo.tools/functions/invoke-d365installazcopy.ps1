@@ -47,6 +47,8 @@ function Invoke-D365InstallAzCopy {
 
     if (-not (Test-PathExists -Path $downloadPath -Type Leaf)) { return }
 
+    Unblock-File -Path $downloadPath
+
     $tempExtractPath = Join-Path -Path $azCopyFolder -ChildPath "Temp"
 
     Expand-Archive -Path $downloadPath -DestinationPath $tempExtractPath -Force

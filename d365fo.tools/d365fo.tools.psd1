@@ -160,6 +160,7 @@
 						'Invoke-D365DBSyncPartial',
 						'Invoke-D365InstallLicense',
 						'Invoke-D365InstallAzCopy',
+						'Invoke-D365InstallSqlPackage',
 						
 						'Invoke-D365LcsApiRefreshToken',
 						'Invoke-D365LcsDatabaseRefresh',
