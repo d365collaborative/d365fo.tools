@@ -103,7 +103,7 @@ function Invoke-D365AzCopyTransfer {
 
     if (-not [string]::IsNullOrEmpty($FileName)) {
         if ($DestinationUri -like "*?*") {
-            $DestinationUri = $DestinationUri.Replace("?", "/$FileName?")
+            $DestinationUri = $DestinationUri.Replace("?", "/$FileName`?")
         }
         else {
             if ([System.IO.File]::GetAttributes($DestinationUri).HasFlag([System.IO.FileAttributes]::Directory)) {
