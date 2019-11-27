@@ -22,3 +22,7 @@ Register-PSFTeppArgumentCompleter -Command Set-D365LcsApiConfig -Parameter LcsAp
 #TimeZones
 Register-PSFTeppArgumentCompleter -Command Send-D365BroadcastMessage -Parameter TimeZone -Name d365fo.tools.timezones
 Register-PSFTeppArgumentCompleter -Command Add-D365BroadcastMessageConfig -Parameter TimeZone -Name d365fo.tools.timezones
+
+#Event Trace
+Register-PSFTeppArgumentCompleter -Command Start-D365EventTrace -Parameter ProviderName -Name d365fo.tools.event.trace.providers
+Register-PSFTeppArgumentCompleter -Command Start-D365EventTrace -Parameter OutputFormat -Name d365fo.tools.event.trace.format.options

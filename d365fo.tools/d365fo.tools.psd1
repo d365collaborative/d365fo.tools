@@ -31,6 +31,8 @@
 		, @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
 		, @{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
 		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.2.3' }
+		, @{ ModuleName = 'PSDiagnostics'; ModuleVersion = '1.0.0.0' }
+		
     )
 
     # Assemblies that must be loaded prior to importing this module
@@ -93,6 +95,7 @@
 						'Get-D365Environment',
 						'Get-D365EnvironmentConfig',
 						'Get-D365EnvironmentSettings',
+						'Get-D365EventTraceProvider',
 						'Get-D365ExposedService',
 
 						'Get-D365InstalledHotfix',
@@ -237,8 +240,10 @@
 						'Set-D365WorkstationMode',
 
 						'Start-D365Environment',
+						'Start-D365EventTrace',
 
 						'Stop-D365Environment',
+						'Stop-D365EventTrace',
 
 						'Switch-D365ActiveDatabase',
 

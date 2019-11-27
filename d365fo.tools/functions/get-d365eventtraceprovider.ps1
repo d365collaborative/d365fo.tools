@@ -32,11 +32,11 @@ Will list all available Event Trace Providers on a D365FO server which contains 
 It will use the Name parameter array value ("Tax","MR") while searching for Event Trace Providers.
 
 .NOTES
-Tags:
+Tags: ETL, EventTracing, EventTrace
 
 Author: Mötz Jensen (@Splaxi)
 
-This cmdlet/function was inspired by the work of Mike (@D365Stuff)
+This cmdlet/function was inspired by the work of Michael Stashwick (@D365Stuff)
 
 He blog is located here: https://www.d365stuff.co/
 
