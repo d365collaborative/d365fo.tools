@@ -30,6 +30,7 @@
 #>
 
 function Stop-D365EventTrace {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [string] $SessionName = "d365fo.tools.trace"
