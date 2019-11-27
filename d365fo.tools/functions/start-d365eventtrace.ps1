@@ -1,83 +1,84 @@
-﻿<#
-.SYNOPSIS
-Start an Event Trace session
-
-.DESCRIPTION
-Start an Event Trace session with default values to help you getting started
-
-.PARAMETER ProviderName
-Name of the provider(s) you want to have part of your trace
-
-Accepts an array/list of provider names
-
-.PARAMETER OutputPath
-Path to the output folder where you want to store the ETL file that will be generated
-
-Default path is "C:\Temp\d365fo.tools\EventTrace"
-
-.PARAMETER SessionName
-Name that you want the tracing session to have while running the trace
-
-Default value is "d365fo.tools.trace"
-
-.PARAMETER FileName
-Name of the file that you want the trace to write its output to
-
-Default value is "d365fo.tools.trace.etl"
-
-.PARAMETER OutputFormat
-The desired output format of the ETL file being outputted from the tracing session
-
-Default value is "bincirc"
-
-.PARAMETER MinBuffer
-The minimum buffer size in MB that you want the tracing session to work with
-
-Default value is 10240
-
-.PARAMETER MaxBuffer
-The maximum buffer size in MB that you want the tracing session to work with
-
-Default value is 10240
-
-.PARAMETER BufferSizeKB
-The buffer size in KB that you want the tracing session to work with
-
-Default value is 1024
-
-.PARAMETER MaxLogFileSizeMB
-The maximum log file size in MB that you want the tracing session to work with
-
-Default value is 4096
-
-.EXAMPLE
-PS C:\> Start-D365EventTrace -ProviderName "Microsoft-Dynamics-AX-FormServer","Microsoft-Dynamics-AX-XppRuntime"
-
-This will start a new Event Tracing session with the binary circular output format.
-It uses "Microsoft-Dynamics-AX-FormServer","Microsoft-Dynamics-AX-XppRuntime" as the providernames.
-It uses the default output folder "C:\Temp\d365fo.tools\EventTrace".
-
-It will use the default values for the remaining parameters.
-
-.EXAMPLE
-PS C:\> Start-D365EventTrace -ProviderName "Microsoft-Dynamics-AX-FormServer","Microsoft-Dynamics-AX-XppRuntime" -OutputFormat CSV
-
-This will start a new Event Tracing session with the comma separated output format.
-It uses "Microsoft-Dynamics-AX-FormServer","Microsoft-Dynamics-AX-XppRuntime" as the providernames.
-It uses the default output folder "C:\Temp\d365fo.tools\EventTrace".
-
-It will use the default values for the remaining parameters.
-
-.NOTES
-Tags: ETL, EventTracing, EventTrace
-
-Author: Mötz Jensen (@Splaxi)
-
-This cmdlet/function was inspired by the work of Michael Stashwick (@D365Stuff)
-
-He blog is located here: https://www.d365stuff.co/
-
-and the blogpost that pointed us in the right direction is located here: https://www.d365stuff.co/trace-batch-jobs-and-more-via-cmd-logman/
+﻿
+<#
+    .SYNOPSIS
+        Start an Event Trace session
+        
+    .DESCRIPTION
+        Start an Event Trace session with default values to help you getting started
+        
+    .PARAMETER ProviderName
+        Name of the provider(s) you want to have part of your trace
+        
+        Accepts an array/list of provider names
+        
+    .PARAMETER OutputPath
+        Path to the output folder where you want to store the ETL file that will be generated
+        
+        Default path is "C:\Temp\d365fo.tools\EventTrace"
+        
+    .PARAMETER SessionName
+        Name that you want the tracing session to have while running the trace
+        
+        Default value is "d365fo.tools.trace"
+        
+    .PARAMETER FileName
+        Name of the file that you want the trace to write its output to
+        
+        Default value is "d365fo.tools.trace.etl"
+        
+    .PARAMETER OutputFormat
+        The desired output format of the ETL file being outputted from the tracing session
+        
+        Default value is "bincirc"
+        
+    .PARAMETER MinBuffer
+        The minimum buffer size in MB that you want the tracing session to work with
+        
+        Default value is 10240
+        
+    .PARAMETER MaxBuffer
+        The maximum buffer size in MB that you want the tracing session to work with
+        
+        Default value is 10240
+        
+    .PARAMETER BufferSizeKB
+        The buffer size in KB that you want the tracing session to work with
+        
+        Default value is 1024
+        
+    .PARAMETER MaxLogFileSizeMB
+        The maximum log file size in MB that you want the tracing session to work with
+        
+        Default value is 4096
+        
+    .EXAMPLE
+        PS C:\> Start-D365EventTrace -ProviderName "Microsoft-Dynamics-AX-FormServer","Microsoft-Dynamics-AX-XppRuntime"
+        
+        This will start a new Event Tracing session with the binary circular output format.
+        It uses "Microsoft-Dynamics-AX-FormServer","Microsoft-Dynamics-AX-XppRuntime" as the providernames.
+        It uses the default output folder "C:\Temp\d365fo.tools\EventTrace".
+        
+        It will use the default values for the remaining parameters.
+        
+    .EXAMPLE
+        PS C:\> Start-D365EventTrace -ProviderName "Microsoft-Dynamics-AX-FormServer","Microsoft-Dynamics-AX-XppRuntime" -OutputFormat CSV
+        
+        This will start a new Event Tracing session with the comma separated output format.
+        It uses "Microsoft-Dynamics-AX-FormServer","Microsoft-Dynamics-AX-XppRuntime" as the providernames.
+        It uses the default output folder "C:\Temp\d365fo.tools\EventTrace".
+        
+        It will use the default values for the remaining parameters.
+        
+    .NOTES
+        Tags: ETL, EventTracing, EventTrace
+        
+        Author: Mötz Jensen (@Splaxi)
+        
+        This cmdlet/function was inspired by the work of Michael Stashwick (@D365Stuff)
+        
+        He blog is located here: https://www.d365stuff.co/
+        
+        and the blogpost that pointed us in the right direction is located here: https://www.d365stuff.co/trace-batch-jobs-and-more-via-cmd-logman/
 #>
 
 
