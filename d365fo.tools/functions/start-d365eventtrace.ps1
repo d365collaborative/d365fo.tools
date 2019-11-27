@@ -97,13 +97,13 @@ function Start-D365EventTrace {
         [ValidateSet('bin', 'bincirc', 'csv', 'sql', 'tsv')]
         [string] $OutputFormat = "bincirc",
 
-        [int] $MinBuffer = 10240,
+        [Int32] $MinBuffer = 10240,
 
-        [int] $MaxBuffer = 10240,
+        [Int32] $MaxBuffer = 10240,
 
-        [int] $BufferSizeKB = 1024,
+        [Int32] $BufferSizeKB = 1024,
 
-        [int] $MaxLogFileSizeMB = 4096
+        [Int32] $MaxLogFileSizeMB = 4096
     )
     
     begin {
