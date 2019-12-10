@@ -9,10 +9,10 @@
         LabelId string to validate
  
     .EXAMPLE
-        PS C:> Get-D365LabelIdIsValid -LabelId "ABC123" #True
-        PS C:> Get-D365LabelIdIsValid -LabelId "@ABC123" #True
-        PS C:> Get-D365LabelIdIsValid -LabelId "@ABC123_1" #False
-        PS C:> Get-D365LabelIdIsValid -LabelId "ABC.123" #False
+        PS C:> Test-D365LabelIdIsValid -LabelId "ABC123" #True
+        PS C:> Test-D365LabelIdIsValid -LabelId "@ABC123" #True
+        PS C:> Test-D365LabelIdIsValid -LabelId "@ABC123_1" #False
+        PS C:> Test-D365LabelIdIsValid -LabelId "ABC.123" #False
  
     .NOTES
         Author: Alex Kwitny (@AlexOnDAX)
@@ -20,7 +20,7 @@
         The intent of this function is to be used with other methods to create valid labels via scripting.
  
 #>
-function Get-D365LabelIdIsValid {
+function Test-D365LabelIdIsValid {
 	[CmdletBinding()]
     	[OutputType([bool])]
 	param 
