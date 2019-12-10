@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Checks if a string is a valid 'Label Id' format
  
