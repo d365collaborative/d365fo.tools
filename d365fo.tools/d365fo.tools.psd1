@@ -58,6 +58,7 @@
 
 						'Clear-D365ActiveBroadcastMessageConfig',
 						'Clear-D365MonitorData',
+						'Clear-D365TableDataFromBacpac',
 
 						'Publish-D365SsrsReport',
 
