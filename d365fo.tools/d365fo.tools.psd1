@@ -35,7 +35,6 @@
 		
 	)
 	
-	ExternalModuleDependencies = @('PSDiagnostics')
 
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @('bin\d365fo.tools.dll')
@@ -297,6 +296,8 @@
 
             # Indicates this is a pre-release/testing version of the module.
             IsPrerelease = 'True'
+
+			ExternalModuleDependencies = @('PSDiagnostics')
 
         } # End of PSData hashtable
 
