@@ -21,8 +21,8 @@
     Description       = 'A set of tools that will assist you when working with Dynamics 365 Finance & Operations development / demo machines.'
 
     # Minimum version of the Windows PowerShell engine required by this module
-    PowerShellVersion = '5.0'
-
+	PowerShellVersion = '5.0'
+	
     # Modules that must be imported into the global environment prior to importing
     # this module
     RequiredModules   = @(
@@ -31,9 +31,10 @@
 		, @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
 		, @{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
 		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.2.3' }
-		, @{ ModuleName = 'PSDiagnostics'; ModuleVersion = '1.0.0.0' }
+		# , @{ ModuleName = 'PSDiagnostics'; ModuleVersion = '1.0.0.0' }
 		
-    )
+	)
+	
 
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @('bin\d365fo.tools.dll')
@@ -295,6 +296,8 @@
 
             # Indicates this is a pre-release/testing version of the module.
             IsPrerelease = 'True'
+
+			ExternalModuleDependencies = @('PSDiagnostics')
 
         } # End of PSData hashtable
 
