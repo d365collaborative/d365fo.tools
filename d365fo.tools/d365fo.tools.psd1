@@ -70,6 +70,7 @@
 						'Enable-D365User',
 
 						'Export-D365Model',
+						'Export-D365ModelFileFromBacpac',
 						'Export-D365SecurityDetails',
 
 						'Find-D365Command',

@@ -95,6 +95,8 @@ function Invoke-SqlPackage {
 
         [string] $DiagnosticFile,
 
+        [string] $ModelFile,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly,
@@ -148,6 +150,10 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"")
     }
     
+    if (-not [system.string]::IsNullOrEmpty($ModelFile)) {
+        $null = $Params.Add("/ModelFilePath:`"$ModelFile`"")
+    }
+
     Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
     
     if (Test-PSFFunctionInterrupt) {

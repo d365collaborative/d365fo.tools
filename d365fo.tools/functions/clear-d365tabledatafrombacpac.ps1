@@ -3,6 +3,7 @@
     param (
         [Parameter(Mandatory = $true)]
         [Alias('File')]
+        [Alias('BacpacFile')]
         [string] $Path,
 
         [Parameter(Mandatory = $true)]
@@ -18,6 +19,8 @@
     )
     
     begin {
+        if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
+
         $compressPath = ""
         $newFilename = ""
         $originalExtension = ""
@@ -38,14 +41,17 @@
             Rename-Item -Path $Path -NewName "$($fileName).zip"
 
             $originalExtension = "bacpac"
+
+            $archivePath = Join-Path -Path (Split-Path -Path $Path -Parent) -ChildPath "$($fileName).zip"
+        }
+        else {
+            $archivePath = $Path
         }
 
         $workPath = Join-Path -Path $ExtractionPath -ChildPath $fileName
-        $archivePath = Join-Path -Path $ExtractionPath -ChildPath "$($fileName).zip"
 
         if (-not (Test-PathExists -Path $ExtractionPath, $workPath -Type Container -Create)) { return }
 
-        if (-not (Test-PathExists -Path $File -Type Leaf)) { return }
 
         if (-not (Test-PathExists -Path $compressPath -Type Leaf -ShouldNotExist)) {
             Write-PSFMessage -Level Host -Message "The <c='em'>$compressPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$compressPath</c> file."
@@ -77,7 +83,14 @@
 
             $deletePath = Join-Path "$workPath\Data" -ChildPath $fullTableName
 
-            Remove-Item -Path $deletePath -Recurse -Force
+            if (-not (Test-PathExists -Path $deletePath -Type Container -WarningAction SilentlyContinue -ErrorAction SilentlyContinue)) {
+                Write-PSFMessage -Level Host -Message "The <c='em'>$table</c> wasn't found. Please ensure that the <c='em'>schema</c> or <c='em'>name</c> is correct."
+                Stop-PSFFunction -Message "Stopping because table was not present."
+                return
+            }
+            else {
+                Remove-Item -Path $deletePath -Recurse -Force
+            }
         }
 
     }

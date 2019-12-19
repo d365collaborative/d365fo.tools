@@ -184,8 +184,9 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 13)]
         [string] $AxDbReadonlyUserPwd,
         
-        [Parameter(Position = 14 )]
         [string] $CustomSqlFile,
+
+        [string] $ModelFile,
 
         [string] $DiagnosticFile,
  
@@ -232,6 +233,12 @@ function Import-D365Bacpac {
     if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
         if (-not (Test-PathExists -Path (Split-Path $DiagnosticFile -Parent) -Type Container -Create)) { return }
         $ImportParams.DiagnosticFile = $DiagnosticFile
+    }
+
+    if (-not [system.string]::IsNullOrEmpty($ModelFile)) {
+        if (-not (Test-PathExists -Path $ModelFile -Type Leaf)) { return }
+
+        $ImportParams.ModelFilePath = $ModelFile
     }
 
     Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB"
