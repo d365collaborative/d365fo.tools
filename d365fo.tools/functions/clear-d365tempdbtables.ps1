@@ -65,7 +65,7 @@ function Clear-D365TempDbTables {
     (
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [string] $DatabaseName = "TempDB",
+        [string] $DatabaseName = $Script:DatabaseName,
 
         [string] $SqlUser = $Script:DatabaseUserName,
 
