@@ -36,6 +36,11 @@
         
     .PARAMETER DiagnosticFile
         Path to where you want the SqlPackage to output a diagnostics file to assist you in troubleshooting
+
+    .PARAMETER ModelFile
+        Path to the model file that you want the SqlPackage.exe to use instead the one being part of the bacpac file
+
+        This is used to override SQL Server options, like collation and etc
         
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
