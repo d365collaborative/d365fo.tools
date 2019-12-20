@@ -243,7 +243,7 @@ function Import-D365Bacpac {
     if (-not [system.string]::IsNullOrEmpty($ModelFile)) {
         if (-not (Test-PathExists -Path $ModelFile -Type Leaf)) { return }
 
-        $ImportParams.ModelFilePath = $ModelFile
+        $ImportParams.ModelFile = $ModelFile
     }
 
     Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB"
