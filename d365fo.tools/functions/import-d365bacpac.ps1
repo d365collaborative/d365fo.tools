@@ -66,9 +66,9 @@
         
     .PARAMETER ModelFile
         Path to the model file that you want the SqlPackage.exe to use instead the one being part of the bacpac file
-
+        
         This is used to override SQL Server options, like collation and etc
-
+        
     .PARAMETER DiagnosticFile
         Path to where you want the import to output a diagnostics file to assist you in troubleshooting the import
         
