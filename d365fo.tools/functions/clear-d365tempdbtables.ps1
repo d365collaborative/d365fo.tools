@@ -4,7 +4,9 @@
         Cleanup TempDB tables in Microsoft Dynamics 365 for Finance and Operations environment
         
     .DESCRIPTION
-        This will cleanup X days of TempDB tables. The reason behind this process is that sp_updatestats takes significantly longer depending on the number of TempDB tables in the system. It uses Invoke-Sqlcmd.
+        This will cleanup X days of TempDB tables
+        
+        The reason behind this process is that sp_updatestats takes significantly longer depending on the number of TempDB tables in the system
         
     .PARAMETER DatabaseServer
         The name of the database server
