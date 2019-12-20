@@ -57,6 +57,7 @@
 						'Clear-D365ActiveBroadcastMessageConfig',
 						'Clear-D365MonitorData',
 						'Clear-D365TableDataFromBacpac',
+						'Clear-D365TempDbTables',
 
 						'Publish-D365SsrsReport',
 
