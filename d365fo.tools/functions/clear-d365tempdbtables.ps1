@@ -60,6 +60,7 @@
 #>
 
 function Clear-D365TempDbTables {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param
     (
