@@ -1,40 +1,38 @@
 ﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
-online version:
+online version: https://msdyn365fo.wordpress.com/2019/12/18/cleanup-tempdb-tables-in-a-msdyn365fo-sandbox-environment/
 schema: 2.0.0
 ---
 
-# Update-D365User
+# Clear-D365TempDbTables
 
 ## SYNOPSIS
-Updates the user details in the database
+Cleanup TempDB tables in Microsoft Dynamics 365 for Finance and Operations environment
 
 ## SYNTAX
 
 ```
-Update-D365User [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
- [[-SqlPwd] <String>] [-Email] <String> [[-Company] <String>] [<CommonParameters>]
+Clear-D365TempDbTables [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
+ [[-SqlPwd] <String>] [[-Days] <Int32>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Is capable of updating all the user details inside the UserInfo table to enable a user to sign in
+This will cleanup X days of TempDB tables.
+The reason behind this process is that sp_updatestats takes significantly longer depending on the number of TempDB tables in the system.
+It uses Invoke-Sqlcmd.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Update-D365User -Email "claire@contoso.com"
+invoke-D365CleanupTempDBTables -Days 7
 ```
 
-This will search for the user with the e-mail address claire@contoso.com and update it with needed information based on the tenant owner of the environment
+This will cleanup old tempdb tables.
+It will use 7 as the Days parameter.
 
-### EXAMPLE 2
-```
-Update-D365User -Email "*contoso.com"
-```
-
-This will search for all users with an e-mail address containing 'contoso.com' and update them with needed information based on the tenant owner of the environment
+The remaining parameters will use their default values, which are provided by the tools.
 
 ## PARAMETERS
 
@@ -68,7 +66,7 @@ Aliases:
 
 Required: False
 Position: 2
-Default value: $Script:DatabaseName
+Default value: TempDB
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -103,36 +101,35 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Email
-The search string to select which user(s) should be updated.
+### -Days
+Temp tables older than this Days input will be dropped
 
-The parameter supports wildcards.
-E.g.
--Email "*@contoso.com*"
+The default value is 7 (days)
 
 ```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 5
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -Company
-The company the user should start in.
-
-```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
-Default value: None
+Position: 5
+Default value: 7
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -145,7 +142,18 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Rasmus Andersen (@ITRasmus)
+Author: Alex Kwitny (@AlexOnDAX)
+
 Author: Mötz Jensen (@Splaxi)
 
+This cmdlet is based on the findings from Paul Heisterkamp (@braul)
+
+See his blog for more info:
+https://msdyn365fo.wordpress.com/2019/12/18/cleanup-tempdb-tables-in-a-msdyn365fo-sandbox-environment/
+
 ## RELATED LINKS
+
+[https://msdyn365fo.wordpress.com/2019/12/18/cleanup-tempdb-tables-in-a-msdyn365fo-sandbox-environment/](https://msdyn365fo.wordpress.com/2019/12/18/cleanup-tempdb-tables-in-a-msdyn365fo-sandbox-environment/)
+
+[https://github.com/PaulHeisterkamp/d365fo.blog/blob/master/Tools/SQL/DropTempDBTables.sql](https://github.com/PaulHeisterkamp/d365fo.blog/blob/master/Tools/SQL/DropTempDBTables.sql)
+
