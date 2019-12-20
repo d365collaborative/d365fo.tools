@@ -73,7 +73,7 @@ It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtraction
 It will delete the extracted files after storing the updated bacpac file.
 
 .NOTES
-Tags: Bacpac, Servicing, Data, Deletion
+Tags: Bacpac, Servicing, Data, Deletion, SqlPackage
 
 Author: Mötz Jensen (@Splaxi)
 
