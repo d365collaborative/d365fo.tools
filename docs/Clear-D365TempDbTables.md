@@ -18,9 +18,9 @@ Clear-D365TempDbTables [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [
 ```
 
 ## DESCRIPTION
-This will cleanup X days of TempDB tables.
-The reason behind this process is that sp_updatestats takes significantly longer depending on the number of TempDB tables in the system.
-It uses Invoke-Sqlcmd.
+This will cleanup X days of TempDB tables
+
+The reason behind this process is that sp_updatestats takes significantly longer depending on the number of TempDB tables in the system
 
 ## EXAMPLES
 
