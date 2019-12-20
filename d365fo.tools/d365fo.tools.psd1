@@ -249,6 +249,7 @@
 						'Switch-D365ActiveDatabase',
 
 						'Test-D365Command',
+						'Test-D365LabelIdIsValid',
 						
 						'Update-D365User'
 						)
