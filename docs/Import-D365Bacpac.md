@@ -16,8 +16,8 @@ Import a bacpac file
 ```
 Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String>
- [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ImportOnly] [-ShowOriginalProgress]
- [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
+ [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>] [-ImportOnly]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ### ImportOnlyTier2
@@ -26,8 +26,8 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPwd] <String>] [[-AxRuntimeUserPwd] <String>]
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
- [[-AxDbReadonlyUserPwd] <String>] [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ImportOnly]
- [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
+ [[-AxDbReadonlyUserPwd] <String>] [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
+ [-ImportOnly] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ### ImportTier2
@@ -36,8 +36,8 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] <String> [-AxRuntimeUserPwd] <String>
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
- [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ShowOriginalProgress]
- [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
+ [-AxDbReadonlyUserPwd] <String> [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -434,7 +434,24 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 15
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ModelFile
+Path to the model file that you want the SqlPackage.exe to use instead the one being part of the bacpac file
+
+This is used to override SQL Server options, like collation and etc
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
