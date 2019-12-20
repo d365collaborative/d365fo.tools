@@ -36,7 +36,7 @@
         
         This will cleanup old tempdb tables.
         It will use 7 as the Days parameter.
-
+        
         The remaining parameters will use their default values, which are provided by the tools.
         
     .LINK
