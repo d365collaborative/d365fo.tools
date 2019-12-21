@@ -164,7 +164,7 @@ function Invoke-D365SDPInstall {
 
     # Input is a relative path, hence we set the path to the current directory
     if ($Path -eq ".") {
-        $currentPath = [System.IO.Directory]::GetCurrentDirectory()
+        $currentPath = Get-Location
         Write-PSFMessage -Level Verbose "Updating path to '$currentPath' as relative paths are not supported"
         $Path = $currentPath
     }
