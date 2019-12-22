@@ -134,6 +134,11 @@ function Export-D365ModelFileFromBacpac {
         Expand-Archive -Path $archivePath -DestinationPath $workPath -Force
 
         Copy-Item -Path "$workPath\model.xml" -Destination $OutputPath
+
+        [PSCustomObject]@{
+            File = $OutputPath
+            Filename = $(Split-Path -Path $OutputPath -Leaf)
+        }
     }
     
     end {

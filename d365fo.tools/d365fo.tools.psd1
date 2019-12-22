@@ -135,6 +135,8 @@
 						'Get-D365RunbookId',
 
 						'Get-D365SDPCleanUp',
+						'Get-D365SqlOptionsFromBacpacModelFile',
+
 						'Get-D365Table',
 						'Get-D365TableField',
 						'Get-D365TableSequence',

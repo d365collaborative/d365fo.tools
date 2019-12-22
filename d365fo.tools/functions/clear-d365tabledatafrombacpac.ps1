@@ -178,6 +178,8 @@ function Clear-D365TableDataFromBacpac {
     }
     
     end {
+        $res = @{}
+
         if ($originalExtension -eq "bacpac") {
             Rename-Item -Path $archivePath -NewName "$($fileName).bacpac"
         }
@@ -188,10 +190,17 @@ function Clear-D365TableDataFromBacpac {
 
         if ($newFilename -ne "") {
             Rename-Item -Path $compressPath -NewName $newFilename
+            $res.File = Join-path -Parent $(Split-Path -Path $compressPath -Parent) -ChildPath $newFilename
+            $res.Filename = $newFilename
+        }else {
+            $res.File = $compressPath
+            $res.Filename = $(Split-Path -Path $compressPath -Leaf)
         }
 
         if (-not $KeepFiles) {
             Remove-Item -Path $workPath -Recurse -Force
         }
+
+        [PSCustomObject]$res
     }
 }
