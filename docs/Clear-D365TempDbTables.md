@@ -66,7 +66,7 @@ Aliases:
 
 Required: False
 Position: 2
-Default value: TempDB
+Default value: $Script:DatabaseName
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
