@@ -1,28 +1,29 @@
-﻿<#
-.SYNOPSIS
-Get the SQL Server options from the bacpac model.xml file
-
-.DESCRIPTION
-Extract the SQL Server options that are listed inside the model.xml file originating from a bacpac file
-
-.PARAMETER Path
-Path to the extracted model.xml file that you want to work against
-
-.EXAMPLE
-PS C:\> Get-D365SqlOptionsFromBacpacModelFile -Path "C:\Temp\model.xml"
-
-This will display all the SQL Server options configured in the bacpac file.
-
-.EXAMPLE
-PS C:\> Export-d365ModelFileFromBacpac -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" | Get-D365SqlOptionsFromBacpacModelFile
-
-This will display all the SQL Server options configured in the bacpac file.
-First it will export the model.xml from the "C:\Temp\AxDB.bacpac" file, using the Export-d365ModelFileFromBacpac function.
-The output from Export-d365ModelFileFromBacpac will be piped into the Get-D365SqlOptionsFromBacpacModelFile function.
-
-.NOTES
+﻿
+<#
+    .SYNOPSIS
+        Get the SQL Server options from the bacpac model.xml file
+        
+    .DESCRIPTION
+        Extract the SQL Server options that are listed inside the model.xml file originating from a bacpac file
+        
+    .PARAMETER Path
+        Path to the extracted model.xml file that you want to work against
+        
+    .EXAMPLE
+        PS C:\> Get-D365SqlOptionsFromBacpacModelFile -Path "C:\Temp\model.xml"
+        
+        This will display all the SQL Server options configured in the bacpac file.
+        
+    .EXAMPLE
+        PS C:\> Export-d365ModelFileFromBacpac -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" | Get-D365SqlOptionsFromBacpacModelFile
+        
+        This will display all the SQL Server options configured in the bacpac file.
+        First it will export the model.xml from the "C:\Temp\AxDB.bacpac" file, using the Export-d365ModelFileFromBacpac function.
+        The output from Export-d365ModelFileFromBacpac will be piped into the Get-D365SqlOptionsFromBacpacModelFile function.
+        
+    .NOTES
         Tags: Bacpac, Servicing, Data, SqlPackage, Sql Server Options, Collation
-
+        
         Author: Mötz Jensen (@Splaxi)
 #>
 
