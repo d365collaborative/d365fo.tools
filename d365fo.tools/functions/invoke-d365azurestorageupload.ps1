@@ -122,7 +122,7 @@ function Invoke-D365AzureStorageUpload {
 
             Write-PSFMessage -Level Verbose -Message "Start uploading the file to Azure"
 
-            Set-AzStorageBlobContent -Context $storageContext -File $Filepath -Container $($Container.ToLower()) -Force:$Force
+            $null = Set-AzStorageBlobContent -Context $storageContext -File $Filepath -Container $($Container.ToLower()) -Force:$Force
 
             if ($DeleteOnUpload) {
                 Remove-Item $Filepath -Force
