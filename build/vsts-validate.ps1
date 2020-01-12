@@ -8,7 +8,7 @@
 Write-Host "Working on the machine named: $($env:computername)"
 Write-Host "The user running is: $($env:UserName)"
 
-$modules = @("Pester", "PSFramework", "PSScriptAnalyzer", "Azure.Storage", "AzureAd", "PSNotification")
+$modules = @("Pester", "PSFramework", "PSScriptAnalyzer", "Az.Storage", "AzureAd", "PSNotification")
 
 foreach ($module in $modules) {
     Write-Host "Importing $module" -ForegroundColor Cyan
