@@ -21,6 +21,9 @@
     .PARAMETER Filepath
         Path to the file you want to upload
         
+    .PARAMETER Force
+        Instruct the cmdlet to overwrite the file in the container if it already exists
+
     .PARAMETER DeleteOnUpload
         Switch to tell the cmdlet if you want the local file to be deleted after the upload completes
         
