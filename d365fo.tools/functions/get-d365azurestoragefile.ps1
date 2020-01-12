@@ -109,14 +109,14 @@ function Get-D365AzureStorageFile {
         $files = Get-AzStorageBlob -Container $($Container.ToLower()) -Context $storageContext | Sort-Object -Descending { $_.Properties.LastModified }
 
         if ($Latest) {
-            $files | Select-Object -First 1 | Select-PSFObject -TypeName D365FO.TOOLS.Azure.Blob "name", @{Name = "Size"; Expression = {[PSFSize]$_.Length}}, @{Name = "LastModified"; Expression = {[Datetime]::Parse($_.LastModified)}}
+            $files | Select-Object -First 1 | Select-PSFObject -TypeName D365FO.TOOLS.Azure.Blob "name", @{Name = "Size"; Expression = { [PSFSize]$_.Length } }, @{Name = "LastModified"; Expression = { [Datetime]::Parse($_.LastModified) } }
         }
         else {
     
             foreach ($obj in $files) {
                 if ($obj.Name -NotLike $Name) { continue }
 
-                $obj | Select-PSFObject -TypeName D365FO.TOOLS.Azure.Blob "name", @{Name = "Size"; Expression = {[PSFSize]$_.Length}}, @{Name = "LastModified"; Expression = {[Datetime]::Parse($_.LastModified)}}
+                $obj | Select-PSFObject -TypeName D365FO.TOOLS.Azure.Blob "name", @{Name = "Size"; Expression = { [PSFSize]$_.Length } }, @{Name = "LastModified"; Expression = { [Datetime]::Parse($_.LastModified) } }
             }
         }
     }
