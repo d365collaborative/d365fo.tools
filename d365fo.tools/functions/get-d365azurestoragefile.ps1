@@ -96,33 +96,27 @@ function Get-D365AzureStorageFile {
     if ([string]::IsNullOrEmpty($SAS)) {
         Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with AccessToken"
 
-        $storageContext = new-AzureStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
+        $storageContext = New-AzStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
     }
     else {
         Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with SAS"
 
         $conString = $("BlobEndpoint=https://{0}.blob.core.windows.net/;QueueEndpoint=https://{0}.queue.core.windows.net/;FileEndpoint=https://{0}.file.core.windows.net/;TableEndpoint=https://{0}.table.core.windows.net/;SharedAccessSignature={1}" -f $AccountId.ToLower(), $SAS)
-        $storageContext = new-AzureStorageContext -ConnectionString $conString
+        $storageContext = New-AzStorageContext -ConnectionString $conString
     }
 
-    $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
-
-    $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
-
-    $blobcontainer = $blobClient.GetContainerReference($Container);
-
     try {
-        $files = $blobcontainer.ListBlobs() | Sort-Object -Descending { $_.Properties.LastModified }
+        $files = Get-AzStorageBlob -Container $($Container.ToLower()) -Context $storageContext| Sort-Object -Descending { $_.Properties.LastModified }
 
         if ($Latest) {
-            $files | Select-Object -First 1 | Select-PSFObject -TypeName D365FO.TOOLS.Azure.Blob "name", @{Name = "Size"; Expression = {[PSFSize]$_.Properties.Length}}, "IsDeleted", @{Name = "LastModified"; Expression = {[Datetime]::Parse($_.Properties.LastModified)}}
+            $files | Select-Object -First 1 | Select-PSFObject -TypeName D365FO.TOOLS.Azure.Blob "name", @{Name = "Size"; Expression = {[PSFSize]$_.Length}}, @{Name = "LastModified"; Expression = {[Datetime]::Parse($_.LastModified)}}
         }
         else {
     
             foreach ($obj in $files) {
                 if ($obj.Name -NotLike $Name) { continue }
 
-                $obj | Select-PSFObject -TypeName D365FO.TOOLS.Azure.Blob "name", @{Name = "Size"; Expression = {[PSFSize]$_.Properties.Length}}, "IsDeleted", @{Name = "LastModified"; Expression = {[Datetime]::Parse($_.Properties.LastModified)}}
+                $obj | Select-PSFObject -TypeName D365FO.TOOLS.Azure.Blob "name", @{Name = "Size"; Expression = {[PSFSize]$_.Length}}, @{Name = "LastModified"; Expression = {[Datetime]::Parse($_.LastModified)}}
             }
         }
     }

@@ -136,9 +136,6 @@
 						<Alignment>Right</Alignment>
 					</TableColumnHeader>
 					<TableColumnHeader>
-						<Width>9</Width>
-					</TableColumnHeader>
-					<TableColumnHeader>
 						<Width>30</Width>
 					</TableColumnHeader>
 				</TableHeaders>
@@ -150,9 +147,6 @@
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>Size</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>IsDeleted</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>LastModified</PropertyName>
