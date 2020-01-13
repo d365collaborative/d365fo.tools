@@ -30,6 +30,8 @@
     .PARAMETER DMF
         Switch to instruct the cmdlet query the DMF service
         
+    .PARAMETER OutputServiceDetailsOnly
+
     .EXAMPLE
         PS C:\> Get-D365Environment -All
         
@@ -73,7 +75,9 @@ function Get-D365Environment {
         [switch] $FinancialReporter,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
-        [switch] $DMF
+        [switch] $DMF,
+
+        [switch] $OutputServiceDetailsOnly
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
@@ -88,6 +92,7 @@ function Get-D365Environment {
 
     $Params = Get-DeepClone $PSBoundParameters
     if($Params.ContainsKey("ComputerName")){$null = $Params.Remove("ComputerName")}
+    if($Params.ContainsKey("OutputServiceDetailsOnly")){$null = $Params.Remove("OutputServiceDetailsOnly")}
 
     $Services = Get-ServiceList @Params
 
@@ -95,5 +100,11 @@ function Get-D365Environment {
         Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, StartType, DisplayName
     }
     
-    $Results | Select-PSFObject -TypeName "D365FO.TOOLS.Environment.Service" Server, DisplayName, Status, StartType, Name
+    $outputTypeName = "D365FO.TOOLS.Environment.Service"
+
+    if($OutputServiceDetailsOnly) {
+        $outputTypeName = "D365FO.TOOLS.Environment.Service.Minimal"
+    }
+
+    $Results | Select-PSFObject -TypeName $outputTypeName Server, DisplayName, Status, StartType, Name
 }

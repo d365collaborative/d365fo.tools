@@ -162,7 +162,7 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
-				<View>
+		<View>
 			<Name>D365FO.TOOLS.Environment.Service</Name>
 			<ViewSelectedBy>
 				<TypeName>D365FO.TOOLS.Environment.Service</TypeName>
@@ -191,6 +191,46 @@
 							<TableColumnItem>
 								<PropertyName>Server</PropertyName>
 							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>DisplayName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Status</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>StartType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>D365FO.TOOLS.Environment.Service.Minimal</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.Environment.Service.Minimal</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Width>70</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>10</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>10</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>30</Width>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
 							<TableColumnItem>
 								<PropertyName>DisplayName</PropertyName>
 							</TableColumnItem>
