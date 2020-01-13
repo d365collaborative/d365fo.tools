@@ -170,7 +170,7 @@
 			<TableControl>
 				<TableHeaders>
 					<TableColumnHeader>
-						<Width>20</Width>
+						<Width>18</Width>
 					</TableColumnHeader>
 					<TableColumnHeader>
 						<Width>60</Width>
@@ -179,7 +179,10 @@
 						<Width>10</Width>
 					</TableColumnHeader>
 					<TableColumnHeader>
-						<Width>30</Width>
+						<Width>10</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>22</Width>
 					</TableColumnHeader>
 				</TableHeaders>
 				<TableRowEntries>
@@ -193,6 +196,9 @@
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>Status</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>StartType</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>Name</PropertyName>
