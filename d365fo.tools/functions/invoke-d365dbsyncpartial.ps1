@@ -81,7 +81,16 @@
         It will run the sync process against "CustCustomerEntity" and "SalesTable"
         
         It will output the same level of details that Visual Studio would normally do.
+
+    .EXAMPLE
+        PS C:\> Invoke-D365DBSyncPartial -ModelName "CDCGC"
         
+        Will sync the all base and extension elements from the "FleetManagement" model
+        This will invoke the sync engine and have it work against the database.
+        It will run with the default value "PartialList" as the SyncMode.
+        
+        It will run the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of provided model
+
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
         
@@ -126,9 +135,9 @@ function Invoke-D365DBSyncPartial {
 
         [switch] $OutputCommandOnly
 
-    )   
+    )
 
-    begin {        
+    begin {
         $assemblies2Process = New-Object -TypeName "System.Collections.ArrayList"
                 
         $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.AX.Metadata.dll"))
@@ -176,7 +185,7 @@ function Invoke-D365DBSyncPartial {
             return
         }
 
-        if($null -ne $ModelName){
+        if ($null -ne $ModelName) {
             Write-PSFMessage -Level Debug -Message "Collecting $ModelName AOT elements to sync"
 
             $baseSyncElements = New-Object -TypeName "System.Collections.ArrayList"
@@ -198,12 +207,11 @@ function Invoke-D365DBSyncPartial {
             $extensionToBaseSyncElements.AddRange($diskMetadataProvider.DataEntityViewExtensions.ListObjects($ModelName));
             
             # Loop every extension element, convert it to its base element and add the base element to another list
-            Foreach($extElement in $extensionToBaseSyncElements) 
-            {
-                $null = $baseSyncElements.Add($extElement.Substring(0, $extElement.IndexOf('.'))) 
-            } 
+            Foreach ($extElement in $extensionToBaseSyncElements) {
+                $null = $baseSyncElements.Add($extElement.Substring(0, $extElement.IndexOf('.')))
+            }
 
-            $SyncList += $baseSyncElements.ToArray()            
+            $SyncList += $baseSyncElements.ToArray()
             $SyncExtensionsList += $extensionSyncElements.ToArray()
 
             Write-PSFMessage -Level Debug -Message "Following elements from $ModelName will be synced: $(($baseSyncElements.ToArray() + $extensionSyncElements.ToArray()) -join ",")"            
