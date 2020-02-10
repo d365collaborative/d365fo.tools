@@ -214,7 +214,7 @@ function Invoke-D365DBSyncPartial {
             $SyncList += $baseSyncElements.ToArray()
             $SyncExtensionsList += $extensionSyncElements.ToArray()
 
-            Write-PSFMessage -Level Debug -Message "Following elements from $ModelName will be synced: $(($baseSyncElements.ToArray() + $extensionSyncElements.ToArray()) -join ",")"            
+            Write-PSFMessage -Level Debug -Message "Following elements from $ModelName will be synced: $(($baseSyncElements.ToArray() + $extensionSyncElements.ToArray()) -join ",")"
         }
         
         
