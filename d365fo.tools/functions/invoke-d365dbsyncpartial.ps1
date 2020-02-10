@@ -85,7 +85,7 @@
     .EXAMPLE
         PS C:\> Invoke-D365DBSyncPartial -ModelName "FleetManagement"
         
-        Will sync the all base and extension elements from the "FleetManagement" model
+        Will sync all base and extension elements from the "FleetManagement" model
         This will invoke the sync engine and have it work against the database.
         It will run with the default value "PartialList" as the SyncMode.
         
