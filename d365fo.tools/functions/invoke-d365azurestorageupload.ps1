@@ -28,7 +28,7 @@
         If the parameter is left empty, the commandlet will try to automatically determined the value based on the file's extension.
         If the parameter is left empty and the value cannot be automatically be determined, Azure storage will automatically assign "application/octet-stream" as the content type.
         Valid media type values can be found here: https://www.iana.org/assignments/media-types/media-types.xhtml
-
+        
     .PARAMETER DeleteOnUpload
         Switch to tell the cmdlet if you want the local file to be deleted after the upload completes
         

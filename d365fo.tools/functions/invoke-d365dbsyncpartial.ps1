@@ -13,7 +13,7 @@
         
     .PARAMETER SyncList
         The list of objects that you want to pass on to the database synchronoziation engine
-
+        
     .PARAMETER SyncExtensionsList
         The list of extension objects that you want to pass on to the database synchronoziation engine
         
@@ -24,7 +24,7 @@
         Parameter used to instruct the level of verbosity the sync engine has to report back
         
         Default value is: "Normal"
-    
+        
     .PARAMETER ModelName
         Name of the model you want to sync tables and table extensions
         
@@ -81,7 +81,7 @@
         It will run the sync process against "CustCustomerEntity" and "SalesTable"
         
         It will output the same level of details that Visual Studio would normally do.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365DBSyncPartial -ModelName "FleetManagement"
         
@@ -90,7 +90,7 @@
         It will run with the default value "PartialList" as the SyncMode.
         
         It will run the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of provided model
-
+        
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
         

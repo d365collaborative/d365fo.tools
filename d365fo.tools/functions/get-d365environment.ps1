@@ -32,7 +32,7 @@
         
     .PARAMETER OutputServiceDetailsOnly
         Instruct the cmdlet to exclude the server name from the output
-
+        
     .EXAMPLE
         PS C:\> Get-D365Environment -All
         
