@@ -13,8 +13,8 @@ Invoke the synchronization process used in Visual Studio
 ## SYNTAX
 
 ```
-Invoke-D365DBSyncPartial [[-SyncMode] <String>] [[-SyncList] <String[]>] [[-LogPath] <String>]
- [[-Verbosity] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>]
+Invoke-D365DBSyncPartial [[-SyncMode] <String>] [[-SyncList] <String[]>] [[-SyncExtensionsList] <String[]>] [[-LogPath] <String>]
+ [[-Verbosity] <String>] [[-ModelName] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>]
  [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [-ShowOriginalProgress]
  [-OutputCommandOnly] [<CommonParameters>]
 ```
@@ -45,6 +45,16 @@ It will run with the default value "PartialList" as the SyncMode.
 It will run the sync process against "CustCustomerEntity" and "SalesTable"
 
 It will output the same level of details that Visual Studio would normally do.
+
+### EXAMPLE 3
+```
+Invoke-D365DBSyncPartial -ModelName "FleetManagement"
+```
+
+Will sync the all base and extension elements from the "FleetManagement" model
+This will invoke the sync engine and have it work against the database.
+It will run with the default value "PartialList" as the SyncMode.
+It will run the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of provided model
 
 ## PARAMETERS
 
@@ -80,6 +90,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -SyncExtensionsList
+The list of extension objects that you want to pass on to the database synchronoziation engine
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -LogPath
 The path where the log file will be saved
 
@@ -89,7 +114,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: C:\temp\D365FO.Tools\Sync
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -106,7 +131,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
+Default value: Normal
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ModelName
+Name of the model you want to sync tables and table extensions
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
 Default value: Normal
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -123,7 +163,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 7
 Default value: $Script:BinDirTools
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -140,7 +180,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 8
 Default value: $Script:MetaDataDir
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -160,7 +200,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 9
 Default value: $Script:DatabaseServer
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -175,7 +215,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 10
 Default value: $Script:DatabaseName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -190,7 +230,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 11
 Default value: $Script:DatabaseUserName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -205,7 +245,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 12
 Default value: $Script:DatabaseUserPassword
 Accept pipeline input: False
 Accept wildcard characters: False
