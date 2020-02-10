@@ -10,7 +10,7 @@
         
     .PARAMETER Module
         The name of the module / model that you want to be the default model for all new projects used inside Visual Studio when working with D365FO project types
-
+        
     .EXAMPLE
         PS C:\> Set-D365DefaultModelForNewProjects -Model "FleetManagement"
         
