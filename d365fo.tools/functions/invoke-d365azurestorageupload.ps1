@@ -21,6 +21,14 @@
     .PARAMETER Filepath
         Path to the file you want to upload
         
+    .PARAMETER ContentType
+        Media type of the file that is going to be uploaded
+        
+        The value will be used for the blob property "Content Type".
+        If the parameter is left empty, the commandlet will try to automatically determined the value based on the file's extension.
+        If the parameter is left empty and the value cannot be automatically be determined, Azure storage will automatically assign "application/octet-stream" as the content type.
+        Valid media type values can be found here: https://www.iana.org/assignments/media-types/media-types.xhtml
+
     .PARAMETER DeleteOnUpload
         Switch to tell the cmdlet if you want the local file to be deleted after the upload completes
         
@@ -84,6 +92,9 @@ function Invoke-D365AzureStorageUpload {
         [Alias('Path')]
         [string] $Filepath,
 
+        [Parameter(Mandatory = $false)]
+        [string] $ContentType,
+
         [switch] $DeleteOnUpload,
 
         [switch] $EnableException
@@ -121,11 +132,22 @@ function Invoke-D365AzureStorageUpload {
             $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
 
             $blobContainer = $blobClient.GetContainerReference($Container.ToLower());
-        
+
+            if ([string]::IsNullOrEmpty($ContentType)) {
+                $ContentType = [System.Web.MimeMapping]::GetMimeMapping($Filepath) # Available since .NET4.5, so it can be used with PowerShell 5.0 and higher.
+
+                Write-PSFMessage -Level Verbose -Message "Content Type is automatically set to value: $ContentType"
+            }
+
             Write-PSFMessage -Level Verbose -Message "Start uploading the file to Azure"
 
             $FileName = Split-Path $Filepath -Leaf
             $blockBlob = $blobContainer.GetBlockBlobReference($FileName)
+
+            if (![string]::IsNullOrEmpty($ContentType)) {
+                $blockBlob.Properties.ContentType = $ContentType
+            }
+
             $blockBlob.UploadFromFile($Filepath)
 
             if ($DeleteOnUpload) {
@@ -138,7 +160,7 @@ function Invoke-D365AzureStorageUpload {
             }
         }
         catch {
-            $messageString = "Something went wrong while <c='em'>uploading</c> the file from Azure."
+            $messageString = "Something went wrong while <c='em'>uploading</c> the file to Azure."
             Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $FileName
             Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
             return
