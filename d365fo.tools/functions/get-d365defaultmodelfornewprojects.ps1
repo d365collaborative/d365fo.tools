@@ -25,6 +25,7 @@
 #>
 
 function Get-D365DefaultModelForNewProjects {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param ()
 

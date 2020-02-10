@@ -8,6 +8,9 @@
         
         It will backup the current "DynamicsDevConfig.xml" file, for you to revert the changes if anything should go wrong
         
+    .PARAMETER Module
+        The name of the module / model that you want to be the default model for all new projects used inside Visual Studio when working with D365FO project types
+
     .EXAMPLE
         PS C:\> Set-D365DefaultModelForNewProjects -Model "FleetManagement"
         
@@ -30,6 +33,7 @@
 
 function Set-D365DefaultModelForNewProjects {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
