@@ -14,13 +14,13 @@ Cmdlet to get the current status for the different services in a Dynamics 365 Fi
 
 ### Default (Default)
 ```
-Get-D365Environment [[-ComputerName] <String[]>] [-All] [<CommonParameters>]
+Get-D365Environment [[-ComputerName] <String[]>] [-All] [-OutputServiceDetailsOnly] [<CommonParameters>]
 ```
 
 ### Specific
 ```
 Get-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
- [<CommonParameters>]
+ [-OutputServiceDetailsOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -142,6 +142,21 @@ Aliases:
 
 Required: False
 Position: 6
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputServiceDetailsOnly
+Instruct the cmdlet to exclude the server name from the output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

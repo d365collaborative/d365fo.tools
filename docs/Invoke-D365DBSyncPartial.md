@@ -13,10 +13,10 @@ Invoke the synchronization process used in Visual Studio
 ## SYNTAX
 
 ```
-Invoke-D365DBSyncPartial [[-SyncMode] <String>] [[-SyncList] <String[]>] [[-SyncExtensionsList] <String[]>] [[-LogPath] <String>]
- [[-Verbosity] <String>] [[-ModelName] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>]
- [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [-ShowOriginalProgress]
- [-OutputCommandOnly] [<CommonParameters>]
+Invoke-D365DBSyncPartial [[-SyncMode] <String>] [[-SyncList] <String[]>] [[-SyncExtensionsList] <String[]>]
+ [[-LogPath] <String>] [[-Verbosity] <String>] [[-ModelName] <String>] [[-BinDirTools] <String>]
+ [[-MetadataDir] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
+ [[-SqlPwd] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -51,9 +51,10 @@ It will output the same level of details that Visual Studio would normally do.
 Invoke-D365DBSyncPartial -ModelName "FleetManagement"
 ```
 
-Will sync the all base and extension elements from the "FleetManagement" model
+Will sync all base and extension elements from the "FleetManagement" model
 This will invoke the sync engine and have it work against the database.
 It will run with the default value "PartialList" as the SyncMode.
+
 It will run the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of provided model
 
 ## PARAMETERS
@@ -147,7 +148,7 @@ Aliases:
 
 Required: False
 Position: 6
-Default value: Normal
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
