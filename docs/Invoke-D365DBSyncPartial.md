@@ -48,7 +48,7 @@ It will output the same level of details that Visual Studio would normally do.
 
 ### EXAMPLE 3
 ```
-Invoke-D365DBSyncPartial -ModelName "CDCGC"
+Invoke-D365DBSyncPartial -ModelName "FleetManagement"
 ```
 
 Will sync the all base and extension elements from the "FleetManagement" model
