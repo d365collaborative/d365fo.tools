@@ -95,18 +95,31 @@
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter OutputServiceDetailsOnly' {
+			$parameter = (Get-Command Get-D365Environment).Parameters['OutputServiceDetailsOnly']
+			$parameter.Name | Should -Be 'OutputServiceDetailsOnly'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset Default" {
 		<#
 		Default -
-		Default -ComputerName -All
+		Default -ComputerName -All -OutputServiceDetailsOnly
 		#>
 	}
  	Describe "Testing parameterset Specific" {
 		<#
 		Specific -
-		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF
+		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF -OutputServiceDetailsOnly
 		#>
 	}
 
