@@ -91,6 +91,7 @@
 						'Get-D365Database',
 						'Get-D365DatabaseAccess',
 						'Get-D365DecryptedConfigFile',
+						'Get-D365DefaultModelForNewProjects',
 						'Get-D365DotNetClass',
 						'Get-D365DotNetMethod',
 
@@ -223,6 +224,8 @@
 						'Set-D365AzCopyPath',
 
 						'Set-D365ClickOnceTrustPrompt',
+
+						'Set-D365DefaultModelForNewProjects',
 
 						'Set-D365FavoriteBookmark',
 						'Set-D365LcsApiConfig',
