@@ -35,7 +35,7 @@ It will replace the value inside the "DefaultModelForNewProjects" tag.
 ## PARAMETERS
 
 ### -Module
-{{ Fill Module Description }}
+The name of the module / model that you want to be the default model for all new projects used inside Visual Studio when working with D365FO project types
 
 ```yaml
 Type: String
