@@ -3,7 +3,7 @@
         Compile and sync a module
         
     .DESCRIPTION
-        Compile and sync a package using 
+        Compile and sync a package using
             - Invoke-D365ModuleFullCompile function
             - "syncengine.exe" to sync the table and extension elements for module
         
@@ -39,12 +39,32 @@
     .PARAMETER OutputCommandOnly
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
-        Will include full path to the executable and the needed parameters based on your selection    
+        Will include full path to the executable and the needed parameters based on your selection
+    
+    .EXAMPLE
+        PS C:\> Invoke-D365ModuleFullCompileSync -ModuleName MyModel
+        
+        This will use the default paths and start:
+            * Invoke-D365ModuleFullCompile with the needed parameters to compile MyModel package.
+            * Invoke-D365DBSyncPartial with the needed parameters to sync MyModel table and extesion elements.
+
+        The default output from all the different steps will be silenced.
+
+    .EXAMPLE
+        PS C:\> Invoke-D365ModuleFullCompileSync -ModuleName "Application*Adaptor"
+        
+        Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
+
+        For every value of the list perform the following:
+            * Invoke-D365ModuleFullCompile with the needed parameters to compile current module value package.
+            * Invoke-D365DBSyncPartial with the needed parameters to sync current module value table and extesion elements.
+            
+        The default output from all the different steps will be silenced.
         
     .NOTES
         Tags: Compile, Model, Servicing, Database, Synchronization
         
-        Author: Jasper Callens        
+        Author: Jasper Callens - Cegeka
 #>
 
 function Invoke-D365ModuleFullCompileSync {
@@ -79,13 +99,13 @@ function Invoke-D365ModuleFullCompileSync {
 
         # Output information on which modules that will be compiled and synced
         Write-PSFMessage -Level Debug -Message "Modules retrieved: "
-        $moduleResults | ForEach-Object { 
+        $moduleResults | ForEach-Object {
             Write-PSFMessage -Level Debug -Message "$($_.Module) "
-        }  
+        }
 
         foreach($moduleElement in $moduleResults)
-        {          
-            Write-PSFMessage -Level Debug -Message "Processing module: $($moduleElement.Module)"    
+        {
+            Write-PSFMessage -Level Debug -Message "Processing module: $($moduleElement.Module)"
 
             # Build parameters for the full compile function
             $fullCompileParams = @{
@@ -115,9 +135,9 @@ function Invoke-D365ModuleFullCompileSync {
             $resSyncModule = Invoke-D365DBSyncPartial @syncParams
     
             # Output results of full compile and partial sync
-            $resModuleCompileFull    
+            $resModuleCompileFull
             $resSyncModule
-        }  
+        }
     }
 
     end {
