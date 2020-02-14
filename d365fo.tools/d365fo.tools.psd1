@@ -166,6 +166,7 @@
 						'Invoke-D365DataFlush',
 						'Invoke-D365DBSync',
 						'Invoke-D365DBSyncPartial',
+						'Invoke-D365DbSyncModule',
 						'Invoke-D365InstallLicense',
 						'Invoke-D365InstallAzCopy',
 						'Invoke-D365InstallSqlPackage',

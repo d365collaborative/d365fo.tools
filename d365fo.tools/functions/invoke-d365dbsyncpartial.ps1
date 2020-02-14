@@ -1,5 +1,4 @@
-﻿
-<#
+﻿<#
     .SYNOPSIS
         Invoke the synchronization process used in Visual Studio
         
@@ -24,9 +23,6 @@
         Parameter used to instruct the level of verbosity the sync engine has to report back
         
         Default value is: "Normal"
-        
-    .PARAMETER ModelName
-        Name of the model you want to sync tables and table extensions
         
     .PARAMETER BinDirTools
         Path to where the tools on the machine can be found
@@ -67,7 +63,6 @@
     .EXAMPLE
         PS C:\> Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable"
         
-        Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
         This will invoke the sync engine and have it work against the database.
         It will run with the default value "PartialList" as the SyncMode.
         It will run the sync process against "CustCustomerEntity" and "SalesTable"
@@ -75,26 +70,27 @@
     .EXAMPLE
         PS C:\> Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -Verbose
         
-        Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
         This will invoke the sync engine and have it work against the database.
         It will run with the default value "PartialList" as the SyncMode.
         It will run the sync process against "CustCustomerEntity" and "SalesTable"
         
         It will output the same level of details that Visual Studio would normally do.
-        
+    
     .EXAMPLE
-        PS C:\> Invoke-D365DBSyncPartial -ModelName "FleetManagement"
-        
-        Will sync all base and extension elements from the "FleetManagement" model
+        PS C:\> Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -SyncExtensionsList "CaseLog.Extension","CategoryTable.Extension" -Verbose
+                
         This will invoke the sync engine and have it work against the database.
         It will run with the default value "PartialList" as the SyncMode.
+        It will run the sync process against "CustCustomerEntity", "SalesTable", "CaseLog.Extension" and "CategoryTable.Extension"
         
-        It will run the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of provided model
-        
+        It will output the same level of details that Visual Studio would normally do.
+
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
         
         Author: Mötz Jensen (@Splaxi)
+
+        Author: Jasper Callens - Cegeka
         
         Inspired by:
         https://axdynamx.blogspot.com/2017/10/how-to-synchronize-manually-database.html
@@ -104,7 +100,6 @@
 function Invoke-D365DBSyncPartial {
     [CmdletBinding()]
     param (
-
         #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
         [string] $SyncMode = 'PartialList',
 
@@ -116,8 +111,6 @@ function Invoke-D365DBSyncPartial {
 
         [ValidateSet('Normal', 'Quiet', 'Minimal', 'Normal', 'Detailed', 'Diagnostic')]
         [string] $Verbosity = 'Normal',
-
-        [string] $ModelName,
 
         [string] $BinDirTools = $Script:BinDirTools,
 
@@ -134,23 +127,7 @@ function Invoke-D365DBSyncPartial {
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly
-
     )
-
-    begin {
-        $assemblies2Process = New-Object -TypeName "System.Collections.ArrayList"
-                
-        $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.AX.Metadata.dll"))
-        $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.AX.Metadata.Core.dll"))
-        $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.AX.Metadata.Storage.dll"))
-        $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll"))
-        $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.AX.Metadata.Management.Delta.dll"))
-        $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.AX.Metadata.Management.Core.dll"))
-        $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.AX.Metadata.Management.Merge.dll"))
-        $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.AX.Metadata.Management.Diff.dll"))
-
-        Import-AssemblyFileIntoMemory -Path $($assemblies2Process.ToArray())
-    }
 
     process {
         Invoke-TimeSignal -Start
@@ -184,39 +161,6 @@ function Invoke-D365DBSyncPartial {
             Stop-PSFFunction -Message "Stopping because SyncEngine.exe already running"
             return
         }
-
-        if ($null -ne $ModelName) {
-            Write-PSFMessage -Level Debug -Message "Collecting $ModelName AOT elements to sync"
-
-            $baseSyncElements = New-Object -TypeName "System.Collections.ArrayList"
-            $extensionSyncElements = New-Object -TypeName "System.Collections.ArrayList"
-
-            $extensionToBaseSyncElements = New-Object -TypeName "System.Collections.ArrayList"
-
-            $diskMetadataProvider = (New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory).CreateDiskProvider($Script:PackageDirectory)
-            
-            $baseSyncElements.AddRange($diskMetadataProvider.Tables.ListObjects($ModelName));
-            $baseSyncElements.AddRange($diskMetadataProvider.Views.ListObjects($ModelName));
-            $baseSyncElements.AddRange($diskMetadataProvider.DataEntityViews.ListObjects($ModelName));
-
-            $extensionSyncElements.AddRange($diskMetadataProvider.TableExtensions.ListObjects($ModelName));
-
-            # Some Extension elements have to be 'converted' to their base element that has to be passed to the SyncList of the syncengine
-            # Add these elements to an ArrayList
-            $extensionToBaseSyncElements.AddRange($diskMetadataProvider.ViewExtensions.ListObjects($ModelName));
-            $extensionToBaseSyncElements.AddRange($diskMetadataProvider.DataEntityViewExtensions.ListObjects($ModelName));
-            
-            # Loop every extension element, convert it to its base element and add the base element to another list
-            Foreach ($extElement in $extensionToBaseSyncElements) {
-                $null = $baseSyncElements.Add($extElement.Substring(0, $extElement.IndexOf('.')))
-            }
-
-            $SyncList += $baseSyncElements.ToArray()
-            $SyncExtensionsList += $extensionSyncElements.ToArray()
-
-            Write-PSFMessage -Level Debug -Message "Following elements from $ModelName will be synced: $(($baseSyncElements.ToArray() + $extensionSyncElements.ToArray()) -join ",")"
-        }
-        
         
         Write-PSFMessage -Level Debug -Message "Build the parameters for the command to execute."
         $params = @("-syncmode=$($SyncMode.ToLower())",

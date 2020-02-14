@@ -5,7 +5,7 @@
     .DESCRIPTION
         Compile and sync a package using
             - Invoke-D365ModuleFullCompile function
-            - "syncengine.exe" to sync the table and extension elements for module
+            - Invoke-D365DBSyncPartial to sync the table and extension elements for module
         
     .PARAMETER ModuleName
         Name of the module that you are looking for
@@ -102,6 +102,10 @@ function Invoke-D365ModuleFullCompileSync {
         $moduleResults | ForEach-Object {
             Write-PSFMessage -Level Debug -Message "$($_.Module) "
         }
+        
+        # Create empty lists for all sync-base and sync-extension elements
+        $syncList = @()
+        $syncExtensionsList = @()
 
         foreach($moduleElement in $moduleResults)
         {
@@ -119,25 +123,35 @@ function Invoke-D365ModuleFullCompileSync {
                 OutputCommandOnly=$OutputCommandOnly
             }
 
-            # Build parameters for the partial sync function
-            $syncParams = @{
-                ModelName=$moduleElement.Module;
-                BinDirTools=$BinDir;
-                MetadataDir=$MetaDataDir;
-                ShowOriginalProgress=$ShowOriginalProgress;
-                OutputCommandOnly=$OutputCommandOnly
-            }
-
             # Call the full compile using required parameters
             $resModuleCompileFull = Invoke-D365ModuleFullCompile @fullCompileParams
 
-            # Call the partial sync using required parameters
-            $resSyncModule = Invoke-D365DBSyncPartial @syncParams
+            # Retrieve the sync element of current module
+            $moduleSyncElements = Get-D365SyncElements -ModuleName $moduleElement.Module
+
+            # Add base and extensions elements to the sync lists
+            $syncList +=$moduleSyncElements.BaseSyncElements
+            $syncExtensionsList += $moduleSyncElements.ExtensionSyncElements
     
             # Output results of full compile and partial sync
             $resModuleCompileFull
-            $resSyncModule
+            
         }
+
+        # Build parameters for the partial sync function
+        $syncParams = @{
+            SyncList=$syncList;
+            SyncExtensionsList = $syncExtensionsList;
+            BinDirTools=$BinDir;
+            MetadataDir=$MetaDataDir;
+            ShowOriginalProgress=$ShowOriginalProgress;
+            OutputCommandOnly=$OutputCommandOnly
+        }
+
+        # Call the partial sync using required parameters
+        $resSyncModule = Invoke-D365DBSyncPartial @syncParams
+
+        $resSyncModule
     }
 
     end {
