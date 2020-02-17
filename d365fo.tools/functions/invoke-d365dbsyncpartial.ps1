@@ -1,4 +1,5 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Invoke the synchronization process used in Visual Studio
         
@@ -75,21 +76,21 @@
         It will run the sync process against "CustCustomerEntity" and "SalesTable"
         
         It will output the same level of details that Visual Studio would normally do.
-    
+        
     .EXAMPLE
         PS C:\> Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -SyncExtensionsList "CaseLog.Extension","CategoryTable.Extension" -Verbose
-                
+        
         This will invoke the sync engine and have it work against the database.
         It will run with the default value "PartialList" as the SyncMode.
         It will run the sync process against "CustCustomerEntity", "SalesTable", "CaseLog.Extension" and "CategoryTable.Extension"
         
         It will output the same level of details that Visual Studio would normally do.
-
+        
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
         
         Author: Mötz Jensen (@Splaxi)
-
+        
         Author: Jasper Callens - Cegeka
         
         Inspired by:

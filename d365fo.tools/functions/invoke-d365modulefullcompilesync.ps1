@@ -1,11 +1,12 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Compile and sync a module
         
     .DESCRIPTION
         Compile and sync a package using
-            - Invoke-D365ModuleFullCompile function
-            - Invoke-D365DBSyncPartial to sync the table and extension elements for module
+        - Invoke-D365ModuleFullCompile function
+        - Invoke-D365DBSyncPartial to sync the table and extension elements for module
         
     .PARAMETER ModuleName
         Name of the module that you are looking for
@@ -40,25 +41,25 @@
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
         Will include full path to the executable and the needed parameters based on your selection
-    
+        
     .EXAMPLE
         PS C:\> Invoke-D365ModuleFullCompileSync -ModuleName MyModel
         
         This will use the default paths and start:
-            * Invoke-D365ModuleFullCompile with the needed parameters to compile MyModel package.
-            * Invoke-D365DBSyncPartial with the needed parameters to sync MyModel table and extesion elements.
-
+        * Invoke-D365ModuleFullCompile with the needed parameters to compile MyModel package.
+        * Invoke-D365DBSyncPartial with the needed parameters to sync MyModel table and extesion elements.
+        
         The default output from all the different steps will be silenced.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365ModuleFullCompileSync -ModuleName "Application*Adaptor"
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
-
+        
         For every value of the list perform the following:
-            * Invoke-D365ModuleFullCompile with the needed parameters to compile current module value package.
-            * Invoke-D365DBSyncPartial with the needed parameters to sync current module value table and extesion elements.
-            
+        * Invoke-D365ModuleFullCompile with the needed parameters to compile current module value package.
+        * Invoke-D365DBSyncPartial with the needed parameters to sync current module value table and extesion elements.
+        
         The default output from all the different steps will be silenced.
         
     .NOTES
@@ -127,7 +128,7 @@ function Invoke-D365ModuleFullCompileSync {
             $resModuleCompileFull = Invoke-D365ModuleFullCompile @fullCompileParams
 
             # Retrieve the sync element of current module
-            $moduleSyncElements = Get-D365SyncElements -ModuleName $moduleElement.Module
+            $moduleSyncElements = Get-SyncElements -ModuleName $moduleElement.Module
 
             # Add base and extensions elements to the sync lists
             $syncList +=$moduleSyncElements.BaseSyncElements

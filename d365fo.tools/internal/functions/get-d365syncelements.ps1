@@ -15,18 +15,19 @@
         Default value is "*" which will search for all modules
         
     .EXAMPLE
-        PS C:\> Get-D365SyncElements -ModuleName "Application*Adaptor"
+        PS C:\> Get-SyncElements -ModuleName "Application*Adaptor"
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         For every model retrieved: collect all base sync and extension sync elements.
         
     .NOTES
         Tags: Database
-
+        
         Author: Jasper Callens - Cegeka
-
+        
 #>
-function Get-D365SyncElements {
+function Get-SyncElements {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory = $true)]

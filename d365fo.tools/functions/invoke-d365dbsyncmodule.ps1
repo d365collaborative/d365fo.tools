@@ -5,7 +5,7 @@
         
     .DESCRIPTION
         Retrieve the list of installed packages / modules where the name fits the ModelName parameter.
-
+        
         It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions,
         view-extensions and data entities-extensions of every iterated model
         
@@ -19,7 +19,7 @@
         Parameter used to instruct the level of verbosity the sync engine has to report back
         
         Default value is: "Normal"
- 
+        
     .PARAMETER BinDirTools
         Path to where the tools on the machine can be found
         
@@ -55,12 +55,12 @@
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
         Will include full path to the executable and the needed parameters based on your selection
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365DbSyncModule -ModuleName "Application*Adaptor"
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
-
+        
         It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions,
         view-extensions and data entities-extensions of every iterated model
         
@@ -101,7 +101,7 @@ function Invoke-D365DbSyncModule {
         Invoke-TimeSignal -Start
         
         # Retrieve all sync elements of provided module name
-        $allModelSyncElements = Get-D365SyncElements -ModuleName $ModuleName
+        $allModelSyncElements = Get-SyncElements -ModuleName $ModuleName
         
         # Build parameters for the partial sync function
         $syncParams = @{
