@@ -119,8 +119,8 @@
 	
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
-		__AllParameterSets -Module
-		__AllParameterSets -Module -OutputDir -LogDir -MetaDataDir -ReferenceDir -BinDir -ShowOriginalProgress -OutputCommandOnly
+		__AllParameterSets -ModuleName
+		__AllParameterSets -ModuleName -OutputDir -LogDir -MetaDataDir -ReferenceDir -BinDir -ShowOriginalProgress -OutputCommandOnly
 		#>
 	}
 
