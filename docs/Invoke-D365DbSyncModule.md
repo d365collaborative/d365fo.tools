@@ -5,62 +5,41 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-D365DBSyncPartial
+# Invoke-D365DbSyncModule
 
 ## SYNOPSIS
-Invoke the synchronization process used in Visual Studio
+Synchronize all sync base and extension elements based on a modulename
 
 ## SYNTAX
 
 ```
-Invoke-D365DBSyncPartial [[-SyncMode] <String>] [[-SyncList] <String[]>] [[-SyncExtensionsList] <String[]>]
- [[-LogPath] <String>] [[-Verbosity] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>]
- [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>]
- [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+Invoke-D365DbSyncModule [[-ModuleName] <String>] [[-LogPath] <String>] [[-Verbosity] <String>]
+ [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
+ [[-SqlUser] <String>] [[-SqlPwd] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Uses the sync.exe (engine) to synchronize the database for the environment
+Retrieve the list of installed packages / modules where the name fits the ModelName parameter.
+
+It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions,
+view-extensions and data entities-extensions of every iterated model
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable"
+Invoke-D365DbSyncModule -ModuleName "Application*Adaptor"
 ```
 
-This will invoke the sync engine and have it work against the database.
-It will run with the default value "PartialList" as the SyncMode.
-It will run the sync process against "CustCustomerEntity" and "SalesTable"
+Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
 
-### EXAMPLE 2
-```
-Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -Verbose
-```
-
-This will invoke the sync engine and have it work against the database.
-It will run with the default value "PartialList" as the SyncMode.
-It will run the sync process against "CustCustomerEntity" and "SalesTable"
-
-It will output the same level of details that Visual Studio would normally do.
-
-### EXAMPLE 3
-```
-Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -SyncExtensionsList "CaseLog.Extension","CategoryTable.Extension" -Verbose
-```
-
-This will invoke the sync engine and have it work against the database.
-It will run with the default value "PartialList" as the SyncMode.
-It will run the sync process against "CustCustomerEntity", "SalesTable", "CaseLog.Extension" and "CategoryTable.Extension"
-
-It will output the same level of details that Visual Studio would normally do.
+It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions,
+view-extensions and data entities-extensions of every iterated model
 
 ## PARAMETERS
 
-### -SyncMode
-The sync mode the sync engine will use
-
-Default value is: "PartialList"
+### -ModuleName
+Name of the model you want to sync tables and table extensions
 
 ```yaml
 Type: String
@@ -69,36 +48,6 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: PartialList
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SyncList
-The list of objects that you want to pass on to the database synchronoziation engine
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SyncExtensionsList
-The list of extension objects that you want to pass on to the database synchronoziation engine
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -113,7 +62,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 2
 Default value: C:\temp\D365FO.Tools\Sync
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -130,7 +79,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 3
 Default value: Normal
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -147,7 +96,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 4
 Default value: $Script:BinDirTools
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -164,7 +113,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 5
 Default value: $Script:MetaDataDir
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -184,7 +133,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 6
 Default value: $Script:DatabaseServer
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -199,7 +148,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 7
 Default value: $Script:DatabaseName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -214,7 +163,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 8
 Default value: $Script:DatabaseUserName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -229,7 +178,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 9
 Default value: $Script:DatabaseUserPassword
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -279,11 +228,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 Tags: Database, Sync, SyncDB, Synchronization, Servicing
 
-Author: Mötz Jensen (@Splaxi)
-
 Author: Jasper Callens - Cegeka
-
-Inspired by:
-https://axdynamx.blogspot.com/2017/10/how-to-synchronize-manually-database.html
 
 ## RELATED LINKS

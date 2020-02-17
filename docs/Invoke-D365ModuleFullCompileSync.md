@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -20,8 +20,8 @@ Invoke-D365ModuleFullCompileSync [-ModuleName] <String> [[-OutputDir] <String>] 
 
 ## DESCRIPTION
 Compile and sync a package using
-    - Invoke-D365ModuleFullCompile function
-    - "syncengine.exe" to sync the table and extension elements for module
+- Invoke-D365ModuleFullCompile function
+- Invoke-D365DBSyncPartial to sync the table and extension elements for module
 
 ## EXAMPLES
 
@@ -31,8 +31,8 @@ Invoke-D365ModuleFullCompileSync -ModuleName MyModel
 ```
 
 This will use the default paths and start:
-    * Invoke-D365ModuleFullCompile with the needed parameters to compile MyModel package.
-    * Invoke-D365DBSyncPartial with the needed parameters to sync MyModel table and extesion elements.
+* Invoke-D365ModuleFullCompile with the needed parameters to compile MyModel package.
+* Invoke-D365DBSyncPartial with the needed parameters to sync MyModel table and extesion elements.
 
 The default output from all the different steps will be silenced.
 
@@ -41,13 +41,12 @@ The default output from all the different steps will be silenced.
 Invoke-D365ModuleFullCompileSync -ModuleName "Application*Adaptor"
 ```
 
-Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor". 
- 
+Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
 
-For every value of the list perform the following:            
-    * Invoke-D365ModuleFullCompile with the needed parameters to compile current module value package.
-    * Invoke-D365DBSyncPartial with the needed parameters to sync current module value table and extesion elements.
-    
+For every value of the list perform the following:
+* Invoke-D365ModuleFullCompile with the needed parameters to compile current module value package.
+* Invoke-D365DBSyncPartial with the needed parameters to sync current module value table and extesion elements.
+
 The default output from all the different steps will be silenced.
 
 ## PARAMETERS
