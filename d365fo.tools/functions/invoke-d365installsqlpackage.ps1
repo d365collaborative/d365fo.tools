@@ -5,17 +5,17 @@
         
     .DESCRIPTION
         Download and extract the DotNet/.NET core x64 edition of the SqlPackage.exe to your machine
-
+        
         It parses the raw html page and tries to extract the latest download link
-
+        
     .PARAMETER Path
         Path to where you want the SqlPackage to be extracted to
         
         Default value is: "C:\temp\d365fo.tools\SqlPackage\SqlPackage.exe"
-
+        
     .PARAMETER SkipExtractFromPage
         Instruct the cmdlet to skip trying to parse the download page and to rely on the Url parameter only
-
+        
     .PARAMETER Url
         Url/Uri to where the latest SqlPackage download is located
         
