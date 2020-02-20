@@ -183,7 +183,7 @@
 						'Invoke-D365ModuleReportsCompile',
 						'Invoke-D365ModuleFullCompile',
 
-						'Invoke-D365ProcessModules'
+						'Invoke-D365ProcessModule'
 
 						'Invoke-D365ReArmWindows',
 						'Invoke-D365RunbookAnalyzer',
