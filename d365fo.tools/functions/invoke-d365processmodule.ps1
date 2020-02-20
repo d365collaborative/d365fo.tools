@@ -15,10 +15,10 @@
         Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
         
         Default value is "*" which will search for all modules
-    
+        
     .PARAMETER ExecuteCompile
         Switch/flag to determine if the compile function should be executed for requested modules
-
+        
     .PARAMETER ExecuteSync
         Switch/flag to determine if the databasesync function should be executed for requested modules
         
@@ -61,7 +61,7 @@
         * Invoke-D365ModuleFullCompile with the needed parameters to compile current module value package.
         
         The default output from all the different steps will be silenced.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteSync
         
@@ -71,7 +71,7 @@
         * Invoke-D365DBSyncPartial with the needed parameters to sync current module value table and extension elements.
         
         The default output from all the different steps will be silenced.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteDeployReports
         
@@ -81,7 +81,7 @@
         * Publish-D365SsrsReport with the required parameters to deploy all reports of current module
         
         The default output from all the different steps will be silenced.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteCompile -ExecuteSync -ExecuteDeployReports
         
