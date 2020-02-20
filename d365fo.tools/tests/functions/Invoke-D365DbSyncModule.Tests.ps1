@@ -11,14 +11,14 @@
 			(Get-Command Invoke-D365DbSyncModule).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should have the expected parameter ModuleName' {
-			$parameter = (Get-Command Invoke-D365DbSyncModule).Parameters['ModuleName']
-			$parameter.Name | Should -Be 'ModuleName'
+		It 'Should have the expected parameter Module' {
+			$parameter = (Get-Command Invoke-D365DbSyncModule).Parameters['Module']
+			$parameter.Name | Should -Be 'Module'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
-			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 0
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
@@ -158,8 +158,8 @@
 	
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
-		__AllParameterSets -
-		__AllParameterSets -ModuleName -LogPath -Verbosity -BinDirTools -MetadataDir -DatabaseServer -DatabaseName -SqlUser -SqlPwd -ShowOriginalProgress -OutputCommandOnly
+		__AllParameterSets -Module
+		__AllParameterSets -Module -LogPath -Verbosity -BinDirTools -MetadataDir -DatabaseServer -DatabaseName -SqlUser -SqlPwd -ShowOriginalProgress -OutputCommandOnly
 		#>
 	}
 

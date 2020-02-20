@@ -11,9 +11,9 @@
 			(Get-Command Invoke-D365ProcessModule).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should have the expected parameter ModuleName' {
-			$parameter = (Get-Command Invoke-D365ProcessModule).Parameters['ModuleName']
-			$parameter.Name | Should -Be 'ModuleName'
+		It 'Should have the expected parameter Module' {
+			$parameter = (Get-Command Invoke-D365ProcessModule).Parameters['Module']
+			$parameter.Name | Should -Be 'Module'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
@@ -158,8 +158,8 @@
 	
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
-		__AllParameterSets -ModuleName
-		__AllParameterSets -ModuleName -ExecuteCompile -ExecuteSync -ExecuteDeployReports -OutputDir -LogDir -MetaDataDir -ReferenceDir -BinDir -ShowOriginalProgress -OutputCommandOnly
+		__AllParameterSets -Module
+		__AllParameterSets -Module -ExecuteCompile -ExecuteSync -ExecuteDeployReports -OutputDir -LogDir -MetaDataDir -ReferenceDir -BinDir -ShowOriginalProgress -OutputCommandOnly
 		#>
 	}
 
