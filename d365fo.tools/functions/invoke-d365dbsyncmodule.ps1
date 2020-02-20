@@ -9,7 +9,7 @@
         It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions,
         view-extensions and data entities-extensions of every iterated model
         
-    .PARAMETER ModuleName
+    .PARAMETER Module
         Name of the model you want to sync tables and table extensions
         
     .PARAMETER LogPath
@@ -57,7 +57,7 @@
         Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
-        PS C:\> Invoke-D365DbSyncModule -ModuleName "Application*Adaptor"
+        PS C:\> Invoke-D365DbSyncModule -Module "Application*Adaptor"
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
@@ -73,7 +73,9 @@
 function Invoke-D365DbSyncModule {
     [CmdletBinding()]
     param (
-        [string] $ModuleName,
+        [Parameter(Mandatory = $true)]
+        [Alias("ModuleName")]
+        [string] $Module,
 
         [string] $LogPath = "C:\temp\D365FO.Tools\Sync",
 
@@ -101,7 +103,7 @@ function Invoke-D365DbSyncModule {
         Invoke-TimeSignal -Start
         
         # Retrieve all sync elements of provided module name
-        $allModelSyncElements = Get-SyncElements -ModuleName $ModuleName
+        $allModelSyncElements = Get-SyncElements -ModuleName $Module
         
         # Build parameters for the partial sync function
         $syncParams = @{

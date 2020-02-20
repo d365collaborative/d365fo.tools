@@ -9,10 +9,10 @@
         - Publish-D365SsrsReport to deploy the reports of a module
         - Invoke-D365DBSyncPartial to sync the table and extension elements for module
         
-    .PARAMETER ModuleName
+    .PARAMETER Module
         Name of the module that you want to process
         
-        Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
+        Accepts wildcards for searching. E.g. -Module "Application*Adaptor"
         
         Default value is "*" which will search for all modules
         
@@ -53,7 +53,7 @@
         Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
-        PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteCompile
+        PS C:\> Invoke-D365ProcessModule -Module "Application*Adaptor" -ExecuteCompile
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
@@ -63,7 +63,7 @@
         The default output from all the different steps will be silenced.
         
     .EXAMPLE
-        PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteSync
+        PS C:\> Invoke-D365ProcessModule -Module "Application*Adaptor" -ExecuteSync
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
@@ -73,7 +73,7 @@
         The default output from all the different steps will be silenced.
         
     .EXAMPLE
-        PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteDeployReports
+        PS C:\> Invoke-D365ProcessModule -Module "Application*Adaptor" -ExecuteDeployReports
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
@@ -83,7 +83,7 @@
         The default output from all the different steps will be silenced.
         
     .EXAMPLE
-        PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteCompile -ExecuteSync -ExecuteDeployReports
+        PS C:\> Invoke-D365ProcessModule -Module "Application*Adaptor" -ExecuteCompile -ExecuteSync -ExecuteDeployReports
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
@@ -104,7 +104,8 @@ function Invoke-D365ProcessModule {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
-        [string] $ModuleName,
+        [Alias("ModuleName")]
+        [string] $Module,
 
         [switch] $ExecuteCompile = $false,
 
@@ -136,8 +137,8 @@ function Invoke-D365ProcessModule {
         # Only execute the code if any of the flags are set
         if($ExecuteCompile -or $ExecuteSync -or $ExecuteDeployReports)
         {
-            # Retrieve all modules that match provided $ModuleName
-            $moduleResults = Get-D365Module -Name $ModuleName
+            # Retrieve all modules that match provided $Module
+            $moduleResults = Get-D365Module -Name $Module
 
             # Output information on which modules that will be compiled and synced
             Write-PSFMessage -Level Host -Message "Modules to process: "

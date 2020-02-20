@@ -101,12 +101,13 @@
 function Invoke-D365DBSyncPartial {
     [CmdletBinding()]
     param (
-        #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
-        [string] $SyncMode = 'PartialList',
-
+        [Parameter(Mandatory = $true)]
         [string[]] $SyncList,
 
         [string[]] $SyncExtensionsList,
+
+        #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
+        [string] $SyncMode = 'PartialList',
 
         [string] $LogPath = "C:\temp\D365FO.Tools\Sync",
 
