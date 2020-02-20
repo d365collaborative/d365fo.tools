@@ -6,15 +6,20 @@
     .DESCRIPTION
         Download and extract the DotNet/.NET core x64 edition of the SqlPackage.exe to your machine
         
-    .PARAMETER Url
-        Url/Uri to where the latest SqlPackage download is located
-        
-        The default value is for v18.4 as of writing
+        It parses the raw html page and tries to extract the latest download link
         
     .PARAMETER Path
         Path to where you want the SqlPackage to be extracted to
         
         Default value is: "C:\temp\d365fo.tools\SqlPackage\SqlPackage.exe"
+        
+    .PARAMETER SkipExtractFromPage
+        Instruct the cmdlet to skip trying to parse the download page and to rely on the Url parameter only
+        
+    .PARAMETER Url
+        Url/Uri to where the latest SqlPackage download is located
+        
+        The default value is for v18.4.1 (15.0.4630.1) as of writing
         
     .EXAMPLE
         PS C:\> Invoke-D365InstallSqlPackage -Path "C:\temp\d365fo.tools\SqlPackage"
@@ -30,10 +35,24 @@ function Invoke-D365InstallSqlPackage {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [string] $Url = "https://go.microsoft.com/fwlink/?linkid=2109019",
+        [string] $Path = "C:\temp\d365fo.tools\SqlPackage",
 
-        [string] $Path = "C:\temp\d365fo.tools\SqlPackage"
+        [switch] $SkipExtractFromPage,
+
+        [string] $Url = "https://go.microsoft.com/fwlink/?linkid=2113704"
     )
+
+    if (-not $SkipExtractFromPage) {
+        $content = (Invoke-WebRequest -Uri "https://docs.microsoft.com/en-us/sql/tools/sqlpackage-download" -UseBasicParsing).content
+        $res = $content -match '<td.*>Windows .NET Core</td>\s*<td.*><a href="(https://.*)" .*'
+        
+        if ($res) {
+            $Url = ([string]$Matches[1]).Trim()
+        }
+        else {
+            Write-PSFMessage -Level Host -Message "Parsing the web page didn't succeed. Will fall back to the default download url." -Target "https://docs.microsoft.com/en-us/sql/tools/sqlpackage-download"
+        }
+    }
 
     $sqlPackageFolder = $Path
     $downloadPath = Join-Path -Path $sqlPackageFolder -ChildPath "SqlPackage.zip"
@@ -53,7 +72,7 @@ function Invoke-D365InstallSqlPackage {
 
     Expand-Archive -Path $downloadPath -DestinationPath $tempExtractPath -Force
 
-    Get-ChildItem -Path $tempExtractPath | Move-Item -Destination {$_.Directory.Parent.FullName}
+    Get-ChildItem -Path $tempExtractPath | Move-Item -Destination { $_.Directory.Parent.FullName } -Force
 
     $tempExtractPath | Remove-Item -Force -Recurse
     $downloadPath | Remove-Item -Force -Recurse

@@ -53,7 +53,7 @@
         Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
-        PS C:\> Invoke-D365ProcessModules -ModuleName "Application*Adaptor" -ExecuteCompile
+        PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteCompile
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
@@ -63,7 +63,7 @@
         The default output from all the different steps will be silenced.
 
     .EXAMPLE
-        PS C:\> Invoke-D365ProcessModules -ModuleName "Application*Adaptor" -ExecuteSync
+        PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteSync
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
@@ -73,7 +73,7 @@
         The default output from all the different steps will be silenced.
 
     .EXAMPLE
-        PS C:\> Invoke-D365ProcessModules -ModuleName "Application*Adaptor" -ExecuteDeployReports
+        PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteDeployReports
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
@@ -83,7 +83,7 @@
         The default output from all the different steps will be silenced.
 
     .EXAMPLE
-        PS C:\> Invoke-D365ProcessModules -ModuleName "Application*Adaptor" -ExecuteCompile -ExecuteSync -ExecuteDeployReports
+        PS C:\> Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteCompile -ExecuteSync -ExecuteDeployReports
         
         Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
@@ -100,7 +100,7 @@
         Author: Jasper Callens - Cegeka
 #>
 
-function Invoke-D365ProcessModules {
+function Invoke-D365ProcessModule {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
