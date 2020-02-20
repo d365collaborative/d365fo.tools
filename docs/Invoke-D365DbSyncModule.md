@@ -13,7 +13,7 @@ Synchronize all sync base and extension elements based on a modulename
 ## SYNTAX
 
 ```
-Invoke-D365DbSyncModule [[-ModuleName] <String>] [[-LogPath] <String>] [[-Verbosity] <String>]
+Invoke-D365DbSyncModule [-Module] <String> [[-LogPath] <String>] [[-Verbosity] <String>]
  [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
@@ -28,7 +28,7 @@ view-extensions and data entities-extensions of every iterated model
 
 ### EXAMPLE 1
 ```
-Invoke-D365DbSyncModule -ModuleName "Application*Adaptor"
+Invoke-D365DbSyncModule -Module "Application*Adaptor"
 ```
 
 Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
@@ -38,15 +38,15 @@ view-extensions and data entities-extensions of every iterated model
 
 ## PARAMETERS
 
-### -ModuleName
+### -Module
 Name of the model you want to sync tables and table extensions
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModuleName
 
-Required: False
+Required: True
 Position: 1
 Default value: None
 Accept pipeline input: False

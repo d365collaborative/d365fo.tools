@@ -13,7 +13,7 @@ Process a specific or multiple modules (compile, deploy reports and sync)
 ## SYNTAX
 
 ```
-Invoke-D365ProcessModule [-ModuleName] <String> [-ExecuteCompile] [-ExecuteSync] [-ExecuteDeployReports]
+Invoke-D365ProcessModule [-Module] <String> [-ExecuteCompile] [-ExecuteSync] [-ExecuteDeployReports]
  [[-OutputDir] <String>] [[-LogDir] <String>] [[-MetaDataDir] <String>] [[-ReferenceDir] <String>]
  [[-BinDir] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
@@ -28,7 +28,7 @@ Process a specific or multiple modules by invoking the following functions (base
 
 ### EXAMPLE 1
 ```
-Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteCompile
+Invoke-D365ProcessModule -Module "Application*Adaptor" -ExecuteCompile
 ```
 
 Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
@@ -40,7 +40,7 @@ The default output from all the different steps will be silenced.
 
 ### EXAMPLE 2
 ```
-Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteSync
+Invoke-D365ProcessModule -Module "Application*Adaptor" -ExecuteSync
 ```
 
 Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
@@ -52,7 +52,7 @@ The default output from all the different steps will be silenced.
 
 ### EXAMPLE 3
 ```
-Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteDeployReports
+Invoke-D365ProcessModule -Module "Application*Adaptor" -ExecuteDeployReports
 ```
 
 Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
@@ -64,7 +64,7 @@ The default output from all the different steps will be silenced.
 
 ### EXAMPLE 4
 ```
-Invoke-D365ProcessModule -ModuleName "Application*Adaptor" -ExecuteCompile -ExecuteSync -ExecuteDeployReports
+Invoke-D365ProcessModule -Module "Application*Adaptor" -ExecuteCompile -ExecuteSync -ExecuteDeployReports
 ```
 
 Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
@@ -78,19 +78,19 @@ The default output from all the different steps will be silenced.
 
 ## PARAMETERS
 
-### -ModuleName
+### -Module
 Name of the module that you want to process
 
 Accepts wildcards for searching.
 E.g.
--Name "Application*Adaptor"
+-Module "Application*Adaptor"
 
 Default value is "*" which will search for all modules
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModuleName
 
 Required: True
 Position: 1

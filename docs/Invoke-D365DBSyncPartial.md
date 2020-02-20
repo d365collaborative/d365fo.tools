@@ -13,7 +13,7 @@ Invoke the synchronization process used in Visual Studio
 ## SYNTAX
 
 ```
-Invoke-D365DBSyncPartial [[-SyncMode] <String>] [[-SyncList] <String[]>] [[-SyncExtensionsList] <String[]>]
+Invoke-D365DBSyncPartial [-SyncList] <String[]> [[-SyncExtensionsList] <String[]>] [[-SyncMode] <String>]
  [[-LogPath] <String>] [[-Verbosity] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>]
  [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>]
  [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
@@ -57,23 +57,6 @@ It will output the same level of details that Visual Studio would normally do.
 
 ## PARAMETERS
 
-### -SyncMode
-The sync mode the sync engine will use
-
-Default value is: "PartialList"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: PartialList
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -SyncList
 The list of objects that you want to pass on to the database synchronoziation engine
 
@@ -82,8 +65,8 @@ Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 2
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -98,8 +81,25 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 2
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SyncMode
+The sync mode the sync engine will use
+
+Default value is: "PartialList"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: PartialList
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
