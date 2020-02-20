@@ -182,7 +182,8 @@
 						'Invoke-D365ModuleLabelGeneration',
 						'Invoke-D365ModuleReportsCompile',
 						'Invoke-D365ModuleFullCompile',
-						'Invoke-D365ModuleFullCompileSync'
+
+						'Invoke-D365ProcessModule'
 
 						'Invoke-D365ReArmWindows',
 						'Invoke-D365RunbookAnalyzer',
