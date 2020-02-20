@@ -15,6 +15,15 @@
         Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
         
         Default value is "*" which will search for all modules
+    
+    .PARAMETER ExecuteCompile
+        Switch/flag to determine if the compile function should be executed for requested modules
+
+    .PARAMETER ExecuteSync
+        Switch/flag to determine if the databasesync function should be executed for requested modules
+        
+    .PARAMETER ExecuteDeployReports
+        Switch/flag to determine if the deploy reports function should be executed for requested modules
         
     .PARAMETER OutputDir
         The path to the folder to save assemblies
