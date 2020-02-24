@@ -64,11 +64,13 @@
 						'Disable-D365MaintenanceMode'
 						'Disable-D365SqlChangeTracking',
 						'Disable-D365User',
+						'Disable-D365Flight',
 
 						'Enable-D365Exception',
 						'Enable-D365MaintenanceMode',
 						'Enable-D365SqlChangeTracking',
 						'Enable-D365User',
+						'Enable-D365Flight',
 
 						'Export-D365Model',
 						'Export-D365ModelFileFromBacpac',
