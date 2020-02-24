@@ -260,6 +260,7 @@
 						'Switch-D365ActiveDatabase',
 
 						'Test-D365Command',
+						'Test-D365FlightServiceCatalogId',
 						'Test-D365LabelIdIsValid',
 						
 						'Update-D365User'
