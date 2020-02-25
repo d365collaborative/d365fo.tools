@@ -190,7 +190,7 @@ function Clear-D365TableDataFromBacpac {
 
         if ($newFilename -ne "") {
             Rename-Item -Path $compressPath -NewName $newFilename
-            $res.File = Join-path -Parent $(Split-Path -Path $compressPath -Parent) -ChildPath $newFilename
+            $res.File = Join-path -Path $(Split-Path -Path $compressPath -Parent) -ChildPath $newFilename
             $res.Filename = $newFilename
         }else {
             $res.File = $compressPath
