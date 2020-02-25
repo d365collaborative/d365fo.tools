@@ -27,10 +27,11 @@
 #>
 
 function Set-D365FlightServiceCatalogId {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
-        [string]$AosServiceWebRootPath = $Script:AOSPath,
-        [string]$FlightServiceCatalogId = "12719367"
+        [string]$FlightServiceCatalogId = "12719367",
+        [string]$AosServiceWebRootPath = $Script:AOSPath
     )
 
     try {
