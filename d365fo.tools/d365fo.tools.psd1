@@ -251,6 +251,8 @@
 
 						'Set-D365WorkstationMode',
 
+						'Set-D365FlightServiceCatalogId',
+
 						'Start-D365Environment',
 						'Start-D365EventTrace',
 
