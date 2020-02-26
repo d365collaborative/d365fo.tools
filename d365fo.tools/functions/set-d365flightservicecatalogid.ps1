@@ -31,6 +31,7 @@ function Set-D365FlightServiceCatalogId {
     [CmdletBinding()]
     param (
         [string]$FlightServiceCatalogId = "12719367",
+        
         [string]$AosServiceWebRootPath = $Script:AOSPath
     )
 
