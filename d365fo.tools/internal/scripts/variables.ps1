@@ -134,6 +134,7 @@ if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")) {
 }
 
 $Script:SQLTools = "C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn"
+$Script:SQLBinDirTools = "C:\Program Files\Microsoft SQL Server\140\SDK\Assemblies"
 
 $Script:DefaultTempPath = "c:\temp\d365fo.tools"
 

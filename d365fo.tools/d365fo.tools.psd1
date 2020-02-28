@@ -1,4 +1,4 @@
-﻿@{
+@{
     # Script module or binary module file associated with this manifest
     RootModule   = 'd365fo.tools.psm1'
 
@@ -157,6 +157,7 @@
 						'Import-D365Bacpac',
 						'Import-D365Model',
 						'Import-D365ExternalUser',
+						'Import-D365SqlBackup',
 						
 						'Initialize-D365RsatCertificate',
 
