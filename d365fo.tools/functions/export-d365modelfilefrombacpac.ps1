@@ -113,7 +113,7 @@ function Export-D365ModelFileFromBacpac {
         }
 
         if ($Path -like "*.bacpac") {
-            Write-PSFMessage -Level Verbose -Message "Renaming the bacpac file to zip, to be able to extract the file." -Target $Path
+            Write-PSFMessage -Level Verbose -Message "Renaming the bacpac file to zip, to be able to extract the file. $($fileName).zip" -Target $Path
 
             Rename-Item -Path $Path -NewName "$($fileName).zip"
 
@@ -139,9 +139,12 @@ function Export-D365ModelFileFromBacpac {
 
         if (Test-PSFFunctionInterrupt) { return }
 
-        Expand-Archive -Path $archivePath -DestinationPath $workPath -Force
+        $zipFileMetadata = [System.IO.Compression.ZipFile]::OpenRead($archivePath)
+        
+        $modelFile = $zipFileMetadata.Entries | Where-Object {$_.Name -like "model.xml" } | Select-Object -First 1
 
-        Copy-Item -Path "$workPath\model.xml" -Destination $OutputPath
+        [System.IO.Compression.ZipFileExtensions]::ExtractToFile($modelFile, $OutputPath, $true)
+        $zipFileMetadata.Dispose()
 
         [PSCustomObject]@{
             File = $OutputPath
