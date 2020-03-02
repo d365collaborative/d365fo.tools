@@ -102,6 +102,26 @@
 			</ListControl>
 		</View>
 		<View>
+			<Name>D365FO.TOOLS.AZCOPYTRANSFER</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.AZCOPYTRANSFER</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>FileName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>File</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
 			<Name>D365FO.TOOLS.ModuleLabelGenerationOutput</Name>
 			<ViewSelectedBy>
 				<TypeName>D365FO.TOOLS.ModuleLabelGenerationOutput</TypeName>

@@ -138,6 +138,7 @@ function Invoke-D365AzCopyTransfer {
     #If local file, it should be easy to solve
     $res = @{
         File = $filePath
+        PSTypeName = 'D365FO.TOOLS.AZCOPYTRANSFER'
     }
 
     if (-not [string]::IsNullOrEmpty($FileName)) {
