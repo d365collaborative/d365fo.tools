@@ -19,7 +19,7 @@
         
     .PARAMETER BackupName
         Name of the backup file when it is being exported from the environment
-
+        
         The file shouldn't contain any extension at all, just the desired file name
         
     .PARAMETER LcsApiUri
@@ -40,7 +40,7 @@
         The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-
+        
     .LINK
         Get-LcsDatabaseOperationStatus
         

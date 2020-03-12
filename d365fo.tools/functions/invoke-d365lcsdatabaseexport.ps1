@@ -23,7 +23,7 @@
         
     .PARAMETER BackupName
         Name of the backup file when it is being exported from the environment
-
+        
         The file shouldn't contain any extension at all, just the desired file name
         
     .PARAMETER LcsApiUri
