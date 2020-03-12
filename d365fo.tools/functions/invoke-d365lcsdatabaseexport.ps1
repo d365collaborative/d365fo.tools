@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Start a database refresh between 2 environments
+        Start a database export from an environment
         
     .DESCRIPTION
-        Start a database refresh between 2 environments from a LCS project
+        Start a database export from an environment from a LCS project
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -17,14 +17,14 @@
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER SourceEnvironmentId
-        The unique id of the environment that you want to use as the source for the database refresh
+        The unique id of the environment that you want to use as the source for the database export
         
         The Id can be located inside the LCS portal
         
-    .PARAMETER TargetEnvironmentId
-        The unique id of the environment that you want to use as the target for the database refresh
-        
-        The Id can be located inside the LCS portal
+    .PARAMETER BackupName
+        Name of the backup file when it is being exported from the environment
+
+        The file shouldn't contain any extension at all, just the desired file name
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
@@ -43,53 +43,50 @@
         Useful when you have a large script that handles this status validation and you don't want to spend time with this cmdlet
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsDatabaseRefresh -ProjectId 123456789 -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Invoke-D365LcsDatabaseExport -ProjectId 123456789 -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BackupName "BackupViaApi" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will start the database refresh between the Source and Target environments.
+        This will start the database export from the Source environment.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
         The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
-        The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+        PS C:\> Invoke-D365LcsDatabaseExport -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BackupName "BackupViaApi"
         
-        This will start the database refresh between the Source and Target environments.
+        This will start the database export from the Source environment.
         The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
-        The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
         
     .EXAMPLE
-        PS C:\> $databaseRefresh = Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -SkipInitialStatusFetch
-        PS C:\> $databaseRefresh | Get-D365LcsDatabaseOperationStatus -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e9" -SleepInSeconds 60
+        PS C:\> $databaseExport = Invoke-D365LcsDatabaseExport -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BackupName "BackupViaApi" -SkipInitialStatusFetch
+        PS C:\> $databaseExport | Get-D365LcsDatabaseOperationStatus -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e9" -SleepInSeconds 60
         
-        This will start the database refresh between the Source and Target environments.
+        This will start the database export from the Source environment.
         The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
-        The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-        It will skip the first database refesh status fetch and only output the details from starting the refresh.
+        The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
+        It will skip the first database operation status fetch and only output the details from starting the export.
         
-        The output from Invoke-D365LcsDatabaseRefresh is stored in the $databaseRefresh. This will enable you to pass the $databaseRefresh variable to other cmdlets which should make things easier for you.
+        The output from Invoke-D365LcsDatabaseExport is stored in the $databaseExport. This will enable you to pass the $databaseExport variable to other cmdlets which should make things easier for you.
         
-        Will pipe the $databaseRefresh variable to the Get-D365LcsDatabaseOperationStatus cmdlet and get the status from the database refresh job.
+        Will pipe the $databaseExport variable to the Get-D365LcsDatabaseOperationStatus cmdlet and get the status from the database export job.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
         
-        
-        $databaseRefresh = Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId be9aa4a4-7621-4b7e-b6f5-d518bf0012de -TargetEnvironmentId 43bcc00a-d94c-47cd-a20f-3c7aee98b5a9
-        
     .EXAMPLE
-        PS C:\> Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -SkipInitialStatusFetch
+        PS C:\> Invoke-D365LcsDatabaseExport -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BackupName "BackupViaApi" -SkipInitialStatusFetch
         
-        This will start the database refresh between the Source and Target environments.
+        This will start the database export from the Source environment.
         The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
-        The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-        It will skip the first database refesh status fetch and only output the details from starting the refresh.
+        The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
+        It will skip the first database operation status fetch and only output the details from starting the export.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
@@ -117,13 +114,13 @@
         Set-D365LcsApiConfig
         
     .NOTES
-        Tags: Environment, Config, Configuration, LCS, Database backup, Api, Backup, Restore, Refresh
+        Tags: Environment, Config, Configuration, LCS, Database backup, Api, Backup, Bacpac
         
         Author: Mötz Jensen (@Splaxi)
         
 #>
 
-function Invoke-D365LcsDatabaseRefresh {
+function Invoke-D365LcsDatabaseExport {
     [CmdletBinding()]
     [OutputType()]
     param(
@@ -138,7 +135,7 @@ function Invoke-D365LcsDatabaseRefresh {
         [string] $SourceEnvironmentId,
         
         [Parameter(Mandatory = $true)]
-        [string] $TargetEnvironmentId,
+        [string] $BackupName,
 
         [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
@@ -152,14 +149,14 @@ function Invoke-D365LcsDatabaseRefresh {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $refreshJob = Start-LcsDatabaseRefresh -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -TargetEnvironmentId $TargetEnvironmentId -LcsApiUri $LcsApiUri
+    $refreshJob = Start-LcsDatabaseExport -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -BackupName $BackupName -LcsApiUri $LcsApiUri
 
     if (Test-PSFFunctionInterrupt) { return }
 
     $refreshJob
 
     if (-not $SkipInitialStatusFetch) {
-        Get-D365LcsDatabaseOperationStatus -ProjectId $ProjectId -BearerToken $BearerToken -OperationActivityId $($refreshJob.OperationActivityId) -EnvironmentId $TargetEnvironmentId -LcsApiUri $LcsApiUri -WaitForCompletion:$false -SleepInSeconds 60
+        Get-D365LcsDatabaseOperationStatus -ProjectId $ProjectId -BearerToken $BearerToken -OperationActivityId $($refreshJob.OperationActivityId) -EnvironmentId $SourceEnvironmentId -LcsApiUri $LcsApiUri -WaitForCompletion:$false -SleepInSeconds 60
     }
 
     Invoke-TimeSignal -End

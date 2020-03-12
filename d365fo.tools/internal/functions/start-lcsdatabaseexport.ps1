@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Start a database refresh between 2 environments
+        Start a database export from an environment
         
     .DESCRIPTION
-        Start a database refresh between 2 environments from a LCS project
+        Start a database export from an environment from a LCS project
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
@@ -13,14 +13,14 @@
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
         
     .PARAMETER SourceEnvironmentId
-        The unique id of the environment that you want to use as the source for the database refresh
+        The unique id of the environment that you want to use as the source for the database export
         
         The Id can be located inside the LCS portal
         
-    .PARAMETER TargetEnvironmentId
-        The unique id of the environment that you want to use as the target for the database refresh
-        
-        The Id can be located inside the LCS portal
+    .PARAMETER BackupName
+        Name of the backup file when it is being exported from the environment
+
+        The file shouldn't contain any extension at all, just the desired file name
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
@@ -32,25 +32,25 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
     .EXAMPLE
-        PS C:\> Start-LcsDatabaseRefresh -ProjectId 123456789 -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsDatabaseExport -ProjectId 123456789 -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BackupName "BackupViaApi" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will start the database refresh between the Source and Target environments.
+        This will start the database export from the Source environment.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
         The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
-        The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-        
+
     .LINK
         Get-LcsDatabaseOperationStatus
         
     .NOTES
-        Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deployable Package
+        Tags: Environment, Config, Configuration, LCS, Database backup, Api, Backup, Bacpac
         
         Author: Mötz Jensen (@Splaxi)
 #>
 
-function Start-LcsDatabaseRefresh {
+function Start-LcsDatabaseExport {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]
     param(
@@ -65,7 +65,7 @@ function Start-LcsDatabaseRefresh {
         [string] $SourceEnvironmentId,
         
         [Parameter(Mandatory = $true)]
-        [string] $TargetEnvironmentId,
+        [string] $BackupName,
 
         [Parameter(Mandatory = $true)]
         [string] $LcsApiUri
@@ -78,7 +78,7 @@ function Start-LcsDatabaseRefresh {
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
 
-    $deployUri = "$LcsApiUri/databasemovement/v1/refresh/project/$($ProjectId)/source/$($SourceEnvironmentId)/target/$($TargetEnvironmentId)"
+    $deployUri = "$LcsApiUri/databasemovement/v1/export/project/$($ProjectId)/environment/$($SourceEnvironmentId)/backupName/$($BackupName)"
 
     $request = New-JsonRequest -Uri $deployUri -Token $BearerToken -HttpMethod "POST"
 
@@ -89,44 +89,44 @@ function Start-LcsDatabaseRefresh {
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
-        $refreshJob = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        $exportJob = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
     
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
-            if (($refreshJob) -and ($refreshJob.ErrorMessage)) {
+            if (($exportJob) -and ($exportJob.ErrorMessage)) {
                 $errorText = ""
-                if ($refreshJob.OperationActivityId) {
-                    $errorText = "Error in request for database refresh of environment: '$( $refreshJob.ErrorMessage)' (Activity Id: '$( $refreshJob.OperationActivityId)')"
+                if ($exportJob.OperationActivityId) {
+                    $errorText = "Error in request for database refresh of environment: '$( $exportJob.ErrorMessage)' (Activity Id: '$( $exportJob.OperationActivityId)')"
                 }
                 else {
-                    $errorText = "Error in request for database refresh of environment: '$( $refreshJob.ErrorMessage)'"
+                    $errorText = "Error in request for database refresh of environment: '$( $exportJob.ErrorMessage)'"
                 }
             }
-            elseif ($refreshJob.OperationActivityId) {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($refreshJob.OperationActivityId)')"
+            elseif ($exportJob.OperationActivityId) {
+                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($exportJob.OperationActivityId)')"
             }
             else {
                 $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
             }
 
-            Write-PSFMessage -Level Host -Message "Error performing database refresh of environment." -Target $($refreshJob.ErrorMessage)
+            Write-PSFMessage -Level Host -Message "Error performing database refresh of environment." -Target $($exportJob.ErrorMessage)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
 
         
-        if (-not ($refreshJob.IsSuccess)) {
-            if ( $refreshJob.ErrorMessage) {
-                $errorText = "Error in request for database refresh of environment: '$( $refreshJob.ErrorMessage)' (Activity Id: '$( $refreshJob.OperationActivityId)')"
+        if (-not ($exportJob.IsSuccess)) {
+            if ( $exportJob.ErrorMessage) {
+                $errorText = "Error in request for database refresh of environment: '$( $exportJob.ErrorMessage)' (Activity Id: '$( $exportJob.OperationActivityId)')"
             }
-            elseif ( $refreshJob.OperationActivityId) {
+            elseif ( $exportJob.OperationActivityId) {
                 $errorText = "Error in request for database refresh of environment. Activity Id: '$($activity.OperationActivityId)'"
             }
             else {
                 $errorText = "Unknown error in request for database refresh."
             }
 
-            Write-PSFMessage -Level Host -Message "Unknown error requesting database refresh." -Target $refreshJob
+            Write-PSFMessage -Level Host -Message "Unknown error requesting database refresh." -Target $exportJob
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
@@ -139,5 +139,5 @@ function Start-LcsDatabaseRefresh {
 
     Invoke-TimeSignal -End
     
-    $refreshJob
+    $exportJob
 }

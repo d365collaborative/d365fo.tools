@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Get the status of a LCS deployment
+        Get the status of a LCS database operation
         
     .DESCRIPTION
-        Get the deployment status for an environment in LCS
+        Get the database operation status for an environment in LCS
         
     .PARAMETER Token
         The token to be used for the http request against the LCS API
@@ -16,7 +16,7 @@
         The token you want to use when working against the LCS api
         
     .PARAMETER OperationActivityId
-        The unique id of the action you got from when starting the deployment to the environment
+        The unique id of the action you got from when starting the database operation against the environment
         
     .PARAMETER EnvironmentId
         The unique id of the environment that you want to work against
@@ -33,11 +33,11 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
     .EXAMPLE
-        PS C:\> Get-LcsDatabaseRefreshStatus -ProjectId 123456789 -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -Token "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsDatabaseOperationStatus -ProjectId 123456789 -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -Token "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will check the database refresh status of a specific OperationActivityId against an environment.
+        This will check the database operation status of a specific OperationActivityId against an environment.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-        The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from the Invoke-D365LcsDatabaseRefresh execution.
+        The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from executing either the Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets.
         The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
@@ -51,7 +51,7 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 
-function Get-LcsDatabaseRefreshStatus {
+function Get-LcsDatabaseOperationStatus {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]
     param(
@@ -78,9 +78,9 @@ function Get-LcsDatabaseRefreshStatus {
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
 
-    $deployStatusUri = "$LcsApiUri/databasemovement/v1/fetchstatus/project/$($ProjectId)/environment/$($EnvironmentId)/operationactivity/$($OperationActivityId)"
+    $databaseOperationStatusUri = "$LcsApiUri/databasemovement/v1/fetchstatus/project/$($ProjectId)/environment/$($EnvironmentId)/operationactivity/$($OperationActivityId)"
     
-    $request = New-JsonRequest -Uri $deployStatusUri -Token $BearerToken -HttpMethod "GET"
+    $request = New-JsonRequest -Uri $databaseOperationStatusUri -Token $BearerToken -HttpMethod "GET"
 
     try {
         Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
@@ -89,44 +89,44 @@ function Get-LcsDatabaseRefreshStatus {
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
-        $databaseRefreshStatus = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        $operationStatus = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
     
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
-            if (($databaseRefreshStatus) -and ($databaseRefreshStatus.ErrorMessage)) {
+            if (($operationStatus) -and ($operationStatus.ErrorMessage)) {
                 $errorText = ""
-                if ($databaseRefreshStatus.OperationActivityId) {
-                    $errorText = "Error in request for database refresh status of environment: '$( $databaseRefreshStatus.ErrorMessage)' (Activity Id: '$( $databaseRefreshStatus.OperationActivityId)')"
+                if ($operationStatus.OperationActivityId) {
+                    $errorText = "Error in request for database refresh status of environment: '$( $operationStatus.ErrorMessage)' (Activity Id: '$( $operationStatus.OperationActivityId)')"
                 }
                 else {
-                    $errorText = "Error in request for database refresh status of environment: '$( $databaseRefreshStatus.ErrorMessage)'"
+                    $errorText = "Error in request for database refresh status of environment: '$( $operationStatus.ErrorMessage)'"
                 }
             }
-            elseif ($databaseRefreshStatus.OperationActivityId) {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($databaseRefreshStatus.OperationActivityId)')"
+            elseif ($operationStatus.OperationActivityId) {
+                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($operationStatus.OperationActivityId)')"
             }
             else {
                 $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
             }
 
-            Write-PSFMessage -Level Host -Message "Error getting database refresh status." -Target $($databaseRefreshStatus.ErrorMessage)
+            Write-PSFMessage -Level Host -Message "Error getting database refresh status." -Target $($operationStatus.ErrorMessage)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
 
         
-        if (-not ($databaseRefreshStatus.IsSuccess)) {
-            if ($databaseRefreshStatus.ErrorMessage) {
-                $errorText = "Error in request for database refresh status of environment: '$( $databaseRefreshStatus.ErrorMessage)' (Activity Id: '$( $databaseRefreshStatus.OperationActivityId)')"
+        if (-not ($operationStatus.IsSuccess)) {
+            if ($operationStatus.ErrorMessage) {
+                $errorText = "Error in request for database refresh status of environment: '$( $operationStatus.ErrorMessage)' (Activity Id: '$( $operationStatus.OperationActivityId)')"
             }
-            elseif ( $databaseRefreshStatus.OperationActivityId) {
+            elseif ( $operationStatus.OperationActivityId) {
                 $errorText = "Error in request for database refresh status of environment. Activity Id: '$($activity.OperationActivityId)'"
             }
             else {
                 $errorText = "Unknown error in request for database refresh status."
             }
 
-            Write-PSFMessage -Level Host -Message "Unknown error requesting database refresh status." -Target $databaseRefreshStatus
+            Write-PSFMessage -Level Host -Message "Unknown error requesting database refresh status." -Target $operationStatus
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
@@ -139,5 +139,5 @@ function Get-LcsDatabaseRefreshStatus {
 
     Invoke-TimeSignal -End
     
-    $databaseRefreshStatus
+    $operationStatus
 }

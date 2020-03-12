@@ -117,7 +117,7 @@
 						'Get-D365LcsApiToken',
 						'Get-D365LcsAssetValidationStatus',
 						'Get-D365LcsDatabaseBackups',
-						'Get-D365LcsDatabaseRefreshStatus',
+						'Get-D365LcsDatabaseOperationStatus',
 						'Get-D365LcsDeploymentStatus',
 						'Get-D365LcsEnvironment',
 						'Get-D365LogicAppConfig',
@@ -174,6 +174,7 @@
 						'Invoke-D365InstallSqlPackage',
 						
 						'Invoke-D365LcsApiRefreshToken',
+						'Invoke-D365LcsDatabaseExport',
 						'Invoke-D365LcsDatabaseRefresh',
 						'Invoke-D365LcsDeployment',
 						'Invoke-D365LcsUpload',
