@@ -5,43 +5,43 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365LcsDatabaseRefreshStatus
+# Get-D365LcsDatabaseOperationStatus
 
 ## SYNOPSIS
-Get the status of a database refresh from LCS
+Get the status of a database operation from LCS
 
 ## SYNTAX
 
 ```
-Get-D365LcsDatabaseRefreshStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>]
+Get-D365LcsDatabaseOperationStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>]
  [-OperationActivityId] <String> [-EnvironmentId] <String> [[-LcsApiUri] <String>] [-WaitForCompletion]
  [[-SleepInSeconds] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get the current status of a database refresh against an environment from a LCS project
+Get the current status of a database operation against an environment from a LCS project
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365LcsDatabaseRefreshStatus -ProjectId 123456789 -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+Get-D365LcsDatabaseOperationStatus -ProjectId 123456789 -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 ```
 
-This will check the database refresh status of a specific OperationActivityId against an environment.
+This will check the database operation status of a specific OperationActivityId against an environment.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from the Invoke-D365LcsDatabaseRefresh execution.
+The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from executing either the Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets.
 The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
 The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
 
 ### EXAMPLE 2
 ```
-Get-D365LcsDatabaseRefreshStatus -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+Get-D365LcsDatabaseOperationStatus -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
 ```
 
-This will check the database refresh status of a specific OperationActivityId against an environment.
-The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from the Invoke-D365LcsDatabaseRefresh execution.
+This will check the database operation status of a specific OperationActivityId against an environment.
+The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from executing either the Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets.
 The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
@@ -50,13 +50,13 @@ The default values can be configured using Set-D365LcsApiConfig.
 
 ### EXAMPLE 3
 ```
-Get-D365LcsDatabaseRefreshStatus -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -WaitForCompletion
+Get-D365LcsDatabaseOperationStatus -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -WaitForCompletion
 ```
 
-This will check the deployment status of specific activity against an environment.
-The activity is identified by the OperationActivityId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
+This will check the database operation status of a specific OperationActivityId against an environment.
+The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from executing either the Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets.
 The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-The cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the deployment is either success or failure.
+The cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the database operation status is either success or failure.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -99,9 +99,9 @@ Accept wildcard characters: False
 ```
 
 ### -OperationActivityId
-The unique id of the operaction activity that identitfies the database refresh
+The unique id of the operaction activity that identitfies the database operation
 
-It will be part of the output from the Invoke-D365LcsDeployment cmdlet
+It will be part of the output from the different Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets
 
 ```yaml
 Type: String
