@@ -40,19 +40,18 @@ function New-JsonRequest {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(Mandatory = $true)]
         [string] $Uri,
         
-        [Parameter(Mandatory = $true, Position = 2)]
+        [Parameter(Mandatory = $true)]
         [string] $Token,
 
-        [Parameter(Mandatory = $false, Position = 3)]
+        [Parameter(Mandatory = $false)]
         [string] $Content,
 
-        [Parameter(Mandatory = $false, Position = 4)]
+        [Parameter(Mandatory = $false)]
         [ValidateSet('POST', 'GET')]
         [string] $HttpMethod = "POST"
-        
     )
 
     $httpMethodObject = [System.Net.Http.HttpMethod]::New($HttpMethod)
