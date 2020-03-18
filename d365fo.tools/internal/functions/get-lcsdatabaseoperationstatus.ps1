@@ -89,9 +89,15 @@ function Get-LcsDatabaseOperationStatus {
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
-        $operationStatus = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        try {
+            $operationStatus = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        }
+        catch {
+            Write-PSFMessage -Level Critical -Message "$responseString"
+        }
     
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
+        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $operationStatus
+
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
             if (($operationStatus) -and ($operationStatus.ErrorMessage)) {
                 $errorText = ""

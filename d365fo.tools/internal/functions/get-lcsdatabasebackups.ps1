@@ -67,9 +67,15 @@ function Get-LcsDatabaseBackups {
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
-        $databasesObject = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
-    
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
+        try {
+            $databasesObject = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        }
+        catch {
+            Write-PSFMessage -Level Critical -Message "$responseString"
+        }
+
+        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $databasesObject
+        
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
             if (($databasesObject) -and ($databasesObject.ErrorMessage)) {
                 $errorText = ""

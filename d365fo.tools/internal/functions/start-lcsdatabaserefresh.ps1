@@ -89,9 +89,15 @@ function Start-LcsDatabaseRefresh {
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
-        $refreshJob = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
-    
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
+        try {
+            $refreshJob = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        }
+        catch {
+            Write-PSFMessage -Level Critical -Message "$responseString"
+        }
+
+        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $refreshJob
+        
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
             if (($refreshJob) -and ($refreshJob.ErrorMessage)) {
                 $errorText = ""

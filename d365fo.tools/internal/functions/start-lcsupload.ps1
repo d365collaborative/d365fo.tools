@@ -116,7 +116,13 @@ function Start-LcsUpload {
 
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $responseString
         
-        $asset = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        try {
+            $asset = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        }
+        catch {
+            Write-PSFMessage -Level Critical -Message "$responseString"
+        }
+    
         Write-PSFMessage -Level Verbose -Message "Extracting the asset json response received from LCS." -Target $asset
         
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {

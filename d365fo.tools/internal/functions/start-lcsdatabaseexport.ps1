@@ -83,15 +83,23 @@ function Start-LcsDatabaseExport {
     $request = New-JsonRequest -Uri $deployUri -Token $BearerToken -HttpMethod "POST"
 
     try {
-        Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
+        Write-PSFMessage -Level Verbose -Message "Invoke LCS request: $($request.RequestUri)" -Target $request.RequestUri
         $result = Get-AsyncResult -task $client.SendAsync($request)
 
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
-        $exportJob = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        Write-PSFMessage -Level Verbose -Message "Parsing the response string into a json object." -Target $responseString
+        
+        try {
+            $exportJob = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        }
+        catch {
+            Write-PSFMessage -Level Critical -Message "$responseString"
+        }
     
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
+        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $exportJob
+
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
             if (($exportJob) -and ($exportJob.ErrorMessage)) {
                 $errorText = ""
