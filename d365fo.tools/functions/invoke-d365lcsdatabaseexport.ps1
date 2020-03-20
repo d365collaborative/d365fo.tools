@@ -170,7 +170,9 @@ function Invoke-D365LcsDatabaseExport {
     if (Test-PSFFunctionInterrupt) { return }
 
     $temp = [PSCustomObject]@{ Value = "$SourceEnvironmentId" }
-
+    #Hack to silence the PSScriptAnalyzer
+    $temp | Out-Null
+ 
     $exportJob | Select-PSFObject *, "OperationActivityId as ActivityId", "Value from temp as EnvironmentId" -TypeName "D365FO.TOOLS.LCS.Database.Operation"
 
     if (-not $SkipInitialStatusFetch) {

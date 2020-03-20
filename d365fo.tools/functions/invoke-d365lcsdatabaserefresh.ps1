@@ -170,7 +170,9 @@ function Invoke-D365LcsDatabaseRefresh {
     if (Test-PSFFunctionInterrupt) { return }
 
     $temp = [PSCustomObject]@{ Value = "$TargetEnvironmentId" }
-
+    #Hack to silence the PSScriptAnalyzer
+    $temp | Out-Null
+ 
     $refreshJob | Select-PSFObject *, "OperationActivityId as ActivityId", "Value from temp as EnvironmentId" -TypeName "D365FO.TOOLS.LCS.Database.Operation"
 
     if (-not $SkipInitialStatusFetch) {
