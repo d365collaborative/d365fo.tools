@@ -151,5 +151,5 @@ function Get-D365LcsDatabaseOperationStatus {
 
     Invoke-TimeSignal -End
 
-    $databaseOperationStatus  | Select-PSFObject * -TypeName "D365FO.TOOLS.LCS.Database.Operation.Status"
+    $databaseOperationStatus | Select-PSFObject * -TypeName "D365FO.TOOLS.LCS.Database.Operation.Status"
 }

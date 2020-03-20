@@ -41,6 +41,10 @@
         Instruct the cmdlet to skip the first fetch of the database refresh status
         
         Useful when you have a large script that handles this status validation and you don't want to spend time with this cmdlet
+
+        Default output from this cmdlet is 2 (two) different objects. The first object is the response object for starting the refresh operation. The second object is the response object from fetching the status of the refresh operation.
+        
+        Setting this parameter (activate it), will affect the number of output objects. If you skip, only the first response object outputted.
         
     .EXAMPLE
         PS C:\> Invoke-D365LcsDatabaseRefresh -ProjectId 123456789 -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
@@ -117,6 +121,15 @@
         Set-D365LcsApiConfig
         
     .NOTES
+        The ActivityId property is a custom property that ISN'T part of the response from the LCS API. The ActivityId is always the same as the OperationActivityId (original LCS property).
+        The EnvironmentId property is a custom property that ISN'T part of the response from the LCS API. The EnvironmentId is always the same as the SourceEnvironmentId parameter you have supplied to this cmdlet.
+
+        Default output from this cmdlet is 2 (two) different objects. The first object is the response object for starting the refresh operation. The second object is the response object from fetching the status of the refresh operation.
+        
+        Setting the SkipInitialStatusFetch parameter (activate it), will affect the number of output objects. If you skip, only the first response object outputted.
+
+        Running with the default (SkipInitialStatusFetch NOT being set), will instruct the cmdlet to call the Get-D365LcsDatabaseOperationStatus cmdlet. This will output a second object, with other properties than the first object outputted.
+
         Tags: Environment, Config, Configuration, LCS, Database backup, Api, Backup, Restore, Refresh
         
         Author: Mötz Jensen (@Splaxi)
