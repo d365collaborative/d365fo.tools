@@ -25,18 +25,6 @@
     .PARAMETER OutputPath
         Path to where you want the updated bacpac file to be saved
         
-    .PARAMETER ExtractionPath
-        Path to where you want the cmdlet to extract the files from the bacpac file while it deletes data
-        
-        The default value is "c:\temp\d365fo.tools\BacpacExtractions"
-        
-        When working the cmdlet will create a sub-folder named like the bacpac file
-        
-    .PARAMETER KeepFiles
-        Switch to instruct the cmdlet to keep the extracted files and folders
-        
-        This will leave the files in place, after the deletion of the desired data
-        
     .EXAMPLE
         PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
         
@@ -45,21 +33,6 @@
         It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
         It uses "BATCHJOBHISTORY" as the TableName to delete data from.
         It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
-        It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtractions".
-        
-        It will delete the extracted files after storing the updated bacpac file.
-        
-    .EXAMPLE
-        PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac" -KeepFiles
-        
-        This will remove the data from the BatchJobHistory table from inside the bacpac file.
-        
-        It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
-        It uses "BATCHJOBHISTORY" as the TableName to delete data from.
-        It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
-        It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtractions".
-        
-        It will NOT delete the extracted files after storing the updated bacpac file.
         
     .EXAMPLE
         PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "dbo.BATCHHISTORY","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
@@ -69,9 +42,6 @@
         It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
         It uses "dbo.BATCHHISTORY","BATCHJOBHISTORY" as the TableName to delete data from.
         It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
-        It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtractions".
-        
-        It will delete the extracted files after storing the updated bacpac file.
         
     .NOTES
         Tags: Bacpac, Servicing, Data, Deletion, SqlPackage
@@ -92,12 +62,7 @@ function Clear-D365TableDataFromBacpac {
         [string[]] $TableName,
 
         [Parameter(Mandatory = $true)]
-        [string] $OutputPath,
-
-        [string] $ExtractionPath = $(Join-Path $Script:DefaultTempPath "BacpacExtractions"),
-
-        [switch] $KeepFiles
-
+        [string] $OutputPath
     )
     
     begin {
@@ -105,7 +70,6 @@ function Clear-D365TableDataFromBacpac {
 
         $compressPath = ""
         $newFilename = ""
-        $originalExtension = ""
 
         if ($OutputPath -like "*.bacpac") {
             $compressPath = $OutputPath.Replace(".bacpac", ".zip")
@@ -114,26 +78,6 @@ function Clear-D365TableDataFromBacpac {
         else {
             $compressPath = $OutputPath
         }
-
-        $fileName = [System.IO.Path]::GetFileNameWithoutExtension($Path)
-        
-        if ($Path -like "*.bacpac") {
-            Write-PSFMessage -Level Verbose -Message "Renaming the bacpac file to zip, to be able to extract the file." -Target $Path
-
-            Rename-Item -Path $Path -NewName "$($fileName).zip"
-
-            $originalExtension = "bacpac"
-
-            $archivePath = Join-Path -Path (Split-Path -Path $Path -Parent) -ChildPath "$($fileName).zip"
-        }
-        else {
-            $archivePath = $Path
-        }
-
-        $workPath = Join-Path -Path $ExtractionPath -ChildPath $fileName
-
-        if (-not (Test-PathExists -Path $ExtractionPath, $workPath -Type Container -Create)) { return }
-
 
         if (-not (Test-PathExists -Path $compressPath -Type Leaf -ShouldNotExist)) {
             Write-PSFMessage -Level Host -Message "The <c='em'>$compressPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$compressPath</c> file."
@@ -145,9 +89,11 @@ function Clear-D365TableDataFromBacpac {
             return
         }
 
+        Copy-Item -Path $Path -Destination $compressPath
+
         if (Test-PSFFunctionInterrupt) { return }
 
-        Expand-Archive -Path $archivePath -DestinationPath $workPath -Force
+        $zipFileMetadata = [System.IO.Compression.ZipFile]::Open($compressPath, [System.IO.Compression.ZipArchiveMode]::Update)
     }
     
     process {
@@ -163,42 +109,33 @@ function Clear-D365TableDataFromBacpac {
                 $fullTableName = $table
             }
 
-            $deletePath = Join-Path "$workPath\Data" -ChildPath $fullTableName
+            $entries = $zipFileMetadata.Entries | Where-Object Fullname -like "Data/*$fullTableName*"
 
-            if (-not (Test-PathExists -Path $deletePath -Type Container -WarningAction SilentlyContinue -ErrorAction SilentlyContinue)) {
+            if ($entries.Count -lt 1) {
                 Write-PSFMessage -Level Host -Message "The <c='em'>$table</c> wasn't found. Please ensure that the <c='em'>schema</c> or <c='em'>name</c> is correct."
                 Stop-PSFFunction -Message "Stopping because table was not present."
                 return
             }
-            else {
-                Remove-Item -Path $deletePath -Recurse -Force
+
+            for ($i = 0; $i -lt $entries.Count; $i++) {
+                $entries[$i].delete()
             }
         }
-
     }
     
     end {
-        $res = @{}
+        $res = @{ }
 
-        if ($originalExtension -eq "bacpac") {
-            Rename-Item -Path $archivePath -NewName "$($fileName).bacpac"
-        }
-
-        if (Test-PSFFunctionInterrupt) { return }
-
-        Compress-Archive -Path "$workPath\*" -DestinationPath $compressPath
+        $zipFileMetadata.Dispose()
 
         if ($newFilename -ne "") {
             Rename-Item -Path $compressPath -NewName $newFilename
             $res.File = Join-path -Path $(Split-Path -Path $compressPath -Parent) -ChildPath $newFilename
             $res.Filename = $newFilename
-        }else {
+        }
+        else {
             $res.File = $compressPath
             $res.Filename = $(Split-Path -Path $compressPath -Leaf)
-        }
-
-        if (-not $KeepFiles) {
-            Remove-Item -Path $workPath -Recurse -Force
         }
 
         [PSCustomObject]$res

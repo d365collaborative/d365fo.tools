@@ -14,7 +14,7 @@ Clear out data for a table inside the bacpac file
 
 ```
 Clear-D365TableDataFromBacpac [-Path] <String> [-TableName] <String[]> [-OutputPath] <String>
- [[-ExtractionPath] <String>] [-KeepFiles] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,25 +36,8 @@ This will remove the data from the BatchJobHistory table from inside the bacpac 
 It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
 It uses "BATCHJOBHISTORY" as the TableName to delete data from.
 It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
-It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtractions".
-
-It will delete the extracted files after storing the updated bacpac file.
 
 ### EXAMPLE 2
-```
-Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac" -KeepFiles
-```
-
-This will remove the data from the BatchJobHistory table from inside the bacpac file.
-
-It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
-It uses "BATCHJOBHISTORY" as the TableName to delete data from.
-It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
-It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtractions".
-
-It will NOT delete the extracted files after storing the updated bacpac file.
-
-### EXAMPLE 3
 ```
 Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "dbo.BATCHHISTORY","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
 ```
@@ -64,9 +47,6 @@ This will remove the data from the BatchJobHistory table from inside the bacpac 
 It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
 It uses "dbo.BATCHHISTORY","BATCHJOBHISTORY" as the TableName to delete data from.
 It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
-It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtractions".
-
-It will delete the extracted files after storing the updated bacpac file.
 
 ## PARAMETERS
 
@@ -117,42 +97,6 @@ Aliases:
 Required: True
 Position: 3
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ExtractionPath
-Path to where you want the cmdlet to extract the files from the bacpac file while it deletes data
-
-The default value is "c:\temp\d365fo.tools\BacpacExtractions"
-
-When working the cmdlet will create a sub-folder named like the bacpac file
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: $(Join-Path $Script:DefaultTempPath "BacpacExtractions")
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -KeepFiles
-Switch to instruct the cmdlet to keep the extracted files and folders
-
-This will leave the files in place, after the deletion of the desired data
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

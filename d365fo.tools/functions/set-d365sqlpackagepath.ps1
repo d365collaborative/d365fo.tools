@@ -23,7 +23,7 @@ function Set-D365SqlPackagePath {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(Mandatory = $true)]
         [string] $Path
     )
 
@@ -32,6 +32,7 @@ function Set-D365SqlPackagePath {
     if (Test-PSFFunctionInterrupt) { return }
 
     Set-PSFConfig -FullName "d365fo.tools.path.sqlpackage" -Value $Path
-    
+    Register-PSFConfig -FullName "d365fo.tools.path.sqlpackage"
+
     Update-ModuleVariables
 }

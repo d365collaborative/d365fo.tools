@@ -134,7 +134,7 @@ function Import-D365ExternalUser {
             
             Write-PSFMessage -Level Verbose -Message "Extracted sid: $sid"
 
-            Import-AadUserIntoD365FO $SqlCommand $Email $Name $Id $SID $Company $provider $provider
+            Import-AadUserIntoD365FO -SqlCommand $SqlCommand -SignInName $Email -Name $Name -Id $Id -SID $SID -StartUpCompany $Company -IdentityProvider $provider -NetworkDomain $provider -Language $Language
 
             if (Test-PSFFunctionInterrupt) { return }
         }
