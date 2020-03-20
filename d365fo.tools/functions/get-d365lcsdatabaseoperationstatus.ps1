@@ -118,9 +118,11 @@ function Get-D365LcsDatabaseOperationStatus {
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias('ActivityId')]
         [string] $OperationActivityId,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias('SourceEnvironmentId')]
         [string] $EnvironmentId,
 
         [Parameter(Mandatory = $false)]
@@ -149,5 +151,5 @@ function Get-D365LcsDatabaseOperationStatus {
 
     Invoke-TimeSignal -End
 
-    $databaseOperationStatus
+    $databaseOperationStatus  | Select-PSFObject * -TypeName "D365FO.TOOLS.LCS.Database.Operation.Status"
 }

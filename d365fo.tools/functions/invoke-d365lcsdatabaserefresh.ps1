@@ -156,7 +156,9 @@ function Invoke-D365LcsDatabaseRefresh {
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    $refreshJob
+    $temp = [PSCustomObject]@{ Value = "$TargetEnvironmentId" }
+
+    $refreshJob | Select-PSFObject *, "OperationActivityId as ActivityId", "Value from temp as EnvironmentId" -TypeName "D365FO.TOOLS.LCS.Database.Operation"
 
     if (-not $SkipInitialStatusFetch) {
         Get-D365LcsDatabaseOperationStatus -ProjectId $ProjectId -BearerToken $BearerToken -OperationActivityId $($refreshJob.OperationActivityId) -EnvironmentId $TargetEnvironmentId -LcsApiUri $LcsApiUri -WaitForCompletion:$false -SleepInSeconds 60

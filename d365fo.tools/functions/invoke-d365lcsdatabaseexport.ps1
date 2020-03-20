@@ -149,14 +149,16 @@ function Invoke-D365LcsDatabaseExport {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $refreshJob = Start-LcsDatabaseExport -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -BackupName $BackupName -LcsApiUri $LcsApiUri
+    $exportJob = Start-LcsDatabaseExport -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -BackupName $BackupName -LcsApiUri $LcsApiUri
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    $refreshJob
+    $temp = [PSCustomObject]@{ Value = "$SourceEnvironmentId" }
+
+    $exportJob | Select-PSFObject *, "OperationActivityId as ActivityId", "Value from temp as EnvironmentId" -TypeName "D365FO.TOOLS.LCS.Database.Operation"
 
     if (-not $SkipInitialStatusFetch) {
-        Get-D365LcsDatabaseOperationStatus -ProjectId $ProjectId -BearerToken $BearerToken -OperationActivityId $($refreshJob.OperationActivityId) -EnvironmentId $SourceEnvironmentId -LcsApiUri $LcsApiUri -WaitForCompletion:$false -SleepInSeconds 60
+        Get-D365LcsDatabaseOperationStatus -ProjectId $ProjectId -BearerToken $BearerToken -OperationActivityId $($exportJob.OperationActivityId) -EnvironmentId $SourceEnvironmentId -LcsApiUri $LcsApiUri -WaitForCompletion:$false -SleepInSeconds 60
     }
 
     Invoke-TimeSignal -End
