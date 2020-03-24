@@ -8,6 +8,9 @@
         
     .PARAMETER FilePath
         Path to the file containing the SQL Script that you want executed
+
+    .PARAMETER Command
+        SQL command that you want executed
         
     .PARAMETER DatabaseServer
         The name of the database server
@@ -36,16 +39,25 @@
         PS C:\> Invoke-D365SqlScript -FilePath "C:\temp\d365fo.tools\DeleteUser.sql"
         
         This will execute the "C:\temp\d365fo.tools\DeleteUser.sql" against the registered SQL Server on the machine.
+
+    .EXAMPLE
+        PS C:\> Invoke-D365SqlScript -Command "DELETE FROM USERINFO where Id = 'TestUser'"
+        
+        This will execute the "DELETE FROM USERINFO where Id = 'TestUser'" against the registered SQL Server on the machine.
         
     .NOTES
         Author: Mötz Jensen (@splaxi)
         
 #>
 Function Invoke-D365SqlScript {
+    [Alias("Invoke-D365SqlCmd")]
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true, Position = 1 )]
+        [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "FilePath" )]
         [string] $FilePath,
+
+        [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "Command" )]
+        [string] $Command,
 
         [Parameter(Mandatory = $false, Position = 2 )]
         [string] $DatabaseServer = $Script:DatabaseServer,
@@ -65,7 +77,9 @@ Function Invoke-D365SqlScript {
         [switch] $EnableException
     )
 
-    if (-not (Test-PathExists -Path $FilePath -Type Leaf)) { return }
+    if ($PSCmdlet.ParameterSetName -eq "FilePath") {
+        if (-not (Test-PathExists -Path $FilePath -Type Leaf)) { return }
+    }
 
     Invoke-TimeSignal -Start
 
@@ -78,13 +92,19 @@ Function Invoke-D365SqlScript {
     $MyInvocation.MyCommand.Parameters.Keys | Get-Variable -ErrorAction Ignore | ForEach-Object { $Params.Add($_.Name, $_.Value) };
     
     $null = $Params.Remove('FilePath')
+    $null = $Params.Remove('Command')
     $null = $Params.Remove('EnableException')
     
     $Params.TrustedConnection = $UseTrustedConnection
 
     $sqlCommand = Get-SqlCommand @Params
 
-    $sqlCommand.CommandText = (Get-Content "$FilePath") -join [Environment]::NewLine
+    if ($PSCmdlet.ParameterSetName -eq "FilePath") {
+        $sqlCommand.CommandText = (Get-Content "$FilePath") -join [Environment]::NewLine
+    }
+    if ($PSCmdlet.ParameterSetName -eq "Command") {
+        $sqlCommand.CommandText = $Command
+    }
 
     try {
         Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)

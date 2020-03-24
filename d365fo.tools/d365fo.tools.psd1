@@ -280,6 +280,7 @@
 						, 'Get-D365Model'
 						, 'Initialize-D365TestAutomationCertificate'
 						, 'Add-D365WIFConfigAuthorityThumbprint'
+						, 'Invoke-D365SqlCmd'
 
 						)
 
