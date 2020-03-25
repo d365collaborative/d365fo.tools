@@ -8,7 +8,7 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Invoke-D365SqlScript).ParameterSets.Name | Should -Be '__AllParameterSets'
+			(Get-Command Invoke-D365SqlScript).ParameterSets.Name | Should -Be 'FilePath', 'Command'
 		}
 		
 		It 'Should have the expected parameter FilePath' {
@@ -16,13 +16,26 @@
 			$parameter.Name | Should -Be 'FilePath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
-			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
-			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
-			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 1
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'FilePath'
+			$parameter.ParameterSets.Keys | Should -Contain 'FilePath'
+			$parameter.ParameterSets['FilePath'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['FilePath'].Position | Should -Be 1
+			$parameter.ParameterSets['FilePath'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['FilePath'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['FilePath'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter Command' {
+			$parameter = (Get-Command Invoke-D365SqlScript).Parameters['Command']
+			$parameter.Name | Should -Be 'Command'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'Command'
+			$parameter.ParameterSets.Keys | Should -Contain 'Command'
+			$parameter.ParameterSets['Command'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['Command'].Position | Should -Be 1
+			$parameter.ParameterSets['Command'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Command'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Command'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter DatabaseServer' {
 			$parameter = (Get-Command Invoke-D365SqlScript).Parameters['DatabaseServer']
@@ -104,10 +117,18 @@
 		}
 	}
 	
-	Describe "Testing parameterset __AllParameterSets" {
+
+	Describe "Testing parameterset FilePath" {
 		<#
-		__AllParameterSets -FilePath
-		__AllParameterSets -FilePath -DatabaseServer -DatabaseName -SqlUser -SqlPwd -TrustedConnection -EnableException
+		FilePath -FilePath
+		FilePath -FilePath -DatabaseServer -DatabaseName -SqlUser -SqlPwd -TrustedConnection -EnableException
+		#>
+	}
+
+	Describe "Testing parameterset Command" {
+		<#
+		Command -Command
+		Command -Command -DatabaseServer -DatabaseName -SqlUser -SqlPwd -TrustedConnection -EnableException
 		#>
 	}
 

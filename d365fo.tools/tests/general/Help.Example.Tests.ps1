@@ -42,7 +42,7 @@ foreach ( $commandName in $commands) {
 
             if ( ($example -like "*|*" ) -or (-not ($example -match $commandName)) -or ($example -like "*).*")) {
                 It "Example - $example" -Skip { $true }
-            } elseif ($example -like "*=*") {
+            } elseif ($example -match '(?<=^(([^"]\*(?<!\\)"[^"]\*(?<!\\)"[^"]\*)\*|[^"]*))=') {
                 $varAssignment = ($example -split "=")[0]
 
                 # for every example we want a single It block

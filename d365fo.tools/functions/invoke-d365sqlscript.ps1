@@ -41,9 +41,9 @@
         This will execute the "C:\temp\d365fo.tools\DeleteUser.sql" against the registered SQL Server on the machine.
 
     .EXAMPLE
-        PS C:\> Invoke-D365SqlScript -Command "DELETE FROM USERINFO where Id = 'TestUser'"
+        PS C:\> Invoke-D365SqlScript -Command "DELETE FROM SALESTABLE WHERE RECID = 123456789"
         
-        This will execute the "DELETE FROM USERINFO where Id = 'TestUser'" against the registered SQL Server on the machine.
+        This will execute "DELETE FROM SALESTABLE WHERE RECID = 123456789" against the registered SQL Server on the machine.
         
     .NOTES
         Author: Mötz Jensen (@splaxi)
