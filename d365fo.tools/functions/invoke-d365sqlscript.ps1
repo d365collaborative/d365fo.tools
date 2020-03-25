@@ -8,7 +8,7 @@
         
     .PARAMETER FilePath
         Path to the file containing the SQL Script that you want executed
-
+        
     .PARAMETER Command
         SQL command that you want executed
         
@@ -39,7 +39,7 @@
         PS C:\> Invoke-D365SqlScript -FilePath "C:\temp\d365fo.tools\DeleteUser.sql"
         
         This will execute the "C:\temp\d365fo.tools\DeleteUser.sql" against the registered SQL Server on the machine.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SqlScript -Command "DELETE FROM SALESTABLE WHERE RECID = 123456789"
         
@@ -47,7 +47,7 @@
         
     .NOTES
         Author: Mötz Jensen (@splaxi)
-
+        
         Author: Caleb Blanchard (@daxcaleb)
 #>
 Function Invoke-D365SqlScript {
