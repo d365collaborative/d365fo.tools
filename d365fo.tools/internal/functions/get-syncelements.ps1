@@ -30,7 +30,7 @@ function Get-SyncElements {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
         [string] $ModuleName
     )
 
@@ -47,19 +47,18 @@ function Get-SyncElements {
         $null = $assemblies2Process.Add((Join-Path $BinDirTools "Microsoft.Dynamics.AX.Metadata.Management.Diff.dll"))
 
         Import-AssemblyFileIntoMemory -Path $($assemblies2Process.ToArray())
-    }
 
-    process
-    {
-        Write-PSFMessage -Level Debug -Message "Collecting $ModuleName AOT elements to sync"
+        $diskMetadataProvider = (New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory).CreateDiskProvider($Script:PackageDirectory)
 
         $baseSyncElements = New-Object -TypeName "System.Collections.ArrayList"
         $extensionSyncElements = New-Object -TypeName "System.Collections.ArrayList"
 
         $extensionToBaseSyncElements = New-Object -TypeName "System.Collections.ArrayList"
+    }
 
-        $diskMetadataProvider = (New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory).CreateDiskProvider($Script:PackageDirectory)
-        
+    process {
+        Write-PSFMessage -Level Debug -Message "Collecting $ModuleName AOT elements to sync"
+
         $baseSyncElements.AddRange($diskMetadataProvider.Tables.ListObjects($ModuleName));
         $baseSyncElements.AddRange($diskMetadataProvider.Views.ListObjects($ModuleName));
         $baseSyncElements.AddRange($diskMetadataProvider.DataEntityViews.ListObjects($ModuleName));
@@ -70,7 +69,9 @@ function Get-SyncElements {
         # Add these elements to an ArrayList
         $extensionToBaseSyncElements.AddRange($diskMetadataProvider.ViewExtensions.ListObjects($ModuleName));
         $extensionToBaseSyncElements.AddRange($diskMetadataProvider.DataEntityViewExtensions.ListObjects($ModuleName));
-        
+    }
+
+    end {
         # Loop every extension element, convert it to its base element and add the base element to another list
         Foreach ($extElement in $extensionToBaseSyncElements) {
             $null = $baseSyncElements.Add($extElement.Substring(0, $extElement.IndexOf('.')))
