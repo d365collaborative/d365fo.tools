@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Execute a SQL Script
+        Execute a SQL Script or a SQL Command
         
     .DESCRIPTION
-        Execute a SQL Script against the D365FO SQL Server database
+        Execute a SQL Script or a SQL Command against the D365FO SQL Server database
         
     .PARAMETER FilePath
         Path to the file containing the SQL Script that you want executed
@@ -47,7 +47,8 @@
         
     .NOTES
         Author: Mötz Jensen (@splaxi)
-        
+
+        Author: Caleb Blanchard (@daxcaleb)
 #>
 Function Invoke-D365SqlScript {
     [Alias("Invoke-D365SqlCmd")]
@@ -59,19 +60,14 @@ Function Invoke-D365SqlScript {
         [Parameter(Mandatory = $true, Position = 1, ParameterSetName = "Command" )]
         [string] $Command,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 3 )]
         [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 4 )]
         [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 5 )]
         [string] $SqlPwd = $Script:DatabaseUserPassword,
         
-        [Parameter(Mandatory = $false, Position = 6)]
         [bool] $TrustedConnection = $false,
 
         [switch] $EnableException
