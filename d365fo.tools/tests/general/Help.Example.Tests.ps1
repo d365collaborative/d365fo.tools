@@ -2,11 +2,7 @@
     "Import-ModuleFile"
     , "Get-DeepClone"
     , "Test-TrustedConnection"
-    , "Add-D365EnvironmentConfig"
     , "Select-DefaultView"
-    , "New-JsonRequest"
-    , "Invoke-Process"
-    , "Invoke-D365AzCopyTransfer"
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools
