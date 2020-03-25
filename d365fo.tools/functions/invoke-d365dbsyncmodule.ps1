@@ -11,6 +11,8 @@
         
     .PARAMETER Module
         Name of the model you want to sync tables and table extensions
+
+        Supports an array of module names
         
     .PARAMETER LogPath
         The path where the log file will be saved
@@ -73,9 +75,9 @@
 function Invoke-D365DbSyncModule {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [Alias("ModuleName")]
-        [string] $Module,
+        [string[]] $Module,
 
         [string] $LogPath = "C:\temp\D365FO.Tools\Sync",
 
@@ -99,12 +101,25 @@ function Invoke-D365DbSyncModule {
         [switch] $OutputCommandOnly
     )
 
-    process {
+    begin {
         Invoke-TimeSignal -Start
-        
+
+        $modules = @()
+    }
+
+    process {
+        if ($Module -is [array] -and $Module.Count -gt 1) {
+            $modules = $Module
+        }
+        else {
+            $modules += $Module
+        }
+    }
+
+    end {
         # Retrieve all sync elements of provided module name
-        $allModelSyncElements = Get-SyncElements -ModuleName $Module
-        
+        $allModelSyncElements = $modules | Get-SyncElements
+
         # Build parameters for the partial sync function
         $syncParams = @{
             SyncList=$allModelSyncElements.BaseSyncElements;
