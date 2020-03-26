@@ -61,10 +61,11 @@
     .EXAMPLE
         PS C:\> Invoke-D365DbSyncModule -Module "MyModel1"
 
+        It will start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of MyModel1.
+
     .EXAMPLE
         PS C:\> Invoke-D365DbSyncModule -Module "MyModel1","MyModel2"
 
-        
         It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
 
     .EXAMPLE
