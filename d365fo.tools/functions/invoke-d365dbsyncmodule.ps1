@@ -59,17 +59,33 @@
         Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
-        PS C:\> Invoke-D365DbSyncModule -Module "Application*Adaptor"
+        PS C:\> Invoke-D365DbSyncModule -Module "MyModel1"
+
+    .EXAMPLE
+        PS C:\> Invoke-D365DbSyncModule -Module "MyModel1","MyModel2"
+
         
-        Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
+        It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
+
+    .EXAMPLE
+        PS C:\> Get-D365Module -Name "MyModel*" | Invoke-D365DbSyncModule
         
-        It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions,
-        view-extensions and data entities-extensions of every iterated model
+        Retrieve the list of installed packages / modules where the name fits the search "MyModel*".
+        
+        The result is:
+        MyModel1
+        MyModel2
+
+        It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
         
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
         
         Author: Jasper Callens - Cegeka
+
+        Author: Caleb Blanchard (@daxcaleb)
+        
+        Author: Mötz Jensen (@Splaxi)
 #>
 
 function Invoke-D365DbSyncModule {
@@ -104,21 +120,18 @@ function Invoke-D365DbSyncModule {
     begin {
         Invoke-TimeSignal -Start
 
-        $modules = @()
+        [System.Collections.Generic.List[System.String]] $modules = @()
     }
 
     process {
-        if ($Module -is [array] -and $Module.Count -gt 1) {
-            $modules = $Module
-        }
-        else {
-            $modules += $Module
+        foreach ($moduleLocal in $Module) {
+            $modules.Add($moduleLocal)
         }
     }
 
     end {
         # Retrieve all sync elements of provided module name
-        $allModelSyncElements = $modules | Get-SyncElements
+        $allModelSyncElements = $modules.ToArray() | Get-SyncElements
 
         # Build parameters for the partial sync function
         $syncParams = @{
