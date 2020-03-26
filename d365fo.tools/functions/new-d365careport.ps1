@@ -6,8 +6,10 @@
     .DESCRIPTION
         A cmdlet that wraps some of the cumbersome work into a streamlined process
         
-    .PARAMETER Path
-        Full path to CAR file (xlsx-file)
+    .PARAMETER OutputPath
+        Path where you want the CAR file (xlsx-file) saved to
+
+        Default value is: "c:\temp\d365fo.tools\CAReport.xlsx"
         
     .PARAMETER BinDir
         The path to the bin directory for the environment
@@ -38,6 +40,9 @@
         
         Will include full path to the executable and the needed parameters based on your selection
         
+    .PARAMETER SuffixWithModule
+        Instruct the cmdlet to append the module name as a suffix to the desired output file name
+
     .EXAMPLE
         PS C:\> New-D365CAReport -Path "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
         
@@ -45,6 +50,8 @@
         
     .NOTES
         Author: Tommy Skaue (@Skaue)
+
+        Author: Mötz Jensen (@Splaxi)
         
 #>
 function New-D365CAReport {
@@ -52,7 +59,8 @@ function New-D365CAReport {
     [CmdletBinding()]
     param (
         [Alias('File')]
-        [string] $Path = (Join-Path $Script:DefaultTempPath "CAReport.xlsx"),
+        [Alias('Path')]
+        [string] $OutputPath = (Join-Path $Script:DefaultTempPath "CAReport.xlsx"),
 
         [Parameter(Mandatory = $true)]
         [Alias('Package')]
@@ -69,13 +77,19 @@ function New-D365CAReport {
 
         [switch] $ShowOriginalProgress,
 
-        [switch] $OutputCommandOnly
+        [switch] $OutputCommandOnly,
+
+        [switch] $SuffixWithModule
     )
     
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
+    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
 
     $executable = Join-Path $BinDir "xppbp.exe"
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+
+    if ($SuffixWithModule) {
+        $OutputPath = $OutputPath.Replace(".xlsx", "-$Module.xlsx")
+    }
 
     $params = @(
         "-metadata=`"$MetaDataDir`"",
@@ -83,10 +97,17 @@ function New-D365CAReport {
         "-module=`"$Module`"",
         "-model=`"$Model`"",
         "-xmlLog=`"$XmlLog`"",
-        "-car=`"$Path`""
-        )
+        "-car=`"$OutputPath`""
+    )
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
 
     Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+
+    if (Test-PSFFunctionInterrupt) { return }
+
+    [PSCustomObject]@{
+        File     = $OutputPath
+        Filename = (Split-Path $OutputPath -Leaf)
+    }
 }
