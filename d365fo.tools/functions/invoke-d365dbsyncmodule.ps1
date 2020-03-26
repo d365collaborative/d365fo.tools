@@ -11,7 +11,7 @@
         
     .PARAMETER Module
         Name of the model you want to sync tables and table extensions
-
+        
         Supports an array of module names
         
     .PARAMETER LogPath
@@ -60,14 +60,14 @@
         
     .EXAMPLE
         PS C:\> Invoke-D365DbSyncModule -Module "MyModel1"
-
+        
         It will start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of MyModel1.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365DbSyncModule -Module "MyModel1","MyModel2"
-
+        
         It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
-
+        
     .EXAMPLE
         PS C:\> Get-D365Module -Name "MyModel*" | Invoke-D365DbSyncModule
         
@@ -76,14 +76,14 @@
         The result is:
         MyModel1
         MyModel2
-
+        
         It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
         
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
         
         Author: Jasper Callens - Cegeka
-
+        
         Author: Caleb Blanchard (@daxcaleb)
         
         Author: Mötz Jensen (@Splaxi)
