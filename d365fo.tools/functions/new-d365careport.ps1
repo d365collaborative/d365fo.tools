@@ -8,7 +8,7 @@
         
     .PARAMETER OutputPath
         Path where you want the CAR file (xlsx-file) saved to
-
+        
         Default value is: "c:\temp\d365fo.tools\CAReport.xlsx"
         
     .PARAMETER BinDir
@@ -42,7 +42,7 @@
         
     .PARAMETER SuffixWithModule
         Instruct the cmdlet to append the module name as a suffix to the desired output file name
-
+        
     .EXAMPLE
         PS C:\> New-D365CAReport -Path "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
         
@@ -50,7 +50,7 @@
         
     .NOTES
         Author: Tommy Skaue (@Skaue)
-
+        
         Author: Mötz Jensen (@Splaxi)
         
 #>
