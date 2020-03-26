@@ -13,9 +13,9 @@ Generate the Customization's Analysis Report (CAR)
 ## SYNTAX
 
 ```
-New-D365CAReport [[-Path] <String>] [-Module] <String> [-Model] <String> [[-BinDir] <String>]
+New-D365CAReport [[-OutputPath] <String>] [-Module] <String> [-Model] <String> [[-BinDir] <String>]
  [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
- [<CommonParameters>]
+ [-SuffixWithModule] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,13 +32,15 @@ This will generate a CAR report against MyOverLayerModel in the ApplicationSuite
 
 ## PARAMETERS
 
-### -Path
-Full path to CAR file (xlsx-file)
+### -OutputPath
+Path where you want the CAR file (xlsx-file) saved to
+
+Default value is: "c:\temp\d365fo.tools\CAReport.xlsx"
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: File
+Aliases: Path, File
 
 Required: False
 Position: 1
@@ -160,6 +162,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -SuffixWithModule
+Instruct the cmdlet to append the module name as a suffix to the desired output file name
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -169,5 +186,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 Author: Tommy Skaue (@Skaue)
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
