@@ -59,33 +59,17 @@
         Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
-        PS C:\> Invoke-D365DbSyncModule -Module "MyModel1"
-
-    .EXAMPLE
-        PS C:\> Invoke-D365DbSyncModule -Module "MyModel1","MyModel2"
-
+        PS C:\> Invoke-D365DbSyncModule -Module "Application*Adaptor"
         
-        It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
-
-    .EXAMPLE
-        PS C:\> Get-D365Module -Name "MyModel*" | Invoke-D365DbSyncModule
+        Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
-        Retrieve the list of installed packages / modules where the name fits the search "MyModel*".
-        
-        The result is:
-        MyModel1
-        MyModel2
-
-        It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
+        It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions,
+        view-extensions and data entities-extensions of every iterated model
         
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
         
         Author: Jasper Callens - Cegeka
-
-        Author: Caleb Blanchard (@daxcaleb)
-        
-        Author: Mötz Jensen (@Splaxi)
 #>
 
 function Invoke-D365DbSyncModule {
@@ -119,37 +103,43 @@ function Invoke-D365DbSyncModule {
 
     begin {
         Invoke-TimeSignal -Start
+
+        $modules = @()
     }
 
     process {
-        foreach ($moduleLocal in $Module) {
-            # Retrieve all sync elements of provided module name
-            $allModelSyncElements = $moduleLocal | Get-SyncElements
-
-            # Build parameters for the partial sync function
-            $syncParams = @{
-                SyncList             = $allModelSyncElements.BaseSyncElements;
-                SyncExtensionsList   = $allModelSyncElements.ExtensionSyncElements;
-                Verbosity            = $Verbosity;
-                BinDirTools          = $BinDirTools;
-                MetadataDir          = $MetadataDir;
-                DatabaseServer       = $DatabaseServer;
-                DatabaseName         = $DatabaseName;
-                SqlUser              = $SqlUser;
-                SqlPwd               = $SqlPwd;
-                ShowOriginalProgress = $ShowOriginalProgress;
-                OutputCommandOnly    = $OutputCommandOnly
-            }
-
-            # Call the partial sync using required parameters
-            $resSyncModule = Invoke-D365DBSyncPartial @syncParams
-
-            $resSyncModule
+        if ($Module -is [array] -and $Module.Count -gt 1) {
+            $modules = $Module
+        }
+        else {
+            $modules += $Module
         }
     }
 
     end {
-        
+        # Retrieve all sync elements of provided module name
+        $allModelSyncElements = $modules | Get-SyncElements
+
+        # Build parameters for the partial sync function
+        $syncParams = @{
+            SyncList=$allModelSyncElements.BaseSyncElements;
+            SyncExtensionsList = $allModelSyncElements.ExtensionSyncElements;
+            Verbosity = $Verbosity;
+            BinDirTools=$BinDirTools;
+            MetadataDir=$MetadataDir;
+            DatabaseServer=$DatabaseServer;
+            DatabaseName=$DatabaseName;
+            SqlUser=$SqlUser;
+            SqlPwd=$SqlPwd;
+            ShowOriginalProgress=$ShowOriginalProgress;
+            OutputCommandOnly=$OutputCommandOnly
+        }
+
+        # Call the partial sync using required parameters
+        $resSyncModule = Invoke-D365DBSyncPartial @syncParams
+
+        $resSyncModule
+
         Invoke-TimeSignal -End
     }
 }
