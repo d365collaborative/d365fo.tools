@@ -186,7 +186,6 @@ function New-D365Bacpac {
     [System.Collections.ArrayList] $Properties = New-Object -TypeName "System.Collections.ArrayList"
 
     $null = $Properties.Add("VerifyFullTextDocumentTypesSupported=false")
-    $null = $Properties.Add("Storage=File")
 
     $BaseParams = @{
         DatabaseServer = $DatabaseServer
