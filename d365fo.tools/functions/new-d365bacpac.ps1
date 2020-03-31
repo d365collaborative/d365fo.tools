@@ -185,7 +185,7 @@ function New-D365Bacpac {
 
     # Work around to make sure to keep Storage when using the non-core version of the SqlPackage
     $executable = $Script:SqlPackagePath
-    $classicPattern = "C:\Program Files\Microsoft SQL Server\1*0\DAC\bin\SqlPackage.exe"
+    $classicPattern = "C:\Program Files*\Microsoft SQL Server\1*0\DAC\bin\SqlPackage.exe"
 
     [System.Collections.ArrayList] $Properties = New-Object -TypeName "System.Collections.ArrayList"
 
