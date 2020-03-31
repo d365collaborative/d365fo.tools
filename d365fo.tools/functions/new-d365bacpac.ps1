@@ -183,9 +183,18 @@ function New-D365Bacpac {
     
     if (-not (Test-PathExists -Path (Split-Path $BacpacFile -Parent) -Type Container -Create)) { return }
 
+    # Work around to make sure to keep Storage when using the non-core version of the SqlPackage
+    $executable = $Script:SqlPackagePath
+    $classicPattern = "C:\Program Files*\Microsoft SQL Server\1*0\DAC\bin\SqlPackage.exe"
+
     [System.Collections.ArrayList] $Properties = New-Object -TypeName "System.Collections.ArrayList"
 
     $null = $Properties.Add("VerifyFullTextDocumentTypesSupported=false")
+
+    if($executable -like $classicPattern) {
+        Write-PSFMessage -Level Verbose -Message "Looks like we are running against the non-core version of SqlPackage.exe. Then we need to support the Storage=File property."
+        $null = $Properties.Add("Storage=File")
+    }
 
     $BaseParams = @{
         DatabaseServer = $DatabaseServer
