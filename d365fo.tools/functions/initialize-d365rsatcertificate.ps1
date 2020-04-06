@@ -22,12 +22,12 @@
         
     .PARAMETER KeepCertificateFile
         Instruct the cmdlet to copy the certificate file from the working directory into the desired location specified with OutputPath parameter
-
+        
     .PARAMETER OutputPath
         Path to where you want the certificate file exported to, when using the KeepCertificateFile parameter switch
-
+        
         Default value is: "c:\temp\d365fo.tools"
-
+        
     .EXAMPLE
         PS C:\> Initialize-D365RsatCertificate
         
@@ -47,11 +47,11 @@
         This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
         No actions will be taken regarding modifying the AOS wif.config file.
         The pfx will be copied into the default "c:\temp\d365fo.tools" folder after creation.
-
+        
         Use this when installing RSAT on a machine different from the AOS where RSAT is pointing to.
-
+        
         The pfx file enables you to import the same certificate across your entire network, instead of creating one per machine.
-
+        
     .NOTES
         Tags: Automated Test, Test, Regression, Certificate, Thumbprint
         
