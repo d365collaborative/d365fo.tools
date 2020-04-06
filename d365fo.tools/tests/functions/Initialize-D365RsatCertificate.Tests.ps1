@@ -8,7 +8,7 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Initialize-D365RsatCertificate).ParameterSets.Name | Should -Be '__AllParameterSets'
+			(Get-Command Initialize-D365RsatCertificate).ParameterSets.Name | Should -Be 'KeepCertificateFile'
 		}
 		
 		It 'Should have the expected parameter CertificateFileName' {
@@ -19,7 +19,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 1
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -32,7 +32,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 2
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -45,7 +45,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 3
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -58,17 +58,43 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 4
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter KeepCertificateFile' {
+			$parameter = (Get-Command Initialize-D365RsatCertificate).Parameters['KeepCertificateFile']
+			$parameter.Name | Should -Be 'KeepCertificateFile'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'KeepCertificateFile'
+			$parameter.ParameterSets.Keys | Should -Contain 'KeepCertificateFile'
+			$parameter.ParameterSets['KeepCertificateFile'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['KeepCertificateFile'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['KeepCertificateFile'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['KeepCertificateFile'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['KeepCertificateFile'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter OutputPath' {
+			$parameter = (Get-Command Initialize-D365RsatCertificate).Parameters['OutputPath']
+			$parameter.Name | Should -Be 'OutputPath'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'KeepCertificateFile'
+			$parameter.ParameterSets.Keys | Should -Contain 'KeepCertificateFile'
+			$parameter.ParameterSets['KeepCertificateFile'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['KeepCertificateFile'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['KeepCertificateFile'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['KeepCertificateFile'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['KeepCertificateFile'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
-	Describe "Testing parameterset __AllParameterSets" {
+	Describe "Testing parameterset KeepCertificateFile" {
 		<#
-		__AllParameterSets -
-		__AllParameterSets -CertificateFileName -PrivateKeyFileName -Password -CertificateOnly
+		KeepCertificateFile -
+		KeepCertificateFile -CertificateFileName -PrivateKeyFileName -Password -CertificateOnly -KeepCertificateFile -OutputPath
 		#>
 	}
 
