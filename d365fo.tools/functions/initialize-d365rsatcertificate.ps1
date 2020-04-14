@@ -15,10 +15,13 @@
     .PARAMETER Password
         The password that you want to use to protect your certificate with
         
+        The default value is: "Password1"
+        
     .PARAMETER CertificateOnly
-        Switch specifying if only the certificate needs to be created.
-        If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side.
-        If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine.
+        Switch specifying if only the certificate needs to be created
+        
+        If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side
+        If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine
         
     .PARAMETER KeepCertificateFile
         Instruct the cmdlet to copy the certificate file from the working directory into the desired location specified with OutputPath parameter

@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -88,6 +88,8 @@ Accept wildcard characters: False
 ### -Password
 The password that you want to use to protect your certificate with
 
+The default value is: "Password1"
+
 ```yaml
 Type: SecureString
 Parameter Sets: (All)
@@ -101,9 +103,10 @@ Accept wildcard characters: False
 ```
 
 ### -CertificateOnly
-Switch specifying if only the certificate needs to be created.
-If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side.
-If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine.
+Switch specifying if only the certificate needs to be created
+
+If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side
+If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine
 
 ```yaml
 Type: SwitchParameter
