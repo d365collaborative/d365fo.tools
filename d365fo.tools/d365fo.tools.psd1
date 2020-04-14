@@ -197,6 +197,8 @@
 						'Invoke-D365SysRunnerClass',
 						'Invoke-D365SqlScript',
 
+						'Invoke-D365WinRmCertificateRotation',
+						
 						'Invoke-D365TableBrowser',
 
 						'Invoke-D365BestPractice',
