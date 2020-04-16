@@ -2,11 +2,7 @@
     "Import-ModuleFile"
     , "Get-DeepClone"
     , "Test-TrustedConnection"
-    , "Add-D365EnvironmentConfig"
     , "Select-DefaultView"
-    , "New-JsonRequest"
-    , "Invoke-Process"
-    , "Invoke-D365AzCopyTransfer"
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools
@@ -42,7 +38,7 @@ foreach ( $commandName in $commands) {
 
             if ( ($example -like "*|*" ) -or (-not ($example -match $commandName)) -or ($example -like "*).*")) {
                 It "Example - $example" -Skip { $true }
-            } elseif ($example -like "*=*") {
+            } elseif ($example -match '(?<=^(([^"|^'']\*(?<!\\)"[^"|^'']\*(?<!\\)"[^"|^'']\*)\*|[^"|^'']*))=') {
                 $varAssignment = ($example -split "=")[0]
 
                 # for every example we want a single It block

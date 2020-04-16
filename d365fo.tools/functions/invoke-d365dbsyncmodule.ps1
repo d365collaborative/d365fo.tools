@@ -12,6 +12,8 @@
     .PARAMETER Module
         Name of the model you want to sync tables and table extensions
         
+        Supports an array of module names
+        
     .PARAMETER LogPath
         The path where the log file will be saved
         
@@ -57,25 +59,42 @@
         Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
-        PS C:\> Invoke-D365DbSyncModule -Module "Application*Adaptor"
+        PS C:\> Invoke-D365DbSyncModule -Module "MyModel1"
         
-        Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
+        It will start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of MyModel1.
         
-        It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions,
-        view-extensions and data entities-extensions of every iterated model
+    .EXAMPLE
+        PS C:\> Invoke-D365DbSyncModule -Module "MyModel1","MyModel2"
+        
+        It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Module -Name "MyModel*" | Invoke-D365DbSyncModule
+        
+        Retrieve the list of installed packages / modules where the name fits the search "MyModel*".
+        
+        The result is:
+        MyModel1
+        MyModel2
+        
+        It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
         
     .NOTES
         Tags: Database, Sync, SyncDB, Synchronization, Servicing
         
         Author: Jasper Callens - Cegeka
+        
+        Author: Caleb Blanchard (@daxcaleb)
+        
+        Author: Mötz Jensen (@Splaxi)
 #>
 
 function Invoke-D365DbSyncModule {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [Alias("ModuleName")]
-        [string] $Module,
+        [string[]] $Module,
 
         [string] $LogPath = "C:\temp\D365FO.Tools\Sync",
 
@@ -99,12 +118,22 @@ function Invoke-D365DbSyncModule {
         [switch] $OutputCommandOnly
     )
 
-    process {
+    begin {
         Invoke-TimeSignal -Start
-        
+
+        [System.Collections.Generic.List[System.String]] $modules = @()
+    }
+
+    process {
+        foreach ($moduleLocal in $Module) {
+            $modules.Add($moduleLocal)
+        }
+    }
+
+    end {
         # Retrieve all sync elements of provided module name
-        $allModelSyncElements = Get-SyncElements -ModuleName $Module
-        
+        $allModelSyncElements = $modules.ToArray() | Get-SyncElements
+
         # Build parameters for the partial sync function
         $syncParams = @{
             SyncList=$allModelSyncElements.BaseSyncElements;

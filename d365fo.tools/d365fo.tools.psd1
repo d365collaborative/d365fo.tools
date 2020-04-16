@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.5.81'
+    ModuleVersion     = '0.5.84'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -198,6 +198,8 @@
 						'Invoke-D365SysRunnerClass',
 						'Invoke-D365SqlScript',
 
+						'Invoke-D365WinRmCertificateRotation',
+						
 						'Invoke-D365TableBrowser',
 
 						'Invoke-D365BestPractice',
@@ -281,6 +283,7 @@
 						, 'Get-D365Model'
 						, 'Initialize-D365TestAutomationCertificate'
 						, 'Add-D365WIFConfigAuthorityThumbprint'
+						, 'Invoke-D365SqlCmd'
 
 						)
 
