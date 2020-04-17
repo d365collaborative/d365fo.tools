@@ -106,7 +106,7 @@ It will be part of the output from the different Invoke-D365LcsDatabaseExport or
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ActivityId
 
 Required: True
 Position: 3
@@ -123,12 +123,12 @@ The Id can be located inside the LCS portal
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: SourceEnvironmentId
 
 Required: True
 Position: 4
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

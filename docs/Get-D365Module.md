@@ -43,14 +43,6 @@ ApplicationWorkspacesFormAdaptor
 
 ### EXAMPLE 3
 ```
-Get-D365Module -Name "Application*Adaptor" -Expand
-```
-
-Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
-Will include the file version for each package / module.
-
-### EXAMPLE 4
-```
 Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
 ```
 

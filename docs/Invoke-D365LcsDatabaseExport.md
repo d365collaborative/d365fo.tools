@@ -180,6 +180,13 @@ Instruct the cmdlet to skip the first fetch of the database refresh status
 
 Useful when you have a large script that handles this status validation and you don't want to spend time with this cmdlet
 
+Default output from this cmdlet is 2 (two) different objects.
+The first object is the response object for starting the export operation.
+The second object is the response object from fetching the status of the export operation.
+
+Setting this parameter (activate it), will affect the number of output objects.
+If you skip, only the first response object outputted.
+
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
@@ -200,11 +207,28 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+The ActivityId property is a custom property that ISN'T part of the response from the LCS API.
+The ActivityId is always the same as the OperationActivityId (original LCS property).
+The EnvironmentId property is a custom property that ISN'T part of the response from the LCS API.
+The EnvironmentId is always the same as the SourceEnvironmentId parameter you have supplied to this cmdlet.
+
+Default output from this cmdlet is 2 (two) different objects.
+The first object is the response object for starting the export operation.
+The second object is the response object from fetching the status of the export operation.
+
+Setting the SkipInitialStatusFetch parameter (activate it), will affect the number of output objects.
+If you skip, only the first response object outputted.
+
+Running with the default (SkipInitialStatusFetch NOT being set), will instruct the cmdlet to call the Get-D365LcsDatabaseOperationStatus cmdlet.
+This will output a second object, with other properties than the first object outputted.
+
 Tags: Environment, Config, Configuration, LCS, Database backup, Api, Backup, Bacpac
 
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
+
+[Get-D365LcsDatabaseOperationStatus]()
 
 [Get-D365LcsApiConfig]()
 
