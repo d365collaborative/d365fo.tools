@@ -164,8 +164,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/ModelFilePath:`"$ModelFile`"")
     }
 
-    if (-not [system.string]::IsNullOrEmpty($MaxParallelism)) {
-    {        
+    if (-not [system.string]::IsNullOrEmpty($MaxParallelism)) {    
         $null = $Params.Add("/mp:`"$MaxParallelism`"")
     }
 
