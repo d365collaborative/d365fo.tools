@@ -13,7 +13,7 @@ Synchronize all sync base and extension elements based on a modulename
 ## SYNTAX
 
 ```
-Invoke-D365DbSyncModule [-Module] <String> [[-LogPath] <String>] [[-Verbosity] <String>]
+Invoke-D365DbSyncModule [-Module] <String[]> [[-LogPath] <String>] [[-Verbosity] <String>]
  [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
@@ -28,28 +28,47 @@ view-extensions and data entities-extensions of every iterated model
 
 ### EXAMPLE 1
 ```
-Invoke-D365DbSyncModule -Module "Application*Adaptor"
+Invoke-D365DbSyncModule -Module "MyModel1"
 ```
 
-Retrieve the list of installed packages / modules where the name fits the search "Application*Adaptor".
+It will start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of MyModel1.
 
-It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions,
-view-extensions and data entities-extensions of every iterated model
+### EXAMPLE 2
+```
+Invoke-D365DbSyncModule -Module "MyModel1","MyModel2"
+```
+
+It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
+
+### EXAMPLE 3
+```
+Get-D365Module -Name "MyModel*" | Invoke-D365DbSyncModule
+```
+
+Retrieve the list of installed packages / modules where the name fits the search "MyModel*".
+
+The result is:
+MyModel1
+MyModel2
+
+It will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.
 
 ## PARAMETERS
 
 ### -Module
 Name of the model you want to sync tables and table extensions
 
+Supports an array of module names
+
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: ModuleName
 
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -229,5 +248,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 Tags: Database, Sync, SyncDB, Synchronization, Servicing
 
 Author: Jasper Callens - Cegeka
+
+Author: Caleb Blanchard (@daxcaleb)
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS

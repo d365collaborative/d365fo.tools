@@ -15,10 +15,21 @@
     .PARAMETER Password
         The password that you want to use to protect your certificate with
         
+        The default value is: "Password1"
+        
     .PARAMETER CertificateOnly
-        Switch specifying if only the certificate needs to be created.
-        If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side.
-        If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine.
+        Switch specifying if only the certificate needs to be created
+        
+        If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side
+        If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine
+        
+    .PARAMETER KeepCertificateFile
+        Instruct the cmdlet to copy the certificate file from the working directory into the desired location specified with OutputPath parameter
+        
+    .PARAMETER OutputPath
+        Path to where you want the certificate file exported to, when using the KeepCertificateFile parameter switch
+        
+        Default value is: "c:\temp\d365fo.tools"
         
     .EXAMPLE
         PS C:\> Initialize-D365RsatCertificate
@@ -30,7 +41,19 @@
         
         This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
         No actions will be taken regarding modifying the AOS wif.config file.
+        
         Use this when installing RSAT on a machine different from the AOS where RSAT is pointing to.
+        
+    .EXAMPLE
+        PS C:\> Initialize-D365RsatCertificate -CertificateOnly -KeepCertificateFile
+        
+        This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
+        No actions will be taken regarding modifying the AOS wif.config file.
+        The pfx will be copied into the default "c:\temp\d365fo.tools" folder after creation.
+        
+        Use this when installing RSAT on a machine different from the AOS where RSAT is pointing to.
+        
+        The pfx file enables you to import the same certificate across your entire network, instead of creating one per machine.
         
     .NOTES
         Tags: Automated Test, Test, Regression, Certificate, Thumbprint
@@ -47,17 +70,19 @@ function Initialize-D365RsatCertificate {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingCmdletAliases", "")]
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, Position = 1)]
         [string] $CertificateFileName = (Join-Path $env:TEMP "TestAuthCert.cer"),
 
-        [Parameter(Mandatory = $false, Position = 2)]
         [string] $PrivateKeyFileName = (Join-Path $env:TEMP "TestAuthCert.pfx"),
 
-        [Parameter(Mandatory = $false, Position = 3)]
         [Security.SecureString] $Password = (ConvertTo-SecureString -String "Password1" -Force -AsPlainText),
 
-        [Parameter(Mandatory = $false, Position = 4)]
-        [switch] $CertificateOnly
+        [switch] $CertificateOnly,
+
+        [Parameter(ParameterSetName = "KeepCertificateFile")]
+        [switch] $KeepCertificateFile,
+
+        [Parameter(ParameterSetName = "KeepCertificateFile")]
+        [string] $OutputPath = $Script:DefaultTempPath
     )
 
     if (-not $Script:IsAdminRuntime) {
@@ -82,7 +107,18 @@ function Initialize-D365RsatCertificate {
             Add-D365RsatWifConfigAuthorityThumbprint -CertificateThumbprint $X509Certificate.Thumbprint
         }
 
-        Write-PSFMessage -Level Host -Message "Generated certificate: $X509Certificate"
+        # Write-PSFMessage -Level Host -Message "Generated certificate: $X509Certificate"
+
+        if($KeepCertificateFile){
+            $PrivateKeyFileName = ($PrivateKeyFileName | Copy-Item -Destination $OutputPath -PassThru).FullName
+        }
+
+        [PSCustomObject]@{
+            File = $PrivateKeyFileName
+            Filename = $(Split-Path -Path $PrivateKeyFileName -Leaf)
+        }
+
+        $X509Certificate | Format-Table Thumbprint, Subject, FriendlyName, NotAfter
     }
 
     catch {

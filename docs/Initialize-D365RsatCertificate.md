@@ -13,8 +13,9 @@ Create and configure test automation certificate
 ## SYNTAX
 
 ```
-Initialize-D365RsatCertificate [[-CertificateFileName] <String>] [[-PrivateKeyFileName] <String>]
- [[-Password] <SecureString>] [-CertificateOnly] [<CommonParameters>]
+Initialize-D365RsatCertificate [-CertificateFileName <String>] [-PrivateKeyFileName <String>]
+ [-Password <SecureString>] [-CertificateOnly] [-KeepCertificateFile] [-OutputPath <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,7 +37,21 @@ Initialize-D365RsatCertificate -CertificateOnly
 
 This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
 No actions will be taken regarding modifying the AOS wif.config file.
+
 Use this when installing RSAT on a machine different from the AOS where RSAT is pointing to.
+
+### EXAMPLE 3
+```
+Initialize-D365RsatCertificate -CertificateOnly -KeepCertificateFile
+```
+
+This will generate a certificate for issuer 127.0.0.1 and install it in the trusted root certificates.
+No actions will be taken regarding modifying the AOS wif.config file.
+The pfx will be copied into the default "c:\temp\d365fo.tools" folder after creation.
+
+Use this when installing RSAT on a machine different from the AOS where RSAT is pointing to.
+
+The pfx file enables you to import the same certificate across your entire network, instead of creating one per machine.
 
 ## PARAMETERS
 
@@ -49,7 +64,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: Named
 Default value: (Join-Path $env:TEMP "TestAuthCert.cer")
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -64,7 +79,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: (Join-Path $env:TEMP "TestAuthCert.pfx")
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -73,22 +88,25 @@ Accept wildcard characters: False
 ### -Password
 The password that you want to use to protect your certificate with
 
+The default value is: "Password1"
+
 ```yaml
 Type: SecureString
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
 Default value: (ConvertTo-SecureString -String "Password1" -Force -AsPlainText)
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -CertificateOnly
-Switch specifying if only the certificate needs to be created.
-If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side.
-If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine.
+Switch specifying if only the certificate needs to be created
+
+If specified, then only the certificate is created and the thumbprint is not added to the wif.config on the AOS side
+If not specified (default) then the certificate is created and installed and the corresponding thumbprint is added to the wif.config on the local machine
 
 ```yaml
 Type: SwitchParameter
@@ -96,8 +114,40 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeepCertificateFile
+Instruct the cmdlet to copy the certificate file from the working directory into the desired location specified with OutputPath parameter
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputPath
+Path to where you want the certificate file exported to, when using the KeepCertificateFile parameter switch
+
+Default value is: "c:\temp\d365fo.tools"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: $Script:DefaultTempPath
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

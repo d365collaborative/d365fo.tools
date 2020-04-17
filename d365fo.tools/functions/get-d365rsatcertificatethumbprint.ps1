@@ -24,5 +24,5 @@ function Get-D365RsatCertificateThumbprint {
     [OutputType()]
     param ( )
     
-    Get-ChildItem -Path Cert:\LocalMachine\My | Where-Object Subject -like "*127.0.0.1*"
+    Get-ChildItem -Path Cert:\LocalMachine\My | Where-Object Subject -like "*127.0.0.1*" | Format-Table Thumbprint, Subject, FriendlyName, NotAfter
 }
