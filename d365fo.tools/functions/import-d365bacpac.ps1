@@ -92,6 +92,9 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
+
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
         
     .EXAMPLE
         PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
@@ -203,7 +206,9 @@ function Import-D365Bacpac {
 
         [switch] $OutputCommandOnly,
 
-        [switch] $EnableException
+        [switch] $EnableException,
+
+        [string] $MaxParallelism
     )
 
     if (-not (Test-PathExists -Path $BacpacFile -Type Leaf)) {

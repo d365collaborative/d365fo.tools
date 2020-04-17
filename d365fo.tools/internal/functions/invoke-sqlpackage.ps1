@@ -55,6 +55,9 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
+
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
         
     .EXAMPLE
         PS C:\> $BaseParams = @{
@@ -106,7 +109,9 @@ function Invoke-SqlPackage {
 
         [switch] $OutputCommandOnly,
 
-        [switch] $EnableException
+        [switch] $EnableException,
+
+        [string] $MaxParallelism
     )
               
     $executable = $Script:SqlPackagePath
@@ -157,6 +162,10 @@ function Invoke-SqlPackage {
     
     if (-not [system.string]::IsNullOrEmpty($ModelFile)) {
         $null = $Params.Add("/ModelFilePath:`"$ModelFile`"")
+    }
+
+    if (-not [system.string]::IsNullOrEmpty($MaxParallelism)) {
+        $null = $Params.Add("/mp:`"$MaxParallelism`"")
     }
 
     Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly

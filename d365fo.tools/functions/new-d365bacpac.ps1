@@ -61,6 +61,9 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
+
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
         
     .EXAMPLE
         PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac"
@@ -158,8 +161,9 @@ function New-D365Bacpac {
 
         [switch] $OutputCommandOnly,
 
-        [switch] $EnableException
+        [switch] $EnableException,
 
+        [string] $MaxParallelism
     )
     
     Invoke-TimeSignal -Start
