@@ -13,8 +13,7 @@ Get installed package / module from Dynamics 365 Finance & Operations environmen
 ## SYNTAX
 
 ```
-Get-D365Module [[-BinDir] <String>] [[-PackageDirectory] <String>] [[-Name] <String>] [-Expand]
- [<CommonParameters>]
+Get-D365Module [[-Name] <String>] [[-BinDir] <String>] [[-PackageDirectory] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,14 +30,6 @@ Shows the entire list of installed packages / modules located in the default loc
 
 ### EXAMPLE 2
 ```
-Get-D365Module -Expand
-```
-
-Shows the entire list of installed packages / modules located in the default location on the machine.
-Will include the file version for each package / module.
-
-### EXAMPLE 3
-```
 Get-D365Module -Name "Application*Adaptor"
 ```
 
@@ -50,7 +41,7 @@ ApplicationPlatformFormAdaptor
 ApplicationSuiteFormAdaptor
 ApplicationWorkspacesFormAdaptor
 
-### EXAMPLE 4
+### EXAMPLE 3
 ```
 Get-D365Module -Name "Application*Adaptor" -Expand
 ```
@@ -58,7 +49,7 @@ Get-D365Module -Name "Application*Adaptor" -Expand
 Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
 Will include the file version for each package / module.
 
-### EXAMPLE 5
+### EXAMPLE 4
 ```
 Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
 ```
@@ -66,6 +57,27 @@ Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
 Shows the entire list of installed packages / modules located in "J:\AOSService\PackagesLocalDirectory" on the machine
 
 ## PARAMETERS
+
+### -Name
+Name of the package / module that you are looking for
+
+Accepts wildcards for searching.
+E.g.
+-Name "Application*Adaptor"
+
+Default value is "*" which will search for all packages / modules
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: *
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -BinDir
 The path to the bin directory for the environment
@@ -80,7 +92,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 2
 Default value: "$Script:BinDir\bin"
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -99,44 +111,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
-Default value: $Script:PackageDirectory
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Name
-Name of the package / module that you are looking for
-
-Accepts wildcards for searching.
-E.g.
--Name "Application*Adaptor"
-
-Default value is "*" which will search for all packages / modules
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
 Position: 3
-Default value: *
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Expand
-Adds the version of the package / module to the output
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
+Default value: $Script:PackageDirectory
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
