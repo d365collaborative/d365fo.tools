@@ -41,7 +41,7 @@
         Path to the model file that you want the SqlPackage.exe to use instead the one being part of the bacpac file
         
         This is used to override SQL Server options, like collation and etc
-
+        
     .PARAMETER MaxParallelism
         Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
         

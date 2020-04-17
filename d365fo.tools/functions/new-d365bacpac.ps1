@@ -50,7 +50,7 @@
         
     .PARAMETER MaxParallelism
         Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -108,7 +108,7 @@
         It will use trusted connection (Windows authentication) while working against the SQL Server.
         
         It will output a diagnostic file to "C:\temp\ExportLog.txt".
-
+        
     .EXAMPLE
         PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -MaxParallelism 32
         
@@ -117,7 +117,7 @@
         Will export a bacpac file to "C:\Temp\Bacpac\Testing1.bacpac".
         Will delete the restored database.
         It will use trusted connection (Windows authentication) while working against the SQL Server.
-
+        
         It will use 32 connections against the database server while generating the bacpac file.
         
     .NOTES
