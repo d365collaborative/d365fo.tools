@@ -268,5 +268,53 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		<View>
+			<Name>D365FO.TOOLS.ModelInfo</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.ModelInfo</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Width>32</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>35</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>13</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>9</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Alignment>Left</Alignment>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>ModelName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Module</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Customization</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Id</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Publisher</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+
 	</ViewDefinitions>
 </Configuration>

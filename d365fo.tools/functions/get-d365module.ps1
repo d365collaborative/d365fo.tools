@@ -6,6 +6,13 @@
     .DESCRIPTION
         Get installed package / module from the machine running the AOS service for Dynamics 365 Finance & Operations
         
+    .PARAMETER Name
+        Name of the package / module that you are looking for
+        
+        Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
+        
+        Default value is "*" which will search for all packages / modules
+        
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -20,26 +27,10 @@
         
         Default value is fetched from the current configuration on the machine
         
-    .PARAMETER Name
-        Name of the package / module that you are looking for
-        
-        Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
-        
-        Default value is "*" which will search for all packages / modules
-        
-    .PARAMETER Expand
-        Adds the version of the package / module to the output
-        
     .EXAMPLE
         PS C:\> Get-D365Module
         
         Shows the entire list of installed packages / modules located in the default location on the machine.
-        
-    .EXAMPLE
-        PS C:\> Get-D365Module -Expand
-        
-        Shows the entire list of installed packages / modules located in the default location on the machine.
-        Will include the file version for each package / module.
         
     .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor"
@@ -72,17 +63,13 @@
         
 #>
 function Get-D365Module {
-    [Alias("Get-D365Package")]
-    [Alias("Get-D365Model")]
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [CmdletBinding()]
     param (
-        [string] $BinDir = "$Script:BinDir\bin",
-
-        [string] $PackageDirectory = $Script:PackageDirectory,
-
         [string] $Name = "*",
 
-        [switch] $Expand
+        [string] $BinDir = "$Script:BinDir\bin",
+
+        [string] $PackageDirectory = $Script:PackageDirectory
     )
 
     begin {
@@ -106,12 +93,12 @@ function Get-D365Module {
         Write-PSFMessage -Level Verbose -Message "Intializing RuntimeProvider."
 
         $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
-        $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
-        $metadataProvider = $metadataProviderFactory.CreateRuntimeProvider($runtimeProviderConfiguration)
+        $metadataProviderFactoryViaRuntime = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
+        $metadataProviderViaRuntime = $metadataProviderFactoryViaRuntime.CreateRuntimeProvider($runtimeProviderConfiguration)
 
-        Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
+        Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProviderViaRuntime
 
-        $modules = $metadataProvider.ModelManifest.ListModules()
+        $modules = $metadataProviderViaRuntime.ModelManifest.ListModules()
 
         Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
     
@@ -120,12 +107,12 @@ function Get-D365Module {
 
             $diskProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.DiskProvider.DiskProviderConfiguration
             $diskProviderConfiguration.AddMetadataPath($PackageDirectory)
-            $metadataProviderFactory = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
-            $metadataProvider = $metadataProviderFactory.CreateDiskProvider($diskProviderConfiguration)
+            $metadataProviderFactoryViaDisk = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
+            $metadataProviderViaDisk = $metadataProviderFactoryViaDisk.CreateDiskProvider($diskProviderConfiguration)
 
-            Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProvider
+            Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProviderViaDisk
 
-            $diskModules = $metadataProvider.ModelManifest.ListModules()
+            $diskModules = $metadataProviderViaDisk.ModelManifest.ListModules()
 
             foreach ($module in $diskModules) {
                 if ($modules.Name -NotContains $module.Name) {
@@ -140,33 +127,27 @@ function Get-D365Module {
             Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
             if ($obj.Name -NotLike $Name) { continue }
 
-            if ($Expand -eq $true) {
-                $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
+            $res = [Ordered]@{
+                Module     = $obj.Name
+            }
 
-                if (Test-Path -Path $modulepath -PathType Container) {
-                    $fileversion = Get-FileVersion -Path (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll").FullName
-                    $version = $fileversion.FileVersion
-                    $versionUpdated = $fileversion.FileVersionUpdated
-                }
-                else {
-                    $version = ""
-                    $versionUpdated = ""
-                }
-			
-                [PSCustomObject]@{
-                    Module         = $obj.Name
-                    References     = $obj.References
-                    Version        = $version
-                    VersionUpdated = $versionUpdated
-                }
+            $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
+
+            if (Test-Path -Path $modulepath -PathType Container) {
+                $fileversion = Get-FileVersion -Path (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll").FullName
+                $version = $fileversion.FileVersion
+                $versionUpdated = $fileversion.FileVersionUpdated
             }
             else {
-
-                [PSCustomObject]@{
-                    Module     = $obj.Name
-                    References = $obj.References
-                }
+                $version = ""
+                $versionUpdated = ""
             }
+
+            $res.Version = $version
+            $res.VersionUpdated = $versionUpdated
+            $res.References = $obj.References
+            
+            [PSCustomObject]$res
         }
     }
 }

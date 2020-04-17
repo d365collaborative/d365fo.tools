@@ -56,7 +56,7 @@ function Export-D365Model {
         [string] $Path,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
-        [Alias('Module')]
+        [Alias('Modelname')]
         [string] $Model,
 
         [string] $BinDir = "$Script:PackageDirectory\bin",

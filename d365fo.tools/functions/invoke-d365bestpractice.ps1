@@ -71,11 +71,11 @@ function Invoke-D365BestPractice {
     [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $true)]
-        [Alias('Package')]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [string] $Module,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias('ModelName')]
         [string] $Model,
 
         [string] $BinDir = "$Script:PackageDirectory\bin",
@@ -93,43 +93,57 @@ function Invoke-D365BestPractice {
         [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
 
-    $tool = "xppbp.exe"
-    $executable = Join-Path $BinDir $tool
+        $tool = "xppbp.exe"
+        $executable = Join-Path $BinDir $tool
 
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
-    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+        if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
+        if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+    
+    }
+    
+    process {
+        if (Test-PSFFunctionInterrupt) { return }
 
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.log"
-    $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.xml"
+        $LogDir = (Join-Path $Script:DefaultTempPath $Module)
 
-    $params = @(
-        "-metadata=`"$MetaDataDir`"",
-        "-all",
-        "-module=`"$Module`"",
-        "-model=`"$Model`"",
-        "-xmlLog=`"$logXmlFile`"",
-        "-log=`"$logFile`""
-    )
+        if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+
+        if (Test-PSFFunctionInterrupt) { return }
+
+        $logFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.log"
+        $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.xml"
+
+        $params = @(
+            "-metadata=`"$MetaDataDir`"",
+            "-all",
+            "-module=`"$Module`"",
+            "-model=`"$Model`"",
+            "-xmlLog=`"$logXmlFile`"",
+            "-log=`"$logFile`""
+        )
 	
-    if ($PackagesRoot -eq $true) {
-        $params += "-packagesroot=`"$MetaDataDir`""
-    }
+        if ($PackagesRoot -eq $true) {
+            $params += "-packagesroot=`"$MetaDataDir`""
+        }
 
-    if ($RunFixers -eq $true) {
-        $params += "-runfixers"
-    }
+        if ($RunFixers -eq $true) {
+            $params += "-runfixers"
+        }
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
-    Invoke-TimeSignal -End
-
-    if ($OutputCommandOnly) { return }
+        if ($OutputCommandOnly) { return }
         
-    [PSCustomObject]@{
-        LogFile    = $logFile
-        XmlLogFile = $logXmlFile
+        [PSCustomObject]@{
+            LogFile    = $logFile
+            XmlLogFile = $logXmlFile
+        }
+    }
+
+    end {
+        Invoke-TimeSignal -End
     }
 }
