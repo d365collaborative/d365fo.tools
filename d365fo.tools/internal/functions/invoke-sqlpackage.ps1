@@ -41,6 +41,9 @@
         Path to the model file that you want the SqlPackage.exe to use instead the one being part of the bacpac file
         
         This is used to override SQL Server options, like collation and etc
+
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
         
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
@@ -54,10 +57,7 @@
         
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
-        This is less user friendly, but allows catching exceptions in calling scripts
-
-    .PARAMETER MaxParallelism
-        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
+        This is less user friendly, but allows catching exceptions in calling scripts    
         
     .EXAMPLE
         PS C:\> $BaseParams = @{
@@ -105,13 +105,13 @@ function Invoke-SqlPackage {
 
         [string] $ModelFile,
 
+        [string] $MaxParallelism,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly,
 
-        [switch] $EnableException,
-
-        [string] $MaxParallelism
+        [switch] $EnableException
     )
               
     $executable = $Script:SqlPackagePath
@@ -165,6 +165,7 @@ function Invoke-SqlPackage {
     }
 
     if (-not [system.string]::IsNullOrEmpty($MaxParallelism)) {
+    {        
         $null = $Params.Add("/mp:`"$MaxParallelism`"")
     }
 

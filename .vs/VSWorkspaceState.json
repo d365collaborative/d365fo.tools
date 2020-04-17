@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\build",
+    "\\d365fo.tools",
+    "\\d365fo.tools\\functions"
+  ],
+  "SelectedNode": "\\d365fo.tools\\functions\\import-d365bacpac.ps1",
+  "PreviewInSolutionExplorer": false
+}
