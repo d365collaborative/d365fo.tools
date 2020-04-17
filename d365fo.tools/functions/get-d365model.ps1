@@ -5,24 +5,24 @@
         
     .DESCRIPTION
         Get available model from the machine running the AOS service for Dynamics 365 Finance & Operations
-
+        
     .PARAMETER Name
         Name of the model that you are looking for
         
         Accepts wildcards for searching. E.g. -Name "Application*Adaptor"
         
         Default value is "*" which will search for all models
-
+        
     .PARAMETER Module
         Name of the module that you want to list models from
-
+        
         Accepts wildcards for searchinf. E.g. -Module "Application*Adaptor"
-
+        
         Default value is "*" which will search across all modules
-
+        
     .PARAMETER CustomizableOnly
         Instructs the cmdlet to filter our all models that cannot be customized
-
+        
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -51,15 +51,15 @@
         ApplicationFoundation            ApplicationFoundation               Allow               450 Microsoft Corporation
         ApplicationFoundationFormAdaptor ApplicationFoundationFormAdaptor    DoNotAllow       855029 Microsoft Corporation
         ApplicationPlatform              ApplicationPlatform                 Allow               400 Microsoft Corporation
-
+        
     .EXAMPLE
         PS C:\> Get-D365Model -CustomizableOnly
         
         Shows only the models that are marked as customizable.
         Will only include models that is Customization = "Allow".
-
+        
         A result set example:
-
+        
         ModelName                        Module                              Customization        Id Publisher
         ---------                        ------                              -------------        -- ---------
         ApplicationFoundation            ApplicationFoundation               Allow               450 Microsoft Corporation
@@ -84,11 +84,11 @@
         
     .EXAMPLE
         PS C:\> Get-D365Model -Module ApplicationSuite
-
+        
         Shows only the models that are inside the ApplicationSuite module.
-
+        
         A result set example:
-
+        
         ModelName                                          Module           Customization        Id Publisher
         ---------                                          ------           -------------        -- ---------
         Electronic Reporting Application Suite Integration ApplicationSuite DoNotAllow       855009 Microsoft Corporation
@@ -96,14 +96,14 @@
         SCMControls                                        ApplicationSuite DoNotAllow       855891 Microsoft Corporation
         Tax Books Application Suite Integration            ApplicationSuite DoNotAllow    895570102 Microsoft Corporation
         Tax Engine Application Suite Integration           ApplicationSuite DoNotAllow      8957001 Microsoft Corporation
-
+        
     .EXAMPLE
         PS C:\> Get-D365Model -Name "*Application*" -Module "*Suite*"
         
         Shows the list of models where the name fits the search "*Application*" and the module name fits the search "*Suite*".
-
+        
         A result set example:
-
+        
         ModelName                                          Module                      Customization        Id Publisher
         ---------                                          ------                      -------------        -- ---------
         ApplicationSuiteFormAdaptor                        ApplicationSuiteFormAdaptor DoNotAllow       855028 Microsoft Cor...
@@ -111,7 +111,7 @@
         Electronic Reporting Application Suite Integration ApplicationSuite            DoNotAllow       855009 Microsoft Cor...
         Tax Books Application Suite Integration            ApplicationSuite            DoNotAllow    895570102 Microsoft Cor...
         Tax Engine Application Suite Integration           ApplicationSuite            DoNotAllow      8957001 Microsoft Cor...
-
+        
     .NOTES
         Tags: PackagesLocalDirectory, Servicing, Model, Models, Module, Modules
         
