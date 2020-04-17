@@ -78,6 +78,11 @@
         The cmdlet will create a new database and import the content of the bacpac file into this
         
         Nothing else will be executed
+
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database
+        
+        The default value is 8
         
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
@@ -118,7 +123,16 @@
         This will instruct the cmdlet that the import will be working against a SQL Server instance.
         It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
         It will output a diagnostic file to "C:\temp\ImportLog.txt".
+
+    .EXAMPLE
+        PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt" -MaxParallelism 32
         
+        This will instruct the cmdlet that the import will be working against a SQL Server instance.
+        It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+        It will output a diagnostic file to "C:\temp\ImportLog.txt".
+        
+        It will use 32 connections against the database server while importing the bacpac file.
+
     .NOTES
         Tags: Database, Bacpac, Tier1, Tier2, Golden Config, Config, Configuration
         
@@ -198,6 +212,8 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2')]
         [switch] $ImportOnly,
+        
+        [string] $MaxParallelism = 8,
 
         [switch] $ShowOriginalProgress,
 

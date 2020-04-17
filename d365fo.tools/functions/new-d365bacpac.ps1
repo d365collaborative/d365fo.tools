@@ -48,6 +48,9 @@
     .PARAMETER ExportOnly
         Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
         
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -105,6 +108,17 @@
         It will use trusted connection (Windows authentication) while working against the SQL Server.
         
         It will output a diagnostic file to "C:\temp\ExportLog.txt".
+
+    .EXAMPLE
+        PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -MaxParallelism 32
+        
+        Will backup the "AXDB" database and restore is as "Testing1" again the localhost SQL Server.
+        Will run the prepping process against the restored database.
+        Will export a bacpac file to "C:\Temp\Bacpac\Testing1.bacpac".
+        Will delete the restored database.
+        It will use trusted connection (Windows authentication) while working against the SQL Server.
+
+        It will use 32 connections against the database server while generating the bacpac file.
         
     .NOTES
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
@@ -154,12 +168,13 @@ function New-D365Bacpac {
 
         [switch] $ExportOnly,
 
+        [string] $MaxParallelism = 8,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly,
 
         [switch] $EnableException
-
     )
     
     Invoke-TimeSignal -Start
