@@ -123,6 +123,7 @@
 						'Get-D365LogicAppConfig',
 
 						'Get-D365MaintenanceMode',
+						'Get-D365Model',
 						'Get-D365Module',
 						'Get-D365OfflineAuthenticationAdminEmail',
 
@@ -279,9 +280,7 @@
 
     # Aliases to export from this module
     AliasesToExport   = @(
-						'Get-D365Package'
-						, 'Get-D365Model'
-						, 'Initialize-D365TestAutomationCertificate'
+						'Initialize-D365TestAutomationCertificate'
 						, 'Add-D365WIFConfigAuthorityThumbprint'
 						, 'Invoke-D365SqlCmd'
 

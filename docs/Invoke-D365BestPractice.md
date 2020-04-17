@@ -51,12 +51,12 @@ Name of the Module to analyse
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Package
+Aliases:
 
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -66,12 +66,12 @@ Name of the Model to analyse
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModelName
 
 Required: True
 Position: 2
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

@@ -53,7 +53,7 @@ Name of the model that you want to work against
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Module
+Aliases: Modelname
 
 Required: True
 Position: 2
