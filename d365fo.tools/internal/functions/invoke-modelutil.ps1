@@ -155,5 +155,10 @@ function Invoke-ModelUtil {
     
     Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
 
+    if (Test-PSFFunctionInterrupt) {
+        Stop-PSFFunction -Message "Stopping because of 'ModelUtil.exe' failed its execution." -StepsUpward 1
+        return
+    }
+
     Invoke-TimeSignal -End
 }
