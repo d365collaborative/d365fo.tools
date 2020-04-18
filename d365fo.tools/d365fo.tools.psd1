@@ -88,7 +88,9 @@
 						'Get-D365AzureStorageFile',
 						'Get-D365BroadcastMessage',
 						'Get-D365BroadcastMessageConfig',
+
 						'Get-D365ClickOnceTrustPrompt',
+						'Get-D365CompilerResult',
 
 						'Get-D365Database',
 						'Get-D365DatabaseAccess',

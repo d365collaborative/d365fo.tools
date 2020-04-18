@@ -15,7 +15,7 @@
         Instructs the cmdlet to only output compile results where there was errors detected
         
     .PARAMETER OutputTotals
-        Instructs the cmdlet to output the total errors and warnings after the analyzis
+        Instructs the cmdlet to output the total errors and warnings after the analysis
         
     .PARAMETER PackageDirectory
         Path to the directory containing the installed package / module
@@ -106,36 +106,32 @@ function Get-D365VisualStudioCompilerResult {
 
     $buildOutputFiles = Get-ChildItem -Path "$PackageDirectory\$Module\BuildModelResult.log" -ErrorAction SilentlyContinue -Force
 
-    $totalErrors = 0
-    $totalWarnings = 0
-
     $outputCollection = New-Object System.Collections.Generic.List[System.Object]
 
     foreach ($result in $buildOutputFiles) {
         
-        $errorText = Select-String -LiteralPath $result.FullName -Pattern ^Errors: | ForEach-Object {$_.Line}
-        $errorCount = [int]$errorText.Split()[-1]
-        $totalErrors += $errorCount
+        $res = Get-CompilerResult -Path $result.FullName
 
-        $warningText = Select-String -LiteralPath $result.FullName -Pattern ^Warnings: | ForEach-Object {$_.Line}
-        $warningCount = [int]$warningText.Split()[-1]
-        $totalWarnings += $warningCount
-
-        if($ErrorsOnly -and $errorCount -lt 1) {
-            continue
+        if ($null -ne $res) {
+            $outputCollection.Add($res)
         }
-
-        $outputCollection.Add([PsCustomObject][Ordered]@{
-            File = "$($result.DirectoryName)\$($result.Name)"
-            Warnings = $warningCount
-            Errors = $errorCount
-            PSTypeName = 'D365FO.TOOLS.VsCompilerOutput'
-        })
     }
 
-    $outputCollection.ToArray() | format-table File, @{Label = "Warnings"; Expression = {$e = [char]27; $color = "93";"$e[${color}m$($_.Warnings)${e}[0m"}; Align='right'}, @{Label = "Errors"; Expression = {$e = [char]27; $color = "91";"$e[${color}m$($_.Errors)${e}[0m"}; Align='right'}
+    $totalErrors = 0
+    $totalWarnings = 0
 
-    if($OutputTotals) {
+    $resCol = @($outputCollection.ToArray())
+    
+    $totalWarnings = ($resCol | Measure-Object -Property Warnings -Sum).Sum
+    $totalErrors = ($resCol | Measure-Object -Property Errors -Sum).Sum
+
+    if($ErrorsOnly) {
+        $resCol = @($resCol | Where-Object Errors -gt 0)
+    }
+
+    $resCol | format-table File, @{Label = "Warnings"; Expression = { $e = [char]27; $color = "93"; "$e[${color}m$($_.Warnings)${e}[0m" }; Align = 'right' }, @{Label = "Errors"; Expression = { $e = [char]27; $color = "91"; "$e[${color}m$($_.Errors)${e}[0m" }; Align = 'right' }
+
+    if ($OutputTotals) {
         Write-PSFHostColor -String "<c='Red'>Total Errors: $totalErrors</c>"
         Write-PSFHostColor -String "<c='Yellow'>Total Warnings: $totalWarnings</c>"
     }
