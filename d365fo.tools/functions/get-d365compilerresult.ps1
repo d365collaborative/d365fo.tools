@@ -1,66 +1,67 @@
-﻿<#
-.SYNOPSIS
+﻿
+<#
+    .SYNOPSIS
         Get the compiler outputs presented
-
-.DESCRIPTION
-Get the compiler outputs presented in a structured manner on the screen
-
-It could be a Visual Studio compiler log or it could be a Invoke-D365ModuleCompile log you want analyzed
-
-.PARAMETER Path
-Path to the compiler log file that you want to work against
-
-A BuildModelResult.log or a Dynamics.AX.*.xppc.log file will both work
-
+        
+    .DESCRIPTION
+        Get the compiler outputs presented in a structured manner on the screen
+        
+        It could be a Visual Studio compiler log or it could be a Invoke-D365ModuleCompile log you want analyzed
+        
+    .PARAMETER Path
+        Path to the compiler log file that you want to work against
+        
+        A BuildModelResult.log or a Dynamics.AX.*.xppc.log file will both work
+        
     .PARAMETER ErrorsOnly
         Instructs the cmdlet to only output compile results where there was errors detected
         
     .PARAMETER OutputTotals
         Instructs the cmdlet to output the total errors and warnings after the analysis
-
-.EXAMPLE
-PS C:\> Get-D365CompilerResult -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log"
-
-This will analyze the compiler log file for warning and errors.
-
-A result set example:
-
-File                                                                                    Warnings Errors
-----                                                                                    -------- ------
-c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
-
-.EXAMPLE
-PS C:\> Get-D365CompilerResult -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -ErrorsOnly
-
-This will analyze the compiler log file for warning and errors, but only output if it has errors.
-
-A result set example:
-
-File                                                                                    Warnings Errors
-----                                                                                    -------- ------
-c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
-
-.EXAMPLE
-PS C:\> Get-D365Module -Name *Custom* | Invoke-D365ModuleCompile | Get-D365CompilerResult -OutputTotals
-
-This will find all modules with Custom in their name.
-It will pass thoses modules into the Invoke-D365ModuleCompile, which will compile them.
-It will pass the paths to each compile output log to Get-D365CompilerResult, which will analyze them for warning and errors.
-It will output the total number of warning and errors found.
-
-File                                                                                    Warnings Errors
-----                                                                                    -------- ------
-c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
-
-Total Errors: 1
-Total Warnings: 2
-
-.NOTES
-Tags:
-
-Author: Mötz Jensen (@Splaxi)
-
-This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
+        
+    .EXAMPLE
+        PS C:\> Get-D365CompilerResult -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log"
+        
+        This will analyze the compiler log file for warning and errors.
+        
+        A result set example:
+        
+        File                                                                                    Warnings Errors
+        ----                                                                                    -------- ------
+        c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
+        
+    .EXAMPLE
+        PS C:\> Get-D365CompilerResult -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -ErrorsOnly
+        
+        This will analyze the compiler log file for warning and errors, but only output if it has errors.
+        
+        A result set example:
+        
+        File                                                                                    Warnings Errors
+        ----                                                                                    -------- ------
+        c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
+        
+    .EXAMPLE
+        PS C:\> Get-D365Module -Name *Custom* | Invoke-D365ModuleCompile | Get-D365CompilerResult -OutputTotals
+        
+        This will find all modules with Custom in their name.
+        It will pass thoses modules into the Invoke-D365ModuleCompile, which will compile them.
+        It will pass the paths to each compile output log to Get-D365CompilerResult, which will analyze them for warning and errors.
+        It will output the total number of warning and errors found.
+        
+        File                                                                                    Warnings Errors
+        ----                                                                                    -------- ------
+        c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
+        
+        Total Errors: 1
+        Total Warnings: 2
+        
+    .NOTES
+        Tags:
+        
+        Author: Mötz Jensen (@Splaxi)
+        
+        This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
         
         All credits goes to him for showing how to extract these information
         

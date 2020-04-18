@@ -1,24 +1,25 @@
-﻿<#
-.SYNOPSIS
-Parse the compiler output
-
-.DESCRIPTION
-Parse the output log files from the compiler and show the number of warnings and errors
-
+﻿
+<#
+    .SYNOPSIS
+        Parse the compiler output
+        
+    .DESCRIPTION
+        Parse the output log files from the compiler and show the number of warnings and errors
+        
     .PARAMETER Path
         The path to where the compiler output log file is located
-
-
-.EXAMPLE
-PS C:\> Get-CompilerResult -Path c:\temp\d365fo.tools\Dynamics.AX.Custom.xppc.log
-
-This will analaze the Dynamics.AX.Custom.xppc.log compiler output file.
-Will create a summarize object with number of errors and warnings.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
-This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
+        
+        
+    .EXAMPLE
+        PS C:\> Get-CompilerResult -Path c:\temp\d365fo.tools\Dynamics.AX.Custom.xppc.log
+        
+        This will analaze the Dynamics.AX.Custom.xppc.log compiler output file.
+        Will create a summarize object with number of errors and warnings.
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
+        This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
         
         All credits goes to him for showing how to extract these information
         
@@ -30,7 +31,7 @@ This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
         
         The github repository containing the original scrips can be found here:
         https://github.com/DAXRunBase/PowerShell-and-Azure
-
+        
 #>
 function Get-CompilerResult {
     [CmdletBinding()]
