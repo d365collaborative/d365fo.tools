@@ -152,6 +152,8 @@
 						'Get-D365Url',
 						'Get-D365User',
 						'Get-D365UserAuthenticationDetail',
+
+						'Get-D365VisualStudioCompilerResult',
 						'Get-D365WindowsActivationStatus',
 
 						'Import-D365AadUser',
