@@ -1,79 +1,80 @@
-﻿<#
-.SYNOPSIS
-Get the compiler outputs presented
-
-.DESCRIPTION
-Get the Visual Studio compiler outputs presented in a structured manner on the screen
-
+﻿
+<#
+    .SYNOPSIS
+        Get the compiler outputs presented
+        
+    .DESCRIPTION
+        Get the Visual Studio compiler outputs presented in a structured manner on the screen
+        
     .PARAMETER Module
         Name of the module that you want to work against
         
         Default value is "*" which will search for all modules
-
-.PARAMETER ErrorsOnly
-Instructs the cmdlet to only output compile results where there was errors detected
-
-.PARAMETER OutputTotals
-Instructs the cmdlet to output the total errors and warnings after the analyzis
-
+        
+    .PARAMETER ErrorsOnly
+        Instructs the cmdlet to only output compile results where there was errors detected
+        
+    .PARAMETER OutputTotals
+        Instructs the cmdlet to output the total errors and warnings after the analyzis
+        
     .PARAMETER PackageDirectory
         Path to the directory containing the installed package / module
         
         Default path is the same as the AOS service "PackagesLocalDirectory" directory
         
         Default value is fetched from the current configuration on the machine
-
-.EXAMPLE
-PS C:\> Get-D365VisualStudioCompilerResult
-
-This will return the compiler output for all modules.
-
-A result set example:
         
-File                                                                                     Warnings Errors
-----                                                                                     -------- ------
-K:\AosService\PackagesLocalDirectory\ApplicationCommon\BuildModelResult.log                    55      0
-K:\AosService\PackagesLocalDirectory\ApplicationFoundation\BuildModelResult.log               692      0
-K:\AosService\PackagesLocalDirectory\ApplicationPlatform\BuildModelResult.log                 155      0
-K:\AosService\PackagesLocalDirectory\ApplicationSuite\BuildModelResult.log                  10916      0
-K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
-
-.EXAMPLE
-PS C:\> Get-D365VisualStudioCompilerResult -ErrorsOnly
-
-This will return the compiler output for all modules where there was errors in.
-
-A result set example:
-
-File                                                                                     Warnings Errors
-----                                                                                     -------- ------
-K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
-
-.EXAMPLE
-PS C:\> Get-D365VisualStudioCompilerResult -OutputTotals
-
-This will return the compiler output for all modules and write a total overview to the console.
-
-A result set example:
+    .EXAMPLE
+        PS C:\> Get-D365VisualStudioCompilerResult
         
-File                                                                                     Warnings Errors
-----                                                                                     -------- ------
-K:\AosService\PackagesLocalDirectory\ApplicationCommon\BuildModelResult.log                    55      0
-K:\AosService\PackagesLocalDirectory\ApplicationFoundation\BuildModelResult.log               692      0
-K:\AosService\PackagesLocalDirectory\ApplicationPlatform\BuildModelResult.log                 155      0
-K:\AosService\PackagesLocalDirectory\ApplicationSuite\BuildModelResult.log                  10916      0
-K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
-
-
-Total Errors: 2
-Total Warnings: 11819
-
-.NOTES
-Tags:
-
-Author: Mötz Jensen (@Splaxi)
-
-This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
+        This will return the compiler output for all modules.
+        
+        A result set example:
+        
+        File                                                                                     Warnings Errors
+        ----                                                                                     -------- ------
+        K:\AosService\PackagesLocalDirectory\ApplicationCommon\BuildModelResult.log                    55      0
+        K:\AosService\PackagesLocalDirectory\ApplicationFoundation\BuildModelResult.log               692      0
+        K:\AosService\PackagesLocalDirectory\ApplicationPlatform\BuildModelResult.log                 155      0
+        K:\AosService\PackagesLocalDirectory\ApplicationSuite\BuildModelResult.log                  10916      0
+        K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
+        
+    .EXAMPLE
+        PS C:\> Get-D365VisualStudioCompilerResult -ErrorsOnly
+        
+        This will return the compiler output for all modules where there was errors in.
+        
+        A result set example:
+        
+        File                                                                                     Warnings Errors
+        ----                                                                                     -------- ------
+        K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
+        
+    .EXAMPLE
+        PS C:\> Get-D365VisualStudioCompilerResult -OutputTotals
+        
+        This will return the compiler output for all modules and write a total overview to the console.
+        
+        A result set example:
+        
+        File                                                                                     Warnings Errors
+        ----                                                                                     -------- ------
+        K:\AosService\PackagesLocalDirectory\ApplicationCommon\BuildModelResult.log                    55      0
+        K:\AosService\PackagesLocalDirectory\ApplicationFoundation\BuildModelResult.log               692      0
+        K:\AosService\PackagesLocalDirectory\ApplicationPlatform\BuildModelResult.log                 155      0
+        K:\AosService\PackagesLocalDirectory\ApplicationSuite\BuildModelResult.log                  10916      0
+        K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
+        
+        
+        Total Errors: 2
+        Total Warnings: 11819
+        
+    .NOTES
+        Tags:
+        
+        Author: Mötz Jensen (@Splaxi)
+        
+        This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
         
         All credits goes to him for showing how to extract these information
         
@@ -82,7 +83,7 @@ This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
         
         The specific blog post that we based this cmdlet on can be found here:
         https://www.daxrunbase.com/2020/03/31/interpreting-compiler-results-in-d365fo-using-powershell/
-
+        
         The github repository containing the original scrips can be found here:
         https://github.com/DAXRunBase/PowerShell-and-Azure
 #>
