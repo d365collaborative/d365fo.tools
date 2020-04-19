@@ -68,8 +68,7 @@
         
         It will build error and error summary worksheets.
         It will build warning and warning summary worksheets.
-        
-        
+                
         A result set example:
         
         File                                                            Filename
