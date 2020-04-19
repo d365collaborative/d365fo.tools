@@ -171,9 +171,11 @@
 						'Invoke-D365AzureStorageUpload',
 
 						'Invoke-D365DataFlush',
-						'Invoke-D365DBSync',
-						'Invoke-D365DBSyncPartial',
+						'Invoke-D365DbSync',
+						'Invoke-D365DbSyncPartial',
 						'Invoke-D365DbSyncModule',
+						'Invoke-D365BuildWorkbookFromVisualStudioCompilerResult',
+
 						'Invoke-D365InstallLicense',
 						'Invoke-D365InstallAzCopy',
 						'Invoke-D365InstallSqlPackage',
