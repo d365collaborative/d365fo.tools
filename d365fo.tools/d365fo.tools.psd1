@@ -170,6 +170,8 @@
 						'Invoke-D365AzureStorageDownload',
 						'Invoke-D365AzureStorageUpload',
 
+						'Invoke-D365CompilerResultAnalyzer',
+						
 						'Invoke-D365DataFlush',
 						'Invoke-D365DbSync',
 						'Invoke-D365DbSyncPartial',

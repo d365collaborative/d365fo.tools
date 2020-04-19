@@ -13,7 +13,7 @@ Analyze the Visual Studio compiler output log and generate an excel file contain
     .PARAMETER OutputPath
         Path where you want the excel file (xlsx-file) saved to
         
-        Default value is: "c:\temp\d365fo.tools\CAReport.xlsx"
+        Default value is: "c:\temp\d365fo.tools\"
 
 .PARAMETER SkipWarnings
 Instructs the cmdlet to skip warnings while analyzing the compiler output log file
