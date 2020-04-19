@@ -33,13 +33,49 @@
         PS C:\> Invoke-D365CompilerResultAnalyzer -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log"
         
         This will analyse all compiler output log files generated from Visual Studio.
-        
+        It will use the default path for the OutputPath parameter.
+
+        It will build error and error summary worksheets.
+        It will build warning and warning summary worksheets.
+        It will build task and task summary worksheets.
+
         A result set example:
         
         File                                                            Filename
         ----                                                            --------
         c:\temp\d365fo.tools\Custom-CompilerResults.xlsx                Custom-CompilerResults.xlsx
         
+        .EXAMPLE
+        PS C:\> Invoke-D365CompilerResultAnalyzer -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -SkipWarnings
+        
+        This will analyse all compiler output log files generated from Visual Studio.
+        It will use the default path for the OutputPath parameter.
+
+        It will build error and error summary worksheets.
+        It will build task and task summary worksheets.
+        
+        A result set example:
+        
+        File                                                            Filename
+        ----                                                            --------
+        c:\temp\d365fo.tools\Custom-CompilerResults.xlsx                Custom-CompilerResults.xlsx
+
+        .EXAMPLE
+        PS C:\> Invoke-D365CompilerResultAnalyzer -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -SkipTasks
+        
+        This will analyse all compiler output log files generated from Visual Studio.
+        It will use the default path for the OutputPath parameter.
+
+        It will build error and error summary worksheets.
+                It will build warning and warning summary worksheets.
+
+        
+        A result set example:
+        
+        File                                                            Filename
+        ----                                                            --------
+        c:\temp\d365fo.tools\Custom-CompilerResults.xlsx                Custom-CompilerResults.xlsx
+
     .NOTES
         General notes
         

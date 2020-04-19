@@ -35,6 +35,7 @@
         
     .NOTES
         Tags:
+
         Author: Mötz Jensen (@Splaxi)
         
         This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
@@ -83,21 +84,28 @@ function Invoke-CompilerResultAnalyzer {
     $taskObjects = New-Object System.Collections.Generic.List[System.Object]
     
     if (-not $SkipWarnings) {
+        Write-PSFMessage -Level Verbose -Message "Will analyze for warnings in the log file." -Target $SkipWarnings
+
         try {
             $warningText = Select-String -LiteralPath $Path -Pattern '(^.*) Warning: (.*)' | ForEach-Object { $_.Line }
             
             # Skip modules that do not have warnings
             if ($warningText) {
+                Write-PSFMessage -Level Verbose -Message "Found warning lines in the log file."
+
                 foreach ($line in $warningText) {
                     $lineLocal = $line
                         
                     # Remove positioning text in the format of "[(5,5),(5,39)]: " for methods
                     if ($lineLocal -match $positionRegex) {
+                        Write-PSFMessage -Level Verbose -Message "Position notation was found in the warning line. Will remove it."
+
                         $lineReplaced = [regex]::Split($lineLocal, $positionSplitRegex)
                         $lineLocal = $lineReplaced[1] + $lineReplaced[2]
                     }
     
                     try {
+                        Write-PSFMessage -Level Verbose -Message "Will split the warning line, and create result object."
                         # Regular expression matching to split line details into groups
                         $Matches = [regex]::split($lineLocal, $warningRegex)
                         $object = [PSCustomObject]@{
@@ -107,17 +115,11 @@ function Invoke-CompilerResultAnalyzer {
                             Text       = $Matches[4].trim()
                         }
 
-                        # Store all entries
                         $warningObjects.Add($object)
                     }
                     catch {
                         Write-PSFHostColor -Level Host "<c='Yellow'>($Identifier) Error during processing line for warnings <</c><c='Red'>$line</c><c='Yellow'>></c>"
-                        # Write-Host "($Identifier) Error during processing line for warnings <" -ForegroundColor Yellow -NoNewline
-                        # Write-Host "$line" -ForegroundColor Red -NoNewline
-                        # Write-Host ">" -ForegroundColor Yellow
-                        #Write-Host $regex
                     }
-                    #break
                 }
             }
         }
@@ -127,27 +129,37 @@ function Invoke-CompilerResultAnalyzer {
     }
 
     if (-not $SkipTasks) {
+        Write-PSFMessage -Level Verbose -Message "Will analyze for tasks in the log file." -Target $SkipTasks
+
         try {
             $taskText = Select-String -LiteralPath $Path -Pattern '(^.*)TaskListItem Information: (.*)' | ForEach-Object { $_.Line }
 
             # Skip modules that do not have tasks
             if ($taskText) {
+                Write-PSFMessage -Level Verbose -Message "Found task lines in the log file."
+
                 foreach ($line in $taskText) {
                     $lineLocal = $line
                         
                     # Remove positioning text in the format of "[(5,5),(5,39)]: " for methods
                     if ($lineLocal -match $positionRegex) {
+                        Write-PSFMessage -Level Verbose -Message "Position notation was found in the task line. Will remove it."
+
                         $lineReplaced = [regex]::Split($lineLocal, $positionSplitRegex)
                         $lineLocal = $lineReplaced[1] + $lineReplaced[2]
                     }
 
                     # Remove TODO part
                     if ($lineLocal -match '(?:TODO :|TODO:|TODO)') {
+                        Write-PSFMessage -Level Verbose -Message "TODO prefix string value was found in the line. Will remove it."
+
                         $lineReplaced = [regex]::Split($lineLocal, '(.*)(?:TODO :|TODO:|TODO)(.*)', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
                         $lineLocal = $lineReplaced[1] + $lineReplaced[2]
                     }
 
                     try {
+                        Write-PSFMessage -Level Verbose -Message "Will split the task line, and create result object."
+
                         # Regular expression matching to split line details into groups
                         $Matches = [regex]::split($lineLocal, $taskRegex)
                         $object = [PSCustomObject]@{
@@ -157,16 +169,11 @@ function Invoke-CompilerResultAnalyzer {
                             Text       = $Matches[4].trim()
                         }
 
-                        # Store all entries
                         $taskObjects.Add($object)
                     }
                     catch {
                         Write-PSFHostColor -Level Host "<c='Yellow'>($Identifier) Error during processing line for tasks <</c><c='Red'>$line</c><c='Yellow'>></c>"
-                        # Write-Host "($Identifier) Error during processing line for tasks <" -ForegroundColor Yellow -NoNewline
-                        # Write-Host "$line" -ForegroundColor Red -NoNewline
-                        # Write-Host ">" -ForegroundColor Yellow
                     }
-                    #break
                 }
             }
         }
@@ -185,11 +192,15 @@ function Invoke-CompilerResultAnalyzer {
 
                 # Remove positioning text in the format of "[(5,5),(5,39)]: " for methods
                 if ($lineLocal -match $positionRegex) {
+                    Write-PSFMessage -Level Verbose -Message "Position notation was found in the error line. Will remove it."
+
                     $lineReplaced = [regex]::Split($lineLocal, $positionSplitRegex)
                     $lineLocal = $lineReplaced[1] + $lineReplaced[2]
                 }
 
                 try {
+                    Write-PSFMessage -Level Verbose -Message "Will split the error line, and create result object."
+
                     # Regular expression matching to split line details into groups
                     $Matches = [regex]::split($lineLocal, $errorRegex)
                     $object = [PSCustomObject]@{
@@ -199,17 +210,11 @@ function Invoke-CompilerResultAnalyzer {
                         Text       = $Matches[4].trim()
                     }
 
-                    # Store all entries
                     $errorObjects.Add($object)
                 }
                 catch {
                     Write-PSFHostColor -Level Host "<c='Yellow'>($Identifier) Error during processing line for errors <</c><c='Red'>$line</c><c='Yellow'>></c>"
-                    # Write-Host "($Identifier) Error during processing line for errors <" -ForegroundColor Yellow -NoNewline
-                    # Write-Host "$line" -ForegroundColor Red -NoNewline
-                    # Write-Host ">" -ForegroundColor Yellow
-                    #Write-Host $regex
                 }
-                #break
             }
         }
     }
@@ -217,12 +222,16 @@ function Invoke-CompilerResultAnalyzer {
         Write-PSFMessage -Level Host -Message "Error during processing errors"
     }
 
+    Write-PSFMessage -Level Verbose -Message "Will start exporting the details to the excel file." -Target $OutputPath
+
     $errorObjects.ToArray() | Export-Excel -Path $OutputPath -WorksheetName "Errors" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
 
     $groupErrorTexts = $errorObjects.ToArray() | Group-Object -Property Text | Sort-Object -Property "Count" -Descending | Select-PSFObject Count, "Name as DistinctErrorText"
     $groupErrorTexts | Export-Excel -Path $OutputPath -WorksheetName "Errors-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
         
     if (-not $SkipWarnings) {
+        Write-PSFMessage -Level Verbose -Message "Building the warning details and saving them to the excel file." -Target $SkipWarnings
+        
         $warningObjects.ToArray() | Export-Excel -Path $OutputPath -WorksheetName "Warnings" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
 
         $groupWarningTexts = $warningObjects.ToArray() | Group-Object -Property Text | Sort-Object -Property "Count" -Descending | Select-PSFObject Count, "Name as DistinctWarningText"
@@ -234,6 +243,8 @@ function Invoke-CompilerResultAnalyzer {
     }
 
     if (-not $SkipTasks) {
+        Write-PSFMessage -Level Verbose -Message "Building the task details and saving them to the excel file." -Target $SkipTasks
+
         $taskObjects.ToArray() | Export-Excel -Path $OutputPath -WorksheetName "Tasks" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
 
         $groupTaskTexts = $taskObjects.ToArray() | Group-Object -Property Text | Sort-Object -Property "Count" -Descending | Select-PSFObject Count, "Name as DistinctTaskText"
