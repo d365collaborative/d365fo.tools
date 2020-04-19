@@ -1,7 +1,54 @@
-﻿
-function Invoke-D365BuildWorkbookFromVisualStudioCompilerResult {
+﻿<#
+.SYNOPSIS
+Analyze the Visual Studio compiler output log
+
+.DESCRIPTION
+Analyze the Visual Studio compiler output log and generate an excel file contain worksheets per type: Errors, Warnings, Tasks
+
+    .PARAMETER Module
+        Name of the module that you want to work against
+        
+        Default value is "*" which will search for all modules
+
+    .PARAMETER OutputPath
+        Path where you want the excel file (xlsx-file) saved to
+        
+        Default value is: "c:\temp\d365fo.tools\CAReport.xlsx"
+
+.PARAMETER SkipWarnings
+Instructs the cmdlet to skip warnings while analyzing the compiler output log file
+
+.PARAMETER SkipTasks
+Instructs the cmdlet to skip tasks while analyzing the compiler output log file
+
+    .PARAMETER PackageDirectory
+        Path to the directory containing the installed package / module
+        
+        Default path is the same as the AOS service "PackagesLocalDirectory" directory
+        
+        Default value is fetched from the current configuration on the machine
+
+.EXAMPLE
+PS C:\> Invoke-D365VisualStudioCompilerResultAnalyzer
+
+This will analyse all compiler output log files generated from Visual Studio.
+
+        A result set example:
+
+File                                                            Filename
+----                                                            --------
+c:\temp\d365fo.tools\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx
+
+.NOTES
+General notes
+#>
+function Invoke-D365VisualStudioCompilerResultAnalyzer {
     [CmdletBinding()]
-    [OutputType('[PsCustomObject]')]
+    [OutputType('')]
     param (
         [string] $Module = "*",
 
@@ -65,7 +112,7 @@ function Invoke-D365BuildWorkbookFromVisualStudioCompilerResult {
                             $warningObjects.Add($object)
                         }
                         catch {
-                            Write-Host "Error during processing line for warnings <" -ForegroundColor Yellow -NoNewline
+                            Write-Host "($moduleName) Error during processing line for warnings <" -ForegroundColor Yellow -NoNewline
                             Write-Host "$line" -ForegroundColor Red -NoNewline
                             Write-Host ">" -ForegroundColor Yellow
                             #Write-Host $regex
@@ -96,7 +143,7 @@ function Invoke-D365BuildWorkbookFromVisualStudioCompilerResult {
 
                         # Remove TODO part
                         if ($lineLocal -match '(?:TODO :|TODO:|TODO)') {
-                            $lineReplaced = [regex]::Split($lineLocal, '(.*)(?:TODO :|TODO:|TODO)(.*)')
+                            $lineReplaced = [regex]::Split($lineLocal, '(.*)(?:TODO :|TODO:|TODO)(.*)', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
                             $lineLocal = $lineReplaced[1] + $lineReplaced[2]
                         }
 
@@ -114,7 +161,7 @@ function Invoke-D365BuildWorkbookFromVisualStudioCompilerResult {
                             $taskObjects.Add($object)
                         }
                         catch {
-                            Write-Host "Error during processing line for tasks <" -ForegroundColor Yellow -NoNewline
+                            Write-Host "($moduleName) Error during processing line for tasks <" -ForegroundColor Yellow -NoNewline
                             Write-Host "$line" -ForegroundColor Red -NoNewline
                             Write-Host ">" -ForegroundColor Yellow
                         }
@@ -144,7 +191,6 @@ function Invoke-D365BuildWorkbookFromVisualStudioCompilerResult {
 
                     try {
                         # Regular expression matching to split line details into groups
-                
                         $Matches = [regex]::split($lineLocal, $errorRegex)
                         $object = [PSCustomObject]@{
                             ErrorType  = $Matches[1].trim()
@@ -157,7 +203,7 @@ function Invoke-D365BuildWorkbookFromVisualStudioCompilerResult {
                         $errorObjects.Add($object)
                     }
                     catch {
-                        Write-Host "Error during processing line for errors <" -ForegroundColor Yellow -NoNewline
+                        Write-Host "($moduleName) Error during processing line for errors <" -ForegroundColor Yellow -NoNewline
                         Write-Host "$line" -ForegroundColor Red -NoNewline
                         Write-Host ">" -ForegroundColor Yellow
                         #Write-Host $regex
@@ -172,16 +218,37 @@ function Invoke-D365BuildWorkbookFromVisualStudioCompilerResult {
         }
 
         $errorObjects.ToArray() | Export-Excel -Path $filePath -WorksheetName "Errors" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+
+        $groupErrorTexts = $errorObjects.ToArray() | Group-Object -Property Text | Sort-Object -Property "Count" -Descending | Select-PSFObject Count, "Name as DistinctErrorText"
+        $groupErrorTexts | Export-Excel -Path $filePath -WorksheetName "Errors-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        
         if (-not $SkipWarnings) {
             $warningObjects.ToArray() | Export-Excel -Path $filePath -WorksheetName "Warnings" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+
+            $groupWarningTexts = $warningObjects.ToArray() | Group-Object -Property Text | Sort-Object -Property "Count" -Descending | Select-PSFObject Count, "Name as DistinctWarningText"
+            $groupWarningTexts | Export-Excel -Path $filePath -WorksheetName "Warnings-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        }
+        else {
+            Remove-Worksheet -Path $filePath -WorksheetName "Warnings"
+            Remove-Worksheet -Path $filePath -WorksheetName "Warnings-Summary"
         }
 
         if (-not $SkipTasks) {
             $taskObjects.ToArray() | Export-Excel -Path $filePath -WorksheetName "Tasks" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+
+            $groupTaskTexts = $taskObjects.ToArray() | Group-Object -Property Text | Sort-Object -Property "Count" -Descending | Select-PSFObject Count, "Name as DistinctTaskText"
+            $groupTaskTexts | Export-Excel -Path $filePath -WorksheetName "Tasks-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        }
+        else {
+            Remove-Worksheet -Path $filePath -WorksheetName "Tasks"
+            Remove-Worksheet -Path $filePath -WorksheetName "Tasks-Summary"
+        }
+
+        [PSCustomObject]@{
+            File = $filePath
+            Filename = $(Split-Path -Path $filePath -Leaf)
         }
     }
-
-
 
     Invoke-TimeSignal -End
 }

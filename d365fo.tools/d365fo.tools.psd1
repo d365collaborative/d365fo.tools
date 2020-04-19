@@ -174,7 +174,6 @@
 						'Invoke-D365DbSync',
 						'Invoke-D365DbSyncPartial',
 						'Invoke-D365DbSyncModule',
-						'Invoke-D365BuildWorkbookFromVisualStudioCompilerResult',
 
 						'Invoke-D365InstallLicense',
 						'Invoke-D365InstallAzCopy',
@@ -205,6 +204,7 @@
 						'Invoke-D365SysRunnerClass',
 						'Invoke-D365SqlScript',
 
+						'Invoke-D365VisualStudioCompilerResultAnalyzer',
 						'Invoke-D365WinRmCertificateRotation',
 						
 						'Invoke-D365TableBrowser',
