@@ -172,8 +172,13 @@ function Invoke-D365BuildWorkbookFromVisualStudioCompilerResult {
         }
 
         $errorObjects.ToArray() | Export-Excel -Path $filePath -WorksheetName "Errors" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
-        $warningObjects.ToArray() | Export-Excel -Path $filePath -WorksheetName "Warnings" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
-        $taskObjects.ToArray() | Export-Excel -Path $filePath -WorksheetName "Tasks" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        if (-not $SkipWarnings) {
+            $warningObjects.ToArray() | Export-Excel -Path $filePath -WorksheetName "Warnings" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        }
+
+        if (-not $SkipTasks) {
+            $taskObjects.ToArray() | Export-Excel -Path $filePath -WorksheetName "Tasks" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        }
     }
 
 
