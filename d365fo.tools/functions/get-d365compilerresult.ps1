@@ -57,7 +57,7 @@
         Total Warnings: 2
         
     .NOTES
-        Tags:
+        Tags: Compiler, Build, Errors, Warnings, Tasks
         
         Author: Mötz Jensen (@Splaxi)
         

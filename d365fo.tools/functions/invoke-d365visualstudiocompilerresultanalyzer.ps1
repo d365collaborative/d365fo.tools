@@ -45,7 +45,9 @@
         c:\temp\d365fo.tools\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx
         
     .NOTES
-        General notes
+                Tags: Compiler, Build, Errors, Warnings, Tasks
+
+        Author: Mötz Jensen (@Splaxi)
         
         This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
         
