@@ -88,7 +88,9 @@
 						'Get-D365AzureStorageFile',
 						'Get-D365BroadcastMessage',
 						'Get-D365BroadcastMessageConfig',
+
 						'Get-D365ClickOnceTrustPrompt',
+						'Get-D365CompilerResult',
 
 						'Get-D365Database',
 						'Get-D365DatabaseAccess',
@@ -152,6 +154,8 @@
 						'Get-D365Url',
 						'Get-D365User',
 						'Get-D365UserAuthenticationDetail',
+
+						'Get-D365VisualStudioCompilerResult',
 						'Get-D365WindowsActivationStatus',
 
 						'Import-D365AadUser',
@@ -166,10 +170,13 @@
 						'Invoke-D365AzureStorageDownload',
 						'Invoke-D365AzureStorageUpload',
 
+						'Invoke-D365CompilerResultAnalyzer',
+						
 						'Invoke-D365DataFlush',
-						'Invoke-D365DBSync',
-						'Invoke-D365DBSyncPartial',
+						'Invoke-D365DbSync',
+						'Invoke-D365DbSyncPartial',
 						'Invoke-D365DbSyncModule',
+
 						'Invoke-D365InstallLicense',
 						'Invoke-D365InstallAzCopy',
 						'Invoke-D365InstallSqlPackage',
@@ -199,6 +206,7 @@
 						'Invoke-D365SysRunnerClass',
 						'Invoke-D365SqlScript',
 
+						'Invoke-D365VisualStudioCompilerResultAnalyzer',
 						'Invoke-D365WinRmCertificateRotation',
 						
 						'Invoke-D365TableBrowser',

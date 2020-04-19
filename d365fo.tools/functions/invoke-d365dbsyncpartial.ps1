@@ -98,7 +98,7 @@
         
 #>
 
-function Invoke-D365DBSyncPartial {
+function Invoke-D365DbSyncPartial {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
