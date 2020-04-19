@@ -74,7 +74,7 @@
         
 #>
 
-function Invoke-D365DBSync {
+function Invoke-D365DbSync {
     [CmdletBinding()]
     param (
 
