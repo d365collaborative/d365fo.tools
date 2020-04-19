@@ -70,7 +70,7 @@
         Total Warnings: 11819
         
     .NOTES
-                Tags: Compiler, Build, Errors, Warnings, Tasks
+        Tags: Compiler, Build, Errors, Warnings, Tasks
         
         Author: Mötz Jensen (@Splaxi)
         

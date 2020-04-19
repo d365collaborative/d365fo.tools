@@ -77,8 +77,8 @@
         c:\temp\d365fo.tools\Custom-CompilerResults.xlsx                Custom-CompilerResults.xlsx
         
     .NOTES
-                        Tags: Compiler, Build, Errors, Warnings, Tasks
-
+        Tags: Compiler, Build, Errors, Warnings, Tasks
+        
         Author: Mötz Jensen (@Splaxi)
         
         This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)

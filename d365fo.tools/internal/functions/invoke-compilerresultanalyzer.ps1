@@ -34,8 +34,8 @@
         This will analyze the compiler log file and generate a compiler result excel file.
         
     .NOTES
-                                Tags: Compiler, Build, Errors, Warnings, Tasks
-
+        Tags: Compiler, Build, Errors, Warnings, Tasks
+        
         Author: Mötz Jensen (@Splaxi)
         
         This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
