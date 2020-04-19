@@ -16,16 +16,16 @@ Generate a bacpac file from a database
 ```
 New-D365Bacpac [-ExportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [-SqlUser] <String>
  [-SqlPwd] <String> [[-NewDatabaseName] <String>] [[-BacpacFile] <String>] [[-CustomSqlFile] <String>]
- [-DiagnosticFile <String>] [-ExportOnly] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
- [<CommonParameters>]
+ [-DiagnosticFile <String>] [-ExportOnly] [-MaxParallelism <String>] [-ShowOriginalProgress]
+ [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ### ExportTier1
 ```
 New-D365Bacpac [-ExportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
  [[-SqlPwd] <String>] [[-BackupDirectory] <String>] [[-NewDatabaseName] <String>] [[-BacpacFile] <String>]
- [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ExportOnly] [-ShowOriginalProgress]
- [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
+ [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ExportOnly] [-MaxParallelism <String>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -89,6 +89,19 @@ Will delete the restored database.
 It will use trusted connection (Windows authentication) while working against the SQL Server.
 
 It will output a diagnostic file to "C:\temp\ExportLog.txt".
+
+### EXAMPLE 6
+```
+New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -MaxParallelism 32
+```
+
+Will backup the "AXDB" database and restore is as "Testing1" again the localhost SQL Server.
+Will run the prepping process against the restored database.
+Will export a bacpac file to "C:\Temp\Bacpac\Testing1.bacpac".
+Will delete the restored database.
+It will use trusted connection (Windows authentication) while working against the SQL Server.
+
+It will use 32 connections against the database server while generating the bacpac file.
 
 ## PARAMETERS
 
@@ -297,6 +310,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MaxParallelism
+Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database.
+The default value is 8.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 8
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -13,7 +13,7 @@ Export a model from Dynamics 365 for Finance & Operations
 ## SYNTAX
 
 ```
-Export-D365Model [-Path] <String> [-Model] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>]
+Export-D365Model [-Path] <String> [-Model] <String> [-Force] [[-BinDir] <String>] [[-MetaDataDir] <String>]
  [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
@@ -59,6 +59,21 @@ Required: True
 Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Force
+Instruct the cmdlet to overwrite already existing file
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
