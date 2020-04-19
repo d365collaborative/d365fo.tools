@@ -1,4 +1,54 @@
-﻿
+﻿<#
+.SYNOPSIS
+Analyze the compiler output log
+
+.DESCRIPTION
+Analyze the compiler output log and generate an excel file contain worksheets per type: Errors, Warnings, Tasks
+
+        It could be a Visual Studio compiler log or it could be a Invoke-D365ModuleCompile log you want analyzed
+
+.PARAMETER Path
+        Path to the compiler log file that you want to work against
+        
+        A BuildModelResult.log or a Dynamics.AX.*.xppc.log file will both work
+
+.PARAMETER Identifier
+Identifier used to name the error output when hitting parsing errors
+
+.PARAMETER OutputPath
+        Path where you want the excel file (xlsx-file) saved to
+
+.PARAMETER SkipWarnings
+Instructs the cmdlet to skip warnings while analyzing the compiler output log file
+
+.PARAMETER SkipTasks
+Instructs the cmdlet to skip tasks while analyzing the compiler output log file
+
+    .PARAMETER PackageDirectory
+        Path to the directory containing the installed package / module
+
+.EXAMPLE
+PS C:\> Invoke-CompilerResultAnalyzer -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -Identifier "Custom" -OutputPath "C:\Temp\d365fo.tools\custom-CompilerResults.xslx" -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
+
+This will analyze the compiler log file and generate a compiler result excel file.
+
+.NOTES
+Tags:
+Author: Mötz Jensen (@Splaxi)
+
+This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
+        
+        All credits goes to him for showing how to extract these information
+        
+        His blog can be found here:
+        https://www.daxrunbase.com/blog/
+        
+        The specific blog post that we based this cmdlet on can be found here:
+        https://www.daxrunbase.com/2020/03/31/interpreting-compiler-results-in-d365fo-using-powershell/
+        
+        The github repository containing the original scrips can be found here:
+        https://github.com/DAXRunBase/PowerShell-and-Azure
+#>
 function Invoke-CompilerResultAnalyzer {
     [CmdletBinding()]
     [OutputType('')]
@@ -7,7 +57,7 @@ function Invoke-CompilerResultAnalyzer {
 
         [string] $Identifier,
 
-        [string] $OutputFilePath,
+        [string] $OutputPath,
 
         [switch] $SkipWarnings,
 
@@ -166,36 +216,36 @@ function Invoke-CompilerResultAnalyzer {
         Write-PSFMessage -Level Host -Message "Error during processing errors"
     }
 
-    $errorObjects.ToArray() | Export-Excel -Path $OutputFilePath -WorksheetName "Errors" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+    $errorObjects.ToArray() | Export-Excel -Path $OutputPath -WorksheetName "Errors" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
 
     $groupErrorTexts = $errorObjects.ToArray() | Group-Object -Property Text | Sort-Object -Property "Count" -Descending | Select-PSFObject Count, "Name as DistinctErrorText"
-    $groupErrorTexts | Export-Excel -Path $OutputFilePath -WorksheetName "Errors-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+    $groupErrorTexts | Export-Excel -Path $OutputPath -WorksheetName "Errors-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
         
     if (-not $SkipWarnings) {
-        $warningObjects.ToArray() | Export-Excel -Path $OutputFilePath -WorksheetName "Warnings" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        $warningObjects.ToArray() | Export-Excel -Path $OutputPath -WorksheetName "Warnings" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
 
         $groupWarningTexts = $warningObjects.ToArray() | Group-Object -Property Text | Sort-Object -Property "Count" -Descending | Select-PSFObject Count, "Name as DistinctWarningText"
-        $groupWarningTexts | Export-Excel -Path $OutputFilePath -WorksheetName "Warnings-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        $groupWarningTexts | Export-Excel -Path $OutputPath -WorksheetName "Warnings-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
     }
     else {
-        Remove-Worksheet -Path $OutputFilePath -WorksheetName "Warnings"
-        Remove-Worksheet -Path $OutputFilePath -WorksheetName "Warnings-Summary"
+        Remove-Worksheet -Path $OutputPath -WorksheetName "Warnings"
+        Remove-Worksheet -Path $OutputPath -WorksheetName "Warnings-Summary"
     }
 
     if (-not $SkipTasks) {
-        $taskObjects.ToArray() | Export-Excel -Path $OutputFilePath -WorksheetName "Tasks" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        $taskObjects.ToArray() | Export-Excel -Path $OutputPath -WorksheetName "Tasks" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
 
         $groupTaskTexts = $taskObjects.ToArray() | Group-Object -Property Text | Sort-Object -Property "Count" -Descending | Select-PSFObject Count, "Name as DistinctTaskText"
-        $groupTaskTexts | Export-Excel -Path $OutputFilePath -WorksheetName "Tasks-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
+        $groupTaskTexts | Export-Excel -Path $OutputPath -WorksheetName "Tasks-Summary" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
     }
     else {
-        Remove-Worksheet -Path $OutputFilePath -WorksheetName "Tasks"
-        Remove-Worksheet -Path $OutputFilePath -WorksheetName "Tasks-Summary"
+        Remove-Worksheet -Path $OutputPath -WorksheetName "Tasks"
+        Remove-Worksheet -Path $OutputPath -WorksheetName "Tasks-Summary"
     }
 
     [PSCustomObject]@{
-        File     = $OutputFilePath
-        Filename = $(Split-Path -Path $OutputFilePath -Leaf)
+        File     = $OutputPath
+        Filename = $(Split-Path -Path $OutputPath -Leaf)
     }
 
     Invoke-TimeSignal -End

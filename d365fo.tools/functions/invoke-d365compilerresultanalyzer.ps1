@@ -41,6 +41,19 @@ c:\temp\d365fo.tools\Custom-CompilerResults.xlsx                Custom-CompilerR
 
 .NOTES
 General notes
+
+This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
+        
+        All credits goes to him for showing how to extract these information
+        
+        His blog can be found here:
+        https://www.daxrunbase.com/blog/
+        
+        The specific blog post that we based this cmdlet on can be found here:
+        https://www.daxrunbase.com/2020/03/31/interpreting-compiler-results-in-d365fo-using-powershell/
+        
+        The github repository containing the original scrips can be found here:
+        https://github.com/DAXRunBase/PowerShell-and-Azure
 #>
 function Invoke-D365CompilerResultAnalyzer {
     [CmdletBinding()]
@@ -81,7 +94,7 @@ function Invoke-D365CompilerResultAnalyzer {
 
         $outputFilePath = Join-Path -Path $OutputPath -ChildPath "$moduleName-CompilerResults.xlsx"
 
-        Invoke-CompilerResultAnalyzer -Path $Path -Identifier $moduleName -OutputFilePath $outputFilePath -SkipWarnings:$SkipWarnings -SkipTasks:$SkipTasks -PackageDirectory $PackageDirectory
+        Invoke-CompilerResultAnalyzer -Path $Path -Identifier $moduleName -OutputPath $outputFilePath -SkipWarnings:$SkipWarnings -SkipTasks:$SkipTasks -PackageDirectory $PackageDirectory
     }
     
     end {
