@@ -1,52 +1,53 @@
-﻿<#
-.SYNOPSIS
-Analyze the Visual Studio compiler output log
-
-.DESCRIPTION
-Analyze the Visual Studio compiler output log and generate an excel file contain worksheets per type: Errors, Warnings, Tasks
-
+﻿
+<#
+    .SYNOPSIS
+        Analyze the Visual Studio compiler output log
+        
+    .DESCRIPTION
+        Analyze the Visual Studio compiler output log and generate an excel file contain worksheets per type: Errors, Warnings, Tasks
+        
     .PARAMETER Module
         Name of the module that you want to work against
         
         Default value is "*" which will search for all modules
-
+        
     .PARAMETER OutputPath
         Path where you want the excel file (xlsx-file) saved to
         
         Default value is: "c:\temp\d365fo.tools\"
-
-.PARAMETER SkipWarnings
-Instructs the cmdlet to skip warnings while analyzing the compiler output log file
-
-.PARAMETER SkipTasks
-Instructs the cmdlet to skip tasks while analyzing the compiler output log file
-
+        
+    .PARAMETER SkipWarnings
+        Instructs the cmdlet to skip warnings while analyzing the compiler output log file
+        
+    .PARAMETER SkipTasks
+        Instructs the cmdlet to skip tasks while analyzing the compiler output log file
+        
     .PARAMETER PackageDirectory
         Path to the directory containing the installed package / module
         
         Default path is the same as the AOS service "PackagesLocalDirectory" directory
         
         Default value is fetched from the current configuration on the machine
-
-.EXAMPLE
-PS C:\> Invoke-D365VisualStudioCompilerResultAnalyzer
-
-This will analyse all compiler output log files generated from Visual Studio.
-
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365VisualStudioCompilerResultAnalyzer
+        
+        This will analyse all compiler output log files generated from Visual Studio.
+        
         A result set example:
-
-File                                                            Filename
-----                                                            --------
-c:\temp\d365fo.tools\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx
-c:\temp\d365fo.tools\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx
-c:\temp\d365fo.tools\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx
-c:\temp\d365fo.tools\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx
-c:\temp\d365fo.tools\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx
-
-.NOTES
-General notes
-
-This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
+        
+        File                                                            Filename
+        ----                                                            --------
+        c:\temp\d365fo.tools\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx
+        c:\temp\d365fo.tools\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx
+        c:\temp\d365fo.tools\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx
+        c:\temp\d365fo.tools\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx
+        c:\temp\d365fo.tools\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx
+        
+    .NOTES
+        General notes
+        
+        This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
         
         All credits goes to him for showing how to extract these information
         

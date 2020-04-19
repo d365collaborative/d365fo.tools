@@ -1,48 +1,49 @@
-﻿<#
-.SYNOPSIS
-Analyze the compiler output log
-
-.DESCRIPTION
-Analyze the compiler output log and generate an excel file contain worksheets per type: Errors, Warnings, Tasks
-
+﻿
+<#
+    .SYNOPSIS
+        Analyze the compiler output log
+        
+    .DESCRIPTION
+        Analyze the compiler output log and generate an excel file contain worksheets per type: Errors, Warnings, Tasks
+        
         It could be a Visual Studio compiler log or it could be a Invoke-D365ModuleCompile log you want analyzed
-
+        
     .PARAMETER Path
         Path to the compiler log file that you want to work against
         
         A BuildModelResult.log or a Dynamics.AX.*.xppc.log file will both work
-
+        
     .PARAMETER OutputPath
         Path where you want the excel file (xlsx-file) saved to
-
-.PARAMETER SkipWarnings
-Instructs the cmdlet to skip warnings while analyzing the compiler output log file
-
-.PARAMETER SkipTasks
-Instructs the cmdlet to skip tasks while analyzing the compiler output log file
-
+        
+    .PARAMETER SkipWarnings
+        Instructs the cmdlet to skip warnings while analyzing the compiler output log file
+        
+    .PARAMETER SkipTasks
+        Instructs the cmdlet to skip tasks while analyzing the compiler output log file
+        
     .PARAMETER PackageDirectory
         Path to the directory containing the installed package / module
         
         Default path is the same as the AOS service "PackagesLocalDirectory" directory
         
         Default value is fetched from the current configuration on the machine
-
-.EXAMPLE
-PS C:\> Invoke-D365CompilerResultAnalyzer -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log"
-
-This will analyse all compiler output log files generated from Visual Studio.
-
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365CompilerResultAnalyzer -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log"
+        
+        This will analyse all compiler output log files generated from Visual Studio.
+        
         A result set example:
-
-File                                                            Filename
-----                                                            --------
-c:\temp\d365fo.tools\Custom-CompilerResults.xlsx                Custom-CompilerResults.xlsx
-
-.NOTES
-General notes
-
-This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
+        
+        File                                                            Filename
+        ----                                                            --------
+        c:\temp\d365fo.tools\Custom-CompilerResults.xlsx                Custom-CompilerResults.xlsx
+        
+    .NOTES
+        General notes
+        
+        This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
         
         All credits goes to him for showing how to extract these information
         

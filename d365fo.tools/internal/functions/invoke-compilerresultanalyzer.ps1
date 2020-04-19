@@ -1,42 +1,43 @@
-﻿<#
-.SYNOPSIS
-Analyze the compiler output log
-
-.DESCRIPTION
-Analyze the compiler output log and generate an excel file contain worksheets per type: Errors, Warnings, Tasks
-
+﻿
+<#
+    .SYNOPSIS
+        Analyze the compiler output log
+        
+    .DESCRIPTION
+        Analyze the compiler output log and generate an excel file contain worksheets per type: Errors, Warnings, Tasks
+        
         It could be a Visual Studio compiler log or it could be a Invoke-D365ModuleCompile log you want analyzed
-
-.PARAMETER Path
+        
+    .PARAMETER Path
         Path to the compiler log file that you want to work against
         
         A BuildModelResult.log or a Dynamics.AX.*.xppc.log file will both work
-
-.PARAMETER Identifier
-Identifier used to name the error output when hitting parsing errors
-
-.PARAMETER OutputPath
+        
+    .PARAMETER Identifier
+        Identifier used to name the error output when hitting parsing errors
+        
+    .PARAMETER OutputPath
         Path where you want the excel file (xlsx-file) saved to
-
-.PARAMETER SkipWarnings
-Instructs the cmdlet to skip warnings while analyzing the compiler output log file
-
-.PARAMETER SkipTasks
-Instructs the cmdlet to skip tasks while analyzing the compiler output log file
-
+        
+    .PARAMETER SkipWarnings
+        Instructs the cmdlet to skip warnings while analyzing the compiler output log file
+        
+    .PARAMETER SkipTasks
+        Instructs the cmdlet to skip tasks while analyzing the compiler output log file
+        
     .PARAMETER PackageDirectory
         Path to the directory containing the installed package / module
-
-.EXAMPLE
-PS C:\> Invoke-CompilerResultAnalyzer -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -Identifier "Custom" -OutputPath "C:\Temp\d365fo.tools\custom-CompilerResults.xslx" -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
-
-This will analyze the compiler log file and generate a compiler result excel file.
-
-.NOTES
-Tags:
-Author: Mötz Jensen (@Splaxi)
-
-This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
+        
+    .EXAMPLE
+        PS C:\> Invoke-CompilerResultAnalyzer -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -Identifier "Custom" -OutputPath "C:\Temp\d365fo.tools\custom-CompilerResults.xslx" -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
+        
+        This will analyze the compiler log file and generate a compiler result excel file.
+        
+    .NOTES
+        Tags:
+        Author: Mötz Jensen (@Splaxi)
+        
+        This cmdlet is inspired by the work of "Vilmos Kintera" (twitter: @DAXRunBase)
         
         All credits goes to him for showing how to extract these information
         
