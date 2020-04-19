@@ -112,9 +112,10 @@ function Invoke-D365VisualStudioCompilerResultAnalyzer {
                             $warningObjects.Add($object)
                         }
                         catch {
-                            Write-Host "($moduleName) Error during processing line for warnings <" -ForegroundColor Yellow -NoNewline
-                            Write-Host "$line" -ForegroundColor Red -NoNewline
-                            Write-Host ">" -ForegroundColor Yellow
+                            Write-PSFHostColor -Level Host "<c='Yellow'>($moduleName) Error during processing line for warnings <</c><c='Red'>$line</c><c='Yellow'>></c>"
+                            # Write-Host "($moduleName) Error during processing line for warnings <" -ForegroundColor Yellow -NoNewline
+                            # Write-Host "$line" -ForegroundColor Red -NoNewline
+                            # Write-Host ">" -ForegroundColor Yellow
                             #Write-Host $regex
                         }
                         #break
@@ -122,7 +123,7 @@ function Invoke-D365VisualStudioCompilerResultAnalyzer {
                 }
             }
             catch {
-                Write-Host "Error while processing warnings"
+                Write-PSFMessage -Level Host "Error while processing warnings"
             }
         }
 
@@ -161,17 +162,17 @@ function Invoke-D365VisualStudioCompilerResultAnalyzer {
                             $taskObjects.Add($object)
                         }
                         catch {
-                            Write-Host "($moduleName) Error during processing line for tasks <" -ForegroundColor Yellow -NoNewline
-                            Write-Host "$line" -ForegroundColor Red -NoNewline
-                            Write-Host ">" -ForegroundColor Yellow
+                            Write-PSFHostColor -Level Host "<c='Yellow'>($moduleName) Error during processing line for tasks <</c><c='Red'>$line</c><c='Yellow'>></c>"
+                            # Write-Host "($moduleName) Error during processing line for tasks <" -ForegroundColor Yellow -NoNewline
+                            # Write-Host "$line" -ForegroundColor Red -NoNewline
+                            # Write-Host ">" -ForegroundColor Yellow
                         }
                         #break
                     }
                 }
             }
             catch {
-                Write-Host
-                Write-Host "Error during processing"
+                Write-PSFMessage -Level Host -Message "Error during processing tasks"
             }
         }
 
@@ -203,9 +204,10 @@ function Invoke-D365VisualStudioCompilerResultAnalyzer {
                         $errorObjects.Add($object)
                     }
                     catch {
-                        Write-Host "($moduleName) Error during processing line for errors <" -ForegroundColor Yellow -NoNewline
-                        Write-Host "$line" -ForegroundColor Red -NoNewline
-                        Write-Host ">" -ForegroundColor Yellow
+                        Write-PSFHostColor -Level Host "<c='Yellow'>($moduleName) Error during processing line for errors <</c><c='Red'>$line</c><c='Yellow'>></c>"
+                        # Write-Host "($moduleName) Error during processing line for errors <" -ForegroundColor Yellow -NoNewline
+                        # Write-Host "$line" -ForegroundColor Red -NoNewline
+                        # Write-Host ">" -ForegroundColor Yellow
                         #Write-Host $regex
                     }
                     #break
@@ -213,8 +215,7 @@ function Invoke-D365VisualStudioCompilerResultAnalyzer {
             }
         }
         catch {
-            Write-Host
-            Write-Host "Error during processing"
+            Write-PSFMessage -Level Host -Message "Error during processing errors"
         }
 
         $errorObjects.ToArray() | Export-Excel -Path $filePath -WorksheetName "Errors" -ClearSheet -AutoFilter -AutoSize -BoldTopRow
@@ -245,7 +246,7 @@ function Invoke-D365VisualStudioCompilerResultAnalyzer {
         }
 
         [PSCustomObject]@{
-            File = $filePath
+            File     = $filePath
             Filename = $(Split-Path -Path $filePath -Leaf)
         }
     }
