@@ -72,6 +72,19 @@
         AtlMaterialhandling              AtlMaterialhandling                 Allow         895972595 Microsoft Corporation
         
     .EXAMPLE
+        PS C:\> Get-D365Model -CustomizableOnly -ExcludeMicrosoftModels
+        
+        Shows only the models that are marked as customizable.
+        Will exclude all models where Microsoft is the publisher.
+        Will only include models that is Customization = "Allow".
+        
+        A result set example:
+        
+        ModelName                        Module                              Customization        Id Publisher
+        ---------                        ------                              -------------        -- ---------
+        Custom                           Custom                              Allow         895972068 Custom Corporation
+        
+    .EXAMPLE
         PS C:\> Get-D365Model -Name "Application*Adaptor"
         
         Shows the list of models where the name fits the search "Application*Adaptor".
