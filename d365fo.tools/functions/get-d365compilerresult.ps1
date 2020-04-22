@@ -94,7 +94,7 @@
 #>
 function Get-D365CompilerResult {
     [CmdletBinding()]
-    [OutputType('D365FO.TOOLS.CompilerOutput')]
+    [OutputType('[PsCustomObject]')]
     param (
         [parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [Alias('LogFile')]
