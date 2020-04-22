@@ -129,6 +129,8 @@ function Get-D365Model {
         [string] $Module = "*",
 
         [switch] $CustomizableOnly,
+        
+        [switch] $ExcludeMicrosoftModels,
 
         [string] $BinDir = "$Script:BinDir\bin",
 
@@ -198,6 +200,8 @@ function Get-D365Model {
             Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
             if ($obj.Name -NotLike $Name) { continue }
 
+            if($ExcludeMicrosoftModels -and $obj.Publisher -like "Microsoft*"){ continue }
+            
             $obj | Select-PSFObject "Name as ModelName",* -ExcludeProperty Name -TypeName "D365FO.TOOLS.ModelInfo"
         }
     }

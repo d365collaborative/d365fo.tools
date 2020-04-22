@@ -16,6 +16,11 @@
         
     .PARAMETER OutputTotals
         Instructs the cmdlet to output the total errors and warnings after the analysis
+
+    .PARAMETER OutputAsObjects
+        Instructs the cmdlet to output the objects instead of formatting them
+
+        If you don't assign the output, it will be formatted the same way as the original output, but without the coloring of the column values
         
     .PARAMETER PackageDirectory
         Path to the directory containing the installed package / module
@@ -50,6 +55,18 @@
         ----                                                                                     -------- ------
         K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
         
+    .EXAMPLE
+        PS C:\> Get-D365VisualStudioCompilerResult -ErrorsOnly -OutputAsObjects
+        
+        This will return the compiler output for all modules where there was errors in.
+        The output will be PSObjects, which can be assigned to a variable and used for futher analysis.
+        
+        A result set example:
+        
+        File                                                                                     Warnings Errors
+        ----                                                                                     -------- ------
+        K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
+
     .EXAMPLE
         PS C:\> Get-D365VisualStudioCompilerResult -OutputTotals
         
@@ -97,6 +114,8 @@ function Get-D365VisualStudioCompilerResult {
 
         [switch] $OutputTotals,
 
+        [switch] $OutputAsObjects,
+
         [string] $PackageDirectory = $Script:PackageDirectory
     )
 
@@ -125,12 +144,17 @@ function Get-D365VisualStudioCompilerResult {
     $totalWarnings = ($resCol | Measure-Object -Property Warnings -Sum).Sum
     $totalErrors = ($resCol | Measure-Object -Property Errors -Sum).Sum
 
-    if($ErrorsOnly) {
+    if ($ErrorsOnly) {
         $resCol = @($resCol | Where-Object Errors -gt 0)
     }
 
-    $resCol | format-table File, @{Label = "Warnings"; Expression = { $e = [char]27; $color = "93"; "$e[${color}m$($_.Warnings)${e}[0m" }; Align = 'right' }, @{Label = "Errors"; Expression = { $e = [char]27; $color = "91"; "$e[${color}m$($_.Errors)${e}[0m" }; Align = 'right' }
-
+    if ($OutputAsObjects) {
+        $resCol
+    }
+    else {
+        $resCol | format-table File, @{Label = "Warnings"; Expression = { $e = [char]27; $color = "93"; "$e[${color}m$($_.Warnings)${e}[0m" }; Align = 'right' }, @{Label = "Errors"; Expression = { $e = [char]27; $color = "91"; "$e[${color}m$($_.Errors)${e}[0m" }; Align = 'right' }
+    }
+    
     if ($OutputTotals) {
         Write-PSFHostColor -String "<c='Red'>Total Errors: $totalErrors</c>"
         Write-PSFHostColor -String "<c='Yellow'>Total Warnings: $totalWarnings</c>"
