@@ -13,7 +13,7 @@ Get the compiler outputs presented
 ## SYNTAX
 
 ```
-Get-D365VisualStudioCompilerResult [[-Module] <String>] [-ErrorsOnly] [-OutputTotals]
+Get-D365VisualStudioCompilerResult [[-Module] <String>] [-ErrorsOnly] [-OutputTotals] [-OutputAsObjects]
  [[-PackageDirectory] <String>] [<CommonParameters>]
 ```
 
@@ -53,6 +53,20 @@ File                                                                            
 K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
 
 ### EXAMPLE 3
+```
+Get-D365VisualStudioCompilerResult -ErrorsOnly -OutputAsObjects
+```
+
+This will return the compiler output for all modules where there was errors in.
+The output will be PSObjects, which can be assigned to a variable and used for futher analysis.
+
+A result set example:
+
+File                                                                                     Warnings Errors
+----                                                                                     -------- ------
+K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
+
+### EXAMPLE 4
 ```
 Get-D365VisualStudioCompilerResult -OutputTotals
 ```
@@ -109,6 +123,23 @@ Accept wildcard characters: False
 
 ### -OutputTotals
 Instructs the cmdlet to output the total errors and warnings after the analysis
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputAsObjects
+Instructs the cmdlet to output the objects instead of formatting them
+
+If you don't assign the output, it will be formatted the same way as the original output, but without the coloring of the column values
 
 ```yaml
 Type: SwitchParameter

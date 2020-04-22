@@ -13,8 +13,8 @@ Get available model from Dynamics 365 Finance & Operations environment
 ## SYNTAX
 
 ```
-Get-D365Model [[-Name] <String>] [[-Module] <String>] [-CustomizableOnly] [[-BinDir] <String>]
- [[-PackageDirectory] <String>] [<CommonParameters>]
+Get-D365Model [[-Name] <String>] [[-Module] <String>] [-CustomizableOnly] [-ExcludeMicrosoftModels]
+ [[-BinDir] <String>] [[-PackageDirectory] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -153,6 +153,21 @@ Accept wildcard characters: False
 
 ### -CustomizableOnly
 Instructs the cmdlet to filter our all models that cannot be customized
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludeMicrosoftModels
+{{ Fill ExcludeMicrosoftModels Description }}
 
 ```yaml
 Type: SwitchParameter

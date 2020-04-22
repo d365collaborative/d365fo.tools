@@ -13,7 +13,7 @@ Get the compiler outputs presented
 ## SYNTAX
 
 ```
-Get-D365CompilerResult [-Path] <String> [-ErrorsOnly] [-OutputTotals] [<CommonParameters>]
+Get-D365CompilerResult [-Path] <String> [-ErrorsOnly] [-OutputTotals] [-OutputAsObjects] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -50,6 +50,20 @@ File                                                                            
 c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
 
 ### EXAMPLE 3
+```
+Get-D365CompilerResult -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -ErrorsOnly -OutputAsObjects
+```
+
+This will analyze the compiler log file for warning and errors, but only output if it has errors.
+The output will be PSObjects, which can be assigned to a variable and used for futher analysis.
+
+A result set example:
+
+File                                                                                    Warnings Errors
+----                                                                                    -------- ------
+c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
+
+### EXAMPLE 4
 ```
 Get-D365Module -Name *Custom* | Invoke-D365ModuleCompile | Get-D365CompilerResult -OutputTotals
 ```
@@ -102,6 +116,23 @@ Accept wildcard characters: False
 
 ### -OutputTotals
 Instructs the cmdlet to output the total errors and warnings after the analysis
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputAsObjects
+Instructs the cmdlet to output the objects instead of formatting them
+
+If you don't assign the output, it will be formatted the same way as the original output, but without the coloring of the column values
 
 ```yaml
 Type: SwitchParameter
