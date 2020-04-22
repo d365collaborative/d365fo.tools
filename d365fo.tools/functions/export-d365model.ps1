@@ -84,7 +84,7 @@ function Export-D365Model {
     process {
 
         if($Force){
-            Get-ChildItem -Path "$Path\$Model-*.axmodel" | Select-Object -First 1 | Remove-Item -Force -ErrorAction SilentlyContinuec
+            Get-ChildItem -Path "$Path\$Model-*.axmodel" | Select-Object -First 1 | Remove-Item -Force -ErrorAction SilentlyContinue
         }
 
         Invoke-ModelUtil -Command "Export" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
