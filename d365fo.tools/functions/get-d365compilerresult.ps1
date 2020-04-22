@@ -18,10 +18,10 @@
         
     .PARAMETER OutputTotals
         Instructs the cmdlet to output the total errors and warnings after the analysis
-
+        
     .PARAMETER OutputAsObjects
         Instructs the cmdlet to output the objects instead of formatting them
-
+        
         If you don't assign the output, it will be formatted the same way as the original output, but without the coloring of the column values
         
     .EXAMPLE
@@ -57,7 +57,7 @@
         File                                                                                    Warnings Errors
         ----                                                                                    -------- ------
         c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
-
+        
     .EXAMPLE
         PS C:\> Get-D365Module -Name *Custom* | Invoke-D365ModuleCompile | Get-D365CompilerResult -OutputTotals
         

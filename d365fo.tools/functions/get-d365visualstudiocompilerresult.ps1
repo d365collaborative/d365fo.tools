@@ -16,10 +16,10 @@
         
     .PARAMETER OutputTotals
         Instructs the cmdlet to output the total errors and warnings after the analysis
-
+        
     .PARAMETER OutputAsObjects
         Instructs the cmdlet to output the objects instead of formatting them
-
+        
         If you don't assign the output, it will be formatted the same way as the original output, but without the coloring of the column values
         
     .PARAMETER PackageDirectory
@@ -66,7 +66,7 @@
         File                                                                                     Warnings Errors
         ----                                                                                     -------- ------
         K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log                          1      2
-
+        
     .EXAMPLE
         PS C:\> Get-D365VisualStudioCompilerResult -OutputTotals
         
