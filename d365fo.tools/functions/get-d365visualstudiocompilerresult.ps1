@@ -106,6 +106,7 @@
 #>
 function Get-D365VisualStudioCompilerResult {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [OutputType('[PsCustomObject]')]
     param (
         [string] $Module = "*",

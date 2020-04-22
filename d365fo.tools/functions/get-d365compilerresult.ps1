@@ -94,6 +94,7 @@
 #>
 function Get-D365CompilerResult {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [OutputType('[PsCustomObject]')]
     param (
         [parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
