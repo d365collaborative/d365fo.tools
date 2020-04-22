@@ -50,6 +50,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter OutputAsObjects' {
+			$parameter = (Get-Command Get-D365VisualStudioCompilerResult).Parameters['OutputAsObjects']
+			$parameter.Name | Should -Be 'OutputAsObjects'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter PackageDirectory' {
 			$parameter = (Get-Command Get-D365VisualStudioCompilerResult).Parameters['PackageDirectory']
 			$parameter.Name | Should -Be 'PackageDirectory'
@@ -68,7 +81,7 @@
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -
-		__AllParameterSets -Module -ErrorsOnly -OutputTotals -PackageDirectory
+		__AllParameterSets -Module -ErrorsOnly -OutputTotals -OutputAsObjects -PackageDirectory
 		#>
 	}
 
