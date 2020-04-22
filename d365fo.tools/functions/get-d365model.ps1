@@ -25,7 +25,7 @@
         
     .PARAMETER ExcludeMicrosoftModels
         Instructs the cmdlet to filter out all models that has Microsoft as the publisher
-
+        
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
