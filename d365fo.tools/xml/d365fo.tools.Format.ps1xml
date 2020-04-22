@@ -480,5 +480,41 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		<View>
+			<Name>D365FO.TOOLS.CompilerOutput</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.CompilerOutput</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Alignment>Left</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>9</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>9</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>File</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Warnings</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Errors</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

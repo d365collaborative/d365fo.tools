@@ -13,8 +13,8 @@ Get available model from Dynamics 365 Finance & Operations environment
 ## SYNTAX
 
 ```
-Get-D365Model [[-Name] <String>] [[-Module] <String>] [-CustomizableOnly] [[-BinDir] <String>]
- [[-PackageDirectory] <String>] [<CommonParameters>]
+Get-D365Model [[-Name] <String>] [[-Module] <String>] [-CustomizableOnly] [-ExcludeMicrosoftModels]
+ [[-BinDir] <String>] [[-PackageDirectory] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -59,6 +59,21 @@ AtlMaterialhandling              AtlMaterialhandling                 Allow      
 
 ### EXAMPLE 3
 ```
+Get-D365Model -CustomizableOnly -ExcludeMicrosoftModels
+```
+
+Shows only the models that are marked as customizable.
+Will exclude all models where Microsoft is the publisher.
+Will only include models that is Customization = "Allow".
+
+A result set example:
+
+ModelName                        Module                              Customization        Id Publisher
+---------                        ------                              -------------        -- ---------
+Custom                           Custom                              Allow         895972068 Custom Corporation
+
+### EXAMPLE 4
+```
 Get-D365Model -Name "Application*Adaptor"
 ```
 
@@ -73,7 +88,7 @@ ApplicationPlatformFormAdaptor   ApplicationPlatformFormAdaptor   Allow         
 ApplicationSuiteFormAdaptor      ApplicationSuiteFormAdaptor      DoNotAllow    855028 Microsoft Corporation
 ApplicationWorkspacesFormAdaptor ApplicationWorkspacesFormAdaptor DoNotAllow    855066 Microsoft Corporation
 
-### EXAMPLE 4
+### EXAMPLE 5
 ```
 Get-D365Model -Module ApplicationSuite
 ```
@@ -90,7 +105,7 @@ SCMControls                                        ApplicationSuite DoNotAllow  
 Tax Books Application Suite Integration            ApplicationSuite DoNotAllow    895570102 Microsoft Corporation
 Tax Engine Application Suite Integration           ApplicationSuite DoNotAllow      8957001 Microsoft Corporation
 
-### EXAMPLE 5
+### EXAMPLE 6
 ```
 Get-D365Model -Name "*Application*" -Module "*Suite*"
 ```
@@ -152,7 +167,22 @@ Accept wildcard characters: False
 ```
 
 ### -CustomizableOnly
-Instructs the cmdlet to filter our all models that cannot be customized
+Instructs the cmdlet to filter out all models that cannot be customized
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludeMicrosoftModels
+Instructs the cmdlet to filter out all models that has Microsoft as the publisher
 
 ```yaml
 Type: SwitchParameter

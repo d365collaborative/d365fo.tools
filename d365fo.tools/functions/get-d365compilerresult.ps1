@@ -19,6 +19,11 @@
     .PARAMETER OutputTotals
         Instructs the cmdlet to output the total errors and warnings after the analysis
         
+    .PARAMETER OutputAsObjects
+        Instructs the cmdlet to output the objects instead of formatting them
+        
+        If you don't assign the output, it will be formatted the same way as the original output, but without the coloring of the column values
+        
     .EXAMPLE
         PS C:\> Get-D365CompilerResult -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log"
         
@@ -34,6 +39,18 @@
         PS C:\> Get-D365CompilerResult -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -ErrorsOnly
         
         This will analyze the compiler log file for warning and errors, but only output if it has errors.
+        
+        A result set example:
+        
+        File                                                                                    Warnings Errors
+        ----                                                                                    -------- ------
+        c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log                                        2      1
+        
+    .EXAMPLE
+        PS C:\> Get-D365CompilerResult -Path "c:\temp\d365fo.tools\Custom\Dynamics.AX.Custom.xppc.log" -ErrorsOnly -OutputAsObjects
+        
+        This will analyze the compiler log file for warning and errors, but only output if it has errors.
+        The output will be PSObjects, which can be assigned to a variable and used for futher analysis.
         
         A result set example:
         
@@ -77,6 +94,7 @@
 #>
 function Get-D365CompilerResult {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [OutputType('[PsCustomObject]')]
     param (
         [parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
@@ -85,7 +103,9 @@ function Get-D365CompilerResult {
 
         [switch] $ErrorsOnly,
 
-        [switch] $OutputTotals
+        [switch] $OutputTotals,
+
+        [switch] $OutputAsObjects
     )
 
     begin {
@@ -118,7 +138,12 @@ function Get-D365CompilerResult {
             $resCol = @($resCol | Where-Object Errors -gt 0)
         }
 
-        $resCol | format-table File, @{Label = "Warnings"; Expression = { $e = [char]27; $color = "93"; "$e[${color}m$($_.Warnings)${e}[0m" }; Align = 'right' }, @{Label = "Errors"; Expression = { $e = [char]27; $color = "91"; "$e[${color}m$($_.Errors)${e}[0m" }; Align = 'right' }
+        if($OutputAsObjects){
+            $resCol
+        }
+        else {
+            $resCol | format-table File, @{Label = "Warnings"; Expression = { $e = [char]27; $color = "93"; "$e[${color}m$($_.Warnings)${e}[0m" }; Align = 'right' }, @{Label = "Errors"; Expression = { $e = [char]27; $color = "91"; "$e[${color}m$($_.Errors)${e}[0m" }; Align = 'right' }
+        }
 
         if ($OutputTotals) {
             Write-PSFHostColor -String "<c='Red'>Total Errors: $totalErrors</c>"

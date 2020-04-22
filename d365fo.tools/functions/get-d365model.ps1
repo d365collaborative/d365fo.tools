@@ -21,7 +21,10 @@
         Default value is "*" which will search across all modules
         
     .PARAMETER CustomizableOnly
-        Instructs the cmdlet to filter our all models that cannot be customized
+        Instructs the cmdlet to filter out all models that cannot be customized
+        
+    .PARAMETER ExcludeMicrosoftModels
+        Instructs the cmdlet to filter out all models that has Microsoft as the publisher
         
     .PARAMETER BinDir
         The path to the bin directory for the environment
@@ -67,6 +70,19 @@
         ApplicationPlatformFormAdaptor   ApplicationPlatformFormAdaptor      Allow            855030 Microsoft Corporation
         AtlCostAccounting                AtlCostAccounting                   Allow         895972481 Microsoft
         AtlMaterialhandling              AtlMaterialhandling                 Allow         895972595 Microsoft Corporation
+        
+    .EXAMPLE
+        PS C:\> Get-D365Model -CustomizableOnly -ExcludeMicrosoftModels
+        
+        Shows only the models that are marked as customizable.
+        Will exclude all models where Microsoft is the publisher.
+        Will only include models that is Customization = "Allow".
+        
+        A result set example:
+        
+        ModelName                        Module                              Customization        Id Publisher
+        ---------                        ------                              -------------        -- ---------
+        Custom                           Custom                              Allow         895972068 Custom Corporation
         
     .EXAMPLE
         PS C:\> Get-D365Model -Name "Application*Adaptor"
@@ -129,6 +145,8 @@ function Get-D365Model {
         [string] $Module = "*",
 
         [switch] $CustomizableOnly,
+        
+        [switch] $ExcludeMicrosoftModels,
 
         [string] $BinDir = "$Script:BinDir\bin",
 
@@ -198,6 +216,8 @@ function Get-D365Model {
             Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
             if ($obj.Name -NotLike $Name) { continue }
 
+            if($ExcludeMicrosoftModels -and $obj.Publisher -like "Microsoft*"){ continue }
+            
             $obj | Select-PSFObject "Name as ModelName",* -ExcludeProperty Name -TypeName "D365FO.TOOLS.ModelInfo"
         }
     }
