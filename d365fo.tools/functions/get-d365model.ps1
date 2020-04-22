@@ -21,8 +21,11 @@
         Default value is "*" which will search across all modules
         
     .PARAMETER CustomizableOnly
-        Instructs the cmdlet to filter our all models that cannot be customized
+        Instructs the cmdlet to filter out all models that cannot be customized
         
+    .PARAMETER ExcludeMicrosoftModels
+        Instructs the cmdlet to filter out all models that has Microsoft as the publisher
+
     .PARAMETER BinDir
         The path to the bin directory for the environment
         

@@ -106,7 +106,7 @@
 #>
 function Get-D365VisualStudioCompilerResult {
     [CmdletBinding()]
-    [OutputType('[PsCustomObject]')]
+    # [OutputType('D365FO.TOOLS.CompilerOutput')]
     param (
         [string] $Module = "*",
 
