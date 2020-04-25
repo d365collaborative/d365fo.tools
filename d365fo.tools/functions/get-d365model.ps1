@@ -28,7 +28,7 @@
         
     .PARAMETER ExcludeBinaryModels
         Instruct the cmdlet to exclude binary models from the output
-
+        
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -57,7 +57,7 @@
         ApplicationFoundation          ApplicationFoundation          False    Allow               450 Microsoft Corporation
         IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
         IsvLicense                     IsvLicense                     True     DoNotAllow    895972028 Isv Corp
-
+        
     .EXAMPLE
         PS C:\> Get-D365Model -CustomizableOnly
         
@@ -73,20 +73,20 @@
         ApplicationPlatformFormAdaptor ApplicationPlatformFormAdaptor False    Allow            855030 Microsoft Corporation
         IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
         
-        .EXAMPLE
+    .EXAMPLE
         PS C:\> Get-D365Model -ExcludeMicrosoftModels
         
         Shows only the models that doesn't have "Microsoft" in the publisher.
         Will only include models that is Publisher -NotLike "Microsoft*".
-
+        
         A result set example:
         
         ModelName                      Module                         IsBinary Customization        Id Publisher
         ---------                      ------                         -------- -------------        -- ---------
         IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
         IsvLicense                     IsvLicense                     True     DoNotAllow    895972028 Isv Corp
-
-        .EXAMPLE
+        
+    .EXAMPLE
         PS C:\> Get-D365Model -ExcludeBinaryModels
         
         Shows only the models that are NOT binary.
@@ -100,7 +100,7 @@
         ApplicationCommon              ApplicationCommon              False    DoNotAllow      8956718 Microsoft
         ApplicationFoundation          ApplicationFoundation          False    Allow               450 Microsoft Corporation
         
-
+        
     .EXAMPLE
         PS C:\> Get-D365Model -CustomizableOnly -ExcludeMicrosoftModels
         
@@ -113,7 +113,7 @@
         ModelName                      Module                         IsBinary Customization        Id Publisher
         ---------                      ------                         -------- -------------        -- ---------
         IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
-
+        
     .EXAMPLE
         PS C:\> Get-D365Model -Name "Application*Adaptor"
         
@@ -127,7 +127,7 @@
         ApplicationPlatformFormAdaptor ApplicationPlatformFormAdaptor False    Allow            855030 Microsoft Corporation
         ApplicationSuiteFormAdaptor    ApplicationSuiteFormAdaptor    False    DoNotAllow       855028 Microsoft Corporation
         ApplicationWorkspacesFormAd... ApplicationWorkspacesFormAd... False    DoNotAllow       855066 Microsoft Corporation
-
+        
     .EXAMPLE
         PS C:\> Get-D365Model -Module ApplicationSuite
         
@@ -142,7 +142,7 @@
         SCMControls                    ApplicationSuite               False    DoNotAllow       855891 Microsoft Corporation
         Tax Books Application Suite... ApplicationSuite               False    DoNotAllow    895570102 Microsoft Corporation
         Tax Engine Application Suit... ApplicationSuite               False    DoNotAllow      8957001 Microsoft Corporation
-
+        
     .EXAMPLE
         PS C:\> Get-D365Model -Name "*Application*" -Module "*Suite*"
         
@@ -157,7 +157,7 @@
         Electronic Reporting Applic... ApplicationSuite               False    DoNotAllow       855009 Microsoft Corporation
         Tax Books Application Suite... ApplicationSuite               False    DoNotAllow    895570102 Microsoft Corporation
         Tax Engine Application Suit... ApplicationSuite               False    DoNotAllow      8957001 Microsoft Corporation
-
+        
     .NOTES
         Tags: PackagesLocalDirectory, Servicing, Model, Models, Module, Modules
         

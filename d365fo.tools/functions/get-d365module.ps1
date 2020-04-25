@@ -15,7 +15,7 @@
         
     .PARAMETER ExcludeBinaryModules
         Instruct the cmdlet to exclude binary modules from the output
-
+        
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -36,7 +36,7 @@
         Shows the entire list of installed packages / modules located in the default location on the machine.
         
         A result set example:
-
+        
         ModuleName                               IsBinary Version         References
         ----------                               -------- -------         ----------
         AccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
@@ -44,22 +44,22 @@
         ApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}
         ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
         Custom                                   True     10.0.0.0        {ApplicationPlatform}
-
+        
     .EXAMPLE
         PS C:\> Get-D365Module -ExcludeBinaryModules
         
         Outputs the all packages / modules that are NOT binary.
         Will only include modules that is IsBinary = "False".
-
+        
         A result set example:
-
+        
         ModuleName                               IsBinary Version         References
         ----------                               -------- -------         ----------
         AccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
         ApplicationCommon                        False    10.0.8008.26462 {ApplicationFoundation, ApplicationPlatform}
         ApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}
         ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
-
+        
     .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor"
         
