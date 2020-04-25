@@ -14,7 +14,7 @@ Get available model from Dynamics 365 Finance & Operations environment
 
 ```
 Get-D365Model [[-Name] <String>] [[-Module] <String>] [-CustomizableOnly] [-ExcludeMicrosoftModels]
- [[-BinDir] <String>] [[-PackageDirectory] <String>] [<CommonParameters>]
+ [-ExcludeBinaryModels] [[-BinDir] <String>] [[-PackageDirectory] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,13 +31,13 @@ Shows the entire list of installed models located in the default location on the
 
 A result set example:
 
-ModelName                        Module                              Customization        Id Publisher
----------                        ------                              -------------        -- ---------
-AccountsPayableMobile            AccountsPayableMobile               DoNotAllow    895571380 Microsoft Corporation
-ApplicationCommon                ApplicationCommon                   DoNotAllow      8956718 Microsoft
-ApplicationFoundation            ApplicationFoundation               Allow               450 Microsoft Corporation
-ApplicationFoundationFormAdaptor ApplicationFoundationFormAdaptor    DoNotAllow       855029 Microsoft Corporation
-ApplicationPlatform              ApplicationPlatform                 Allow               400 Microsoft Corporation
+ModelName                      Module                         IsBinary Customization        Id Publisher
+---------                      ------                         -------- -------------        -- ---------
+AccountsPayableMobile          AccountsPayableMobile          False    DoNotAllow    895571380 Microsoft Corporation
+ApplicationCommon              ApplicationCommon              False    DoNotAllow      8956718 Microsoft
+ApplicationFoundation          ApplicationFoundation          False    Allow               450 Microsoft Corporation
+IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
+IsvLicense                     IsvLicense                     True     DoNotAllow    895972028 Isv Corp
 
 ### EXAMPLE 2
 ```
@@ -49,30 +49,60 @@ Will only include models that is Customization = "Allow".
 
 A result set example:
 
-ModelName                        Module                              Customization        Id Publisher
----------                        ------                              -------------        -- ---------
-ApplicationFoundation            ApplicationFoundation               Allow               450 Microsoft Corporation
-ApplicationPlatform              ApplicationPlatform                 Allow               400 Microsoft Corporation
-ApplicationPlatformFormAdaptor   ApplicationPlatformFormAdaptor      Allow            855030 Microsoft Corporation
-AtlCostAccounting                AtlCostAccounting                   Allow         895972481 Microsoft
-AtlMaterialhandling              AtlMaterialhandling                 Allow         895972595 Microsoft Corporation
+ModelName                      Module                         IsBinary Customization        Id Publisher
+---------                      ------                         -------- -------------        -- ---------
+ApplicationFoundation          ApplicationFoundation          False    Allow               450 Microsoft Corporation
+ApplicationPlatform            ApplicationPlatform            False    Allow               400 Microsoft Corporation
+ApplicationPlatformFormAdaptor ApplicationPlatformFormAdaptor False    Allow            855030 Microsoft Corporation
+IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
 
 ### EXAMPLE 3
+```
+Get-D365Model -ExcludeMicrosoftModels
+```
+
+Shows only the models that doesn't have "Microsoft" in the publisher.
+Will only include models that is Publisher -NotLike "Microsoft*".
+
+A result set example:
+
+ModelName                      Module                         IsBinary Customization        Id Publisher
+---------                      ------                         -------- -------------        -- ---------
+IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
+IsvLicense                     IsvLicense                     True     DoNotAllow    895972028 Isv Corp
+
+### EXAMPLE 4
+```
+Get-D365Model -ExcludeBinaryModels
+```
+
+Shows only the models that are NOT binary.
+Will only include models that is IsBinary = "False".
+
+A result set example:
+
+ModelName                      Module                         IsBinary Customization        Id Publisher
+---------                      ------                         -------- -------------        -- ---------
+AccountsPayableMobile          AccountsPayableMobile          False    DoNotAllow    895571380 Microsoft Corporation
+ApplicationCommon              ApplicationCommon              False    DoNotAllow      8956718 Microsoft
+ApplicationFoundation          ApplicationFoundation          False    Allow               450 Microsoft Corporation
+
+### EXAMPLE 5
 ```
 Get-D365Model -CustomizableOnly -ExcludeMicrosoftModels
 ```
 
-Shows only the models that are marked as customizable.
-Will exclude all models where Microsoft is the publisher.
+Shows only the models that are marked as customizable and NOT from Microsoft.
 Will only include models that is Customization = "Allow".
+Will only include models that is Publisher -NotLike "Microsoft*".
 
 A result set example:
 
-ModelName                        Module                              Customization        Id Publisher
----------                        ------                              -------------        -- ---------
-Custom                           Custom                              Allow         895972068 Custom Corporation
+ModelName                      Module                         IsBinary Customization        Id Publisher
+---------                      ------                         -------- -------------        -- ---------
+IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
 
-### EXAMPLE 4
+### EXAMPLE 6
 ```
 Get-D365Model -Name "Application*Adaptor"
 ```
@@ -81,14 +111,18 @@ Shows the list of models where the name fits the search "Application*Adaptor".
 
 A result set example:
 
-ModelName                        Module                           Customization     Id Publisher
----------                        ------                           -------------     -- ---------
-ApplicationFoundationFormAdaptor ApplicationFoundationFormAdaptor DoNotAllow    855029 Microsoft Corporation
-ApplicationPlatformFormAdaptor   ApplicationPlatformFormAdaptor   Allow         855030 Microsoft Corporation
-ApplicationSuiteFormAdaptor      ApplicationSuiteFormAdaptor      DoNotAllow    855028 Microsoft Corporation
-ApplicationWorkspacesFormAdaptor ApplicationWorkspacesFormAdaptor DoNotAllow    855066 Microsoft Corporation
+ModelName                      Module                         IsBinary Customization        Id Publisher
+---------                      ------                         -------- -------------        -- ---------
+ApplicationFoundationFormAd...
+ApplicationFoundationFormAd...
+False    DoNotAllow       855029 Microsoft Corporation
+ApplicationPlatformFormAdaptor ApplicationPlatformFormAdaptor False    Allow            855030 Microsoft Corporation
+ApplicationSuiteFormAdaptor    ApplicationSuiteFormAdaptor    False    DoNotAllow       855028 Microsoft Corporation
+ApplicationWorkspacesFormAd...
+ApplicationWorkspacesFormAd...
+False    DoNotAllow       855066 Microsoft Corporation
 
-### EXAMPLE 5
+### EXAMPLE 7
 ```
 Get-D365Model -Module ApplicationSuite
 ```
@@ -97,15 +131,18 @@ Shows only the models that are inside the ApplicationSuite module.
 
 A result set example:
 
-ModelName                                          Module           Customization        Id Publisher
----------                                          ------           -------------        -- ---------
-Electronic Reporting Application Suite Integration ApplicationSuite DoNotAllow       855009 Microsoft Corporation
-Foundation                                         ApplicationSuite DoNotAllow           17 Microsoft Corporation
-SCMControls                                        ApplicationSuite DoNotAllow       855891 Microsoft Corporation
-Tax Books Application Suite Integration            ApplicationSuite DoNotAllow    895570102 Microsoft Corporation
-Tax Engine Application Suite Integration           ApplicationSuite DoNotAllow      8957001 Microsoft Corporation
+ModelName                      Module                         IsBinary Customization        Id Publisher
+---------                      ------                         -------- -------------        -- ---------
+Electronic Reporting Applic...
+ApplicationSuite               False    DoNotAllow       855009 Microsoft Corporation
+Foundation                     ApplicationSuite               False    DoNotAllow           17 Microsoft Corporation
+SCMControls                    ApplicationSuite               False    DoNotAllow       855891 Microsoft Corporation
+Tax Books Application Suite...
+ApplicationSuite               False    DoNotAllow    895570102 Microsoft Corporation
+Tax Engine Application Suit...
+ApplicationSuite               False    DoNotAllow      8957001 Microsoft Corporation
 
-### EXAMPLE 6
+### EXAMPLE 8
 ```
 Get-D365Model -Name "*Application*" -Module "*Suite*"
 ```
@@ -114,13 +151,16 @@ Shows the list of models where the name fits the search "*Application*" and the 
 
 A result set example:
 
-ModelName                                          Module                      Customization        Id Publisher
----------                                          ------                      -------------        -- ---------
-ApplicationSuiteFormAdaptor                        ApplicationSuiteFormAdaptor DoNotAllow       855028 Microsoft Cor...
-AtlApplicationSuite                                AtlApplicationSuite         DoNotAllow    895972466 Microsoft Cor...
-Electronic Reporting Application Suite Integration ApplicationSuite            DoNotAllow       855009 Microsoft Cor...
-Tax Books Application Suite Integration            ApplicationSuite            DoNotAllow    895570102 Microsoft Cor...
-Tax Engine Application Suite Integration           ApplicationSuite            DoNotAllow      8957001 Microsoft Cor...
+ModelName                      Module                         IsBinary Customization        Id Publisher
+---------                      ------                         -------- -------------        -- ---------
+ApplicationSuiteFormAdaptor    ApplicationSuiteFormAdaptor    False    DoNotAllow       855028 Microsoft Corporation
+AtlApplicationSuite            AtlApplicationSuite            False    DoNotAllow    895972466 Microsoft Corporation
+Electronic Reporting Applic...
+ApplicationSuite               False    DoNotAllow       855009 Microsoft Corporation
+Tax Books Application Suite...
+ApplicationSuite               False    DoNotAllow    895570102 Microsoft Corporation
+Tax Engine Application Suit...
+ApplicationSuite               False    DoNotAllow      8957001 Microsoft Corporation
 
 ## PARAMETERS
 
@@ -182,7 +222,22 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeMicrosoftModels
-Instructs the cmdlet to filter out all models that has Microsoft as the publisher
+Instructs the cmdlet to exclude all models that has Microsoft as the publisher from the output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludeBinaryModels
+Instruct the cmdlet to exclude binary models from the output
 
 ```yaml
 Type: SwitchParameter
