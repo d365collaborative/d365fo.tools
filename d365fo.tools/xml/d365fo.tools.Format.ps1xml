@@ -441,10 +441,13 @@
 			<TableControl>
 				<TableHeaders>
 					<TableColumnHeader>
-						<Width>32</Width>
+						<Width>30</Width>
 					</TableColumnHeader>
 					<TableColumnHeader>
-						<Width>35</Width>
+						<Width>30</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>8</Width>
 					</TableColumnHeader>
 					<TableColumnHeader>
 						<Width>13</Width>
@@ -465,6 +468,9 @@
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>Module</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>IsBinary</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>Customization</PropertyName>
@@ -516,5 +522,46 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		<View>
+			<Name>D365FO.TOOLS.ModuleInfo</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.ModuleInfo</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Width>40</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>8</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>15</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Alignment>Left</Alignment>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>ModuleName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>IsBinary</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Version</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>References</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		
 	</ViewDefinitions>
 </Configuration>

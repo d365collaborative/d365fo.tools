@@ -13,6 +13,9 @@
         
         Default value is "*" which will search for all packages / modules
         
+    .PARAMETER ExcludeBinaryModules
+        Instruct the cmdlet to exclude binary modules from the output
+
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -32,21 +35,44 @@
         
         Shows the entire list of installed packages / modules located in the default location on the machine.
         
+        A result set example:
+
+        ModuleName                               IsBinary Version         References
+        ----------                               -------- -------         ----------
+        AccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
+        ApplicationCommon                        False    10.0.8008.26462 {ApplicationFoundation, ApplicationPlatform}
+        ApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}
+        ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
+        Custom                                   True     10.0.0.0        {ApplicationPlatform}
+
+    .EXAMPLE
+        PS C:\> Get-D365Module -ExcludeBinaryModules
+        
+        Outputs the all packages / modules that are NOT binary.
+        Will only include modules that is IsBinary = "False".
+
+        A result set example:
+
+        ModuleName                               IsBinary Version         References
+        ----------                               -------- -------         ----------
+        AccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
+        ApplicationCommon                        False    10.0.8008.26462 {ApplicationFoundation, ApplicationPlatform}
+        ApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}
+        ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
+
     .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor"
         
         Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
         
         A result set example:
-        ApplicationFoundationFormAdaptor
-        ApplicationPlatformFormAdaptor
-        ApplicationSuiteFormAdaptor
-        ApplicationWorkspacesFormAdaptor
         
-    .EXAMPLE
-        PS C:\> Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
-        
-        Shows the entire list of installed packages / modules located in "J:\AOSService\PackagesLocalDirectory" on the machine
+        ModuleName                               IsBinary Version         References
+        ----------                               -------- -------         ----------
+        ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
+        ApplicationPlatformFormAdaptor           False    7.0.4841.35227  {ApplicationPlatform, TestEssentials}
+        ApplicationSuiteFormAdaptor              False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
+        ApplicationWorkspacesFormAdaptor         False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
         
     .NOTES
         Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages
@@ -60,6 +86,8 @@ function Get-D365Module {
     [CmdletBinding()]
     param (
         [string] $Name = "*",
+
+        [switch] $ExcludeBinaryModules,
 
         [string] $BinDir = "$Script:BinDir\bin",
 
@@ -93,6 +121,9 @@ function Get-D365Module {
         Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProviderViaRuntime
 
         $modules = $metadataProviderViaRuntime.ModelManifest.ListModules()
+        $modules | ForEach-Object {
+            $_ | Add-Member -MemberType NoteProperty -Name 'IsBinary' -Value $false
+        }
 
         Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
     
@@ -108,11 +139,15 @@ function Get-D365Module {
 
             $diskModules = $metadataProviderViaDisk.ModelManifest.ListModules()
 
-            foreach ($module in $diskModules) {
-                if ($modules.Name -NotContains $module.Name) {
-                    $modules += $module
+            foreach($module in $modules) {
+                if ($diskModules.Name -NotContains $module.Name) {
+                    $module.IsBinary = $true
                 }
             }
+        }
+
+        if($ExcludeBinaryModules -eq $true){
+            $modules = $modules | Where-Object IsBinary -eq $false
         }
 
         Write-PSFMessage -Level Verbose -Message "Looping through all modules."
@@ -122,7 +157,10 @@ function Get-D365Module {
             if ($obj.Name -NotLike $Name) { continue }
 
             $res = [Ordered]@{
-                Module     = $obj.Name
+                Module = $obj.Name
+                ModuleName = $obj.Name
+                IsBinary = $obj.IsBinary
+                PSTypeName = 'D365FO.TOOLS.ModuleInfo'
             }
 
             $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"

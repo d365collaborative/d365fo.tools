@@ -24,8 +24,11 @@
         Instructs the cmdlet to filter out all models that cannot be customized
         
     .PARAMETER ExcludeMicrosoftModels
-        Instructs the cmdlet to filter out all models that has Microsoft as the publisher
+        Instructs the cmdlet to exclude all models that has Microsoft as the publisher from the output
         
+    .PARAMETER ExcludeBinaryModels
+        Instruct the cmdlet to exclude binary models from the output
+
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -47,14 +50,14 @@
         
         A result set example:
         
-        ModelName                        Module                              Customization        Id Publisher
-        ---------                        ------                              -------------        -- ---------
-        AccountsPayableMobile            AccountsPayableMobile               DoNotAllow    895571380 Microsoft Corporation
-        ApplicationCommon                ApplicationCommon                   DoNotAllow      8956718 Microsoft
-        ApplicationFoundation            ApplicationFoundation               Allow               450 Microsoft Corporation
-        ApplicationFoundationFormAdaptor ApplicationFoundationFormAdaptor    DoNotAllow       855029 Microsoft Corporation
-        ApplicationPlatform              ApplicationPlatform                 Allow               400 Microsoft Corporation
-        
+        ModelName                      Module                         IsBinary Customization        Id Publisher
+        ---------                      ------                         -------- -------------        -- ---------
+        AccountsPayableMobile          AccountsPayableMobile          False    DoNotAllow    895571380 Microsoft Corporation
+        ApplicationCommon              ApplicationCommon              False    DoNotAllow      8956718 Microsoft
+        ApplicationFoundation          ApplicationFoundation          False    Allow               450 Microsoft Corporation
+        IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
+        IsvLicense                     IsvLicense                     True     DoNotAllow    895972028 Isv Corp
+
     .EXAMPLE
         PS C:\> Get-D365Model -CustomizableOnly
         
@@ -63,27 +66,54 @@
         
         A result set example:
         
-        ModelName                        Module                              Customization        Id Publisher
-        ---------                        ------                              -------------        -- ---------
-        ApplicationFoundation            ApplicationFoundation               Allow               450 Microsoft Corporation
-        ApplicationPlatform              ApplicationPlatform                 Allow               400 Microsoft Corporation
-        ApplicationPlatformFormAdaptor   ApplicationPlatformFormAdaptor      Allow            855030 Microsoft Corporation
-        AtlCostAccounting                AtlCostAccounting                   Allow         895972481 Microsoft
-        AtlMaterialhandling              AtlMaterialhandling                 Allow         895972595 Microsoft Corporation
+        ModelName                      Module                         IsBinary Customization        Id Publisher
+        ---------                      ------                         -------- -------------        -- ---------
+        ApplicationFoundation          ApplicationFoundation          False    Allow               450 Microsoft Corporation
+        ApplicationPlatform            ApplicationPlatform            False    Allow               400 Microsoft Corporation
+        ApplicationPlatformFormAdaptor ApplicationPlatformFormAdaptor False    Allow            855030 Microsoft Corporation
+        IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
         
-    .EXAMPLE
-        PS C:\> Get-D365Model -CustomizableOnly -ExcludeMicrosoftModels
+        .EXAMPLE
+        PS C:\> Get-D365Model -ExcludeMicrosoftModels
         
-        Shows only the models that are marked as customizable.
-        Will exclude all models where Microsoft is the publisher.
-        Will only include models that is Customization = "Allow".
+        Shows only the models that doesn't have "Microsoft" in the publisher.
+        Will only include models that is Publisher -NotLike "Microsoft*".
+
+        A result set example:
+        
+        ModelName                      Module                         IsBinary Customization        Id Publisher
+        ---------                      ------                         -------- -------------        -- ---------
+        IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
+        IsvLicense                     IsvLicense                     True     DoNotAllow    895972028 Isv Corp
+
+        .EXAMPLE
+        PS C:\> Get-D365Model -ExcludeBinaryModels
+        
+        Shows only the models that are NOT binary.
+        Will only include models that is IsBinary = "False".
         
         A result set example:
         
-        ModelName                        Module                              Customization        Id Publisher
-        ---------                        ------                              -------------        -- ---------
-        Custom                           Custom                              Allow         895972068 Custom Corporation
+        ModelName                      Module                         IsBinary Customization        Id Publisher
+        ---------                      ------                         -------- -------------        -- ---------
+        AccountsPayableMobile          AccountsPayableMobile          False    DoNotAllow    895571380 Microsoft Corporation
+        ApplicationCommon              ApplicationCommon              False    DoNotAllow      8956718 Microsoft
+        ApplicationFoundation          ApplicationFoundation          False    Allow               450 Microsoft Corporation
         
+
+    .EXAMPLE
+        PS C:\> Get-D365Model -CustomizableOnly -ExcludeMicrosoftModels
+        
+        Shows only the models that are marked as customizable and NOT from Microsoft.
+        Will only include models that is Customization = "Allow".
+        Will only include models that is Publisher -NotLike "Microsoft*".
+        
+        A result set example:
+        
+        ModelName                      Module                         IsBinary Customization        Id Publisher
+        ---------                      ------                         -------- -------------        -- ---------
+        IsvFoundation                  IsvFoundation                  True     Allow         895972027 Isv Corp
+
     .EXAMPLE
         PS C:\> Get-D365Model -Name "Application*Adaptor"
         
@@ -91,13 +121,13 @@
         
         A result set example:
         
-        ModelName                        Module                           Customization     Id Publisher
-        ---------                        ------                           -------------     -- ---------
-        ApplicationFoundationFormAdaptor ApplicationFoundationFormAdaptor DoNotAllow    855029 Microsoft Corporation
-        ApplicationPlatformFormAdaptor   ApplicationPlatformFormAdaptor   Allow         855030 Microsoft Corporation
-        ApplicationSuiteFormAdaptor      ApplicationSuiteFormAdaptor      DoNotAllow    855028 Microsoft Corporation
-        ApplicationWorkspacesFormAdaptor ApplicationWorkspacesFormAdaptor DoNotAllow    855066 Microsoft Corporation
-        
+        ModelName                      Module                         IsBinary Customization        Id Publisher
+        ---------                      ------                         -------- -------------        -- ---------
+        ApplicationFoundationFormAd... ApplicationFoundationFormAd... False    DoNotAllow       855029 Microsoft Corporation
+        ApplicationPlatformFormAdaptor ApplicationPlatformFormAdaptor False    Allow            855030 Microsoft Corporation
+        ApplicationSuiteFormAdaptor    ApplicationSuiteFormAdaptor    False    DoNotAllow       855028 Microsoft Corporation
+        ApplicationWorkspacesFormAd... ApplicationWorkspacesFormAd... False    DoNotAllow       855066 Microsoft Corporation
+
     .EXAMPLE
         PS C:\> Get-D365Model -Module ApplicationSuite
         
@@ -105,14 +135,14 @@
         
         A result set example:
         
-        ModelName                                          Module           Customization        Id Publisher
-        ---------                                          ------           -------------        -- ---------
-        Electronic Reporting Application Suite Integration ApplicationSuite DoNotAllow       855009 Microsoft Corporation
-        Foundation                                         ApplicationSuite DoNotAllow           17 Microsoft Corporation
-        SCMControls                                        ApplicationSuite DoNotAllow       855891 Microsoft Corporation
-        Tax Books Application Suite Integration            ApplicationSuite DoNotAllow    895570102 Microsoft Corporation
-        Tax Engine Application Suite Integration           ApplicationSuite DoNotAllow      8957001 Microsoft Corporation
-        
+        ModelName                      Module                         IsBinary Customization        Id Publisher
+        ---------                      ------                         -------- -------------        -- ---------
+        Electronic Reporting Applic... ApplicationSuite               False    DoNotAllow       855009 Microsoft Corporation
+        Foundation                     ApplicationSuite               False    DoNotAllow           17 Microsoft Corporation
+        SCMControls                    ApplicationSuite               False    DoNotAllow       855891 Microsoft Corporation
+        Tax Books Application Suite... ApplicationSuite               False    DoNotAllow    895570102 Microsoft Corporation
+        Tax Engine Application Suit... ApplicationSuite               False    DoNotAllow      8957001 Microsoft Corporation
+
     .EXAMPLE
         PS C:\> Get-D365Model -Name "*Application*" -Module "*Suite*"
         
@@ -120,14 +150,14 @@
         
         A result set example:
         
-        ModelName                                          Module                      Customization        Id Publisher
-        ---------                                          ------                      -------------        -- ---------
-        ApplicationSuiteFormAdaptor                        ApplicationSuiteFormAdaptor DoNotAllow       855028 Microsoft Cor...
-        AtlApplicationSuite                                AtlApplicationSuite         DoNotAllow    895972466 Microsoft Cor...
-        Electronic Reporting Application Suite Integration ApplicationSuite            DoNotAllow       855009 Microsoft Cor...
-        Tax Books Application Suite Integration            ApplicationSuite            DoNotAllow    895570102 Microsoft Cor...
-        Tax Engine Application Suite Integration           ApplicationSuite            DoNotAllow      8957001 Microsoft Cor...
-        
+        ModelName                      Module                         IsBinary Customization        Id Publisher
+        ---------                      ------                         -------- -------------        -- ---------
+        ApplicationSuiteFormAdaptor    ApplicationSuiteFormAdaptor    False    DoNotAllow       855028 Microsoft Corporation
+        AtlApplicationSuite            AtlApplicationSuite            False    DoNotAllow    895972466 Microsoft Corporation
+        Electronic Reporting Applic... ApplicationSuite               False    DoNotAllow       855009 Microsoft Corporation
+        Tax Books Application Suite... ApplicationSuite               False    DoNotAllow    895570102 Microsoft Corporation
+        Tax Engine Application Suit... ApplicationSuite               False    DoNotAllow      8957001 Microsoft Corporation
+
     .NOTES
         Tags: PackagesLocalDirectory, Servicing, Model, Models, Module, Modules
         
@@ -147,6 +177,8 @@ function Get-D365Model {
         [switch] $CustomizableOnly,
         
         [switch] $ExcludeMicrosoftModels,
+
+        [switch] $ExcludeBinaryModels,
 
         [string] $BinDir = "$Script:BinDir\bin",
 
@@ -176,6 +208,9 @@ function Get-D365Model {
         Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProviderViaRuntime
 
         $models = $metadataProviderViaRuntime.ModelManifest.ListModelInfos()
+        $models | ForEach-Object {
+            $_ | Add-Member -MemberType NoteProperty -Name 'IsBinary' -Value $false
+        }
 
         Write-PSFMessage -Level Verbose -Message "Testing if the cmdlet is running on a OneBox or not." -Target $Script:IsOnebox
     
@@ -191,15 +226,19 @@ function Get-D365Model {
 
             $diskModels = $metadataProviderViaDisk.ModelManifest.ListModelInfos()
 
-            foreach ($model in $diskModels) {
-                if ($models.Name -NotContains $model.Name) {
-                    $models += $model
+            foreach($model in $models) {
+                if ($diskModels.Name -NotContains $model.Name) {
+                    $model.IsBinary = $true
                 }
             }
         }
 
-        if($CustomizableOnly){
+        if ($CustomizableOnly) {
             $models = $models | Where-Object Customization -eq "Allow"
+        }
+
+        if($ExcludeBinaryModels -eq $true){
+            $models = $models | Where-Object IsBinary -eq $false
         }
     }
 
@@ -210,15 +249,15 @@ function Get-D365Model {
         
         $modelsLocal = $modelsLocal | Where-Object Module -like $Module
 
-        Write-PSFMessage -Level Verbose -Message "Looping through all modules."
+        Write-PSFMessage -Level Verbose -Message "Looping through all models."
 
         foreach ($obj in $($modelsLocal | Sort-Object Name, Module)) {
-            Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
+            Write-PSFMessage -Level Verbose -Message "Filtering out all models that doesn't match the model search." -Target $obj
             if ($obj.Name -NotLike $Name) { continue }
 
-            if($ExcludeMicrosoftModels -and $obj.Publisher -like "Microsoft*"){ continue }
+            if ($ExcludeMicrosoftModels -and $obj.Publisher -like "Microsoft*") { continue }
             
-            $obj | Select-PSFObject "Name as ModelName",* -ExcludeProperty Name -TypeName "D365FO.TOOLS.ModelInfo"
+            $obj | Select-PSFObject "Name as ModelName", * -ExcludeProperty Name -TypeName "D365FO.TOOLS.ModelInfo"
         }
     }
 }
