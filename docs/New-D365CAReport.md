@@ -55,7 +55,7 @@ Name of the Module to analyse
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Package
+Aliases: ModuleName, Package
 
 Required: True
 Position: 2

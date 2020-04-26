@@ -49,7 +49,7 @@ Name of the package that you want to work against
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModuleName
 
 Required: True
 Position: 1

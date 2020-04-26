@@ -49,7 +49,7 @@ The package to compile
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModuleName
 
 Required: True
 Position: 1

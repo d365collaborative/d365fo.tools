@@ -49,7 +49,7 @@ Default value is "*" which will search for all modules
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModuleName
 
 Required: False
 Position: 1
