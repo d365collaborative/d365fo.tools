@@ -67,6 +67,7 @@ function Invoke-D365ModuleCompile {
     [OutputType('[PsCustomObject]')]
     param (
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias("ModuleName")]
         [string] $Module,
 
         [Alias('Output')]

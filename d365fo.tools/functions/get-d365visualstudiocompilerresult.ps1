@@ -109,6 +109,7 @@ function Get-D365VisualStudioCompilerResult {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [OutputType('[PsCustomObject]')]
     param (
+        [Alias("ModuleName")]
         [string] $Module = "*",
 
         [switch] $ErrorsOnly,

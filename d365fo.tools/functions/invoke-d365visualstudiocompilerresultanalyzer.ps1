@@ -66,6 +66,7 @@ function Invoke-D365VisualStudioCompilerResultAnalyzer {
     [CmdletBinding()]
     [OutputType('')]
     param (
+        [Alias("ModuleName")]
         [string] $Module = "*",
 
         [string] $OutputPath = $Script:DefaultTempPath,

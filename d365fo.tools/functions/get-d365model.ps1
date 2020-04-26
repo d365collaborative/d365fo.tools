@@ -172,6 +172,7 @@ function Get-D365Model {
         [string] $Name = "*",
 
         [Parameter(ValueFromPipelineByPropertyName = $true)]
+        [Alias("ModuleName")]
         [string] $Module = "*",
 
         [switch] $CustomizableOnly,

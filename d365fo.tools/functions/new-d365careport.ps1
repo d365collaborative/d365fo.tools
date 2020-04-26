@@ -64,6 +64,7 @@ function New-D365CAReport {
 
         [Parameter(Mandatory = $true)]
         [Alias('Package')]
+        [Alias("ModuleName")]
         [string] $Module,
         
         [Parameter(Mandatory = $true)]
