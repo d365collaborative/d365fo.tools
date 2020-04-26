@@ -1,8 +1,8 @@
 ﻿# **d365fo.tools**
-Powershell module to handle the different management tasks during a Dynamics 365 Finace & Operations (D365FO)
+PowerShell module to handle the different management tasks during a Dynamics 365 Finance & Operations (D365FO)
 Read more about D365FO on [docs.microsoft.com](https://docs.microsoft.com/en-us/dynamics365/unified-operations/fin-and-ops/index)
 
-Available on Powershellgallery
+Available on PowerShell Gallery
 [d365fo.tools](https://www.powershellgallery.com/packages/d365fo.tools)
 
 ## **Getting started**
