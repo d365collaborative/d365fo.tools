@@ -22,21 +22,28 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
-    .PARAMETER NewDatabaseName
+    .PARAMETER SourceDatabaseName
         The database that takes the DatabaseName's place
+        
+    .PARAMETER DestinationSuffix
+        The suffix that you want to append onto the database that is being switched out (DestinationDatabaseName / DatabaseName)
+        
+        The default value is "_original" to mimic the official guides from Microsoft
         
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
+        PS C:\> Switch-D365ActiveDatabase -SourceDatabaseName "GoldenConfig"
         
         This will switch the default database AXDB out and put "GoldenConfig" in its place instead.
         
     .NOTES
-        Author: Rasmus Andersen (@ITRasmus)
+        
         Author: Mötz Jensen (@Splaxi)
+        
+        Author: Rasmus Andersen (@ITRasmus)
         
 #>
 function Switch-D365ActiveDatabase {
