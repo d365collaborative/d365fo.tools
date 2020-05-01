@@ -42,43 +42,46 @@
 function Switch-D365ActiveDatabase {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, Position = 1)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 2)]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [Alias('DestinationDatabaseName')]
+        [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 3)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
         
-        [Parameter(Mandatory = $true, Position = 5)]
-        [string]$NewDatabaseName,
+        [Parameter(Mandatory = $true)]
+        [Alias('NewDatabaseName')]
+        [string] $SourceDatabaseName,
+
+        [string] $DestinationSuffix = "_original",
 
         [switch] $EnableException
     )
 
-    $Params = Get-DeepClone $PSBoundParameters
-    if ($Params.ContainsKey("NewDatabaseName")) { $null = $Params.Remove("NewDatabaseName") }
+    $dbToBeName = "$DatabaseName$DestinationSuffix"
+
+    $SqlParamsToBe = @{ DatabaseServer = $DatabaseServer; DatabaseName = "master";
+        SqlUser = $SqlUser; SqlPwd = $SqlPwd
+    }
     
-    $dbName = Get-D365Database -Name "$DatabaseName`_original" @Params
+    $dbName = Get-D365Database -Name "$dbToBeName" @SqlParamsToBe
 
     if (-not($null -eq $dbName)) {
-        $messageString = "There <c='em'>already exists</c> a database named: <c='em'>`"$DatabaseName`_original`"</c> on the server. You need to run the <c='em'>Remove-D365Database</c> cmdlet to remove the already existing database. Re-run this cmdlet once the other database has been removed."
-        Write-PSFMessage -Level Host -Message $messageString -Target $DatabaseName
+        $messageString = "There <c='em'>already exists</c> a database named: <c='em'>`"$dbToBeName`"</c> on the server. You need to run the <c='em'>Remove-D365Database</c> cmdlet to remove the already existing database. Re-run this cmdlet once the other database has been removed."
+        Write-PSFMessage -Level Host -Message $messageString -Target $dbToBeName
         Stop-PSFFunction -Message "Stopping because database already exists on the server." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
         return
     }
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $NewDatabaseName;
+    $SqlParamsSource = @{ DatabaseServer = $DatabaseServer; DatabaseName = $SourceDatabaseName;
         SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
-    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
+    $SqlCommand = Get-SqlCommand @SqlParamsSource -TrustedConnection $UseTrustedConnection
 
     $SqlCommand.CommandText = "SELECT COUNT(1) FROM dbo.USERINFO WHERE ID = 'Admin'"
 
@@ -92,7 +95,7 @@ function Switch-D365ActiveDatabase {
     catch {
         $messageString = "It seems that the new database either <c='em'>doesn't exists</c>, isn't a <c='em'>valid</c> AxDB database or your don't have enough <c='em'>permissions</c>."
         Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
-        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
         return
     }
     finally {
@@ -101,7 +104,7 @@ function Switch-D365ActiveDatabase {
         }
     }
     
-    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = "Master";
+    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = "master";
         SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
@@ -116,12 +119,13 @@ function Switch-D365ActiveDatabase {
     
     $sqlCommand.CommandText = $commandText
 
-    $null = $sqlCommand.Parameters.AddWithValue("@OrigName", $DatabaseName)
-    $null = $sqlCommand.Parameters.AddWithValue("@NewName", $NewDatabaseName)
+    $null = $sqlCommand.Parameters.AddWithValue("@DestinationName", $DatabaseName)
+    $null = $sqlCommand.Parameters.AddWithValue("@SourceName", $SourceDatabaseName)
+    $null = $sqlCommand.Parameters.AddWithValue("@ToBeName", $dbToBeName)
 
     try {
         Write-PSFMessage -Level InternalComment -Message "Executing a script against the database." -Target (Get-SqlString $SqlCommand)
-        Write-PSFMessage -Level Verbose -Message "Switching out the AXDB database with: $NewDatabaseName." -Target (Get-SqlString $SqlCommand)
+        Write-PSFMessage -Level Verbose -Message "Switching out the $DatabaseName database with: $SourceDatabaseName." -Target (Get-SqlString $SqlCommand)
 
         $sqlCommand.Connection.Open()
 
@@ -130,7 +134,7 @@ function Switch-D365ActiveDatabase {
     catch {
         $messageString = "Something went wrong while <c='em'>switching</c> out the AXDB database."
         Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
-        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_ -StepsUpward 1
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
         return
     }
     finally {
@@ -142,6 +146,6 @@ function Switch-D365ActiveDatabase {
     }
     
     [PSCustomObject]@{
-        OldDatabaseNewName = "$DatabaseName`_original"
+        OldDatabaseNewName = "$dbToBeName"
     }
 }
