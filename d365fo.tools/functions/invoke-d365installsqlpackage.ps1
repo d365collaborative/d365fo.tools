@@ -22,9 +22,35 @@
         The default value is for v18.4.1 (15.0.4630.1) as of writing
         
     .EXAMPLE
-        PS C:\> Invoke-D365InstallSqlPackage -Path "C:\temp\d365fo.tools\SqlPackage"
+        PS C:\> Invoke-D365InstallSqlPackage
         
-        This will update the path for the SqlPackage.exe in the modules configuration
+        This will download and extract the latest SqlPackage.exe.
+        It will use the default value for the Path parameter, for where to save the SqlPackage.exe.
+        It will try to extract the latest download URL from the RAW html page.
+        It will update the path for the SqlPackage.exe in configuration.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365InstallSqlPackage -Path "C:\temp\SqlPackage"
+        
+        This will download and extract the latest SqlPackage.exe.
+        It will try to extract the latest download URL from the RAW html page.
+        It will update the path for the SqlPackage.exe in configuration.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365InstallSqlPackage -SkipExtractFromPage
+        
+        This will download and extract the latest SqlPackage.exe.
+        It will rely on the Url parameter to based the download from.
+        It will use the default value of the Url parameter.
+        It will update the path for the SqlPackage.exe in configuration.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365InstallSqlPackage -SkipExtractFromPage -Url "https://go.microsoft.com/fwlink/?linkid=3030303"
+        
+        This will download and extract the latest SqlPackage.exe.
+        It will rely on the Url parameter to based the download from.
+        It will use the "https://go.microsoft.com/fwlink/?linkid=3030303" as value for the Url parameter.
+        It will update the path for the SqlPackage.exe in configuration.
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
