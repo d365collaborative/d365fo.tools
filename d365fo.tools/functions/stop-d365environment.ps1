@@ -59,6 +59,11 @@
         
         This will stop the Aos & Batch D365FO services on the machine.
         
+    .EXAMPLE
+        PS C:\> Stop-D365Environment -FinancialReporter -DMF
+        
+        This will stop the FinancialReporter and DMF services on the machine.
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         
