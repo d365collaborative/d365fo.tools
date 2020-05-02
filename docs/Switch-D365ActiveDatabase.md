@@ -15,7 +15,8 @@ The Old wil be renamed _original
 
 ```
 Switch-D365ActiveDatabase [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
- [[-SqlPwd] <String>] [-NewDatabaseName] <String> [-EnableException] [<CommonParameters>]
+ [[-SqlPwd] <String>] [-SourceDatabaseName] <String> [[-DestinationSuffix] <String>] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,10 +27,27 @@ The Old wil be renamed _original
 
 ### EXAMPLE 1
 ```
-Switch-D365ActiveDatabase -NewDatabaseName "GoldenConfig"
+Switch-D365ActiveDatabase -SourceDatabaseName "GoldenConfig"
 ```
 
 This will switch the default database AXDB out and put "GoldenConfig" in its place instead.
+It will use the default value for DestinationSuffix which is "_original".
+The destination database "AXDB" will be renamed to "AXDB_original".
+The GoldenConfig database will be renamed to "AXDB".
+
+### EXAMPLE 2
+```
+Switch-D365ActiveDatabase -SourceDatabaseName "AXDB_original" -DestinationSuffix "_reverted"
+```
+
+This will switch the default database AXDB out and put "AXDB_original" in its place instead.
+It will use the "_reverted" value for DestinationSuffix parameter.
+The destination database "AXDB" will be renamed to "AXDB_reverted".
+The "AXDB_original" database will be renamed to "AXDB".
+
+This is used when you did a switch already and need to switch back to the original database.
+
+This example assumes that the used the first example to switch in the GoldenConfig database with default parameters.
 
 ## PARAMETERS
 
@@ -47,7 +65,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 1
 Default value: $Script:DatabaseServer
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -59,10 +77,10 @@ The name of the database
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: DestinationDatabaseName
 
 Required: False
-Position: 3
+Position: 2
 Default value: $Script:DatabaseName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -77,7 +95,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 3
 Default value: $Script:DatabaseUserName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -92,23 +110,40 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 4
 Default value: $Script:DatabaseUserPassword
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -NewDatabaseName
+### -SourceDatabaseName
 The database that takes the DatabaseName's place
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: NewDatabaseName
+
+Required: True
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DestinationSuffix
+The suffix that you want to append onto the database that is being switched out (DestinationDatabaseName / DatabaseName)
+
+The default value is "_original" to mimic the official guides from Microsoft
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 6
-Default value: None
+Default value: _original
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -137,7 +172,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
+
+Author: Rasmus Andersen (@ITRasmus)
 
 ## RELATED LINKS
