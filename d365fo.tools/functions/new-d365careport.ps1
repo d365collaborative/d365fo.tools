@@ -44,9 +44,23 @@
         Instruct the cmdlet to append the module name as a suffix to the desired output file name
         
     .EXAMPLE
-        PS C:\> New-D365CAReport -Path "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
+        PS C:\> New-D365CAReport -module "ApplicationSuite" -model "MyOverLayerModel"
         
-        This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module, and save the report to "c:\temp\CAReport.xlsx"
+        This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+        It will use the default value for the OutputPath parameter, which is "c:\temp\d365fo.tools\CAReport.xlsx".
+        
+    .EXAMPLE
+        PS C:\> New-D365CAReport -OutputPath "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
+        
+        This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+        It will use the "c:\temp\CAReport.xlsx" value for the OutputPath parameter.
+        
+    .EXAMPLE
+        PS C:\> New-D365CAReport -module "ApplicationSuite" -model "MyOverLayerModel" -SuffixWithModule
+        
+        This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+        It will use the default value for the OutputPath parameter, which is "c:\temp\d365fo.tools\CAReport.xlsx".
+        It will append the module name to the desired output file, which will then be "c:\temp\d365fo.tools\CAReport-ApplicationSuite.xlsx".
         
     .NOTES
         Author: Tommy Skaue (@Skaue)
@@ -70,6 +84,8 @@ function New-D365CAReport {
         [Parameter(Mandatory = $true)]
         [string] $Model,
 
+        [switch] $SuffixWithModule,
+
         [string] $BinDir = "$Script:PackageDirectory\bin",
 
         [string] $MetaDataDir = "$Script:MetaDataDir",
@@ -78,9 +94,7 @@ function New-D365CAReport {
 
         [switch] $ShowOriginalProgress,
 
-        [switch] $OutputCommandOnly,
-
-        [switch] $SuffixWithModule
+        [switch] $OutputCommandOnly
     )
     
     if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
