@@ -38,6 +38,21 @@
         PS C:\> Switch-D365ActiveDatabase -SourceDatabaseName "GoldenConfig"
         
         This will switch the default database AXDB out and put "GoldenConfig" in its place instead.
+        It will use the default value for DestinationSuffix which is "_original".
+        The destination database "AXDB" will be renamed to "AXDB_original".
+        The GoldenConfig database will be renamed to "AXDB".
+        
+    .EXAMPLE
+        PS C:\> Switch-D365ActiveDatabase -SourceDatabaseName "AXDB_original" -DestinationSuffix "_reverted"
+        
+        This will switch the default database AXDB out and put "AXDB_original" in its place instead.
+        It will use the "_reverted" value for DestinationSuffix parameter.
+        The destination database "AXDB" will be renamed to "AXDB_reverted".
+        The "AXDB_original" database will be renamed to "AXDB".
+        
+        This is used when you did a switch already and need to switch back to the original database.
+        
+        This example assumes that the used the first example to switch in the GoldenConfig database with default parameters.
         
     .NOTES
         
