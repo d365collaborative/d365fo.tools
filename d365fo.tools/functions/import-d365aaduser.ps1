@@ -83,9 +83,21 @@
         Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
         
     .EXAMPLE
+        PS C:\> Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
+        
+        This is used to force the cmdlet to find the exact named group in Azure Active Directory.
+        
+    .EXAMPLE
         PS C:\> Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
         
         Imports all the users that is present in the AAD Group called CustomerTeam1
+        
+    .EXAMPLE
+        PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -SkipAzureAd
+        
+        Imports Claire and Allen as users.
+        Will NOT make you connect to the Azure Active Directory(AAD).
+        The needed details will be based on the e-mail address only, and the rest will be blanked.
         
     .NOTES
         Tags: User, Users, Security, Configuration, Permission, AAD, Azure Active Directory, Group, Groups
@@ -192,7 +204,7 @@ function Import-D365AadUser {
             $group = Get-AzureADGroup -ObjectId $AadGroupId
         }
         else {
-            if ($ForceExactAadGroupName -eq $true) {
+            if ($ForceExactAadGroupName) {
                 Write-PSFMessage -Level Verbose -Message "Search AadGroup by its exactly name : $AadGroupName"
                 $group = Get-AzureADGroup -Filter "DisplayName eq '$AadGroupName'"
             }
