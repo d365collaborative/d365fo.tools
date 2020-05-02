@@ -52,9 +52,16 @@
         This will extract all the content from the "HotfixPackageBundle.axscdppkg" file and extract all inner packages. It will extract the content into C:\Temp\20180905 and keep the files after completion.
         
     .EXAMPLE
-        Advanced scenario
+        PS C:\> Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest
         
+        This is an advanced scenario.
+        
+        This will traverse the "HotfixPackageBundle.axscdppkg" file and will include the raw manifest file details in the output.
+        
+    .EXAMPLE
         PS C:\> Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
+        
+        This is an advanced scenario.
         
         This will traverse the "HotfixPackageBundle.axscdppkg" file and save the manifest files into c:\temp. Everything else is omitted and cleaned up.
         
@@ -67,11 +74,10 @@
 function Get-D365PackageBundleDetail {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $True)]
         [Alias('File')]
         [string] $Path,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
         [string] $ExtractionPath = ([System.IO.Path]::GetTempPath()),
 
         [string] $KB = "*",

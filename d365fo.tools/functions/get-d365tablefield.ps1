@@ -78,6 +78,12 @@
         
         Will search for the AccountNum field across all tables.
         
+    .EXAMPLE
+        PS C:\> Get-D365TableField -TableName CustTable -IncludeTableDetails
+        
+        Will get all field details for the CustTable table.
+        Will include table details in the output.
+        
     .NOTES
         Tags: Table, Tables, Fields, TableField, Table Field, TableName, TableId
         
