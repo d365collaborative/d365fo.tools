@@ -43,7 +43,7 @@
         
     .EXAMPLE
         PS C:\> Get-D365AOTObject -Path "C:\AOSService\PackagesLocalDirectory\*" -Name *flush* -ObjectType AxClass -SearchInPackages
-
+        
         This is an advanced example and shouldn't be something you resolve to every time.
         
         This will search across all packages and will look for the all AxClasses that matches the search *flush*.
