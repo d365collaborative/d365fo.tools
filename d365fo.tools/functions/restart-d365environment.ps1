@@ -59,7 +59,7 @@
         This will stop the AOS and Batch services and then start the AOS and Batch services again.
         
     .EXAMPLE
-        PS C:\> Get-D365Environment -FinancialReporter -DMF
+        PS C:\> Restart-D365Environment -FinancialReporter -DMF
         
         This will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.
         
