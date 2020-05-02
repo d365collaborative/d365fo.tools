@@ -64,6 +64,13 @@
         This will install the extracted package in c:\temp\ using a runbook in memory while executing.
         
     .EXAMPLE
+        PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -DevInstall
+        
+        This will install the extracted package in c:\temp\ using a runbook in memory while executing.
+        
+        This command is to be used on Microsoft Hosted Tier1 development environment, where you don't have access to the administrator user account on the vm.
+        
+    .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Generate -RunbookId 'MyRunbook'
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Import -RunbookId 'MyRunbook'
@@ -85,6 +92,7 @@
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
         
         Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step.
+        
         
     .NOTES
         Author: Tommy Skaue (@skaue)
