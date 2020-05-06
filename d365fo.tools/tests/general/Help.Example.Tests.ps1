@@ -16,8 +16,7 @@ if ($excludeCommands.Count -gt 0) {
 
 foreach ( $commandName in $commands) {
     # command to be tested
-    #$commandName = 'New-D365Bacpac'
-    #$commandName = 'Get-D365PackageLabelFile'
+    
     # get all examples from the help
     $examples = Get-Help $commandName -Examples
 
