@@ -39,16 +39,17 @@ function Set-D365StartPage() {
         [String] $Url
     )
    
-    $path = 'HKCU:\Software\Microsoft\Internet Explorer\Main\'
-    $propName = 'start page'
+    process {
+        $path = 'HKCU:\Software\Microsoft\Internet Explorer\Main\'
+        $propName = 'start page'
     
-    if ($PSBoundParameters.ContainsKey("URL")) {
-        $value = $Url
-    }
-    else {
-        $value = "https://$Name.cloud.onebox.dynamics.com"
-    }
+        if ($PSBoundParameters.ContainsKey("URL")) {
+            $value = $Url
+        }
+        else {
+            $value = "https://$Name.cloud.onebox.dynamics.com"
+        }
 
-    Set-Itemproperty -Path $path -Name $propName -Value $value
-    
+        Set-Itemproperty -Path $path -Name $propName -Value $value
+    }
 }

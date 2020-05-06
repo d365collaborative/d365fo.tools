@@ -36,37 +36,39 @@ function Get-D365SqlOptionsFromBacpacModelFile {
         [string] $Path
     )
 
-    Invoke-TimeSignal -Start
+    process {
+        Invoke-TimeSignal -Start
 
-    if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
+        if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
 
-    $reader = [System.Xml.XmlReader]::Create($Path)
+        $reader = [System.Xml.XmlReader]::Create($Path)
 
-    $break = $false
-    while ($reader.read() -and -not ($break)) {
-        switch ($reader.NodeType) {
-            ([System.Xml.XmlNodeType]::Element) {
-                if ($reader.Name -eq "Element") {
-                    if ($reader.GetAttribute("Type") -eq "SqlDatabaseOptions") {
-                        if ($reader.ReadToDescendant("Property")) {
-                            do {
-                                [PSCustomObject]@{OptionName = $reader.GetAttribute("Name")
-                                    OptionValue              = $reader.GetAttribute("Value")
-                                }
+        $break = $false
+        while ($reader.read() -and -not ($break)) {
+            switch ($reader.NodeType) {
+                ([System.Xml.XmlNodeType]::Element) {
+                    if ($reader.Name -eq "Element") {
+                        if ($reader.GetAttribute("Type") -eq "SqlDatabaseOptions") {
+                            if ($reader.ReadToDescendant("Property")) {
+                                do {
+                                    [PSCustomObject]@{OptionName = $reader.GetAttribute("Name")
+                                        OptionValue              = $reader.GetAttribute("Value")
+                                    }
 
-                            } while ($reader.ReadToNextSibling("Property"))
+                                } while ($reader.ReadToNextSibling("Property"))
 
+                            }
+
+                            $break = $true
+                            break
                         }
-
-                        $break = $true
-                        break
                     }
-                }
 
-                break
+                    break
+                }
             }
         }
-    }
 
-    Invoke-TimeSignal -End
+        Invoke-TimeSignal -End
+    }
 }
