@@ -151,6 +151,7 @@
         
 #>
 function Import-D365Bacpac {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseProcessBlockForPipelineCommand", "")]
     [CmdletBinding(DefaultParameterSetName = 'ImportTier1')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier1', Position = 0)]
