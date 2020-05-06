@@ -39,17 +39,28 @@
     .EXAMPLE
         PS C:\> Get-D365Environment -All
         
-        Will query all D365FO service on the machine
+        Will query all D365FO service on the machine.
         
     .EXAMPLE
         PS C:\> Get-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
         
-        Will query all D365FO service on the different machines
+        Will query all D365FO service on the different machines.
         
     .EXAMPLE
         PS C:\> Get-D365Environment -Aos -Batch
         
-        Will query the Aos & Batch services on the machine
+        Will query the Aos & Batch services on the machine.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Environment -FinancialReporter -DMF
+        
+        Will query the FinancialReporter & DMF services on the machine.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Environment -OutputServiceDetailsOnly
+        
+        Will query all D365FO service on the machine.
+        Will omit the servername from the output.
         
     .NOTES
         Tags: Environment, Service, Services, Aos, Batch, Servicing
@@ -66,19 +77,19 @@ function Get-D365Environment {
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 1 )]
         [string[]] $ComputerName = @($env:computername),
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default')]
         [switch] $All = $true,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
         [switch] $Aos,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
         [switch] $Batch,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
         [switch] $FinancialReporter,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
         [switch] $DMF,
 
         [switch] $OnlyStartTypeAutomatic,

@@ -42,9 +42,9 @@
         This searches for all packages that matches Application* and pipes them into Get-D365AOTObject which will search for all AxClasses that matches the search *flush*.
         
     .EXAMPLE
-        This is an advanced example and shouldn't be something you resolve to every time.
-        
         PS C:\> Get-D365AOTObject -Path "C:\AOSService\PackagesLocalDirectory\*" -Name *flush* -ObjectType AxClass -SearchInPackages
+        
+        This is an advanced example and shouldn't be something you resolve to every time.
         
         This will search across all packages and will look for the all AxClasses that matches the search *flush*.
         It will NOT search in the XppMetaData directory for each package.
@@ -58,23 +58,19 @@
 function Get-D365AOTObject {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 1)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [Alias('PackageDirectory')]
         [string] $Path,
 
-        [Parameter(Mandatory = $false, Position = 2)]
         [ValidateSet('AxAggregateDataEntity', 'AxClass', 'AxCompositeDataEntityView',
             'AxDataEntityView', 'AxForm', 'AxMap', 'AxQuery', 'AxTable', 'AxView')]
         [Alias('Type')]
         [string[]] $ObjectType = @("AxClass"),
 
-        [Parameter(Mandatory = $false, Position = 3)]
         [string] $Name = "*",
 
-        [Parameter(Mandatory = $false, Position = 4)]
         [switch] $SearchInPackages,
 
-        [Parameter(Mandatory = $false, Position = 5)]
         [switch] $IncludePath
     )
     
