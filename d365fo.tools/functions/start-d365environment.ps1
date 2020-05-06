@@ -45,7 +45,7 @@
         This will start all D365FO services on the machine.
         
     .EXAMPLE
-        PS C:\> Start-D365Environment
+        PS C:\> Start-D365Environment -OnlyStartTypeAutomatic
         
         This will start all D365FO services on the machine that are configured for Automatic startup.
         It will exclude all services that are either manual or disabled in their startup configuration.
