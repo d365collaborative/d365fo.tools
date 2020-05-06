@@ -123,20 +123,23 @@ function Get-D365LcsAssetValidationStatus {
         [switch] $WaitForValidation
     )
 
-    Invoke-TimeSignal -Start
 
-    if (-not ($BearerToken.StartsWith("Bearer "))) {
-        $BearerToken = "Bearer $BearerToken"
+    process {
+        Invoke-TimeSignal -Start
+
+        if (-not ($BearerToken.StartsWith("Bearer "))) {
+            $BearerToken = "Bearer $BearerToken"
+        }
+
+        do {
+            Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Asset Validation Status"
+            Start-Sleep -Seconds 60
+            $status = Get-LcsAssetValidationStatus -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri
+        }
+        while (($status.DisplayStatus -eq "Process") -and $WaitForValidation)
+
+        Invoke-TimeSignal -End
+
+        $status | Select-PSFObject "ID as AssetId", "DisplayStatus as Status"
     }
-
-    do {
-        Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Asset Validation Status"
-        Start-Sleep -Seconds 60
-        $status = Get-LcsAssetValidationStatus -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri
-    }
-    while (($status.DisplayStatus -eq "Process") -and $WaitForValidation)
-
-    Invoke-TimeSignal -End
-
-    $status | Select-PSFObject "ID as AssetId", "DisplayStatus as Status"
 }

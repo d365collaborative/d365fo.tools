@@ -133,23 +133,25 @@ function Get-D365LcsDatabaseOperationStatus {
         [int] $SleepInSeconds = 300
     )
 
-    Invoke-TimeSignal -Start
+    process {
+        Invoke-TimeSignal -Start
 
-    if (-not ($BearerToken.StartsWith("Bearer "))) {
-        $BearerToken = "Bearer $BearerToken"
+        if (-not ($BearerToken.StartsWith("Bearer "))) {
+            $BearerToken = "Bearer $BearerToken"
+        }
+
+        do {
+            Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
+
+            Start-Sleep -Seconds $SleepInSeconds
+            $databaseOperationStatus = Get-LcsDatabaseOperationStatus -BearerToken $BearerToken -ProjectId $ProjectId -OperationActivityId $OperationActivityId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+
+            Write-PSFMessage -Level Verbose -Message "Database Operation Status is: $($databaseOperationStatus.OperationStatus)"
+        }
+        while ((($databaseOperationStatus.OperationStatus -eq "InProgress") -or ($databaseOperationStatus.OperationStatus -eq "NotStarted") -or ($databaseOperationStatus.OperationStatus -eq "RollbackInProgress")) -and $WaitForCompletion)
+
+        Invoke-TimeSignal -End
+
+        $databaseOperationStatus | Select-PSFObject * -TypeName "D365FO.TOOLS.LCS.Database.Operation.Status"
     }
-
-    do {
-        Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
-
-        Start-Sleep -Seconds $SleepInSeconds
-        $databaseOperationStatus = Get-LcsDatabaseOperationStatus -BearerToken $BearerToken -ProjectId $ProjectId -OperationActivityId $OperationActivityId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
-
-        Write-PSFMessage -Level Verbose -Message "Database Operation Status is: $($databaseOperationStatus.OperationStatus)"
-    }
-    while ((($databaseOperationStatus.OperationStatus -eq "InProgress") -or ($databaseOperationStatus.OperationStatus -eq "NotStarted") -or ($databaseOperationStatus.OperationStatus -eq "RollbackInProgress")) -and $WaitForCompletion)
-
-    Invoke-TimeSignal -End
-
-    $databaseOperationStatus | Select-PSFObject * -TypeName "D365FO.TOOLS.LCS.Database.Operation.Status"
 }

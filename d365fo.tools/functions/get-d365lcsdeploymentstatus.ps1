@@ -131,21 +131,23 @@ function Get-D365LcsDeploymentStatus {
         [int] $SleepInSeconds = 300
     )
 
-    Invoke-TimeSignal -Start
+    process {
+        Invoke-TimeSignal -Start
 
-    if (-not ($BearerToken.StartsWith("Bearer "))) {
-        $BearerToken = "Bearer $BearerToken"
+        if (-not ($BearerToken.StartsWith("Bearer "))) {
+            $BearerToken = "Bearer $BearerToken"
+        }
+
+        do {
+            Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
+
+            Start-Sleep -Seconds $SleepInSeconds
+            $deploymentStatus = Get-LcsDeploymentStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActionHistoryId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+        }
+        while ((($deploymentStatus.LcsEnvironmentActionStatus -eq "InProgress") -or ($deploymentStatus.LcsEnvironmentActionStatus -eq "NotStarted") -or ($deploymentStatus.LcsEnvironmentActionStatus -eq "PreparingEnvironment")) -and $WaitForCompletion)
+
+        Invoke-TimeSignal -End
+
+        $deploymentStatus
     }
-
-    do {
-        Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
-
-        Start-Sleep -Seconds $SleepInSeconds
-        $deploymentStatus = Get-LcsDeploymentStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActionHistoryId $ActionHistoryId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
-    }
-    while ((($deploymentStatus.LcsEnvironmentActionStatus -eq "InProgress") -or ($deploymentStatus.LcsEnvironmentActionStatus -eq "NotStarted") -or ($deploymentStatus.LcsEnvironmentActionStatus -eq "PreparingEnvironment")) -and $WaitForCompletion)
-
-    Invoke-TimeSignal -End
-
-    $deploymentStatus
 }
