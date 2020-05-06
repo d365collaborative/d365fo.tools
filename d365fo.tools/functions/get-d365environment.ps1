@@ -19,17 +19,20 @@
         DMF
         
     .PARAMETER Aos
-        Switch to instruct the cmdlet to query the AOS (IIS) service
+        Instruct the cmdlet to query the AOS (IIS) service
         
     .PARAMETER Batch
-        Switch to instruct the cmdlet query the batch service
+        Instruct the cmdlet query the batch service
         
     .PARAMETER FinancialReporter
-        Switch to instruct the cmdlet query the financial reporter (Management Reporter 2012)
+        Instruct the cmdlet query the financial reporter (Management Reporter 2012)
         
     .PARAMETER DMF
-        Switch to instruct the cmdlet query the DMF service
+        Instruct the cmdlet query the DMF service
         
+    .PARAMETER OnlyStartTypeAutomatic
+        Instruct the cmdlet to filter out services that are set to manual start or disabled
+
     .PARAMETER OutputServiceDetailsOnly
         Instruct the cmdlet to exclude the server name from the output
         
@@ -78,6 +81,8 @@ function Get-D365Environment {
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
         [switch] $DMF,
 
+        [switch] $OnlyStartTypeAutomatic,
+
         [switch] $OutputServiceDetailsOnly
     )
 
@@ -94,6 +99,7 @@ function Get-D365Environment {
     $Params = Get-DeepClone $PSBoundParameters
     if($Params.ContainsKey("ComputerName")){$null = $Params.Remove("ComputerName")}
     if($Params.ContainsKey("OutputServiceDetailsOnly")){$null = $Params.Remove("OutputServiceDetailsOnly")}
+    if($Params.ContainsKey("OnlyStartTypeAutomatic")){$null = $Params.Remove("OnlyStartTypeAutomatic")}
 
     $Services = Get-ServiceList @Params
 
@@ -105,6 +111,10 @@ function Get-D365Environment {
 
     if($OutputServiceDetailsOnly) {
         $outputTypeName = "D365FO.TOOLS.Environment.Service.Minimal"
+    }
+
+    if($OnlyStartTypeAutomatic){
+        $Results = $Results | Where-Object StartType -eq "Automatic"
     }
 
     $Results | Select-PSFObject -TypeName $outputTypeName Server, DisplayName, Status, StartType, Name
