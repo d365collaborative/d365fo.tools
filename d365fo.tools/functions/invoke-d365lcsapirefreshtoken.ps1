@@ -67,6 +67,7 @@
 #>
 
 function Invoke-D365LcsApiRefreshToken {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseProcessBlockForPipelineCommand", "")]
     [CmdletBinding()]
     [OutputType()]
     param (

@@ -129,6 +129,7 @@
 #>
 function New-D365Bacpac {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseProcessBlockForPipelineCommand", "")]
     [CmdletBinding(DefaultParameterSetName = 'ExportTier2')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier1', Position = 0)]

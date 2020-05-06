@@ -41,24 +41,32 @@ function Set-D365DefaultModelForNewProjects {
         [string] $Module
     )
 
-    $filePath = "C:\Users\$env:UserName\Documents\Visual Studio 2015\Settings\DynamicsDevConfig.xml"
+    begin {
+        $filePath = "C:\Users\$env:UserName\Documents\Visual Studio 2015\Settings\DynamicsDevConfig.xml"
 
-    if (-not (Test-PathExists -Path $filePath -Type Leaf)) { return }
+        if (-not (Test-PathExists -Path $filePath -Type Leaf)) { return }
+    }
 
-    $filePathBackup = $filePath.Replace(".xml", ".xml$((Get-Date).Ticks)")
-    Copy-Item -Path $filePath -Destination $filePathBackup -Force
+    process {
+        if (Test-PSFFunctionInterrupt) { return }
+        
+        $filePathBackup = $filePath.Replace(".xml", ".xml$((Get-Date).Ticks)")
+        Copy-Item -Path $filePath -Destination $filePathBackup -Force
 
-    $namespace = @{ns = "http://schemas.microsoft.com/dynamics/2012/03/development/configuration" }
+        $namespace = @{ns = "http://schemas.microsoft.com/dynamics/2012/03/development/configuration" }
     
-    $xmlDoc = [xml] (Get-Content -Path $filePath)
-    $defaultModel = Select-Xml -Xml $xmlDoc -XPath "/ns:DynamicsDevConfig/ns:DefaultModelForNewProjects" -Namespace $namespace
+        $xmlDoc = [xml] (Get-Content -Path $filePath)
+        $defaultModel = Select-Xml -Xml $xmlDoc -XPath "/ns:DynamicsDevConfig/ns:DefaultModelForNewProjects" -Namespace $namespace
 
-    $oldValue = $defaultModel.Node.InnerText
+        $oldValue = $defaultModel.Node.InnerText
     
-    Write-PSFMessage -Level Verbose -Message "Old value found in the file was: $oldValue" -Target $oldValue
+        Write-PSFMessage -Level Verbose -Message "Old value found in the file was: $oldValue" -Target $oldValue
 
-    $defaultModel.Node.InnerText = $Module
-    $xmlDoc.Save($filePath)
+        $defaultModel.Node.InnerText = $Module
+        $xmlDoc.Save($filePath)
+    }
 
-    Get-D365DefaultModelForNewProjects
+    end {
+        Get-D365DefaultModelForNewProjects
+    }
 }

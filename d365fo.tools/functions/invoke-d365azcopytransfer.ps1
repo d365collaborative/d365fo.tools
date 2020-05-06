@@ -97,55 +97,57 @@ function Invoke-D365AzCopyTransfer {
         [switch] $EnableException
     )
 
-    $executable = $Script:AzCopyPath
+    process {
+        $executable = $Script:AzCopyPath
 
-    Invoke-TimeSignal -Start
+        Invoke-TimeSignal -Start
 
-    if (-not [string]::IsNullOrEmpty($FileName)) {
-        if ($DestinationUri -like "*?*") {
-            $DestinationUri = $DestinationUri.Replace("?", "/$FileName`?")
-        }
-        else {
-            if ([System.IO.File]::GetAttributes($DestinationUri).HasFlag([System.IO.FileAttributes]::Directory)) {
-                $DestinationUri = Join-Path $DestinationUri $FileName
+        if (-not [string]::IsNullOrEmpty($FileName)) {
+            if ($DestinationUri -like "*?*") {
+                $DestinationUri = $DestinationUri.Replace("?", "/$FileName`?")
+            }
+            else {
+                if ([System.IO.File]::GetAttributes($DestinationUri).HasFlag([System.IO.FileAttributes]::Directory)) {
+                    $DestinationUri = Join-Path $DestinationUri $FileName
+                }
             }
         }
+
+        $params = New-Object System.Collections.Generic.List[string]
+
+        $params.Add("copy")
+        $params.Add("`"$SourceUri`"")
+        $params.Add("`"$DestinationUri`"")
+
+        if (-not $Force) {
+            $params.Add("--overwrite=false")
+        }
+
+        Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+
+        if (Test-PSFFunctionInterrupt) { return }
+
+        if ($DestinationUri -notlike "*https*") {
+            $filePath = Get-ChildItem -Path $DestinationUri -Recurse -File | Sort-Object CreationTime -Descending | Select-Object -First 1
+            $FileName = $filePath.Name
+        }
+        else {
+            $filePath = $DestinationUri
+        }
+
+        #Filename is missing. If Https / SAS, we need some work.
+        #If local file, it should be easy to solve
+        $res = @{
+            File       = $filePath
+            PSTypeName = 'D365FO.TOOLS.AZCOPYTRANSFER'
+        }
+
+        if (-not [string]::IsNullOrEmpty($FileName)) {
+            $res.FileName = $FileName
+        }
+
+        [PSCustomObject]$res
+
+        Invoke-TimeSignal -End
     }
-
-    $params = New-Object System.Collections.Generic.List[string]
-
-    $params.Add("copy")
-    $params.Add("`"$SourceUri`"")
-    $params.Add("`"$DestinationUri`"")
-
-    if (-not $Force) {
-        $params.Add("--overwrite=false")
-    }
-
-    Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
-
-    if (Test-PSFFunctionInterrupt) { return }
-
-    if ($DestinationUri -notlike "*https*") {
-        $filePath = Get-ChildItem -Path $DestinationUri -Recurse -File | Sort-Object CreationTime -Descending | Select-Object -First 1
-        $FileName = $filePath.Name
-    }
-    else {
-        $filePath = $DestinationUri
-    }
-
-    #Filename is missing. If Https / SAS, we need some work.
-    #If local file, it should be easy to solve
-    $res = @{
-        File = $filePath
-        PSTypeName = 'D365FO.TOOLS.AZCOPYTRANSFER'
-    }
-
-    if (-not [string]::IsNullOrEmpty($FileName)) {
-        $res.FileName = $FileName
-    }
-
-    [PSCustomObject]$res
-
-    Invoke-TimeSignal -End
 }

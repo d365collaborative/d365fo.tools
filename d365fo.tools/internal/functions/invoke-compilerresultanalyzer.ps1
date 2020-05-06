@@ -52,6 +52,7 @@
         https://github.com/DAXRunBase/PowerShell-and-Azure
 #>
 function Invoke-CompilerResultAnalyzer {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidAssignmentToAutomaticVariable", "")]
     [CmdletBinding()]
     [OutputType('')]
     param (

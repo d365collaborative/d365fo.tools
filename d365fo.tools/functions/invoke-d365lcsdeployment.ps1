@@ -90,32 +90,31 @@ function Invoke-D365LcsDeployment {
     [CmdletBinding()]
     [OutputType()]
     param(
-        [Parameter(Mandatory = $false)]
         [int] $ProjectId = $Script:LcsApiProjectId,
         
-        [Parameter(Mandatory = $false)]
-        [Alias('Token')]
-        [string] $BearerToken = $Script:LcsApiBearerToken,
-
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 3)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [string] $AssetId,
 
         [Parameter(Mandatory = $true)]
         [string] $EnvironmentId,
+        
+        [Alias('Token')]
+        [string] $BearerToken = $Script:LcsApiBearerToken,
 
-        [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri
     )
 
-    Invoke-TimeSignal -Start
+    process {
+        Invoke-TimeSignal -Start
 
-    if (-not ($BearerToken.StartsWith("Bearer "))) {
-        $BearerToken = "Bearer $BearerToken"
+        if (-not ($BearerToken.StartsWith("Bearer "))) {
+            $BearerToken = "Bearer $BearerToken"
+        }
+
+        $deploymentStatus = Start-LcsDeployment -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+
+        Invoke-TimeSignal -End
+
+        $deploymentStatus
     }
-
-    $deploymentStatus = Start-LcsDeployment -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
-
-    Invoke-TimeSignal -End
-
-    $deploymentStatus
 }
