@@ -35,11 +35,22 @@
 
     .PARAMETER OutputServiceDetailsOnly
         Instruct the cmdlet to exclude the server name from the output
-        
+    
+    .EXAMPLE
+        PS C:\> Get-D365Environment
+
+        Will query all D365FO service on the machine.
+
     .EXAMPLE
         PS C:\> Get-D365Environment -All
         
         Will query all D365FO service on the machine.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Environment -OnlyStartTypeAutomatic
+        
+        Will query all D365FO service on the machine.
+        It will filter out all services that are either configured as manual or disabled.
         
     .EXAMPLE
         PS C:\> Get-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
@@ -61,6 +72,11 @@
         
         Will query all D365FO service on the machine.
         Will omit the servername from the output.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Environment -FinancialReporter | Set-Service -StartupType Manual
+
+        This will configure the Financial Reporter services to be start type manual.
         
     .NOTES
         Tags: Environment, Service, Services, Aos, Batch, Servicing
