@@ -31,7 +31,7 @@
         
     .PARAMETER OnlyStartTypeAutomatic
         Instruct the cmdlet to filter out services that are set to manual start or disabled
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         

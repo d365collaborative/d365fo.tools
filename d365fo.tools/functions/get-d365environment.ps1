@@ -32,15 +32,15 @@
         
     .PARAMETER OnlyStartTypeAutomatic
         Instruct the cmdlet to filter out services that are set to manual start or disabled
-
+        
     .PARAMETER OutputServiceDetailsOnly
         Instruct the cmdlet to exclude the server name from the output
-    
+        
     .EXAMPLE
         PS C:\> Get-D365Environment
-
+        
         Will query all D365FO service on the machine.
-
+        
     .EXAMPLE
         PS C:\> Get-D365Environment -All
         
@@ -75,7 +75,7 @@
         
     .EXAMPLE
         PS C:\> Get-D365Environment -FinancialReporter | Set-Service -StartupType Manual
-
+        
         This will configure the Financial Reporter services to be start type manual.
         
     .NOTES
