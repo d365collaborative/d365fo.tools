@@ -1,7 +1,8 @@
 ﻿$excludeCommands = @(
-      'Invoke-D365LogicAppMessage'
+    'Invoke-D365LogicAppMessage'
     , 'Invoke-D365SCDPBundleInstall'
     , 'Test-D365Command'
+    , 'Test-PathExists'
 )
 
 $excludeParameters = @(
@@ -25,6 +26,10 @@ else {
 }
 
 foreach ( $commandName in $commands) {
+    if ($commandName -notlike "*d365*") {
+        continue
+    }
+    
     # command to be tested
 
     # get all examples from the help
