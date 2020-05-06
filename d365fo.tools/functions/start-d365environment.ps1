@@ -29,6 +29,9 @@
     .PARAMETER DMF
         Start the Data Management Framework service
         
+    .PARAMETER OnlyStartTypeAutomatic
+        Instruct the cmdlet to filter out services that are set to manual start or disabled
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -40,6 +43,12 @@
         This will run the cmdlet with the default parameters.
         Default is "-All".
         This will start all D365FO services on the machine.
+        
+    .EXAMPLE
+        PS C:\> Start-D365Environment
+        
+        This will start all D365FO services on the machine that are configured for Automatic startup.
+        It will exclude all services that are either manual or disabled in their startup configuration.
         
     .EXAMPLE
         PS C:\> Start-D365Environment -ShowOriginalProgress
@@ -93,8 +102,8 @@ function Start-D365Environment {
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
         [switch] $DMF,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 6 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
+        [switch] $OnlyStartTypeAutomatic,
+
         [switch] $ShowOriginalProgress
     )
 
@@ -109,22 +118,35 @@ function Start-D365Environment {
     }
 
     $warningActionValue = "SilentlyContinue"
-    if ($ShowOriginalProgress) {$warningActionValue = "Continue"}
+    if ($ShowOriginalProgress) { $warningActionValue = "Continue" }
 
     $Params = Get-DeepClone $PSBoundParameters
-    if ($Params.ContainsKey("ComputerName")) {$null = $Params.Remove("ComputerName")}
-    if ($Params.ContainsKey("ShowOriginalProgress")) {$null = $Params.Remove("ShowOriginalProgress")}
+    if ($Params.ContainsKey("ComputerName")) { $null = $Params.Remove("ComputerName") }
+    if ($Params.ContainsKey("ShowOriginalProgress")) { $null = $Params.Remove("ShowOriginalProgress") }
+    if ($Params.ContainsKey("OnlyStartTypeAutomatic")) { $null = $Params.Remove("OnlyStartTypeAutomatic") }
 
     $Services = Get-ServiceList @Params
 
     $Results = foreach ($server in $ComputerName) {
         Write-PSFMessage -Level Verbose -Message "Working against: $server - starting services"
-        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Start-Service -ErrorAction SilentlyContinue -WarningAction $warningActionValue
+        $temp = Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue
+        
+        if ($OnlyStartTypeAutomatic) {
+            $temp = $temp | Where-Object StartType -eq "Automatic"
+        }
+
+        $temp | Start-Service -ErrorAction SilentlyContinue -WarningAction $warningActionValue
     }
 
     $Results = foreach ($server in $ComputerName) {
         Write-PSFMessage -Level Verbose -Message "Working against: $server - listing services"
-        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, StartType, DisplayName
+        $temp = Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue
+        
+        if ($OnlyStartTypeAutomatic) {
+            $temp = $temp | Where-Object StartType -eq "Automatic"
+        }
+
+        $temp | Select-Object @{Name = "Server"; Expression = { $Server } }, Name, Status, StartType, DisplayName
     }
 
     Write-PSFMessage -Level Verbose "Results are: $Results" -Target ($Results.Name -join ",")
