@@ -51,6 +51,7 @@
 						'Add-D365EnvironmentConfig',
 						'Add-D365LcsEnvironment',
 						'Add-D365RsatWifConfigAuthorityThumbprint',
+                        'Add-D365WindowsDefenderRules',
 						
 						'Backup-D365MetaDataDir',
 						'Backup-D365Runbook',
