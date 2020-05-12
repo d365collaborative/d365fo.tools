@@ -13,9 +13,9 @@ Generate the Customization's Analysis Report (CAR)
 ## SYNTAX
 
 ```
-New-D365CAReport [[-OutputPath] <String>] [-Module] <String> [-Model] <String> [[-BinDir] <String>]
- [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
- [-SuffixWithModule] [<CommonParameters>]
+New-D365CAReport [[-OutputPath] <String>] [-Module] <String> [-Model] <String> [-SuffixWithModule]
+ [[-BinDir] <String>] [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-ShowOriginalProgress]
+ [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,10 +25,28 @@ A cmdlet that wraps some of the cumbersome work into a streamlined process
 
 ### EXAMPLE 1
 ```
-New-D365CAReport -Path "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
+New-D365CAReport -module "ApplicationSuite" -model "MyOverLayerModel"
 ```
 
-This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module, and save the report to "c:\temp\CAReport.xlsx"
+This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+It will use the default value for the OutputPath parameter, which is "c:\temp\d365fo.tools\CAReport.xlsx".
+
+### EXAMPLE 2
+```
+New-D365CAReport -OutputPath "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
+```
+
+This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+It will use the "c:\temp\CAReport.xlsx" value for the OutputPath parameter.
+
+### EXAMPLE 3
+```
+New-D365CAReport -module "ApplicationSuite" -model "MyOverLayerModel" -SuffixWithModule
+```
+
+This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+It will use the default value for the OutputPath parameter, which is "c:\temp\d365fo.tools\CAReport.xlsx".
+It will append the module name to the desired output file, which will then be "c:\temp\d365fo.tools\CAReport-ApplicationSuite.xlsx".
 
 ## PARAMETERS
 
@@ -75,6 +93,21 @@ Aliases:
 Required: True
 Position: 3
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SuffixWithModule
+Instruct the cmdlet to append the module name as a suffix to the desired output file name
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -149,21 +182,6 @@ Accept wildcard characters: False
 Instruct the cmdlet to only output the command that you would have to execute by hand
 
 Will include full path to the executable and the needed parameters based on your selection
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SuffixWithModule
-Instruct the cmdlet to append the module name as a suffix to the desired output file name
 
 ```yaml
 Type: SwitchParameter

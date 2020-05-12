@@ -13,8 +13,8 @@ Start the deployment of a deployable package
 ## SYNTAX
 
 ```
-Invoke-D365LcsDeployment [-ProjectId <Int32>] [-BearerToken <String>] [-AssetId] <String>
- -EnvironmentId <String> [-LcsApiUri <String>] [<CommonParameters>]
+Invoke-D365LcsDeployment [[-ProjectId] <Int32>] [-AssetId] <String> [-EnvironmentId] <String>
+ [[-BearerToken] <String>] [[-LcsApiUri] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -60,25 +60,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 1
 Default value: $Script:LcsApiProjectId
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BearerToken
-The token you want to use when working against the LCS api
-
-Default value can be configured using Set-D365LcsApiConfig
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Token
-
-Required: False
-Position: Named
-Default value: $Script:LcsApiBearerToken
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -92,7 +75,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 4
+Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -111,8 +94,25 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 3
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BearerToken
+The token you want to use when working against the LCS api
+
+Default value can be configured using Set-D365LcsApiConfig
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Token
+
+Required: False
+Position: 4
+Default value: $Script:LcsApiBearerToken
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -134,7 +134,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 5
 Default value: $Script:LcsApiLcsApiUri
 Accept pipeline input: False
 Accept wildcard characters: False

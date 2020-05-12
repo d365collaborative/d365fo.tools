@@ -35,6 +35,17 @@ The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.
 
 ### EXAMPLE 2
 ```
+Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel" -PackagesRoot
+```
+
+This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.
+We use the binary metadata to look for the module and model.
+The default output will be silenced.
+The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
+The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
+
+### EXAMPLE 3
+```
 Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel" -ShowOriginalProgress
 ```
 
@@ -42,6 +53,17 @@ This will execute the best practice checks against MyOverLayerModel in the Appli
 The output from the best practice check process will be written to the console / host.
 The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
 The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
+
+### EXAMPLE 4
+```
+Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel" -RunFixers
+```
+
+This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.
+The default output will be silenced.
+The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
+The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
+Instructs the xppbp tool to run the fixers for all identified warnings.
 
 ## PARAMETERS
 

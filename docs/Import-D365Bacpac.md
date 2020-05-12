@@ -93,6 +93,18 @@ It will output a diagnostic file to "C:\temp\ImportLog.txt".
 
 It will use 32 connections against the database server while importing the bacpac file.
 
+### EXAMPLE 5
+```
+Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -ImportOnly
+```
+
+This will instruct the cmdlet that the import will be working against a SQL Server instance.
+It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+No cleanup or prepping jobs will be executed, because this is for importing only.
+
+This would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.
+You would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.
+
 ## PARAMETERS
 
 ### -ImportModeTier1

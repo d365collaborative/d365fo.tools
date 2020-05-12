@@ -79,6 +79,14 @@ Get-D365TableField -Name AccountNum -SearchAcrossTables
 
 Will search for the AccountNum field across all tables.
 
+### EXAMPLE 7
+```
+Get-D365TableField -TableName CustTable -IncludeTableDetails
+```
+
+Will get all field details for the CustTable table.
+Will include table details in the output.
+
 ## PARAMETERS
 
 ### -TableId

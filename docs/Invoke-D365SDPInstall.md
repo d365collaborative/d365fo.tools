@@ -46,6 +46,15 @@ This will install the extracted package in c:\temp\ using a runbook in memory wh
 
 ### EXAMPLE 2
 ```
+Invoke-D365SDPInstall -Path "c:\temp\" -DevInstall
+```
+
+This will install the extracted package in c:\temp\ using a runbook in memory while executing.
+
+This command is to be used on Microsoft Hosted Tier1 development environment, where you don't have access to the administrator user account on the vm.
+
+### EXAMPLE 3
+```
 Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
 ```
 
@@ -55,7 +64,7 @@ PS C:\\\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Execute -RunbookId 'My
 
 Manual operations that first create Topology XML from current environment, then generate runbook with id 'MyRunbook', then import it and finally execute it.
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll
 ```
@@ -63,14 +72,14 @@ Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll
 Create Topology XML from current environment.
 Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
 
-### EXAMPLE 4
+### EXAMPLE 5
 ```
 Invoke-D365SDPInstall -Path "c:\temp\" -Command RerunStep -Step 18 -RunbookId 'MyRunbook'
 ```
 
 Rerun runbook with id 'MyRunbook' from step 18.
 
-### EXAMPLE 5
+### EXAMPLE 6
 ```
 Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
 ```

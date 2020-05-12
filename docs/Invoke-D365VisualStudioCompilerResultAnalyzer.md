@@ -39,6 +39,42 @@ c:\temp\d365fo.tools\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatf
 c:\temp\d365fo.tools\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx
 c:\temp\d365fo.tools\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx
 
+### EXAMPLE 2
+```
+Invoke-D365VisualStudioCompilerResultAnalyzer -SkipWarnings
+```
+
+This will analyse all compiler output log files generated from Visual Studio.
+It will exclude all warnings from the output.
+
+A result set example:
+
+File                                                            Filename
+----                                                            --------
+c:\temp\d365fo.tools\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx
+
+### EXAMPLE 3
+```
+Invoke-D365VisualStudioCompilerResultAnalyzer -SkipTasks
+```
+
+This will analyse all compiler output log files generated from Visual Studio.
+It will exclude all tasks from the output.
+
+A result set example:
+
+File                                                            Filename
+----                                                            --------
+c:\temp\d365fo.tools\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx
+c:\temp\d365fo.tools\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx
+
 ## PARAMETERS
 
 ### -Module

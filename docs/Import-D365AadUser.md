@@ -69,10 +69,26 @@ Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
 
 ### EXAMPLE 4
 ```
+Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
+```
+
+This is used to force the cmdlet to find the exact named group in Azure Active Directory.
+
+### EXAMPLE 5
+```
 Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
 ```
 
 Imports all the users that is present in the AAD Group called CustomerTeam1
+
+### EXAMPLE 6
+```
+Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -SkipAzureAd
+```
+
+Imports Claire and Allen as users.
+Will NOT make you connect to the Azure Active Directory(AAD).
+The needed details will be based on the e-mail address only, and the rest will be blanked.
 
 ## PARAMETERS
 
