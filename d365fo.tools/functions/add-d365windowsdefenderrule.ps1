@@ -1,3 +1,4 @@
+﻿
 <#
     .SYNOPSIS
         Add rules to Windows Defender to enhance performance during development.
@@ -7,18 +8,18 @@
         This will lead to performance gains because the Windows Defender stops to scan every file accessed by e.g. the MSBuild process, the cache and things around Visual Studio.
         Supports rules for VS 2015 and VS 2019.
         
-        .PARAMETER Silent
-Instruct the cmdlet to silence the output written to the console
-
-If set the output will be silenced, if not set, the output will be written to the console
-
+    .PARAMETER Silent
+        Instruct the cmdlet to silence the output written to the console
+        
+        If set the output will be silenced, if not set, the output will be written to the console
+        
     .EXAMPLE
         PS C:\> Add-D365WindowsDefenderRules
         
         This will add the most common rules to the Windows Defender as exceptions.
         All output will be written to the console.
-
-            .EXAMPLE
+        
+    .EXAMPLE
         PS C:\> Add-D365WindowsDefenderRules -Silent
         
         This will add the most common rules to the Windows Defender as exceptions.

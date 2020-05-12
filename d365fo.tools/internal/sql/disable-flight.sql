@@ -1,4 +1,4 @@
-/* Variable input @FlightName,@FlightServiceId */
+﻿/* Variable input @FlightName,@FlightServiceId */
 
 DECLARE 
 	@Enabled AS int,

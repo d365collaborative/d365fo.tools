@@ -1,33 +1,34 @@
-﻿<#
-.SYNOPSIS
-Get Windows Defender Status
-
-.DESCRIPTION
-Will get the current status of the Windows Defender
-
-.PARAMETER Silent
-Instruct the cmdlet to silence the output written to the console
-
-If set the output will be silenced, if not set, the output will be written to the console
-
-.EXAMPLE
-PS C:\> Get-WindowsDefenderStatus
-
-This will get the status of Windows Defender.
-It will write the output to the console.
-
-.EXAMPLE
-PS C:\> Get-WindowsDefenderStatus -Silent
-
-This will get the status of Windows Defender.
-All outputs will be silenced.
-
-.NOTES
-Inspired by https://gallery.technet.microsoft.com/scriptcenter/PowerShell-to-Check-if-811b83bc
-
-Author: Robin Kretzschmar (@darksmile92)
+﻿
+<#
+    .SYNOPSIS
+        Get Windows Defender Status
+        
+    .DESCRIPTION
+        Will get the current status of the Windows Defender
+        
+    .PARAMETER Silent
+        Instruct the cmdlet to silence the output written to the console
+        
+        If set the output will be silenced, if not set, the output will be written to the console
+        
+    .EXAMPLE
+        PS C:\> Get-WindowsDefenderStatus
+        
+        This will get the status of Windows Defender.
+        It will write the output to the console.
+        
+    .EXAMPLE
+        PS C:\> Get-WindowsDefenderStatus -Silent
+        
+        This will get the status of Windows Defender.
+        All outputs will be silenced.
+        
+    .NOTES
+        Inspired by https://gallery.technet.microsoft.com/scriptcenter/PowerShell-to-Check-if-811b83bc
+        
+        Author: Robin Kretzschmar (@darksmile92)
         Author: Mötz Jensen (@Splaxi)
-
+        
 #>
 function Get-WindowsDefenderStatus {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
