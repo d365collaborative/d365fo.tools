@@ -33,6 +33,7 @@
 function Get-WindowsDefenderStatus {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
+    [OutputType('System.Boolean')]
     param (
         [switch] $Silent
     )
