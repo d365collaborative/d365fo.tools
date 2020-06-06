@@ -70,9 +70,10 @@ function Add-D365WindowsDefenderRules {
         Add-MpPreference -ExclusionProcess "C:\Program Files\Microsoft SQL Server\130\LocalDB\Binn\sqlservr.exe"
         Add-MpPreference -ExclusionProcess "C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Binn\sqlservr.exe"
 
+        #Compile kicks off the defender. Exclude base path to AOS helps on that.
+        Add-MpPreference -ExclusionPath $AOSServicePath
 
         # cache folders
-
         Add-MpPreference -ExclusionPath "C:\Program Files (x86)\Microsoft Visual Studio 10.0"
         Add-MpPreference -ExclusionPath "C:\Program Files (x86)\Microsoft Visual Studio 14.0"
         Add-MpPreference -ExclusionPath "C:\Program Files (x86)\Microsoft Visual Studio"
