@@ -3,7 +3,7 @@ Write-Host "The user running is: $($env:UserName)"
 
 $modules = @("PSFramework", "Azure.Storage", "AzureAd", "PSNotification", "PSOAuthHelper", "PowerShellGet", "PackageManagement","ImportExcel","PSScriptAnalyzer")
 
-Install-Module "Pester" -MaximumVersion 4.99.99
+Install-Module "Pester" -MaximumVersion 4.99.99 -Force -SkipPublisherCheck -AllowClobber
 #Install-Module -Name "PSScriptAnalyzer" -Force -SkipPublisherCheck -AllowClobber #-RequiredVersion 1.18.3
 
 foreach ($module in $modules) {
