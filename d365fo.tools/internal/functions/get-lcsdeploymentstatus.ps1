@@ -74,7 +74,8 @@ function Get-LcsDeploymentStatus {
     
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $deployStatusUri = "$LcsApiUri/environment/servicing/v1/monitorupdate/$($ProjectId)?environmentId=$EnvironmentId&actionHistoryId=$ActionHistoryId"
 
     $request = New-JsonRequest -Uri $deployStatusUri -Token $BearerToken -HttpMethod "GET"

@@ -55,7 +55,8 @@ function Get-LcsDatabaseBackups {
     
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $deployStatusUri = "$LcsApiUri/databasemovement/v1/databases/project/$($ProjectId)"
     
     $request = New-JsonRequest -Uri $deployStatusUri -Token $BearerToken -HttpMethod "GET"

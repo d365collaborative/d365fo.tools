@@ -102,7 +102,8 @@ function Start-LcsUpload {
     
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $createUri = "$LcsApiUri/box/fileasset/CreateFileAsset/$ProjectId"
 
     $request = New-JsonRequest -Uri $createUri -Content $jsonFile -Token $Token

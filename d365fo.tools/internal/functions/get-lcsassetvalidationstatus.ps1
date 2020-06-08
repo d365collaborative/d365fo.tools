@@ -59,7 +59,8 @@ function Get-LcsAssetValidationStatus {
     
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $checkUri = "$LcsApiUri/box/fileasset/GetFileAssetValidationStatus/$($ProjectId)?assetId=$AssetId"
 
     $request = New-JsonRequest -Uri $checkUri -Token $BearerToken -HttpMethod "GET"

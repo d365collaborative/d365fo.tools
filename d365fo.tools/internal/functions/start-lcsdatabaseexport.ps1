@@ -77,7 +77,8 @@ function Start-LcsDatabaseExport {
     
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $deployUri = "$LcsApiUri/databasemovement/v1/export/project/$($ProjectId)/environment/$($SourceEnvironmentId)/backupName/$($BackupName)"
 
     $request = New-JsonRequest -Uri $deployUri -Token $BearerToken -HttpMethod "POST"

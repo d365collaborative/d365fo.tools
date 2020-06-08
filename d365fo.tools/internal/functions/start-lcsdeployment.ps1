@@ -72,7 +72,8 @@ function Start-LcsDeployment {
     
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $deployUri = "$LcsApiUri/environment/servicing/v1/applyupdate/$($ProjectId)?assetId=$AssetId&environmentId=$EnvironmentId"
 
     $request = New-JsonRequest -Uri $deployUri -Token $BearerToken -HttpMethod "POST"

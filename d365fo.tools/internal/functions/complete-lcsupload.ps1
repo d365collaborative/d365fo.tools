@@ -59,7 +59,8 @@ function Complete-LcsUpload {
 
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $commitFileUri = "$LcsApiUri/box/fileasset/CommitFileAsset/$($ProjectId)?assetId=$AssetId"
 
     $request = New-JsonRequest -Uri $commitFileUri -Token $Token

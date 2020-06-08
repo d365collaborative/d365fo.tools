@@ -77,7 +77,8 @@ function Get-LcsDatabaseOperationStatus {
     
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $databaseOperationStatusUri = "$LcsApiUri/databasemovement/v1/fetchstatus/project/$($ProjectId)/environment/$($EnvironmentId)/operationactivity/$($OperationActivityId)"
     
     $request = New-JsonRequest -Uri $databaseOperationStatusUri -Token $BearerToken -HttpMethod "GET"
