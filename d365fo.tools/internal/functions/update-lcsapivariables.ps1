@@ -28,7 +28,14 @@ function Update-LcsApiVariables {
             
         $name = "LcsApi" + (Get-Culture).TextInfo.ToTitleCase($item)
         
-        Write-PSFMessage -Level Verbose -Message "$name - $($hashParameters[$item])" -Target $hashParameters[$item]
+        $valueMessage = $hashParameters[$item]
+
+        if ($item -like "*client*" -and $valueMessage.Length -gt 20)
+        {
+            $valueMessage = $valueMessage.Substring(0,18) + "[...REDACTED...]"
+        }
+
+        Write-PSFMessage -Level Verbose -Message "$name - $valueMessage" -Target $valueMessage
         Set-Variable -Name $name -Value $hashParameters[$item] -Scope Script
     }
 }
