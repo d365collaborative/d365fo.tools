@@ -77,7 +77,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:AccountId
+Default value: $Script:AzureStorageAccountId
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -92,7 +92,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:AccessToken
+Default value: $Script:AzureStorageAccessToken
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -107,7 +107,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:SAS
+Default value: $Script:AzureStorageSAS
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -122,7 +122,7 @@ Aliases: Blobname, Blob
 
 Required: False
 Position: Named
-Default value: $Script:Container
+Default value: $Script:AzureStorageContainer
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
