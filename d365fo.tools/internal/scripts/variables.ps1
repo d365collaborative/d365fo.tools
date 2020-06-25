@@ -112,13 +112,13 @@ $Script:InstallationRecordsDir = $RegValue
 
 $Script:UserIsAdmin = $env:UserName -like "*admin*"
 
-if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account")) {
-    $azure = Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account"
-    $Script:AccountId = $azure.AccountId
-    $Script:AccessToken = $azure.AccessToken
-    $Script:Container = $azure.Container
-    $Script:SAS = $azure.SAS
-}
+# if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account")) {
+#     $azure = Get-PSFConfigValue -FullName "d365fo.tools.active.azure.storage.account"
+#     $Script:AzureStorageAccountId = $azure.AccountId
+#     $Script:AzureStorageAccessToken = $azure.AccessToken
+#     $Script:AzureStorageContainer = $azure.Container
+#     $Script:AzureStorageSAS = $azure.SAS
+# }
 
 $Script:TfDir = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\"
 
@@ -149,10 +149,13 @@ Update-LcsApiVariables
 
 $maskOutput = @(
     "AccessToken",
+    "AzureStorageAccessToken",
     "Token",
     "BearerToken",
     "Password",
-    "RefreshToken"
+    "RefreshToken",
+    "SAS"
+    "AzureStorageSAS"
 )
 
 #Active broadcast message config extraction
@@ -160,6 +163,9 @@ Update-BroadcastVariables
 
 #Update different PSF Configuration variables values
 Update-PsfConfigVariables
+
+#Active Azure Storage Configuration variables values
+Update-AzureStorageVariables
 
 (Get-Variable -Scope Script) | ForEach-Object {
     $val = $null

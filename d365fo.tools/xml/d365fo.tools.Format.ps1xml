@@ -116,6 +116,9 @@
 							<ListItem>
 								<PropertyName>File</PropertyName>
 							</ListItem>
+							<ListItem>
+								<PropertyName>SourceUri</PropertyName>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>

@@ -73,18 +73,18 @@ function Invoke-D365AzureStorageUpload {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false)]
-        [string] $AccountId = $Script:AccountId,
+        [string] $AccountId = $Script:AzureStorageAccountId,
 
         [Parameter(Mandatory = $false)]
-        [string] $AccessToken = $Script:AccessToken,
+        [string] $AccessToken = $Script:AzureStorageAccessToken,
 
         [Parameter(Mandatory = $false)]
-        [string] $SAS = $Script:SAS,
+        [string] $SAS = $Script:AzureStorageSAS,
 
         [Parameter(Mandatory = $false)]
         [Alias('Blob')]
         [Alias('Blobname')]
-        [string] $Container = $Script:Container,
+        [string] $Container = $Script:AzureStorageContainer,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipeline = $true)]
         [Parameter(Mandatory = $true, ParameterSetName = 'Pipeline', ValueFromPipelineByPropertyName = $true)]

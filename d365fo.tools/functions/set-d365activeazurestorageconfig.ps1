@@ -79,10 +79,7 @@ function Set-D365ActiveAzureStorageConfig {
 
         Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value $azureDetails
         if (-not $Temporary) { Register-PSFConfig -FullName "d365fo.tools.active.azure.storage.account"  -Scope $configScope }
-
-        $Script:AccountId = $azureDetails.AccountId
-        $Script:AccessToken = $azureDetails.AccessToken
-        $Script:Container = $azureDetails.Container
-        $Script:SAS = $azureDetails.SAS
+        
+        Update-AzureStorageVariables
     }
 }

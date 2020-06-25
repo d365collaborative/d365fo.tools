@@ -88,6 +88,7 @@
 
 						'Get-D365AzureStorageConfig',
 						'Get-D365AzureStorageFile',
+						'Get-D365AzureStorageUrl',
 						'Get-D365BroadcastMessage',
 						'Get-D365BroadcastMessageConfig',
 
