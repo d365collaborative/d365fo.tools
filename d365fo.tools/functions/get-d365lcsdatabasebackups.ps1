@@ -26,6 +26,9 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
         Default value can be configured using Set-D365LcsApiConfig
+
+    .PARAMETER Latest
+        Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
         
     .EXAMPLE
         PS C:\> Get-D365LcsDatabaseBackups -ProjectId 123456789 -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
@@ -44,7 +47,17 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
+    
+    .EXAMPLE
+        PS C:\> Get-D365LcsDatabaseBackups -Latest
         
+        This will get the latest available database backup from the Asset Library inside LCS.
+        It will use default values for all parameters.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+    
     .LINK
         Get-D365LcsApiConfig
         
@@ -67,15 +80,15 @@ function Get-D365LcsDatabaseBackups {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $false)]
         [int] $ProjectId = $Script:LcsApiProjectId,
         
-        [Parameter(Mandatory = $false)]
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
-        [Parameter(Mandatory = $false)]
-        [string] $LcsApiUri = $Script:LcsApiLcsApiUri
+        [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
+
+        [Alias('GetLatest')]
+        [switch] $Latest
     )
 
     Invoke-TimeSignal -Start
@@ -88,7 +101,12 @@ function Get-D365LcsDatabaseBackups {
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    $backups.DatabaseAssets
+    if ($Latest) {
+        $backups.DatabaseAssets | Sort-Object -Property "CreatedDateTime" -Descending | Select-Object -First 1
+    }
+    else {
+        $backups.DatabaseAssets
+    }
 
     Invoke-TimeSignal -End
 }
