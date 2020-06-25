@@ -57,6 +57,7 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 function Get-D365AzureStorageUrl {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [CmdletBinding()]
     param (
         [string] $AccountId = $Script:AzureStorageAccountId,
