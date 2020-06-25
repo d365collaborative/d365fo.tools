@@ -85,7 +85,7 @@ function Get-LcsAssetValidationStatus {
         
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
             if (($asset) -and ($asset.Message)) {
-                Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)
+                Write-PSFMessage -Level Host -Message "Error getting the validation status of the file asset." -Target $($asset.Message)
                 Stop-PSFFunction -Message "Stopping because of errors"
             }
             else {
@@ -96,11 +96,11 @@ function Get-LcsAssetValidationStatus {
 
         if (-not ($asset.Id)) {
             if ($asset.Message) {
-                Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)
+                Write-PSFMessage -Level Host -Message "Error getting the validation status of the file asset." -Target $($asset.Message)
                 Stop-PSFFunction -Message "Stopping because of errors"
             }
             else {
-                Write-PSFMessage -Level Host -Message "Unknown error creating new file asset." -Target $asset
+                Write-PSFMessage -Level Host -Message "Unknown error getting the validation status of the file asset." -Target $asset
                 Stop-PSFFunction -Message "Stopping because of errors"
             }
         }
