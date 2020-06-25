@@ -1464,15 +1464,22 @@
                      "Container"
                  ],
         "Params":  [
-
+                       [
+                           "OutputAsPsCustomObject",
+                           "Instruct the cmdlet to return a PsCustomObject object",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
                    ],
         "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
         "Synopsis":  "Get active Azure Storage Account configuration",
         "Name":  "Get-D365ActiveAzureStorageConfig",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365ActiveAzureStorageConfig\nThis will get the active Azure Storage configuration",
-        "Syntax":  "Get-D365ActiveAzureStorageConfig [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365ActiveAzureStorageConfig\nThis will get the active Azure Storage configuration.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365ActiveAzureStorageConfig -OutputAsPsCustomObject\nThis will get the active Azure Storage configuration.\r\nThe object will be output as a PsCustomObject, for you to utilize across your scripts.",
+        "Syntax":  "Get-D365ActiveAzureStorageConfig [-OutputAsPsCustomObject] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365ActiveBroadcastMessageConfig",
@@ -1610,6 +1617,14 @@
                            false,
                            "false",
                            "*"
+                       ],
+                       [
+                           "OutputAsHashtable",
+                           "Instruct the cmdlet to return a hastable object",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -1617,8 +1632,8 @@
         "Synopsis":  "Get Azure Storage Account configs",
         "Name":  "Get-D365AzureStorageConfig",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365AzureStorageConfig\nThis will show all Azure Storage Account configs",
-        "Syntax":  "Get-D365AzureStorageConfig [[-Name] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365AzureStorageConfig\nThis will show all Azure Storage Account configs\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365AzureStorageConfig -OutputAsHashtable\nThis will show all Azure Storage Account configs.\r\nEvery object will be output as a hashtable, for you to utilize as parameters for other cmdlets.",
+        "Syntax":  "Get-D365AzureStorageConfig [[-Name] \u003cString\u003e] [-OutputAsHashtable] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365AzureStorageFile",
@@ -1638,7 +1653,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:AccountId"
+                           "$Script:AzureStorageAccountId"
                        ],
                        [
                            "AccessToken",
@@ -1646,7 +1661,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:AccessToken"
+                           "$Script:AzureStorageAccessToken"
                        ],
                        [
                            "SAS",
@@ -1654,7 +1669,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:SAS"
+                           "$Script:AzureStorageSAS"
                        ],
                        [
                            "Container",
@@ -1662,7 +1677,7 @@
                            "Blobname,Blob",
                            false,
                            "false",
-                           "$Script:Container"
+                           "$Script:AzureStorageContainer"
                        ],
                        [
                            "Name",
@@ -1688,6 +1703,63 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\"\nThis will get all files in the blob container \"backupfiles\".\r\nIt will use the AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" to gain access.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\" -Latest\nThis will get the latest (newest) file from the blob container \"backupfiles\".\r\nIt will use the AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" to gain access to the container.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\" -Name \"*UAT*\"\nThis will get all files in the blob container \"backupfiles\" that fits the \"*UAT*\" search value.\r\nIt will use the AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" to gain access to the container.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -Container \"backupfiles\" -Latest\nThis will get the latest (newest) file from the blob container \"backupfiles\".\r\nIt will use the SAS key \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" to gain access to the container.",
         "Syntax":  "Get-D365AzureStorageFile [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] [-Name \u003cString\u003e] [\u003cCommonParameters\u003e]\nGet-D365AzureStorageFile [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] -Latest [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365AzureStorageUrl",
+        "Description":  "Get a valid blob container url from an Azure Storage Account",
+        "Tags":  [
+                     "Azure",
+                     "Azure Storage",
+                     "Token",
+                     "Blob",
+                     "File",
+                     "Container",
+                     "LCS",
+                     "Asset",
+                     "Bacpac",
+                     "Backup"
+                 ],
+        "Params":  [
+                       [
+                           "AccountId",
+                           "Storage Account Name / Storage Account Id you want to work against",
+                           "",
+                           false,
+                           "false",
+                           "$Script:AzureStorageAccountId"
+                       ],
+                       [
+                           "SAS",
+                           "The SAS key that you have created for the storage account or blob container",
+                           "",
+                           false,
+                           "false",
+                           "$Script:AzureStorageSAS"
+                       ],
+                       [
+                           "Container",
+                           "Name of the blob container inside the storage account you want to work against",
+                           "Blobname,Blob",
+                           false,
+                           "false",
+                           "$Script:AzureStorageContainer"
+                       ],
+                       [
+                           "OutputAsHashtable",
+                           "Instruct the cmdlet to return a hastable object",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get a blob Url from Azure Storage account",
+        "Name":  "Get-D365AzureStorageUrl",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365AzureStorageUrl -AccountId \"miscfiles\" -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -Container \"backupfiles\"\nThis will generate a valid Url for the blob container in the Azure Storage Account.\r\nIt will use the AccountId \"miscfiles\" as the name of the storage account.\r\nIt will use the SAS key \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" to add the SAS token/key to the Url.\r\nIt will use the Container \"backupfiles\" as the container name in the Url.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365AzureStorageUrl\nThis will generate a valid Url for the blob container in the Azure Storage Account.\r\nIt will use the default values that are configured using the Set-D365ActiveAzureStorageConfig cmdlet and view using the Get-D365ActiveAzureStorageConfig cmdlet.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365AzureStorageUrl -OutputAsHashtable\nThis will generate a valid Url for the blob container in the Azure Storage Account.\r\nIt will use the default values that are configured using the Set-D365ActiveAzureStorageConfig cmdlet and view using the Get-D365ActiveAzureStorageConfig cmdlet.\nThe output object will be a Hashtable, which you can use as a parameter for other cmdlets.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003e$DestinationParms = Get-D365AzureStorageUrl -OutputAsHashtable\nPS C:\\\u003e $BlobFileDetails = Get-D365LcsDatabaseBackups -Latest | Invoke-D365AzCopyTransfer @DestinationParms\r\nPS C:\\\u003e $BlobFileDetails | Invoke-D365AzCopyTransfer -DestinationUri \"C:\\Temp\" -DeleteOnTransferComplete\nThis will transfer the lastest backup file from LCS Asset Library to your local \"C:\\Temp\".\r\nIt will get a destination Url, for it to transfer the backup file between the LCS storage account and your own.\r\nThe newly transfered file, that lives in your own storage account, will then be downloaded to your local \"c:\\Temp\".\nAfter the file has been downloaded to your local \"C:\\Temp\", it will be deleted from your own storage account.",
+        "Syntax":  "Get-D365AzureStorageUrl [[-AccountId] \u003cString\u003e] [[-SAS] \u003cString\u003e] [[-Container] \u003cString\u003e] [-OutputAsHashtable] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365BroadcastMessage",
@@ -4836,7 +4908,10 @@
                      "Files",
                      "Latest",
                      "Bacpac",
-                     "Container"
+                     "Container",
+                     "LCS",
+                     "Asset",
+                     "Library"
                  ],
         "Params":  [
                        [
@@ -4860,8 +4935,16 @@
                            "You might only pass a blob container or folder name in the DestinationUri parameter and want to give the transfered file another name than the original file name",
                            "",
                            false,
-                           "false",
+                           "true (ByPropertyName)",
                            ""
+                       ],
+                       [
+                           "DeleteOnTransferComplete",
+                           "Instruct the cmdlet to delete the source file when done transfering\nDefault is $false which will leave the source file",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ],
                        [
                            "ShowOriginalProgress",
@@ -4901,8 +4984,8 @@
         "Synopsis":  "Transfer a file using AzCopy",
         "Name":  "Invoke-D365AzCopyTransfer",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\"\nThis will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\".\nIf there exists a file already, the file will NOT be overwritten.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\" -Force\nThis will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\".\r\nIf there exists a file already, the file will  be overwritten, because Force has been supplied.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"https://456.blob.core.windows.net/targetcontainer/filename?\r\nsv=2015-12-11\u0026sr=...\"\nThis will transfer a file from an Azure Storage Blob Container to another Azure Storage Blob Container.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"https://456.blob.core.windows.net/targetcontainer/filename?sv=2015-12-11\u0026sr=...\".\nFor this to work, you need to make sure both SourceUri and DestinationUri has an valid SAS token/key included.\nIf there exists a file already, the file will NOT be overwritten.",
-        "Syntax":  "Invoke-D365AzCopyTransfer [-SourceUri] \u003cString\u003e [-DestinationUri] \u003cString\u003e [[-FileName] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-Force] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\"\nThis will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\".\nIf there exists a file already, the file will NOT be overwritten.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\" -Force\nThis will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\".\r\nIf there exists a file already, the file will  be overwritten, because Force has been supplied.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"https://456.blob.core.windows.net/targetcontainer/filename?\r\nsv=2015-12-11\u0026sr=...\"\nThis will transfer a file from an Azure Storage Blob Container to another Azure Storage Blob Container.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"https://456.blob.core.windows.net/targetcontainer/filename?sv=2015-12-11\u0026sr=...\".\nFor this to work, you need to make sure both SourceUri and DestinationUri has an valid SAS token/key included.\nIf there exists a file already, the file will NOT be overwritten.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\" -DeleteOnTransferComple\r\nte\nThis will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\".\nAfter the file has been transfered to your local \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\", it will be deleted from the SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=\r\n...\".\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003e$DestinationParms = Get-D365AzureStorageUrl -OutputAsHashtable\nPS C:\\\u003e $BlobFileDetails = Get-D365LcsDatabaseBackups -Latest | Invoke-D365AzCopyTransfer @DestinationParms\r\nPS C:\\\u003e $BlobFileDetails | Invoke-D365AzCopyTransfer -DestinationUri \"C:\\Temp\" -DeleteOnTransferComplete\nThis will transfer the lastest backup file from LCS Asset Library to your local \"C:\\Temp\".\r\nIt will get a destination Url, for it to transfer the backup file between the LCS storage account and your own.\r\nThe newly transfered file, that lives in your own storage account, will then be downloaded to your local \"c:\\Temp\".\nAfter the file has been downloaded to your local \"C:\\Temp\", it will be deleted from your own storage account.",
+        "Syntax":  "Invoke-D365AzCopyTransfer [-SourceUri] \u003cString\u003e [-DestinationUri] \u003cString\u003e [[-FileName] \u003cString\u003e] [-DeleteOnTransferComplete] [-ShowOriginalProgress] [-OutputCommandOnly] [-Force] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365AzureStorageDownload",
@@ -4927,7 +5010,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:AccountId"
+                           "$Script:AzureStorageAccountId"
                        ],
                        [
                            "AccessToken",
@@ -4935,7 +5018,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:AccessToken"
+                           "$Script:AzureStorageAccessToken"
                        ],
                        [
                            "SAS",
@@ -4943,7 +5026,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:SAS"
+                           "$Script:AzureStorageSAS"
                        ],
                        [
                            "Container",
@@ -4951,7 +5034,7 @@
                            "Blobname,Blob",
                            false,
                            "false",
-                           "$Script:Container"
+                           "$Script:AzureStorageContainer"
                        ],
                        [
                            "FileName",
@@ -5016,7 +5099,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:AccountId"
+                           "$Script:AzureStorageAccountId"
                        ],
                        [
                            "AccessToken",
@@ -5024,7 +5107,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:AccessToken"
+                           "$Script:AzureStorageAccessToken"
                        ],
                        [
                            "SAS",
@@ -5032,7 +5115,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:SAS"
+                           "$Script:AzureStorageSAS"
                        ],
                        [
                            "Container",
@@ -5040,7 +5123,7 @@
                            "Blobname,Blob",
                            false,
                            "false",
-                           "$Script:Container"
+                           "$Script:AzureStorageContainer"
                        ],
                        [
                            "Filepath",
