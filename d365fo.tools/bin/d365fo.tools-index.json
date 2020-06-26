@@ -53,6 +53,14 @@
                            ""
                        ],
                        [
+                           "Temporary",
+                           "Instruct the cmdlet to only temporarily add the azure storage account configuration in the configuration store",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "Force",
                            "Switch to instruct the cmdlet to overwrite already registered Azure Storage Account entry",
                            "",
@@ -66,8 +74,8 @@
         "Synopsis":  "Save an Azure Storage Account config",
         "Name":  "Add-D365AzureStorageConfig",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eAdd-D365AzureStorageConfig -Name \"UAT-Exports\" -AccountId \"1234\" -AccessToken \"dafdfasdfasdf\" -Container \"testblob\"\nThis will add an entry into the list of Azure Storage Accounts that is stored with the name \"UAT-Exports\" with AccountId \"1234\", AccessToken \"dafdfasdfasdf\" and blob container \"testblob\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eAdd-D365AzureStorageConfig -Name UAT-Exports -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -AccountId \"1234\" -Container \"testblob\"\nThis will add an entry into the list of Azure Storage Accounts that is stored with the name \"UAT-Exports\" with AccountId \"1234\", SAS \"sv=2018-03-28\u0026si=unlisted\u0026sr=c\u0026sig=AUOpdsfpoWE976ASDhfjkasdf(5678s\r\ndfhk\" and blob container \"testblob\".\r\nThe SAS key enables you to provide explicit access to a given blob container inside an Azure Storage Account.\r\nThe SAS key can easily be revoked and that way you have control over the access to the container and its content.",
-        "Syntax":  "Add-D365AzureStorageConfig -Name \u003cString\u003e -AccountId \u003cString\u003e -AccessToken \u003cString\u003e -Container \u003cString\u003e [-Force] [\u003cCommonParameters\u003e]\nAdd-D365AzureStorageConfig -Name \u003cString\u003e -AccountId \u003cString\u003e -SAS \u003cString\u003e -Container \u003cString\u003e [-Force] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eAdd-D365AzureStorageConfig -Name \"UAT-Exports\" -AccountId \"1234\" -AccessToken \"dafdfasdfasdf\" -Container \"testblob\"\nThis will add an entry into the list of Azure Storage Accounts that is stored with the name \"UAT-Exports\" with AccountId \"1234\", AccessToken \"dafdfasdfasdf\" and blob container \"testblob\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eAdd-D365AzureStorageConfig -Name UAT-Exports -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -AccountId \"1234\" -Container \"testblob\"\nThis will add an entry into the list of Azure Storage Accounts that is stored with the name \"UAT-Exports\" with AccountId \"1234\", SAS \"sv=2018-03-28\u0026si=unlisted\u0026sr=c\u0026sig=AUOpdsfpoWE976ASDhfjkasdf(5678s\r\ndfhk\" and blob container \"testblob\".\r\nThe SAS key enables you to provide explicit access to a given blob container inside an Azure Storage Account.\r\nThe SAS key can easily be revoked and that way you have control over the access to the container and its content.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eAdd-D365AzureStorageConfig -Name UAT-Exports -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -AccountId \"1234\" -Container \"testblob\" -Temporary\nThis will add an entry into the list of Azure Storage Accounts that is stored with the name \"UAT-Exports\" with AccountId \"1234\", SAS \"sv=2018-03-28\u0026si=unlisted\u0026sr=c\u0026sig=AUOpdsfpoWE976ASDhfjkasdf(5678s\r\ndfhk\" and blob container \"testblob\".\r\nThe SAS key enables you to provide explicit access to a given blob container inside an Azure Storage Account.\r\nThe SAS key can easily be revoked and that way you have control over the access to the container and its content.\nThe configuration will only last for the rest of this PowerShell console session.",
+        "Syntax":  "Add-D365AzureStorageConfig -Name \u003cString\u003e -AccountId \u003cString\u003e -AccessToken \u003cString\u003e -Container \u003cString\u003e [-Temporary] [-Force] [\u003cCommonParameters\u003e]\nAdd-D365AzureStorageConfig -Name \u003cString\u003e -AccountId \u003cString\u003e -SAS \u003cString\u003e -Container \u003cString\u003e [-Temporary] [-Force] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Add-D365BroadcastMessageConfig",
