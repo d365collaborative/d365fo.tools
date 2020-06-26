@@ -13,7 +13,7 @@ Get database backups from LCS project
 ## SYNTAX
 
 ```
-Get-D365LcsDatabaseBackups [[-ProjectId] <Int32>] [[-BearerToken] <String>] [[-LcsApiUri] <String>]
+Get-D365LcsDatabaseBackups [[-ProjectId] <Int32>] [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest]
  [<CommonParameters>]
 ```
 
@@ -38,6 +38,18 @@ Get-D365LcsDatabaseBackups
 ```
 
 This will get all available database backups from the Asset Library inside LCS.
+It will use default values for all parameters.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 3
+```
+Get-D365LcsDatabaseBackups -Latest
+```
+
+This will get the latest available database backup from the Asset Library inside LCS.
 It will use default values for all parameters.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
@@ -99,6 +111,21 @@ Aliases:
 Required: False
 Position: 3
 Default value: $Script:LcsApiLcsApiUri
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Latest
+Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: GetLatest
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

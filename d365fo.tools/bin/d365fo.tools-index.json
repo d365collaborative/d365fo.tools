@@ -2901,6 +2901,14 @@
                            false,
                            "false",
                            "$Script:LcsApiLcsApiUri"
+                       ],
+                       [
+                           "Latest",
+                           "Instruct the cmdlet to only fetch the latest file from the Azure Storage Account",
+                           "GetLatest",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -2913,8 +2921,8 @@
                       null,
                       null
                   ],
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseBackups -ProjectId 123456789 -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will get all available database backups from the Asset Library inside LCS.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"Bearer JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseBackups\nThis will get all available database backups from the Asset Library inside LCS.\r\nIt will use default values for all parameters.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Get-D365LcsDatabaseBackups [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseBackups -ProjectId 123456789 -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will get all available database backups from the Asset Library inside LCS.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"Bearer JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseBackups\nThis will get all available database backups from the Asset Library inside LCS.\r\nIt will use default values for all parameters.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseBackups -Latest\nThis will get the latest available database backup from the Asset Library inside LCS.\r\nIt will use default values for all parameters.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
+        "Syntax":  "Get-D365LcsDatabaseBackups [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365LcsDatabaseOperationStatus",

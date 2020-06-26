@@ -26,7 +26,7 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
         Default value can be configured using Set-D365LcsApiConfig
-
+        
     .PARAMETER Latest
         Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
         
@@ -47,7 +47,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-    
+        
     .EXAMPLE
         PS C:\> Get-D365LcsDatabaseBackups -Latest
         
@@ -57,7 +57,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-    
+        
     .LINK
         Get-D365LcsApiConfig
         
