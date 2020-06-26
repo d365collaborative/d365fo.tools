@@ -15,13 +15,13 @@ Save an Azure Storage Account config
 ### AccessToken
 ```
 Add-D365AzureStorageConfig -Name <String> -AccountId <String> -AccessToken <String> -Container <String>
- [-Force] [<CommonParameters>]
+ [-Temporary] [-Force] [<CommonParameters>]
 ```
 
 ### SAS
 ```
-Add-D365AzureStorageConfig -Name <String> -AccountId <String> -SAS <String> -Container <String> [-Force]
- [<CommonParameters>]
+Add-D365AzureStorageConfig -Name <String> -AccountId <String> -SAS <String> -Container <String> [-Temporary]
+ [-Force] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,6 +44,17 @@ Add-D365AzureStorageConfig -Name UAT-Exports -SAS "sv2018-03-28&siunlisted&src&s
 This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", SAS "sv=2018-03-28&si=unlisted&sr=c&sig=AUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" and blob container "testblob".
 The SAS key enables you to provide explicit access to a given blob container inside an Azure Storage Account.
 The SAS key can easily be revoked and that way you have control over the access to the container and its content.
+
+### EXAMPLE 3
+```
+Add-D365AzureStorageConfig -Name UAT-Exports -SAS "sv2018-03-28&siunlisted&src&sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" -AccountId "1234" -Container "testblob" -Temporary
+```
+
+This will add an entry into the list of Azure Storage Accounts that is stored with the name "UAT-Exports" with AccountId "1234", SAS "sv=2018-03-28&si=unlisted&sr=c&sig=AUOpdsfpoWE976ASDhfjkasdf(5678sdfhk" and blob container "testblob".
+The SAS key enables you to provide explicit access to a given blob container inside an Azure Storage Account.
+The SAS key can easily be revoked and that way you have control over the access to the container and its content.
+
+The configuration will only last for the rest of this PowerShell console session.
 
 ## PARAMETERS
 
@@ -118,6 +129,21 @@ Aliases: Blobname, Blob
 Required: True
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Temporary
+Instruct the cmdlet to only temporarily add the azure storage account configuration in the configuration store
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
