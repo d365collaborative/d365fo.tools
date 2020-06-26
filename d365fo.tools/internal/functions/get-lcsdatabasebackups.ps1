@@ -81,10 +81,10 @@ function Get-LcsDatabaseBackups {
             if (($databasesObject) -and ($databasesObject.ErrorMessage)) {
                 $errorText = ""
                 if ($databasesObject.OperationActivityId) {
-                    $errorText = "Error $( $databasesObject.ErrorMessage) in request for status of environment servicing action: '$( $databasesObject.ErrorMessage)' (Activity Id: '$( $databasesObject.OperationActivityId)')"
+                    $errorText = "Error $( $databasesObject.ErrorMessage) in request for listing all bacpacs and backup from the asset library of LCS: '$( $databasesObject.ErrorMessage)' (Activity Id: '$( $databasesObject.OperationActivityId)')"
                 }
                 else {
-                    $errorText = "Error $( $databasesObject.ErrorMessage) in request for status of environment servicing action: '$( $databasesObject.ErrorMessage)'"
+                    $errorText = "Error $( $databasesObject.ErrorMessage) in request for listing all bacpacs and backup from the asset library of LCS: '$( $databasesObject.ErrorMessage)'"
                 }
             }
             elseif ($databasesObject.OperationActivityId) {
@@ -94,7 +94,7 @@ function Get-LcsDatabaseBackups {
                 $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
             }
 
-            Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($databasesObject.ErrorMessage)
+            Write-PSFMessage -Level Host -Message "Error listing bacpacs and backups from asset library." -Target $($databasesObject.ErrorMessage)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }
@@ -102,16 +102,17 @@ function Get-LcsDatabaseBackups {
         
         if (-not ( $databasesObject.IsSuccess)) {
             if ( $databasesObject.ErrorMessage) {
-                $errorText = "Error in request for status of environment servicing action: '$( $databasesObject.ErrorMessage)' (Activity Id: '$( $databasesObject.OperationActivityId)')"
+                $errorText = "Error in request for listing all bacpacs and backup from the asset library of LCS: '$( $databasesObject.ErrorMessage)' (Activity Id: '$( $databasesObject.OperationActivityId)')"
+
             }
             elseif ( $databasesObject.OperationActivityId) {
-                $errorText = "Error in request for status of environment servicing action. Activity Id: '$($activity.OperationActivityId)'"
+                $errorText = "Error in request for listing all bacpacs and backup from the asset library of LCS. Activity Id: '$($activity.OperationActivityId)'"
             }
             else {
-                $errorText = "Unknown error in request for status of environment servicing action"
+                $errorText = "Unknown error in request for listing all bacpacs and backup from the asset library of LCS"
             }
 
-            Write-PSFMessage -Level Host -Message "Unknown error creating new file asset." -Target $databasesObject
+            Write-PSFMessage -Level Host -Message "Unknown error while listing all bacpacs and backups from asset library." -Target $databasesObject
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         }

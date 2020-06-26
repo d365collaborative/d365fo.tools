@@ -113,14 +113,13 @@ function Get-LcsDeploymentStatus {
                 $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
             }
 
-            Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($deploymentStatus.Message)
+            Write-PSFMessage -Level Host -Message "Error fetching environment servicing status." -Target $($deploymentStatus.Message)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors"
         }
 
-        
         if (-not ( $deploymentStatus.LcsEnvironmentActionStatus)) {
-            if ( $deploymentStatus.Message) {
+            if ($deploymentStatus.Message) {
                 $errorText = "Error in request for status of environment servicing action: '$( $deploymentStatus.Message)' (Activity Id: '$( $deploymentStatus.ActivityId)')"
             }
             elseif ( $deploymentStatus.ActivityId) {
@@ -130,7 +129,7 @@ function Get-LcsDeploymentStatus {
                 $errorText = "Unknown error in request for status of environment servicing action"
             }
 
-            Write-PSFMessage -Level Host -Message "Unknown error creating new file asset." -Target $deploymentStatus
+            Write-PSFMessage -Level Host -Message "Unknown error fetching environment servicing status." -Target $deploymentStatus
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors"
         }
