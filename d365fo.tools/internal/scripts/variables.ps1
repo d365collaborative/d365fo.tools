@@ -163,7 +163,7 @@ Update-AzureStorageVariables
     $val = $null
 
     if ($maskOutput -contains $($_.Name)) {
-        $val = "The variable was found - but the content masked while outputting."
+        $val = "The variable was found - [...REDACTED...]"
     }
     else {
         $val = $($_.Value)
