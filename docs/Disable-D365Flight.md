@@ -1,7 +1,7 @@
 ﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
-online version: https://msdyn365fo.wordpress.com/2019/12/18/cleanup-tempdb-tables-in-a-msdyn365fo-sandbox-environment/
+online version: https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/data-entities-data-packages#features-flighted-in-data-management-and-enabling-flighted-features
 schema: 2.0.0
 ---
 
@@ -124,8 +124,10 @@ Tags: Flight, Flighting
 Author: Frank Hüther (@FrankHuether)
 
 The DataAccess.FlightingServiceCatalogID must already be set in the web.config file.
-https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/data-entities-data-packages#features-flighted-in-data-management-and-enabling-flighted-features
 
 At no circumstances can this cmdlet be used to enable a flight in a PROD environment.
 
 ## RELATED LINKS
+
+[https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/data-entities-data-packages#features-flighted-in-data-management-and-enabling-flighted-features](https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/data-entities-data-packages#features-flighted-in-data-management-and-enabling-flighted-features)
+

@@ -30,13 +30,15 @@
         
         Disables the flight DMFEnableAllCompanyExport
         
+    .LINK
+        https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/data-entities-data-packages#features-flighted-in-data-management-and-enabling-flighted-features
+        
     .NOTES
         Tags: Flight, Flighting
         
         Author: Frank Hüther (@FrankHuether)
         
         The DataAccess.FlightingServiceCatalogID must already be set in the web.config file.
-        https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/data-entities-data-packages#features-flighted-in-data-management-and-enabling-flighted-features
         
         At no circumstances can this cmdlet be used to enable a flight in a PROD environment.
 #>
