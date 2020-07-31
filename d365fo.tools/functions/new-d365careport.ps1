@@ -30,6 +30,9 @@
     .PARAMETER XmlLog
         Path where you want to store the Xml log output generated from the best practice analyser
         
+    .PARAMETER PackagesRoot
+        Instructs the cmdlet to use binary metadata
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -92,6 +95,8 @@ function New-D365CAReport {
 
         [string] $XmlLog = (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml"),
 
+        [switch] $PackagesRoot,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly
@@ -114,6 +119,10 @@ function New-D365CAReport {
         "-xmlLog=`"$XmlLog`"",
         "-car=`"$OutputPath`""
     )
+
+    if ($PackagesRoot -eq $true) {
+        $params += "-packagesroot=`"$MetaDataDir`""
+    }
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
 

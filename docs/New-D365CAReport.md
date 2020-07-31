@@ -14,7 +14,7 @@ Generate the Customization's Analysis Report (CAR)
 
 ```
 New-D365CAReport [[-OutputPath] <String>] [-Module] <String> [-Model] <String> [-SuffixWithModule]
- [[-BinDir] <String>] [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-ShowOriginalProgress]
+ [[-BinDir] <String>] [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-PackagesRoot] [-ShowOriginalProgress]
  [-OutputCommandOnly] [<CommonParameters>]
 ```
 
@@ -157,6 +157,21 @@ Aliases:
 Required: False
 Position: 6
 Default value: (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml")
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PackagesRoot
+Instructs the cmdlet to use binary metadata
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
