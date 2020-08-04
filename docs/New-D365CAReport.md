@@ -14,7 +14,7 @@ Generate the Customization's Analysis Report (CAR)
 
 ```
 New-D365CAReport [[-OutputPath] <String>] [-Module] <String> [-Model] <String> [-SuffixWithModule]
- [[-BinDir] <String>] [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-ShowOriginalProgress]
+ [[-BinDir] <String>] [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-PackagesRoot] [-ShowOriginalProgress]
  [-OutputCommandOnly] [<CommonParameters>]
 ```
 
@@ -47,6 +47,15 @@ New-D365CAReport -module "ApplicationSuite" -model "MyOverLayerModel" -SuffixWit
 This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
 It will use the default value for the OutputPath parameter, which is "c:\temp\d365fo.tools\CAReport.xlsx".
 It will append the module name to the desired output file, which will then be "c:\temp\d365fo.tools\CAReport-ApplicationSuite.xlsx".
+
+### EXAMPLE 4
+```
+New-D365CAReport -OutputPath "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel" -PackagesRoot
+```
+
+This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+It will use the binary metadata to look for the module and model.
+It will use the "c:\temp\CAReport.xlsx" value for the OutputPath parameter.
 
 ## PARAMETERS
 
@@ -157,6 +166,21 @@ Aliases:
 Required: False
 Position: 6
 Default value: (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml")
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PackagesRoot
+Instructs the cmdlet to use binary metadata
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
