@@ -7,3 +7,4 @@ internal\tepp\assignment.ps1
 internal\scripts\license.ps1
 internal\scripts\enum-environmenttype.ps1
 internal\scripts\variables.ps1
+internal\scripts\load-dotnet-assemblies.ps1
