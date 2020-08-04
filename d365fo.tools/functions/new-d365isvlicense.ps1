@@ -67,9 +67,16 @@ function New-D365ISVLicense {
         Expand-Archive -Path $Path -DestinationPath $packageTemp
 
         $licenseMergePath = Join-Path $packageTemp "AosService\Scripts\License"
-
-        Get-ChildItem -Path $licenseMergePath | Remove-Item -Force -ErrorAction SilentlyContinue
-
+		
+		if (Test-Path -Path $licenseMergePath) 
+		{
+			Get-ChildItem -Path $licenseMergePath | Remove-Item -Force -ErrorAction SilentlyContinue
+		}
+		else
+		{
+			$null = New-Item -Path $licenseMergePath -ItemType Directory -ErrorAction SilentlyContinue
+		}
+		
         Write-PSFMessage -Level Verbose -Message "Copying the license file into place."
         Copy-Item -Path $LicenseFile -Destination $licenseMergePath
 
