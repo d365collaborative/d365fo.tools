@@ -28,6 +28,7 @@
         
     .NOTES
         Author: Mötz Jensen (@splaxi)
+        Author: 
         
 #>
 function New-D365ISVLicense {
@@ -52,7 +53,7 @@ function New-D365ISVLicense {
     
     process {
 
-        if (-not (Test-PathExists -Path $Path, $LicenseFile -Type "Leaf")) {return}
+        if (-not (Test-PathExists -Path $Path, $LicenseFile -Type "Leaf")) { return }
 
         $null = New-Item -Path (Split-Path $OutputPath -Parent) -ItemType Directory -ErrorAction SilentlyContinue
 
@@ -68,14 +69,12 @@ function New-D365ISVLicense {
 
         $licenseMergePath = Join-Path $packageTemp "AosService\Scripts\License"
 		
-		if (Test-Path -Path $licenseMergePath) 
-		{
-			Get-ChildItem -Path $licenseMergePath | Remove-Item -Force -ErrorAction SilentlyContinue
-		}
-		else
-		{
-			$null = New-Item -Path $licenseMergePath -ItemType Directory -ErrorAction SilentlyContinue
-		}
+        if (Test-Path -Path $licenseMergePath) {
+            Get-ChildItem -Path $licenseMergePath | Remove-Item -Force -ErrorAction SilentlyContinue
+        }
+        else {
+            $null = New-Item -Path $licenseMergePath -ItemType Directory -ErrorAction SilentlyContinue
+        }
 		
         Write-PSFMessage -Level Verbose -Message "Copying the license file into place."
         Copy-Item -Path $LicenseFile -Destination $licenseMergePath
