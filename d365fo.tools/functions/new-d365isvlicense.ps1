@@ -28,7 +28,7 @@
         
     .NOTES
         Author: Mötz Jensen (@splaxi)
-        Author: 
+        Author: Szabolcs Eötvös
         
 #>
 function New-D365ISVLicense {

@@ -90,5 +90,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 Author: Mötz Jensen (@splaxi)
+Author: Szabolcs Eötvös
 
 ## RELATED LINKS

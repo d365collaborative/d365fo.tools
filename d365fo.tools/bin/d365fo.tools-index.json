@@ -703,7 +703,7 @@
         "Author":  "Frank Hüther (@FrankHuether)",
         "Synopsis":  "Used to disable a flight",
         "Name":  "Disable-D365Flight",
-        "Links":  null,
+        "Links":  "https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/data-entities-data-packages#features-flighted-in-data-management-and-enabling-flighted-features",
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eDisable-D365Flight -FlightName DMFEnableAllCompanyExport\nDisables the flight DMFEnableAllCompanyExport",
         "Syntax":  "Disable-D365Flight [-FlightName] \u003cString\u003e [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
@@ -7493,6 +7493,14 @@
                            "(Join-Path $Script:DefaultTempPath \"BPCheckLogcd.xml\")"
                        ],
                        [
+                           "PackagesRoot",
+                           "Instructs the cmdlet to use binary metadata",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -7514,8 +7522,8 @@
         "Synopsis":  "Generate the Customization\u0027s Analysis Report (CAR)",
         "Name":  "New-D365CAReport",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -SuffixWithModule\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\r\nIt will append the module name to the desired output file, which will then be \"c:\\temp\\d365fo.tools\\CAReport-ApplicationSuite.xlsx\".",
-        "Syntax":  "New-D365CAReport [[-OutputPath] \u003cString\u003e] [-Module] \u003cString\u003e [-Model] \u003cString\u003e [-SuffixWithModule] [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-XmlLog] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -SuffixWithModule\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\r\nIt will append the module name to the desired output file, which will then be \"c:\\temp\\d365fo.tools\\CAReport-ApplicationSuite.xlsx\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -PackagesRoot\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the binary metadata to look for the module and model.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.",
+        "Syntax":  "New-D365CAReport [[-OutputPath] \u003cString\u003e] [-Module] \u003cString\u003e [-Model] \u003cString\u003e [-SuffixWithModule] [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-XmlLog] \u003cString\u003e] [-PackagesRoot] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "New-D365ISVLicense",
