@@ -21,24 +21,24 @@
         
     .EXAMPLE
         PS C:\> Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnly
-
+        
         This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
         The output from Invoke-D365RunbookAnalyzer will only contain failed steps.
-
+        
     .EXAMPLE
         PS C:\> Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnlyAsObjects
-
+        
         This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
         The output from Invoke-D365RunbookAnalyzer will only contain failed steps.
         The output will be formatted as PSCustomObjects, to be used as variables or piping.
-
+        
     .EXAMPLE
         PS C:\> Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnlyAsObjects | Get-D365RunbookLogFile -Path "C:\Temp\PU35" -OpenInEditor
-
+        
         This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
         The output from Invoke-D365RunbookAnalyzer will only contain failed steps.
         The Get-D365RunbookLogFile will open all log files for the failed step.
-
+        
     .EXAMPLE
         PS C:\> Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer | Out-File "C:\Temp\d365fo.tools\runbook-analyze-results.xml"
         
