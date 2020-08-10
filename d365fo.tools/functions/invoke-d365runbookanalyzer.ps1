@@ -20,6 +20,26 @@
         This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
         
     .EXAMPLE
+        PS C:\> Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnly
+
+        This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
+        The output from Invoke-D365RunbookAnalyzer will only contain failed steps.
+
+    .EXAMPLE
+        PS C:\> Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnlyAsObjects
+
+        This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
+        The output from Invoke-D365RunbookAnalyzer will only contain failed steps.
+        The output will be formatted as PSCustomObjects, to be used as variables or piping.
+
+    .EXAMPLE
+        PS C:\> Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnlyAsObjects | Get-D365RunbookLogFile -Path "C:\Temp\PU35" -OpenInEditor
+
+        This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
+        The output from Invoke-D365RunbookAnalyzer will only contain failed steps.
+        The Get-D365RunbookLogFile will open all log files for the failed step.
+
+    .EXAMPLE
         PS C:\> Get-D365Runbook -Latest | Invoke-D365RunbookAnalyzer | Out-File "C:\Temp\d365fo.tools\runbook-analyze-results.xml"
         
         This will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.
@@ -39,12 +59,20 @@
         
 #>
 function Invoke-D365RunbookAnalyzer {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     [OutputType('System.String')]
     param (
-        [Parameter(Mandatory = $true, Position = 1, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true, ParameterSetName = "Default")]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true, ParameterSetName = "FailedOnly")]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true, ParameterSetName = "FailedOnlyAsObjects")]
         [Alias('File')]
-        [string] $Path
+        [string] $Path,
+
+        [Parameter(ParameterSetName = "FailedOnly")]
+        [switch] $FailedOnly,
+
+        [Parameter(ParameterSetName = "FailedOnlyAsObjects")]
+        [switch] $FailedOnlyAsObjects
     )
     
     process {
@@ -55,49 +83,58 @@ function Invoke-D365RunbookAnalyzer {
 
         [xml]$xmlRunbook = Get-Content $Path
 
+        $failedObjs = New-Object System.Collections.Generic.List[System.Object]
+
         $failedSteps = $xmlRunbook.SelectNodes("//RunbookStepList/Step/StepState[text()='Failed']")
 
         $failedSteps | ForEach-Object {
             $null = $sb.AppendLine("<FailedStepInfo>")
 
-            $stepId = $_.ParentNode | Select-Object -ExpandProperty childnodes | Where-Object {$_.name -like 'ID'} | Select-Object -ExpandProperty InnerText
+            $stepId = $_.ParentNode | Select-Object -ExpandProperty childnodes | Where-Object { $_.name -like 'ID' } | Select-Object -ExpandProperty InnerText
             $failedLogs = $xmlRunbook.SelectNodes("//RunbookLogs/Log/StepID[text()='$stepId']")
+
+            $failedObjs.Add([PsCustomObject]@{Step = "$stepId" })
 
             $null = $sb.AppendLine($_.ParentNode.OuterXml)
 
-            $failedLogs | ForEach-Object { $null = $sb.AppendLine( $_.ParentNode.OuterXml)}
+            $failedLogs | ForEach-Object { $null = $sb.AppendLine( $_.ParentNode.OuterXml) }
 
             $null = $sb.AppendLine("</FailedStepInfo>")
         }
         
-        $inProgressSteps = $xmlRunbook.SelectNodes("//RunbookStepList/Step/StepState[text()='InProgress']")
+        if ((-not $FailedOnly) -and (-not $FailedOnlyAsObjects)) {
+            $inProgressSteps = $xmlRunbook.SelectNodes("//RunbookStepList/Step/StepState[text()='InProgress']")
 
-        $null = $sb.AppendLine("<InProgressStepInfo>")
+            $null = $sb.AppendLine("<InProgressStepInfo>")
 
-        $inProgressSteps | ForEach-Object { $null = $sb.AppendLine( $_.ParentNode.OuterXml)}
+            $inProgressSteps | ForEach-Object { $null = $sb.AppendLine( $_.ParentNode.OuterXml) }
 
-        $null = $sb.AppendLine("</InProgressStepInfo>")
+            $null = $sb.AppendLine("</InProgressStepInfo>")
 
-        $unprocessedSteps = $xmlRunbook.SelectNodes("//RunbookStepList/Step/StepState[text()='NotStarted']")
+            $unprocessedSteps = $xmlRunbook.SelectNodes("//RunbookStepList/Step/StepState[text()='NotStarted']")
 
-        $null = $sb.AppendLine("<UnprocessedStepInfo>")
+            $null = $sb.AppendLine("<UnprocessedStepInfo>")
 
-        $unprocessedSteps | ForEach-Object { $null = $sb.AppendLine( $_.ParentNode.OuterXml)}
+            $unprocessedSteps | ForEach-Object { $null = $sb.AppendLine( $_.ParentNode.OuterXml) }
 
-        $null = $sb.AppendLine("</UnprocessedStepInfo>")
-
-        
+            $null = $sb.AppendLine("</UnprocessedStepInfo>")
+        }
 
         $null = $sb.AppendLine("</D365FO.Tools.Runbook.Analyzer.Output>")
 
-        [xml]$xmlRaw = $sb.ToString()
+        if ($FailedOnlyAsObjects) {
+            $failedObjs.ToArray()
+        }
+        else {
+            [xml]$xmlRaw = $sb.ToString()
         
-        $stringWriter = New-Object System.IO.StringWriter;
-        $xmlWriter = New-Object System.Xml.XmlTextWriter $stringWriter;
-        $xmlWriter.Formatting = "indented";
-        $xmlRaw.WriteTo($xmlWriter);
-        $xmlWriter.Flush();
-        $stringWriter.Flush();
-        $stringWriter.ToString();
+            $stringWriter = New-Object System.IO.StringWriter;
+            $xmlWriter = New-Object System.Xml.XmlTextWriter $stringWriter;
+            $xmlWriter.Formatting = "indented";
+            $xmlRaw.WriteTo($xmlWriter);
+            $xmlWriter.Flush();
+            $stringWriter.Flush();
+            $stringWriter.ToString();
+        }
     }
 }

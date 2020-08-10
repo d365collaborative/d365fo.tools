@@ -142,6 +142,7 @@
 
 						'Get-D365Runbook',
 						'Get-D365RunbookId',
+						'Get-D365RunbookLogFile',
 
 						'Get-D365SDPCleanUp',
 						'Get-D365SqlOptionsFromBacpacModelFile',

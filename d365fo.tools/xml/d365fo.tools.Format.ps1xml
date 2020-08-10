@@ -565,6 +565,28 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
-		
+		<View>
+			<Name>D365FO.TOOLS.FileObject</Name>
+			<ViewSelectedBy>
+				<TypeName>D365FO.TOOLS.FileObject</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>Filename</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LastModified</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>File</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>
