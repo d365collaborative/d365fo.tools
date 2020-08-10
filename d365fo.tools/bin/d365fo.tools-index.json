@@ -3694,6 +3694,60 @@
         "Syntax":  "Get-D365RunbookId [-Path] \u003cString\u003e [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Get-D365RunbookLogFile",
+        "Description":  "Get the log files for a specific Runbook step",
+        "Tags":  [
+                     "Runbook",
+                     "Servicing",
+                     "Hotfix",
+                     "DeployablePackage",
+                     "Deployable Package",
+                     "InstallationRecordsDirectory",
+                     "Installation Records Directory"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to Software Deployable Package that was run in connection with the runbook",
+                           "File",
+                           true,
+                           "true (ByValue, ByPropertyName)",
+                           ""
+                       ],
+                       [
+                           "Step",
+                           "Step id for the step that you want to locate the log files for",
+                           "StepId",
+                           true,
+                           "true (ByValue, ByPropertyName)",
+                           ""
+                       ],
+                       [
+                           "Latest",
+                           "Instruct the cmdlet to only work with the latest log file\nIs based on the last written attribute on the log file",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "OpenInEditor",
+                           "Instruct the cmdlet to open the log file in the default text editor",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get log file from a Runbook step",
+        "Name":  "Get-D365RunbookLogFile",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365RunbookLogFile -Path \"C:\\Temp\\PU35\" -Step 34\nThis will locate all logfiles that has been outputted from the Step 34 from the PU35 installation.\r\nThe output will list the complete path to the log files.\nAn output example:\nFilename     : AutoUpdateDIXFService.ps1-2020-07-8--12-40-34.log\r\nLastModified : 8/7/2020 12:40:34 PM\r\nFile         : C:\\Temp\\PU35\\RunbookWorkingFolder\\Runbook\\MININT-F36S5EH\\DIXFService\\34\\Log\\AutoUpdateDIXFService.ps1-2020-07-8--12-40-34.log\nFilename     : AutoUpdateDIXFService.ps1-2020-07-8--12-36-22.log\r\nLastModified : 8/7/2020 12:36:22 PM\r\nFile         : C:\\Temp\\PU35\\RunbookWorkingFolder\\Runbook\\MININT-F36S5EH\\DIXFService\\34\\Log\\AutoUpdateDIXFService.ps1-2020-07-8--12-36-22.log\nFilename     : AutoUpdateDIXFService.ps1-2020-05-8--19-15-07.log\r\nLastModified : 8/5/2020 7:15:07 PM\r\nFile         : C:\\Temp\\PU35\\RunbookWorkingFolder\\Runbook\\MININT-F36S5EH\\DIXFService\\34\\Log\\AutoUpdateDIXFService.ps1-2020-05-8--19-15-07.log\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365RunbookLogFile -Path \"C:\\Temp\\PU35\" -Step 34 -Latest\nThis will locate all logfiles that has been outputted from the Step 34 from the PU35 installation.\r\nThe output will be limited to the latest log, based on last write time.\r\nThe output will list the complete path to the log file.\nAn output example:\nFilename     : AutoUpdateDIXFService.ps1-2020-07-8--12-40-34.log\r\nLastModified : 8/7/2020 12:40:34 PM\r\nFile         : C:\\Temp\\PU35\\RunbookWorkingFolder\\Runbook\\MININT-F36S5EH\\DIXFService\\34\\Log\\AutoUpdateDIXFService.ps1-2020-07-8--12-40-34.log\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365RunbookLogFile -Path \"C:\\Temp\\PU35\" -Step 34 -OpenInEditor\nThis will locate all logfiles that has been outputted from the Step 34 from the PU35 installation.\r\nThe Get-D365RunbookLogFile will open all log files in the default text editor.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365RunbookLogFile -Path \"C:\\Temp\\PU35\" -Step 34 -Latest -OpenInEditor\nThis will locate all logfiles that has been outputted from the Step 34 from the PU35 installation.\r\nThe output will be limited to the latest log, based on last write time.\r\nThe Get-D365RunbookLogFile will open the log file in the default text editor.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnlyAsObjects | Get-D365RunbookLogFile -Path \"C:\\Temp\\PU35\" -OpenInEditor\nThis will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.\r\nThe output from Invoke-D365RunbookAnalyzer will only contain failed steps.\r\nThe Get-D365RunbookLogFile will open all log files for the failed step.",
+        "Syntax":  "Get-D365RunbookLogFile [-Path] \u003cString\u003e [-Step] \u003cString\u003e [-Latest] [-OpenInEditor] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Get-D365SDPCleanUp",
         "Description":  "Gets the configured retention period before updates are deleted",
         "Tags":  [
@@ -6829,6 +6883,22 @@
                            true,
                            "true (ByValue, ByPropertyName)",
                            ""
+                       ],
+                       [
+                           "FailedOnly",
+                           "",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "FailedOnlyAsObjects",
+                           "",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -6836,8 +6906,8 @@
         "Synopsis":  "Analyze the runbook",
         "Name":  "Invoke-D365RunbookAnalyzer",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365RunbookAnalyzer -Path \"C:\\DynamicsAX\\InstallationRecords\\Runbooks\\Runbook.xml\"\nThis will analyze the Runbook.xml and output all the details about failed steps, the connected error logs and all the unprocessed steps.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Invoke-D365RunbookAnalyzer\nThis will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Invoke-D365RunbookAnalyzer | Out-File \"C:\\Temp\\d365fo.tools\\runbook-analyze-results.xml\"\nThis will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.\r\nThe output will be saved into the \"C:\\Temp\\d365fo.tools\\runbook-analyze-results.xml\" file.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Backup-D365Runbook -Force | Invoke-D365RunbookAnalyzer\nThis will get the latest runbook from the default location.\r\nThis will backup the file onto the default \"c:\\temp\\d365fo.tools\\runbookbackups\\\".\r\nThis will start the Runbook Analyzer on the backup file.",
-        "Syntax":  "Invoke-D365RunbookAnalyzer [-Path] \u003cString\u003e [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365RunbookAnalyzer -Path \"C:\\DynamicsAX\\InstallationRecords\\Runbooks\\Runbook.xml\"\nThis will analyze the Runbook.xml and output all the details about failed steps, the connected error logs and all the unprocessed steps.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Invoke-D365RunbookAnalyzer\nThis will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnly\nThis will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.\r\nThe output from Invoke-D365RunbookAnalyzer will only contain failed steps.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnlyAsObjects\nThis will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.\r\nThe output from Invoke-D365RunbookAnalyzer will only contain failed steps.\r\nThe output will be formatted as PSCustomObjects, to be used as variables or piping.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Invoke-D365RunbookAnalyzer -FailedOnlyAsObjects | Get-D365RunbookLogFile -Path \"C:\\Temp\\PU35\" -OpenInEditor\nThis will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.\r\nThe output from Invoke-D365RunbookAnalyzer will only contain failed steps.\r\nThe Get-D365RunbookLogFile will open all log files for the failed step.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Invoke-D365RunbookAnalyzer | Out-File \"C:\\Temp\\d365fo.tools\\runbook-analyze-results.xml\"\nThis will find the latest runbook file and have it analyzed by the Invoke-D365RunbookAnalyzer cmdlet to output any error details.\r\nThe output will be saved into the \"C:\\Temp\\d365fo.tools\\runbook-analyze-results.xml\" file.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eGet-D365Runbook -Latest | Backup-D365Runbook -Force | Invoke-D365RunbookAnalyzer\nThis will get the latest runbook from the default location.\r\nThis will backup the file onto the default \"c:\\temp\\d365fo.tools\\runbookbackups\\\".\r\nThis will start the Runbook Analyzer on the backup file.",
+        "Syntax":  "Invoke-D365RunbookAnalyzer -Path \u003cString\u003e [\u003cCommonParameters\u003e]\nInvoke-D365RunbookAnalyzer -Path \u003cString\u003e [-FailedOnlyAsObjects] [\u003cCommonParameters\u003e]\nInvoke-D365RunbookAnalyzer -Path \u003cString\u003e [-FailedOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365SCDPBundleInstall",
