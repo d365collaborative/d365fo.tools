@@ -154,7 +154,7 @@ function Invoke-D365DbSync {
 
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
     #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     
     Invoke-TimeSignal -End
 }
