@@ -126,7 +126,7 @@ function Invoke-Process {
         Write-PSFMessage -Level Verbose "Standard output was: \r\n $stdout"
     }
 
-    if (-not ([string]::IsNullOrEmpty($LogPath))) {
+    if ((-not $ShowOriginalProgress) -and (-not ([string]::IsNullOrEmpty($LogPath)))) {
         if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) { return }
 
         $stdOutputPath = Join-Path -Path $LogPath -ChildPath "$tool`_StdOutput.log"
