@@ -12,6 +12,9 @@
     .PARAMETER Params
         Array of string parameters that you want to pass to the executable
         
+    .PARAMETER LogPath
+        The path where the log file will be saved
+
     .PARAMETER OutputCommandOnly
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
