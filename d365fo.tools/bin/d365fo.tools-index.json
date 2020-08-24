@@ -767,6 +767,14 @@
                            "$Script:DatabaseUserPassword"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\MaintenanceMode\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -792,7 +800,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eDisable-D365MaintenanceMode\nThis will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eDisable-D365MaintenanceMode -ShowOriginalProgress\nThis will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state.\r\nThe output from stopping the services will be written to the console / host.\r\nThe output from the \"deployment\" process will be written to the console / host.\r\nThe output from starting the services will be written to the console / host.",
-        "Syntax":  "Disable-D365MaintenanceMode [[-MetaDataDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Disable-D365MaintenanceMode [[-MetaDataDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Disable-D365SqlChangeTracking",
@@ -1051,6 +1059,14 @@
                            "$Script:DatabaseUserPassword"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\MaintenanceMode\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -1076,7 +1092,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eEnable-D365MaintenanceMode\nThis will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eEnable-D365MaintenanceMode -ShowOriginalProgress\nThis will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state\r\nThe output from stopping the services will be written to the console / host.\r\nThe output from the \"deployment\" process will be written to the console / host.\r\nThe output from starting the services will be written to the console / host.",
-        "Syntax":  "Enable-D365MaintenanceMode [[-MetaDataDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Enable-D365MaintenanceMode [[-MetaDataDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Enable-D365SqlChangeTracking",
@@ -1249,6 +1265,14 @@
                            "\"$Script:MetaDataDir\""
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\ModelUtilExport\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -1271,7 +1295,7 @@
         "Name":  "Export-D365Model",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eExport-D365Model -Path c:\\temp\\d365fo.tools -Model CustomModelName\nThis will export the \"CustomModelName\" model from the default PackagesLocalDirectory path.\r\nIt export the model to the \"c:\\temp\\d365fo.tools\" location.",
-        "Syntax":  "Export-D365Model [-Path] \u003cString\u003e [-Model] \u003cString\u003e [-Force] [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Export-D365Model [-Path] \u003cString\u003e [-Model] \u003cString\u003e [-Force] [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Export-D365ModelFileFromBacpac",
@@ -4691,6 +4715,14 @@
                            "8"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\ImportBacpac\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -4721,7 +4753,7 @@
         "Name":  "Import-D365Bacpac",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\"\nPS C:\\\u003e Switch-D365ActiveDatabase -NewDatabaseName \"ImportedDatabase\"\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nThe next thing to do is to switch the active database out with the new one you just imported.\r\n\"ImportedDatabase\" will be switched in as the active database, while the old one will be named \"AXDB_original\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier2 -SqlUser \"sqladmin\" -SqlPwd \"XyzXyz\" -BacpacFile \"C:\\temp\\uat.bacpac\" -AxDeployExtUserPwd \"XxXx\" -AxDbAdminPwd \"XxXx\" -AxRuntimeUserPwd \"XxXx\" -AxMrRuntimeUse\r\nrPwd \"XxXx\" -AxRetailRuntimeUserPwd \"XxXx\" -AxRetailDataSyncUserPwd \"XxXx\" -AxDbReadonlyUserPwd \"XxXx\" -NewDatabaseName \"ImportedDatabase\"\nPS C:\\\u003e Switch-D365ActiveDatabase -NewDatabaseName \"ImportedDatabase\" -SqlUser \"sqladmin\" -SqlPwd \"XyzXyz\"\nThis will instruct the cmdlet that the import will be working against an Azure DB instance.\r\nIt requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2 environment.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nThe next thing to do is to switch the active database out with the new one you just imported.\r\n\"ImportedDatabase\" will be switched in as the active database, while the old one will be named \"AXDB_original\".\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\" -DiagnosticFile \"C:\\temp\\ImportLog.txt\"\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nIt will output a diagnostic file to \"C:\\temp\\ImportLog.txt\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\" -DiagnosticFile \"C:\\temp\\ImportLog.txt\" -MaxParallelism 32\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nIt will output a diagnostic file to \"C:\\temp\\ImportLog.txt\".\nIt will use 32 connections against the database server while importing the bacpac file.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\" -ImportOnly\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nNo cleanup or prepping jobs will be executed, because this is for importing only.\nThis would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.\r\nYou would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.",
-        "Syntax":  "Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-BacpacFile] \u003cString\u003e [-NewDatabaseName] \u003cString\u003e [-CustomSqlFile \u003cString\u003e] [-ModelFile \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] [-ImportOnly] [-MaxParallelism \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]\nImport-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [-SqlUser] \u003cString\u003e [-SqlPwd] \u003cString\u003e [-BacpacFile] \u003cString\u003e [-NewDatabaseName] \u003cString\u003e [[-AxDeployExtUserPwd] \u003cString\u003e] [[-AxDbAdminPwd] \u003cString\u003e] [[-AxRuntimeUserPwd] \u003cString\u003e] [[-AxMrRuntimeUserPwd] \u003cString\u003e] [[-AxRetailRuntimeUserPwd] \u003cString\u003e] [[-AxRetailDataSyncUserPwd] \u003cString\u003e] [[-AxDbReadonlyUserPwd] \u003cString\u003e] [-CustomSqlFile \u003cString\u003e] [-ModelFile \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] -ImportOnly [-MaxParallelism \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cComm\r\nonParameters\u003e]\nImport-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [-SqlUser] \u003cString\u003e [-SqlPwd] \u003cString\u003e [-BacpacFile] \u003cString\u003e [-NewDatabaseName] \u003cString\u003e [-AxDeployExtUserPwd] \u003cString\u003e [-AxDbAdminPwd] \u003cString\u003e [-AxRuntimeUserPwd] \u003cString\u003e [-AxMrRuntimeUserPwd] \u003cString\u003e [-AxRetailRuntimeUserPwd] \u003cString\u003e [-AxRetailDataSyncUserPwd] \u003cString\u003e [-AxDbReadonlyUserPwd] \u003cString\u003e [-CustomSqlFile \u003cString\u003e] [-ModelFile \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] [-MaxParallelism \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-BacpacFile] \u003cString\u003e [-NewDatabaseName] \u003cString\u003e [-CustomSqlFile \u003cString\u003e] [-ModelFile \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] [-ImportOnly] [-MaxParallelism \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]\nImport-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [-SqlUser] \u003cString\u003e [-SqlPwd] \u003cString\u003e [-BacpacFile] \u003cString\u003e [-NewDatabaseName] \u003cString\u003e [[-AxDeployExtUserPwd] \u003cString\u003e] [[-AxDbAdminPwd] \u003cString\u003e] [[-AxRuntimeUserPwd] \u003cString\u003e] [[-AxMrRuntimeUserPwd] \u003cString\u003e] [[-AxRetailRuntimeUserPwd] \u003cString\u003e] [[-AxRetailDataSyncUserPwd] \u003cString\u003e] [[-AxDbReadonlyUserPwd] \u003cString\u003e] [-CustomSqlFile \u003cString\u003e] [-ModelFile \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] -ImportOnly [-MaxParallelism \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-Ena\r\nbleException] [\u003cCommonParameters\u003e]\nImport-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [-SqlUser] \u003cString\u003e [-SqlPwd] \u003cString\u003e [-BacpacFile] \u003cString\u003e [-NewDatabaseName] \u003cString\u003e [-AxDeployExtUserPwd] \u003cString\u003e [-AxDbAdminPwd] \u003cString\u003e [-AxRuntimeUserPwd] \u003cString\u003e [-AxMrRuntimeUserPwd] \u003cString\u003e [-AxRetailRuntimeUserPwd] \u003cString\u003e [-AxRetailDataSyncUserPwd] \u003cString\u003e [-AxDbReadonlyUserPwd] \u003cString\u003e [-CustomSqlFile \u003cString\u003e] [-ModelFile \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] [-MaxParallelism \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonPara\r\nmeters\u003e]"
     },
     {
         "CommandName":  "Import-D365ExternalUser",
@@ -4872,6 +4904,14 @@
                            "False"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\ModelUtilImport\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -4894,7 +4934,7 @@
         "Name":  "Import-D365Model",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365Model -Path c:\\temp\\d365fo.tools\\CustomModel.axmodel\nThis will import the \"c:\\temp\\d365fo.tools\\CustomModel.axmodel\" model into the PackagesLocalDirectory location.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eImport-D365Model -Path c:\\temp\\d365fo.tools\\CustomModel.axmodel -Replace\nThis will import the \"c:\\temp\\d365fo.tools\\CustomModel.axmodel\" model into the PackagesLocalDirectory location.\r\nIf the model already exists it will replace it.",
-        "Syntax":  "Import-D365Model [-Path] \u003cString\u003e [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [-Replace] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Import-D365Model [-Path] \u003cString\u003e [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [-Replace] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Initialize-D365RsatCertificate",
@@ -5017,6 +5057,14 @@
                            "False"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\AzCopy\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -5055,7 +5103,7 @@
         "Name":  "Invoke-D365AzCopyTransfer",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\"\nThis will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\".\nIf there exists a file already, the file will NOT be overwritten.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\" -Force\nThis will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\".\r\nIf there exists a file already, the file will  be overwritten, because Force has been supplied.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"https://456.blob.core.windows.net/targetcontainer/filename?\r\nsv=2015-12-11\u0026sr=...\"\nThis will transfer a file from an Azure Storage Blob Container to another Azure Storage Blob Container.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"https://456.blob.core.windows.net/targetcontainer/filename?sv=2015-12-11\u0026sr=...\".\nFor this to work, you need to make sure both SourceUri and DestinationUri has an valid SAS token/key included.\nIf there exists a file already, the file will NOT be overwritten.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365AzCopyTransfer -SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\" -DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\" -DeleteOnTransferComple\r\nte\nThis will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.\r\nThe file that will be transfered/downloaded is SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=...\".\r\nThe file will be transfered/downloaded to DestinationUri \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\".\nAfter the file has been transfered to your local \"c:\\temp\\d365fo.tools\\GOLDER.bacpac\", it will be deleted from the SourceUri \"https://123.blob.core.windows.net/containername/filename?sv=2015-12-11\u0026sr=\r\n...\".\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003e$DestinationParms = Get-D365AzureStorageUrl -OutputAsHashtable\nPS C:\\\u003e $BlobFileDetails = Get-D365LcsDatabaseBackups -Latest | Invoke-D365AzCopyTransfer @DestinationParms\r\nPS C:\\\u003e $BlobFileDetails | Invoke-D365AzCopyTransfer -DestinationUri \"C:\\Temp\" -DeleteOnTransferComplete\nThis will transfer the lastest backup file from LCS Asset Library to your local \"C:\\Temp\".\r\nIt will get a destination Url, for it to transfer the backup file between the LCS storage account and your own.\r\nThe newly transfered file, that lives in your own storage account, will then be downloaded to your local \"c:\\Temp\".\nAfter the file has been downloaded to your local \"C:\\Temp\", it will be deleted from your own storage account.",
-        "Syntax":  "Invoke-D365AzCopyTransfer [-SourceUri] \u003cString\u003e [-DestinationUri] \u003cString\u003e [[-FileName] \u003cString\u003e] [-DeleteOnTransferComplete] [-ShowOriginalProgress] [-OutputCommandOnly] [-Force] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365AzCopyTransfer [-SourceUri] \u003cString\u003e [-DestinationUri] \u003cString\u003e [[-FileName] \u003cString\u003e] [-DeleteOnTransferComplete] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-Force] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365AzureStorageDownload",
@@ -5281,20 +5329,20 @@
                            "\"$Script:MetaDataDir\""
                        ],
                        [
-                           "LogDir",
-                           "Path where you want to store the log outputs generated from the best practice analyser",
-                           "",
-                           false,
-                           "false",
-                           "(Join-Path $Script:DefaultTempPath $Module)"
-                       ],
-                       [
                            "PackagesRoot",
                            "Instructs the cmdlet to use binary metadata",
                            "",
                            false,
                            "false",
                            "False"
+                       ],
+                       [
+                           "LogPath",
+                           "Path where you want to store the log outputs generated from the best practice analyser\nAlso used as the path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\BestPractice\")"
                        ],
                        [
                            "ShowOriginalProgress",
@@ -5327,7 +5375,7 @@
         "Name":  "Invoke-D365BestPractice",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365BestPractice -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.\r\nThe default output will be silenced.\r\nThe XML log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.xml\".\r\nThe log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.log\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365BestPractice -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -PackagesRoot\nThis will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.\r\nWe use the binary metadata to look for the module and model.\r\nThe default output will be silenced.\r\nThe XML log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.xml\".\r\nThe log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.log\".\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365BestPractice -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -ShowOriginalProgress\nThis will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.\r\nThe output from the best practice check process will be written to the console / host.\r\nThe XML log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.xml\".\r\nThe log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.log\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365BestPractice -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -RunFixers\nThis will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.\r\nThe default output will be silenced.\r\nThe XML log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.xml\".\r\nThe log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.log\".\r\nInstructs the xppbp tool to run the fixers for all identified warnings.",
-        "Syntax":  "Invoke-D365BestPractice [-Module] \u003cString\u003e [-Model] \u003cString\u003e [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-LogDir] \u003cString\u003e] [-PackagesRoot] [-ShowOriginalProgress] [-RunFixers] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365BestPractice [-Module] \u003cString\u003e [-Model] \u003cString\u003e [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [-PackagesRoot] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-RunFixers] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365CompilerResultAnalyzer",
@@ -5451,14 +5499,6 @@
                            "$Script:MetaDataDir"
                        ],
                        [
-                           "LogPath",
-                           "The path where the log file will be saved",
-                           "",
-                           false,
-                           "false",
-                           "C:\\temp\\D365FO.Tools\\Sync"
-                       ],
-                       [
                            "SyncMode",
                            "The sync mode the sync engine will use\nDefault value is: \"FullAll\"",
                            "",
@@ -5507,6 +5547,14 @@
                            "$Script:DatabaseUserPassword"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\DbSync\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -5529,7 +5577,7 @@
         "Name":  "Invoke-D365DbSync",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365DBSync\nThis will invoke the sync engine and have it work against the database.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365DBSync -Verbose\nThis will invoke the sync engine and have it work against the database. It will output the same level of details that Visual Studio would normally do.",
-        "Syntax":  "Invoke-D365DbSync [[-BinDirTools] \u003cString\u003e] [[-MetadataDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-SyncMode] \u003cString\u003e] [[-Verbosity] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365DbSync [[-BinDirTools] \u003cString\u003e] [[-MetadataDir] \u003cString\u003e] [[-SyncMode] \u003cString\u003e] [[-Verbosity] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365DbSyncModule",
@@ -5549,14 +5597,6 @@
                            true,
                            "true (ByValue, ByPropertyName)",
                            ""
-                       ],
-                       [
-                           "LogPath",
-                           "The path where the log file will be saved",
-                           "",
-                           false,
-                           "false",
-                           "C:\\temp\\D365FO.Tools\\Sync"
                        ],
                        [
                            "Verbosity",
@@ -5615,6 +5655,14 @@
                            "$Script:DatabaseUserPassword"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file will be saved",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\DbSync\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -5637,7 +5685,7 @@
         "Name":  "Invoke-D365DbSyncModule",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365DbSyncModule -Module \"MyModel1\"\nIt will start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of MyModel1.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365DbSyncModule -Module \"MyModel1\",\"MyModel2\"\nIt will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Module -Name \"MyModel*\" | Invoke-D365DbSyncModule\nRetrieve the list of installed packages / modules where the name fits the search \"MyModel*\".\nThe result is:\r\nMyModel1\r\nMyModel2\nIt will run loop over the list and start the sync process against all tables, views, data entities, table-extensions, view-extensions and data entities-extensions of every iterated model.",
-        "Syntax":  "Invoke-D365DbSyncModule [-Module] \u003cString[]\u003e [[-LogPath] \u003cString\u003e] [[-Verbosity] \u003cString\u003e] [[-BinDirTools] \u003cString\u003e] [[-MetadataDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365DbSyncModule [-Module] \u003cString[]\u003e [[-Verbosity] \u003cString\u003e] [[-BinDirTools] \u003cString\u003e] [[-MetadataDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365DbSyncPartial",
@@ -5675,14 +5723,6 @@
                            "PartialList"
                        ],
                        [
-                           "LogPath",
-                           "The path where the log file will be saved",
-                           "",
-                           false,
-                           "false",
-                           "C:\\temp\\D365FO.Tools\\Sync"
-                       ],
-                       [
                            "Verbosity",
                            "Parameter used to instruct the level of verbosity the sync engine has to report back\nDefault value is: \"Normal\"",
                            "",
@@ -5739,6 +5779,14 @@
                            "$Script:DatabaseUserPassword"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\DbSync\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -5761,7 +5809,7 @@
         "Name":  "Invoke-D365DbSyncPartial",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365DBSyncPartial -SyncList \"CustCustomerEntity\",\"SalesTable\"\nThis will invoke the sync engine and have it work against the database.\r\nIt will run with the default value \"PartialList\" as the SyncMode.\r\nIt will run the sync process against \"CustCustomerEntity\" and \"SalesTable\"\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365DBSyncPartial -SyncList \"CustCustomerEntity\",\"SalesTable\" -Verbose\nThis will invoke the sync engine and have it work against the database.\r\nIt will run with the default value \"PartialList\" as the SyncMode.\r\nIt will run the sync process against \"CustCustomerEntity\" and \"SalesTable\"\nIt will output the same level of details that Visual Studio would normally do.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365DBSyncPartial -SyncList \"CustCustomerEntity\",\"SalesTable\" -SyncExtensionsList \"CaseLog.Extension\",\"CategoryTable.Extension\" -Verbose\nThis will invoke the sync engine and have it work against the database.\r\nIt will run with the default value \"PartialList\" as the SyncMode.\r\nIt will run the sync process against \"CustCustomerEntity\", \"SalesTable\", \"CaseLog.Extension\" and \"CategoryTable.Extension\"\nIt will output the same level of details that Visual Studio would normally do.",
-        "Syntax":  "Invoke-D365DbSyncPartial [-SyncList] \u003cString[]\u003e [[-SyncExtensionsList] \u003cString[]\u003e] [[-SyncMode] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-Verbosity] \u003cString\u003e] [[-BinDirTools] \u003cString\u003e] [[-MetadataDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365DbSyncPartial [-SyncList] \u003cString[]\u003e [[-SyncExtensionsList] \u003cString[]\u003e] [[-SyncMode] \u003cString\u003e] [[-Verbosity] \u003cString\u003e] [[-BinDirTools] \u003cString\u003e] [[-MetadataDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365InstallAzCopy",
@@ -5860,6 +5908,14 @@
                            "\"$Script:BinDir\""
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\InstallLicense\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -5882,7 +5938,7 @@
         "Name":  "Invoke-D365InstallLicense",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365InstallLicense -Path c:\\temp\\d365fo.tools\\license.txt\nThis will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365InstallLicense -Path c:\\temp\\d365fo.tools\\license.txt -ShowOriginalProgress\nThis will use the default paths and start the Microsoft.Dynamics.AX.Deployment.Setup.exe with the needed parameters to import / install the license file.\r\nThe output from the installation process will be written to the console / host.",
-        "Syntax":  "Invoke-D365InstallLicense [-Path] \u003cString\u003e [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365InstallLicense [-Path] \u003cString\u003e [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365InstallSqlPackage",
@@ -6428,12 +6484,12 @@
                            "$Script:MetaDataDir"
                        ],
                        [
+                           "LogPath",
+                           "Path where you want to store the log outputs generated from the compiler\nAlso used as the path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
                            "LogDir",
-                           "The path to the folder to save logs",
-                           "",
                            false,
                            "false",
-                           "$Script:DefaultTempPath"
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\ModuleCompile\")"
                        ],
                        [
                            "MetaDataDir",
@@ -6482,7 +6538,7 @@
         "Name":  "Invoke-D365ModuleCompile",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe output from the compile will be written to the console / host.",
-        "Syntax":  "Invoke-D365ModuleCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365ModuleCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365ModuleFullCompile",
@@ -6510,12 +6566,12 @@
                            "$Script:MetaDataDir"
                        ],
                        [
+                           "LogPath",
+                           "Path where you want to store the log outputs generated from the compiler\nAlso used as the path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
                            "LogDir",
-                           "The path to the folder to save logs",
-                           "",
                            false,
                            "false",
-                           "$Script:DefaultTempPath"
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\ModuleCompile\")"
                        ],
                        [
                            "MetaDataDir",
@@ -6564,7 +6620,7 @@
         "Name":  "Invoke-D365ModuleFullCompile",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleFullCompile -Module MyModel\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleFullCompile -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the xppc.exe with the needed parameters to copmile MyModel package.\r\nThe default output from the different steps will be written to the console / host.",
-        "Syntax":  "Invoke-D365ModuleFullCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365ModuleFullCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365ModuleLabelGeneration",
@@ -6594,12 +6650,12 @@
                            "$Script:MetaDataDir"
                        ],
                        [
+                           "LogPath",
+                           "Path where you want to store the log outputs generated from the compiler\nAlso used as the path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
                            "LogDir",
-                           "The path to the folder to save logs",
-                           "",
                            false,
                            "false",
-                           "$Script:DefaultTempPath"
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\ModuleCompile\")"
                        ],
                        [
                            "MetaDataDir",
@@ -6648,7 +6704,7 @@
         "Name":  "Invoke-D365ModuleLabelGeneration",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleLabelGeneration -Module MyModel\nThis will use the default paths and start the labelc.exe with the needed parameters to labels from the MyModel package.\r\nThe default output from the generation process will be silenced.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleLabelGeneration -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the labelc.exe with the needed parameters to labels from the MyModel package.\r\nThe output from the compile will be written to the console / host.",
-        "Syntax":  "Invoke-D365ModuleLabelGeneration [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365ModuleLabelGeneration [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365ModuleReportsCompile",
@@ -6678,12 +6734,12 @@
                            "$Script:MetaDataDir"
                        ],
                        [
+                           "LogPath",
+                           "Path where you want to store the log outputs generated from the compiler\nAlso used as the path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
                            "LogDir",
-                           "The path to the folder to save logs",
-                           "",
                            false,
                            "false",
-                           "$Script:DefaultTempPath"
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\ModuleCompile\")"
                        ],
                        [
                            "MetaDataDir",
@@ -6732,7 +6788,7 @@
         "Name":  "Invoke-D365ModuleReportsCompile",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleReportsCompile -Module MyModel\nThis will use the default paths and start the ReportsC.exe with the needed parameters to compile the reports from the MyModel package.\r\nThe default output from the reports compile will be silenced.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleReportsCompile -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the ReportsC.exe with the needed parameters to compile the reports from the MyModel package.\r\nThe output from the compile will be written to the console / host.",
-        "Syntax":  "Invoke-D365ModuleReportsCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365ModuleReportsCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365ProcessModule",
@@ -6786,12 +6842,12 @@
                            "$Script:MetaDataDir"
                        ],
                        [
+                           "LogPath",
+                           "Path where you want to store the log outputs generated from the compiler\nAlso used as the path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
                            "LogDir",
-                           "The path to the folder to save logs",
-                           "",
                            false,
                            "false",
-                           "$Script:DefaultTempPath"
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\ModuleCompile\")"
                        ],
                        [
                            "MetaDataDir",
@@ -6840,7 +6896,7 @@
         "Name":  "Invoke-D365ProcessModule",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteCompile\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Invoke-D365ModuleFullCompile with the needed parameters to compile current module value package.\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteSync\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Invoke-D365DBSyncPartial with the needed parameters to sync current module value table and extension elements.\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteDeployReports\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Publish-D365SsrsReport with the required parameters to deploy all reports of current module\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteCompile -ExecuteSync -ExecuteDeployReports\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Invoke-D365ModuleFullCompile with the needed parameters to compile current module package.\r\n* Invoke-D365DBSyncPartial with the needed parameters to sync current module table and extension elements.\r\n* Publish-D365SsrsReport with the required parameters to deploy all reports of current module\nThe default output from all the different steps will be silenced.",
-        "Syntax":  "Invoke-D365ProcessModule [-Module] \u003cString\u003e [-ExecuteCompile] [-ExecuteSync] [-ExecuteDeployReports] [[-OutputDir] \u003cString\u003e] [[-LogDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365ProcessModule [-Module] \u003cString\u003e [-ExecuteCompile] [-ExecuteSync] [-ExecuteDeployReports] [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365ReArmWindows",
@@ -6886,7 +6942,7 @@
                        ],
                        [
                            "FailedOnly",
-                           "",
+                           "Instruct the cmdlet to only output failed steps",
                            "",
                            false,
                            "false",
@@ -6894,7 +6950,7 @@
                        ],
                        [
                            "FailedOnlyAsObjects",
-                           "",
+                           "Instruct the cmdlet to only output failed steps as objects",
                            "",
                            false,
                            "false",
@@ -7055,6 +7111,14 @@
                            "Runbook"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\SdpInstall\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -7077,7 +7141,7 @@
         "Name":  "Invoke-D365SDPInstall",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -QuickInstallAll\nThis will install the extracted package in c:\\temp\\ using a runbook in memory while executing.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -DevInstall\nThis will install the extracted package in c:\\temp\\ using a runbook in memory while executing.\nThis command is to be used on Microsoft Hosted Tier1 development environment, where you don\u0027t have access to the administrator user account on the vm.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetTopology\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Generate -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Import -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Execute -RunbookId \u0027MyRunbook\u0027\nManual operations that first create Topology XML from current environment, then generate runbook with id \u0027MyRunbook\u0027, then import it and finally execute it.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RunAll\nCreate Topology XML from current environment. Using default runbook id \u0027Runbook\u0027 and run all the operations from generate, to import to execute.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RerunStep -Step 18 -RunbookId \u0027MyRunbook\u0027\nRerun runbook with id \u0027MyRunbook\u0027 from step 18.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetStepComplete -Step 24 -RunbookId \u0027MyRunbook\u0027\nMark step 24 complete in runbook with id \u0027MyRunbook\u0027 and continue the runbook from the next step.",
-        "Syntax":  "Invoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-QuickInstallAll]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-DevInstall]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [-Command] \u003cString\u003e [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-QuickInstallAll]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-DevInstall]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [-Command] \u003cString\u003e [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365SeleniumDownload",
@@ -7571,6 +7635,14 @@
                            "False"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\CAReport\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -7593,7 +7665,7 @@
         "Name":  "New-D365CAReport",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -SuffixWithModule\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\r\nIt will append the module name to the desired output file, which will then be \"c:\\temp\\d365fo.tools\\CAReport-ApplicationSuite.xlsx\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -PackagesRoot\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the binary metadata to look for the module and model.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.",
-        "Syntax":  "New-D365CAReport [[-OutputPath] \u003cString\u003e] [-Module] \u003cString\u003e [-Model] \u003cString\u003e [-SuffixWithModule] [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-XmlLog] \u003cString\u003e] [-PackagesRoot] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Syntax":  "New-D365CAReport [[-OutputPath] \u003cString\u003e] [-Module] \u003cString\u003e [-Model] \u003cString\u003e [-SuffixWithModule] [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-XmlLog] \u003cString\u003e] [-PackagesRoot] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "New-D365ISVLicense",
@@ -8084,6 +8156,14 @@
                            "$Script:DatabaseUserPassword"
                        ],
                        [
+                           "LogPath",
+                           "The path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\RsConfig\")"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -8114,7 +8194,7 @@
         "Name":  "Rename-D365ComputerName",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRename-D365ComputerName -NewName \"Demo-8.1\" -SSRSReportDatabase \"ReportServer\"\nThis will rename the local machine to the \"Demo-8.1\" as the new Windows machine name.\r\nIt will update the registration inside the SQL Server Reporting Services configuration to handle the new name of the machine.",
-        "Syntax":  "Rename-D365ComputerName [-NewName] \u003cString\u003e [[-SSRSReportDatabase] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Rename-D365ComputerName [-NewName] \u003cString\u003e [[-SSRSReportDatabase] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Rename-D365Instance",
