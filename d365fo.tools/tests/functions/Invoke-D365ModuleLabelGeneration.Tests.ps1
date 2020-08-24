@@ -37,9 +37,9 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter LogDir' {
-			$parameter = (Get-Command Invoke-D365ModuleLabelGeneration).Parameters['LogDir']
-			$parameter.Name | Should -Be 'LogDir'
+		It 'Should have the expected parameter LogPath' {
+			$parameter = (Get-Command Invoke-D365ModuleLabelGeneration).Parameters['LogPath']
+			$parameter.Name | Should -Be 'LogPath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
@@ -120,7 +120,7 @@
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -Module
-		__AllParameterSets -Module -OutputDir -LogDir -MetaDataDir -ReferenceDir -BinDir -ShowOriginalProgress -OutputCommandOnly
+		__AllParameterSets -Module -OutputDir -LogPath -MetaDataDir -ReferenceDir -BinDir -ShowOriginalProgress -OutputCommandOnly
 		#>
 	}
 
