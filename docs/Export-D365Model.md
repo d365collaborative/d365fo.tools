@@ -14,7 +14,7 @@ Export a model from Dynamics 365 for Finance & Operations
 
 ```
 Export-D365Model [-Path] <String> [-Model] <String> [-Force] [[-BinDir] <String>] [[-MetaDataDir] <String>]
- [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+ [[-LogPath] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -109,6 +109,23 @@ Aliases:
 Required: False
 Position: 4
 Default value: "$Script:MetaDataDir"
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 5
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModelUtilExport")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

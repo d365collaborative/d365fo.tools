@@ -14,7 +14,7 @@ Run the Best Practice
 
 ```
 Invoke-D365BestPractice [-Module] <String> [-Model] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>]
- [[-LogDir] <String>] [-PackagesRoot] [-ShowOriginalProgress] [-RunFixers] [-OutputCommandOnly]
+ [-PackagesRoot] [[-LogPath] <String>] [-ShowOriginalProgress] [-RunFixers] [-OutputCommandOnly]
  [<CommonParameters>]
 ```
 
@@ -131,21 +131,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LogDir
-Path where you want to store the log outputs generated from the best practice analyser
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: (Join-Path $Script:DefaultTempPath $Module)
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -PackagesRoot
 Instructs the cmdlet to use binary metadata
 
@@ -157,6 +142,25 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+Path where you want to store the log outputs generated from the best practice analyser
+
+Also used as the path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 5
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\BestPractice")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

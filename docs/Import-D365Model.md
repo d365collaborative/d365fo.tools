@@ -13,7 +13,7 @@ Import a model into Dynamics 365 for Finance & Operations
 ## SYNTAX
 
 ```
-Import-D365Model [-Path] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>] [-Replace]
+Import-D365Model [-Path] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>] [-Replace] [-LogPath <String>]
  [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
@@ -101,6 +101,23 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: Named
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModelUtilImport")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

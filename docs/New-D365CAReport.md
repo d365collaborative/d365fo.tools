@@ -14,8 +14,8 @@ Generate the Customization's Analysis Report (CAR)
 
 ```
 New-D365CAReport [[-OutputPath] <String>] [-Module] <String> [-Model] <String> [-SuffixWithModule]
- [[-BinDir] <String>] [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-PackagesRoot] [-ShowOriginalProgress]
- [-OutputCommandOnly] [<CommonParameters>]
+ [[-BinDir] <String>] [[-MetaDataDir] <String>] [[-XmlLog] <String>] [-PackagesRoot] [[-LogPath] <String>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -181,6 +181,23 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 7
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\CAReport")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -15,8 +15,8 @@ Renames Computer and changes the SSRS Configration
 
 ```
 Rename-D365ComputerName [-NewName] <String> [[-SSRSReportDatabase] <String>] [[-DatabaseServer] <String>]
- [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [-ShowOriginalProgress]
- [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
+ [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-LogPath] <String>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -126,6 +126,23 @@ Aliases:
 Required: False
 Position: 6
 Default value: $Script:DatabaseUserPassword
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 7
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\RsConfig")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

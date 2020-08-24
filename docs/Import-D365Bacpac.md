@@ -17,7 +17,7 @@ Import a bacpac file
 Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>] [-ImportOnly]
- [-MaxParallelism <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
+ [-MaxParallelism <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
  [<CommonParameters>]
 ```
 
@@ -28,8 +28,8 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPwd] <String>] [[-AxRuntimeUserPwd] <String>]
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
  [[-AxDbReadonlyUserPwd] <String>] [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
- [-ImportOnly] [-MaxParallelism <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
- [<CommonParameters>]
+ [-ImportOnly] [-MaxParallelism <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ### ImportTier2
@@ -39,7 +39,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] <String> [-AxRuntimeUserPwd] <String>
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
  [-AxDbReadonlyUserPwd] <String> [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
- [-MaxParallelism <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
+ [-MaxParallelism <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
  [<CommonParameters>]
 ```
 
@@ -542,6 +542,23 @@ Aliases:
 Required: False
 Position: Named
 Default value: 8
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: Named
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ImportBacpac")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -16,7 +16,7 @@ party solution
 ```
 Invoke-D365InstallLicense [-Path] <String> [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-MetaDataDir] <String>] [[-BinDir] <String>]
- [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+ [[-LogPath] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -152,6 +152,23 @@ Aliases:
 Required: False
 Position: 7
 Default value: "$Script:BinDir"
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 8
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\InstallLicense")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

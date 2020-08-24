@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-D365DBSyncPartial
+# Invoke-D365DbSyncPartial
 
 ## SYNOPSIS
 Invoke the synchronization process used in Visual Studio
@@ -13,9 +13,9 @@ Invoke the synchronization process used in Visual Studio
 ## SYNTAX
 
 ```
-Invoke-D365DBSyncPartial [-SyncList] <String[]> [[-SyncExtensionsList] <String[]>] [[-SyncMode] <String>]
- [[-LogPath] <String>] [[-Verbosity] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>]
- [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>]
+Invoke-D365DbSyncPartial [-SyncList] <String[]> [[-SyncExtensionsList] <String[]>] [[-SyncMode] <String>]
+ [[-Verbosity] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>]
+ [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-LogPath] <String>]
  [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
@@ -104,21 +104,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LogPath
-The path where the log file will be saved
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: C:\temp\D365FO.Tools\Sync
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Verbosity
 Parameter used to instruct the level of verbosity the sync engine has to report back
 
@@ -130,7 +115,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 4
 Default value: Normal
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -147,7 +132,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: $Script:BinDirTools
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -164,7 +149,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 6
 Default value: $Script:MetaDataDir
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -184,7 +169,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 7
 Default value: $Script:DatabaseServer
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -199,7 +184,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 8
 Default value: $Script:DatabaseName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -214,7 +199,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 9
 Default value: $Script:DatabaseUserName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -229,8 +214,25 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 10
 Default value: $Script:DatabaseUserPassword
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 11
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\DbSync")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

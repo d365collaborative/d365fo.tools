@@ -15,19 +15,19 @@ Invoke the AxUpdateInstaller.exe file from Software Deployable Package (SDP)
 ### QuickInstall (Default)
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-QuickInstallAll] [[-Step] <Int32>]
- [[-RunbookId] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+ [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ### DevInstall
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-DevInstall] [[-Step] <Int32>]
- [[-RunbookId] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+ [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ### Manual
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-Command] <String> [[-Step] <Int32>]
- [[-RunbookId] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+ [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -209,6 +209,23 @@ Aliases:
 Required: False
 Position: 6
 Default value: Runbook
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: Named
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\SdpInstall")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

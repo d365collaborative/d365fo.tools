@@ -14,8 +14,8 @@ Transfer a file using AzCopy
 
 ```
 Invoke-D365AzCopyTransfer [-SourceUri] <String> [-DestinationUri] <String> [[-FileName] <String>]
- [-DeleteOnTransferComplete] [-ShowOriginalProgress] [-OutputCommandOnly] [-Force] [-EnableException]
- [<CommonParameters>]
+ [-DeleteOnTransferComplete] [[-LogPath] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-Force]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -148,6 +148,23 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 4
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\AzCopy")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
