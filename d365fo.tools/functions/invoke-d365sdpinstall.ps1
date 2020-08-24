@@ -48,6 +48,11 @@
         
         Default value is "Runbook"
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -128,6 +133,9 @@ function Invoke-D365SDPInstall {
         [Parameter(Mandatory = $false, Position = 5 )]
         [string] $RunbookId = "Runbook",
 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\SdpInstall"),
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly
@@ -190,13 +198,13 @@ function Invoke-D365SDPInstall {
         Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"
         $params = "quickinstallall"
 
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
     elseif ($DevInstall) {
         Write-PSFMessage -Level Verbose "Using DevInstall mode"
         $params = "devinstall"
 
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
     else {
         $Command = $Command.ToLowerInvariant()
@@ -220,7 +228,7 @@ function Invoke-D365SDPInstall {
                 )
                 
                 #Generate (second command)
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
                 if (Test-PSFFunctionInterrupt) { return }
 
@@ -229,7 +237,7 @@ function Invoke-D365SDPInstall {
                     "-runbookFile=`"$runbookFile`""
                 )
 
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
                 if (Test-PSFFunctionInterrupt) { return }
 
@@ -238,7 +246,7 @@ function Invoke-D365SDPInstall {
                     "-runbookId=`"$runbookId`""
                 )
 
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
                 if (Test-PSFFunctionInterrupt) { return }
             }
@@ -320,7 +328,7 @@ function Invoke-D365SDPInstall {
             }
 
             if ($RunCommand) {
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
                 if (Test-PSFFunctionInterrupt) { return }
             }

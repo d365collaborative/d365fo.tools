@@ -84,6 +84,11 @@
         
         The default value is 8
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -226,6 +231,9 @@ function Import-D365Bacpac {
         
         [string] $MaxParallelism = 8,
 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ImportBacpac"),
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly,
@@ -292,7 +300,7 @@ function Import-D365Bacpac {
     $Params.DatabaseName = $NewDatabaseName
     
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings"
-    Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
     if ($OutputCommandOnly) { return }
 

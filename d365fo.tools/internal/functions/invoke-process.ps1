@@ -13,17 +13,17 @@
         Array of string parameters that you want to pass to the executable
         
     .PARAMETER LogPath
-        The path where the log file will be saved
+        The path where the log file(s) will be saved
+
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
 
     .PARAMETER OutputCommandOnly
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
         Will include full path to the executable and the needed parameters based on your selection
-        
-    .PARAMETER ShowOriginalProgress
-        Instruct the cmdlet to show the standard output in the console
-        
-        Default is $false which will silence the standard output
         
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
@@ -65,9 +65,9 @@ function Invoke-Process {
 
         [string] $LogPath,
 
-        [switch] $OutputCommandOnly,
-
         [switch] $ShowOriginalProgress,
+        
+        [switch] $OutputCommandOnly,
 
         [switch] $EnableException
     )

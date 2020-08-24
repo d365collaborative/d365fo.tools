@@ -48,6 +48,11 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -96,8 +101,6 @@ function Invoke-D365DbSyncModule {
         [Alias("ModuleName")]
         [string[]] $Module,
 
-        [string] $LogPath = "C:\temp\D365FO.Tools\Sync",
-
         [ValidateSet('Normal', 'Quiet', 'Minimal', 'Normal', 'Detailed', 'Diagnostic')]
         [string] $Verbosity = 'Normal',
 
@@ -112,6 +115,9 @@ function Invoke-D365DbSyncModule {
         [string] $SqlUser = $Script:DatabaseUserName,
 
         [string] $SqlPwd = $Script:DatabaseUserPassword,
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\DbSync"),
 
         [switch] $ShowOriginalProgress,
 
@@ -136,17 +142,18 @@ function Invoke-D365DbSyncModule {
 
         # Build parameters for the partial sync function
         $syncParams = @{
-            SyncList=$allModelSyncElements.BaseSyncElements;
-            SyncExtensionsList = $allModelSyncElements.ExtensionSyncElements;
-            Verbosity = $Verbosity;
-            BinDirTools=$BinDirTools;
-            MetadataDir=$MetadataDir;
-            DatabaseServer=$DatabaseServer;
-            DatabaseName=$DatabaseName;
-            SqlUser=$SqlUser;
-            SqlPwd=$SqlPwd;
-            ShowOriginalProgress=$ShowOriginalProgress;
-            OutputCommandOnly=$OutputCommandOnly
+            SyncList             = $allModelSyncElements.BaseSyncElements;
+            SyncExtensionsList   = $allModelSyncElements.ExtensionSyncElements;
+            Verbosity            = $Verbosity;
+            BinDirTools          = $BinDirTools;
+            MetadataDir          = $MetadataDir;
+            DatabaseServer       = $DatabaseServer;
+            DatabaseName         = $DatabaseName;
+            SqlUser              = $SqlUser;
+            SqlPwd               = $SqlPwd;
+            LogPath              = $LogPath;
+            ShowOriginalProgress = $ShowOriginalProgress;
+            OutputCommandOnly    = $OutputCommandOnly;
         }
 
         # Call the partial sync using required parameters

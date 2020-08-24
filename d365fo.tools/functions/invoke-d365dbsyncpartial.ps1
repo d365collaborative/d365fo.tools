@@ -17,9 +17,6 @@
     .PARAMETER SyncExtensionsList
         The list of extension objects that you want to pass on to the database synchronoziation engine
         
-    .PARAMETER LogPath
-        The path where the log file will be saved
-        
     .PARAMETER Verbosity
         Parameter used to instruct the level of verbosity the sync engine has to report back
         
@@ -51,6 +48,11 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -109,8 +111,6 @@ function Invoke-D365DbSyncPartial {
         #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
         [string] $SyncMode = 'PartialList',
 
-        [string] $LogPath = "C:\temp\D365FO.Tools\Sync",
-
         [ValidateSet('Normal', 'Quiet', 'Minimal', 'Normal', 'Detailed', 'Diagnostic')]
         [string] $Verbosity = 'Normal',
 
@@ -125,6 +125,9 @@ function Invoke-D365DbSyncPartial {
         [string] $SqlUser = $Script:DatabaseUserName,
 
         [string] $SqlPwd = $Script:DatabaseUserPassword,
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\DbSync"),
 
         [switch] $ShowOriginalProgress,
 
@@ -150,10 +153,9 @@ function Invoke-D365DbSyncPartial {
             return
         }
 
-        $executable = Join-Path $BinDirTools "SyncEngine.exe"
+        $executable = Join-Path -Path $BinDirTools -ChildPath "SyncEngine.exe"
         if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
         if (-not (Test-PathExists -Path $MetadataDir -Type Container)) { return }
-        if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) { return }
 
         Write-PSFMessage -Level Debug -Message "Testing if the SyncEngine is already running."
         $syncEngine = Get-Process -Name "SyncEngine" -ErrorAction SilentlyContinue
@@ -175,7 +177,7 @@ function Invoke-D365DbSyncPartial {
 
         Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
         #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
         
         Invoke-TimeSignal -End
     }

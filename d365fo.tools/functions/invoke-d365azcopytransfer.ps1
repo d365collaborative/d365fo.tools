@@ -26,6 +26,11 @@
         
         Default is $false which will leave the source file
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -116,6 +121,9 @@ function Invoke-D365AzCopyTransfer {
 
         [switch] $DeleteOnTransferComplete,
 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\AzCopy"),
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly,
@@ -136,7 +144,7 @@ function Invoke-D365AzCopyTransfer {
             }
             else {
                 if ([System.IO.File]::GetAttributes($DestinationUri).HasFlag([System.IO.FileAttributes]::Directory)) {
-                    $DestinationUri = Join-Path $DestinationUri $FileName
+                    $DestinationUri = Join-Path -Path $DestinationUri -ChildPath $FileName
                 }
             }
         }

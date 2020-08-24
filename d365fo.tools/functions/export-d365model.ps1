@@ -27,6 +27,11 @@
         
         Default path is the same as the aos service PackagesLocalDirectory
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -68,6 +73,9 @@ function Export-D365Model {
 
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModelUtilExport"),
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly
@@ -87,7 +95,7 @@ function Export-D365Model {
             Get-ChildItem -Path "$Path\$Model-*.axmodel" | Select-Object -First 1 | Remove-Item -Force -ErrorAction SilentlyContinue
         }
 
-        Invoke-ModelUtil -Command "Export" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-ModelUtil -Command "Export" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
         if (Test-PSFFunctionInterrupt) { return }
 

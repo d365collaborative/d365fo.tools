@@ -32,6 +32,11 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -88,6 +93,9 @@ function Enable-D365MaintenanceMode {
 
         [string] $SqlPwd = $Script:DatabaseUserPassword,
 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\MaintenanceMode"),
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly
@@ -127,7 +135,7 @@ function Enable-D365MaintenanceMode {
     else {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode using executable."
 
-        $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
+        $executable = Join-Path -Path $BinDir -ChildPath "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
 
         if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
         if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
@@ -142,7 +150,7 @@ function Enable-D365MaintenanceMode {
             "-setupmode", "maintenancemode",
             "-isinmaintenancemode", "true")
 
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
 
     if ($OutputCommandOnly) { return }

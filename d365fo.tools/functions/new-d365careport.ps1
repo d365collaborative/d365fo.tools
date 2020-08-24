@@ -33,6 +33,11 @@
     .PARAMETER PackagesRoot
         Instructs the cmdlet to use binary metadata
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -104,6 +109,9 @@ function New-D365CAReport {
 
         [switch] $PackagesRoot,
 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\CAReport"),
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly
@@ -133,7 +141,7 @@ function New-D365CAReport {
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
     if (Test-PSFFunctionInterrupt) { return }
 

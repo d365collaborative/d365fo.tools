@@ -45,6 +45,9 @@
     .PARAMETER MaxParallelism
         Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -107,6 +110,8 @@ function Invoke-SqlPackage {
 
         [string] $MaxParallelism,
 
+        [string] $LogPath,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly,
@@ -168,7 +173,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/mp:`"$MaxParallelism`"")
     }
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     
     if (Test-PSFFunctionInterrupt) {
         Write-PSFMessage -Level Critical -Message "The SqlPackage.exe exited with an error."

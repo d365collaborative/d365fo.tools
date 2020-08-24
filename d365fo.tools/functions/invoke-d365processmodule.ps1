@@ -28,9 +28,13 @@
     .PARAMETER OutputDir
         The path to the folder to save assemblies
         
-    .PARAMETER LogDir
-        The path to the folder to save logs
-        
+    .PARAMETER LogPath
+        Path where you want to store the log outputs generated from the compiler
+
+        Also used as the path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+                
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
         
@@ -116,7 +120,8 @@ function Invoke-D365ProcessModule {
         [Alias('Output')]
         [string] $OutputDir = $Script:MetaDataDir,
 
-        [string] $LogDir = $Script:DefaultTempPath,
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModuleCompile"),
 
         [string] $MetaDataDir = $Script:MetaDataDir,
 
@@ -135,8 +140,7 @@ function Invoke-D365ProcessModule {
 
     process {
         # Only execute the code if any of the flags are set
-        if($ExecuteCompile -or $ExecuteSync -or $ExecuteDeployReports)
-        {
+        if ($ExecuteCompile -or $ExecuteSync -or $ExecuteDeployReports) {
             # Retrieve all modules that match provided $Module
             $moduleResults = Get-D365Module -Name $Module
 
@@ -157,44 +161,38 @@ function Invoke-D365ProcessModule {
             $syncExtensionsList = @()
 
             # Loop every resulting module result and fill the required 'processing' lists based on the flags
-            foreach($moduleElement in $moduleResults)
-            {
-                if($ExecuteCompile)
-                {
+            foreach ($moduleElement in $moduleResults) {
+                if ($ExecuteCompile) {
                     $modulesToCompile += $moduleElement
                 }
 
-                if($ExecuteDeployReports)
-                {
+                if ($ExecuteDeployReports) {
                     $modulesToDeployReports += $moduleElement
                 }
 
-                if($ExecuteSync)
-                {
+                if ($ExecuteSync) {
                     # Retrieve the sync element of current module
                     $moduleSyncElements = Get-SyncElements -ModuleName $moduleElement.Module
 
                     # Add base and extensions elements to the sync lists
-                    $syncList +=$moduleSyncElements.BaseSyncElements
+                    $syncList += $moduleSyncElements.BaseSyncElements
                     $syncExtensionsList += $moduleSyncElements.ExtensionSyncElements
                 }
             }
 
-            if($ExecuteCompile)
-            {
+            if ($ExecuteCompile) {
                 # Loop over every module to compile and execute compile function
-                foreach($moduleToCompile in $modulesToCompile)
-                {
+                foreach ($moduleToCompile in $modulesToCompile) {
                     # Build parameters for the full compile function
                     $fullCompileParams = @{
-                        Module=$moduleToCompile.Module;
-                        OutputDir=$OutputDir;
-                        LogDir=$LogDir;
-                        MetaDataDir=$MetaDataDir;
-                        ReferenceDir=$ReferenceDir;
-                        BinDir=$BinDir;
-                        ShowOriginalProgress=$ShowOriginalProgress;
-                        OutputCommandOnly=$OutputCommandOnly
+                        Module               = $moduleToCompile.Module;
+                        OutputDir            = $OutputDir;
+                        LogPath              = $LogPath;
+                        MetaDataDir          = $MetaDataDir;
+                        ReferenceDir         = $ReferenceDir;
+                        BinDir               = $BinDir;
+                        ShowOriginalProgress = $ShowOriginalProgress;
+                        OutputCommandOnly    = $OutputCommandOnly
                     }
 
                     # Call the full compile using required parameters
@@ -205,39 +203,34 @@ function Invoke-D365ProcessModule {
                 }
             }
             
-            if($ExecuteDeployReports)
-            {
+            if ($ExecuteDeployReports) {
                 # Loop over every module to deploy reports and execute deploy report function
-                foreach($moduleToDeployReports in $modulesToDeployReports)
-                {
+                foreach ($moduleToDeployReports in $modulesToDeployReports) {
                     # Build parameters for the model report deployment
                     $fullDeployParams = @{
-                        Module=$moduleToDeployReports.Module;
-                        LogFile="$LogDir\$($moduleToDeployReports.Module).log";
+                        Module  = $moduleToDeployReports.Module;
+                        LogFile = "$LogPath\$($moduleToDeployReports.Module).log";
                     }
                     
-                    if($OutputCommandOnly)
-                    {
+                    if ($OutputCommandOnly) {
                         Write-PSFMessage -Level Host -Message "Publish-D365SsrsReport $($fullDeployParams -join ' ')"
                     }
-                    else
-                    {
+                    else {
                         $resModuleDeployReports = Publish-D365SsrsReport @fullDeployParams
                         $resModuleDeployReports
                     }
                 }
             }
 
-            if($ExecuteSync)
-            {
+            if ($ExecuteSync) {
                 # Build parameters for the partial sync function
                 $syncParams = @{
-                    SyncList=$syncList;
-                    SyncExtensionsList = $syncExtensionsList;
-                    BinDirTools=$BinDir;
-                    MetadataDir=$MetaDataDir;
-                    ShowOriginalProgress=$ShowOriginalProgress;
-                    OutputCommandOnly=$OutputCommandOnly
+                    SyncList             = $syncList;
+                    SyncExtensionsList   = $syncExtensionsList;
+                    BinDirTools          = $BinDir;
+                    MetadataDir          = $MetaDataDir;
+                    ShowOriginalProgress = $ShowOriginalProgress;
+                    OutputCommandOnly    = $OutputCommandOnly
                 }
 
                 # Call the partial sync using required parameters
@@ -245,8 +238,7 @@ function Invoke-D365ProcessModule {
                 $resSyncModule
             }
         }
-        else
-        {
+        else {
             Write-PSFMessage -Level Output -Message "No process flags were set. Nothing will be processed"
         }
     }

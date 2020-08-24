@@ -22,12 +22,16 @@
     .PARAMETER Model
         Name of the Model to analyse
         
-    .PARAMETER LogDir
-        Path where you want to store the log outputs generated from the best practice analyser
-        
     .PARAMETER PackagesRoot
         Instructs the cmdlet to use binary metadata
         
+    .PARAMETER LogPath
+        Path where you want to store the log outputs generated from the best practice analyser
+
+        Also used as the path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -101,9 +105,10 @@ function Invoke-D365BestPractice {
 
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [string] $LogDir = (Join-Path $Script:DefaultTempPath $Module),
-
         [switch] $PackagesRoot,
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\BestPractice"),
 
         [switch] $ShowOriginalProgress,
 
@@ -116,7 +121,7 @@ function Invoke-D365BestPractice {
         Invoke-TimeSignal -Start
 
         $tool = "xppbp.exe"
-        $executable = Join-Path $BinDir $tool
+        $executable = Join-Path -Path $BinDir -ChildPath $tool
 
         if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
         if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
@@ -126,14 +131,14 @@ function Invoke-D365BestPractice {
     process {
         if (Test-PSFFunctionInterrupt) { return }
 
-        $LogDir = (Join-Path $Script:DefaultTempPath $Module)
+        $logDirModule = (Join-Path -Path $LogPath -ChildPath $Module)
 
-        if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+        if (-not (Test-PathExists -Path $logDirModule -Type Container -Create)) { return }
 
         if (Test-PSFFunctionInterrupt) { return }
 
-        $logFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.log"
-        $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Model.xppbp.xml"
+        $logFile = Join-Path -Path $logDirModule -ChildPath "Dynamics.AX.$Model.xppbp.log"
+        $logXmlFile = Join-Path -Path $logDirModule -ChildPath "Dynamics.AX.$Model.xppbp.xml"
 
         $params = @(
             "-metadata=`"$MetaDataDir`"",
@@ -152,7 +157,7 @@ function Invoke-D365BestPractice {
             $params += "-runfixers"
         }
 
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $logDirModule
 
         if ($OutputCommandOnly) { return }
         

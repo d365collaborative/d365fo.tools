@@ -12,9 +12,13 @@
     .PARAMETER OutputDir
         The path to the folder to save assemblies
         
-    .PARAMETER LogDir
-        The path to the folder to save logs
-        
+    .PARAMETER LogPath
+        Path where you want to store the log outputs generated from the compiler
+
+        Also used as the path where the log file(s) will be saved
+
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+                
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
         
@@ -68,7 +72,8 @@ function Invoke-D365ModuleFullCompile {
         [Alias('Output')]
         [string] $OutputDir = $Script:MetaDataDir,
 
-        [string] $LogDir = $Script:DefaultTempPath,
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModuleCompile"),
 
         [string] $MetaDataDir = $Script:MetaDataDir,
 
@@ -86,15 +91,10 @@ function Invoke-D365ModuleFullCompile {
         Invoke-TimeSignal -Start
 
         if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
-        if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+        if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) { return }
     }
 
     process {
-        # $Params = Get-DeepClone $PSBoundParameters
-
-        # $Params.OutputDir = (Join-Path $OutputDir $Module)
-        # $Params.LogDir = (Join-Path $LogDir $Module)
-
         $resModuleCompile = Invoke-D365ModuleCompile @PSBoundParameters
 
         $resLabelGeneration = Invoke-D365ModuleLabelGeneration @PSBoundParameters
