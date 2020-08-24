@@ -27,11 +27,11 @@
         
     .PARAMETER LogPath
         Path where you want to store the log outputs generated from the best practice analyser
-
+        
         Also used as the path where the log file(s) will be saved
-
+        
         When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         

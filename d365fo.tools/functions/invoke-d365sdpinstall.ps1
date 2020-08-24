@@ -50,7 +50,7 @@
         
     .PARAMETER LogPath
         The path where the log file(s) will be saved
-
+        
         When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
         
     .PARAMETER ShowOriginalProgress

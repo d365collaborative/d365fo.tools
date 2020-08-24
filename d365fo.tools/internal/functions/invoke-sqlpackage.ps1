@@ -47,7 +47,7 @@
         
     .PARAMETER LogPath
         The path where the log file(s) will be saved
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
