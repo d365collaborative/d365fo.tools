@@ -79,6 +79,17 @@
         
         The default values can be configured using Set-D365LcsApiConfig.
         
+    .EXAMPLE
+        PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\Temp\d365fo.tools -FileName "Main.zip" -ShowOriginalProgress
+
+        This will download the latest Software Deployable Package from the Asset Library in LCS onto your on machine.
+        It will list Software Deployable Packages based on the FileType parameter.
+        It will list the latest (newest) Software Deployable Package.
+
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+        
     .LINK
         Get-D365LcsApiConfig
         
