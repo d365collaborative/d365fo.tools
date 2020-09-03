@@ -50,7 +50,7 @@
         Default value can be configured using Set-D365LcsApiConfig
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "Software Deployable Package" -FileName "Release-2019-05-05" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will start the upload of a file to the Asset Library.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
@@ -62,7 +62,7 @@
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "Software Deployable Package" -FileName "Release-2019-05-05"
+        PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05"
         
         This will start the upload of a file to the Asset Library.
         The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
@@ -111,30 +111,33 @@
         
 #>
 
+enum LcsAssetFileType {
+    Model = 1
+    ProcessDataPackage = 4
+    SoftwareDeployablePackage = 10
+    GERConfiguration = 12
+    DataPackage = 15
+    PowerBIReportModel = 19
+}
+
 function Invoke-D365LcsUpload {
     [CmdletBinding()]
     [OutputType()]
     param(
-        [Parameter(Mandatory = $false)]
         [int]$ProjectId = $Script:LcsApiProjectId,
         
-        [Parameter(Mandatory = $false)]
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
         [Parameter(Mandatory = $true)]
         [string] $FilePath,
 
-        [Parameter(Mandatory = $false)]
-        [string] $FileType = "Software Deployable Package",
+        [LcsAssetFileType] $FileType = [LcsAssetFileType]::SoftwareDeployablePackage,
 
-        [Parameter(Mandatory = $false)]
         [string] $FileName,
 
-        [Parameter(Mandatory = $false)]
         [string] $FileDescription,
 
-        [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri
     )
 

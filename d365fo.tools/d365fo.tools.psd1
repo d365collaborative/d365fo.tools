@@ -120,6 +120,7 @@
 						
 						'Get-D365LcsApiConfig',
 						'Get-D365LcsApiToken',
+						'Get-D365LcsAssetFile',
 						'Get-D365LcsAssetValidationStatus',
 						'Get-D365LcsDatabaseBackups',
 						'Get-D365LcsDatabaseOperationStatus',

@@ -15,7 +15,7 @@
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
-    .PARAMETER ActionHistoryId
+    .PARAMETER ActivityId
         The unique id of the action you got from when starting the deployment to the environment
         
     .PARAMETER EnvironmentId
@@ -33,7 +33,7 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
     .EXAMPLE
-        PS C:\> Get-LcsDeploymentStatus -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -ActionHistoryId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcslcsResponseObject -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -ActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will start the deployment of the file located in the Asset Library with the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
         The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
@@ -59,7 +59,7 @@ function Get-LcsDeploymentStatus {
         [string] $BearerToken,
 
         [Parameter(Mandatory = $true)]
-        [string] $ActionHistoryId,
+        [string] $ActivityId,
 
         [Parameter(Mandatory = $true)]
         [string] $EnvironmentId,
@@ -76,9 +76,9 @@ function Get-LcsDeploymentStatus {
     $client.DefaultRequestHeaders.Clear()
     $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
     
-    $deployStatusUri = "$LcsApiUri/environment/servicing/v1/monitorupdate/$($ProjectId)?environmentId=$EnvironmentId&actionHistoryId=$ActionHistoryId"
+    $lcsRequestUri = "$LcsApiUri/environment/v2/fetchstatus/project/$($ProjectId)/environment/$($EnvironmentId)/operationactivity/$($ActivityId)"
 
-    $request = New-JsonRequest -Uri $deployStatusUri -Token $BearerToken -HttpMethod "GET"
+    $request = New-JsonRequest -Uri $lcsRequestUri -Token $BearerToken -HttpMethod "GET"
 
     try {
         Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
@@ -88,48 +88,52 @@ function Get-LcsDeploymentStatus {
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
         try {
-            $deploymentStatus = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+            $lcsResponseObject = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
         }
         catch {
             Write-PSFMessage -Level Critical -Message "$responseString"
         }
 
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $deploymentStatus
+        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $lcsResponseObject
         
+        #This IF block might be obsolute based on the V2 implementation
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
-            if (($deploymentStatus) -and ($deploymentStatus.Message)) {
+            if ($lcsResponseObject) {
                 $errorText = ""
-                if ($deploymentStatus.ActivityId) {
-                    $errorText = "Error $( $deploymentStatus.LcsErrorCode) in request for status of environment servicing action: '$( $deploymentStatus.Message)' (Activity Id: '$( $deploymentStatus.ActivityId)')"
+                if ($lcsResponseObject.ActivityId) {
+                    $errorText = "Error $( $lcsResponseObject.ErrorMessage) in request for status of environment servicing action: '$($lcsResponseObject.ErrorMessage)' (Activity Id: '$($lcsResponseObject.ActivityId)')"
                 }
                 else {
-                    $errorText = "Error $( $deploymentStatus.LcsErrorCode) in request for status of environment servicing action: '$( $deploymentStatus.Message)'"
+                    $errorText = "Error $( $lcsResponseObject.ErrorMessage) in request for status of environment servicing action: '$($lcsResponseObject.ErrorMessage)'"
                 }
             }
-            elseif ($deploymentStatus.ActivityId) {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($deploymentStatus.ActivityId)')"
+            elseif ($lcsResponseObject.ActivityId) {
+                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($lcsResponseObject.ActivityId)')"
             }
             else {
                 $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
             }
 
-            Write-PSFMessage -Level Host -Message "Error fetching environment servicing status." -Target $($deploymentStatus.Message)
+            Write-PSFMessage -Level Host -Message "Error fetching environment servicing status." -Target $($lcsResponseObject.Message)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors"
         }
 
-        if (-not ( $deploymentStatus.LcsEnvironmentActionStatus)) {
-            if ($deploymentStatus.Message) {
-                $errorText = "Error in request for status of environment servicing action: '$( $deploymentStatus.Message)' (Activity Id: '$( $deploymentStatus.ActivityId)')"
+        if (-not ($lcsResponseObject.OperationStatus)) {
+            if ($lcsResponseObject.Message) {
+                $errorText = "Error in request for status of environment servicing action: '$($lcsResponseObject.Message)')"
             }
-            elseif ( $deploymentStatus.ActivityId) {
-                $errorText = "Error in request for status of environment servicing action. Activity Id: '$($activity.ActivityId)'"
+            elseif ($lcsResponseObject.ErrorMessage) {
+                $errorText = "Error in request for status of environment servicing action: '$($lcsResponseObject.ErrorMessage)' (ActivityId: '$($lcsResponseObject.ActivityId)' - OperationActivityId: '$($lcsResponseObject.OperationActivityId)')"
+            }
+            elseif ($lcsResponseObject.OperationActivityId -or $lcsResponseObject.ActivityId) {
+                $errorText = "Error in request for status of environment servicing action. (ActivityId: '$($lcsResponseObject.ActivityId)' - OperationActivityId: '$($lcsResponseObject.OperationActivityId)')"
             }
             else {
                 $errorText = "Unknown error in request for status of environment servicing action"
             }
 
-            Write-PSFMessage -Level Host -Message "Unknown error fetching environment servicing status." -Target $deploymentStatus
+            Write-PSFMessage -Level Host -Message "Unknown error fetching environment servicing status." -Target $lcsResponseObject
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors"
         }
@@ -142,5 +146,5 @@ function Get-LcsDeploymentStatus {
 
     Invoke-TimeSignal -End
     
-    $deploymentStatus
+    $lcsResponseObject
 }
