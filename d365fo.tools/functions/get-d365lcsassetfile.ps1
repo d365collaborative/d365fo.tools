@@ -23,23 +23,23 @@
         "PowerBI Report Model"
         
         Default value is "Software Deployable Package"
-
+        
     .PARAMETER AssetName
         Name of the file that you are looking for
-
+        
         Accepts wildcards for searching. E.g. -AssetName "*ISV*"
         
         Default value is "*" which will search for all files
-
+        
     .PARAMETER AssetVersion
         Version of the Asset file that you are looking for
-
+        
         It does a simple compare against the response from LCS and only lists the ones that matches
-
+        
         Accepts wildcards for searching. E.g. -AssetName "*ISV*"
-
+        
         Default value is "*" which will search for all files
-
+        
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
@@ -68,24 +68,24 @@
         The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage
         
         This will list all Software Deployable Packages.
         It will search for SoftwareDeployablePackage by using the FileType parameter.
-
+        
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
         
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\Temp\d365fo.tools -FileName "Main.zip" -ShowOriginalProgress
-
+        
         This will download the latest Software Deployable Package from the Asset Library in LCS onto your on machine.
         It will list Software Deployable Packages based on the FileType parameter.
         It will list the latest (newest) Software Deployable Package.
-
+        
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
@@ -106,15 +106,6 @@
         Author: Mötz Jensen (@Splaxi)
         
 #>
-
-enum LcsAssetFileType {
-    Model = 1
-    ProcessDataPackage = 4
-    SoftwareDeployablePackage = 10
-    GERConfiguration = 12
-    DataPackage = 15
-    PowerBIReportModel = 19
-}
 
 function Get-D365LcsAssetFile {
     [CmdletBinding()]
@@ -160,4 +151,14 @@ function Get-D365LcsAssetFile {
     }
 
     Invoke-TimeSignal -End
+}
+
+
+enum LcsAssetFileType {
+    Model = 1
+    ProcessDataPackage = 4
+    SoftwareDeployablePackage = 10
+    GERConfiguration = 12
+    DataPackage = 15
+    PowerBIReportModel = 19
 }

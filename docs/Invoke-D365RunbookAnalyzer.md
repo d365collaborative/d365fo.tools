@@ -107,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -FailedOnly
-{{ Fill FailedOnly Description }}
+Instruct the cmdlet to only output failed steps
 
 ```yaml
 Type: SwitchParameter
@@ -122,7 +122,7 @@ Accept wildcard characters: False
 ```
 
 ### -FailedOnlyAsObjects
-{{ Fill FailedOnlyAsObjects Description }}
+Instruct the cmdlet to only output failed steps as objects
 
 ```yaml
 Type: SwitchParameter

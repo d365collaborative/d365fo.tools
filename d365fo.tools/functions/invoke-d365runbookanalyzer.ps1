@@ -11,10 +11,10 @@
         
     .PARAMETER FailedOnly
         Instruct the cmdlet to only output failed steps
-
+        
     .PARAMETER FailedOnlyAsObjects
         Instruct the cmdlet to only output failed steps as objects
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365RunbookAnalyzer -Path "C:\DynamicsAX\InstallationRecords\Runbooks\Runbook.xml"
         

@@ -118,6 +118,7 @@ function Get-D365LcsDeploymentStatus {
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias('ActionHistoryId')]
         [string] $ActivityId,
 
         [Parameter(Mandatory = $true)]

@@ -4,7 +4,7 @@
         Get file from the Asset library inside the LCS project
         
     .DESCRIPTION
-       Get the available files from the Asset Library in LCS project
+        Get the available files from the Asset Library in LCS project
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -19,7 +19,7 @@
         "GER Configuration"
         "Data Package"
         "PowerBI Report Model"
-
+        
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         

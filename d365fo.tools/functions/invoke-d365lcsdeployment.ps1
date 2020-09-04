@@ -28,7 +28,7 @@
         
     .PARAMETER UpdateName
         Name of the update when you are working against Self-Service environments
-
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -60,7 +60,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365LcsDeployment -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -UpdateName "Release_XYZ"
         
@@ -68,11 +68,11 @@
         The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
         The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         The deployment is name "Release_XYZ" by setting the UpdateName parameter, which is mandatory when working against Self-Service environments.
-
+        
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
         
         
     .LINK
