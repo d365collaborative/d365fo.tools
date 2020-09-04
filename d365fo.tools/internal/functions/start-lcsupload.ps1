@@ -39,12 +39,12 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
     .EXAMPLE
-        PS C:\> Start-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "DatabaseBackup" -Name "ReadyForTesting" -Description "Contains all customers & vendors" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "SoftwareDeployablePackage" -Name "ReadyForTesting" -Description "Latest release that fixes it all" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will contact the NON-EUROPE LCS API and instruct it that we want to upload a new file to the Asset Library.
         The token "Bearer JldjfafLJdfjlfsalfd..." is used to the authorize against the LCS API.
-        The ProjectId is 123456789 and FileType is "DatabaseBackup".
-        The file will be named "ReadyForTesting" and the Description will be "Contains all customers & vendors".
+        The ProjectId is 123456789 and FileType is "SoftwareDeployablePackage".
+        The file will be named "ReadyForTesting" and the Description will be "Latest release that fixes it all".
         
     .NOTES
         Tags: Url, LCS, Upload, Api, Token
@@ -64,7 +64,7 @@ function Start-LcsUpload {
         [int] $ProjectId,
 
         [Parameter(Mandatory = $true)]
-        [string] $FileType,
+        [LcsAssetFileType] $FileType,
 
         [Parameter(Mandatory = $false)]
         [string] $Name,
@@ -84,18 +84,8 @@ function Start-LcsUpload {
     else {
         $jsonDescription = "`"$Description`""
     }
-    
-    $fileTypeValue = 0
 
-    switch ($FileType) {
-        "Model" { $fileTypeValue = 1 }
-        "Process Data Package" { $fileTypeValue = 4 }
-        "Software Deployable Package" { $fileTypeValue = 10 }
-        "GER Configuration" { $fileTypeValue = 12 }
-        "Data Package" { $fileTypeValue = 15 }
-        "PowerBI Report Model" { $fileTypeValue = 19 }
-    }
-
+    $fileTypeValue = [int]$FileType
     $jsonFile = "{ `"Name`": `"$Name`", `"FileName`": `"$fileName`", `"FileDescription`": $jsonDescription, `"SizeByte`": 0, `"FileType`": $fileTypeValue }"
 
     Write-PSFMessage -Level Verbose -Message "Json payload for LCS generated." -Target $jsonFile

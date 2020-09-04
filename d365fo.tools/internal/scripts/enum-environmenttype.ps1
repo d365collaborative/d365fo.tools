@@ -4,7 +4,7 @@
     AzureHostedTier1
     MSHostedTier1
     MSHostedTier2
-    }
+}
 
 enum ServerRole {
     Unknown
@@ -13,4 +13,4 @@ enum ServerRole {
     Build
     AOS
     BI
-    }
+}

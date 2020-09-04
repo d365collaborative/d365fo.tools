@@ -12,9 +12,16 @@ Start the deployment of a deployable package
 
 ## SYNTAX
 
+### VM (Default)
 ```
-Invoke-D365LcsDeployment [[-ProjectId] <Int32>] [-AssetId] <String> [-EnvironmentId] <String>
- [[-BearerToken] <String>] [[-LcsApiUri] <String>] [<CommonParameters>]
+Invoke-D365LcsDeployment [-ProjectId <Int32>] -AssetId <String> -EnvironmentId <String> [-BearerToken <String>]
+ [-LcsApiUri <String>] [<CommonParameters>]
+```
+
+### Self-Service
+```
+Invoke-D365LcsDeployment [-ProjectId <Int32>] -AssetId <String> -EnvironmentId <String> -UpdateName <String>
+ [-BearerToken <String>] [-LcsApiUri <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,6 +54,20 @@ All default values will come from the configuration available from Get-D365LcsAp
 
 The default values can be configured using Set-D365LcsApiConfig.
 
+### EXAMPLE 3
+```
+Invoke-D365LcsDeployment -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -UpdateName "Release_XYZ"
+```
+
+This will start the deployment of the file located in the Asset Library against a Self-Service environment.
+The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
+The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+The deployment is name "Release_XYZ" by setting the UpdateName parameter, which is mandatory when working against Self-Service environments.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
 ## PARAMETERS
 
 ### -ProjectId
@@ -60,7 +81,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: Named
 Default value: $Script:LcsApiProjectId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -75,7 +96,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -94,7 +115,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 3
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdateName
+Name of the update when you are working against Self-Service environments
+
+```yaml
+Type: String
+Parameter Sets: Self-Service
+Aliases:
+
+Required: True
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -111,7 +147,7 @@ Parameter Sets: (All)
 Aliases: Token
 
 Required: False
-Position: 4
+Position: Named
 Default value: $Script:LcsApiBearerToken
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -134,7 +170,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: $Script:LcsApiLcsApiUri
 Accept pipeline input: False
 Accept wildcard characters: False

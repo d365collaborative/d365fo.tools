@@ -20,6 +20,9 @@
         
         The Id can be located inside the LCS portal
         
+    .PARAMETER UpdateName
+        Name of the update when you are working against Self-Service environments
+
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -62,6 +65,9 @@ function Start-LcsDeployment {
         [Parameter(Mandatory = $true)]
         [string] $EnvironmentId,
         
+        [Parameter(Mandatory = $false)]
+        [string] $UpdateName,
+
         [Parameter(Mandatory = $true)]
         [string] $LcsApiUri
     )
@@ -74,9 +80,9 @@ function Start-LcsDeployment {
     $client.DefaultRequestHeaders.Clear()
     $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
     
-    $deployUri = "$LcsApiUri/environment/servicing/v1/applyupdate/$($ProjectId)?assetId=$AssetId&environmentId=$EnvironmentId"
+    $lcsRequestUri = "$LcsApiUri/environment/v2/applyupdate/project/$($ProjectId)/environment/$($EnvironmentId)/asset/$($AssetId)?updateName=$($UpdateName)"
 
-    $request = New-JsonRequest -Uri $deployUri -Token $BearerToken -HttpMethod "POST"
+    $request = New-JsonRequest -Uri $lcsRequestUri -Token $BearerToken -HttpMethod "POST"
 
     try {
         Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
@@ -86,49 +92,53 @@ function Start-LcsDeployment {
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
         try {
-            $asset = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+            $lcsResponseObject = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
         }
         catch {
             Write-PSFMessage -Level Critical -Message "$responseString"
         }
 
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $asset
+        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $lcsResponseObject
         
+        #This IF block might be obsolute based on the V2 implementation
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
-            if (($asset) -and ($asset.Message)) {
-                $errorText = ""
-                if ($asset.ActivityId) {
-                    $errorText = "Error $( $asset.LcsErrorCode) in request for status of environment servicing action: '$( $asset.Message)' (Activity Id: '$( $asset.ActivityId)')"
+            if (($lcsResponseObject) -and ($lcsResponseObject.Message)) {
+        
+                if ($lcsResponseObject.ActivityId) {
+                    $errorText = "Error $( $lcsResponseObject.LcsErrorCode) in request for status of environment servicing action: '$( $lcsResponseObject.Message)' (Activity Id: '$( $lcsResponseObject.ActivityId)')"
                 }
                 else {
-                    $errorText = "Error $( $asset.LcsErrorCode) in request for status of environment servicing action: '$( $asset.Message)'"
+                    $errorText = "Error $( $lcsResponseObject.LcsErrorCode) in request for status of environment servicing action: '$( $lcsResponseObject.Message)'"
                 }
             }
-            elseif ($asset.ActivityId) {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($asset.ActivityId)')"
+            elseif ($lcsResponseObject.ActivityId) {
+                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($lcsResponseObject.ActivityId)')"
             }
             else {
                 $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
             }
 
-            Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)
+            Write-PSFMessage -Level Host -Message "Error creating new file lcsResponseObject." -Target $($lcsResponseObject.Message)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors"
         }
 
         
-        if (-not ( $asset.LcsEnvironmentActionStatus)) {
-            if ( $asset.Message) {
-                $errorText = "Error in request for status of environment servicing action: '$( $asset.Message)' (Activity Id: '$( $asset.ActivityId)')"
+        if (-not ( $lcsResponseObject.OperationStatus)) {
+            if ( $lcsResponseObject.Message) {
+                $errorText = "Error in request for deploying asset to enviroment: '$($lcsResponseObject.Message)')"
             }
-            elseif ( $asset.ActivityId) {
-                $errorText = "Error in request for status of environment servicing action. Activity Id: '$($activity.ActivityId)'"
+            elseif ( $lcsResponseObject.ErrorMessage) {
+                $errorText = "Error in request for deploying asset to enviroment: '$($lcsResponseObject.ErrorMessage)' (OperationActivityId: '$($lcsResponseObject.OperationActivityId)')"
+            }
+            elseif ($lcsResponseObject.OperationActivityId -or $lcsResponseObject.ActivityId) {
+                $errorText = "Error in request for deploying asset to environment. (OperationActivityId: '$($lcsResponseObject.OperationActivityId)')"
             }
             else {
-                $errorText = "Unknown error in request for status of environment servicing action"
+                $errorText = "Unknown in request for deploying asset to environment."
             }
 
-            Write-PSFMessage -Level Host -Message "Unknown error creating new file asset." -Target $asset
+            Write-PSFMessage -Level Host -Message "Unknown in request for deploying asset to environment." -Target $lcsResponseObject
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
             Stop-PSFFunction -Message "Stopping because of errors"
         }
@@ -141,5 +151,5 @@ function Start-LcsDeployment {
 
     Invoke-TimeSignal -End
     
-    $asset
+    $lcsResponseObject
 }

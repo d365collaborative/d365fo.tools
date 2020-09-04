@@ -3,7 +3,17 @@
     , "Get-DeepClone"
     , "Test-TrustedConnection"
     , "Select-DefaultView"
+
 )
+
+enum LcsAssetFileType {
+    Model = 1
+    ProcessDataPackage = 4
+    SoftwareDeployablePackage = 10
+    GERConfiguration = 12
+    DataPackage = 15
+    PowerBIReportModel = 19
+}
 
 $commandsRaw = Get-Command -Module d365fo.tools
 
