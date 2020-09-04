@@ -20,6 +20,9 @@
         
         The Id can be located inside the LCS portal
         
+    .PARAMETER UpdateName
+        Name of the update when you are working against Self-Service environments
+
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
