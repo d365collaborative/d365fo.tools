@@ -153,7 +153,6 @@ function Get-D365LcsAssetFile {
     Invoke-TimeSignal -End
 }
 
-
 enum LcsAssetFileType {
     Model = 1
     ProcessDataPackage = 4
