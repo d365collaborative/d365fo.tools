@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-D365LcsUpload
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Upload a file to a LCS project
 
 ## SYNTAX
 
@@ -19,21 +19,73 @@ Invoke-D365LcsUpload [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-FilePath
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Upload a file to a LCS project using the API provided by Microsoft
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 ```
 
-{{ Add example description here }}
+This will start the upload of a file to the Asset Library.
+The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
+The file type "Software Deployable Package" determines where inside the Asset Library the file will end up.
+The name inside the Asset Library is based on the FileName "Release-2019-05-05".
+The description inside the Asset Library is based on the FileDescription "Build based on sprint: SuperSprint-1".
+The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
+The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
+
+### EXAMPLE 2
+```
+Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05"
+```
+
+This will start the upload of a file to the Asset Library.
+The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
+The file type "Software Deployable Package" determines where inside the Asset Library the file will end up.
+The name inside the Asset Library is based on the FileName "Release-2019-05-05".
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 3
+```
+Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip"
+```
+
+This will start the upload of a file to the Asset Library.
+The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
 
 ## PARAMETERS
 
+### -ProjectId
+The project id for the Dynamics 365 for Finance & Operations project inside LCS
+
+Default value can be configured using Set-D365LcsApiConfig
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: $Script:LcsApiProjectId
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -BearerToken
-{{ Fill BearerToken Description }}
+The token you want to use when working against the LCS api
+
+Default value can be configured using Set-D365LcsApiConfig
 
 ```yaml
 Type: String
@@ -41,14 +93,55 @@ Parameter Sets: (All)
 Aliases: Token
 
 Required: False
-Position: 1
+Position: 2
+Default value: $Script:LcsApiBearerToken
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FilePath
+Path to the file that you want to upload to the Asset Library on LCS
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -FileDescription
-{{ Fill FileDescription Description }}
+### -FileType
+Type of file you want to upload
+
+Valid options:
+"Model"
+"Process Data Package"
+"Software Deployable Package"
+"GER Configuration"
+"Data Package"
+"PowerBI Report Model"
+
+Default value is "Software Deployable Package"
+
+```yaml
+Type: LcsAssetFileType
+Parameter Sets: (All)
+Aliases:
+Accepted values: Model, ProcessDataPackage, SoftwareDeployablePackage, GERConfiguration, DataPackage, PowerBIReportModel
+
+Required: False
+Position: 4
+Default value: SoftwareDeployablePackage
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FileName
+Name to be assigned / shown on LCS
 
 ```yaml
 Type: String
@@ -62,54 +155,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -FileName
-{{ Fill FileName Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FilePath
-{{ Fill FilePath Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FileType
-{{ Fill FileType Description }}
-
-```yaml
-Type: LcsAssetFileType
-Parameter Sets: (All)
-Aliases:
-Accepted values: Model, ProcessDataPackage, SoftwareDeployablePackage, GERConfiguration, DataPackage, PowerBIReportModel
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -LcsApiUri
-{{ Fill LcsApiUri Description }}
+### -FileDescription
+Description to be assigned / shown on LCS
 
 ```yaml
 Type: String
@@ -123,17 +170,25 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProjectId
-{{ Fill ProjectId Description }}
+### -LcsApiUri
+URI / URL to the LCS API you want to use
+
+Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+
+Valid options:
+"https://lcsapi.lcs.dynamics.com"
+"https://lcsapi.eu.lcs.dynamics.com"
+
+Default value can be configured using Set-D365LcsApiConfig
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
-Default value: None
+Position: 7
+Default value: $Script:LcsApiLcsApiUri
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -143,11 +198,26 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
-
 ## OUTPUTS
 
-### System.Object
 ## NOTES
+Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
+
+[Get-D365LcsApiConfig]()
+
+[Get-D365LcsApiToken]()
+
+[Get-D365LcsAssetValidationStatus]()
+
+[Get-D365LcsDeploymentStatus]()
+
+[Invoke-D365LcsApiRefreshToken]()
+
+[Invoke-D365LcsDeployment]()
+
+[Set-D365LcsApiConfig]()
+

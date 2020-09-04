@@ -104,7 +104,7 @@ The unique id of the action that you started from the Invoke-D365LcsDeployment c
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ActionHistoryId
 
 Required: True
 Position: 3
