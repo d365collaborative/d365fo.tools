@@ -3,6 +3,9 @@
     , 'Invoke-D365SCDPBundleInstall'
     , 'Test-D365Command'
     , 'Test-PathExists'
+    , 'Get-D365LcsAssetFile'
+    , 'Invoke-D365LcsUpload'
+
 )
 
 $excludeParameters = @(
