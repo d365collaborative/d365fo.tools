@@ -152,12 +152,3 @@ function Get-D365LcsAssetFile {
 
     Invoke-TimeSignal -End
 }
-
-enum LcsAssetFileType {
-    Model = 1
-    ProcessDataPackage = 4
-    SoftwareDeployablePackage = 10
-    GERConfiguration = 12
-    DataPackage = 15
-    PowerBIReportModel = 19
-}

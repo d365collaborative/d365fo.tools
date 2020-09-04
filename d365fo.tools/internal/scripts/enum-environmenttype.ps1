@@ -14,3 +14,12 @@ enum ServerRole {
     AOS
     BI
 }
+
+enum LcsAssetFileType {
+    Model = 1
+    ProcessDataPackage = 4
+    SoftwareDeployablePackage = 10
+    GERConfiguration = 12
+    DataPackage = 15
+    PowerBIReportModel = 19
+}
