@@ -111,15 +111,6 @@
         
 #>
 
-enum LcsAssetFileType {
-    Model = 1
-    ProcessDataPackage = 4
-    SoftwareDeployablePackage = 10
-    GERConfiguration = 12
-    DataPackage = 15
-    PowerBIReportModel = 19
-}
-
 function Invoke-D365LcsUpload {
     [CmdletBinding()]
     [OutputType()]
@@ -177,4 +168,13 @@ function Invoke-D365LcsUpload {
         AssetId = $blobDetails.Id
         Name = $FileName
     }
+}
+
+enum LcsAssetFileType {
+    Model = 1
+    ProcessDataPackage = 4
+    SoftwareDeployablePackage = 10
+    GERConfiguration = 12
+    DataPackage = 15
+    PowerBIReportModel = 19
 }
