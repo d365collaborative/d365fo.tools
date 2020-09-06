@@ -15,9 +15,6 @@ foreach ($file in (Get-ChildItem "$ModuleRoot\internal\tepp\*.tepp.ps1" -ErrorAc
 
 # Load License
 . Import-ModuleFile -Path "$ModuleRoot\internal\scripts\license.ps1"
- 
-# Load Enums
-. Import-ModuleFile -Path "$ModuleRoot\internal\scripts\enum-environmenttype.ps1"
 
 # Load Variables
 . Import-ModuleFile -Path "$ModuleRoot\internal\scripts\variables.ps1"

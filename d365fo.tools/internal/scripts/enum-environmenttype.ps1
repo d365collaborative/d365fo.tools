@@ -1,25 +1,32 @@
-﻿enum EnvironmentType {
-    Unknown
-    LocalHostedTier1
-    AzureHostedTier1
-    MSHostedTier1
+﻿Add-Type @'
+public enum EnvironmentType {
+    Unknown,
+    LocalHostedTier1,
+    AzureHostedTier1,
+    MSHostedTier1,
     MSHostedTier2
 }
+'@
 
-enum ServerRole {
-    Unknown
-    Development
-    Demo
-    Build
-    AOS
+Add-Type @'
+public enum ServerRole {
+    Unknown,
+    Development,
+    Demo,
+    Build,
+    AOS,
     BI
 }
+'@
 
-enum LcsAssetFileType {
-    Model = 1
-    ProcessDataPackage = 4
-    SoftwareDeployablePackage = 10
-    GERConfiguration = 12
-    DataPackage = 15
+
+Add-Type @'
+public enum LcsAssetFileType {
+    Model = 1,
+    ProcessDataPackage = 4,
+    SoftwareDeployablePackage = 10,
+    GERConfiguration = 12,
+    DataPackage = 15,
     PowerBIReportModel = 19
 }
+'@
