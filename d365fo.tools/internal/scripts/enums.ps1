@@ -23,4 +23,7 @@ enum LcsAssetFileType {
     DataPackage = 15
     PowerBIReportModel = 19
     ECommercePackage = 26
+    NuGetPackage = 27
+    RetailSelfServicePackage = 28
+    CommerceCloudScaleUnitExtension = 29
 }

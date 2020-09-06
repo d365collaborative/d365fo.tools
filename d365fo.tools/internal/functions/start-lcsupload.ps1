@@ -23,6 +23,9 @@
         "Data Package"
         "PowerBI Report Model"
         "E-Commerce Package"
+        "NuGet Package"
+        "Retail Self-Service Package"
+        "Commerce Cloud Scale Unit Extension"
         
     .PARAMETER Name
         Name to be assigned / shown on LCS

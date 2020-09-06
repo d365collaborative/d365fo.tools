@@ -20,6 +20,9 @@
         "Data Package"
         "PowerBI Report Model"
         "E-Commerce Package"
+        "NuGet Package"
+        "Retail Self-Service Package"
+        "Commerce Cloud Scale Unit Extension"
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api

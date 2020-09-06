@@ -22,6 +22,10 @@
         "Data Package"
         "PowerBI Report Model"
         "E-Commerce Package"
+        "NuGet Package"
+        "Retail Self-Service Package"
+        "Commerce Cloud Scale Unit Extension"
+
         
         Default value is "Software Deployable Package"
         
