@@ -19,6 +19,7 @@
         "GER Configuration"
         "Data Package"
         "PowerBI Report Model"
+        "E-Commerce Package"
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api

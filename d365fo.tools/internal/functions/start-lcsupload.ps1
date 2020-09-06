@@ -22,6 +22,7 @@
         "GER Configuration"
         "Data Package"
         "PowerBI Report Model"
+        "E-Commerce Package"
         
     .PARAMETER Name
         Name to be assigned / shown on LCS

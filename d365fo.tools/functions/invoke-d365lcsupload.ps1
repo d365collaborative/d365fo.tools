@@ -29,6 +29,7 @@
         "GER Configuration"
         "Data Package"
         "PowerBI Report Model"
+        "E-Commerce Package"
         
         Default value is "Software Deployable Package"
         

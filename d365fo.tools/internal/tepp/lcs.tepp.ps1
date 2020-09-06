@@ -8,7 +8,7 @@
     "19": "PowerBI Report Model"
 }
 #>
-Register-PSFTeppScriptblock -Name "d365fo.tools.lcs.options" -ScriptBlock { [LcsAssetFileType]::Model, [LcsAssetFileType]::ProcessDataPackage, [LcsAssetFileType]::SoftwareDeployablePackage, [LcsAssetFileType]::GERConfiguration, [LcsAssetFileType]::DataPackage, [LcsAssetFileType]::PowerBIReportModel }
+Register-PSFTeppScriptblock -Name "d365fo.tools.lcs.options" -ScriptBlock { [LcsAssetFileType]::Model, [LcsAssetFileType]::ProcessDataPackage, [LcsAssetFileType]::SoftwareDeployablePackage, [LcsAssetFileType]::GERConfiguration, [LcsAssetFileType]::DataPackage, [LcsAssetFileType]::PowerBIReportModel, [LcsAssetFileType]::ECommercePackage }
 
 
 <#
