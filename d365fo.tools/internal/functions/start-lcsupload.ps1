@@ -16,8 +16,16 @@
         Type of file you want to upload
         
         Valid options:
-        "DeployablePackage"
-        "DatabaseBackup"
+        "Model"
+        "Process Data Package"
+        "Software Deployable Package"
+        "GER Configuration"
+        "Data Package"
+        "PowerBI Report Model"
+        "E-Commerce Package"
+        "NuGet Package"
+        "Retail Self-Service Package"
+        "Commerce Cloud Scale Unit Extension"
         
     .PARAMETER Name
         Name to be assigned / shown on LCS
@@ -35,12 +43,12 @@
         "https://lcsapi.eu.lcs.dynamics.com"
         
     .EXAMPLE
-        PS C:\> Start-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "DatabaseBackup" -Name "ReadyForTesting" -Description "Contains all customers & vendors" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "SoftwareDeployablePackage" -Name "ReadyForTesting" -Description "Latest release that fixes it all" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will contact the NON-EUROPE LCS API and instruct it that we want to upload a new file to the Asset Library.
         The token "Bearer JldjfafLJdfjlfsalfd..." is used to the authorize against the LCS API.
-        The ProjectId is 123456789 and FileType is "DatabaseBackup".
-        The file will be named "ReadyForTesting" and the Description will be "Contains all customers & vendors".
+        The ProjectId is 123456789 and FileType is "SoftwareDeployablePackage".
+        The file will be named "ReadyForTesting" and the Description will be "Latest release that fixes it all".
         
     .NOTES
         Tags: Url, LCS, Upload, Api, Token
@@ -54,23 +62,22 @@ function Start-LcsUpload {
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string]$Token,
+        [string] $Token,
 
         [Parameter(Mandatory = $true)]
-        [int]$ProjectId,
+        [int] $ProjectId,
 
         [Parameter(Mandatory = $true)]
-        [ValidateSet('DeployablePackage', 'DatabaseBackup')]
-        [string]$FileType,
+        [LcsAssetFileType] $FileType,
 
         [Parameter(Mandatory = $false)]
-        [string]$Name,
+        [string] $Name,
 
         [Parameter(Mandatory = $false)]
-        [string]$Description,
+        [string] $Description,
 
         [Parameter(Mandatory = $false)]
-        [string]$LcsApiUri
+        [string] $LcsApiUri
     )
 
     Invoke-TimeSignal -Start
@@ -81,35 +88,38 @@ function Start-LcsUpload {
     else {
         $jsonDescription = "`"$Description`""
     }
-    
-    $fileTypeValue = 0
 
-    switch ($FileType) {
-        "DeployablePackage" { $fileTypeValue = 10 }
-        "DatabaseBackup" { $fileTypeValue = 17 }
-    }
-
+    $fileTypeValue = [int]$FileType
     $jsonFile = "{ `"Name`": `"$Name`", `"FileName`": `"$fileName`", `"FileDescription`": $jsonDescription, `"SizeByte`": 0, `"FileType`": $fileTypeValue }"
 
     Write-PSFMessage -Level Verbose -Message "Json payload for LCS generated." -Target $jsonFile
     
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $createUri = "$LcsApiUri/box/fileasset/CreateFileAsset/$ProjectId"
 
     $request = New-JsonRequest -Uri $createUri -Content $jsonFile -Token $Token
 
     try {
-        Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
+        Write-PSFMessage -Level Verbose -Message "Invoke LCS request." -Target $request
         $result = Get-AsyncResult -task $client.SendAsync($request)
 
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
         $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
 
-        $asset = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $responseString
+        
+        try {
+            $asset = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+        }
+        catch {
+            Write-PSFMessage -Level Critical -Message "$responseString"
+        }
     
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
+        Write-PSFMessage -Level Verbose -Message "Extracting the asset json response received from LCS." -Target $asset
+        
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
             if (($asset) -and ($asset.Message)) {
                 Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)

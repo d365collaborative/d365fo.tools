@@ -14,7 +14,7 @@ Powershell implementation of the AdminProvisioning tool
 
 ```
 Set-D365Admin [-AdminSignInName] <String> [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
- [[-SqlUser] <String>] [[-SqlPwd] <String>] [<CommonParameters>]
+ [[-SqlUser] <String>] [[-SqlPwd] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,7 +47,12 @@ Accept wildcard characters: False
 ```
 
 ### -DatabaseServer
-Alternative SQL Database server, Default is the one provided by the DataAccess object
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
+
+If Azure use the full address to the database server, e.g.
+server.database.windows.net
 
 ```yaml
 Type: String
@@ -62,7 +67,7 @@ Accept wildcard characters: False
 ```
 
 ### -DatabaseName
-Alternative SQL Database, Default is the one provided by the DataAccess object
+The name of the database
 
 ```yaml
 Type: String
@@ -77,7 +82,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlUser
-Alternative SQL user, Default is the one provided by the DataAccess object
+The login name for the SQL Server instance
 
 ```yaml
 Type: String
@@ -92,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-Alternative SQL user password, Default is the one provided by the DataAccess object
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -106,9 +111,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -117,5 +137,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## NOTES
 Author: Rasmus Andersen (@ITRasmus)
 Author: Mötz Jensen (@Splaxi)
+Author: Mark Furrer (@devax_mf)
 
 ## RELATED LINKS

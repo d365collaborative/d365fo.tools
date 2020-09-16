@@ -101,42 +101,43 @@ function Invoke-D365SCDPBundleInstall {
     $StartTime = Get-Date
     $executable = Join-Path $Script:BinDir "\bin\SCDPBundleInstall.exe"
 
-    if (!(Test-PathExists -Path $Path,$executable -Type Leaf)) {return}
-    if (!(Test-PathExists -Path $MetaDataDir -Type Container)) {return}
+    if (!(Test-PathExists -Path $Path, $executable -Type Leaf)) { return }
+    if (!(Test-PathExists -Path $MetaDataDir -Type Container)) { return }
     
     Unblock-File -Path $Path #File is typically downloaded and extracted
 
     if ($InstallOnly) {
         $param = @("-install",
-        "-packagepath=$Path",
-        "-metadatastorepath=$MetaDataDir")
+            "-packagepath=$Path",
+            "-metadatastorepath=$MetaDataDir")
     }
-    else{
+    else {
 
-        if ($TfsUri -eq ""){
+        if ($TfsUri -eq "") {
             Write-PSFMessage -Level Host -Message "No TFS URI provided. Unable to complete the command."
             Stop-PSFFunction -Message "Stopping because missing TFS URI parameter."
             return
         }
 
-        switch($Command){
+        switch ($Command) {
             "Prepare" {
                 $param = @("-prepare")
             }
-            "Install"{
+            "Install" {
                 $param = @("-install")
             }
         }
         $param = $param + @("-packagepath=`"$Path`"",
-                            "-metadatastorepath=`"$MetaDataDir`"",
-                            "-tfsworkspacepath=`"$TfsWorkspaceDir`"",
-                            "-tfsprojecturi=`"$TfsUri`"")
+            "-metadatastorepath=`"$MetaDataDir`"",
+            "-tfsworkspacepath=`"$TfsWorkspaceDir`"",
+            "-tfsprojecturi=`"$TfsUri`"")
     }
 
     Write-PSFMessage -Level Verbose -Message "Invoking SCDPBundleInstall.exe with $Command" -Target $param
     
     if ($ShowProgress) {
-        
+        #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+        #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
         $process = Start-Process -FilePath $executable -ArgumentList $param -PassThru
 
         while (-not ($process.HasExited)) {
@@ -147,21 +148,17 @@ function Invoke-D365SCDPBundleInstall {
             [xml]$manifest = Get-Content $(join-path $bundleRoot "PackageDependencies.dgml") -ErrorAction SilentlyContinue
             $bundleCounter = 0
             
-            if ($manifest)
-            {
+            if ($manifest) {
                 $bundleTotalCount = $manifest.DirectedGraph.Nodes.ChildNodes.Count
             }
             
-            while ($manifest -and (-not ($process.HasExited)) -and $stopwatch.elapsed -lt $timeout)
-            {
+            while ($manifest -and (-not ($process.HasExited)) -and $stopwatch.elapsed -lt $timeout) {
                 $currentBundleFolder = Get-ChildItem $bundleRoot -Directory -ErrorAction SilentlyContinue
         
-                if ($currentBundleFolder)
-                {
+                if ($currentBundleFolder) {
                     $currentBundle = $currentBundleFolder.Name
         
-                    if ($announcedBundle -ne $currentBundle)
-                    {
+                    if ($announcedBundle -ne $currentBundle) {
                         $announcedBundle = $currentBundle
                         $bundleCounter = $bundleCounter + 1
                         Write-PSFMessage -Level Verbose -Message "$bundleCounter/$bundleTotalCount : Processing hotfix package $announcedBundle"
@@ -172,11 +169,13 @@ function Invoke-D365SCDPBundleInstall {
         }
     }
     else {
+        #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+        #Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
         Start-Process -FilePath $executable -ArgumentList $param -NoNewWindow -Wait
     }
     
     if ($ShowModifiedFiles) {
-        $res = Get-ChildItem -Path $MetaDataDir -Recurse | Where-Object {$_.LastWriteTime -gt $StartTime}
+        $res = Get-ChildItem -Path $MetaDataDir -Recurse | Where-Object { $_.LastWriteTime -gt $StartTime }
 
         $res | ForEach-Object {
             Write-PSFMessage -Level Verbose -Message "Object modified by the install: $($_.FullName)"

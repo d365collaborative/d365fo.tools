@@ -23,6 +23,7 @@
 #>
 
 function Get-TimeZone {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidOverwritingBuiltInCmdlets", "")]
     [CmdletBinding()]
     [OutputType('System.TimeZoneInfo')]
     param (

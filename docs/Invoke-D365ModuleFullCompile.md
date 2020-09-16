@@ -13,9 +13,9 @@ Compile a package
 ## SYNTAX
 
 ```
-Invoke-D365ModuleFullCompile [-Module] <String> [[-OutputDir] <String>] [[-LogDir] <String>]
+Invoke-D365ModuleFullCompile [-Module] <String> [[-OutputDir] <String>] [[-LogPath] <String>]
  [[-MetaDataDir] <String>] [[-ReferenceDir] <String>] [[-BinDir] <String>] [-ShowOriginalProgress]
- [<CommonParameters>]
+ [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,12 +47,12 @@ The package to compile
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModuleName
 
 Required: True
-Position: 2
+Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -65,23 +65,27 @@ Parameter Sets: (All)
 Aliases: Output
 
 Required: False
-Position: 3
-Default value: (Join-Path $Script:MetaDataDir $Module)
+Position: 2
+Default value: $Script:MetaDataDir
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LogDir
-The path to the folder to save logs
+### -LogPath
+Path where you want to store the log outputs generated from the compiler
+
+Also used as the path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: LogDir
 
 Required: False
-Position: 4
-Default value: (Join-Path $Script:DefaultTempPath $Module)
+Position: 3
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModuleCompile")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -95,7 +99,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 4
 Default value: $Script:MetaDataDir
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -110,7 +114,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: $Script:MetaDataDir
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -127,7 +131,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 6
 Default value: $Script:BinDirTools
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -144,15 +148,31 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

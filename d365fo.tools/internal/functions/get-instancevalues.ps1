@@ -20,10 +20,14 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER TrustedConnection
         Should the connection use a Trusted Connection or not
+        
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
         PS C:\> Get-InstanceValues -DatabaseServer SQLServer -DatabaseName AXDB -SqlUser "SqlAdmin" -SqlPwd "Pass@word1"
@@ -53,7 +57,9 @@ function Get-InstanceValues {
         [string] $SqlPwd,
 
         [Parameter(Mandatory = $false)]
-        [boolean] $TrustedConnection
+        [boolean] $TrustedConnection,
+
+        [switch] $EnableException
     )
         
     $sqlCommand = Get-SqlCommand @PsBoundParameters
@@ -83,14 +89,16 @@ function Get-InstanceValues {
             }
         }
         else {
-            Write-PSFMessage -Level Host -Message "The query to detect <c='em'>TenantId</c>, <c='em'>PlanId</c> and <c='em'>PlanCapability</c> from the database <c='em'>failed</c>."
-            Stop-PSFFunction -Message "Stopping because of missing parameters"
+            $messageString = "The query to detect <c='em'>TenantId</c>, <c='em'>PlanId</c> and <c='em'>PlanCapability</c> from the database <c='em'>failed</c>."
+            Write-PSFMessage -Level Host -Message $messageString -Target (Get-SqlString $SqlCommand)
+            Stop-PSFFunction -Message "Stopping because of missing parameters." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>','')))
             return
         }
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        $messageString = "Something went wrong while working against the database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
         return
     }
     finally {

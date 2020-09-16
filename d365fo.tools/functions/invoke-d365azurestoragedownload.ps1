@@ -29,6 +29,10 @@
     .PARAMETER Latest
         Instruct the cmdlet to download the latest file from Azure regardless of name
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Invoke-D365AzureStorageDownload -AccountId "miscfiles" -AccessToken "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51" -Container "backupfiles" -FileName "OriginalUAT.bacpac" -Path "c:\temp"
         
@@ -75,18 +79,18 @@ function Invoke-D365AzureStorageDownload {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(Mandatory = $false)]
-        [string] $AccountId = $Script:AccountId,
+        [string] $AccountId = $Script:AzureStorageAccountId,
 
         [Parameter(Mandatory = $false)]
-        [string] $AccessToken = $Script:AccessToken,
+        [string] $AccessToken = $Script:AzureStorageAccessToken,
 
         [Parameter(Mandatory = $false)]
-        [string] $SAS = $Script:SAS,
+        [string] $SAS = $Script:AzureStorageSAS,
 
         [Parameter(Mandatory = $false)]
         [Alias('Blob')]
         [Alias('Blobname')]
-        [string] $Container = $Script:Container,
+        [string] $Container = $Script:AzureStorageContainer,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true)]
         [Alias('Name')]
@@ -97,7 +101,9 @@ function Invoke-D365AzureStorageDownload {
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 4 )]
         [Alias('GetLatest')]
-        [switch] $Latest
+        [switch] $Latest,
+
+        [switch] $EnableException
     )
 
     BEGIN {
@@ -160,8 +166,9 @@ function Invoke-D365AzureStorageDownload {
             Get-Item -Path $NewFile | Select-PSFObject "Name as Filename", @{Name = "Size"; Expression = {[PSFSize]$_.Length}}, "LastWriteTime as LastModified", "Fullname as File"
         }
         catch {
-            Write-PSFMessage -Level Host -Message "Something went wrong while downloading the file from Azure" -Exception $PSItem.Exception
-            Stop-PSFFunction -Message "Stopping because of errors"
+            $messageString = "Something went wrong while <c='em'>downloading</c> the file from Azure."
+            Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $NewFile
+            Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
             return
         }
         finally {

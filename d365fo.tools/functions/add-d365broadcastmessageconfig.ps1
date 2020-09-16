@@ -37,6 +37,11 @@
         
         The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
         
+    .PARAMETER OnPremise
+        Specify if environnement is an D365 OnPremise
+        
+        Default value is "Not set" (= Cloud Environnement)
+        
     .PARAMETER Temporary
         Instruct the cmdlet to only temporarily add the broadcast message configuration in the configuration store
         
@@ -49,6 +54,18 @@
         This will create a new broadcast message configuration with the name "UAT".
         It will save "e674da86-7ee5-40a7-b777-1111111111111" as the Azure Active Directory guid.
         It will save "https://usnconeboxax1aos.cloud.onebox.dynamics.com" as the D365FO environment.
+        It will save "dea8d7a9-1602-4429-b138-111111111111" as the ClientId.
+        It will save "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" as ClientSecret.
+        It will use the default value "UTC" Time Zone for converting the different time and dates.
+        It will use the default end time which is 60 minutes.
+        
+    .EXAMPLE
+        PS C:\> Add-D365BroadcastMessageConfig -Name "UAT" -OnPremise -Tenant "https://adfs.local/adfs" -URL "https://ax-sandbox.d365fo.local" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
+        
+        This will create a new broadcast message configuration with the name "UAT".
+        It will target an OnPremise environment.
+        It will save "https://adfs.local/adfs" as the OAuth Tenant Provider.
+        It will save "https://ax-sandbox.d365fo.local" as the D365FO environment.
         It will save "dea8d7a9-1602-4429-b138-111111111111" as the ClientId.
         It will save "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" as ClientSecret.
         It will use the default value "UTC" Time Zone for converting the different time and dates.
@@ -81,28 +98,24 @@
 function Add-D365BroadcastMessageConfig {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true, Position = 0)]
+        [Parameter(Mandatory = $true)]
         [string] $Name,
 
-        [Parameter(Mandatory = $false, Position = 1)]
         [Alias('$AADGuid')]
         [string] $Tenant,
 
-        [Parameter(Mandatory = $false, Position = 2)]
         [Alias('URI')]
         [string] $URL,
 
-        [Parameter(Mandatory = $false, Position = 3)]
         [string] $ClientId,
 
-        [Parameter(Mandatory = $false, Position = 4)]
         [string] $ClientSecret,
 
-        [Parameter(Mandatory = $false, Position = 5)]
         [string] $TimeZone = "UTC",
 
-        [Parameter(Mandatory = $false, Position = 6)]
         [int] $EndingInMinutes = 60,
+
+        [switch] $OnPremise,
 
         [switch] $Temporary,
 

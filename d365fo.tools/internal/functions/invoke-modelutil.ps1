@@ -39,6 +39,19 @@
         
         Default path is the same as the aos service PackagesLocalDirectory
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .EXAMPLE
         PS C:\> Invoke-ModelUtil -Command Import -Path "c:\temp\d365fo.tools\CustomModel.axmodel"
         
@@ -72,7 +85,7 @@ function Invoke-ModelUtil {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     
     param (
-        [Parameter(Mandatory = $true, Position = 1 )]
+        [Parameter(Mandatory = $true)]
         [ValidateSet('Import', 'Export', 'Delete', 'Replace')]
         [string] $Command,
 
@@ -85,11 +98,15 @@ function Invoke-ModelUtil {
         [Parameter(Mandatory = $True, ParameterSetName = 'Delete', Position = 1 )]
         [string] $Model,
 
-        [Parameter(Mandatory = $false)]
         [string] $BinDir = "$Script:PackageDirectory\bin",
 
-        [Parameter(Mandatory = $false)]
-        [string] $MetaDataDir = "$Script:MetaDataDir"
+        [string] $MetaDataDir = "$Script:MetaDataDir",
+
+        [string] $LogPath,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
     Invoke-TimeSignal -Start
@@ -98,13 +115,13 @@ function Invoke-ModelUtil {
         Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
     }
 
-    $executable = Join-Path $BinDir "ModelUtil.exe"
+    $executable = Join-Path -Path $BinDir -ChildPath "ModelUtil.exe"
     if (-not (Test-PathExists -Path $executable -Type Leaf)) {
         Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
     }
 
-    [System.Collections.ArrayList] $params = New-Object -TypeName "System.Collections.ArrayList"
-    
+    $params = New-Object System.Collections.Generic.List[string]
+
     Write-PSFMessage -Level Verbose -Message "Building the parameter options."
     switch ($Command.ToLowerInvariant()) {
         'import' {
@@ -112,34 +129,41 @@ function Invoke-ModelUtil {
                 Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
             }
 
-            $null = $params.Add("-import")
-            $null = $params.Add("-metadatastorepath=`"$MetaDataDir`"")
-            $null = $params.Add("-file=`"$Path`"")
+            $params.Add("-import")
+            $params.Add("-metadatastorepath=`"$MetaDataDir`"")
+            $params.Add("-file=`"$Path`"")
         }
         'export' {
-            $null = $params.Add("-export")
-            $null = $params.Add("-metadatastorepath=`"$MetaDataDir`"")
-            $null = $params.Add("-outputpath=`"$Path`"")
-            $null = $params.Add("-modelname=`"$Model`"")
+            $params.Add("-export")
+            $params.Add("-metadatastorepath=`"$MetaDataDir`"")
+            $params.Add("-outputpath=`"$Path`"")
+            $params.Add("-modelname=`"$Model`"")
         }
         'delete' {
-            $null = $params.Add("-delete")
-            $null = $params.Add("-metadatastorepath=`"$MetaDataDir`"")
-            $null = $params.Add("-modelname=`"$Model`"")
+            $params.Add("-delete")
+            $params.Add("-metadatastorepath=`"$MetaDataDir`"")
+            $params.Add("-modelname=`"$Model`"")
         }
         'replace' {
             if (-not (Test-PathExists -Path $Path -Type Leaf)) {
                 Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
             }
 
-            $null = $params.Add("-replace")
-            $null = $params.Add("-metadatastorepath=`"$MetaDataDir`"")
-            $null = $params.Add("-file=`"$Path`"")
+            $params.Add("-replace")
+            $params.Add("-metadatastorepath=`"$MetaDataDir`"")
+            $params.Add("-file=`"$Path`"")
         }
+        
     }
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $($params.ToArray() -join " ")
-    Start-Process -FilePath $executable -ArgumentList ($($params.ToArray() -join " ")) -NoNewWindow -Wait
+    
+    Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+    if (Test-PSFFunctionInterrupt) {
+        Stop-PSFFunction -Message "Stopping because of 'ModelUtil.exe' failed its execution." -StepsUpward 1
+        return
+    }
 
     Invoke-TimeSignal -End
 }

@@ -15,19 +15,19 @@ Invoke the AxUpdateInstaller.exe file from Software Deployable Package (SDP)
 ### QuickInstall (Default)
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-QuickInstallAll] [[-Step] <Int32>]
- [[-RunbookId] <String>] [<CommonParameters>]
+ [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ### DevInstall
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-DevInstall] [[-Step] <Int32>]
- [[-RunbookId] <String>] [<CommonParameters>]
+ [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ### Manual
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-Command] <String> [[-Step] <Int32>]
- [[-RunbookId] <String>] [<CommonParameters>]
+ [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,6 +46,15 @@ This will install the extracted package in c:\temp\ using a runbook in memory wh
 
 ### EXAMPLE 2
 ```
+Invoke-D365SDPInstall -Path "c:\temp\" -DevInstall
+```
+
+This will install the extracted package in c:\temp\ using a runbook in memory while executing.
+
+This command is to be used on Microsoft Hosted Tier1 development environment, where you don't have access to the administrator user account on the vm.
+
+### EXAMPLE 3
+```
 Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
 ```
 
@@ -55,7 +64,7 @@ PS C:\\\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Execute -RunbookId 'My
 
 Manual operations that first create Topology XML from current environment, then generate runbook with id 'MyRunbook', then import it and finally execute it.
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll
 ```
@@ -63,14 +72,14 @@ Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll
 Create Topology XML from current environment.
 Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
 
-### EXAMPLE 4
+### EXAMPLE 5
 ```
 Invoke-D365SDPInstall -Path "c:\temp\" -Command RerunStep -Step 18 -RunbookId 'MyRunbook'
 ```
 
 Rerun runbook with id 'MyRunbook' from step 18.
 
-### EXAMPLE 5
+### EXAMPLE 6
 ```
 Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
 ```
@@ -82,7 +91,7 @@ Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook fr
 ### -Path
 Path to the update package that you want to install into the environment
 
-The cmdlet only supports a path to an already extracted and unblocked zip-file
+The cmdlet only supports a path to an unblocked zip-file
 
 ```yaml
 Type: String
@@ -204,9 +213,59 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: Named
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\SdpInstall")
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

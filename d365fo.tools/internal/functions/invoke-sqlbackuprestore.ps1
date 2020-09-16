@@ -20,7 +20,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER TrustedConnection
         Should the connection use a Trusted Connection or not
@@ -30,6 +30,10 @@
         
     .PARAMETER BackupDirectory
         Path to a directory that can store the backup file
+        
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
         PS C:\> Invoke-SqlBackupRestore -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName "ExportClone" -BackupDirectory "C:\temp\d365fo.tools\sqlbackup"
@@ -65,7 +69,9 @@ Function Invoke-SqlBackupRestore {
         [string] $NewDatabaseName,
 
         [Parameter(Mandatory = $true)]
-        [string] $BackupDirectory
+        [string] $BackupDirectory,
+
+        [switch] $EnableException
     )
 
     Invoke-TimeSignal -Start
@@ -91,8 +97,9 @@ Function Invoke-SqlBackupRestore {
         $true
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the database" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+        $messageString = "Something went wrong while doing <c='em'>backup / restore</c> against the database."
+        Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target (Get-SqlString $SqlCommand)
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
         return
     }
     finally {

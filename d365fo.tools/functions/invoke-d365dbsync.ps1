@@ -16,9 +16,6 @@
         
         Default value is normally the AOS Service PackagesLocalDirectory
         
-    .PARAMETER LogPath
-        The path where the log file will be saved
-        
     .PARAMETER SyncMode
         The sync mode the sync engine will use
         
@@ -44,6 +41,21 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .EXAMPLE
         PS C:\> Invoke-D365DBSync
         
@@ -64,46 +76,44 @@
         
 #>
 
-function Invoke-D365DBSync {
+function Invoke-D365DbSync {
     [CmdletBinding()]
     param (
+        [string] $BinDirTools = $Script:BinDirTools,
 
-        [Parameter(Mandatory = $false, Position = 0)]
-        [string]$BinDirTools = $Script:BinDirTools,
+        [string] $MetadataDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $false, Position = 1)]
-        [string]$MetadataDir = $Script:MetaDataDir,
-
-        [Parameter(Mandatory = $false, Position = 2)]
-        [string]$LogPath = "C:\temp\D365FO.Tools\Sync",
-
-        [Parameter(Mandatory = $false, Position = 3)]
         #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
-        [string]$SyncMode = 'FullAll',
+        [string] $SyncMode = 'FullAll',
         
-        [Parameter(Mandatory = $false, Position = 4)]
         [ValidateSet('Normal', 'Quiet', 'Minimal', 'Normal', 'Detailed', 'Diagnostic')]
-        [string]$Verbosity = 'Normal',
+        [string] $Verbosity = 'Normal',
 
-        [Parameter(Mandatory = $false, Position = 5)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 6)]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 7)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 8)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
+ 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\DbSync"),
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
+
     )
+
+    Invoke-TimeSignal -Start
 
     #! The way the sync engine works is that it uses the connection string for some operations,
     #! but for FullSync / FullAll it depends on the database details from the same assemblies that
     #! we rely on. So the testing of how to run this cmdlet is a bit different than others
 
     Write-PSFMessage -Level Debug -Message "Testing if run on LocalHostedTier1 and console isn't elevated"
-    if ($Script:EnvironmentType -eq [EnvironmentType]::LocalHostedTier1 -and !$script:IsAdminRuntime){
+    if ($Script:EnvironmentType -eq [EnvironmentType]::LocalHostedTier1 -and !$script:IsAdminRuntime) {
         Write-PSFMessage -Level Host -Message "It seems that you ran this cmdlet <c='em'>non-elevated</c> and on a <c='em'>local VM / local vhd</c>. Being on a local VM / local VHD requires you to run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`""
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return
@@ -114,10 +124,9 @@ function Invoke-D365DBSync {
         return
     }
 
-    $executable = Join-Path $BinDirTools "SyncEngine.exe"
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
-    if (-not (Test-PathExists -Path $MetadataDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) {return}
+    $executable = Join-Path -Path $BinDirTools -ChildPath "SyncEngine.exe"
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+    if (-not (Test-PathExists -Path $MetadataDir -Type Container)) { return }
 
     Write-PSFMessage -Level Debug -Message "Testing if the SyncEngine is already running."
     $syncEngine = Get-Process -Name "SyncEngine" -ErrorAction SilentlyContinue
@@ -129,43 +138,15 @@ function Invoke-D365DBSync {
     }
     
     Write-PSFMessage -Level Debug -Message "Build the parameters for the command to execute."
-    $param = " -syncmode=$($SyncMode.ToLower())"
-    $param += " -verbosity=$($Verbosity.ToLower())"
-    $param += " -metadatabinaries=`"$MetadataDir`""
-    $param += " -connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
+    $params = @("-syncmode=$($SyncMode.ToLower())",
+        "-verbosity=$($Verbosity.ToLower())",
+        "-metadatabinaries=`"$MetadataDir`"",
+        "-connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
+    )
 
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
-    $process = Start-Process -FilePath $executable -ArgumentList  $param -PassThru -RedirectStandardOutput "$LogPath\output.log" -RedirectStandardError "$LogPath\error.log" -WindowStyle "Hidden"
+    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     
-    $lineTotalCount = 0
-    $lineCount = 0
-
-    Invoke-TimeSignal -Start
-
-    while ($process.HasExited -eq $false) {
-        foreach ($line in Get-Content "$LogPath\output.log") {
-            $lineCount++
-            if ($lineCount -gt $lineTotalCount) {
-                Write-Verbose $line
-                $lineTotalCount++
-            }
-        }
-        $lineCount = 0
-        Start-Sleep -Seconds 2
-
-    }
-
-    foreach ($line in Get-Content "$LogPath\output.log") {
-        $lineCount++
-        if ($lineCount -gt $lineTotalCount) {
-            Write-Verbose $line
-            $lineTotalCount++
-        }
-    }
-
-    foreach ($line in Get-Content "$LogPath\error.log") {
-        Write-PSFMessage -Level Critical -Message "$line"
-    }
-
     Invoke-TimeSignal -End
 }

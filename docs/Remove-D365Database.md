@@ -14,7 +14,7 @@ Removes a Database
 
 ```
 Remove-D365Database [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
- [[-SqlPwd] <String>] [<CommonParameters>]
+ [[-SqlPwd] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -45,7 +45,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 1
 Default value: $Script:DatabaseServer
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -60,7 +60,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 2
 Default value: $Script:DatabaseName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -75,7 +75,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 3
 Default value: $Script:DatabaseUserName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -90,15 +90,30 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 4
 Default value: $Script:DatabaseUserPassword
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

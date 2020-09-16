@@ -16,7 +16,9 @@ Import a bacpac file
 ```
 Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String>
- [[-CustomSqlFile] <String>] [-ImportOnly] [<CommonParameters>]
+ [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>] [-ImportOnly]
+ [-MaxParallelism <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ### ImportOnlyTier2
@@ -25,7 +27,9 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPwd] <String>] [[-AxRuntimeUserPwd] <String>]
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
- [[-AxDbReadonlyUserPwd] <String>] [[-CustomSqlFile] <String>] [-ImportOnly] [<CommonParameters>]
+ [[-AxDbReadonlyUserPwd] <String>] [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
+ [-ImportOnly] [-MaxParallelism <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ### ImportTier2
@@ -34,7 +38,9 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-SqlUser] <String> [-SqlPwd] <String> [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] <String> [-AxRuntimeUserPwd] <String>
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
- [-AxDbReadonlyUserPwd] <String> [[-CustomSqlFile] <String>] [<CommonParameters>]
+ [-AxDbReadonlyUserPwd] <String> [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
+ [-MaxParallelism <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -66,6 +72,38 @@ It requires all relevant passwords from LCS for all the builtin user accounts us
 It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
 The next thing to do is to switch the active database out with the new one you just imported.
 "ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
+
+### EXAMPLE 3
+```
+Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt"
+```
+
+This will instruct the cmdlet that the import will be working against a SQL Server instance.
+It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+It will output a diagnostic file to "C:\temp\ImportLog.txt".
+
+### EXAMPLE 4
+```
+Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt" -MaxParallelism 32
+```
+
+This will instruct the cmdlet that the import will be working against a SQL Server instance.
+It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+It will output a diagnostic file to "C:\temp\ImportLog.txt".
+
+It will use 32 connections against the database server while importing the bacpac file.
+
+### EXAMPLE 5
+```
+Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -ImportOnly
+```
+
+This will instruct the cmdlet that the import will be working against a SQL Server instance.
+It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+No cleanup or prepping jobs will be executed, because this is for importing only.
+
+This would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.
+You would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.
 
 ## PARAMETERS
 
@@ -414,7 +452,7 @@ Accept wildcard characters: False
 ```
 
 ### -CustomSqlFile
-Parameter description
+Path to the sql script file that you want the cmdlet to execute against your data after it has been imported
 
 ```yaml
 Type: String
@@ -422,7 +460,39 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 15
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ModelFile
+Path to the model file that you want the SqlPackage.exe to use instead the one being part of the bacpac file
+
+This is used to override SQL Server options, like collation and etc
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiagnosticFile
+Path to where you want the import to output a diagnostics file to assist you in troubleshooting the import
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -459,9 +529,92 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -MaxParallelism
+Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database
+
+The default value is 8
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 8
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: Named
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ImportBacpac")
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

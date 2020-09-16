@@ -6,8 +6,10 @@
     .DESCRIPTION
         A cmdlet that wraps some of the cumbersome work into a streamlined process
         
-    .PARAMETER Path
-        Full path to CAR file (xlsx-file)
+    .PARAMETER OutputPath
+        Path where you want the CAR file (xlsx-file) saved to
+        
+        Default value is: "c:\temp\d365fo.tools\CAReport.xlsx"
         
     .PARAMETER BinDir
         The path to the bin directory for the environment
@@ -28,56 +30,123 @@
     .PARAMETER XmlLog
         Path where you want to store the Xml log output generated from the best practice analyser
         
-    .EXAMPLE
-        PS C:\> New-D365CAReport -Path "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
+    .PARAMETER PackagesRoot
+        Instructs the cmdlet to use binary metadata
         
-        This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module, and save the report to "c:\temp\CAReport.xlsx"
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
+        
+    .PARAMETER SuffixWithModule
+        Instruct the cmdlet to append the module name as a suffix to the desired output file name
+        
+    .EXAMPLE
+        PS C:\> New-D365CAReport -module "ApplicationSuite" -model "MyOverLayerModel"
+        
+        This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+        It will use the default value for the OutputPath parameter, which is "c:\temp\d365fo.tools\CAReport.xlsx".
+        
+    .EXAMPLE
+        PS C:\> New-D365CAReport -OutputPath "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel"
+        
+        This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+        It will use the "c:\temp\CAReport.xlsx" value for the OutputPath parameter.
+        
+    .EXAMPLE
+        PS C:\> New-D365CAReport -module "ApplicationSuite" -model "MyOverLayerModel" -SuffixWithModule
+        
+        This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+        It will use the default value for the OutputPath parameter, which is "c:\temp\d365fo.tools\CAReport.xlsx".
+        It will append the module name to the desired output file, which will then be "c:\temp\d365fo.tools\CAReport-ApplicationSuite.xlsx".
+        
+    .EXAMPLE
+        PS C:\> New-D365CAReport -OutputPath "c:\temp\CAReport.xlsx" -module "ApplicationSuite" -model "MyOverLayerModel" -PackagesRoot
+        
+        This will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.
+        It will use the binary metadata to look for the module and model.
+        It will use the "c:\temp\CAReport.xlsx" value for the OutputPath parameter.
         
     .NOTES
         Author: Tommy Skaue (@Skaue)
+        
+        Author: Mötz Jensen (@Splaxi)
         
 #>
 function New-D365CAReport {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, Position = 1 )]
         [Alias('File')]
-        [string] $Path = (Join-Path $Script:DefaultTempPath "CAReport.xlsx"),
+        [Alias('Path')]
+        [string] $OutputPath = (Join-Path $Script:DefaultTempPath "CAReport.xlsx"),
 
-        [Parameter(Mandatory = $false, Position = 2 )]
-        [string] $BinDir = "$Script:PackageDirectory\bin",
-
-        [Parameter(Mandatory = $false, Position = 3 )]
-        [string] $MetaDataDir = "$Script:MetaDataDir",
-
-        [Parameter(Mandatory = $true, Position = 4 )]
+        [Parameter(Mandatory = $true)]
         [Alias('Package')]
+        [Alias("ModuleName")]
         [string] $Module,
-
-        [Parameter(Mandatory = $true, Position = 5 )]
+        
+        [Parameter(Mandatory = $true)]
         [string] $Model,
 
-        [Parameter(Mandatory = $false, Position = 6 )]
-        [string] $XmlLog = (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml")
+        [switch] $SuffixWithModule,
 
+        [string] $BinDir = "$Script:PackageDirectory\bin",
 
+        [string] $MetaDataDir = "$Script:MetaDataDir",
+
+        [string] $XmlLog = (Join-Path $Script:DefaultTempPath "BPCheckLogcd.xml"),
+
+        [switch] $PackagesRoot,
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\CAReport"),
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
     
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
+    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
 
     $executable = Join-Path $BinDir "xppbp.exe"
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
 
-    $param = @(
+    if ($SuffixWithModule) {
+        $OutputPath = $OutputPath.Replace(".xlsx", "-$Module.xlsx")
+    }
+
+    $params = @(
         "-metadata=`"$MetaDataDir`"",
         "-all",
         "-module=`"$Module`"",
         "-model=`"$Model`"",
         "-xmlLog=`"$XmlLog`"",
-        "-car=`"$Path`""
-        )
+        "-car=`"$OutputPath`""
+    )
+
+    if ($PackagesRoot -eq $true) {
+        $params += "-packagesroot=`"$MetaDataDir`""
+    }
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
-    Start-Process -FilePath $executable -ArgumentList  ($param -join " ") -NoNewWindow -Wait
+
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+    if (Test-PSFFunctionInterrupt) { return }
+
+    [PSCustomObject]@{
+        File     = $OutputPath
+        Filename = (Split-Path $OutputPath -Leaf)
+    }
 }

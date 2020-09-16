@@ -33,6 +33,9 @@
     .PARAMETER ObjectId
         The Azure Active Directory object id for the imported user
         
+    .PARAMETER Language
+        Language that should be configured for the user, for when they sign-in to the D365 environment
+        
     .EXAMPLE
         PS C:\> $SqlCommand = Get-SqlCommand -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
         PS C:\> New-D365FOUser -SqlCommand $SqlCommand -SignInName "Claire@contoso.com" -Name "Claire" -Id "claire" -SID "123XYZ" -StartupCompany "DAT" -IdentityProvider "XYZ" -NetworkDomain "Contoso.com" -ObjectId "123XYZ"
@@ -42,21 +45,31 @@
         
     .NOTES
         Author: Rasmus Andersen (@ITRasmus)
-        Author: Rasmus Andersen (@ITRasmus)
+        Author: Mötz Jensen (@Splaxi)
         
 #>
 function New-D365FOUser {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     Param (
         [System.Data.SqlClient.SqlCommand] $SqlCommand,
+
         [string] $SignInName,
+        
         [string] $Name,
+        
         [string] $Id,
+        
         [string] $SID,
+        
         [string] $StartUpCompany,
+        
         [string] $IdentityProvider,
+        
         [string] $NetworkDomain,
-        [string] $ObjectId
+        
+        [string] $ObjectId,
+        
+        [string] $Language
     )
     
     $sqlCommand.CommandText = (Get-Content "$script:ModuleRoot\internal\sql\Add-AadUserIntoD365FO.sql") -join [Environment]::NewLine
@@ -71,6 +84,7 @@ function New-D365FOUser {
     $null = $sqlCommand.Parameters.Add("@StartUpCompany", $StartUpCompany)
     $null = $sqlCommand.Parameters.Add("@Id", $Id)
     $null = $sqlCommand.Parameters.Add("@ObjectId", $ObjectId)
+    $null = $sqlCommand.Parameters.Add("@Language", $Language)
 
     Write-PSFMessage -Level Verbose -Message "Creating the user in database"
 

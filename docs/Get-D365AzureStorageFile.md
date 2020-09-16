@@ -73,7 +73,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:AccountId
+Default value: $Script:AzureStorageAccountId
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -88,7 +88,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:AccessToken
+Default value: $Script:AzureStorageAccessToken
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -103,7 +103,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:SAS
+Default value: $Script:AzureStorageSAS
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -118,7 +118,7 @@ Aliases: Blobname, Blob
 
 Required: False
 Position: Named
-Default value: $Script:Container
+Default value: $Script:AzureStorageContainer
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -160,8 +160,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

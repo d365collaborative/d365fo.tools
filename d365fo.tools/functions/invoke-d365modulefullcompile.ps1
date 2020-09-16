@@ -12,8 +12,12 @@
     .PARAMETER OutputDir
         The path to the folder to save assemblies
         
-    .PARAMETER LogDir
-        The path to the folder to save logs
+    .PARAMETER LogPath
+        Path where you want to store the log outputs generated from the compiler
+        
+        Also used as the path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
         
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
@@ -30,6 +34,11 @@
         Instruct the cmdlet to show the standard output in the console
         
         Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
         PS C:\> Invoke-D365ModuleFullCompile -Module MyModel
@@ -56,46 +65,50 @@ function Invoke-D365ModuleFullCompile {
     [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias("ModuleName")]
         [string] $Module,
 
-        [Parameter(Mandatory = $False, Position = 2 )]
         [Alias('Output')]
-        [string] $OutputDir = (Join-Path $Script:MetaDataDir $Module),
+        [string] $OutputDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 3 )]
-        [string] $LogDir = (Join-Path $Script:DefaultTempPath $Module),
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModuleCompile"),
 
-        [Parameter(Mandatory = $False, Position = 4 )]
         [string] $MetaDataDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 5)]
         [string] $ReferenceDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 6 )]
         [string] $BinDir = $Script:BinDirTools,
 
-        [Parameter(Mandatory = $False, Position = 7 )]
-        [switch] $ShowOriginalProgress
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
+    begin {
 
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
+        Invoke-TimeSignal -Start
 
-    $resModuleCompile = Invoke-D365ModuleCompile @PSBoundParameters
+        if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
+        if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) { return }
+    }
 
-    $resLabelGeneration = Invoke-D365ModuleLabelGeneration @PSBoundParameters
+    process {
+        $resModuleCompile = Invoke-D365ModuleCompile @PSBoundParameters
 
-    $resReportsCompile = Invoke-D365ModuleReportsCompile @PSBoundParameters
+        $resLabelGeneration = Invoke-D365ModuleLabelGeneration @PSBoundParameters
 
-    Invoke-TimeSignal -End
+        $resReportsCompile = Invoke-D365ModuleReportsCompile @PSBoundParameters
+    
+        $resModuleCompile
 
-    $resModuleCompile #| Select-PSFObject -TypeName "D365FO.TOOLS.ModuleCompileOutput" @{Name = "OutputOrigin"; Expression = {"ModuleCompile"}}, "LogFile as LogFile", "XmlLogFile as XmlLogFile", @{Name = "ErrorLogFile"; Expression = {""}}
+        $resLabelGeneration
 
-    $resLabelGeneration #| Select-PSFObject @{Name = "OutputOrigin"; Expression = {"LabelGeneration"}}, "OutLogFile as LogFile", @{Name = "XmlLogFile"; Expression = {""}}, "ErrorLogFile as ErrorLogFile"
+        $resReportsCompile
+    }
 
-    $resReportsCompile #| Select-PSFObject @{Name = "OutputOrigin"; Expression = {"ReportsCompile"}}, "LogFile as LogFile", "XmlLogFile as XmlLogFile", @{Name = "ErrorLogFile"; Expression = {""}}
-
+    end {
+        Invoke-TimeSignal -End
+    }
 }

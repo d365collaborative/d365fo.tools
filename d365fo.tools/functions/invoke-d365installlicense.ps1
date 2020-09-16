@@ -35,10 +35,20 @@
         
         Default path is the same as the aos service PackagesLocalDirectory\bin
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
         Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
         PS C:\> Invoke-D365InstallLicense -Path c:\temp\d365fo.tools\license.txt
@@ -60,33 +70,31 @@
 function Invoke-D365InstallLicense {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $True)]
         [Alias('File')]
         [string] $Path,
 
-        [Parameter(Mandatory = $false, Position = 2)]
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 3)]
         [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 4)]
         [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 5)]
         [string] $SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $false, Position = 6 )]
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
-        [Parameter(Mandatory = $false, Position = 7 )]
         [string] $BinDir = "$Script:BinDir",
 
-        [Parameter(Mandatory = $False)]
-        [switch] $ShowOriginalProgress
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\InstallLicense"),
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
-    $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
+    $executable = Join-Path -Path $BinDir -ChildPath "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
 
     if (-not (Test-PathExists -Path $MetaDataDir,$BinDir -Type Container)) {return}
     if (-not (Test-PathExists -Path $Path,$executable -Type Leaf)) {return}
@@ -103,7 +111,7 @@ function Invoke-D365InstallLicense {
         "-setupmode", "importlicensefile",
         "-licensefilename", "`"$Path`"")
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
     Invoke-TimeSignal -End
 }

@@ -18,6 +18,12 @@
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
+        Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+        
+        Valid options:
+        "https://lcsapi.lcs.dynamics.com"
+        "https://lcsapi.eu.lcs.dynamics.com"
+        
     .EXAMPLE
         PS C:\> Complete-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -53,7 +59,8 @@ function Complete-LcsUpload {
 
     $client = New-Object -TypeName System.Net.Http.HttpClient
     $client.DefaultRequestHeaders.Clear()
-
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
+    
     $commitFileUri = "$LcsApiUri/box/fileasset/CommitFileAsset/$($ProjectId)?assetId=$AssetId"
 
     $request = New-JsonRequest -Uri $commitFileUri -Token $Token

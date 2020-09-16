@@ -41,6 +41,11 @@
         
         The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
         
+    .PARAMETER OnPremise
+        Specify if environnement is an D365 OnPremise
+        
+        Default value is "Not set" (= Cloud Environnement)
+        
     .EXAMPLE
         PS C:\> Send-D365BroadcastMessage
         
@@ -58,9 +63,21 @@
         It will use the default start time which is NOW.
         It will use the default end time which is 60 minutes.
         
+    .EXAMPLE
+        PS C:\> Send-D365BroadcastMessage -OnPremise -Tenant "https://adfs.local/adfs" -URL "https://ax-sandbox.d365fo.local" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
+        
+        This will send a message to all active users that are working on the D365FO OnPremise environment located at "https://ax-sandbox.d365fo.local".
+        It will authenticate against Local ADFS with the "https://adfs.local/adfs" path
+        It will use the ClientId "dea8d7a9-1602-4429-b138-111111111111" and ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" go get access to the environment.
+        It will use the default value "UTC" Time Zone for converting the different time and dates.
+        It will use the default start time which is NOW.
+        It will use the default end time which is 60 minutes.
+        
     .NOTES
         
         The specified StartTime will always be based on local Time Zone. If you specify a different Time Zone than the local computer is running, the start and end time will be calculated based on your selection.
+        
+        For OnPremise environnement use -OnPremise flag to added "namespaces/AXSF" path to D365 URL and allow to get token from local ADFS server
         
         Tags: Servicing, Message, Users, Environment
         
@@ -111,17 +128,28 @@ function Send-D365BroadcastMessage {
         [datetime] $StartTime = (Get-Date),
 
         [Parameter(Mandatory = $false, Position = 7)]
-        [int] $EndingInMinutes = $Script:BroadcastEndingInMinutes
+        [int] $EndingInMinutes = $Script:BroadcastEndingInMinutes,
+
+        [Parameter(Mandatory = $false, Position = 8)]
+        [switch] $OnPremise = $Script:BroadcastOnPremise
     )
 
-    $bearerParms = @{
-        AuthProviderUri = "https://login.microsoftonline.com/$Tenant/oauth2/token"
-        Resource        = $URL
-        ClientId        = $ClientId
-        ClientSecret    = $ClientSecret
+     $bearerParms = @{
+            Resource        = $URL
+            ClientId        = $ClientId
+            ClientSecret    = $ClientSecret
     }
 
-    $bearer = Get-ClientCredentialsBearerToken @bearerParms
+    if ($OnPremise)
+    {
+        $bearerParms.AuthProviderUri = "$Tenant/oauth2/token"
+    }
+    else
+    {
+        $bearerParms.AuthProviderUri = "https://login.microsoftonline.com/$Tenant/oauth2/token"
+    }
+
+    $bearer = Invoke-ClientCredentialsGrant @bearerParms | Get-BearerToken
 
     $headerParms = @{
         URL         = $URL
@@ -131,7 +159,15 @@ function Send-D365BroadcastMessage {
     $headers = New-AuthorizationHeaderBearerToken @headerParms
 
     [System.UriBuilder] $messageEndpoint = $URL
-    $messageEndpoint.Path = "api/services/SysBroadcastMessageServices/SysBroadcastMessageService/AddMessage"
+
+    if($OnPremise)
+    {
+        $messageEndpoint.Path = "namespaces/AXSF/api/services/SysBroadcastMessageServices/SysBroadcastMessageService/AddMessage"
+    }
+    else
+    {
+        $messageEndpoint.Path = "api/services/SysBroadcastMessageServices/SysBroadcastMessageService/AddMessage"
+    }
 
     $endTime = $StartTime.AddMinutes($EndingInMinutes)
     

@@ -36,7 +36,7 @@ function Get-D365RunbookId {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $true, Position = 1, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
         [Alias('File')]
         [string] $Path
     )

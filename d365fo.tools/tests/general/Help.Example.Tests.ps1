@@ -2,11 +2,18 @@
     "Import-ModuleFile"
     , "Get-DeepClone"
     , "Test-TrustedConnection"
-    , "Add-D365EnvironmentConfig"
     , "Select-DefaultView"
-    , "New-JsonRequest"
-    , "Invoke-Process"
+
 )
+
+enum LcsAssetFileType {
+    Model = 1
+    ProcessDataPackage = 4
+    SoftwareDeployablePackage = 10
+    GERConfiguration = 12
+    DataPackage = 15
+    PowerBIReportModel = 19
+}
 
 $commandsRaw = Get-Command -Module d365fo.tools
 
@@ -19,8 +26,7 @@ if ($excludeCommands.Count -gt 0) {
 
 foreach ( $commandName in $commands) {
     # command to be tested
-    #$commandName = 'New-D365Bacpac'
-    #$commandName = 'Get-D365PackageLabelFile'
+    
     # get all examples from the help
     $examples = Get-Help $commandName -Examples
 
@@ -41,7 +47,7 @@ foreach ( $commandName in $commands) {
 
             if ( ($example -like "*|*" ) -or (-not ($example -match $commandName)) -or ($example -like "*).*")) {
                 It "Example - $example" -Skip { $true }
-            } elseif ($example -like "*=*") {
+            } elseif ($example -match '(?<=^(([^"|^'']\*(?<!\\)"[^"|^'']\*(?<!\\)"[^"|^'']\*)\*|[^"|^'']*))=') {
                 $varAssignment = ($example -split "=")[0]
 
                 # for every example we want a single It block

@@ -59,6 +59,11 @@
         
         This will stop the Aos & Batch D365FO services on the machine.
         
+    .EXAMPLE
+        PS C:\> Stop-D365Environment -FinancialReporter -DMF
+        
+        This will stop the FinancialReporter and DMF services on the machine.
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         
@@ -119,10 +124,10 @@ function Stop-D365Environment {
 
     $Results = foreach ($server in $ComputerName) {
         Write-PSFMessage -Level Verbose -Message "Working against: $server - listing services"
-        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
+        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, StartType, DisplayName
     }
     
     Write-PSFMessage -Level Verbose "Results are: $Results" -Target ($Results.Name -join ",")
     
-    $Results | Select-PSFObject -TypeName "D365FO.TOOLS.Environment.Service" Server, DisplayName, Status, Name
+    $Results | Select-PSFObject -TypeName "D365FO.TOOLS.Environment.Service" Server, DisplayName, Status, StartType, Name
 }

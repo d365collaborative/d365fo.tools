@@ -59,6 +59,13 @@ Restart-D365Environment -Aos -Batch
 
 This will stop the AOS and Batch services and then start the AOS and Batch services again.
 
+### EXAMPLE 5
+```
+Restart-D365Environment -FinancialReporter -DMF
+```
+
+This will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.
+
 ## PARAMETERS
 
 ### -ComputerName
@@ -175,8 +182,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

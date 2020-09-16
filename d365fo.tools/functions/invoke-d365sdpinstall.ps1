@@ -11,7 +11,7 @@
     .PARAMETER Path
         Path to the update package that you want to install into the environment
         
-        The cmdlet only supports a path to an already extracted and unblocked zip-file
+        The cmdlet only supports a path to an unblocked zip-file
         
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
@@ -48,10 +48,32 @@
         
         Default value is "Runbook"
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -QuickInstallAll
         
         This will install the extracted package in c:\temp\ using a runbook in memory while executing.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -DevInstall
+        
+        This will install the extracted package in c:\temp\ using a runbook in memory while executing.
+        
+        This command is to be used on Microsoft Hosted Tier1 development environment, where you don't have access to the administrator user account on the vm.
         
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
@@ -75,6 +97,7 @@
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
         
         Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step.
+        
         
     .NOTES
         Author: Tommy Skaue (@skaue)
@@ -108,7 +131,14 @@ function Invoke-D365SDPInstall {
         [int] $Step,
         
         [Parameter(Mandatory = $false, Position = 5 )]
-        [string] $RunbookId = "Runbook"
+        [string] $RunbookId = "Runbook",
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\SdpInstall"),
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
     
     if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
@@ -125,9 +155,9 @@ function Invoke-D365SDPInstall {
         return
     }
 
-    $arrRunbookIds = Get-D365Runbook | Get-D365RunbookId
+    $arrRunbookIds = Get-D365Runbook -WarningAction SilentlyContinue -ErrorAction SilentlyContinue | Get-D365RunbookId
 
-    if(($Command -eq "RunAll") -and ($arrRunbookIds.Runbookid -contains $RunbookId)) {
+    if (($Command -eq "RunAll") -and ($arrRunbookIds.Runbookid -contains $RunbookId)) {
         Write-PSFMessage -Level Host -Message "It seems that you have entered an <c='em'>already used RunbookId</c>. Please consider if you are <c='em'>trying to re-run some steps</c> or simply pass <c='em'>another RunbookId</c>."
         Stop-PSFFunction -Message "Stopping because of RunbookId already used on this machine."
         return
@@ -135,22 +165,46 @@ function Invoke-D365SDPInstall {
 
     Invoke-TimeSignal -Start
 
-    $Util = Join-Path $Path "AXUpdateInstaller.exe"
+    #Test if input is a zipFile that needs to be extracted first
+    if ($Path.EndsWith(".zip")) {
+        Unblock-File -Path $Path
+        
+        $extractedPath = $path.Remove($path.Length - 4)
+        if (!(Test-Path $extractedPath)) {
+            Expand-Archive -Path $Path -DestinationPath $extractedPath
+            
+            #lets work with the extracted directory from now on
+            $Path = $extractedPath
+        }
+    }
+
+    # Input is a relative path, hence we set the path to the current directory
+    if ($Path -eq ".") {
+        $currentPath = Get-Location
+        Write-PSFMessage -Level Verbose "Updating path to '$currentPath' as relative paths are not supported"
+        $Path = $currentPath
+    }
+
+    # $Util = Join-Path $Path "AXUpdateInstaller.exe"
+    $executable = Join-Path $Path "AXUpdateInstaller.exe"
+
     $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
 
-    if (-not (Test-PathExists -Path $topologyFile, $Util -Type Leaf)) { return }
+    if (-not (Test-PathExists -Path $topologyFile, $executable -Type Leaf)) { return }
         
     Get-ChildItem -Path $Path -Recurse | Unblock-File
 
     if ($QuickInstallAll) {
         Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"
-        $param = "quickinstallall"
-        Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
+        $params = "quickinstallall"
+
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
     elseif ($DevInstall) {
         Write-PSFMessage -Level Verbose "Using DevInstall mode"
-        $param = "devinstall"
-        Start-Process -FilePath $Util -ArgumentList  $param  -NoNewWindow -Wait
+        $params = "devinstall"
+
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
     else {
         $Command = $Command.ToLowerInvariant()
@@ -161,18 +215,42 @@ function Invoke-D365SDPInstall {
         if ($Command -eq 'runall') {
             Write-PSFMessage -Level Verbose "Running all manual steps in one single operation"
 
+            #Update topology file (first command)
             $ok = Update-TopologyFile -Path $Path
+
             if ($ok) {
-                $param = @(
-                    "-runbookId=$runbookId"
-                    "-topologyFile=$topologyFile"
+                $params = @(
+                    "generate"
+                    "-runbookId=`"$runbookId`""
+                    "-topologyFile=`"$topologyFile`""
                     "-serviceModelFile=`"$serviceModelFile`""
                     "-runbookFile=`"$runbookFile`""
                 )
-                & $Util generate $param
-                & $Util import "-runbookfile=`"$runbookFile`""
-                & $Util execute "-runbookId=`"$runbookId`""
+                
+                #Generate (second command)
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+                if (Test-PSFFunctionInterrupt) { return }
+
+                $params = @(
+                    "import"
+                    "-runbookFile=`"$runbookFile`""
+                )
+
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+                if (Test-PSFFunctionInterrupt) { return }
+
+                $params = @(
+                    "execute"
+                    "-runbookId=`"$runbookId`""
+                )
+
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+                if (Test-PSFFunctionInterrupt) { return }
             }
+
             Write-PSFMessage -Level Verbose "All manual steps complete."
         }
         else {
@@ -180,12 +258,14 @@ function Invoke-D365SDPInstall {
             switch ($Command) {
                 'settopology' {
                     Write-PSFMessage -Level Verbose "Updating topology file xml."
+                   
                     $ok = Update-TopologyFile -Path $Path
                     $RunCommand = $false
                 }
                 'generate' {
                     Write-PSFMessage -Level Verbose "Generating runbook file."
-                    $param = @(
+                    
+                    $params = @(
                         "generate"
                         "-runbookId=`"$runbookId`""
                         "-topologyFile=`"$topologyFile`""
@@ -195,21 +275,24 @@ function Invoke-D365SDPInstall {
                 }
                 'import' {
                     Write-PSFMessage -Level Verbose "Importing runbook file."
-                    $param = @(
+                    
+                    $params = @(
                         "import"
                         "-runbookfile=`"$runbookFile`""
                     )
                 }
                 'execute' {
                     Write-PSFMessage -Level Verbose "Executing runbook file."
-                    $param = @(
+                   
+                    $params = @(
                         "execute"
                         "-runbookId=`"$runbookId`""
                     )
                 }
                 'rerunstep' {
                     Write-PSFMessage -Level Verbose "Rerunning runbook step number $step."
-                    $param = @(
+                   
+                    $params = @(
                         "execute"
                         "-runbookId=`"$runbookId`""
                         "-rerunstep=$step"
@@ -217,7 +300,8 @@ function Invoke-D365SDPInstall {
                 }
                 'setstepcomplete' {
                     Write-PSFMessage -Level Verbose "Marking step $step complete and continuing from next step."
-                    $param = @(
+                   
+                    $params = @(
                         "execute"
                         "-runbookId=`"$runbookId`""
                         "-setstepcomplete=$step"
@@ -225,8 +309,8 @@ function Invoke-D365SDPInstall {
                 }
                 'export' {
                     Write-PSFMessage -Level Verbose "Exporting runbook for reuse."
-                    & $Util export
-                    $param = @(
+
+                    $params = @(
                         "export"
                         "-runbookId=`"$runbookId`""
                         "-runbookfile=`"$runbookFile`""
@@ -234,7 +318,8 @@ function Invoke-D365SDPInstall {
                 }
                 'versioncheck' {
                     Write-PSFMessage -Level Verbose "Running version check on runbook."
-                    $param = @(
+                    
+                    $params = @(
                         "execute"
                         "-runbookId=`"$runbookId`""
                         "-versioncheck=true"
@@ -242,7 +327,11 @@ function Invoke-D365SDPInstall {
                 }
             }
 
-            if ($RunCommand) { & $Util $param }
+            if ($RunCommand) {
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+                if (Test-PSFFunctionInterrupt) { return }
+            }
         }
     }
 

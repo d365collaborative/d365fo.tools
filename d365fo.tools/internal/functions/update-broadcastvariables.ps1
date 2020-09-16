@@ -24,14 +24,21 @@ function Update-BroadcastVariables {
 
     $configName = (Get-PSFConfig -FullName "d365fo.tools.active.broadcast.message.config.name").Value.ToString().ToLower()
     if (-not ($configName -eq "")) {
-        $broadcastHash = Get-D365ActiveBroadcastMessageConfig -OutputAsHashtable
-        foreach ($item in $broadcastHash.Keys) {
+        $hashParameters = Get-D365ActiveBroadcastMessageConfig -OutputAsHashtable
+        foreach ($item in $hashParameters.Keys) {
             if ($item -eq "name") { continue }
             
             $name = "Broadcast" + (Get-Culture).TextInfo.ToTitleCase($item)
         
-            Write-PSFMessage -Level Verbose -Message "$name - $($broadcastHash[$item])" -Target $broadcastHash[$item]
-            Set-Variable -Name $name -Value $broadcastHash[$item] -Scope Script
+            $valueMessage = $hashParameters[$item]
+
+            if ($item -like "*client*" -and $valueMessage.Length -gt 20)
+            {
+                $valueMessage = $valueMessage.Substring(0,18) + "[...REDACTED...]"
+            }
+
+            Write-PSFMessage -Level Verbose -Message "$name - $valueMessage" -Target $valueMessage
+            Set-Variable -Name $name -Value $hashParameters[$item] -Scope Script
         }
     }
 }

@@ -61,6 +61,13 @@ Stop-D365Environment -Aos -Batch
 
 This will stop the Aos & Batch D365FO services on the machine.
 
+### EXAMPLE 5
+```
+Stop-D365Environment -FinancialReporter -DMF
+```
+
+This will stop the FinancialReporter and DMF services on the machine.
+
 ## PARAMETERS
 
 ### -ComputerName
@@ -176,8 +183,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

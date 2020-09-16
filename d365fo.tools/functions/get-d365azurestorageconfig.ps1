@@ -11,10 +11,19 @@
         
         Default value is "*" to display all Azure Storage Account configs
         
+    .PARAMETER OutputAsHashtable
+        Instruct the cmdlet to return a hastable object
+        
     .EXAMPLE
         PS C:\> Get-D365AzureStorageConfig
         
         This will show all Azure Storage Account configs
+        
+    .EXAMPLE
+        PS C:\> Get-D365AzureStorageConfig -OutputAsHashtable
+        
+        This will show all Azure Storage Account configs.
+        Every object will be output as a hashtable, for you to utilize as parameters for other cmdlets.
         
     .NOTES
         Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, Container
@@ -25,16 +34,23 @@
 function Get-D365AzureStorageConfig {
     [CmdletBinding()]
     param (
-        [string] $Name = "*"
+        [string] $Name = "*",
 
+        [switch] $OutputAsHashtable
     )
     
-    $Environments = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
+    $StorageAccounts = [hashtable](Get-PSFConfigValue -FullName "d365fo.tools.azure.storage.accounts")
         
-    foreach ($item in $Environments.Keys) {
+    foreach ($item in $StorageAccounts.Keys) {
         if ($item -NotLike $Name) { continue }
-        $temp = [ordered]@{Name = $item}
-        $temp += $Environments[$item]
-        [PSCustomObject]$temp
+        $res = [ordered]@{Name = $item }
+        $res += $StorageAccounts[$item]
+
+        if ($OutputAsHashtable) {
+            $res
+        }
+        else {
+            [PSCustomObject]$res
+        }
     }
 }

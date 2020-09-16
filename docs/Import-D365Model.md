@@ -13,8 +13,8 @@ Import a model into Dynamics 365 for Finance & Operations
 ## SYNTAX
 
 ```
-Import-D365Model [-Path] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>] [-Replace]
- [<CommonParameters>]
+Import-D365Model [-Path] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>] [-Replace] [-LogPath <String>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -105,9 +105,59 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: Named
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModelUtilImport")
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowOriginalProgress
+Instruct the cmdlet to show the standard output in the console
+
+Default is $false which will silence the standard output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

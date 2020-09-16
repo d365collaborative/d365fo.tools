@@ -27,7 +27,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .EXAMPLE
         PS C:\> Set-D365SysAdmin

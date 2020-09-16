@@ -38,7 +38,7 @@
 			$parameter.ParameterSets.Keys | Should -Be 'Default'
 			$parameter.ParameterSets.Keys | Should -Contain 'Default'
 			$parameter.ParameterSets['Default'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['Default'].Position | Should -Be 2
+			$parameter.ParameterSets['Default'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Default'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
@@ -51,7 +51,7 @@
 			$parameter.ParameterSets.Keys | Should -Be 'Specific'
 			$parameter.ParameterSets.Keys | Should -Contain 'Specific'
 			$parameter.ParameterSets['Specific'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['Specific'].Position | Should -Be 2
+			$parameter.ParameterSets['Specific'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Specific'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
@@ -64,7 +64,7 @@
 			$parameter.ParameterSets.Keys | Should -Be 'Specific'
 			$parameter.ParameterSets.Keys | Should -Contain 'Specific'
 			$parameter.ParameterSets['Specific'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['Specific'].Position | Should -Be 3
+			$parameter.ParameterSets['Specific'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Specific'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
@@ -77,7 +77,7 @@
 			$parameter.ParameterSets.Keys | Should -Be 'Specific'
 			$parameter.ParameterSets.Keys | Should -Contain 'Specific'
 			$parameter.ParameterSets['Specific'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['Specific'].Position | Should -Be 4
+			$parameter.ParameterSets['Specific'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Specific'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
@@ -90,23 +90,49 @@
 			$parameter.ParameterSets.Keys | Should -Be 'Specific'
 			$parameter.ParameterSets.Keys | Should -Contain 'Specific'
 			$parameter.ParameterSets['Specific'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['Specific'].Position | Should -Be 5
+			$parameter.ParameterSets['Specific'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['Specific'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter OnlyStartTypeAutomatic' {
+			$parameter = (Get-Command Get-D365Environment).Parameters['OnlyStartTypeAutomatic']
+			$parameter.Name | Should -Be 'OnlyStartTypeAutomatic'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter OutputServiceDetailsOnly' {
+			$parameter = (Get-Command Get-D365Environment).Parameters['OutputServiceDetailsOnly']
+			$parameter.Name | Should -Be 'OutputServiceDetailsOnly'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
 	}
 	
 	Describe "Testing parameterset Default" {
 		<#
 		Default -
-		Default -ComputerName -All
+		Default -ComputerName -All -OnlyStartTypeAutomatic -OutputServiceDetailsOnly
 		#>
 	}
  	Describe "Testing parameterset Specific" {
 		<#
 		Specific -
-		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF
+		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF -OnlyStartTypeAutomatic -OutputServiceDetailsOnly
 		#>
 	}
 

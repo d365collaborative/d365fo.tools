@@ -20,7 +20,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER Email
         The search string to select which user(s) should be updated.
@@ -49,22 +49,17 @@ function Update-D365User {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, Position = 1)]
         [string]$DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 2)]
         [string]$DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 3)]
         [string]$SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 4)]
         [string]$SqlPwd = $Script:DatabaseUserPassword,
 
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [string]$Email,
 
-        [Parameter(Mandatory = $false, Position = 6)]
         [string]$Company
 
     )

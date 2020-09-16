@@ -15,13 +15,13 @@ Download a file to Azure
 ### Default (Default)
 ```
 Invoke-D365AzureStorageDownload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] -FileName <String> [-Path <String>] [<CommonParameters>]
+ [-Container <String>] -FileName <String> [-Path <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ### Latest
 ```
 Invoke-D365AzureStorageDownload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] [-Path <String>] [-Latest] [<CommonParameters>]
+ [-Container <String>] [-Path <String>] [-Latest] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -86,7 +86,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:AccountId
+Default value: $Script:AzureStorageAccountId
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -101,7 +101,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:AccessToken
+Default value: $Script:AzureStorageAccessToken
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -116,7 +116,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:SAS
+Default value: $Script:AzureStorageSAS
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -131,7 +131,7 @@ Aliases: Blobname, Blob
 
 Required: False
 Position: Named
-Default value: $Script:Container
+Default value: $Script:AzureStorageContainer
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -183,9 +183,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

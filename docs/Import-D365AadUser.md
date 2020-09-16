@@ -69,10 +69,26 @@ Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
 
 ### EXAMPLE 4
 ```
+Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
+```
+
+This is used to force the cmdlet to find the exact named group in Azure Active Directory.
+
+### EXAMPLE 5
+```
 Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
 ```
 
 Imports all the users that is present in the AAD Group called CustomerTeam1
+
+### EXAMPLE 6
+```
+Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -SkipAzureAd
+```
+
+Imports Claire and Allen as users.
+Will NOT make you connect to the Azure Active Directory(AAD).
+The needed details will be based on the e-mail address only, and the rest will be blanked.
 
 ## PARAMETERS
 
@@ -124,7 +140,12 @@ Accept wildcard characters: False
 ```
 
 ### -DatabaseServer
-Alternative SQL Database server, Default is the one provided by the DataAccess object
+The name of the database server
+
+If on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)
+
+If Azure use the full address to the database server, e.g.
+server.database.windows.net
 
 ```yaml
 Type: String
@@ -139,7 +160,7 @@ Accept wildcard characters: False
 ```
 
 ### -DatabaseName
-Alternative SQL Database, Default is the one provided by the DataAccess object
+The name of the database
 
 ```yaml
 Type: String
@@ -154,7 +175,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlUser
-Alternative SQL user, Default is the one provided by the DataAccess object
+The login name for the SQL Server instance
 
 ```yaml
 Type: String
@@ -169,7 +190,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlPwd
-Alternative SQL user password, Default is the one provided by the DataAccess object
+The password for the SQL Server user
 
 ```yaml
 Type: String
@@ -314,8 +335,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

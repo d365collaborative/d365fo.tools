@@ -13,7 +13,7 @@ Get Azure Storage Account configs
 ## SYNTAX
 
 ```
-Get-D365AzureStorageConfig [[-Name] <String>] [<CommonParameters>]
+Get-D365AzureStorageConfig [[-Name] <String>] [-OutputAsHashtable] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,6 +27,14 @@ Get-D365AzureStorageConfig
 ```
 
 This will show all Azure Storage Account configs
+
+### EXAMPLE 2
+```
+Get-D365AzureStorageConfig -OutputAsHashtable
+```
+
+This will show all Azure Storage Account configs.
+Every object will be output as a hashtable, for you to utilize as parameters for other cmdlets.
 
 ## PARAMETERS
 
@@ -47,9 +55,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OutputAsHashtable
+Instruct the cmdlet to return a hastable object
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

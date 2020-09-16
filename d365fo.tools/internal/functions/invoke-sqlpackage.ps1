@@ -23,7 +23,7 @@
         The login name for the SQL Server instance
         
     .PARAMETER SqlPwd
-        The password for the SQL Server user.
+        The password for the SQL Server user
         
     .PARAMETER TrustedConnection
         Should the sqlpackage work with TrustedConnection or not
@@ -33,6 +33,34 @@
         
     .PARAMETER Properties
         Array of all the properties that needs to be parsed to the sqlpackage.exe
+        
+    .PARAMETER DiagnosticFile
+        Path to where you want the SqlPackage to output a diagnostics file to assist you in troubleshooting
+        
+    .PARAMETER ModelFile
+        Path to the model file that you want the SqlPackage.exe to use instead the one being part of the bacpac file
+        
+        This is used to override SQL Server options, like collation and etc
+        
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
+        
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
+        
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
         PS C:\> $BaseParams = @{
@@ -60,28 +88,42 @@ function Invoke-SqlPackage {
     [OutputType([System.Boolean])]
     param (
         [ValidateSet('Import', 'Export')]
-        [string]$Action,
+        [string] $Action,
         
-        [string]$DatabaseServer,
+        [string] $DatabaseServer,
         
-        [string]$DatabaseName,
+        [string] $DatabaseName,
         
-        [string]$SqlUser,
+        [string] $SqlUser,
         
-        [string]$SqlPwd,
+        [string] $SqlPwd,
         
-        [string]$TrustedConnection,
+        [string] $TrustedConnection,
         
-        [string]$FilePath,
+        [string] $FilePath,
         
-        [string[]]$Properties
+        [string[]] $Properties,
+
+        [string] $DiagnosticFile,
+
+        [string] $ModelFile,
+
+        [string] $MaxParallelism,
+
+        [string] $LogPath,
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly,
+
+        [switch] $EnableException
     )
               
-    $executable = $Script:SqlPackage
+    $executable = $Script:SqlPackagePath
 
     Invoke-TimeSignal -Start
 
-    if (!(Test-PathExists -Path $executable -Type Leaf)) {return}
+    if (!(Test-PathExists -Path $executable -Type Leaf)) { return }
 
     Write-PSFMessage -Level Verbose -Message "Starting to prepare the parameters for sqlpackage.exe"
 
@@ -92,7 +134,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/SourceServerName:$DatabaseServer")
         $null = $Params.Add("/SourceDatabaseName:$DatabaseName")
         $null = $Params.Add("/TargetFile:`"$FilePath`"")
-        $null = $Params.Add("/Properties:CommandTimeout=1200")
+        $null = $Params.Add("/Properties:CommandTimeout=0")
     
         if (!$UseTrustedConnection) {
             $null = $Params.Add("/SourceUser:$SqlUser")
@@ -106,7 +148,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/TargetServerName:$DatabaseServer")
         $null = $Params.Add("/TargetDatabaseName:$DatabaseName")
         $null = $Params.Add("/SourceFile:`"$FilePath`"")
-        $null = $Params.Add("/Properties:CommandTimeout=1200")
+        $null = $Params.Add("/Properties:CommandTimeout=0")
         
         if (!$UseTrustedConnection) {
             $null = $Params.Add("/TargetUser:$SqlUser")
@@ -118,12 +160,26 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/Properties:$item")
     }
 
-    Write-PSFMessage -Level Verbose "Start sqlpackage.exe with parameters" -Target $Params
+    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
+        $null = $Params.Add("/Diagnostics:true")
+        $null = $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"")
+    }
     
-    #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    Start-Process -FilePath $executable -ArgumentList ($Params -join " ") -NoNewWindow -Wait
+    if (-not [system.string]::IsNullOrEmpty($ModelFile)) {
+        $null = $Params.Add("/ModelFilePath:`"$ModelFile`"")
+    }
+
+    if (-not [system.string]::IsNullOrEmpty($MaxParallelism)) {
+        $null = $Params.Add("/mp:`"$MaxParallelism`"")
+    }
+
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     
+    if (Test-PSFFunctionInterrupt) {
+        Write-PSFMessage -Level Critical -Message "The SqlPackage.exe exited with an error."
+        Stop-PSFFunction -Message "Stopping because of errors." -StepsUpward 1
+        return
+    }
+
     Invoke-TimeSignal -End
-    
-    $true
 }

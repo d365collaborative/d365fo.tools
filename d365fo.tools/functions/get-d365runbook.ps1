@@ -59,7 +59,7 @@
 function Get-D365Runbook {
     [CmdletBinding()]
     param (
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
         [string] $Path = (Join-Path $Script:InstallationRecordsDir "Runbooks"),
 
         [string] $Name = "*",
@@ -68,7 +68,7 @@ function Get-D365Runbook {
     )
 
     begin {
-        if (-not (Test-PathExists -Path $Path -Type Container )) { return }
+        if (-not (Test-PathExists -Path $Path -Type Container -WarningAction $WarningPreference -ErrorAction $ErrorActionPreference)) { return }
     }
     
     process {

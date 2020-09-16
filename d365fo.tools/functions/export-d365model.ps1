@@ -12,6 +12,9 @@
     .PARAMETER Model
         Name of the model that you want to work against
         
+    .PARAMETER Force
+        Instruct the cmdlet to overwrite already existing file
+        
     .PARAMETER BinDir
         The path to the bin directory for the environment
         
@@ -23,6 +26,21 @@
         The path to the meta data directory for the environment
         
         Default path is the same as the aos service PackagesLocalDirectory
+        
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
         PS C:\> Export-D365Model -Path c:\temp\d365fo.tools -Model CustomModelName
@@ -38,31 +56,58 @@
 #>
 
 function Export-D365Model {
-    # [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     [CmdletBinding()]
     
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $true)]
         [Alias('File')]
         [string] $Path,
 
-        [Parameter(Mandatory = $True, Position = 2 )]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias('Modelname')]
         [string] $Model,
 
-        [Parameter(Mandatory = $false, Position = 3 )]
+        [switch] $Force,
+
         [string] $BinDir = "$Script:PackageDirectory\bin",
 
-        [Parameter(Mandatory = $false, Position = 4 )]
-        [string] $MetaDataDir = "$Script:MetaDataDir"
+        [string] $MetaDataDir = "$Script:MetaDataDir",
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModelUtilExport"),
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
     
-    if($Path.EndsWith("\")) {
-        $Path = $Path.Substring(0, $Path.Length - 1)
+        if ($Path.EndsWith("\")) {
+            $Path = $Path.Substring(0, $Path.Length - 1)
+        }
     }
 
-    Invoke-ModelUtil -Command "Export" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model
+    process {
+
+        if($Force){
+            Get-ChildItem -Path "$Path\$Model-*.axmodel" | Select-Object -First 1 | Remove-Item -Force -ErrorAction SilentlyContinue
+        }
+
+        Invoke-ModelUtil -Command "Export" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+        if (Test-PSFFunctionInterrupt) { return }
+
+        $file = Get-ChildItem -Path "$Path\$Model-*.axmodel" | Select-Object -First 1
+        
+        [PSCustomObject]@{
+            File     = $file.FullName
+            Filename = (Split-Path $file.FullName -Leaf)
+        }
+    }
     
-    Invoke-TimeSignal -End
+    end {
+        Invoke-TimeSignal -End
+    }
 }

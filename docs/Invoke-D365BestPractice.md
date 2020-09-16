@@ -13,8 +13,9 @@ Run the Best Practice
 ## SYNTAX
 
 ```
-Invoke-D365BestPractice [[-BinDir] <String>] [[-MetaDataDir] <String>] [-Module] <String> [-Model] <String>
- [[-LogDir] <String>] [-PackagesRoot] [-ShowOriginalProgress] [-RunFixers] [<CommonParameters>]
+Invoke-D365BestPractice [-Module] <String> [-Model] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>]
+ [-PackagesRoot] [[-LogPath] <String>] [-ShowOriginalProgress] [-RunFixers] [-OutputCommandOnly]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,6 +35,17 @@ The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.
 
 ### EXAMPLE 2
 ```
+Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel" -PackagesRoot
+```
+
+This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.
+We use the binary metadata to look for the module and model.
+The default output will be silenced.
+The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
+The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
+
+### EXAMPLE 3
+```
 Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel" -ShowOriginalProgress
 ```
 
@@ -42,7 +54,48 @@ The output from the best practice check process will be written to the console /
 The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
 The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
 
+### EXAMPLE 4
+```
+Invoke-D365BestPractice -module "ApplicationSuite" -model "MyOverLayerModel" -RunFixers
+```
+
+This will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.
+The default output will be silenced.
+The XML log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.xml".
+The log file will be written to "c:\temp\d365fo.tools\ApplicationSuite\Dynamics.AX.MyOverLayerModel.xppbp.log".
+Instructs the xppbp tool to run the fixers for all identified warnings.
+
 ## PARAMETERS
+
+### -Module
+Name of the Module to analyse
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: ModuleName
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Model
+Name of the Model to analyse
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: ModelName
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
 ### -BinDir
 The path to the bin directory for the environment
@@ -55,7 +108,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 3
 Default value: "$Script:PackageDirectory\bin"
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -72,53 +125,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
-Default value: "$Script:MetaDataDir"
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Module
-Name of the Module to analyse
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Package
-
-Required: True
 Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Model
-Name of the Model to analyse
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -LogDir
-Path where you want to store the log outputs generated from the best practice analyser
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: (Join-Path $Script:DefaultTempPath $Module)
+Default value: "$Script:MetaDataDir"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -132,8 +140,27 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+Path where you want to store the log outputs generated from the best practice analyser
+
+Also used as the path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 5
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\BestPractice")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -149,7 +176,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -164,15 +191,31 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputCommandOnly
+Instruct the cmdlet to only output the command that you would have to execute by hand
+
+Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

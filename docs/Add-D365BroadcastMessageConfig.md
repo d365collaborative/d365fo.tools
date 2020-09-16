@@ -14,8 +14,8 @@ Save a broadcast message config
 
 ```
 Add-D365BroadcastMessageConfig [-Name] <String> [[-Tenant] <String>] [[-URL] <String>] [[-ClientId] <String>]
- [[-ClientSecret] <String>] [[-TimeZone] <String>] [[-EndingInMinutes] <Int32>] [-Temporary] [-Force]
- [<CommonParameters>]
+ [[-ClientSecret] <String>] [[-TimeZone] <String>] [[-EndingInMinutes] <Int32>] [-OnPremise] [-Temporary]
+ [-Force] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,6 +31,20 @@ Add-D365BroadcastMessageConfig -Name "UAT" -Tenant "e674da86-7ee5-40a7-b777-1111
 This will create a new broadcast message configuration with the name "UAT".
 It will save "e674da86-7ee5-40a7-b777-1111111111111" as the Azure Active Directory guid.
 It will save "https://usnconeboxax1aos.cloud.onebox.dynamics.com" as the D365FO environment.
+It will save "dea8d7a9-1602-4429-b138-111111111111" as the ClientId.
+It will save "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" as ClientSecret.
+It will use the default value "UTC" Time Zone for converting the different time and dates.
+It will use the default end time which is 60 minutes.
+
+### EXAMPLE 2
+```
+Add-D365BroadcastMessageConfig -Name "UAT" -OnPremise -Tenant "https://adfs.local/adfs" -URL "https://ax-sandbox.d365fo.local" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
+```
+
+This will create a new broadcast message configuration with the name "UAT".
+It will target an OnPremise environment.
+It will save "https://adfs.local/adfs" as the OAuth Tenant Provider.
+It will save "https://ax-sandbox.d365fo.local" as the D365FO environment.
 It will save "dea8d7a9-1602-4429-b138-111111111111" as the ClientId.
 It will save "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" as ClientSecret.
 It will use the default value "UTC" Time Zone for converting the different time and dates.
@@ -154,6 +168,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OnPremise
+Specify if environnement is an D365 OnPremise
+
+Default value is "Not set" (= Cloud Environnement)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Temporary
 Instruct the cmdlet to only temporarily add the broadcast message configuration in the configuration store
 
@@ -185,8 +216,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

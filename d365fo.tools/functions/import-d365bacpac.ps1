@@ -62,7 +62,15 @@
         Password that is obtained from LCS
         
     .PARAMETER CustomSqlFile
-        Parameter description
+        Path to the sql script file that you want the cmdlet to execute against your data after it has been imported
+        
+    .PARAMETER ModelFile
+        Path to the model file that you want the SqlPackage.exe to use instead the one being part of the bacpac file
+        
+        This is used to override SQL Server options, like collation and etc
+        
+    .PARAMETER DiagnosticFile
+        Path to where you want the import to output a diagnostics file to assist you in troubleshooting the import
         
     .PARAMETER ImportOnly
         Switch to instruct the cmdlet to only import the bacpac into the new database
@@ -70,6 +78,30 @@
         The cmdlet will create a new database and import the content of the bacpac file into this
         
         Nothing else will be executed
+        
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database
+        
+        The default value is 8
+        
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
+    .PARAMETER ShowOriginalProgress
+        Instruct the cmdlet to show the standard output in the console
+        
+        Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
+        
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
         PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
@@ -90,6 +122,32 @@
         The next thing to do is to switch the active database out with the new one you just imported.
         "ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
         
+    .EXAMPLE
+        PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt"
+        
+        This will instruct the cmdlet that the import will be working against a SQL Server instance.
+        It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+        It will output a diagnostic file to "C:\temp\ImportLog.txt".
+        
+    .EXAMPLE
+        PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt" -MaxParallelism 32
+        
+        This will instruct the cmdlet that the import will be working against a SQL Server instance.
+        It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+        It will output a diagnostic file to "C:\temp\ImportLog.txt".
+        
+        It will use 32 connections against the database server while importing the bacpac file.
+        
+    .EXAMPLE
+        PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -ImportOnly
+        
+        This will instruct the cmdlet that the import will be working against a SQL Server instance.
+        It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+        No cleanup or prepping jobs will be executed, because this is for importing only.
+        
+        This would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.
+        You would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.
+        
     .NOTES
         Tags: Database, Bacpac, Tier1, Tier2, Golden Config, Config, Configuration
         
@@ -98,74 +156,89 @@
         
 #>
 function Import-D365Bacpac {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseProcessBlockForPipelineCommand", "")]
     [CmdletBinding(DefaultParameterSetName = 'ImportTier1')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier1', Position = 0)]
-        [switch]$ImportModeTier1,
+        [switch] $ImportModeTier1,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', Position = 0)]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', Position = 0)]
-        [switch]$ImportModeTier2,
+        [switch] $ImportModeTier2,
 
-        [Parameter(Mandatory = $false, Position = 1 )]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [Parameter(Position = 1 )]
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 2 )]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [Parameter(Position = 2 )]
+        [string] $DatabaseName = $Script:DatabaseName,
 
         [Parameter(Mandatory = $false, Position = 3 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 3)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1', Position = 3)]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', ValueFromPipelineByPropertyName = $true, Position = 3)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $SqlUser = $Script:DatabaseUserName,
 
         [Parameter(Mandatory = $false, Position = 4 )]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 4)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1', Position = 4)]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2', ValueFromPipelineByPropertyName = $true, Position = 4)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 5 )]
         [Alias('File')]
-        [string]$BacpacFile,
+        [string] $BacpacFile,
 
         [Parameter(Mandatory = $true, Position = 6 )]
-        [string]$NewDatabaseName,
+        [string] $NewDatabaseName,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 7)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 7)]
-        [string]$AxDeployExtUserPwd,
+        [string] $AxDeployExtUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 8)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 8)]
-        [string]$AxDbAdminPwd,
+        [string] $AxDbAdminPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 9)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 9)]
-        [string]$AxRuntimeUserPwd,
+        [string] $AxRuntimeUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 10)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 10)]
-        [string]$AxMrRuntimeUserPwd,
+        [string] $AxMrRuntimeUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 11)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 11)]
-        [string]$AxRetailRuntimeUserPwd,
+        [string] $AxRetailRuntimeUserPwd,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 12)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 12)]
-        [string]$AxRetailDataSyncUserPwd,
+        [string] $AxRetailDataSyncUserPwd,
         
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier2', ValueFromPipelineByPropertyName = $true, Position = 13)]
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportOnlyTier2', Position = 13)]
-        [string]$AxDbReadonlyUserPwd,
+        [string] $AxDbReadonlyUserPwd,
         
-        [Parameter(Mandatory = $false, Position = 14 )]
-        [string]$CustomSqlFile,
+        [string] $CustomSqlFile,
 
+        [string] $ModelFile,
+
+        [string] $DiagnosticFile,
+ 
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2')]
-        [switch]$ImportOnly
+        [switch] $ImportOnly,
+        
+        [string] $MaxParallelism = 8,
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ImportBacpac"),
+
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly,
+
+        [switch] $EnableException
     )
 
     if (-not (Test-PathExists -Path $BacpacFile -Type Leaf)) {
@@ -197,6 +270,17 @@ function Import-D365Bacpac {
         FilePath = $BacpacFile
     }
 
+    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
+        if (-not (Test-PathExists -Path (Split-Path $DiagnosticFile -Parent) -Type Container -Create)) { return }
+        $ImportParams.DiagnosticFile = $DiagnosticFile
+    }
+
+    if (-not [system.string]::IsNullOrEmpty($ModelFile)) {
+        if (-not (Test-PathExists -Path $ModelFile -Type Leaf)) { return }
+
+        $ImportParams.ModelFile = $ModelFile
+    }
+
     Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB"
     if ($ImportModeTier2) {
         Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings"
@@ -205,58 +289,60 @@ function Import-D365Bacpac {
 
         if ($null -eq $Objectives) { return }
 
-        $Properties = @("DatabaseEdition=$($Objectives.DatabaseEdition)",
-            "DatabaseServiceObjective=$($Objectives.DatabaseServiceObjective)"
-        )
+        [System.Collections.ArrayList] $Properties = New-Object -TypeName "System.Collections.ArrayList"
+        $null = $Properties.Add("DatabaseEdition=$($Objectives.DatabaseEdition)")
+        $null = $Properties.Add("DatabaseServiceObjective=$($Objectives.DatabaseServiceObjective)")
 
-        $ImportParams.Properties = $Properties
+        $ImportParams.Properties = $Properties.ToArray()
     }
     
     $Params = Get-DeepClone $BaseParams
     $Params.DatabaseName = $NewDatabaseName
     
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings"
-    $res = Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection
+    Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
-    if (-not ($res)) {return}
+    if ($OutputCommandOnly) { return }
+
+    if ($ImportOnly) { return }
+
+    if (Test-PSFFunctionInterrupt) { return }
     
     Write-PSFMessage -Level Verbose "Importing completed"
 
-    if (-not ($ImportOnly)) {
-        Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
+    Write-PSFMessage -Level Verbose -Message "Start working on the configuring the new database"
 
-        if ($ImportModeTier2) {
-            Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database"
+    if ($ImportModeTier2) {
+        Write-PSFMessage -Level Verbose "Building sql statement to update the imported Azure database"
 
-            $InstanceValues = Get-InstanceValues @BaseParams -TrustedConnection $UseTrustedConnection
+        $InstanceValues = Get-InstanceValues @BaseParams -TrustedConnection $UseTrustedConnection
 
-            if ($null -eq $InstanceValues) { return }
+        if ($null -eq $InstanceValues) { return }
 
-            $AzureParams = @{
-                AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd;
-                AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd;
-                AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd;
-                AxDbReadonlyUserPwd = $AxDbReadonlyUserPwd;
-            }
-
-            $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
-
-            if (-not ($res)) {return}
+        $AzureParams = @{
+            AxDeployExtUserPwd = $AxDeployExtUserPwd; AxDbAdminPwd = $AxDbAdminPwd;
+            AxRuntimeUserPwd = $AxRuntimeUserPwd; AxMrRuntimeUserPwd = $AxMrRuntimeUserPwd;
+            AxRetailRuntimeUserPwd = $AxRetailRuntimeUserPwd; AxRetailDataSyncUserPwd = $AxRetailDataSyncUserPwd;
+            AxDbReadonlyUserPwd = $AxDbReadonlyUserPwd;
         }
-        else {
-            Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database"
 
-            $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection
+        $res = Set-AzureBacpacValues @Params @AzureParams @InstanceValues
+
+        if (-not ($res)) { return }
+    }
+    else {
+        Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database"
+
+        $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection
             
-            if (-not ($res)) {return}
-        }
+        if (-not ($res)) { return }
+    }
 
-        if ($ExecuteCustomSQL) {
-            Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
-            $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
+    if ($ExecuteCustomSQL) {
+        Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
+        $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
 
-            if (-not ($res)) {return}
-        }
+        if (-not ($res)) { return }
     }
 
     Invoke-TimeSignal -End

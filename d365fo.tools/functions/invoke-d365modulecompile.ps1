@@ -12,8 +12,12 @@
     .PARAMETER OutputDir
         The path to the folder to save generated artifacts
         
-    .PARAMETER LogDir
-        The path to the folder to save logs
+    .PARAMETER LogPath
+        Path where you want to store the log outputs generated from the compiler
+        
+        Also used as the path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
         
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
@@ -34,6 +38,11 @@
         Instruct the cmdlet to show the standard output in the console
         
         Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
         PS C:\> Invoke-D365ModuleCompile -Module MyModel
@@ -61,59 +70,72 @@ function Invoke-D365ModuleCompile {
     [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $True, Position = 1 )]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias("ModuleName")]
         [string] $Module,
 
-        [Parameter(Mandatory = $False, Position = 2 )]
         [Alias('Output')]
-        [string] $OutputDir = (Join-Path $Script:MetaDataDir $Module),
+        [string] $OutputDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 3 )]
-        [string] $LogDir = (Join-Path $Script:DefaultTempPath $Module),
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModuleCompile"),
 
-        [Parameter(Mandatory = $False, Position = 4 )]
         [string] $MetaDataDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 5)]
         [string] $ReferenceDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $False, Position = 6 )]
         [string] $BinDir = $Script:BinDirTools,
 
-        [Parameter(Mandatory = $False, Position = 7 )]
-        [switch] $ShowOriginalProgress
+        [switch] $ShowOriginalProgress,
+
+        [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
 
-    $tool = "xppc.exe"
-    $executable = Join-Path $BinDir $tool
+        $tool = "xppc.exe"
+        $executable = Join-Path -Path $BinDir -ChildPath $tool
 
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) {return}
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) {return}
-    if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) {return}
+        if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
+        if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+        if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) { return }
 
-    if (Test-PSFFunctionInterrupt) { return }
+    }
 
-    $logFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.log"
-    $logXmlFile = Join-Path $LogDir "Dynamics.AX.$Module.xppc.xml"
+    process {
+        $logDirModule = Join-Path -Path $LogPath -ChildPath $Module
+        $outputDirModule = Join-Path -Path $OutputDir -ChildPath $Module
+        
+        if (-not (Test-PathExists -Path $logDirModule -Type Container -Create)) { return }
 
-    $params = @("-metadata=`"$MetaDataDir`"",
-        "-modelmodule=`"$Module`"",
-        "-output=`"$OutputDir\bin`"",
-        "-referencefolder=`"$ReferenceDir`"",
-        "-log=`"$logFile`"",
-        "-xmlLog=`"$logXmlFile`"",
-        "-verbose"
-    )
+        if (Test-PSFFunctionInterrupt) { return }
+        
+        $logFile = Join-Path -Path $logDirModule -ChildPath "Dynamics.AX.$Module.xppc.log"
+        $logXmlFile = Join-Path -Path $logDirModule -ChildPath "Dynamics.AX.$Module.xppc.xml"
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress
+        $params = @("-metadata=`"$MetaDataDir`"",
+            "-modelmodule=`"$Module`"",
+            "-output=`"$outputDirModule\bin`"",
+            "-referencefolder=`"$ReferenceDir`"",
+            "-log=`"$logFile`"",
+            "-xmlLog=`"$logXmlFile`"",
+            "-verbose"
+        )
 
-    Invoke-TimeSignal -End
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $logDirModule
 
-    [PSCustomObject]@{
-        LogFile = $logFile
-        XmlLogFile = $logXmlFile
-        PSTypeName = 'D365FO.TOOLS.ModuleCompileOutput'
+        if ($OutputCommandOnly) { return }
+
+        [PSCustomObject]@{
+            LogFile    = $logFile
+            XmlLogFile = $logXmlFile
+            PSTypeName = 'D365FO.TOOLS.ModuleCompileOutput'
+        }
+    
+    }
+
+    end {
+        Invoke-TimeSignal -End
     }
 }
