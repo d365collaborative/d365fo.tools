@@ -237,7 +237,7 @@ function Import-D365AadUser {
         foreach ($user in $userlist) {
             if ($user.ObjectType -eq "User") {
                 $azureAdUser = Get-AzureADUser -ObjectId $user.ObjectId
-                if($null -eq $azureAdUser.Mail) {
+                if ($null -eq $azureAdUser.Mail) {
                     Write-PSFMessage -Level Critical "User $($user.ObjectId) did not have an Mail"
                 }
                 else {
