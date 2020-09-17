@@ -43,7 +43,7 @@ function Add-D365WindowsDefenderRules {
     $DefenderEnabled = Get-WindowsDefenderStatus -Silent:$Silent
 
     if ($DefenderEnabled -eq $false) {
-        Write-PSFMessage -Level Host -Message "Windows Defender is not enabled on this maschine."
+        Write-PSFMessage -Level Host -Message "Windows Defender is not enabled on this machine."
         Stop-PSFFunction -Message "Stopping because of errors."
         return
     }
@@ -62,7 +62,7 @@ function Add-D365WindowsDefenderRules {
         Add-MpPreference -ExclusionProcess "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe"
         Add-MpPreference -ExclusionProcess "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
         Add-MpPreference -ExclusionProcess "C:\Program Files\dotnet\dotnet.exe"
-        # customize path for cloud maschines
+        # customize path for cloud machines
         Add-MpPreference -ExclusionProcess "$Script:BinDir\xppcAgent.exe"
         Add-MpPreference -ExclusionProcess "$Script:BinDir\SyncEngine.exe"
         Add-MpPreference -ExclusionProcess "$AOSPath\Batch.exe"
