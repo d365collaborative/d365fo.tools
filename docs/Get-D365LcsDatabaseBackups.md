@@ -14,7 +14,7 @@ Get database backups from LCS project
 
 ```
 Get-D365LcsDatabaseBackups [[-ProjectId] <Int32>] [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest]
- [<CommonParameters>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -122,6 +122,22 @@ Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: GetLatest
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

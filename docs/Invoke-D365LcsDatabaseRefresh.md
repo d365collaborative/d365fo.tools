@@ -14,7 +14,8 @@ Start a database refresh between 2 environments
 
 ```
 Invoke-D365LcsDatabaseRefresh [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-SourceEnvironmentId] <String>
- [-TargetEnvironmentId] <String> [[-LcsApiUri] <String>] [-SkipInitialStatusFetch] [<CommonParameters>]
+ [-TargetEnvironmentId] <String> [[-LcsApiUri] <String>] [-SkipInitialStatusFetch] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -189,6 +190,22 @@ The second object is the response object from fetching the status of the refresh
 
 Setting this parameter (activate it), will affect the number of output objects.
 If you skip, only the first response object outputted.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
 
 ```yaml
 Type: SwitchParameter

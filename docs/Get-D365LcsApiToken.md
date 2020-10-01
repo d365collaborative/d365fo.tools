@@ -14,7 +14,7 @@ Upload a file to a LCS project
 
 ```
 Get-D365LcsApiToken [[-ClientId] <String>] [-Username] <String> [-Password] <String> [[-LcsApiUri] <String>]
- [<CommonParameters>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -144,6 +144,22 @@ Aliases:
 Required: False
 Position: 4
 Default value: $Script:LcsApiApiUri
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
