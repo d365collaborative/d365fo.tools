@@ -44,8 +44,8 @@
         Time in secounds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
         
         Default value is 300
-
-   .PARAMETER EnableException
+        
+    .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
         

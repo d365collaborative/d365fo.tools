@@ -12,10 +12,10 @@
     .PARAMETER FullUri
         The full URI, including SAS token and Policy Permissions to the blob
         
-   .PARAMETER EnableException
+    .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
-
+        
     .EXAMPLE
         PS C:\> Copy-FileToLcsBlob -FilePath "C:\temp\d365fo.tools\GOLDEN.bacpac" -FullUri "https://uswedpl1catalog.blob.core.windows.net/...."
         

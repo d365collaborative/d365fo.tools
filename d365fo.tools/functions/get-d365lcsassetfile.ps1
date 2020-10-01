@@ -25,7 +25,7 @@
         "NuGet Package"
         "Retail Self-Service Package"
         "Commerce Cloud Scale Unit Extension"
-
+        
         
         Default value is "Software Deployable Package"
         
@@ -64,10 +64,10 @@
     .PARAMETER Latest
         Instruct the cmdlet to only fetch the latest file from the Asset Library from LCS
         
-   .PARAMETER EnableException
+    .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
