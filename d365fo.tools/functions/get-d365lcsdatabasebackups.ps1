@@ -30,6 +30,10 @@
     .PARAMETER Latest
         Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
         
+   .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+
     .EXAMPLE
         PS C:\> Get-D365LcsDatabaseBackups -ProjectId 123456789 -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -88,7 +92,9 @@ function Get-D365LcsDatabaseBackups {
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
         [Alias('GetLatest')]
-        [switch] $Latest
+        [switch] $Latest,
+
+        [switch] $EnableException
     )
 
     Invoke-TimeSignal -Start
