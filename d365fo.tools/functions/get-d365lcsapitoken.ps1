@@ -30,6 +30,10 @@
         
         Default value can be configured using Set-D365LcsApiConfig
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Get-D365LcsApiToken -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -Username "serviceaccount@domain.com" -Password "TopSecretPassword" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -118,12 +122,14 @@ function Get-D365LcsApiToken {
         [string] $Password,
 
         [Parameter(Mandatory = $false)]
-        [string] $LcsApiUri = $Script:LcsApiApiUri
+        [string] $LcsApiUri = $Script:LcsApiApiUri,
+
+        [switch] $EnableException
     )
 
     Invoke-TimeSignal -Start
 
-    $tokenParms = @{}
+    $tokenParms = @{ }
     $tokenParms.Resource = $LcsApiUri
     $tokenParms.ClientId = $ClientId
     $tokenParms.Username = $Username

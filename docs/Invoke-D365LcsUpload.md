@@ -15,7 +15,7 @@ Upload a file to a LCS project
 ```
 Invoke-D365LcsUpload [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-FilePath] <String>
  [[-FileType] <LcsAssetFileType>] [[-FileName] <String>] [[-FileDescription] <String>] [[-LcsApiUri] <String>]
- [<CommonParameters>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -124,6 +124,10 @@ Valid options:
 "GER Configuration"
 "Data Package"
 "PowerBI Report Model"
+"E-Commerce Package"
+"NuGet Package"
+"Retail Self-Service Package"
+"Commerce Cloud Scale Unit Extension"
 
 Default value is "Software Deployable Package"
 
@@ -131,7 +135,7 @@ Default value is "Software Deployable Package"
 Type: LcsAssetFileType
 Parameter Sets: (All)
 Aliases:
-Accepted values: Model, ProcessDataPackage, SoftwareDeployablePackage, GERConfiguration, DataPackage, PowerBIReportModel
+Accepted values: Model, ProcessDataPackage, SoftwareDeployablePackage, GERConfiguration, DataPackage, PowerBIReportModel, ECommercePackage, NuGetPackage, RetailSelfServicePackage, CommerceCloudScaleUnitExtension
 
 Required: False
 Position: 4
@@ -189,6 +193,22 @@ Aliases:
 Required: False
 Position: 7
 Default value: $Script:LcsApiLcsApiUri
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

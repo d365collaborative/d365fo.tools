@@ -15,7 +15,7 @@ Get the status of a database operation from LCS
 ```
 Get-D365LcsDatabaseOperationStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>]
  [-OperationActivityId] <String> [-EnvironmentId] <String> [[-LcsApiUri] <String>] [-WaitForCompletion]
- [[-SleepInSeconds] <Int32>] [<CommonParameters>]
+ [[-SleepInSeconds] <Int32>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -185,6 +185,22 @@ Aliases:
 Required: False
 Position: 6
 Default value: 300
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

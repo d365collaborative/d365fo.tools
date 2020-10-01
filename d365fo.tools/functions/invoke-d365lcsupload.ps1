@@ -53,6 +53,10 @@
         
         Default value can be configured using Set-D365LcsApiConfig
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -133,7 +137,9 @@ function Invoke-D365LcsUpload {
 
         [string] $FileDescription,
 
-        [string] $LcsApiUri = $Script:LcsApiLcsApiUri
+        [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
+
+        [switch] $EnableException
     )
 
     Invoke-TimeSignal -Start

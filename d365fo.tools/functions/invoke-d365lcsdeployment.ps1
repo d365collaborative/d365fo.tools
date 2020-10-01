@@ -40,6 +40,10 @@
         
         Default value can be configured using Set-D365LcsApiConfig
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Invoke-D365LcsDeployment -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
@@ -72,8 +76,6 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-        
-        
         
     .LINK
         Get-D365LcsApiConfig
@@ -121,7 +123,9 @@ function Invoke-D365LcsDeployment {
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
-        [string] $LcsApiUri = $Script:LcsApiLcsApiUri
+        [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
+
+        [switch] $EnableException
     )
 
     process {

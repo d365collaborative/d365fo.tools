@@ -14,7 +14,8 @@ Get file from the Asset library inside the LCS project
 
 ```
 Get-D365LcsAssetFile [[-ProjectId] <Int32>] [[-FileType] <LcsAssetFileType>] [[-AssetName] <String>]
- [[-AssetVersion] <String>] [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest] [<CommonParameters>]
+ [[-AssetVersion] <String>] [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -88,6 +89,11 @@ Valid options:
 "GER Configuration"
 "Data Package"
 "PowerBI Report Model"
+"E-Commerce Package"
+"NuGet Package"
+"Retail Self-Service Package"
+"Commerce Cloud Scale Unit Extension"
+
 
 Default value is "Software Deployable Package"
 
@@ -95,7 +101,7 @@ Default value is "Software Deployable Package"
 Type: LcsAssetFileType
 Parameter Sets: (All)
 Aliases:
-Accepted values: Model, ProcessDataPackage, SoftwareDeployablePackage, GERConfiguration, DataPackage, PowerBIReportModel
+Accepted values: Model, ProcessDataPackage, SoftwareDeployablePackage, GERConfiguration, DataPackage, PowerBIReportModel, ECommercePackage, NuGetPackage, RetailSelfServicePackage, CommerceCloudScaleUnitExtension
 
 Required: False
 Position: 2
@@ -195,6 +201,22 @@ Instruct the cmdlet to only fetch the latest file from the Asset Library from LC
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: GetLatest
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

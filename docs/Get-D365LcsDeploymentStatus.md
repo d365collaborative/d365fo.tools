@@ -15,7 +15,7 @@ Get the Deployment status from LCS
 ```
 Get-D365LcsDeploymentStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-ActivityId] <String>
  [-EnvironmentId] <String> [[-LcsApiUri] <String>] [-WaitForCompletion] [[-SleepInSeconds] <Int32>]
- [<CommonParameters>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -183,6 +183,22 @@ Aliases:
 Required: False
 Position: 6
 Default value: 300
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
