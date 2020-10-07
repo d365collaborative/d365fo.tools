@@ -15,13 +15,13 @@ Start the deployment of a deployable package
 ### VM (Default)
 ```
 Invoke-D365LcsDeployment [-ProjectId <Int32>] -AssetId <String> -EnvironmentId <String> [-BearerToken <String>]
- [-LcsApiUri <String>] [<CommonParameters>]
+ [-LcsApiUri <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ### Self-Service
 ```
 Invoke-D365LcsDeployment [-ProjectId <Int32>] -AssetId <String> -EnvironmentId <String> -UpdateName <String>
- [-BearerToken <String>] [-LcsApiUri <String>] [<CommonParameters>]
+ [-BearerToken <String>] [-LcsApiUri <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -172,6 +172,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: $Script:LcsApiLcsApiUri
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

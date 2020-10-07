@@ -14,7 +14,7 @@ Get the validation status from LCS
 
 ```
 Get-D365LcsAssetValidationStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-AssetId] <String>
- [[-LcsApiUri] <String>] [-WaitForValidation] [<CommonParameters>]
+ [[-LcsApiUri] <String>] [-WaitForValidation] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -150,6 +150,22 @@ Accept wildcard characters: False
 Instruct the cmdlet to wait for the validation process to complete
 
 The cmdlet will sleep for 60 seconds, before requesting the status of the validation process from LCS
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
 
 ```yaml
 Type: SwitchParameter

@@ -2827,6 +2827,14 @@
                            false,
                            "false",
                            "$Script:LcsApiApiUri"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -2843,7 +2851,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsApiToken -ClientId \"9b4f4503-b970-4ade-abc6-2c086e4c4929\" -Username \"serviceaccount@domain.com\" -Password \"TopSecretPassword\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will obtain a valid OAuth 2.0 access token from Azure Active Directory.\r\nThe ClientId \"9b4f4503-b970-4ade-abc6-2c086e4c4929\" is used in the OAuth 2.0 Grant Flow to authenticate.\r\nThe Username \"serviceaccount@domain.com\" and Password \"TopSecretPassword\" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like \"serviceaccount@domain.com\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsApiToken -ClientId \"9b4f4503-b970-4ade-abc6-2c086e4c4929\" -Username \"serviceaccount@domain.com\" -Password \"TopSecretPassword\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\" | Set-D365L\r\ncsApiConfig -ProjectId 123456789\nThis will obtain a valid OAuth 2.0 access token from Azure Active Directory.\r\nThe ClientId \"9b4f4503-b970-4ade-abc6-2c086e4c4929\" is used in the OAuth 2.0 Grant Flow to authenticate.\r\nThe Username \"serviceaccount@domain.com\" and Password \"TopSecretPassword\" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like \"serviceaccount@domain.com\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\nThe output object received from Get-D365LcsApiToken is piped directly to Set-D365LcsApiConfig.\nSet-D365LcsApiConfig will save the ClientId, LcsApiUri, ProjectId, access_token(BearerToken), refresh_token(RefreshToken), expires_on(ActiveTokenExpiresOn) details for the module to use them across ot\r\nher LCS cmdlets.\nThis should be your default approach in using and leveraging the module, so you don\u0027t have to supply the same parameters for every single cmdlet.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsApiToken -Username \"serviceaccount@domain.com\" -Password \"TopSecretPassword\"\nThis will obtain a valid OAuth 2.0 access token from Azure Active Directory.\r\nThe Username \"serviceaccount@domain.com\" and Password \"TopSecretPassword\" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like \"serviceaccount@domain.com\".\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365LcsApiToken -Username \"serviceaccount@domain.com\" -Password \"TopSecretPassword\" | Set-D365LcsApiConfig\nThis will obtain a valid OAuth 2.0 access token from Azure Active Directory and save the needed details.\r\nThe Username \"serviceaccount@domain.com\" and Password \"TopSecretPassword\" is used in the OAuth 2.0 Grant Flow, to approved that the application should impersonate like \"serviceaccount@domain.com\".\r\nThe output object received from Get-D365LcsApiToken is piped directly to Set-D365LcsApiConfig.\r\nSet-D365LcsApiConfig will save the access_token(BearerToken), refresh_token(RefreshToken) and expires_on(ActiveTokenExpiresOn).\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Get-D365LcsApiToken [[-ClientId] \u003cString\u003e] [-Username] \u003cString\u003e [-Password] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Get-D365LcsApiToken [[-ClientId] \u003cString\u003e] [-Username] \u003cString\u003e [-Password] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365LcsAssetFile",
@@ -2859,7 +2867,7 @@
                        ],
                        [
                            "FileType",
-                           "Type of file you want to list from the LCS Asset Library\nValid options:\r\n\"Model\"\r\n\"Process Data Package\"\r\n\"Software Deployable Package\"\r\n\"GER Configuration\"\r\n\"Data Package\"\r\n\"PowerBI Report Model\"\nDefault value is \"Software Deployable Package\"",
+                           "Type of file you want to list from the LCS Asset Library\nValid options:\r\n\"Model\"\r\n\"Process Data Package\"\r\n\"Software Deployable Package\"\r\n\"GER Configuration\"\r\n\"Data Package\"\r\n\"PowerBI Report Model\"\r\n\"E-Commerce Package\"\r\n\"NuGet Package\"\r\n\"Retail Self-Service Package\"\r\n\"Commerce Cloud Scale Unit Extension\"\nDefault value is \"Software Deployable Package\"",
                            "",
                            false,
                            "false",
@@ -2904,6 +2912,14 @@
                            false,
                            "false",
                            "False"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -2917,7 +2933,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will start the database refresh between the Source and Target environments.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe source environment is identified by the SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\", which can be obtained in the LCS portal.\r\nThe target environment is identified by the TargetEnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage\nThis will list all Software Deployable Packages.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\\Temp\\d365fo.tools -FileName \"Main.zip\" -ShowOriginalProgress\nThis will download the latest Software Deployable Package from the Asset Library in LCS onto your on machine.\r\nIt will list Software Deployable Packages based on the FileType parameter.\r\nIt will list the latest (newest) Software Deployable Package.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Get-D365LcsAssetFile [[-ProjectId] \u003cInt32\u003e] [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | PowerBIReportModel}] [[-AssetName] \u003cString\u003e] [[-AssetVersion] \u003cString\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Get-D365LcsAssetFile [[-ProjectId] \u003cInt32\u003e] [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-AssetName] \u003cString\u003e] [[-AssetVersion] \u003cString\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365LcsAssetValidationStatus",
@@ -2962,6 +2978,14 @@
                            false,
                            "false",
                            "False"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -2978,7 +3002,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsAssetValidationStatus -ProjectId 123456789 -BearerToken \"JldjfafLJdfjlfsalfd...\" -AssetId \"958ae597-f089-4811-abbd-c1190917eaae\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will check the validation status for the file in the Asset Library.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe file is identified by the AssetId \"958ae597-f089-4811-abbd-c1190917eaae\", which is obtained either by earlier upload or simply looking in the LCS portal.\r\nThe request will authenticate with the BearerToken \"Bearer JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsAssetValidationStatus -AssetId \"958ae597-f089-4811-abbd-c1190917eaae\"\nThis will check the validation status for the file in the Asset Library.\r\nThe file is identified by the AssetId \"958ae597-f089-4811-abbd-c1190917eaae\", which is obtained either by earlier upload or simply looking in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsAssetValidationStatus -AssetId \"958ae597-f089-4811-abbd-c1190917eaae\" -WaitForValidation\nThis will check the validation status for the file in the Asset Library.\r\nThe file is identified by the AssetId \"958ae597-f089-4811-abbd-c1190917eaae\", which is obtained either by earlier upload or simply looking in the LCS portal.\r\nThe cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365LcsUpload -FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\" | Get-D365LcsAssetValidationStatus -WaitForValidation\nThis will start the upload of a file to the Asset Library and check the validation status for the file in the Asset Library.\r\nThe file that will be uploaded is based on the FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\".\r\nThe output object received from Invoke-D365LcsUpload is piped directly to Get-D365LcsAssetValidationStatus.\r\nThe cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Get-D365LcsAssetValidationStatus [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-AssetId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-WaitForValidation] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Get-D365LcsAssetValidationStatus [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-AssetId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-WaitForValidation] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365LcsDatabaseBackups",
@@ -3015,6 +3039,14 @@
                            false,
                            "false",
                            "False"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -3028,7 +3060,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseBackups -ProjectId 123456789 -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will get all available database backups from the Asset Library inside LCS.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"Bearer JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseBackups\nThis will get all available database backups from the Asset Library inside LCS.\r\nIt will use default values for all parameters.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseBackups -Latest\nThis will get the latest available database backup from the Asset Library inside LCS.\r\nIt will use default values for all parameters.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Get-D365LcsDatabaseBackups [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Get-D365LcsDatabaseBackups [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365LcsDatabaseOperationStatus",
@@ -3100,6 +3132,14 @@
                            false,
                            "false",
                            "300"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -3116,7 +3156,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseOperationStatus -ProjectId 123456789 -OperationActivityId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"ht\r\ntps://lcsapi.lcs.dynamics.com\"\nThis will check the database operation status of a specific OperationActivityId against an environment.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from executing either the Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseOperationStatus -OperationActivityId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will check the database operation status of a specific OperationActivityId against an environment.\r\nThe OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from executing either the Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsDatabaseOperationStatus -OperationActivityId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -WaitForCompletion\nThis will check the database operation status of a specific OperationActivityId against an environment.\r\nThe OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from executing either the Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the database operation status is either success or failure.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Get-D365LcsDatabaseOperationStatus [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-OperationActivityId] \u003cString\u003e [-EnvironmentId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-WaitForCompletion] [[-SleepInSeconds] \u003cInt32\u003e] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Get-D365LcsDatabaseOperationStatus [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-OperationActivityId] \u003cString\u003e [-EnvironmentId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-WaitForCompletion] [[-SleepInSeconds] \u003cInt32\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365LcsDeploymentStatus",
@@ -3190,6 +3230,14 @@
                            false,
                            "false",
                            "300"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -3206,7 +3254,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsDeploymentStatus -ProjectId 123456789 -ActivityId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -BearerToken \"Bearer JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcs\r\napi.lcs.dynamics.com\"\nThis will check the deployment status of specific activity against an environment.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe activity is identified by the ActivityId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"Bearer JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsDeploymentStatus -ActivityId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will check the deployment status of specific activity against an environment.\r\nThe activity is identified by the ActivityId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsDeploymentStatus -ActivityId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -WaitForCompletion\nThis will check the deployment status of specific activity against an environment.\r\nThe activity is identified by the ActivityId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the deployment is either success or failure.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Get-D365LcsDeploymentStatus [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-ActivityId] \u003cString\u003e [-EnvironmentId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-WaitForCompletion] [[-SleepInSeconds] \u003cInt32\u003e] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Get-D365LcsDeploymentStatus [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-ActivityId] \u003cString\u003e [-EnvironmentId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-WaitForCompletion] [[-SleepInSeconds] \u003cInt32\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365LcsEnvironment",
@@ -6084,6 +6132,14 @@
                            false,
                            "false",
                            ""
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -6100,7 +6156,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsApiRefreshToken -ClientId \"9b4f4503-b970-4ade-abc6-2c086e4c4929\" -RefreshToken \"Tsdljfasfe2j32324\"\nThis will refresh an OAuth 2.0 access token, and obtain a (new) valid OAuth 2.0 access token from Azure Active Directory.\r\nThe ClientId \"9b4f4503-b970-4ade-abc6-2c086e4c4929\" is used in the OAuth 2.0 \"Refresh Token\" Grant Flow to authenticate.\r\nThe RefreshToken \"Tsdljfasfe2j32324\" is used to prove to Azure Active Directoy that we are allowed to obtain a new valid Access Token.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003e$temp = Get-D365LcsApiToken -LcsApiUri \"https://lcsapi.eu.lcs.dynamics.com\" -ClientId \"9b4f4503-b970-4ade-abc6-2c086e4c4929\" -Username \"serviceaccount@domain.com\" -Password \"TopSecretPassword\"\nPS C:\\\u003e $temp = Invoke-D365LcsApiRefreshToken -ClientId \"9b4f4503-b970-4ade-abc6-2c086e4c4929\" -InputObject $temp\nThis will refresh an OAuth 2.0 access token, and obtain a (new) valid OAuth 2.0 access token from Azure Active Directory.\r\nThis will obtain a new token object from the Get-D365LcsApiToken cmdlet and store it in $temp.\r\nThen it will pass $temp to the Invoke-D365LcsApiRefreshToken along with the ClientId \"9b4f4503-b970-4ade-abc6-2c086e4c4929\".\r\nThe new token object will be save into $temp.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsApiConfig | Invoke-D365LcsApiRefreshToken | Set-D365LcsApiConfig\nThis will refresh an OAuth 2.0 access token, and obtain a (new) valid OAuth 2.0 access token from Azure Active Directory.\r\nThis will fetch the current LCS API details from Get-D365LcsApiConfig.\r\nThe output from Get-D365LcsApiConfig is piped directly to Invoke-D365LcsApiRefreshToken, which will fetch a new token object.\r\nThe new token object is piped directly into Set-D365LcsApiConfig, which will save the needed details into the configuration store.",
-        "Syntax":  "Invoke-D365LcsApiRefreshToken -ClientId \u003cString\u003e [-InputObject \u003cPSObject\u003e] [\u003cCommonParameters\u003e]\nInvoke-D365LcsApiRefreshToken -ClientId \u003cString\u003e -RefreshToken \u003cString\u003e [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365LcsApiRefreshToken -ClientId \u003cString\u003e [-InputObject \u003cPSObject\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nInvoke-D365LcsApiRefreshToken -ClientId \u003cString\u003e -RefreshToken \u003cString\u003e [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365LcsDatabaseExport",
@@ -6163,6 +6219,14 @@
                            false,
                            "false",
                            "False"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -6180,7 +6244,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsDatabaseExport -ProjectId 123456789 -SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\" -BackupName \"BackupViaApi\" -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https:\r\n//lcsapi.lcs.dynamics.com\"\nThis will start the database export from the Source environment.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe source environment is identified by the SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\", which can be obtained in the LCS portal.\r\nThe backup name is identified by the BackupName \"BackupViaApi\", which instructs the API to save the backup with that filename.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365LcsDatabaseExport -SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\" -BackupName \"BackupViaApi\"\nThis will start the database export from the Source environment.\r\nThe source environment is identified by the SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\", which can be obtained in the LCS portal.\r\nThe backup name is identified by the BackupName \"BackupViaApi\", which instructs the API to save the backup with that filename.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003e$databaseExport = Invoke-D365LcsDatabaseExport -SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\" -BackupName \"BackupViaApi\" -SkipInitialStatusFetch\nPS C:\\\u003e $databaseExport | Get-D365LcsDatabaseOperationStatus -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e9\" -SleepInSeconds 60\nThis will start the database export from the Source environment.\r\nThe source environment is identified by the SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\", which can be obtained in the LCS portal.\r\nThe backup name is identified by the BackupName \"BackupViaApi\", which instructs the API to save the backup with that filename.\r\nIt will skip the first database operation status fetch and only output the details from starting the export.\nThe output from Invoke-D365LcsDatabaseExport is stored in the $databaseExport. This will enable you to pass the $databaseExport variable to other cmdlets which should make things easier for you.\nWill pipe the $databaseExport variable to the Get-D365LcsDatabaseOperationStatus cmdlet and get the status from the database export job.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365LcsDatabaseExport -SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\" -BackupName \"BackupViaApi\" -SkipInitialStatusFetch\nThis will start the database export from the Source environment.\r\nThe source environment is identified by the SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\", which can be obtained in the LCS portal.\r\nThe backup name is identified by the BackupName \"BackupViaApi\", which instructs the API to save the backup with that filename.\r\nIt will skip the first database operation status fetch and only output the details from starting the export.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Invoke-D365LcsDatabaseExport [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-SourceEnvironmentId] \u003cString\u003e [-BackupName] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-SkipInitialStatusFetch] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365LcsDatabaseExport [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-SourceEnvironmentId] \u003cString\u003e [-BackupName] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-SkipInitialStatusFetch] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365LcsDatabaseRefresh",
@@ -6244,6 +6308,14 @@
                            false,
                            "false",
                            "False"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -6260,7 +6332,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsDatabaseRefresh -ProjectId 123456789 -SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\" -TargetEnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -BearerToken \"JldjfafL\r\nJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will start the database refresh between the Source and Target environments.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe source environment is identified by the SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\", which can be obtained in the LCS portal.\r\nThe target environment is identified by the TargetEnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365LcsDatabaseRefresh -SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\" -TargetEnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will start the database refresh between the Source and Target environments.\r\nThe source environment is identified by the SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\", which can be obtained in the LCS portal.\r\nThe target environment is identified by the TargetEnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003e$databaseRefresh = Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\" -TargetEnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -SkipInitialStatusFetch\nPS C:\\\u003e $databaseRefresh | Get-D365LcsDatabaseOperationStatus -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e9\" -SleepInSeconds 60\nThis will start the database refresh between the Source and Target environments.\r\nThe source environment is identified by the SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\", which can be obtained in the LCS portal.\r\nThe target environment is identified by the TargetEnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nIt will skip the first database refesh status fetch and only output the details from starting the refresh.\nThe output from Invoke-D365LcsDatabaseRefresh is stored in the $databaseRefresh. This will enable you to pass the $databaseRefresh variable to other cmdlets which should make things easier for you.\nWill pipe the $databaseRefresh variable to the Get-D365LcsDatabaseOperationStatus cmdlet and get the status from the database refresh job.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n$databaseRefresh = Invoke-D365LcsDatabaseRefresh -SourceEnvironmentId be9aa4a4-7621-4b7e-b6f5-d518bf0012de -TargetEnvironmentId 43bcc00a-d94c-47cd-a20f-3c7aee98b5a9\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365LcsDatabaseRefresh -SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\" -TargetEnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -SkipInitialStatusFetch\nThis will start the database refresh between the Source and Target environments.\r\nThe source environment is identified by the SourceEnvironmentId \"958ae597-f089-4811-abbd-c1190917eaae\", which can be obtained in the LCS portal.\r\nThe target environment is identified by the TargetEnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nIt will skip the first database refesh status fetch and only output the details from starting the refresh.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Invoke-D365LcsDatabaseRefresh [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-SourceEnvironmentId] \u003cString\u003e [-TargetEnvironmentId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-SkipInitialStatusFetch] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365LcsDatabaseRefresh [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-SourceEnvironmentId] \u003cString\u003e [-TargetEnvironmentId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-SkipInitialStatusFetch] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365LcsDeployment",
@@ -6326,6 +6398,14 @@
                            false,
                            "false",
                            "$Script:LcsApiLcsApiUri"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -6342,7 +6422,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsDeployment -ProjectId 123456789 -AssetId \"958ae597-f089-4811-abbd-c1190917eaae\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -BearerToken \"Bearer JldjfafLJdfjlfsalfd...\" \r\n-LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will start the deployment of the file located in the Asset Library.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe file is identified by the AssetId \"958ae597-f089-4811-abbd-c1190917eaae\", which is obtained either by earlier upload or simply looking in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"Bearer JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365LcsDeployment -AssetId \"958ae597-f089-4811-abbd-c1190917eaae\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will start the deployment of the file located in the Asset Library.\r\nThe file is identified by the AssetId \"958ae597-f089-4811-abbd-c1190917eaae\", which is obtained either by earlier upload or simply looking in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365LcsDeployment -AssetId \"958ae597-f089-4811-abbd-c1190917eaae\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -UpdateName \"Release_XYZ\"\nThis will start the deployment of the file located in the Asset Library against a Self-Service environment.\r\nThe file is identified by the AssetId \"958ae597-f089-4811-abbd-c1190917eaae\", which is obtained either by earlier upload or simply looking in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe deployment is name \"Release_XYZ\" by setting the UpdateName parameter, which is mandatory when working against Self-Service environments.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Invoke-D365LcsDeployment [-ProjectId \u003cInt32\u003e] -AssetId \u003cString\u003e -EnvironmentId \u003cString\u003e [-BearerToken \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [\u003cCommonParameters\u003e]\nInvoke-D365LcsDeployment [-ProjectId \u003cInt32\u003e] -AssetId \u003cString\u003e -EnvironmentId \u003cString\u003e -UpdateName \u003cString\u003e [-BearerToken \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365LcsDeployment [-ProjectId \u003cInt32\u003e] -AssetId \u003cString\u003e -EnvironmentId \u003cString\u003e [-BearerToken \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nInvoke-D365LcsDeployment [-ProjectId \u003cInt32\u003e] -AssetId \u003cString\u003e -EnvironmentId \u003cString\u003e -UpdateName \u003cString\u003e [-BearerToken \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365LcsUpload",
@@ -6385,7 +6465,7 @@
                        ],
                        [
                            "FileType",
-                           "Type of file you want to upload\nValid options:\r\n\"Model\"\r\n\"Process Data Package\"\r\n\"Software Deployable Package\"\r\n\"GER Configuration\"\r\n\"Data Package\"\r\n\"PowerBI Report Model\"\nDefault value is \"Software Deployable Package\"",
+                           "Type of file you want to upload\nValid options:\r\n\"Model\"\r\n\"Process Data Package\"\r\n\"Software Deployable Package\"\r\n\"GER Configuration\"\r\n\"Data Package\"\r\n\"PowerBI Report Model\"\r\n\"E-Commerce Package\"\r\n\"NuGet Package\"\r\n\"Retail Self-Service Package\"\r\n\"Commerce Cloud Scale Unit Extension\"\nDefault value is \"Software Deployable Package\"",
                            "",
                            false,
                            "false",
@@ -6414,6 +6494,14 @@
                            false,
                            "false",
                            "$Script:LcsApiLcsApiUri"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
@@ -6430,7 +6518,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsUpload -ProjectId 123456789 -BearerToken \"Bearer JldjfafLJdfjlfsalfd...\" -FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\" -FileType \"SoftwareDeployablePackage\" -FileName \"R\r\nelease-2019-05-05\" -FileDescription \"Build based on sprint: SuperSprint-1\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will start the upload of a file to the Asset Library.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe file that will be uploaded is based on the FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\".\r\nThe file type \"Software Deployable Package\" determines where inside the Asset Library the file will end up.\r\nThe name inside the Asset Library is based on the FileName \"Release-2019-05-05\".\r\nThe description inside the Asset Library is based on the FileDescription \"Build based on sprint: SuperSprint-1\".\r\nThe request will authenticate with the BearerToken \"Bearer JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365LcsUpload -FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\" -FileType \"SoftwareDeployablePackage\" -FileName \"Release-2019-05-05\"\nThis will start the upload of a file to the Asset Library.\r\nThe file that will be uploaded is based on the FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\".\r\nThe file type \"Software Deployable Package\" determines where inside the Asset Library the file will end up.\r\nThe name inside the Asset Library is based on the FileName \"Release-2019-05-05\".\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365LcsUpload -FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\"\nThis will start the upload of a file to the Asset Library.\r\nThe file that will be uploaded is based on the FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\".\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Invoke-D365LcsUpload [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-FilePath] \u003cString\u003e [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | PowerBIReportModel}] [[-FileName] \u003cString\u003e] [[-FileDescription] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365LcsUpload [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-FilePath] \u003cString\u003e [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-FileName] \u003cString\u003e] [[-FileDescription] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365LogicApp",
