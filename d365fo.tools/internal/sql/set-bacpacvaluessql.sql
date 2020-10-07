@@ -20,14 +20,27 @@ EXEC sp_addrolemember 'db_datareader', 'axmrruntimeuser'
 EXEC sp_addrolemember 'db_datawriter', 'axmrruntimeuser'
 
 CREATE USER axretaildatasyncuser FROM LOGIN axretaildatasyncuser
-EXEC sp_addrolemember 'DataSyncUsersRole', 'axretaildatasyncuser'
+IF DATABASE_PRINCIPAL_ID('DataSyncUsersRole') IS NOT NULL
+BEGIN
+    EXEC sp_addrolemember 'DataSyncUsersRole', 'axretaildatasyncuser'
+END
 
 CREATE USER axretailruntimeuser FROM LOGIN axretailruntimeuser
-EXEC sp_addrolemember 'UsersRole', 'axretailruntimeuser'
-EXEC sp_addrolemember 'ReportUsersRole', 'axretailruntimeuser'
+IF (DATABASE_PRINCIPAL_ID('UsersRole') IS NOT NULL
+BEGIN
+    EXEC sp_addrolemember 'UsersRole', 'axretailruntimeuser'
+    
+END
+IF (DATABASE_PRINCIPAL_ID('ReportUsersRole') IS NOT NULL
+BEGIN
+    EXEC sp_addrolemember 'ReportUsersRole', 'axretailruntimeuser'
+END
 
 CREATE USER axdeployextuser FROM LOGIN axdeployextuser
-EXEC sp_addrolemember 'DeployExtensibilityRole', 'axdeployextuser'
+IF (DATABASE_PRINCIPAL_ID('DeployExtensibilityRole') IS NOT NULL
+BEGIN
+    EXEC sp_addrolemember 'DeployExtensibilityRole', 'axdeployextuser'
+END
 
 CREATE USER [NT AUTHORITY\NETWORK SERVICE] FROM LOGIN [NT AUTHORITY\NETWORK SERVICE]
 EXEC sp_addrolemember 'db_owner', 'NT AUTHORITY\NETWORK SERVICE'
