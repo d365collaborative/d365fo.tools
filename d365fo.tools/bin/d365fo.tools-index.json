@@ -4520,6 +4520,86 @@
         "Syntax":  "Get-D365WindowsActivationStatus [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Import-D365AadApplication",
+        "Description":  "Provides a method for importing a AAD application into D365FO.",
+        "Tags":  [
+                     "User",
+                     "Users",
+                     "Security",
+                     "Configuration",
+                     "Permission",
+                     "AAD",
+                     "Azure Active Directory",
+                     "Group",
+                     "Groups"
+                 ],
+        "Params":  [
+                       [
+                           "Name",
+                           "The name that the imported application should have inside the D365FO environment",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "UserId",
+                           "The id of the user linked to the application inside the D365FO environment",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClientId",
+                           "The Client ID that the imported application should use inside the D365FO environment",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "DatabaseServer",
+                           "The name of the database server\nIf on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)\nIf Azure use the full address to the database server, e.g. server.database.windows.net",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseServer"
+                       ],
+                       [
+                           "DatabaseName",
+                           "The name of the database",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseName"
+                       ],
+                       [
+                           "SqlUser",
+                           "The login name for the SQL Server instance",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseUserName"
+                       ],
+                       [
+                           "SqlPwd",
+                           "The password for the SQL Server user",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseUserPassword"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Gert Van Der Heyden (@gertvdheyden)",
+        "Synopsis":  "Used to import Aad applications into D365FO",
+        "Name":  "Import-D365AadApplication",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365AadApplication -Name \"Application1\" -UserId \"admin\" -ClientId \"aef2e67c-64a3-4c72-9294-d288c5bf503d\"\nImports Application1 as an application linked to user admin into the D365FO environment.",
+        "Syntax":  "Import-D365AadApplication [-Name] \u003cString\u003e [-UserId] \u003cString\u003e [-ClientId] \u003cString\u003e [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Import-D365AadUser",
         "Description":  "Provides a method for importing a AAD UserGroup or a comma separated list of AadUsers into D365FO.",
         "Tags":  [
