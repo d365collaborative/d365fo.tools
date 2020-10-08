@@ -57,16 +57,12 @@ function Import-D365AadApplication {
         [Parameter(Mandatory = $true)]
         [string] $ClientId,
 
-        [Parameter(Mandatory = $false)]
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false)]
         [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false)]
         [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false)]
         [string] $SqlPwd = $Script:DatabaseUserPassword
     )
 
@@ -76,7 +72,7 @@ function Import-D365AadApplication {
         SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
-    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection    
+    $SqlCommand = Get-SqlCommand @SqlParams -TrustedConnection $UseTrustedConnection
 
     try {
         $sqlCommand.Connection.Open()

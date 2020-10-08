@@ -22,7 +22,7 @@
         PS C:\> $SqlCommand = Get-SqlCommand -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
         PS C:\> New-D365FOAadApplication -SqlCommand $SqlCommand -Name "Application1" -UserId "admin" -ClientId "aef2e67c-64a3-4c72-9294-d288c5bf503d"
         This will get a SqlCommand object that will connect to the localhost server and the AXDB database, with the sql credential "User123".
-        The SqlCommand object is passed to the New-D365FOAadApplication along with all the necessary details for importing Application1 as an application linked to user admin into the D365FO environment. 
+        The SqlCommand object is passed to the New-D365FOAadApplication along with all the necessary details for importing Application1 as an application linked to user admin into the D365FO environment.
         
     .NOTES
         Author: Gert Van Der Heyden (@gertvdheyden)

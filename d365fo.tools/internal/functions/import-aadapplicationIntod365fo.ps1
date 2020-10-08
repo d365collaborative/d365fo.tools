@@ -39,7 +39,7 @@ function Import-AadApplicationIntoD365FO {
         [string] $UserId,
 
         [string] $ClientId
-    )  
+    )
 
     Write-PSFMessage -Level Verbose -Message "Testing the userid $UserId"
 
@@ -47,13 +47,11 @@ function Import-AadApplicationIntoD365FO {
 
     if ($idExists -eq $true) {
 
-        New-D365FOAadApplication $sqlCommand $Name $UserId $ClientId 
+        New-D365FOAadApplication $sqlCommand $Name $UserId $ClientId
 
-        Write-PSFMessage -Level Host -Message "Application $Name for user $UserId added to D365FO"        
+        Write-PSFMessage -Level Host -Message "Application $Name for user $UserId added to D365FO"
     }
     else {
         Write-PSFMessage -Level Host -Message "An User with ID = '$UserId' does not exists"
     }
-
-    
 }
