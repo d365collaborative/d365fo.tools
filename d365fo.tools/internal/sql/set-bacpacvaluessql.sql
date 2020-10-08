@@ -20,24 +20,24 @@ EXEC sp_addrolemember 'db_datareader', 'axmrruntimeuser'
 EXEC sp_addrolemember 'db_datawriter', 'axmrruntimeuser'
 
 CREATE USER axretaildatasyncuser FROM LOGIN axretaildatasyncuser
-IF DATABASE_PRINCIPAL_ID('DataSyncUsersRole') IS NOT NULL
+IF (DATABASE_PRINCIPAL_ID('DataSyncUsersRole') IS NOT NULL)
 BEGIN
     EXEC sp_addrolemember 'DataSyncUsersRole', 'axretaildatasyncuser'
 END
 
 CREATE USER axretailruntimeuser FROM LOGIN axretailruntimeuser
-IF (DATABASE_PRINCIPAL_ID('UsersRole') IS NOT NULL
+IF (DATABASE_PRINCIPAL_ID('UsersRole') IS NOT NULL)
 BEGIN
     EXEC sp_addrolemember 'UsersRole', 'axretailruntimeuser'
     
 END
-IF (DATABASE_PRINCIPAL_ID('ReportUsersRole') IS NOT NULL
+IF (DATABASE_PRINCIPAL_ID('ReportUsersRole') IS NOT NULL)
 BEGIN
     EXEC sp_addrolemember 'ReportUsersRole', 'axretailruntimeuser'
 END
 
 CREATE USER axdeployextuser FROM LOGIN axdeployextuser
-IF (DATABASE_PRINCIPAL_ID('DeployExtensibilityRole') IS NOT NULL
+IF (DATABASE_PRINCIPAL_ID('DeployExtensibilityRole') IS NOT NULL)
 BEGIN
     EXEC sp_addrolemember 'DeployExtensibilityRole', 'axdeployextuser'
 END
