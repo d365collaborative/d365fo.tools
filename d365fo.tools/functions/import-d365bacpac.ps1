@@ -104,6 +104,13 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
+        PS C:\> Invoke-D365InstallSqlPackage
+
+        You should always install the latest version of the SqlPackage.exe, which is used by New-D365Bacpac.
+
+        This will fetch the latest .Net Core Version of SqlPackage.exe and install it at "C:\temp\d365fo.tools\SqlPackage".
+    
+    .EXAMPLE
         PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
         PS C:\> Switch-D365ActiveDatabase -NewDatabaseName "ImportedDatabase"
         
