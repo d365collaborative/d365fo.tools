@@ -61,8 +61,9 @@ function Clear-D365TableDataFromBacpac {
         [Parameter(Mandatory = $true)]
         [string[]] $TableName,
 
-        [Parameter(Mandatory = $true)]
-        [string] $OutputPath
+        [string] $OutputPath,
+
+        [switch] $ClearFromSource
     )
     
     begin {
@@ -71,29 +72,51 @@ function Clear-D365TableDataFromBacpac {
         $compressPath = ""
         $newFilename = ""
 
-        if ($OutputPath -like "*.bacpac") {
-            $compressPath = $OutputPath.Replace(".bacpac", ".zip")
-            $newFilename = Split-Path -Path $OutputPath -Leaf
+        if ($ClearFromSource) {
+            $compressPath = $Path.Replace(".bacpac", ".zip")
+            $newFilename = Split-Path -Path $compressPath -Leaf
+
+            Write-PSFMessage -Level Verbose -Message "Renaming the file '$Path' to '$compressPath'."
+            Rename-Item -Path $Path -NewName $newFilename
+
+            $newFilename = $newFilename.Replace(".zip", ".bacpac")
         }
         else {
-            $compressPath = $OutputPath
+            if ($OutputPath -like "*.bacpac") {
+                $compressPath = $OutputPath.Replace(".bacpac", ".zip")
+                $newFilename = Split-Path -Path $OutputPath -Leaf
+            }
+            else {
+                $compressPath = $OutputPath
+            }
+
+            if (-not (Test-PathExists -Path $compressPath -Type Leaf -ShouldNotExist)) {
+                Write-PSFMessage -Level Host -Message "The <c='em'>$compressPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$compressPath</c> file."
+                return
+            }
+
+            if (-not (Test-PathExists -Path $OutputPath -Type Leaf -ShouldNotExist)) {
+                Write-PSFMessage -Level Host -Message "The <c='em'>$OutputPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$OutputPath</c> file."
+                return
+            }
+
+            Write-PSFMessage -Level Verbose -Message "Copying the file from '$Path' to '$compressPath'"
+            Copy-Item -Path $Path -Destination $compressPath
+            Write-PSFMessage -Level Verbose -Message "Copying was completed."
+
+            if (Test-PSFFunctionInterrupt) { return }
         }
 
-        if (-not (Test-PathExists -Path $compressPath -Type Leaf -ShouldNotExist)) {
-            Write-PSFMessage -Level Host -Message "The <c='em'>$compressPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$compressPath</c> file."
-            return
-        }
-
-        if (-not (Test-PathExists -Path $OutputPath -Type Leaf -ShouldNotExist)) {
-            Write-PSFMessage -Level Host -Message "The <c='em'>$OutputPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$OutputPath</c> file."
-            return
-        }
-
-        Copy-Item -Path $Path -Destination $compressPath
-
-        if (Test-PSFFunctionInterrupt) { return }
-
+        Write-PSFMessage -Level Verbose -Message "Opening the file '$Path'."
         $zipFileMetadata = [System.IO.Compression.ZipFile]::Open($compressPath, [System.IO.Compression.ZipArchiveMode]::Update)
+        Write-PSFMessage -Level Verbose -Message "File '$Path' was read succesfully."
+
+        if ($null -eq $zipFileMetadata) {
+            $messageString = "Unable to open the file <c='em'>$compressPath</c>."
+            Write-PSFMessage -Level Host -Message $messageString
+            Stop-PSFFunction -Message "Stopping because the file couldn't be opened." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
+            return
+        }
     }
     
     process {
@@ -109,24 +132,34 @@ function Clear-D365TableDataFromBacpac {
                 $fullTableName = $table
             }
 
+            Write-PSFMessage -Level Verbose -Message "Looking for $fullTableName."
+
             $entries = $zipFileMetadata.Entries | Where-Object Fullname -like "Data/*$fullTableName*"
 
             if ($entries.Count -lt 1) {
-                Write-PSFMessage -Level Host -Message "The <c='em'>$table</c> wasn't found. Please ensure that the <c='em'>schema</c> or <c='em'>name</c> is correct."
-                Stop-PSFFunction -Message "Stopping because table was not present."
-                return
+                Write-PSFMessage -Level Warning -Message "The $table wasn't found. Please ensure that the schema or name is correct."
             }
+            else {
+                for ($i = 0; $i -lt $entries.Count; $i++) {
+                    Write-PSFMessage -Level Verbose -Message "Removing $($entries[$i]) from the file."
 
-            for ($i = 0; $i -lt $entries.Count; $i++) {
-                $entries[$i].delete()
+                    $entries[$i].delete()
+                }
             }
         }
     }
     
     end {
+        Write-PSFMessage -Level Verbose -Message "Search completed."
+
         $res = @{ }
 
-        $zipFileMetadata.Dispose()
+        if ($null -ne $zipFileMetadata) {
+            Write-PSFMessage -Level Verbose -Message "Closing and saving the file."
+            $zipFileMetadata.Dispose()
+        }
+        
+        if (Test-PSFFunctionInterrupt) { return }
 
         if ($newFilename -ne "") {
             Rename-Item -Path $compressPath -NewName $newFilename
