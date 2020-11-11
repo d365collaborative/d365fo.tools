@@ -1,34 +1,35 @@
-﻿<#
-.SYNOPSIS
-Import certificates for RSAT
-
-.DESCRIPTION
-Import the certificates for RSAT into the correct stores and display the thumbprint
-
-When working with self-service environments you need to download a zip file from LCS. The zip file needs to be unblocked and then extracted into a folder, with only the .cer and the .pxf files inside
-
-.PARAMETER Path
-Path to the folder where the .cer and .pxf files are located
-
-The files needs to be extracted from the zip archive
-
-.PARAMETER Password
-Password for the .pxf file
-
-Working with self-service environments, the password will be displayed during the download of the zip archive
-
-.EXAMPLE
-PS C:\> Import-D365RsatSelfServiceCertificates -Path "C:\Temp\UAT" -Password "123456789"
-
-This will import the .cer and .pxf files into the correct stored, bases on the files located in "C:\Temp\UAT".
-After import it will display the thumbprint for both certificates.
-
-Sample output:
-[23:43:05][Import-D365RsatSelfServiceCertificates] Pfx Thumbprint:  B4D6921321434235463463414312343253523A05
-[23:43:05][Import-D365RsatSelfServiceCertificates] Cert Thumbprint: B4D6921321434235463463414312343253523A05
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
+﻿
+<#
+    .SYNOPSIS
+        Import certificates for RSAT
+        
+    .DESCRIPTION
+        Import the certificates for RSAT into the correct stores and display the thumbprint
+        
+        When working with self-service environments you need to download a zip file from LCS. The zip file needs to be unblocked and then extracted into a folder, with only the .cer and the .pxf files inside
+        
+    .PARAMETER Path
+        Path to the folder where the .cer and .pxf files are located
+        
+        The files needs to be extracted from the zip archive
+        
+    .PARAMETER Password
+        Password for the .pxf file
+        
+        Working with self-service environments, the password will be displayed during the download of the zip archive
+        
+    .EXAMPLE
+        PS C:\> Import-D365RsatSelfServiceCertificates -Path "C:\Temp\UAT" -Password "123456789"
+        
+        This will import the .cer and .pxf files into the correct stored, bases on the files located in "C:\Temp\UAT".
+        After import it will display the thumbprint for both certificates.
+        
+        Sample output:
+        [23:43:05][Import-D365RsatSelfServiceCertificates] Pfx Thumbprint:  B4D6921321434235463463414312343253523A05
+        [23:43:05][Import-D365RsatSelfServiceCertificates] Cert Thumbprint: B4D6921321434235463463414312343253523A05
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
 #>
 function Import-D365RsatSelfServiceCertificates {
     [CmdletBinding()]
