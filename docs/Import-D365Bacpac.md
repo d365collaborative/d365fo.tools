@@ -50,6 +50,15 @@ Import a bacpac file to either a Tier1 or Tier2 environment
 
 ### EXAMPLE 1
 ```
+Invoke-D365InstallSqlPackage
+```
+
+You should always install the latest version of the SqlPackage.exe, which is used by New-D365Bacpac.
+
+This will fetch the latest .Net Core Version of SqlPackage.exe and install it at "C:\temp\d365fo.tools\SqlPackage".
+
+### EXAMPLE 2
+```
 Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
 ```
 
@@ -60,7 +69,7 @@ It will import the "C:\temp\uat.bacpac" file into a new database named "Imported
 The next thing to do is to switch the active database out with the new one you just imported.
 "ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
 
-### EXAMPLE 2
+### EXAMPLE 3
 ```
 Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -AxDbReadonlyUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
 ```
@@ -73,7 +82,7 @@ It will import the "C:\temp\uat.bacpac" file into a new database named "Imported
 The next thing to do is to switch the active database out with the new one you just imported.
 "ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt"
 ```
@@ -82,7 +91,7 @@ This will instruct the cmdlet that the import will be working against a SQL Serv
 It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
 It will output a diagnostic file to "C:\temp\ImportLog.txt".
 
-### EXAMPLE 4
+### EXAMPLE 5
 ```
 Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt" -MaxParallelism 32
 ```
@@ -93,7 +102,7 @@ It will output a diagnostic file to "C:\temp\ImportLog.txt".
 
 It will use 32 connections against the database server while importing the bacpac file.
 
-### EXAMPLE 5
+### EXAMPLE 6
 ```
 Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -ImportOnly
 ```
