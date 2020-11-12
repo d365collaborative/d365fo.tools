@@ -32,7 +32,7 @@
 		, @{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
 		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.3.0' }
 		, @{ ModuleName = 'ImportExcel'; ModuleVersion = '7.1.0' }
-		, @{ ModuleName = 'PKI'; ModuleVersion = '1.0'}
+		, @{ ModuleName = 'PKI'; ModuleVersion = '1.0.0.0'}
 	)
 	
 
