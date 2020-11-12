@@ -32,6 +32,9 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 function Import-D365RsatSelfServiceCertificates {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
