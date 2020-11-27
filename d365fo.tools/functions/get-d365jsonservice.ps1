@@ -118,12 +118,10 @@ function Get-D365JsonService {
     $res = Invoke-RestMethod -Method Get -Uri $Url -Headers $headers
 
     if (-not $RawOutput) {
-        $resFull = $res.ServiceGroups | Sort-Object Name
-
-        $res = $resFull | Where-Object { $_ -Like $Name }
+        $res = $res.ServiceGroups | Where-Object { $_.Name -Like $Name -or $_.Name -eq $Name } | Sort-Object Name
     }
     else {
-        $res.ServiceGroups = @($res.ServiceGroups | Where-Object { $_.Name -Like $Name })
+        $res.ServiceGroups = @($res.ServiceGroups | Where-Object { $_.Name -Like $Name -or $_.Name -eq $Name }) | Sort-Object Name
     }
 
     if ($OutputAsJson) {
