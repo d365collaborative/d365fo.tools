@@ -107,7 +107,7 @@
 						'Get-D365EnvironmentConfig',
 						'Get-D365EnvironmentSettings',
 						'Get-D365EventTraceProvider',
-						'Get-D365ExposedService',
+						'Get-D365JsonService',
 
 						'Get-D365InstalledHotfix',
 						'Get-D365InstalledPackageOld',
