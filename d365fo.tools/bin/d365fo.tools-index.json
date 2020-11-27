@@ -2356,57 +2356,6 @@
         "Syntax":  "Get-D365EventTraceProvider [[-Name] \u003cString[]\u003e] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365ExposedService",
-        "Description":  "Function for getting which services there are exposed from D365",
-        "Tags":  [
-                     "DMF",
-                     "OData",
-                     "RestApi",
-                     "Data Management Framework"
-                 ],
-        "Params":  [
-                       [
-                           "ClientId",
-                           "Client Id from the AppRegistration",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "ClientSecret",
-                           "Client Secret from the AppRegistration",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "D365FO",
-                           "Url fro the D365 including Https://",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "Authority",
-                           "The Authority to issue the token",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Rasmus Andersen (@ITRasmus)",
-        "Synopsis":  "Returns Exposed services",
-        "Name":  "Get-D365ExposedService",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365ExposedService -ClientId \"MyClientId\" -ClientSecret \"MyClientSecret\"\nThis will show a list of all the services that the D365FO instance is exposing.",
-        "Syntax":  "Get-D365ExposedService [-ClientId] \u003cString\u003e [-ClientSecret] \u003cString\u003e [[-D365FO] \u003cString\u003e] [[-Authority] \u003cString\u003e] [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Get-D365InstalledHotfix",
         "Description":  "Get all relevant details for installed hotfix",
         "Tags":  [
@@ -2549,6 +2498,81 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365InstanceName\nThis will get the service name that the environment has configured",
         "Syntax":  "Get-D365InstanceName [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365JsonService",
+        "Description":  "Get Json based services that are available from a Dynamics 365 Finance \u0026 Operations environment",
+        "Tags":  [
+                     "DMF",
+                     "OData",
+                     "RestApi",
+                     "Data Management Framework"
+                 ],
+        "Params":  [
+                       [
+                           "Name",
+                           "The name of the json service that you are looking for\nDefault value is \"*\" to display all json services",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "Url",
+                           "URL / URI for the D365FO environment you want to access\nIf you are working against a D365FO instance, it will be the URL / URI for the instance itself\nIf you are working against a D365 Talent / HR instance, this will have to be \"http://hr.talent.dynamics.com\"",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Tenant",
+                           "Azure Active Directory (AAD) tenant id (Guid) that the D365FO environment is connected to, that you want to access",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClientId",
+                           "The ClientId obtained from the Azure Portal when you created a Registered Application",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClientSecret",
+                           "The ClientSecret obtained from the Azure Portal when you created a Registered Application",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "RawOutput",
+                           "Instructs the cmdlet to include the outer structure of the response received from the endpoint\nThe output will still be a PSCustomObject",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "OutputAsJson",
+                           "Instructs the cmdlet to convert the output to a Json string",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get Json based service",
+        "Name":  "Get-D365JsonService",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365JsonService -Url \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" -ClientSecret \"Vja\r\n/VmdxaLOPR+alkjfsadffelkjlfw234522\"\nThis will get all available service groups for the D365FO instance.\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\".\r\nIt will authenticate againt the \"https://login.microsoftonline.com/e674da86-7ee5-40a7-b777-1111111111111/oauth2/token\" url with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecret parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365JsonService -Name \"*TS*\" -Url \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" -Clie\r\nntSecret \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\"\nThis will get all available service groups for the D365FO instance, which matches the \"*TS*\" as a name.\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\".\r\nIt will authenticate againt the \"https://login.microsoftonline.com/e674da86-7ee5-40a7-b777-1111111111111/oauth2/token\" url with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecret parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".\r\nIt will limit the output to only those matching the specified Name parameter: \"*TS*\"\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365JsonService -Url \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" -ClientSecret \"Vja\r\n/VmdxaLOPR+alkjfsadffelkjlfw234522\" -RawOutput\nThis will get all available service groups for the D365FO instance with the outer most hierarchy.\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\".\r\nIt will authenticate againt the \"https://login.microsoftonline.com/e674da86-7ee5-40a7-b777-1111111111111/oauth2/token\" url with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecret parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365JsonService -Url \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" -ClientSecret \"Vja\r\n/VmdxaLOPR+alkjfsadffelkjlfw234522\" -OutputAsJson\nThis will get all available service groups for the D365FO instance and display the result as json.\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\".\r\nIt will authenticate againt the \"https://login.microsoftonline.com/e674da86-7ee5-40a7-b777-1111111111111/oauth2/token\" url with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecret parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".",
+        "Syntax":  "Get-D365JsonService [[-Name] \u003cString\u003e] [-Url] \u003cString\u003e [-Tenant] \u003cString\u003e [-ClientId] \u003cString\u003e [-ClientSecret] \u003cString\u003e [-RawOutput] [-OutputAsJson] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365Label",
