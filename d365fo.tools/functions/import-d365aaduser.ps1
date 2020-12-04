@@ -307,6 +307,13 @@ function Import-D365AadUser {
             else {
                 $id = $IdPrefix + $user.GivenName
             }
+            
+            if ($id.Length -gt 20) {
+                $oldId = $id
+                $id = $id -replace '^(.{0,20}).*','$1'
+                Write-PSFMessage -Level Verbose -Message "The id '$oldId' does not fit the 20 character limit on UserInfo table's ID field and will be truncated to '$id'"
+            }
+            
             Write-PSFMessage -Level Verbose -Message "Id for user $($user.Mail) : $id"
 
             $name = ""
