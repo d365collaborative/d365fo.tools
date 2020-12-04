@@ -134,18 +134,18 @@ function Send-D365BroadcastMessage {
         [switch] $OnPremise = $Script:BroadcastOnPremise
     )
 
-     $bearerParms = @{
-            Resource        = $URL
-            ClientId        = $ClientId
-            ClientSecret    = $ClientSecret
+    $URL = $URL -replace "/$", ""
+
+    $bearerParms = @{
+        Resource     = $URL
+        ClientId     = $ClientId
+        ClientSecret = $ClientSecret
     }
 
-    if ($OnPremise)
-    {
+    if ($OnPremise) {
         $bearerParms.AuthProviderUri = "$Tenant/oauth2/token"
     }
-    else
-    {
+    else {
         $bearerParms.AuthProviderUri = "https://login.microsoftonline.com/$Tenant/oauth2/token"
     }
 
@@ -160,12 +160,10 @@ function Send-D365BroadcastMessage {
 
     [System.UriBuilder] $messageEndpoint = $URL
 
-    if($OnPremise)
-    {
+    if ($OnPremise) {
         $messageEndpoint.Path = "namespaces/AXSF/api/services/SysBroadcastMessageServices/SysBroadcastMessageService/AddMessage"
     }
-    else
-    {
+    else {
         $messageEndpoint.Path = "api/services/SysBroadcastMessageServices/SysBroadcastMessageService/AddMessage"
     }
 

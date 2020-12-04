@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-	ModuleVersion     = '0.6.33'
+	ModuleVersion     = '0.6.35'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -32,6 +32,7 @@
 		, @{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
 		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.3.0' }
 		, @{ ModuleName = 'ImportExcel'; ModuleVersion = '7.1.0' }
+		, @{ ModuleName = 'PKI'; ModuleVersion = '1.0'}
 	)
 	
 
@@ -106,7 +107,7 @@
 						'Get-D365EnvironmentConfig',
 						'Get-D365EnvironmentSettings',
 						'Get-D365EventTraceProvider',
-						'Get-D365ExposedService',
+						'Get-D365JsonService',
 
 						'Get-D365InstalledHotfix',
 						'Get-D365InstalledPackageOld',
@@ -168,6 +169,7 @@
 						'Import-D365Bacpac',
 						'Import-D365Model',
 						'Import-D365ExternalUser',
+						'Import-D365RsatSelfServiceCertificates',
 						
 						'Initialize-D365RsatCertificate',
 
