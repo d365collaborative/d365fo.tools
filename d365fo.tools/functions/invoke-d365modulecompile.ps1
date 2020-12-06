@@ -34,6 +34,9 @@
         
         Default path is the same as the aos service PackagesLocalDirectory\bin
         
+    .PARAMETER XRefGeneration
+        Instruct the cmdlet to enable the generation of XRef metadata while running the compile
+
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -58,6 +61,15 @@
         This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
         The output from the compile will be written to the console / host.
         
+        .EXAMPLE
+        PS C:\> Invoke-D365ModuleCompile -Module MyModel -XRefGeneration
+        
+        This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
+        The default output from the compile will be silenced.
+        The compiler will generate XRef metadata while compiling.
+        
+        If an error should occur, both the standard output and error output will be written to the console / host.
+     
     .NOTES
         Tags: Compile, Model, Servicing, X++
         
@@ -85,6 +97,8 @@ function Invoke-D365ModuleCompile {
         [string] $ReferenceDir = $Script:MetaDataDir,
 
         [string] $BinDir = $Script:BinDirTools,
+
+        [switch] $XRefGeneration,
 
         [switch] $ShowOriginalProgress,
 
@@ -123,6 +137,10 @@ function Invoke-D365ModuleCompile {
             "-xref",
             "-verbose"
         )
+
+        if ($XRefGeneration) {
+            $params += "-xref"
+        }
 
         Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $logDirModule
 
