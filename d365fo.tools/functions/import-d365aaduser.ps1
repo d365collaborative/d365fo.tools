@@ -105,6 +105,7 @@
         Author: Rasmus Andersen (@ITRasmus)
         Author: Charles Colombel (@dropshind)
         Author: Mötz Jensen (@Splaxi)
+        Author: Miklós Molnár (@scifimiki)
         
         At no circumstances can this cmdlet be used to import users into a PROD environment.
         
