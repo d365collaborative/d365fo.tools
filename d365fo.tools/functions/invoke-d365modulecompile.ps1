@@ -36,7 +36,7 @@
         
     .PARAMETER XRefGeneration
         Instruct the cmdlet to enable the generation of XRef metadata while running the compile
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -61,7 +61,7 @@
         This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
         The output from the compile will be written to the console / host.
         
-        .EXAMPLE
+    .EXAMPLE
         PS C:\> Invoke-D365ModuleCompile -Module MyModel -XRefGeneration
         
         This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
@@ -69,7 +69,7 @@
         The compiler will generate XRef metadata while compiling.
         
         If an error should occur, both the standard output and error output will be written to the console / host.
-     
+        
     .NOTES
         Tags: Compile, Model, Servicing, X++
         
