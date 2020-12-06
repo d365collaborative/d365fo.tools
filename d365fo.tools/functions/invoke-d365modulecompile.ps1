@@ -120,6 +120,7 @@ function Invoke-D365ModuleCompile {
             "-referencefolder=`"$ReferenceDir`"",
             "-log=`"$logFile`"",
             "-xmlLog=`"$logXmlFile`"",
+            "-xref",
             "-verbose"
         )
 
