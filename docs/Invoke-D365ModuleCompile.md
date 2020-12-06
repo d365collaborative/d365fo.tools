@@ -14,8 +14,8 @@ Compile a package / module / model
 
 ```
 Invoke-D365ModuleCompile [-Module] <String> [[-OutputDir] <String>] [[-LogPath] <String>]
- [[-MetaDataDir] <String>] [[-ReferenceDir] <String>] [[-BinDir] <String>] [-ShowOriginalProgress]
- [-OutputCommandOnly] [<CommonParameters>]
+ [[-MetaDataDir] <String>] [[-ReferenceDir] <String>] [[-BinDir] <String>] [-XRefGeneration]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,6 +40,17 @@ Invoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress
 
 This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
 The output from the compile will be written to the console / host.
+
+### EXAMPLE 3
+```
+Invoke-D365ModuleCompile -Module MyModel -XRefGeneration
+```
+
+This will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.
+The default output from the compile will be silenced.
+The compiler will generate XRef metadata while compiling.
+
+If an error should occur, both the standard output and error output will be written to the console / host.
 
 ## PARAMETERS
 
@@ -139,6 +150,21 @@ Aliases:
 Required: False
 Position: 6
 Default value: $Script:BinDirTools
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -XRefGeneration
+Instruct the cmdlet to enable the generation of XRef metadata while running the compile
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
