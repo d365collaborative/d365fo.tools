@@ -76,6 +76,8 @@
         Author: Ievgen Miroshnikov (@IevgenMir)
         
         Author: Mötz Jensen (@Splaxi)
+
+        Author: Frank Hüther (@FrankHuether)
 #>
 
 function Invoke-D365ModuleCompile {

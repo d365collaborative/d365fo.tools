@@ -6819,6 +6819,14 @@
                            "$Script:BinDirTools"
                        ],
                        [
+                           "XRefGeneration",
+                           "Instruct the cmdlet to enable the generation of XRef metadata while running the compile",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -6840,8 +6848,8 @@
         "Synopsis":  "Compile a package / module / model",
         "Name":  "Invoke-D365ModuleCompile",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe output from the compile will be written to the console / host.",
-        "Syntax":  "Invoke-D365ModuleCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe output from the compile will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -XRefGeneration\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\r\nThe compiler will generate XRef metadata while compiling.\nIf an error should occur, both the standard output and error output will be written to the console / host.",
+        "Syntax":  "Invoke-D365ModuleCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-XRefGeneration] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365ModuleFullCompile",
