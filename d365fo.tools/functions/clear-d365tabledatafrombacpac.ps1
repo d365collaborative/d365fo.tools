@@ -37,12 +37,22 @@
     .EXAMPLE
         PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "dbo.BATCHHISTORY","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
         
-        This will remove the data from the BatchJobHistory table from inside the bacpac file.
+        This will remove the data from the dbo.BatchHistory and BatchJobHistory table from inside the bacpac file.
         
         It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
         It uses "dbo.BATCHHISTORY","BATCHJOBHISTORY" as the TableName to delete data from.
         It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
         
+    .EXAMPLE
+        PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "CustomTableNameThatDoesNotExists","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac" -ErrorAction SilentlyContinue
+        
+        This will remove the data from the BatchJobHistory table from inside the bacpac file.
+        
+        It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
+        It uses "CustomTableNameThatDoesNotExists","BATCHJOBHISTORY" as the TableName to delete data from.
+        It respects the respects the ErrorAction "SilentlyContinue", and will continue removing tables from the bacpac file, even when some tables are missing.
+        It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
+
     .NOTES
         Tags: Bacpac, Servicing, Data, Deletion, SqlPackage
         
@@ -113,7 +123,7 @@ function Clear-D365TableDataFromBacpac {
 
             if ($entries.Count -lt 1) {
                 Write-PSFMessage -Level Host -Message "The <c='em'>$table</c> wasn't found. Please ensure that the <c='em'>schema</c> or <c='em'>name</c> is correct."
-                Stop-PSFFunction -Message "Stopping because table was not present."
+                Stop-PSFFunction -Message "Stopping because table was not present." -WarningAction $ErrorActionPreference -ErrorAction
                 return
             }
 
