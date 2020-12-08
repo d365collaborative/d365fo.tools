@@ -52,7 +52,7 @@
         It uses "CustomTableNameThatDoesNotExists","BATCHJOBHISTORY" as the TableName to delete data from.
         It respects the respects the ErrorAction "SilentlyContinue", and will continue removing tables from the bacpac file, even when some tables are missing.
         It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
-
+        
     .NOTES
         Tags: Bacpac, Servicing, Data, Deletion, SqlPackage
         
