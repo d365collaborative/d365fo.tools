@@ -27,9 +27,9 @@
         
     .PARAMETER ClearFromSource
         Instruct the cmdlet to delete tables directly from the source file
-
+        
         It will save disk space and time, because it doesn't have to create a copy of the bacpac file, before deleting tables from it
-
+        
     .EXAMPLE
         PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
         
