@@ -61,7 +61,7 @@
 #>
 
 function Clear-D365TableDataFromBacpac {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = "Copy")]
     param (
         [Parameter(Mandatory = $true)]
         [Alias('File')]
@@ -71,8 +71,10 @@ function Clear-D365TableDataFromBacpac {
         [Parameter(Mandatory = $true)]
         [string[]] $TableName,
 
+        [Parameter(Mandatory = $true, ParameterSetName = "Copy")]
         [string] $OutputPath,
 
+        [Parameter(Mandatory = $true, ParameterSetName = "Keep")]
         [switch] $ClearFromSource
     )
     
@@ -148,8 +150,14 @@ function Clear-D365TableDataFromBacpac {
 
             if ($entries.Count -lt 1) {
                 Write-PSFMessage -Level Host -Message "The <c='em'>$table</c> wasn't found. Please ensure that the <c='em'>schema</c> or <c='em'>name</c> is correct."
-                Stop-PSFFunction -Message "Stopping because table was not present." -WarningAction $ErrorActionPreference -ErrorAction
-                return
+                
+                $parms = @{Message = "Stopping because table was not present." }
+                if ($ErrorActionPreference -eq "SilentlyContinue") {
+                    $parms.WarningAction = $ErrorActionPreference
+                    $parms.ErrorAction = $null
+                }
+
+                Stop-PSFFunction @parms
             }
             else {
                 for ($i = 0; $i -lt $entries.Count; $i++) {
@@ -171,8 +179,6 @@ function Clear-D365TableDataFromBacpac {
             $zipFileMetadata.Dispose()
         }
         
-        if (Test-PSFFunctionInterrupt) { return }
-
         if ($newFilename -ne "") {
             Rename-Item -Path $compressPath -NewName $newFilename
             $res.File = Join-path -Path $(Split-Path -Path $compressPath -Parent) -ChildPath $newFilename
@@ -182,6 +188,8 @@ function Clear-D365TableDataFromBacpac {
             $res.File = $compressPath
             $res.Filename = $(Split-Path -Path $compressPath -Leaf)
         }
+
+        if (Test-PSFFunctionInterrupt) { return }
 
         [PSCustomObject]$res
     }
