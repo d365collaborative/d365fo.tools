@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-	ModuleVersion     = '0.6.33'
+	ModuleVersion     = '0.6.38'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -106,7 +106,7 @@
 						'Get-D365EnvironmentConfig',
 						'Get-D365EnvironmentSettings',
 						'Get-D365EventTraceProvider',
-						'Get-D365ExposedService',
+						'Get-D365JsonService',
 
 						'Get-D365InstalledHotfix',
 						'Get-D365InstalledPackageOld',
@@ -168,6 +168,7 @@
 						'Import-D365Bacpac',
 						'Import-D365Model',
 						'Import-D365ExternalUser',
+						'Import-D365RsatSelfServiceCertificates',
 						
 						'Initialize-D365RsatCertificate',
 

@@ -42,10 +42,22 @@ It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store t
 Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "dbo.BATCHHISTORY","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
 ```
 
-This will remove the data from the BatchJobHistory table from inside the bacpac file.
+This will remove the data from the dbo.BatchHistory and BatchJobHistory table from inside the bacpac file.
 
 It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
 It uses "dbo.BATCHHISTORY","BATCHJOBHISTORY" as the TableName to delete data from.
+It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
+
+### EXAMPLE 3
+```
+Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "CustomTableNameThatDoesNotExists","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac" -ErrorAction SilentlyContinue
+```
+
+This will remove the data from the BatchJobHistory table from inside the bacpac file.
+
+It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
+It uses "CustomTableNameThatDoesNotExists","BATCHJOBHISTORY" as the TableName to delete data from.
+It respects the respects the ErrorAction "SilentlyContinue", and will continue removing tables from the bacpac file, even when some tables are missing.
 It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
 
 ## PARAMETERS

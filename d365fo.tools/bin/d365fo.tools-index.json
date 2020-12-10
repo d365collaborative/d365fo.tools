@@ -583,7 +583,7 @@
         "Synopsis":  "Clear out data for a table inside the bacpac file",
         "Name":  "Clear-D365TableDataFromBacpac",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eClear-D365TableDataFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"BATCHJOBHISTORY\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\"\nThis will remove the data from the BatchJobHistory table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"BATCHJOBHISTORY\" as the TableName to delete data from.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eClear-D365TableDataFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"dbo.BATCHHISTORY\",\"BATCHJOBHISTORY\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\"\nThis will remove the data from the BatchJobHistory table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"dbo.BATCHHISTORY\",\"BATCHJOBHISTORY\" as the TableName to delete data from.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eClear-D365TableDataFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"BATCHJOBHISTORY\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\"\nThis will remove the data from the BatchJobHistory table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"BATCHJOBHISTORY\" as the TableName to delete data from.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eClear-D365TableDataFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"dbo.BATCHHISTORY\",\"BATCHJOBHISTORY\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\"\nThis will remove the data from the dbo.BatchHistory and BatchJobHistory table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"dbo.BATCHHISTORY\",\"BATCHJOBHISTORY\" as the TableName to delete data from.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eClear-D365TableDataFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"CustomTableNameThatDoesNotExists\",\"BATCHJOBHISTORY\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\" -ErrorAction SilentlyContinue\nThis will remove the data from the BatchJobHistory table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"CustomTableNameThatDoesNotExists\",\"BATCHJOBHISTORY\" as the TableName to delete data from.\r\nIt respects the respects the ErrorAction \"SilentlyContinue\", and will continue removing tables from the bacpac file, even when some tables are missing.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.",
         "Syntax":  "Clear-D365TableDataFromBacpac [-Path] \u003cString\u003e [-TableName] \u003cString[]\u003e [-OutputPath] \u003cString\u003e [\u003cCommonParameters\u003e]"
     },
     {
@@ -2356,57 +2356,6 @@
         "Syntax":  "Get-D365EventTraceProvider [[-Name] \u003cString[]\u003e] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365ExposedService",
-        "Description":  "Function for getting which services there are exposed from D365",
-        "Tags":  [
-                     "DMF",
-                     "OData",
-                     "RestApi",
-                     "Data Management Framework"
-                 ],
-        "Params":  [
-                       [
-                           "ClientId",
-                           "Client Id from the AppRegistration",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "ClientSecret",
-                           "Client Secret from the AppRegistration",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "D365FO",
-                           "Url fro the D365 including Https://",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "Authority",
-                           "The Authority to issue the token",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Rasmus Andersen (@ITRasmus)",
-        "Synopsis":  "Returns Exposed services",
-        "Name":  "Get-D365ExposedService",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365ExposedService -ClientId \"MyClientId\" -ClientSecret \"MyClientSecret\"\nThis will show a list of all the services that the D365FO instance is exposing.",
-        "Syntax":  "Get-D365ExposedService [-ClientId] \u003cString\u003e [-ClientSecret] \u003cString\u003e [[-D365FO] \u003cString\u003e] [[-Authority] \u003cString\u003e] [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Get-D365InstalledHotfix",
         "Description":  "Get all relevant details for installed hotfix",
         "Tags":  [
@@ -2549,6 +2498,81 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365InstanceName\nThis will get the service name that the environment has configured",
         "Syntax":  "Get-D365InstanceName [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365JsonService",
+        "Description":  "Get Json based services that are available from a Dynamics 365 Finance \u0026 Operations environment",
+        "Tags":  [
+                     "DMF",
+                     "OData",
+                     "RestApi",
+                     "Data Management Framework"
+                 ],
+        "Params":  [
+                       [
+                           "Name",
+                           "The name of the json service that you are looking for\nDefault value is \"*\" to display all json services",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "Url",
+                           "URL / URI for the D365FO environment you want to access\nIf you are working against a D365FO instance, it will be the URL / URI for the instance itself\nIf you are working against a D365 Talent / HR instance, this will have to be \"http://hr.talent.dynamics.com\"",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Tenant",
+                           "Azure Active Directory (AAD) tenant id (Guid) that the D365FO environment is connected to, that you want to access",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClientId",
+                           "The ClientId obtained from the Azure Portal when you created a Registered Application",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClientSecret",
+                           "The ClientSecret obtained from the Azure Portal when you created a Registered Application",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "RawOutput",
+                           "Instructs the cmdlet to include the outer structure of the response received from the endpoint\nThe output will still be a PSCustomObject",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "OutputAsJson",
+                           "Instructs the cmdlet to convert the output to a Json string",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get Json based service",
+        "Name":  "Get-D365JsonService",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365JsonService -Url \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" -ClientSecret \"Vja\r\n/VmdxaLOPR+alkjfsadffelkjlfw234522\"\nThis will get all available service groups for the D365FO instance.\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\".\r\nIt will authenticate againt the \"https://login.microsoftonline.com/e674da86-7ee5-40a7-b777-1111111111111/oauth2/token\" url with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecret parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365JsonService -Name \"*TS*\" -Url \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" -Clie\r\nntSecret \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\"\nThis will get all available service groups for the D365FO instance, which matches the \"*TS*\" as a name.\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\".\r\nIt will authenticate againt the \"https://login.microsoftonline.com/e674da86-7ee5-40a7-b777-1111111111111/oauth2/token\" url with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecret parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".\r\nIt will limit the output to only those matching the specified Name parameter: \"*TS*\"\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365JsonService -Url \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" -ClientSecret \"Vja\r\n/VmdxaLOPR+alkjfsadffelkjlfw234522\" -RawOutput\nThis will get all available service groups for the D365FO instance with the outer most hierarchy.\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\".\r\nIt will authenticate againt the \"https://login.microsoftonline.com/e674da86-7ee5-40a7-b777-1111111111111/oauth2/token\" url with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecret parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365JsonService -Url \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" -ClientSecret \"Vja\r\n/VmdxaLOPR+alkjfsadffelkjlfw234522\" -OutputAsJson\nThis will get all available service groups for the D365FO instance and display the result as json.\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\".\r\nIt will authenticate againt the \"https://login.microsoftonline.com/e674da86-7ee5-40a7-b777-1111111111111/oauth2/token\" url with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecret parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".",
+        "Syntax":  "Get-D365JsonService [[-Name] \u003cString\u003e] [-Url] \u003cString\u003e [-Tenant] \u003cString\u003e [-ClientId] \u003cString\u003e [-ClientSecret] \u003cString\u003e [-RawOutput] [-OutputAsJson] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365Label",
@@ -4954,7 +4978,7 @@
         "Synopsis":  "Import a bacpac file",
         "Name":  "Import-D365Bacpac",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\"\nPS C:\\\u003e Switch-D365ActiveDatabase -NewDatabaseName \"ImportedDatabase\"\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nThe next thing to do is to switch the active database out with the new one you just imported.\r\n\"ImportedDatabase\" will be switched in as the active database, while the old one will be named \"AXDB_original\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier2 -SqlUser \"sqladmin\" -SqlPwd \"XyzXyz\" -BacpacFile \"C:\\temp\\uat.bacpac\" -AxDeployExtUserPwd \"XxXx\" -AxDbAdminPwd \"XxXx\" -AxRuntimeUserPwd \"XxXx\" -AxMrRuntimeUse\r\nrPwd \"XxXx\" -AxRetailRuntimeUserPwd \"XxXx\" -AxRetailDataSyncUserPwd \"XxXx\" -AxDbReadonlyUserPwd \"XxXx\" -NewDatabaseName \"ImportedDatabase\"\nPS C:\\\u003e Switch-D365ActiveDatabase -NewDatabaseName \"ImportedDatabase\" -SqlUser \"sqladmin\" -SqlPwd \"XyzXyz\"\nThis will instruct the cmdlet that the import will be working against an Azure DB instance.\r\nIt requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2 environment.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nThe next thing to do is to switch the active database out with the new one you just imported.\r\n\"ImportedDatabase\" will be switched in as the active database, while the old one will be named \"AXDB_original\".\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\" -DiagnosticFile \"C:\\temp\\ImportLog.txt\"\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nIt will output a diagnostic file to \"C:\\temp\\ImportLog.txt\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\" -DiagnosticFile \"C:\\temp\\ImportLog.txt\" -MaxParallelism 32\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nIt will output a diagnostic file to \"C:\\temp\\ImportLog.txt\".\nIt will use 32 connections against the database server while importing the bacpac file.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\" -ImportOnly\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nNo cleanup or prepping jobs will be executed, because this is for importing only.\nThis would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.\r\nYou would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage\nYou should always install the latest version of the SqlPackage.exe, which is used by New-D365Bacpac.\nThis will fetch the latest .Net Core Version of SqlPackage.exe and install it at \"C:\\temp\\d365fo.tools\\SqlPackage\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\"\nPS C:\\\u003e Switch-D365ActiveDatabase -NewDatabaseName \"ImportedDatabase\"\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nThe next thing to do is to switch the active database out with the new one you just imported.\r\n\"ImportedDatabase\" will be switched in as the active database, while the old one will be named \"AXDB_original\".\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier2 -SqlUser \"sqladmin\" -SqlPwd \"XyzXyz\" -BacpacFile \"C:\\temp\\uat.bacpac\" -AxDeployExtUserPwd \"XxXx\" -AxDbAdminPwd \"XxXx\" -AxRuntimeUserPwd \"XxXx\" -AxMrRuntimeUse\r\nrPwd \"XxXx\" -AxRetailRuntimeUserPwd \"XxXx\" -AxRetailDataSyncUserPwd \"XxXx\" -AxDbReadonlyUserPwd \"XxXx\" -NewDatabaseName \"ImportedDatabase\"\nPS C:\\\u003e Switch-D365ActiveDatabase -NewDatabaseName \"ImportedDatabase\" -SqlUser \"sqladmin\" -SqlPwd \"XyzXyz\"\nThis will instruct the cmdlet that the import will be working against an Azure DB instance.\r\nIt requires all relevant passwords from LCS for all the builtin user accounts used in a Tier 2 environment.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nThe next thing to do is to switch the active database out with the new one you just imported.\r\n\"ImportedDatabase\" will be switched in as the active database, while the old one will be named \"AXDB_original\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\" -DiagnosticFile \"C:\\temp\\ImportLog.txt\"\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nIt will output a diagnostic file to \"C:\\temp\\ImportLog.txt\".\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\" -DiagnosticFile \"C:\\temp\\ImportLog.txt\" -MaxParallelism 32\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nIt will output a diagnostic file to \"C:\\temp\\ImportLog.txt\".\nIt will use 32 connections against the database server while importing the bacpac file.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eImport-D365Bacpac -ImportModeTier1 -BacpacFile \"C:\\temp\\uat.bacpac\" -NewDatabaseName \"ImportedDatabase\" -ImportOnly\nThis will instruct the cmdlet that the import will be working against a SQL Server instance.\r\nIt will import the \"C:\\temp\\uat.bacpac\" file into a new database named \"ImportedDatabase\".\r\nNo cleanup or prepping jobs will be executed, because this is for importing only.\nThis would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.\r\nYou would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.",
         "Syntax":  "Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-BacpacFile] \u003cString\u003e [-NewDatabaseName] \u003cString\u003e [-CustomSqlFile \u003cString\u003e] [-ModelFile \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] [-ImportOnly] [-MaxParallelism \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]\nImport-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [-SqlUser] \u003cString\u003e [-SqlPwd] \u003cString\u003e [-BacpacFile] \u003cString\u003e [-NewDatabaseName] \u003cString\u003e [[-AxDeployExtUserPwd] \u003cString\u003e] [[-AxDbAdminPwd] \u003cString\u003e] [[-AxRuntimeUserPwd] \u003cString\u003e] [[-AxMrRuntimeUserPwd] \u003cString\u003e] [[-AxRetailRuntimeUserPwd] \u003cString\u003e] [[-AxRetailDataSyncUserPwd] \u003cString\u003e] [[-AxDbReadonlyUserPwd] \u003cString\u003e] [-CustomSqlFile \u003cString\u003e] [-ModelFile \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] -ImportOnly [-MaxParallelism \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-Ena\r\nbleException] [\u003cCommonParameters\u003e]\nImport-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [-SqlUser] \u003cString\u003e [-SqlPwd] \u003cString\u003e [-BacpacFile] \u003cString\u003e [-NewDatabaseName] \u003cString\u003e [-AxDeployExtUserPwd] \u003cString\u003e [-AxDbAdminPwd] \u003cString\u003e [-AxRuntimeUserPwd] \u003cString\u003e [-AxMrRuntimeUserPwd] \u003cString\u003e [-AxRetailRuntimeUserPwd] \u003cString\u003e [-AxRetailDataSyncUserPwd] \u003cString\u003e [-AxDbReadonlyUserPwd] \u003cString\u003e [-CustomSqlFile \u003cString\u003e] [-ModelFile \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] [-MaxParallelism \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonPara\r\nmeters\u003e]"
     },
     {
@@ -5137,6 +5161,35 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365Model -Path c:\\temp\\d365fo.tools\\CustomModel.axmodel\nThis will import the \"c:\\temp\\d365fo.tools\\CustomModel.axmodel\" model into the PackagesLocalDirectory location.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eImport-D365Model -Path c:\\temp\\d365fo.tools\\CustomModel.axmodel -Replace\nThis will import the \"c:\\temp\\d365fo.tools\\CustomModel.axmodel\" model into the PackagesLocalDirectory location.\r\nIf the model already exists it will replace it.",
         "Syntax":  "Import-D365Model [-Path] \u003cString\u003e [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [-Replace] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Import-D365RsatSelfServiceCertificates",
+        "Description":  "Import the certificates for RSAT into the correct stores and display the thumbprint\n\nWhen working with self-service environments you need to download a zip file from LCS. The zip file needs to be unblocked and then extracted into a folder, with only the .cer and the .pxf files inside",
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the folder where the .cer and .pxf files are located\nThe files needs to be extracted from the zip archive",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Password",
+                           "Password for the .pxf file\nWorking with self-service environments, the password will be displayed during the download of the zip archive",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Import certificates for RSAT",
+        "Name":  "Import-D365RsatSelfServiceCertificates",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365RsatSelfServiceCertificates -Path \"C:\\Temp\\UAT\" -Password \"123456789\"\nThis will import the .cer and .pxf files into the correct stored, bases on the files located in \"C:\\Temp\\UAT\".\r\nAfter import it will display the thumbprint for both certificates.\nSample output:\r\n[23:43:05][Import-D365RsatSelfServiceCertificates] Pfx Thumbprint:  B4D6921321434235463463414312343253523A05\r\n[23:43:05][Import-D365RsatSelfServiceCertificates] Cert Thumbprint: B4D6921321434235463463414312343253523A05",
+        "Syntax":  "Import-D365RsatSelfServiceCertificates [-Path] \u003cObject\u003e [-Password] \u003cObject\u003e [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Initialize-D365RsatCertificate",
@@ -6766,6 +6819,14 @@
                            "$Script:BinDirTools"
                        ],
                        [
+                           "XRefGeneration",
+                           "Instruct the cmdlet to enable the generation of XRef metadata while running the compile",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -6787,8 +6848,8 @@
         "Synopsis":  "Compile a package / module / model",
         "Name":  "Invoke-D365ModuleCompile",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe output from the compile will be written to the console / host.",
-        "Syntax":  "Invoke-D365ModuleCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe output from the compile will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -XRefGeneration\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\r\nThe compiler will generate XRef metadata while compiling.\nIf an error should occur, both the standard output and error output will be written to the console / host.",
+        "Syntax":  "Invoke-D365ModuleCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-XRefGeneration] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365ModuleFullCompile",
@@ -7813,7 +7874,7 @@
         "Synopsis":  "Generate a bacpac file from a database",
         "Name":  "New-D365Bacpac",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier1 -BackupDirectory c:\\Temp\\backup\\ -NewDatabaseName Testing1 -BacpacFile \"C:\\Temp\\Bacpac\\Testing1.bacpac\"\nWill backup the \"AXDB\" database and restore is as \"Testing1\" again the localhost SQL Server.\r\nWill run the prepping process against the restored database.\r\nWill export a bacpac file to \"C:\\Temp\\Bacpac\\Testing1.bacpac\".\r\nWill delete the restored database.\r\nIt will use trusted connection (Windows authentication) while working against the SQL Server.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier2 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd \"Password123\" -NewDatabaseName Testing1 -BacpacFile C:\\Temp\\Bacpac\\Testing1.bacpac\nWill create a copy the db database on the dbserver1 in Azure.\r\nWill run the prepping process against the copy database.\r\nWill export a bacpac file.\r\nWill delete the copy database.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd \"Password123\" -NewDatabaseName Testing1 -BacpacFile \"C:\\Temp\\Bacpac\\Testing1.bacpac\"\nNormally used for a Tier-2 export and preparation for Tier-1 import\nWill create a copy of the registered D365 database on the registered D365 Azure SQL DB instance.\r\nWill run the prepping process against the copy database.\r\nWill export a bacpac file.\r\nWill delete the copy database.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd \"Password123\" -NewDatabaseName Testing1 -BacpacFile C:\\Temp\\Bacpac\\Testing1.bacpac -ExportOnly\nWill export a bacpac file.\r\nThe bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier1 -BackupDirectory c:\\Temp\\backup\\ -NewDatabaseName Testing1 -BacpacFile \"C:\\Temp\\Bacpac\\Testing1.bacpac\" -DiagnosticFile \"C:\\temp\\ExportLog.txt\"\nWill backup the \"AXDB\" database and restore is as \"Testing1\" again the localhost SQL Server.\r\nWill run the prepping process against the restored database.\r\nWill export a bacpac file to \"C:\\Temp\\Bacpac\\Testing1.bacpac\".\r\nWill delete the restored database.\r\nIt will use trusted connection (Windows authentication) while working against the SQL Server.\nIt will output a diagnostic file to \"C:\\temp\\ExportLog.txt\".\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier1 -BackupDirectory c:\\Temp\\backup\\ -NewDatabaseName Testing1 -BacpacFile \"C:\\Temp\\Bacpac\\Testing1.bacpac\" -MaxParallelism 32\nWill backup the \"AXDB\" database and restore is as \"Testing1\" again the localhost SQL Server.\r\nWill run the prepping process against the restored database.\r\nWill export a bacpac file to \"C:\\Temp\\Bacpac\\Testing1.bacpac\".\r\nWill delete the restored database.\r\nIt will use trusted connection (Windows authentication) while working against the SQL Server.\nIt will use 32 connections against the database server while generating the bacpac file.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage\nYou should always install the latest version of the SqlPackage.exe, which is used by New-D365Bacpac.\nThis will fetch the latest .Net Core Version of SqlPackage.exe and install it at \"C:\\temp\\d365fo.tools\\SqlPackage\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier1 -BackupDirectory c:\\Temp\\backup\\ -NewDatabaseName Testing1 -BacpacFile \"C:\\Temp\\Bacpac\\Testing1.bacpac\"\nWill backup the \"AXDB\" database and restore is as \"Testing1\" again the localhost SQL Server.\r\nWill run the prepping process against the restored database.\r\nWill export a bacpac file to \"C:\\Temp\\Bacpac\\Testing1.bacpac\".\r\nWill delete the restored database.\r\nIt will use trusted connection (Windows authentication) while working against the SQL Server.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier2 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd \"Password123\" -NewDatabaseName Testing1 -BacpacFile C:\\Temp\\Bacpac\\Testing1.bacpac\nWill create a copy the db database on the dbserver1 in Azure.\r\nWill run the prepping process against the copy database.\r\nWill export a bacpac file.\r\nWill delete the copy database.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd \"Password123\" -NewDatabaseName Testing1 -BacpacFile \"C:\\Temp\\Bacpac\\Testing1.bacpac\"\nNormally used for a Tier-2 export and preparation for Tier-1 import\nWill create a copy of the registered D365 database on the registered D365 Azure SQL DB instance.\r\nWill run the prepping process against the copy database.\r\nWill export a bacpac file.\r\nWill delete the copy database.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd \"Password123\" -NewDatabaseName Testing1 -BacpacFile C:\\Temp\\Bacpac\\Testing1.bacpac -ExportOnly\nWill export a bacpac file.\r\nThe bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier1 -BackupDirectory c:\\Temp\\backup\\ -NewDatabaseName Testing1 -BacpacFile \"C:\\Temp\\Bacpac\\Testing1.bacpac\" -DiagnosticFile \"C:\\temp\\ExportLog.txt\"\nWill backup the \"AXDB\" database and restore is as \"Testing1\" again the localhost SQL Server.\r\nWill run the prepping process against the restored database.\r\nWill export a bacpac file to \"C:\\Temp\\Bacpac\\Testing1.bacpac\".\r\nWill delete the restored database.\r\nIt will use trusted connection (Windows authentication) while working against the SQL Server.\nIt will output a diagnostic file to \"C:\\temp\\ExportLog.txt\".\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eNew-D365Bacpac -ExportModeTier1 -BackupDirectory c:\\Temp\\backup\\ -NewDatabaseName Testing1 -BacpacFile \"C:\\Temp\\Bacpac\\Testing1.bacpac\" -MaxParallelism 32\nWill backup the \"AXDB\" database and restore is as \"Testing1\" again the localhost SQL Server.\r\nWill run the prepping process against the restored database.\r\nWill export a bacpac file to \"C:\\Temp\\Bacpac\\Testing1.bacpac\".\r\nWill delete the restored database.\r\nIt will use trusted connection (Windows authentication) while working against the SQL Server.\nIt will use 32 connections against the database server while generating the bacpac file.",
         "Syntax":  "New-D365Bacpac [-ExportModeTier2] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [-SqlUser] \u003cString\u003e [-SqlPwd] \u003cString\u003e [[-NewDatabaseName] \u003cString\u003e] [[-BacpacFile] \u003cString\u003e] [[-CustomSqlFile] \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] [-ExportOnly] [-MaxParallelism \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]\nNew-D365Bacpac [-ExportModeTier1] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-BackupDirectory] \u003cString\u003e] [[-NewDatabaseName] \u003cString\u003e] [[-BacpacFile] \u003cString\u003e] [[-CustomSqlFile] \u003cString\u003e] [-DiagnosticFile \u003cString\u003e] [-ExportOnly] [-MaxParallelism \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
