@@ -77,6 +77,7 @@
 						'Export-D365Model',
 						'Export-D365ModelFileFromBacpac',
 						'Export-D365SecurityDetails',
+						'Export-D365TableDataFromBacpac',
 
 						'Find-D365Command',
 
@@ -177,6 +178,8 @@
 						'Invoke-D365AzureStorageDownload',
 						'Invoke-D365AzureStorageUpload',
 
+						'Invoke-D365BulkImportTableData',
+						
 						'Invoke-D365CompilerResultAnalyzer',
 						
 						'Invoke-D365DataFlush',
