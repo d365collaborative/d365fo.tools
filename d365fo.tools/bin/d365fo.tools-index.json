@@ -1394,6 +1394,52 @@
         "Syntax":  "Export-D365SecurityDetails [-FilePath] \u003cString\u003e [[-OutputDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Export-D365TableDataFromBacpac",
+        "Description":  "Export all data for a table inside a bacpac file into a directory\n\nIt will convert the bacpac file to a zip archive, locate the desired table and extract all the bulk files for that specific table\n\nIt will revert the zip back to bacpac file for you\n\nCaution:\nWorking against big bacpac files (10+ GB) will put pressure on your memory consumption on the machine where you run this command",
+        "Tags":  [
+                     "Bacpac",
+                     "Servicing",
+                     "Data",
+                     "SqlPackage",
+                     "Bulk",
+                     "Export",
+                     "Extract"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the bacpac file that you want to work against",
+                           "BacpacFile,File",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "TableName",
+                           "Name of the table that you want to export the data from\nSupports an array of table names\nIf a schema name isn\u0027t supplied as part of the table name, the cmdlet will prefix it with \"dbo.\"",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "OutputPath",
+                           "Path to where you want the bulk data exported to be saved",
+                           "",
+                           false,
+                           "false",
+                           "$(Join-Path $Script:DefaultTempPath \"BacpacTables\")"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Export data from a table inside the bacpac file",
+        "Name":  "Export-D365TableDataFromBacpac",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eExport-D365TableDataFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"BATCHJOBHISTORY\" -OutputPath \"C:\\Temp\\Extract\"\nThis will extract the bulk data from the BatchJobHistory table from inside the bacpac file and output it to \"C:\\Temp\\Extract\".\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"BATCHJOBHISTORY\" as the TableName to extract data from, and will default to the \"dbo\" schema.\r\nIt uses \"C:\\Temp\\Extract\\dbo.BatchJobHistory\" as the OutputPath to where it will store the extracted bulk data file(s).",
+        "Syntax":  "Export-D365TableDataFromBacpac [-Path] \u003cString\u003e [-TableName] \u003cString[]\u003e [[-OutputPath] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Find-D365Command",
         "Description":  "Finds d365fo.tools commands searching through the inline help text, building a consolidated json index and querying it because Get-Help is too slow",
         "Tags":  [
@@ -5631,6 +5677,81 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365BestPractice -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.\r\nThe default output will be silenced.\r\nThe XML log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.xml\".\r\nThe log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.log\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365BestPractice -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -PackagesRoot\nThis will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.\r\nWe use the binary metadata to look for the module and model.\r\nThe default output will be silenced.\r\nThe XML log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.xml\".\r\nThe log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.log\".\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365BestPractice -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -ShowOriginalProgress\nThis will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.\r\nThe output from the best practice check process will be written to the console / host.\r\nThe XML log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.xml\".\r\nThe log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.log\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365BestPractice -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -RunFixers\nThis will execute the best practice checks against MyOverLayerModel in the ApplicationSuite Module.\r\nThe default output will be silenced.\r\nThe XML log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.xml\".\r\nThe log file will be written to \"c:\\temp\\d365fo.tools\\ApplicationSuite\\Dynamics.AX.MyOverLayerModel.xppbp.log\".\r\nInstructs the xppbp tool to run the fixers for all identified warnings.",
         "Syntax":  "Invoke-D365BestPractice [-Module] \u003cString\u003e [-Model] \u003cString\u003e [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [-PackagesRoot] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-RunFixers] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365BulkImportTableData",
+        "Description":  "Import bulk data into a table in the Dynamics 365 Finance \u0026 Operations database",
+        "Tags":  [
+                     "Bulk",
+                     "Data",
+                     "Import",
+                     "bacpac"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the folder containing the bulk files that you want to import into the table",
+                           "BacpacFile,File",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "TableName",
+                           "Name of the table that you want to import data into\nCaution:\r\nYou will need to delete or truncate the table you want to bulk import into. If you don\u0027t, you might experience issues while inserting new records, if you have conflicting id\u0027s in the table",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Schema",
+                           "Name of the schema that you are trying to import into\nDefault value is \"dbo\"",
+                           "",
+                           false,
+                           "false",
+                           "dbo"
+                       ],
+                       [
+                           "DatabaseServer",
+                           "The name of the database server\nIf on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).\nIf Azure use the full address to the database server, e.g. server.database.windows.net",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseServer"
+                       ],
+                       [
+                           "DatabaseName",
+                           "The name of the database",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseName"
+                       ],
+                       [
+                           "ShowOriginalProgress",
+                           "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "OutputCommandOnly",
+                           "Instruct the cmdlet to only output the command that you would have to execute by hand\nWill include full path to the executable and the needed parameters based on your selection",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Import data into a table",
+        "Name":  "Invoke-D365BulkImportTableData",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365BulkImportTableData -Path \"C:\\Temp\\SalesTable\" -TableName \"SalesTable\"\nThis will import all the bulk data in the \"C:\\Temp\\SalesTable\" folder into the \"SalesTable\".\r\nIt will use the default value \"dbo\" for the Schema parameter.\r\nIt will use the default DatabaseServer value.\r\nIt will use the default DatabaseName value.\nCaution:\r\nYou will need to delete or truncate the table you want to bulk import into. If you don\u0027t, you might experience issues while inserting new records, if you have conflicting id\u0027s in the table.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365BulkImportTableData -Path \"C:\\Temp\\SalesTable\" -Schema \"dbo\" -TableName \"SalesTable\"\nThis will import all the bulk data in the \"C:\\Temp\\SalesTable\" folder into the \"SalesTable\".\r\nIt will use the value \"dbo\" for the Schema parameter.\r\nIt will use the default DatabaseServer value.\r\nIt will use the default DatabaseName value.\nCaution:\r\nYou will need to delete or truncate the table you want to bulk import into. If you don\u0027t, you might experience issues while inserting new records, if you have conflicting id\u0027s in the table.",
+        "Syntax":  "Invoke-D365BulkImportTableData [-Path] \u003cString\u003e [[-TableName] \u003cString\u003e] [[-Schema] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365CompilerResultAnalyzer",
