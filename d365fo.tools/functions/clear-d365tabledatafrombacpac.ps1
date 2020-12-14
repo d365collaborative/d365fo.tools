@@ -25,6 +25,11 @@
     .PARAMETER OutputPath
         Path to where you want the updated bacpac file to be saved
         
+    .PARAMETER ClearFromSource
+        Instruct the cmdlet to delete tables directly from the source file
+        
+        It will save disk space and time, because it doesn't have to create a copy of the bacpac file, before deleting tables from it
+        
     .EXAMPLE
         PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
         
@@ -44,6 +49,17 @@
         It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
         
     .EXAMPLE
+        PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "dbo.BATCHHISTORY","BATCHJOBHISTORY" -ClearFromSource
+        
+        This will remove the data from the dbo.BatchHistory and BatchJobHistory table from inside the bacpac file.
+        
+        It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
+        It uses "dbo.BATCHHISTORY","BATCHJOBHISTORY" as the TableName to delete data from.
+        
+        Caution:
+        It will remove from the source "C:\Temp\AxDB.bacpac" directly. So if the original file is important for further processing, please consider the risks carefully.
+        
+    .EXAMPLE
         PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "CustomTableNameThatDoesNotExists","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac" -ErrorAction SilentlyContinue
         
         This will remove the data from the BatchJobHistory table from inside the bacpac file.
@@ -61,7 +77,7 @@
 #>
 
 function Clear-D365TableDataFromBacpac {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = "Copy")]
     param (
         [Parameter(Mandatory = $true)]
         [Alias('File')]
@@ -71,8 +87,11 @@ function Clear-D365TableDataFromBacpac {
         [Parameter(Mandatory = $true)]
         [string[]] $TableName,
 
-        [Parameter(Mandatory = $true)]
-        [string] $OutputPath
+        [Parameter(Mandatory = $true, ParameterSetName = "Copy")]
+        [string] $OutputPath,
+
+        [Parameter(Mandatory = $true, ParameterSetName = "Keep")]
+        [switch] $ClearFromSource
     )
     
     begin {
@@ -81,29 +100,51 @@ function Clear-D365TableDataFromBacpac {
         $compressPath = ""
         $newFilename = ""
 
-        if ($OutputPath -like "*.bacpac") {
-            $compressPath = $OutputPath.Replace(".bacpac", ".zip")
-            $newFilename = Split-Path -Path $OutputPath -Leaf
+        if ($ClearFromSource) {
+            $compressPath = $Path.Replace(".bacpac", ".zip")
+            $newFilename = Split-Path -Path $compressPath -Leaf
+
+            Write-PSFMessage -Level Verbose -Message "Renaming the file '$Path' to '$compressPath'."
+            Rename-Item -Path $Path -NewName $newFilename
+
+            $newFilename = $newFilename.Replace(".zip", ".bacpac")
         }
         else {
-            $compressPath = $OutputPath
+            if ($OutputPath -like "*.bacpac") {
+                $compressPath = $OutputPath.Replace(".bacpac", ".zip")
+                $newFilename = Split-Path -Path $OutputPath -Leaf
+            }
+            else {
+                $compressPath = $OutputPath
+            }
+
+            if (-not (Test-PathExists -Path $compressPath -Type Leaf -ShouldNotExist)) {
+                Write-PSFMessage -Level Host -Message "The <c='em'>$compressPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$compressPath</c> file."
+                return
+            }
+
+            if (-not (Test-PathExists -Path $OutputPath -Type Leaf -ShouldNotExist)) {
+                Write-PSFMessage -Level Host -Message "The <c='em'>$OutputPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$OutputPath</c> file."
+                return
+            }
+
+            Write-PSFMessage -Level Verbose -Message "Copying the file from '$Path' to '$compressPath'"
+            Copy-Item -Path $Path -Destination $compressPath
+            Write-PSFMessage -Level Verbose -Message "Copying was completed."
+
+            if (Test-PSFFunctionInterrupt) { return }
         }
 
-        if (-not (Test-PathExists -Path $compressPath -Type Leaf -ShouldNotExist)) {
-            Write-PSFMessage -Level Host -Message "The <c='em'>$compressPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$compressPath</c> file."
-            return
-        }
-
-        if (-not (Test-PathExists -Path $OutputPath -Type Leaf -ShouldNotExist)) {
-            Write-PSFMessage -Level Host -Message "The <c='em'>$OutputPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$OutputPath</c> file."
-            return
-        }
-
-        Copy-Item -Path $Path -Destination $compressPath
-
-        if (Test-PSFFunctionInterrupt) { return }
-
+        Write-PSFMessage -Level Verbose -Message "Opening the file '$Path'."
         $zipFileMetadata = [System.IO.Compression.ZipFile]::Open($compressPath, [System.IO.Compression.ZipArchiveMode]::Update)
+        Write-PSFMessage -Level Verbose -Message "File '$Path' was read succesfully."
+
+        if ($null -eq $zipFileMetadata) {
+            $messageString = "Unable to open the file <c='em'>$compressPath</c>."
+            Write-PSFMessage -Level Host -Message $messageString
+            Stop-PSFFunction -Message "Stopping because the file couldn't be opened." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
+            return
+        }
     }
     
     process {
@@ -119,25 +160,41 @@ function Clear-D365TableDataFromBacpac {
                 $fullTableName = $table
             }
 
+            Write-PSFMessage -Level Verbose -Message "Looking for $fullTableName."
+
             $entries = $zipFileMetadata.Entries | Where-Object Fullname -like "Data/*$fullTableName*"
 
             if ($entries.Count -lt 1) {
                 Write-PSFMessage -Level Host -Message "The <c='em'>$table</c> wasn't found. Please ensure that the <c='em'>schema</c> or <c='em'>name</c> is correct."
-                Stop-PSFFunction -Message "Stopping because table was not present." -WarningAction $ErrorActionPreference -ErrorAction
-                return
-            }
+                
+                $parms = @{Message = "Stopping because table was not present." }
+                if ($ErrorActionPreference -eq "SilentlyContinue") {
+                    $parms.WarningAction = $ErrorActionPreference
+                    $parms.ErrorAction = $null
+                }
 
-            for ($i = 0; $i -lt $entries.Count; $i++) {
-                $entries[$i].delete()
+                Stop-PSFFunction @parms
+            }
+            else {
+                for ($i = 0; $i -lt $entries.Count; $i++) {
+                    Write-PSFMessage -Level Verbose -Message "Removing $($entries[$i]) from the file."
+
+                    $entries[$i].delete()
+                }
             }
         }
     }
     
     end {
+        Write-PSFMessage -Level Verbose -Message "Search completed."
+
         $res = @{ }
 
-        $zipFileMetadata.Dispose()
-
+        if ($null -ne $zipFileMetadata) {
+            Write-PSFMessage -Level Verbose -Message "Closing and saving the file."
+            $zipFileMetadata.Dispose()
+        }
+        
         if ($newFilename -ne "") {
             Rename-Item -Path $compressPath -NewName $newFilename
             $res.File = Join-path -Path $(Split-Path -Path $compressPath -Parent) -ChildPath $newFilename
@@ -147,6 +204,8 @@ function Clear-D365TableDataFromBacpac {
             $res.File = $compressPath
             $res.Filename = $(Split-Path -Path $compressPath -Leaf)
         }
+
+        if (Test-PSFFunctionInterrupt) { return }
 
         [PSCustomObject]$res
     }

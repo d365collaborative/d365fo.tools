@@ -8,7 +8,7 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Clear-D365TableDataFromBacpac).ParameterSets.Name | Should -Be '__AllParameterSets'
+			(Get-Command Clear-D365TableDataFromBacpac).ParameterSets.Name | Should -Be 'Copy', 'Keep'
 		}
 		
 		It 'Should have the expected parameter Path' {
@@ -19,7 +19,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 0
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -32,7 +32,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 1
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -42,20 +42,39 @@
 			$parameter.Name | Should -Be 'OutputPath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
-			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
-			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
-			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 2
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'Copy'
+			$parameter.ParameterSets.Keys | Should -Contain 'Copy'
+			$parameter.ParameterSets['Copy'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['Copy'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['Copy'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Copy'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Copy'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter ClearFromSource' {
+			$parameter = (Get-Command Clear-D365TableDataFromBacpac).Parameters['ClearFromSource']
+			$parameter.Name | Should -Be 'ClearFromSource'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'Keep'
+			$parameter.ParameterSets.Keys | Should -Contain 'Keep'
+			$parameter.ParameterSets['Keep'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['Keep'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['Keep'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Keep'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Keep'].ValueFromRemainingArguments | Should -Be $False
 		}
 	}
 	
-	Describe "Testing parameterset __AllParameterSets" {
+	Describe "Testing parameterset Copy" {
 		<#
-		__AllParameterSets -Path -TableName -OutputPath
-		__AllParameterSets -Path -TableName -OutputPath
+		Copy -Path -TableName -OutputPath
+		Copy -Path -TableName -OutputPath
+		#>
+	}
+ 	Describe "Testing parameterset Keep" {
+		<#
+		Keep -Path -TableName -ClearFromSource
+		Keep -Path -TableName -ClearFromSource
 		#>
 	}
 
