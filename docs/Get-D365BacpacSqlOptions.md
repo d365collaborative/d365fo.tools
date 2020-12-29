@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365SqlOptionsFromBacpacModelFile
+# Get-D365BacpacSqlOptions
 
 ## SYNOPSIS
 Get the SQL Server options from the bacpac model.xml file
@@ -13,7 +13,7 @@ Get the SQL Server options from the bacpac model.xml file
 ## SYNTAX
 
 ```
-Get-D365SqlOptionsFromBacpacModelFile [[-Path] <String>] [<CommonParameters>]
+Get-D365BacpacSqlOptions [[-Path] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,19 +23,19 @@ Extract the SQL Server options that are listed inside the model.xml file origina
 
 ### EXAMPLE 1
 ```
-Get-D365SqlOptionsFromBacpacModelFile -Path "C:\Temp\model.xml"
+Get-D365BacpacSqlOptions -Path "c:\temp\d365fo.tools\bacpac.model.xml"
 ```
 
-This will display all the SQL Server options configured in the bacpac file.
+This will display all the SQL Server options configured in the bacpac model file.
 
 ### EXAMPLE 2
 ```
-Export-d365ModelFileFromBacpac -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" | Get-D365SqlOptionsFromBacpacModelFile
+Export-D365BacpacModelFile -Path "c:\Temp\AxDB.bacpac" | Get-D365BacpacSqlOptions
 ```
 
 This will display all the SQL Server options configured in the bacpac file.
-First it will export the model.xml from the "C:\Temp\AxDB.bacpac" file, using the Export-d365ModelFileFromBacpac function.
-The output from Export-d365ModelFileFromBacpac will be piped into the Get-D365SqlOptionsFromBacpacModelFile function.
+First it will export the model.xml from the "c:\Temp\AxDB.bacpac" file, using the Export-D365BacpacModelFile function.
+The output from Export-D365BacpacModelFile will be piped into the Get-D365BacpacSqlOptions function.
 
 ## PARAMETERS
 
@@ -50,7 +50,7 @@ Aliases: File, ModelFile
 Required: False
 Position: 1
 Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

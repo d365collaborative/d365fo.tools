@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-	ModuleVersion     = '0.6.40'
+	ModuleVersion     = '0.6.41'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -74,8 +74,8 @@
 						'Enable-D365User',
 						'Enable-D365Flight',
 
+						'Export-D365BacpacModelFile',
 						'Export-D365Model',
-						'Export-D365ModelFileFromBacpac',
 						'Export-D365SecurityDetails',
 
 						'Find-D365Command',
@@ -89,6 +89,7 @@
 						'Get-D365AzureStorageConfig',
 						'Get-D365AzureStorageFile',
 						'Get-D365AzureStorageUrl',
+						'Get-D365BacpacSqlOptions',
 						'Get-D365BroadcastMessage',
 						'Get-D365BroadcastMessageConfig',
 
@@ -146,7 +147,6 @@
 						'Get-D365RunbookLogFile',
 
 						'Get-D365SDPCleanUp',
-						'Get-D365SqlOptionsFromBacpacModelFile',
 
 						'Get-D365Table',
 						'Get-D365TableField',
@@ -284,6 +284,7 @@
 						'Test-D365FlightServiceCatalogId',
 						'Test-D365LabelIdIsValid',
 						
+						'Update-D365BacpacModelFileSingleTable',
 						'Update-D365User'
 						)
 
@@ -298,7 +299,8 @@
 						'Initialize-D365TestAutomationCertificate'
 						, 'Add-D365WIFConfigAuthorityThumbprint'
 						, 'Invoke-D365SqlCmd'
-
+						, 'Export-D365ModelFileFromBacpac'
+						, 'Get-D365SqlOptionsFromBacpacModelFile'
 						)
 
     # List of all modules packaged with this module
