@@ -563,7 +563,7 @@
                        ],
                        [
                            "TableName",
-                           "Name of the table that you want to delete the data for\nSupports an array of table names\nIf a schema name isn\u0027t supplied as part of the table name, the cmdlet will prefix it with \"dbo.\"",
+                           "Name of the table that you want to delete the data for\nSupports an array of table names\nIf a schema name isn\u0027t supplied as part of the table name, the cmdlet will prefix it with \"dbo.\"\nSupports wildcard searching e.g. \"Sales*\" will delete all \"dbo.Sales*\" tables in the bacpac file",
                            "",
                            true,
                            "false",
@@ -1259,7 +1259,7 @@
                            "False"
                        ]
                    ],
-        "Alias":  "Export-D365ModelFileFromBacpac",
+        "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
         "Synopsis":  "Extract the \"model.xml\" from the bacpac file",
         "Name":  "Export-D365BacpacModelFile",
@@ -1813,6 +1813,68 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365BacpacSqlOptions -Path \"c:\\temp\\d365fo.tools\\bacpac.model.xml\"\nThis will display all the SQL Server options configured in the bacpac model file.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eExport-D365BacpacModelFile -Path \"c:\\Temp\\AxDB.bacpac\" | Get-D365BacpacSqlOptions\nThis will display all the SQL Server options configured in the bacpac file.\r\nFirst it will export the model.xml from the \"c:\\Temp\\AxDB.bacpac\" file, using the Export-D365BacpacModelFile function.\r\nThe output from Export-D365BacpacModelFile will be piped into the Get-D365BacpacSqlOptions function.",
         "Syntax":  "Get-D365BacpacSqlOptions [[-Path] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365BacpacTable",
+        "Description":  "Get tables and their metadata from the bacpac file\n\nMetadata as in original size and compressed size, which are what size the bulk files are and will only indicate what you can expect of the table size",
+        "Tags":  [
+                     "Bacpac",
+                     "Servicing",
+                     "Data",
+                     "SqlPackage",
+                     "Table",
+                     "Size",
+                     "Troubleshooting"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the bacpac file that you want to work against\nIt can also be a zip file",
+                           "BacpacFile,File",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Table",
+                           "Name of the table that you want to delete the data for\nSupports an array of table names\nIf a schema name isn\u0027t supplied as part of the table name, the cmdlet will prefix it with \"dbo.\"\nSupports wildcard searching e.g. \"Sales*\" will locate all \"dbo.Sales*\" tables in the bacpac file",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "Top",
+                           "Instruct the cmdlet with how many tables you want returned\nDefault is [int]::max, which translates into all tables present inside the bapcac file",
+                           "",
+                           false,
+                           "false",
+                           "2147483647"
+                       ],
+                       [
+                           "SortSizeAsc",
+                           "Instruct the cmdlet to sort the output by size (original) ascending",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "SortSizeDesc",
+                           "Instruct the cmdlet to sort the output by size (original) descending",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "Export-D365ModelFileFromBacpac",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get tables from the bacpac file",
+        "Name":  "Get-D365BacpacTable",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365BacpacTable -Path \"c:\\Temp\\AxDB.bacpac\"\nThis will return all tables from inside the bacpac file.\nIt uses \"c:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses the default value \"*\" as the Table parameter, to output all tables.\r\nIt uses the default value \"[int]::max\" as the Top parameter, to output all tables.\r\nIt uses the default sort, which is by name acsending.\nA result set example:\nName                                                                   OriginalSize CompressedSize BulkFiles\r\n----                                                                   ------------ -------------- ---------\r\nax.DBVERSION                                                                   62 B           52 B         1\r\ncrt.RETAILUPGRADEHISTORY                                                   13,49 MB       13,41 MB         3\r\ndbo.__AOSMESSAGEREGISTRATION                                                1,80 KB          540 B         2\r\ndbo.__AOSSTARTUPVERSION                                                         4 B            6 B         1\r\ndbo.ACCOUNTINGDISTRIBUTION                                                 48,60 MB        4,50 MB        95\r\ndbo.ACCOUNTINGEVENT                                                        11,16 MB        1,51 MB       128\r\ndbo.AGREEMENTPARAMETERS_RU                                                    366 B          113 B         1\r\ndbo.AIFSQLCDCENABLEDTABLES                                                 13,63 KB        2,19 KB         1\r\ndbo.AIFSQLCHANGETRACKINGENABLEDTABLES                                       9,89 KB        1,42 KB         1\r\ndbo.AIFSQLCTTRIGGERS                                                       44,75 KB        6,29 KB         1\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365BacpacTable -Path \"c:\\Temp\\AxDB.bacpac\" -SortSizeAsc\nThis will return all tables from inside the bacpac file, sorted by the original size, ascending.\nIt uses \"c:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses the default value \"*\" as the Table parameter, to output all tables.\r\nIt uses the default value \"[int]::max\" as the Top parameter, to output all tables.\r\nIt uses the SortSizeAsc parameter, which is by original size acsending.\nA result set example:\nName                                                                   OriginalSize CompressedSize BulkFiles\r\n----                                                                   ------------ -------------- ---------\r\ndbo.__AOSSTARTUPVERSION                                                         4 B            6 B         1\r\ndbo.SYSSORTORDER                                                               20 B           20 B         1\r\ndbo.SECURITYDATABASESETTINGS                                                   20 B           12 B         1\r\ndbo.SYSPOLICYSEQUENCEGROUP                                                     24 B           10 B         1\r\ndbo.SYSFILESTOREPARAMETERS                                                     26 B           10 B         1\r\ndbo.SYSHELPCPSSETUP                                                            28 B           15 B         1\r\ndbo.DATABASELOGPARAMETERS                                                      28 B           10 B         1\r\ndbo.FEATUREMANAGEMENTPARAMETERS                                                28 B           10 B         1\r\ndbo.AIFSQLCTVERSION                                                            28 B           24 B         1\r\ndbo.SYSHELPSETUP                                                               28 B           15 B         1\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365BacpacTable -Path \"c:\\Temp\\AxDB.bacpac\" -SortSizeDesc\nThis will return all tables from inside the bacpac file, sorted by the original size, descending.\nIt uses \"c:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses the default value \"*\" as the Table parameter, to output all tables.\r\nIt uses the default value \"[int]::max\" as the Top parameter, to output all tables.\r\nIt uses the SortSizeDesc parameter, which is by original size descending.\nA result set example:\nName                                                                   OriginalSize CompressedSize BulkFiles\r\n----                                                                   ------------ -------------- ---------\r\ndbo.TSTIMESHEETLINESTAGING                                                 35,31 GB        2,44 GB      9077\r\ndbo.RESROLLUP                                                              13,30 GB      367,19 MB      3450\r\ndbo.PROJECTSTAGING                                                         11,31 GB      508,70 MB      2929\r\ndbo.TSTIMESHEETTABLESTAGING                                                 5,93 GB      246,65 MB      1564\r\ndbo.BATCHHISTORY                                                            5,80 GB      234,99 MB      1529\r\ndbo.HCMPOSITIONHIERARCHYSTAGING                                             5,16 GB      222,18 MB      1358\r\ndbo.ERLCSFILEASSETTABLE                                                     3,15 GB      217,68 MB       302\r\ndbo.EVENTINBOX                                                              2,92 GB      105,63 MB       747\r\ndbo.HCMPOSITIONV2STAGING                                                    2,79 GB      200,27 MB       755\r\ndbo.HCMEMPLOYEESTAGING                                                      2,49 GB      218,69 MB       677\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365BacpacTable -Path \"c:\\Temp\\AxDB.bacpac\" -SortSizeDesc -Top 5\nThis will return all tables from inside the bacpac file, sorted by the original size, descending.\nIt uses \"c:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses the default value \"*\" as the Table parameter, to output all tables.\r\nIt uses the value 5 as the Top parameter, to output only 5 tables, based on the sorting selected.\r\nIt uses the SortSizeDesc parameter, which is by original size descending.\nA result set example:\nName                                                                   OriginalSize CompressedSize BulkFiles\r\n----                                                                   ------------ -------------- ---------\r\ndbo.TSTIMESHEETLINESTAGING                                                 35,31 GB        2,44 GB      9077\r\ndbo.RESROLLUP                                                              13,30 GB      367,19 MB      3450\r\ndbo.PROJECTSTAGING                                                         11,31 GB      508,70 MB      2929\r\ndbo.TSTIMESHEETTABLESTAGING                                                 5,93 GB      246,65 MB      1564\r\ndbo.BATCHHISTORY                                                            5,80 GB      234,99 MB      1529\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365BacpacTable -Path \"c:\\Temp\\AxDB.bacpac\" -Table \"Sales*\"\nThis will return all tables which matches the \"Sales*\" wildcard search from inside the bacpac file.\nIt uses \"c:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses the default value \"Sales*\" as the Table parameter, to output all tables that matches the wildcard pattern.\r\nIt uses the default value \"[int]::max\" as the Top parameter, to output all tables.\r\nIt uses the default sort, which is by name acsending.\nA result set example:\nName                                                                   OriginalSize CompressedSize BulkFiles\r\n----                                                                   ------------ -------------- ---------\r\ndbo.SALESPARAMETERS                                                         4,29 KB          310 B         1\r\ndbo.SALESPARMUPDATE                                                       273,48 KB       24,21 KB         1\r\ndbo.SALESQUOTATIONTOLINEPARAMETERS                                          4,18 KB          596 B         1\r\ndbo.SALESSUMMARYPARAMETERS                                                  2,95 KB          425 B         1\r\ndbo.SALESTABLE                                                              1,20 KB          313 B         1\r\ndbo.SALESTABLE_W                                                              224 B           60 B         1\r\ndbo.SALESTABLE2LINEPARAMETERS                                               4,46 KB          637 B         1\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eGet-D365BacpacTable -Path \"c:\\Temp\\AxDB.bacpac\" -Table \"Sales*\",\"CUSTINVOICE*\"\nThis will return all tables which matches the \"Sales*\" and \"CUSTINVOICE*\" wildcard searches from inside the bacpac file.\nIt uses \"c:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses the default value \"Sales*\" and \"CUSTINVOICE*\" as the Table parameter, to output all tables that matches the wildcard pattern.\r\nIt uses the default value \"[int]::max\" as the Top parameter, to output all tables.\r\nIt uses the default sort, which is by name acsending.\nA result set example:\nName                                                                   OriginalSize CompressedSize BulkFiles\r\n----                                                                   ------------ -------------- ---------\r\ndbo.CUSTINVOICEJOUR                                                         2,01 MB      118,87 KB         1\r\ndbo.CUSTINVOICELINE                                                        14,64 MB      975,30 KB         4\r\ndbo.CUSTINVOICELINEINTERPROJ                                                6,58 MB      477,97 KB         2\r\ndbo.CUSTINVOICETABLE                                                        1,06 MB       56,56 KB         1\r\ndbo.CUSTINVOICETRANS                                                       32,34 MB        1,51 MB        54\r\ndbo.SALESPARAMETERS                                                         4,29 KB          310 B         1\r\ndbo.SALESPARMUPDATE                                                       273,48 KB       24,21 KB         1\r\ndbo.SALESQUOTATIONTOLINEPARAMETERS                                          4,18 KB          596 B         1\r\ndbo.SALESSUMMARYPARAMETERS                                                  2,95 KB          425 B         1\r\ndbo.SALESTABLE                                                              1,20 KB          313 B         1\r\ndbo.SALESTABLE_W                                                              224 B           60 B         1\r\ndbo.SALESTABLE2LINEPARAMETERS                                               4,46 KB          637 B         1\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eGet-D365BacpacTable -Path \"c:\\Temp\\AxDB.bacpac\" -Table \"SalesTable\",\"CustTable\"\nThis will return the tables \"dbo.SalesTable\" and \"dbo.CustTable\" from inside the bacpac file.\nIt uses \"c:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses the default value \"SalesTable\" and \"CustTable\" as the Table parameter, to output the tables that matches the names.\r\nIt uses the default value \"[int]::max\" as the Top parameter, to output all tables.\r\nIt uses the default sort, which is by name acsending.\nA result set example:\nName                                                                   OriginalSize CompressedSize BulkFiles\r\n----                                                                   ------------ -------------- ---------\r\ndbo.CUSTTABLE                                                             154,91 KB        8,26 KB         1\r\ndbo.SALESTABLE                                                              1,20 KB          313 B         1",
+        "Syntax":  "Get-D365BacpacTable -Path \u003cString\u003e [-Table \u003cString[]\u003e] [-Top \u003cInt32\u003e] [\u003cCommonParameters\u003e]\nGet-D365BacpacTable -Path \u003cString\u003e [-Table \u003cString[]\u003e] [-Top \u003cInt32\u003e] [-SortSizeAsc] [\u003cCommonParameters\u003e]\nGet-D365BacpacTable -Path \u003cString\u003e [-Table \u003cString[]\u003e] [-Top \u003cInt32\u003e] [-SortSizeDesc] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365BroadcastMessage",
