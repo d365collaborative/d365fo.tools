@@ -19,17 +19,17 @@
         Supports an array of table names
         
         If a schema name isn't supplied as part of the table name, the cmdlet will prefix it with "dbo."
-
+        
         Supports wildcard searching e.g. "Sales*" will locate all "dbo.Sales*" tables in the bacpac file
-
+        
     .PARAMETER Top
         Instruct the cmdlet with how many tables you want returned
-
+        
         Default is [int]::max, which translates into all tables present inside the bapcac file
-
+        
     .PARAMETER SortSizeAsc
         Instruct the cmdlet to sort the output by size (original) ascending
-
+        
     .PARAMETER SortSizeDesc
         Instruct the cmdlet to sort the output by size (original) descending
         
@@ -57,7 +57,7 @@
         dbo.AIFSQLCDCENABLEDTABLES                                                 13,63 KB        2,19 KB         1
         dbo.AIFSQLCHANGETRACKINGENABLEDTABLES                                       9,89 KB        1,42 KB         1
         dbo.AIFSQLCTTRIGGERS                                                       44,75 KB        6,29 KB         1
-
+        
     .EXAMPLE
         PS C:\> Get-D365BacpacTable -Path "c:\Temp\AxDB.bacpac" -SortSizeAsc
         
@@ -69,7 +69,7 @@
         It uses the SortSizeAsc parameter, which is by original size acsending.
         
         A result set example:
-
+        
         Name                                                                   OriginalSize CompressedSize BulkFiles
         ----                                                                   ------------ -------------- ---------
         dbo.__AOSSTARTUPVERSION                                                         4 B            6 B         1
@@ -82,7 +82,7 @@
         dbo.FEATUREMANAGEMENTPARAMETERS                                                28 B           10 B         1
         dbo.AIFSQLCTVERSION                                                            28 B           24 B         1
         dbo.SYSHELPSETUP                                                               28 B           15 B         1
-
+        
     .EXAMPLE
         PS C:\> Get-D365BacpacTable -Path "c:\Temp\AxDB.bacpac" -SortSizeDesc
         
@@ -94,7 +94,7 @@
         It uses the SortSizeDesc parameter, which is by original size descending.
         
         A result set example:
-
+        
         Name                                                                   OriginalSize CompressedSize BulkFiles
         ----                                                                   ------------ -------------- ---------
         dbo.TSTIMESHEETLINESTAGING                                                 35,31 GB        2,44 GB      9077
@@ -107,7 +107,7 @@
         dbo.EVENTINBOX                                                              2,92 GB      105,63 MB       747
         dbo.HCMPOSITIONV2STAGING                                                    2,79 GB      200,27 MB       755
         dbo.HCMEMPLOYEESTAGING                                                      2,49 GB      218,69 MB       677
-
+        
     .EXAMPLE
         PS C:\> Get-D365BacpacTable -Path "c:\Temp\AxDB.bacpac" -SortSizeDesc -Top 5
         
@@ -119,7 +119,7 @@
         It uses the SortSizeDesc parameter, which is by original size descending.
         
         A result set example:
-
+        
         Name                                                                   OriginalSize CompressedSize BulkFiles
         ----                                                                   ------------ -------------- ---------
         dbo.TSTIMESHEETLINESTAGING                                                 35,31 GB        2,44 GB      9077
@@ -139,7 +139,7 @@
         It uses the default sort, which is by name acsending.
         
         A result set example:
-
+        
         Name                                                                   OriginalSize CompressedSize BulkFiles
         ----                                                                   ------------ -------------- ---------
         dbo.SALESPARAMETERS                                                         4,29 KB          310 B         1
@@ -149,7 +149,7 @@
         dbo.SALESTABLE                                                              1,20 KB          313 B         1
         dbo.SALESTABLE_W                                                              224 B           60 B         1
         dbo.SALESTABLE2LINEPARAMETERS                                               4,46 KB          637 B         1
-
+        
     .EXAMPLE
         PS C:\> Get-D365BacpacTable -Path "c:\Temp\AxDB.bacpac" -Table "Sales*","CUSTINVOICE*"
         
@@ -161,7 +161,7 @@
         It uses the default sort, which is by name acsending.
         
         A result set example:
-
+        
         Name                                                                   OriginalSize CompressedSize BulkFiles
         ----                                                                   ------------ -------------- ---------
         dbo.CUSTINVOICEJOUR                                                         2,01 MB      118,87 KB         1
@@ -176,7 +176,7 @@
         dbo.SALESTABLE                                                              1,20 KB          313 B         1
         dbo.SALESTABLE_W                                                              224 B           60 B         1
         dbo.SALESTABLE2LINEPARAMETERS                                               4,46 KB          637 B         1
-
+        
     .EXAMPLE
         PS C:\> Get-D365BacpacTable -Path "c:\Temp\AxDB.bacpac" -Table "SalesTable","CustTable"
         
@@ -188,12 +188,12 @@
         It uses the default sort, which is by name acsending.
         
         A result set example:
-
+        
         Name                                                                   OriginalSize CompressedSize BulkFiles
         ----                                                                   ------------ -------------- ---------
         dbo.CUSTTABLE                                                             154,91 KB        8,26 KB         1
         dbo.SALESTABLE                                                              1,20 KB          313 B         1
-
+        
     .NOTES
         Tags: Bacpac, Servicing, Data, SqlPackage, Table, Size, Troubleshooting
         
