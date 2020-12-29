@@ -105,6 +105,9 @@ Supports an array of table names
 
 If a schema name isn't supplied as part of the table name, the cmdlet will prefix it with "dbo."
 
+Supports wildcard searching e.g.
+"Sales*" will delete all "dbo.Sales*" tables in the bacpac file
+
 ```yaml
 Type: String[]
 Parameter Sets: (All)

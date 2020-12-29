@@ -22,6 +22,8 @@
         
         If a schema name isn't supplied as part of the table name, the cmdlet will prefix it with "dbo."
         
+        Supports wildcard searching e.g. "Sales*" will delete all "dbo.Sales*" tables in the bacpac file
+        
     .PARAMETER OutputPath
         Path to where you want the updated bacpac file to be saved
         
@@ -162,7 +164,7 @@ function Clear-D365TableDataFromBacpac {
 
             Write-PSFMessage -Level Verbose -Message "Looking for $fullTableName."
 
-            $entries = $zipFileMetadata.Entries | Where-Object Fullname -like "Data/*$fullTableName*"
+            $entries = $zipFileMetadata.Entries | Where-Object Fullname -like "Data/$fullTableName/*"
 
             if ($entries.Count -lt 1) {
                 Write-PSFMessage -Level Host -Message "The <c='em'>$table</c> wasn't found. Please ensure that the <c='em'>schema</c> or <c='em'>name</c> is correct."
