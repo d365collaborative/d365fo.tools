@@ -10,15 +10,15 @@
         Path to the extracted model.xml file that you want to work against
         
     .EXAMPLE
-        PS C:\> Get-D365BacpacSqlOptions -Path "C:\Temp\model.xml"
+        PS C:\> Get-D365BacpacSqlOptions -Path "c:\temp\d365fo.tools\bacpac.model.xml"
         
-        This will display all the SQL Server options configured in the bacpac file.
+        This will display all the SQL Server options configured in the bacpac model file.
         
     .EXAMPLE
-        PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" | Get-D365BacpacSqlOptions
+        PS C:\> Export-D365BacpacModelFile -Path "c:\Temp\AxDB.bacpac" | Get-D365BacpacSqlOptions
         
         This will display all the SQL Server options configured in the bacpac file.
-        First it will export the model.xml from the "C:\Temp\AxDB.bacpac" file, using the Export-D365BacpacModelFile function.
+        First it will export the model.xml from the "c:\Temp\AxDB.bacpac" file, using the Export-D365BacpacModelFile function.
         The output from Export-D365BacpacModelFile will be piped into the Get-D365BacpacSqlOptions function.
         
     .NOTES
