@@ -1223,6 +1223,51 @@
         "Syntax":  "Enable-D365User [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-Email] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Export-D365BacpacModelFile",
+        "Description":  "Extract the \"model.xml\" file from inside the bacpac file\n\nThis can be used to update SQL Server options for how the SqlPackage.exe should import the bacpac file into your SQL Server / Azure SQL DB",
+        "Tags":  [
+                     "Bacpac",
+                     "Servicing",
+                     "Data",
+                     "SqlPackage",
+                     "Sql Server Options",
+                     "Collation"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the bacpac file that you want to work against\nIt can also be a zip file",
+                           "BacpacFile,File",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "OutputPath",
+                           "Path to where you want the updated bacpac file to be saved\nDefault value is: \"c:\\temp\\d365fo.tools\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "Force",
+                           "Switch to instruct the cmdlet to overwrite the \"model.xml\" specified in the OutputPath",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "Export-D365ModelFileFromBacpac",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Extract the \"model.xml\" from the bacpac file",
+        "Name":  "Export-D365BacpacModelFile",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eExport-D365BacpacModelFile -Path \"c:\\Temp\\AxDB.bacpac\"\nThis will extract the \"model.xml\" file from inside the bacpac file.\nIt uses \"c:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses the default value \"c:\\temp\\d365fo.tools\" as the OutputPath to where it will store the extracted \"bacpac.model.xml\" file.\r\nIt uses the default ExtractionPath folder \"c:\\Temp\\d365fo.tools\\BacpacExtractions\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eExport-D365BacpacModelFile -Path \"c:\\Temp\\AxDB.bacpac\" -OutputPath \"c:\\Temp\\model.xml\" -Force\nThis will extract the \"model.xml\" file from inside the bacpac file.\nIt uses \"c:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"c:\\Temp\\model.xml\" as the OutputPath to where it will store the extracted \"model.xml\" file.\r\nIt uses the default ExtractionPath folder \"c:\\Temp\\d365fo.tools\\BacpacExtractions\".\nIt will override the \"c:\\Temp\\model.xml\" if already present.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eExport-D365BacpacModelFile -Path \"c:\\Temp\\AxDB.bacpac\" | Get-D365BacpacSqlOptions\nThis will display all the SQL Server options configured in the bacpac file.\r\nFirst it will export the bacpac.model.xml from the \"c:\\Temp\\AxDB.bacpac\" file, using the Export-D365BacpacModelFile function.\r\nThe output from Export-D365BacpacModelFile will be piped into the Get-D365BacpacSqlOptions function.",
+        "Syntax":  "Export-D365BacpacModelFile [-Path] \u003cString\u003e [[-OutputPath] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Export-D365Model",
         "Description":  "Export a model from a Dynamics 365 for Finance \u0026 Operations environment",
         "Tags":  [
@@ -1304,67 +1349,6 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eExport-D365Model -Path c:\\temp\\d365fo.tools -Model CustomModelName\nThis will export the \"CustomModelName\" model from the default PackagesLocalDirectory path.\r\nIt export the model to the \"c:\\temp\\d365fo.tools\" location.",
         "Syntax":  "Export-D365Model [-Path] \u003cString\u003e [-Model] \u003cString\u003e [-Force] [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
-    },
-    {
-        "CommandName":  "Export-D365ModelFileFromBacpac",
-        "Description":  "Extract the \"model.xml\" file from inside the bacpac file\n\nThis can be used to update SQL Server options for how the SqlPackage.exe should import the bacpac file into your SQL Server / Azure SQL DB",
-        "Tags":  [
-                     "Bacpac",
-                     "Servicing",
-                     "Data",
-                     "SqlPackage",
-                     "Sql Server Options",
-                     "Collation"
-                 ],
-        "Params":  [
-                       [
-                           "Path",
-                           "Path to the bacpac file that you want to work against\nIt can also be a zip file",
-                           "BacpacFile,File",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "OutputPath",
-                           "Path to where you want the updated bacpac file to be saved",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "ExtractionPath",
-                           "Path to where you want the cmdlet to extract the files from the bacpac file while it deletes data\nThe default value is \"c:\\temp\\d365fo.tools\\BacpacExtractions\"\nWhen working the cmdlet will create a sub-folder named like the bacpac file",
-                           "",
-                           false,
-                           "false",
-                           "$(Join-Path $Script:DefaultTempPath \"BacpacExtractions\")"
-                       ],
-                       [
-                           "Force",
-                           "Switch to instruct the cmdlet to overwrite the \"model.xml\" specified in the OutputPath",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ],
-                       [
-                           "KeepFiles",
-                           "Switch to instruct the cmdlet to keep the extracted files and folders\nThis will leave the files in place, after the extraction of the \"model.xml\" file",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Extract the \"model.xml\" from the bacpac file",
-        "Name":  "Export-D365ModelFileFromBacpac",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eExport-d365ModelFileFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -OutputPath \"C:\\Temp\\model.xml\"\nThis will extract the \"model.xml\" file from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"C:\\Temp\\model.xml\" as the OutputPath to where it will store the extracted \"model.xml\" file.\r\nIt uses the default ExtractionPath folder \"C:\\Temp\\d365fo.tools\\BacpacExtractions\".\nIt will delete the extracted files after extracting the \"model.xml\" file.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eExport-d365ModelFileFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -OutputPath \"C:\\Temp\\model.xml\" -Force\nThis will extract the \"model.xml\" file from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"C:\\Temp\\model.xml\" as the OutputPath to where it will store the extracted \"model.xml\" file.\r\nIt uses the default ExtractionPath folder \"C:\\Temp\\d365fo.tools\\BacpacExtractions\".\nIt will override the \"C:\\Temp\\model.xml\" if already present.\nIt will delete the extracted files after extracting the \"model.xml\" file.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eExport-d365ModelFileFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -OutputPath \"C:\\Temp\\model.xml\" -KeepFiles\nThis will extract the \"model.xml\" file from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"C:\\Temp\\model.xml\" as the OutputPath to where it will store the extracted \"model.xml\" file.\r\nIt uses the default ExtractionPath folder \"C:\\Temp\\d365fo.tools\\BacpacExtractions\".\nIt will NOT delete the extracted files after extracting the \"model.xml\" file.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eExport-d365ModelFileFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -OutputPath \"C:\\Temp\\model.xml\" | Get-D365SqlOptionsFromBacpacModelFile\nThis will display all the SQL Server options configured in the bacpac file.\r\nFirst it will export the model.xml from the \"C:\\Temp\\AxDB.bacpac\" file, using the Export-d365ModelFileFromBacpac function.\r\nThe output from Export-d365ModelFileFromBacpac will be piped into the Get-D365SqlOptionsFromBacpacModelFile function.",
-        "Syntax":  "Export-D365ModelFileFromBacpac [-Path] \u003cString\u003e [-OutputPath] \u003cString\u003e [[-ExtractionPath] \u003cString\u003e] [-Force] [-KeepFiles] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Export-D365SecurityDetails",
@@ -1800,6 +1784,35 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365AzureStorageUrl -AccountId \"miscfiles\" -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -Container \"backupfiles\"\nThis will generate a valid Url for the blob container in the Azure Storage Account.\r\nIt will use the AccountId \"miscfiles\" as the name of the storage account.\r\nIt will use the SAS key \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" to add the SAS token/key to the Url.\r\nIt will use the Container \"backupfiles\" as the container name in the Url.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365AzureStorageUrl\nThis will generate a valid Url for the blob container in the Azure Storage Account.\r\nIt will use the default values that are configured using the Set-D365ActiveAzureStorageConfig cmdlet and view using the Get-D365ActiveAzureStorageConfig cmdlet.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365AzureStorageUrl -OutputAsHashtable\nThis will generate a valid Url for the blob container in the Azure Storage Account.\r\nIt will use the default values that are configured using the Set-D365ActiveAzureStorageConfig cmdlet and view using the Get-D365ActiveAzureStorageConfig cmdlet.\nThe output object will be a Hashtable, which you can use as a parameter for other cmdlets.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003e$DestinationParms = Get-D365AzureStorageUrl -OutputAsHashtable\nPS C:\\\u003e $BlobFileDetails = Get-D365LcsDatabaseBackups -Latest | Invoke-D365AzCopyTransfer @DestinationParms\r\nPS C:\\\u003e $BlobFileDetails | Invoke-D365AzCopyTransfer -DestinationUri \"C:\\Temp\" -DeleteOnTransferComplete\nThis will transfer the lastest backup file from LCS Asset Library to your local \"C:\\Temp\".\r\nIt will get a destination Url, for it to transfer the backup file between the LCS storage account and your own.\r\nThe newly transfered file, that lives in your own storage account, will then be downloaded to your local \"c:\\Temp\".\nAfter the file has been downloaded to your local \"C:\\Temp\", it will be deleted from your own storage account.",
         "Syntax":  "Get-D365AzureStorageUrl [[-AccountId] \u003cString\u003e] [[-SAS] \u003cString\u003e] [[-Container] \u003cString\u003e] [-OutputAsHashtable] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365BacpacSqlOptions",
+        "Description":  "Extract the SQL Server options that are listed inside the model.xml file originating from a bacpac file",
+        "Tags":  [
+                     "Bacpac",
+                     "Servicing",
+                     "Data",
+                     "SqlPackage",
+                     "Sql Server Options",
+                     "Collation"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the extracted model.xml file that you want to work against",
+                           "File,ModelFile",
+                           false,
+                           "true (ByPropertyName)",
+                           ""
+                       ]
+                   ],
+        "Alias":  "Get-D365SqlOptionsFromBacpacModelFile",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get the SQL Server options from the bacpac model.xml file",
+        "Name":  "Get-D365BacpacSqlOptions",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365BacpacSqlOptions -Path \"c:\\temp\\d365fo.tools\\bacpac.model.xml\"\nThis will display all the SQL Server options configured in the bacpac model file.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eExport-D365BacpacModelFile -Path \"c:\\Temp\\AxDB.bacpac\" | Get-D365BacpacSqlOptions\nThis will display all the SQL Server options configured in the bacpac file.\r\nFirst it will export the model.xml from the \"c:\\Temp\\AxDB.bacpac\" file, using the Export-D365BacpacModelFile function.\r\nThe output from Export-D365BacpacModelFile will be piped into the Get-D365BacpacSqlOptions function.",
+        "Syntax":  "Get-D365BacpacSqlOptions [[-Path] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365BroadcastMessage",
@@ -3946,35 +3959,6 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365SDPCleanUp\nThis will get the configured retention period from the registry",
         "Syntax":  "Get-D365SDPCleanUp [\u003cCommonParameters\u003e]"
-    },
-    {
-        "CommandName":  "Get-D365SqlOptionsFromBacpacModelFile",
-        "Description":  "Extract the SQL Server options that are listed inside the model.xml file originating from a bacpac file",
-        "Tags":  [
-                     "Bacpac",
-                     "Servicing",
-                     "Data",
-                     "SqlPackage",
-                     "Sql Server Options",
-                     "Collation"
-                 ],
-        "Params":  [
-                       [
-                           "Path",
-                           "Path to the extracted model.xml file that you want to work against",
-                           "File,ModelFile",
-                           false,
-                           "true (ByValue, ByPropertyName)",
-                           ""
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get the SQL Server options from the bacpac model.xml file",
-        "Name":  "Get-D365SqlOptionsFromBacpacModelFile",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365SqlOptionsFromBacpacModelFile -Path \"C:\\Temp\\model.xml\"\nThis will display all the SQL Server options configured in the bacpac file.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eExport-d365ModelFileFromBacpac -Path \"C:\\Temp\\AxDB.bacpac\" -OutputPath \"C:\\Temp\\model.xml\" | Get-D365SqlOptionsFromBacpacModelFile\nThis will display all the SQL Server options configured in the bacpac file.\r\nFirst it will export the model.xml from the \"C:\\Temp\\AxDB.bacpac\" file, using the Export-d365ModelFileFromBacpac function.\r\nThe output from Export-d365ModelFileFromBacpac will be piped into the Get-D365SqlOptionsFromBacpacModelFile function.",
-        "Syntax":  "Get-D365SqlOptionsFromBacpacModelFile [[-Path] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365Table",
@@ -9920,6 +9904,68 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\u003eTest-D365LabelIdIsValid -LabelId \"ABC123\"\nThis will test the if the LabelId is valid.\r\nIt will use the \"ABC123\" as the LabelId parameter.\nThe expected result is $true\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\u003eTest-D365LabelIdIsValid -LabelId \"@ABC123\"\nThis will test the if the LabelId is valid.\r\nIt will use the \"@ABC123\" as the LabelId parameter.\nThe expected result is $true\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\u003eTest-D365LabelIdIsValid -LabelId \"@ABC123_1\"\nThis will test the if the LabelId is valid.\r\nIt will use the \"@ABC123_1\" as the LabelId parameter.\nThe expected result is $false\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\u003eTest-D365LabelIdIsValid -LabelId \"ABC.123\" #False\nThis will test the if the LabelId is valid.\r\nIt will use the \"ABC.123\" as the LabelId parameter.\nThe expected result is $false",
         "Syntax":  "Test-D365LabelIdIsValid [-LabelId] \u003cString\u003e [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Update-D365BacpacModelFileSingleTable",
+        "Description":  "Update the \"model.xml\" file from inside the bacpac file to only handle a single table\n\nThis can be used to restore a single table as fast as possible to a new data\n\nThe table will be created like ordinary bacpac restore, expect it will only have the raw table definition and indexes, all other objects are dropped\n\nThe output can be used directly with the Import-D365Bacpac cmdlet and its ModelFile parameter, see the example sections for more details",
+        "Tags":  [
+                     "Bacpac",
+                     "Servicing",
+                     "Data",
+                     "SqlPackage",
+                     "Import",
+                     "Table",
+                     "Troubleshooting"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the bacpac file that you want to work against\nIt can also be a zip file",
+                           "File,ModelFile",
+                           false,
+                           "true (ByValue, ByPropertyName)",
+                           ""
+                       ],
+                       [
+                           "Table",
+                           "Name of the table that you want to be kept inside the model file when the update is done",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Schema",
+                           "Schema where the table that you want to work against exists\nThe default value is \"dbo\"",
+                           "",
+                           false,
+                           "false",
+                           "dbo"
+                       ],
+                       [
+                           "OutputPath",
+                           "Path to where you want the updated bacpac model file to be saved\nDefault value is: \"c:\\temp\\d365fo.tools\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "Force",
+                           "Switch to instruct the cmdlet to overwrite the bacpac model file specified in the OutputPath",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Update the \"model.xml\" from the bacpac file to a single table",
+        "Name":  "Update-D365BacpacModelFileSingleTable",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eUpdate-D365BacpacModelFileSingleTable -Path \"c:\\temp\\d365fo.tools\\bacpac.model.xml\" -Table \"SalesTable\"\nThis will create an updated bacpac.model.xml file with only the SalesTable to be imported.\r\nIt will read the \"c:\\temp\\d365fo.tools\\bacpac.model.xml\" file.\r\nIt will use the default \"dbo\" as the Schema parameter.\r\nIt will use the \"SalesTable\" as the Table parameter.\r\nIt will use the \"c:\\temp\\d365fo.tools\\dbo.salestable.model.xml\" as the default path for OutputPath parameter.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eUpdate-D365BacpacModelFileSingleTable -Path \"c:\\temp\\d365fo.tools\\bacpac.model.xml\" -Table \"CommissionSalesGroup\" -Schema \"AX\"\nThis will create an updated bacpac.model.xml file with only the \"CommissionSalesGroup\", from the \"AX\" schema, to be imported.\r\nIt will read the \"c:\\temp\\d365fo.tools\\bacpac.model.xml\" file.\r\nIt will use the \"AX\" as the Schema for the table.\r\nIt will use the \"CommissionSalesGroup\" as the Table parameter.\r\nIt will use the \"c:\\temp\\d365fo.tools\\ax.CommissionSalesGroup.model.xml\" as the default path for OutputPath parameter.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eUpdate-D365BacpacModelFileSingleTable -Path \"c:\\temp\\d365fo.tools\\bacpac.model.xml\" -Table \"SalesTable\" -OutputPath \"c:\\temp\\troubleshoot.xml\"\nThis will create an updated bacpac.model.xml file with only the SalesTable to be imported.\r\nIt will read the \"c:\\temp\\d365fo.tools\\bacpac.model.xml\" file.\r\nIt will use the default \"dbo\" as the Schema parameter.\r\nIt will use the \"SalesTable\" as the Table parameter.\r\nIt will use the \"c:\\temp\\troubleshoot.xml\" as the path for OutputPath parameter.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eExport-D365BacpacModelFile -Path \"c:\\Temp\\AxDB.bacpac\" | Update-D365BacpacModelFileSingleTable -Table SalesTable\nThis will create an updated bacpac.model.xml file with only the SalesTable to be imported.\r\nIt will read the bacpac model file generated from the Export-D365BacpacModelFile cmdlet.\r\nIt will use the default \"dbo\" as the Schema parameter.\r\nIt will use the \"SalesTable\" as the Table parameter.\r\nIt will use the \"c:\\temp\\d365fo.tools\\dbo.salestable.model.xml\" as the default path for OutputPath parameter.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eUpdate-D365BacpacModelFileSingleTable -Path \"c:\\temp\\d365fo.tools\\bacpac.model.xml\" -Table \"SalesTable\" -Force\nThis will create an updated bacpac.model.xml file with only the SalesTable to be imported.\r\nIt will read the \"c:\\temp\\d365fo.tools\\bacpac.model.xml\" file.\r\nIt will use the default \"dbo\" as the Schema parameter.\r\nIt will use the \"SalesTable\" as the Table parameter.\r\nIt will use the \"c:\\temp\\d365fo.tools\\dbo.salestable.model.xml\" as the default path for OutputPath parameter.\nIt will overwrite the \"c:\\temp\\d365fo.tools\\dbo.salestable.model.xml\" if it already exists.",
+        "Syntax":  "Update-D365BacpacModelFileSingleTable [[-Path] \u003cString\u003e] [-Table] \u003cString\u003e [[-Schema] \u003cString\u003e] [[-OutputPath] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Update-D365User",
