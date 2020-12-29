@@ -163,25 +163,29 @@ function Update-D365BacpacModelFileSingleTable {
             }
             elseif ($xmlFile.NodeType -eq "Element" -and $xmlFile.Depth -eq 2) {
                 $rawElement = $($xmlFile.ReadOuterXml() -replace 'xmlns=".*"', '')
-                if (-not $rawElement -match 'Type="(?<Type>.*?)".*?>') {
+                
+                if (-not $($rawElement -match 'Type="(?<Type>.*?)".*?>')) {
                     continue
                 }
-        
+
                 if ($Matches.Type -NotIn "SqlSchema", "SqlTable", "SqlDatabaseOptions", "SqlGenericDatabaseScopedConfigurationOptions", "SqlIndex") {
                     continue
                 }
         
                 if ($Matches.Type -eq "SqlSchema") {
-                    if (-not $rawElement -match 'Name="(?<Name>.*?)".*?>') {
+                    if (-not $($rawElement -match 'Name="(?<Name>.*?)".*?>')) {
                         continue
                     }
         
                     if ($Matches.Name -ne $Schema) {
                         continue
                     }
+
+                    Write-PSFMessage -Level Verbose -Message "SqlSchema found" -Target $rawElement
                 }
-                elseif ($Matches.Type -eq "SqlTable") {
-                    if (-not $rawElement -match 'Name="(?<Name>.*?)".*?>') {
+
+                if ($Matches.Type -eq "SqlTable") {
+                    if (-not $($rawElement -match 'Name="(?<Name>.*?)".*?>')) {
                         continue
                     }
                     
@@ -189,17 +193,23 @@ function Update-D365BacpacModelFileSingleTable {
                         continue
                     }
         
+                    Write-PSFMessage -Level Verbose -Message "SqlTable found" -Target $rawElement
+
                     $rawElement = $rawElement -replace "\s*.*<AttachedAnnotation Disambiguator=`".*`".*/>", ""
                 }
-                elseif ($Matches.Type -eq "SqlIndex") {
-                    if (-not $rawElement -match 'Name="(?<Name>.*?)".*?>') {
+                
+                if ($Matches.Type -eq "SqlIndex") {
+                    if (-not $($rawElement -match 'Name="(?<Name>.*?)".*?>')) {
                         continue
                     }
                     
                     if (-not $Matches.Name.StartsWith("$Schema.$Table", [System.StringComparison]::InvariantCultureIgnoreCase)) {
                         continue
                     }
+
+                    Write-PSFMessage -Level Verbose -Message "SqlIndex found" -Target $rawElement
                 }
+                
                 $outFile.WriteRaw($rawElement)
             }
             else {
@@ -217,7 +227,6 @@ function Update-D365BacpacModelFileSingleTable {
     
     end {
         if ($outFile) {
-
             $outFile.Flush()
             $outFile.Close()
             $outFile.Dispose()
