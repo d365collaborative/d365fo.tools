@@ -90,6 +90,7 @@
 						'Get-D365AzureStorageFile',
 						'Get-D365AzureStorageUrl',
 						'Get-D365BacpacSqlOptions',
+						'Get-D365BacpacTable',
 						'Get-D365BroadcastMessage',
 						'Get-D365BroadcastMessageConfig',
 
