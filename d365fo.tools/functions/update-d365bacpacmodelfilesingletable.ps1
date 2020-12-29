@@ -29,37 +29,37 @@
         Path to where you want the updated bacpac model file to be saved
         
         Default value is: "c:\temp\d365fo.tools"
-
+        
     .PARAMETER Force
         Switch to instruct the cmdlet to overwrite the bacpac model file specified in the OutputPath
-
+        
     .EXAMPLE
         PS C:\> Update-D365BacpacModelFileSingleTable -Path "c:\temp\d365fo.tools\bacpac.model.xml" -Table "SalesTable"
-
+        
         This will create an updated bacpac.model.xml file with only the SalesTable to be imported.
         It will read the "c:\temp\d365fo.tools\bacpac.model.xml" file.
         It will use the default "dbo" as the Schema parameter.
         It will use the "SalesTable" as the Table parameter.
         It will use the "c:\temp\d365fo.tools\dbo.salestable.model.xml" as the default path for OutputPath parameter.
-
+        
     .EXAMPLE
         PS C:\> Update-D365BacpacModelFileSingleTable -Path "c:\temp\d365fo.tools\bacpac.model.xml" -Table "CommissionSalesGroup" -Schema "AX"
-
+        
         This will create an updated bacpac.model.xml file with only the "CommissionSalesGroup", from the "AX" schema, to be imported.
         It will read the "c:\temp\d365fo.tools\bacpac.model.xml" file.
         It will use the "AX" as the Schema for the table.
         It will use the "CommissionSalesGroup" as the Table parameter.
         It will use the "c:\temp\d365fo.tools\ax.CommissionSalesGroup.model.xml" as the default path for OutputPath parameter.
-
+        
     .EXAMPLE
         PS C:\> Update-D365BacpacModelFileSingleTable -Path "c:\temp\d365fo.tools\bacpac.model.xml" -Table "SalesTable" -OutputPath "c:\temp\troubleshoot.xml"
-
+        
         This will create an updated bacpac.model.xml file with only the SalesTable to be imported.
         It will read the "c:\temp\d365fo.tools\bacpac.model.xml" file.
         It will use the default "dbo" as the Schema parameter.
         It will use the "SalesTable" as the Table parameter.
         It will use the "c:\temp\troubleshoot.xml" as the path for OutputPath parameter.
-
+        
     .EXAMPLE
         PS C:\> Export-D365BacpacModelFile -Path "c:\Temp\AxDB.bacpac" | Update-D365BacpacModelFileSingleTable -Table SalesTable
         
@@ -68,16 +68,16 @@
         It will use the default "dbo" as the Schema parameter.
         It will use the "SalesTable" as the Table parameter.
         It will use the "c:\temp\d365fo.tools\dbo.salestable.model.xml" as the default path for OutputPath parameter.
-
+        
     .EXAMPLE
         PS C:\> Update-D365BacpacModelFileSingleTable -Path "c:\temp\d365fo.tools\bacpac.model.xml" -Table "SalesTable" -Force
-
+        
         This will create an updated bacpac.model.xml file with only the SalesTable to be imported.
         It will read the "c:\temp\d365fo.tools\bacpac.model.xml" file.
         It will use the default "dbo" as the Schema parameter.
         It will use the "SalesTable" as the Table parameter.
         It will use the "c:\temp\d365fo.tools\dbo.salestable.model.xml" as the default path for OutputPath parameter.
-
+        
         It will overwrite the "c:\temp\d365fo.tools\dbo.salestable.model.xml" if it already exists.
         
     .NOTES
