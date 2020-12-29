@@ -16,6 +16,8 @@
     .PARAMETER OutputPath
         Path to where you want the updated bacpac file to be saved
         
+        Default value is: "c:\temp\d365fo.tools"
+
     .PARAMETER ExtractionPath
         Path to where you want the cmdlet to extract the files from the bacpac file while it deletes data
         
@@ -27,34 +29,30 @@
         Switch to instruct the cmdlet to overwrite the "model.xml" specified in the OutputPath
         
     .EXAMPLE
-        PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml"
+        PS C:\> Export-D365BacpacModelFile -Path "c:\Temp\AxDB.bacpac"
         
         This will extract the "model.xml" file from inside the bacpac file.
         
-        It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
-        It uses "C:\Temp\model.xml" as the OutputPath to where it will store the extracted "model.xml" file.
-        It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtractions".
-        
-        It will delete the extracted files after extracting the "model.xml" file.
+        It uses "c:\Temp\AxDB.bacpac" as the Path for the bacpac file.
+        It uses the default value "c:\temp\d365fo.tools" as the OutputPath to where it will store the extracted "bacpac.model.xml" file.
+        It uses the default ExtractionPath folder "c:\Temp\d365fo.tools\BacpacExtractions".
         
     .EXAMPLE
-        PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" -Force
+        PS C:\> Export-D365BacpacModelFile -Path "c:\Temp\AxDB.bacpac" -OutputPath "c:\Temp\model.xml" -Force
         
         This will extract the "model.xml" file from inside the bacpac file.
         
-        It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
-        It uses "C:\Temp\model.xml" as the OutputPath to where it will store the extracted "model.xml" file.
-        It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtractions".
+        It uses "c:\Temp\AxDB.bacpac" as the Path for the bacpac file.
+        It uses "c:\Temp\model.xml" as the OutputPath to where it will store the extracted "model.xml" file.
+        It uses the default ExtractionPath folder "c:\Temp\d365fo.tools\BacpacExtractions".
         
-        It will override the "C:\Temp\model.xml" if already present.
-        
-        It will delete the extracted files after extracting the "model.xml" file.
+        It will override the "c:\Temp\model.xml" if already present.
         
     .EXAMPLE
-        PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" | Get-D365BacpacSqlOptions
+        PS C:\> Export-D365BacpacModelFile -Path "c:\Temp\AxDB.bacpac" | Get-D365BacpacSqlOptions
         
         This will display all the SQL Server options configured in the bacpac file.
-        First it will export the model.xml from the "C:\Temp\AxDB.bacpac" file, using the Export-D365BacpacModelFile function.
+        First it will export the bacpac.model.xml from the "c:\Temp\AxDB.bacpac" file, using the Export-D365BacpacModelFile function.
         The output from Export-D365BacpacModelFile will be piped into the Get-D365BacpacSqlOptions function.
         
     .NOTES
