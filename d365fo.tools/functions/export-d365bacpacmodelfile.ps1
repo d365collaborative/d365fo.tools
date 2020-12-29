@@ -32,7 +32,7 @@
         This will leave the files in place, after the extraction of the "model.xml" file
         
     .EXAMPLE
-        PS C:\> Export-d365ModelFileFromBacpac -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml"
+        PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml"
         
         This will extract the "model.xml" file from inside the bacpac file.
         
@@ -43,7 +43,7 @@
         It will delete the extracted files after extracting the "model.xml" file.
         
     .EXAMPLE
-        PS C:\> Export-d365ModelFileFromBacpac -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" -Force
+        PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" -Force
         
         This will extract the "model.xml" file from inside the bacpac file.
         
@@ -56,7 +56,7 @@
         It will delete the extracted files after extracting the "model.xml" file.
         
     .EXAMPLE
-        PS C:\> Export-d365ModelFileFromBacpac -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" -KeepFiles
+        PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" -KeepFiles
         
         This will extract the "model.xml" file from inside the bacpac file.
         
@@ -68,11 +68,11 @@
         
         
     .EXAMPLE
-        PS C:\> Export-d365ModelFileFromBacpac -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" | Get-D365SqlOptionsFromBacpacModelFile
+        PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" | Get-D365BacpacSqlOptions
         
         This will display all the SQL Server options configured in the bacpac file.
-        First it will export the model.xml from the "C:\Temp\AxDB.bacpac" file, using the Export-d365ModelFileFromBacpac function.
-        The output from Export-d365ModelFileFromBacpac will be piped into the Get-D365SqlOptionsFromBacpacModelFile function.
+        First it will export the model.xml from the "C:\Temp\AxDB.bacpac" file, using the Export-D365BacpacModelFile function.
+        The output from Export-D365BacpacModelFile will be piped into the Get-D365BacpacSqlOptions function.
         
     .NOTES
         Tags: Bacpac, Servicing, Data, SqlPackage, Sql Server Options, Collation
@@ -80,8 +80,8 @@
         Author: Mötz Jensen (@Splaxi)
         
 #>
-
-function Export-D365ModelFileFromBacpac {
+function Export-D365BacpacModelFile {
+    [Alias("Export-D365ModelFileFromBacpac")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -89,14 +89,9 @@ function Export-D365ModelFileFromBacpac {
         [Alias('BacpacFile')]
         [string] $Path,
 
-        [Parameter(Mandatory = $true)]
-        [string] $OutputPath,
+        [string] $OutputPath = $Script:DefaultTempPath,
 
-        [string] $ExtractionPath = $(Join-Path $Script:DefaultTempPath "BacpacExtractions"),
-
-        [switch] $Force,
-
-        [switch] $KeepFiles
+        [switch] $Force
     )
     
     begin {
@@ -108,8 +103,8 @@ function Export-D365ModelFileFromBacpac {
 
         $fileName = [System.IO.Path]::GetFileNameWithoutExtension($Path)
         
-        if ([string]::IsNullOrEmpty([system.IO.Path]::GetExtension($OutputPath))) {
-            $OutputPath = Join-Path -Path $OutputPath -ChildPath "model.xml"
+        if ([System.IO.File]::GetAttributes($OutputPath).HasFlag([System.IO.FileAttributes]::Directory)) {
+            $OutputPath = Join-Path -Path $OutputPath -ChildPath "bacpac.model.xml"
         }
 
         if ($Path -like "*.bacpac") {
@@ -125,10 +120,6 @@ function Export-D365ModelFileFromBacpac {
             $archivePath = $Path
         }
 
-        $workPath = Join-Path -Path $ExtractionPath -ChildPath $fileName
-
-        if (-not (Test-PathExists -Path $ExtractionPath, $workPath -Type Container -Create)) { return }
-
         if (-not $Force) {
             if (-not (Test-PathExists -Path $OutputPath -Type Leaf -ShouldNotExist)) {
                 Write-PSFMessage -Level Host -Message "The <c='em'>$OutputPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or set the <c='em'>Force</c> parameter to overwrite the file."
@@ -141,13 +132,13 @@ function Export-D365ModelFileFromBacpac {
 
         $zipFileMetadata = [System.IO.Compression.ZipFile]::OpenRead($archivePath)
         
-        $modelFile = $zipFileMetadata.Entries | Where-Object {$_.Name -like "model.xml" } | Select-Object -First 1
+        $modelFile = $zipFileMetadata.Entries | Where-Object { $_.Name -like "model.xml" } | Select-Object -First 1
 
         [System.IO.Compression.ZipFileExtensions]::ExtractToFile($modelFile, $OutputPath, $true)
         $zipFileMetadata.Dispose()
 
         [PSCustomObject]@{
-            File = $OutputPath
+            File     = $OutputPath
             Filename = $(Split-Path -Path $OutputPath -Leaf)
         }
     }
@@ -155,10 +146,6 @@ function Export-D365ModelFileFromBacpac {
     end {
         if ($originalExtension -eq "bacpac") {
             Rename-Item -Path $archivePath -NewName "$($fileName).bacpac"
-        }
-        
-        if (-not $KeepFiles) {
-            Remove-Item -Path $workPath -Recurse -Force
         }
     }
 }
