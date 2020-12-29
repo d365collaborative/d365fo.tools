@@ -28,6 +28,7 @@
 #>
 
 function Get-D365BacpacSqlOptions {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [Alias("Get-D365SqlOptionsFromBacpacModelFile")]
     [CmdletBinding()]
     param (

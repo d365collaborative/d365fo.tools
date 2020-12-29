@@ -26,11 +26,6 @@
     .PARAMETER Force
         Switch to instruct the cmdlet to overwrite the "model.xml" specified in the OutputPath
         
-    .PARAMETER KeepFiles
-        Switch to instruct the cmdlet to keep the extracted files and folders
-        
-        This will leave the files in place, after the extraction of the "model.xml" file
-        
     .EXAMPLE
         PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml"
         
@@ -54,18 +49,6 @@
         It will override the "C:\Temp\model.xml" if already present.
         
         It will delete the extracted files after extracting the "model.xml" file.
-        
-    .EXAMPLE
-        PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" -KeepFiles
-        
-        This will extract the "model.xml" file from inside the bacpac file.
-        
-        It uses "C:\Temp\AxDB.bacpac" as the Path for the bacpac file.
-        It uses "C:\Temp\model.xml" as the OutputPath to where it will store the extracted "model.xml" file.
-        It uses the default ExtractionPath folder "C:\Temp\d365fo.tools\BacpacExtractions".
-        
-        It will NOT delete the extracted files after extracting the "model.xml" file.
-        
         
     .EXAMPLE
         PS C:\> Export-D365BacpacModelFile -Path "C:\Temp\AxDB.bacpac" -OutputPath "C:\Temp\model.xml" | Get-D365BacpacSqlOptions
