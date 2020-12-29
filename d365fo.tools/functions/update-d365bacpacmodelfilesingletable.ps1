@@ -7,11 +7,11 @@
         Update the "model.xml" file from inside the bacpac file to only handle a single table
         
         This can be used to restore a single table as fast as possible to a new data
-
+        
         The table will be created like ordinary bacpac restore, expect it will only have the raw table definition and indexes, all other objects are dropped
         
         The output can be used directly with the Import-D365Bacpac cmdlet and its ModelFile parameter, see the example sections for more details
-
+        
     .PARAMETER Path
         Path to the bacpac file that you want to work against
         
@@ -19,12 +19,12 @@
         
     .PARAMETER Table
         Name of the table that you want to be kept inside the model file when the update is done
-
+        
     .PARAMETER Schema
         Schema where the table that you want to work against exists
-
+        
         The default value is "dbo"
-
+        
     .PARAMETER OutputPath
         Path to where you want the updated bacpac model file to be saved
         
