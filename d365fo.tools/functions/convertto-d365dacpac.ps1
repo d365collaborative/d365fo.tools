@@ -30,7 +30,7 @@
 #>
 function ConvertTo-D365Dacpac {
     [CmdletBinding()]
-    [OutputType('PSCustomObject')]
+    [OutputType()]
     param (
         [Parameter(Mandatory = $true)]
         [Alias('File')]
