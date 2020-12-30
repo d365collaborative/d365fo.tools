@@ -516,7 +516,7 @@
     },
     {
         "CommandName":  "Clear-D365BacpacTableData",
-        "Description":  "Remove all data for a table inside a bacpac file, before restoring it into your SQL Server / Azure SQL DB\n\nIt will extract the bacpac file as a zip archive, locate the desired table and remove the data that otherwise would have been loaded\n\nIt will re-zip / compress a new bacpac file for you",
+        "Description":  "Remove all data for a table inside a bacpac/dacpac or zip file, before restoring it into your SQL Server / Azure SQL DB\n\nIt will open the file as a zip archive, locate the desired table and remove the data that otherwise would have been loaded\n\nThe default behavior is that you get a copy of the file, where the desired data is removed",
         "Tags":  [
                      "Bacpac",
                      "Servicing",
@@ -527,7 +527,7 @@
         "Params":  [
                        [
                            "Path",
-                           "Path to the bacpac file that you want to work against\nIt can also be a zip file",
+                           "Path to the bacpac/dacpac or zip file that you want to work against",
                            "BacpacFile,File",
                            true,
                            "false",
@@ -543,7 +543,7 @@
                        ],
                        [
                            "OutputPath",
-                           "Path to where you want the updated bacpac file to be saved",
+                           "Path to where you want the updated bacpac/dacpac or zip file to be saved",
                            "",
                            true,
                            "false",
@@ -560,7 +560,7 @@
                    ],
         "Alias":  "Clear-D365TableDataFromBacpac",
         "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Clear out data for a table inside the bacpac file",
+        "Synopsis":  "Clear out data for a table inside the bacpac/dacpac or zip file",
         "Name":  "Clear-D365BacpacTableData",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eClear-D365BacpacTableData -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"BATCHJOBHISTORY\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\"\nThis will remove the data from the BatchJobHistory table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"BATCHJOBHISTORY\" as the TableName to delete data from.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eClear-D365BacpacTableData -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"dbo.BATCHHISTORY\",\"BATCHJOBHISTORY\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\"\nThis will remove the data from the dbo.BatchHistory and BatchJobHistory table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"dbo.BATCHHISTORY\",\"BATCHJOBHISTORY\" as the TableName to delete data from.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eClear-D365BacpacTableData -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"dbo.BATCHHISTORY\",\"BATCHJOBHISTORY\" -ClearFromSource\nThis will remove the data from the dbo.BatchHistory and BatchJobHistory table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"dbo.BATCHHISTORY\",\"BATCHJOBHISTORY\" as the TableName to delete data from.\nCaution:\r\nIt will remove from the source \"C:\\Temp\\AxDB.bacpac\" directly. So if the original file is important for further processing, please consider the risks carefully.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eClear-D365BacpacTableData -Path \"C:\\Temp\\AxDB.bacpac\" -TableName \"CustomTableNameThatDoesNotExists\",\"BATCHJOBHISTORY\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\" -ErrorAction SilentlyContinue\nThis will remove the data from the BatchJobHistory table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"CustomTableNameThatDoesNotExists\",\"BATCHJOBHISTORY\" as the TableName to delete data from.\r\nIt respects the respects the ErrorAction \"SilentlyContinue\", and will continue removing tables from the bacpac file, even when some tables are missing.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.",
@@ -684,7 +684,7 @@
         "Synopsis":  "Convert bacpac file to dacpac",
         "Name":  "ConvertTo-D365Dacpac",
         "Links":  null,
-        "Examples":  "",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eConvertTo-D365Dacpac -Path \"C:\\Temp\\AxDB.bacpac\"\nThis will convert the bacpac file into a dacpac file.\r\nIt will extract the origin.xml file, update it and apply it to the file.\r\nIt will rename the file into a dacpac.\nThe source file will be manipulated, so be careful to have an extra copy of the file.",
         "Syntax":  "ConvertTo-D365Dacpac [-Path] \u003cString\u003e [\u003cCommonParameters\u003e]"
     },
     {
@@ -5187,7 +5187,7 @@
         "Synopsis":  "Import dacpac file to a database",
         "Name":  "Import-D365Dacpac",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eAn example",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365Dacpac -Path \"c:\\Temp\\AxDB.dacpac\" -ModelFile \"c:\\Temp\\dbo.salestable.model.xml\"\nThis will import the dacpac file and use the modified model file while doing so.\r\nIt will use the \"c:\\Temp\\AxDB.dacpac\" as the Path parameter.\r\nIt will use the \"c:\\Temp\\dbo.salestable.model.xml\" as the ModelFile parameter.\nThis is used to enable single table restore / publish.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eImport-D365Dacpac -Path \"c:\\Temp\\AxDB.dacpac\" -ModelFile \"c:\\Temp\\dbo.salestable.model.xml\" -DiagnosticFile \"C:\\temp\\ImportLog.txt\" -MaxParallelism 32\nThis will import the dacpac file and use the modified model file while doing so.\r\nIt will use the \"c:\\Temp\\AxDB.dacpac\" as the Path parameter.\r\nIt will use the \"c:\\Temp\\dbo.salestable.model.xml\" as the ModelFile parameter.\r\nIt will use the \"C:\\temp\\ImportLog.txt\" as the DiagnosticFile parameter, where the diagnostic file will be stored.\nIt will use 32 connections against the database server while importing the bacpac file.\nThis is used to enable single table restore / publish.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eImport-D365Dacpac -Path \"c:\\Temp\\AxDB.dacpac\" -PublishFile \"c:\\Temp\\publish.xml\"\nThis will import the dacpac file and use the Publish file which contains advanced configuration instructions for SqlPackage.exe.\r\nIt will use the \"c:\\Temp\\AxDB.dacpac\" as the Path parameter.\r\nIt will use the \"c:\\Temp\\publish.xml\" as the PublishFile parameter, which contains advanced configuration instructions for SqlPackage.exe.\nThis is used to enable full restore / publish, but to avoid some of the common pitfalls.",
         "Syntax":  "Import-D365Dacpac [-Path] \u003cString\u003e [[-ModelFile] \u003cString\u003e] [[-PublishFile] \u003cString\u003e] [[-DiagnosticFile] \u003cString\u003e] [[-MaxParallelism] \u003cInt32\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
