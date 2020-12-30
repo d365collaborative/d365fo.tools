@@ -60,6 +60,7 @@
 						'Clear-D365BacpacTableData',
 						'Clear-D365MonitorData',
 						'Clear-D365TempDbTables',
+						'ConvertTo-D365Dacpac',
 
 						'Publish-D365SsrsReport',
 
