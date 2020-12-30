@@ -33,7 +33,7 @@
         It will save disk space and time, because it doesn't have to create a copy of the bacpac file, before deleting tables from it
         
     .EXAMPLE
-        PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
+        PS C:\> Clear-D365BacpacTableData -Path "C:\Temp\AxDB.bacpac" -TableName "BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
         
         This will remove the data from the BatchJobHistory table from inside the bacpac file.
         
@@ -42,7 +42,7 @@
         It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
         
     .EXAMPLE
-        PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "dbo.BATCHHISTORY","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
+        PS C:\> Clear-D365BacpacTableData -Path "C:\Temp\AxDB.bacpac" -TableName "dbo.BATCHHISTORY","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
         
         This will remove the data from the dbo.BatchHistory and BatchJobHistory table from inside the bacpac file.
         
@@ -51,7 +51,7 @@
         It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store the updated bacpac file.
         
     .EXAMPLE
-        PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "dbo.BATCHHISTORY","BATCHJOBHISTORY" -ClearFromSource
+        PS C:\> Clear-D365BacpacTableData -Path "C:\Temp\AxDB.bacpac" -TableName "dbo.BATCHHISTORY","BATCHJOBHISTORY" -ClearFromSource
         
         This will remove the data from the dbo.BatchHistory and BatchJobHistory table from inside the bacpac file.
         
@@ -62,7 +62,7 @@
         It will remove from the source "C:\Temp\AxDB.bacpac" directly. So if the original file is important for further processing, please consider the risks carefully.
         
     .EXAMPLE
-        PS C:\> Clear-D365TableDataFromBacpac -Path "C:\Temp\AxDB.bacpac" -TableName "CustomTableNameThatDoesNotExists","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac" -ErrorAction SilentlyContinue
+        PS C:\> Clear-D365BacpacTableData -Path "C:\Temp\AxDB.bacpac" -TableName "CustomTableNameThatDoesNotExists","BATCHJOBHISTORY" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac" -ErrorAction SilentlyContinue
         
         This will remove the data from the BatchJobHistory table from inside the bacpac file.
         
@@ -78,7 +78,8 @@
         
 #>
 
-function Clear-D365TableDataFromBacpac {
+function Clear-D365BacpacTableData {
+    [Alias("Clear-D365TableDataFromBacpac")]
     [CmdletBinding(DefaultParameterSetName = "Copy")]
     param (
         [Parameter(Mandatory = $true)]
@@ -87,7 +88,8 @@ function Clear-D365TableDataFromBacpac {
         [string] $Path,
 
         [Parameter(Mandatory = $true)]
-        [string[]] $TableName,
+        [Alias("TableName")]
+        [string[]] $Table,
 
         [Parameter(Mandatory = $true, ParameterSetName = "Copy")]
         [string] $OutputPath,
@@ -103,45 +105,29 @@ function Clear-D365TableDataFromBacpac {
         $newFilename = ""
 
         if ($ClearFromSource) {
-            $compressPath = $Path.Replace(".bacpac", ".zip")
-            $newFilename = Split-Path -Path $compressPath -Leaf
-
-            Write-PSFMessage -Level Verbose -Message "Renaming the file '$Path' to '$compressPath'."
-            Rename-Item -Path $Path -NewName $newFilename
-
-            $newFilename = $newFilename.Replace(".zip", ".bacpac")
+            $compressPath = $Path
         }
         else {
-            if ($OutputPath -like "*.bacpac") {
-                $compressPath = $OutputPath.Replace(".bacpac", ".zip")
-                $newFilename = Split-Path -Path $OutputPath -Leaf
-            }
-            else {
-                $compressPath = $OutputPath
-            }
+            $compressPath = $OutputPath
 
             if (-not (Test-PathExists -Path $compressPath -Type Leaf -ShouldNotExist)) {
                 Write-PSFMessage -Level Host -Message "The <c='em'>$compressPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$compressPath</c> file."
                 return
             }
 
-            if (-not (Test-PathExists -Path $OutputPath -Type Leaf -ShouldNotExist)) {
-                Write-PSFMessage -Level Host -Message "The <c='em'>$OutputPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or <c='em'>delete</c> the <c='em'>$OutputPath</c> file."
-                return
-            }
+            if (Test-PSFFunctionInterrupt) { return }
 
             Write-PSFMessage -Level Verbose -Message "Copying the file from '$Path' to '$compressPath'"
             Copy-Item -Path $Path -Destination $compressPath
             Write-PSFMessage -Level Verbose -Message "Copying was completed."
-
-            if (Test-PSFFunctionInterrupt) { return }
         }
+        
+        Write-PSFMessage -Level Verbose -Message "Opening the file '$compressPath'."
+        $file = [System.IO.File]::Open($compressPath, [System.IO.FileMode]::Open)
+        $zipArch = [System.IO.Compression.ZipArchive]::new($file, [System.IO.Compression.ZipArchiveMode]::Update)
+        Write-PSFMessage -Level Verbose -Message "File '$compressPath' was read succesfully."
 
-        Write-PSFMessage -Level Verbose -Message "Opening the file '$Path'."
-        $zipFileMetadata = [System.IO.Compression.ZipFile]::Open($compressPath, [System.IO.Compression.ZipArchiveMode]::Update)
-        Write-PSFMessage -Level Verbose -Message "File '$Path' was read succesfully."
-
-        if ($null -eq $zipFileMetadata) {
+        if (-not $zipArch) {
             $messageString = "Unable to open the file <c='em'>$compressPath</c>."
             Write-PSFMessage -Level Host -Message $messageString
             Stop-PSFFunction -Message "Stopping because the file couldn't be opened." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
@@ -152,22 +138,21 @@ function Clear-D365TableDataFromBacpac {
     process {
         if (Test-PSFFunctionInterrupt) { return }
         
-        foreach ($table in $TableName) {
+        foreach ($item in $Table) {
             $fullTableName = ""
 
-            if (-not ($table -like "*.*")) {
-                $fullTableName = "dbo.$table"
+            if (-not ($item -like "*.*")) {
+                $fullTableName = "dbo.$item"
             }
             else {
-                $fullTableName = $table
+                $fullTableName = $item
             }
 
             Write-PSFMessage -Level Verbose -Message "Looking for $fullTableName."
-
-            $entries = $zipFileMetadata.Entries | Where-Object Fullname -like "Data/$fullTableName/*"
+            $entries = @($zipArch.Entries | Where-Object Fullname -like "Data/$fullTableName/*")
 
             if ($entries.Count -lt 1) {
-                Write-PSFMessage -Level Host -Message "The <c='em'>$table</c> wasn't found. Please ensure that the <c='em'>schema</c> or <c='em'>name</c> is correct."
+                Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> wasn't found. Please ensure that the <c='em'>schema</c> or <c='em'>name</c> is correct."
                 
                 $parms = @{Message = "Stopping because table was not present." }
                 if ($ErrorActionPreference -eq "SilentlyContinue") {
@@ -192,22 +177,20 @@ function Clear-D365TableDataFromBacpac {
 
         $res = @{ }
 
-        if ($null -ne $zipFileMetadata) {
+        if ($zipArch) {
             Write-PSFMessage -Level Verbose -Message "Closing and saving the file."
-            $zipFileMetadata.Dispose()
-        }
-        
-        if ($newFilename -ne "") {
-            Rename-Item -Path $compressPath -NewName $newFilename
-            $res.File = Join-path -Path $(Split-Path -Path $compressPath -Parent) -ChildPath $newFilename
-            $res.Filename = $newFilename
-        }
-        else {
-            $res.File = $compressPath
-            $res.Filename = $(Split-Path -Path $compressPath -Leaf)
+            $zipArch.Dispose()
         }
 
+        if ($file) {
+            $file.Close()
+            $file.Dispose()
+        }
+        
         if (Test-PSFFunctionInterrupt) { return }
+
+        $res.File = $compressPath
+        $res.Filename = $(Split-Path -Path $compressPath -Leaf)
 
         [PSCustomObject]$res
     }

@@ -57,8 +57,8 @@
 						'Backup-D365Runbook',
 
 						'Clear-D365ActiveBroadcastMessageConfig',
+						'Clear-D365BacpacTableData',
 						'Clear-D365MonitorData',
-						'Clear-D365TableDataFromBacpac',
 						'Clear-D365TempDbTables',
 
 						'Publish-D365SsrsReport',
@@ -302,6 +302,7 @@
 						, 'Invoke-D365SqlCmd'
 						, 'Export-D365ModelFileFromBacpac'
 						, 'Get-D365SqlOptionsFromBacpacModelFile'
+						, 'Clear-D365TableDataFromBacpac'
 						)
 
     # List of all modules packaged with this module
