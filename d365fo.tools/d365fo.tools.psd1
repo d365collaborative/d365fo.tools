@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-	ModuleVersion     = '0.6.45'
+	ModuleVersion     = '0.6.46'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -57,9 +57,10 @@
 						'Backup-D365Runbook',
 
 						'Clear-D365ActiveBroadcastMessageConfig',
+						'Clear-D365BacpacTableData',
 						'Clear-D365MonitorData',
-						'Clear-D365TableDataFromBacpac',
 						'Clear-D365TempDbTables',
+						'ConvertTo-D365Dacpac',
 
 						'Publish-D365SsrsReport',
 
@@ -167,6 +168,7 @@
 						'Import-D365AadUser',
 						'Import-D365AadApplication',
 						'Import-D365Bacpac',
+						'Import-D365Dacpac',
 						'Import-D365Model',
 						'Import-D365ExternalUser',
 						'Import-D365RsatSelfServiceCertificates',
@@ -302,6 +304,7 @@
 						, 'Invoke-D365SqlCmd'
 						, 'Export-D365ModelFileFromBacpac'
 						, 'Get-D365SqlOptionsFromBacpacModelFile'
+						, 'Clear-D365TableDataFromBacpac'
 						)
 
     # List of all modules packaged with this module

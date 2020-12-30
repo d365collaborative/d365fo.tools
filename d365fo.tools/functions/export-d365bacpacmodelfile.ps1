@@ -18,13 +18,6 @@
         
         Default value is: "c:\temp\d365fo.tools"
         
-    .PARAMETER ExtractionPath
-        Path to where you want the cmdlet to extract the files from the bacpac file while it deletes data
-        
-        The default value is "c:\temp\d365fo.tools\BacpacExtractions"
-        
-        When working the cmdlet will create a sub-folder named like the bacpac file
-        
     .PARAMETER Force
         Switch to instruct the cmdlet to overwrite the "model.xml" specified in the OutputPath
         
@@ -35,7 +28,6 @@
         
         It uses "c:\Temp\AxDB.bacpac" as the Path for the bacpac file.
         It uses the default value "c:\temp\d365fo.tools" as the OutputPath to where it will store the extracted "bacpac.model.xml" file.
-        It uses the default ExtractionPath folder "c:\Temp\d365fo.tools\BacpacExtractions".
         
     .EXAMPLE
         PS C:\> Export-D365BacpacModelFile -Path "c:\Temp\AxDB.bacpac" -OutputPath "c:\Temp\model.xml" -Force
@@ -44,7 +36,6 @@
         
         It uses "c:\Temp\AxDB.bacpac" as the Path for the bacpac file.
         It uses "c:\Temp\model.xml" as the OutputPath to where it will store the extracted "model.xml" file.
-        It uses the default ExtractionPath folder "c:\Temp\d365fo.tools\BacpacExtractions".
         
         It will override the "c:\Temp\model.xml" if already present.
         
@@ -79,26 +70,11 @@ function Export-D365BacpacModelFile {
         if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
 
         if (Test-PSFFunctionInterrupt) { return }
-
-        $originalExtension = ""
-
-        $fileName = [System.IO.Path]::GetFileNameWithoutExtension($Path)
         
-        if ([System.IO.File]::GetAttributes($OutputPath).HasFlag([System.IO.FileAttributes]::Directory)) {
-            $OutputPath = Join-Path -Path $OutputPath -ChildPath "bacpac.model.xml"
-        }
-
-        if ($Path -like "*.bacpac") {
-            Write-PSFMessage -Level Verbose -Message "Renaming the bacpac file to zip, to be able to extract the file. $($fileName).zip" -Target $Path
-
-            Rename-Item -Path $Path -NewName "$($fileName).zip"
-
-            $originalExtension = "bacpac"
-
-            $archivePath = Join-Path -Path (Split-Path -Path $Path -Parent) -ChildPath "$($fileName).zip"
-        }
-        else {
-            $archivePath = $Path
+        if (-not $([System.IO.File]::Exists($OutputPath) -and [System.IO.Directory]::Exists($OutputPath))) {
+            if (-not [System.IO.Path]::GetExtension($OutputPath)) {
+                $OutputPath = Join-Path -Path $OutputPath -ChildPath "bacpac.model.xml"
+            }
         }
 
         if (-not $Force) {
@@ -110,23 +86,39 @@ function Export-D365BacpacModelFile {
         }
 
         if (Test-PSFFunctionInterrupt) { return }
-
-        $zipFileMetadata = [System.IO.Compression.ZipFile]::OpenRead($archivePath)
-        
-        $modelFile = $zipFileMetadata.Entries | Where-Object { $_.Name -like "model.xml" } | Select-Object -First 1
-
-        [System.IO.Compression.ZipFileExtensions]::ExtractToFile($modelFile, $OutputPath, $true)
-        $zipFileMetadata.Dispose()
-
-        [PSCustomObject]@{
-            File     = $OutputPath
-            Filename = $(Split-Path -Path $OutputPath -Leaf)
-        }
     }
     
     end {
-        if ($originalExtension -eq "bacpac") {
-            Rename-Item -Path $archivePath -NewName "$($fileName).bacpac"
+        if (Test-PSFFunctionInterrupt) { return }
+        
+        $file = [System.IO.File]::Open($Path, [System.IO.FileMode]::Open)
+
+        $zipArch = [System.IO.Compression.ZipArchive]::new($file)
+        
+        $modelEntry = $zipArch.GetEntry("model.xml")
+
+        if (-not $modelEntry) {
+            $messageString = "Unable to find the <c='em'>model.xml</c> file inside the archive. It would indicate the <c='em'>$Path</c> isn't a valid bacpac or dacpac."
+            Write-PSFMessage -Level Host -Message $messageString
+            Stop-PSFFunction -Message "Stopping because model.xml wasn't found." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
+        }
+        
+        if (Test-PSFFunctionInterrupt) { return }
+
+        [System.IO.Compression.ZipFileExtensions]::ExtractToFile($modelEntry, $OutputPath, $true)
+
+        if ($zipArch) {
+            $zipArch.Dispose()
+        }
+
+        if ($file) {
+            $file.Close()
+            $file.Dispose()
+        }
+        
+        [PSCustomObject]@{
+            File     = $OutputPath
+            Filename = $(Split-Path -Path $OutputPath -Leaf)
         }
     }
 }
