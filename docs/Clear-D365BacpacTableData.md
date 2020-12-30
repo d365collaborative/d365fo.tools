@@ -8,7 +8,7 @@ schema: 2.0.0
 # Clear-D365BacpacTableData
 
 ## SYNOPSIS
-Clear out data for a table inside the bacpac file
+Clear out data for a table inside the bacpac/dacpac or zip file
 
 ## SYNTAX
 
@@ -23,11 +23,11 @@ Clear-D365BacpacTableData -Path <String> -Table <String[]> [-ClearFromSource] [<
 ```
 
 ## DESCRIPTION
-Remove all data for a table inside a bacpac file, before restoring it into your SQL Server / Azure SQL DB
+Remove all data for a table inside a bacpac/dacpac or zip file, before restoring it into your SQL Server / Azure SQL DB
 
-It will extract the bacpac file as a zip archive, locate the desired table and remove the data that otherwise would have been loaded
+It will open the file as a zip archive, locate the desired table and remove the data that otherwise would have been loaded
 
-It will re-zip / compress a new bacpac file for you
+The default behavior is that you get a copy of the file, where the desired data is removed
 
 ## EXAMPLES
 
@@ -82,9 +82,7 @@ It uses "C:\Temp\AXBD_Cleaned.bacpac" as the OutputPath to where it will store t
 ## PARAMETERS
 
 ### -Path
-Path to the bacpac file that you want to work against
-
-It can also be a zip file
+Path to the bacpac/dacpac or zip file that you want to work against
 
 ```yaml
 Type: String
@@ -114,7 +112,7 @@ Accept wildcard characters: False
 ```
 
 ### -OutputPath
-Path to where you want the updated bacpac file to be saved
+Path to where you want the updated bacpac/dacpac or zip file to be saved
 
 ```yaml
 Type: String
