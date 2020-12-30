@@ -60,6 +60,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### PSCustomObject
 ## NOTES
 Tags: Bacpac, Servicing, Data, SqlPackage, Dacpac, Table
 
