@@ -7,9 +7,9 @@
         Remove all data for a table inside a bacpac/dacpac or zip file, before restoring it into your SQL Server / Azure SQL DB
         
         It will open the file as a zip archive, locate the desired table and remove the data that otherwise would have been loaded
-
+        
         The default behavior is that you get a copy of the file, where the desired data is removed
-
+        
     .PARAMETER Path
         Path to the bacpac/dacpac or zip file that you want to work against
         

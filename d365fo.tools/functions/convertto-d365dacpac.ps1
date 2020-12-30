@@ -15,11 +15,11 @@
         
     .EXAMPLE
         PS C:\> ConvertTo-D365Dacpac -Path "C:\Temp\AxDB.bacpac"
-
+        
         This will convert the bacpac file into a dacpac file.
         It will extract the origin.xml file, update it and apply it to the file.
         It will rename the file into a dacpac.
-
+        
         The source file will be manipulated, so be careful to have an extra copy of the file.
         
     .NOTES

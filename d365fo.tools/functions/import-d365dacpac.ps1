@@ -68,34 +68,34 @@
         
     .EXAMPLE
         PS C:\> Import-D365Dacpac -Path "c:\Temp\AxDB.dacpac" -ModelFile "c:\Temp\dbo.salestable.model.xml"
-
+        
         This will import the dacpac file and use the modified model file while doing so.
         It will use the "c:\Temp\AxDB.dacpac" as the Path parameter.
         It will use the "c:\Temp\dbo.salestable.model.xml" as the ModelFile parameter.
-
+        
         This is used to enable single table restore / publish.
-
+        
     .EXAMPLE
         PS C:\> Import-D365Dacpac -Path "c:\Temp\AxDB.dacpac" -ModelFile "c:\Temp\dbo.salestable.model.xml" -DiagnosticFile "C:\temp\ImportLog.txt" -MaxParallelism 32
-
+        
         This will import the dacpac file and use the modified model file while doing so.
         It will use the "c:\Temp\AxDB.dacpac" as the Path parameter.
         It will use the "c:\Temp\dbo.salestable.model.xml" as the ModelFile parameter.
         It will use the "C:\temp\ImportLog.txt" as the DiagnosticFile parameter, where the diagnostic file will be stored.
         
         It will use 32 connections against the database server while importing the bacpac file.
-
+        
         This is used to enable single table restore / publish.
         
     .EXAMPLE
         PS C:\> Import-D365Dacpac -Path "c:\Temp\AxDB.dacpac" -PublishFile "c:\Temp\publish.xml"
-
+        
         This will import the dacpac file and use the Publish file which contains advanced configuration instructions for SqlPackage.exe.
         It will use the "c:\Temp\AxDB.dacpac" as the Path parameter.
         It will use the "c:\Temp\publish.xml" as the PublishFile parameter, which contains advanced configuration instructions for SqlPackage.exe.
-
+        
         This is used to enable full restore / publish, but to avoid some of the common pitfalls.
-
+        
     .NOTES
         Tags: Database, Dacpac, Tier1, Tier2, Golden Config, Config, Configuration
         
