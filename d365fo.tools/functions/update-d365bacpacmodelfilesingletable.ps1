@@ -168,7 +168,7 @@ function Update-D365BacpacModelFileSingleTable {
                     continue
                 }
 
-                if ($Matches.Type -NotIn "SqlSchema", "SqlTable", "SqlDatabaseOptions", "SqlGenericDatabaseScopedConfigurationOptions", "SqlIndex") {
+                if ($Matches.Type -NotIn "SqlSchema", "SqlTable", "SqlDatabaseOptions", "SqlGenericDatabaseScopedConfigurationOptions", "SqlIndex", "SqlPrimaryKeyConstraint") {
                     continue
                 }
         
@@ -208,6 +208,14 @@ function Update-D365BacpacModelFileSingleTable {
                     }
 
                     Write-PSFMessage -Level Verbose -Message "SqlIndex found" -Target $rawElement
+                }
+
+                if ($Matches.Type -eq "SqlPrimaryKeyConstraint") {
+                    if (-not $(([System.Xml.XmlDocument]$rawElement).SelectSingleNode("//Relationship[@Name='DefiningTable']/Entry/References/@Name")."#text").Equals("$Schema.$Table", [System.StringComparison]::InvariantCultureIgnoreCase)) {
+                        continue
+                    }
+
+                    Write-PSFMessage -Level Verbose -Message "SqlPrimaryKeyConstraint found" -Target $rawElement
                 }
                 
                 $outFile.WriteRaw($rawElement)
