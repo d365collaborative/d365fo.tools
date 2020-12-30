@@ -182,7 +182,7 @@
 		It 'Should have the expected parameter MaxParallelism' {
 			$parameter = (Get-Command New-D365Bacpac).Parameters['MaxParallelism']
 			$parameter.Name | Should -Be 'MaxParallelism'
-			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.ParameterType.ToString() | Should -Be System.Int32
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'

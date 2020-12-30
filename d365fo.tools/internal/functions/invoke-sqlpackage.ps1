@@ -108,7 +108,7 @@ function Invoke-SqlPackage {
 
         [string] $ModelFile,
 
-        [string] $MaxParallelism,
+        [int] $MaxParallelism,
 
         [string] $LogPath,
 
@@ -170,7 +170,7 @@ function Invoke-SqlPackage {
     }
 
     if (-not [system.string]::IsNullOrEmpty($MaxParallelism)) {
-        $null = $Params.Add("/mp:`"$MaxParallelism`"")
+        $null = $Params.Add("/MaxParallelism:$MaxParallelism")
     }
 
     Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
