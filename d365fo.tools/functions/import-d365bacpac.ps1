@@ -236,7 +236,7 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2')]
         [switch] $ImportOnly,
         
-        [string] $MaxParallelism = 8,
+        [int] $MaxParallelism = 8,
 
         [Alias('LogDir')]
         [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ImportBacpac"),
@@ -275,6 +275,7 @@ function Import-D365Bacpac {
     $ImportParams = @{
         Action   = "import"
         FilePath = $BacpacFile
+        MaxParallelism = $MaxParallelism
     }
 
     if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {

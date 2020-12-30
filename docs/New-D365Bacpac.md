@@ -16,7 +16,7 @@ Generate a bacpac file from a database
 ```
 New-D365Bacpac [-ExportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [-SqlUser] <String>
  [-SqlPwd] <String> [[-NewDatabaseName] <String>] [[-BacpacFile] <String>] [[-CustomSqlFile] <String>]
- [-DiagnosticFile <String>] [-ExportOnly] [-MaxParallelism <String>] [-ShowOriginalProgress]
+ [-DiagnosticFile <String>] [-ExportOnly] [-MaxParallelism <Int32>] [-ShowOriginalProgress]
  [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
@@ -24,7 +24,7 @@ New-D365Bacpac [-ExportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseName] 
 ```
 New-D365Bacpac [-ExportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
  [[-SqlPwd] <String>] [[-BackupDirectory] <String>] [[-NewDatabaseName] <String>] [[-BacpacFile] <String>]
- [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ExportOnly] [-MaxParallelism <String>]
+ [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ExportOnly] [-MaxParallelism <Int32>]
  [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
@@ -328,7 +328,7 @@ Sets SqlPackage.exe's degree of parallelism for concurrent operations running ag
 The default value is 8.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
