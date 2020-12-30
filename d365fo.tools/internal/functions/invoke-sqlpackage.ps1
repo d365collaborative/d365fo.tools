@@ -43,7 +43,14 @@
         This is used to override SQL Server options, like collation and etc
         
     .PARAMETER MaxParallelism
-        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database
+        
+        The default value is 8
+        
+    .PARAMETER PublishFile
+        Path to the profile / publish xml file that contains all the advanced configuration instructions for the SqlPackage
+        
+        Used only in combination with the Publish action
         
     .PARAMETER LogPath
         The path where the log file(s) will be saved
