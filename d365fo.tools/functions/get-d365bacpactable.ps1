@@ -226,26 +226,9 @@ function Get-D365BacpacTable {
 
         if (Test-PSFFunctionInterrupt) { return }
 
-        $originalExtension = ""
+        $file = [System.IO.File]::Open($Path, [System.IO.FileMode]::Open)
 
-        $fileName = [System.IO.Path]::GetFileNameWithoutExtension($Path)
-        
-        if ($Path -like "*.bacpac") {
-            Write-PSFMessage -Level Verbose -Message "Renaming the bacpac file to zip, to be able to extract the file. $($fileName).zip" -Target $Path
-
-            Rename-Item -Path $Path -NewName "$($fileName).zip"
-
-            $originalExtension = "bacpac"
-
-            $archivePath = Join-Path -Path (Split-Path -Path $Path -Parent) -ChildPath "$($fileName).zip"
-        }
-        else {
-            $archivePath = $Path
-        }
-
-        if (Test-PSFFunctionInterrupt) { return }
-
-        $zipFileMetadata = [System.IO.Compression.ZipFile]::OpenRead($archivePath)
+        $zipArch = [System.IO.Compression.ZipArchive]::new($file)
     }
 
     process {
@@ -269,7 +252,7 @@ function Get-D365BacpacTable {
             
             Write-PSFMessage -Level Verbose -Message "Looking for $fullTableName."
 
-            $entries = $zipFileMetadata.Entries | Where-Object Fullname -like "Data/$fullTableName/*"
+            $entries = $zipArch.Entries | Where-Object Fullname -like "Data/$fullTableName/*"
 
             $bulkFilesArray.AddRange(@($($entries | Select-Object -Property *, @{Name = "Table"; Expression = { $_.FullName.Split("/")[1] } })))
         }
@@ -299,14 +282,15 @@ function Get-D365BacpacTable {
     }
     
     end {
-        if ($zipFileMetadata) {
+        if ($zipArch) {
             $bulkFilesArray.Clear()
             $bulkFilesArray = $null
-            $zipFileMetadata.Dispose()
+            $zipArch.Dispose()
         }
 
-        if ($originalExtension -eq "bacpac") {
-            Rename-Item -Path $archivePath -NewName "$($fileName).bacpac"
+        if ($file) {
+            $file.Close()
+            $file.Dispose()
         }
     }
 }

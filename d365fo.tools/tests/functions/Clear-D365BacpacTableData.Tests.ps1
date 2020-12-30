@@ -1,4 +1,4 @@
-﻿Describe "Clear-D365TableDataFromBacpac Unit Tests" -Tag "Unit" {
+﻿Describe "Clear-D365BacpacTableData Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -8,11 +8,11 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Clear-D365TableDataFromBacpac).ParameterSets.Name | Should -Be 'Copy', 'Keep'
+			(Get-Command Clear-D365BacpacTableData).ParameterSets.Name | Should -Be 'Copy', 'Keep'
 		}
 		
 		It 'Should have the expected parameter Path' {
-			$parameter = (Get-Command Clear-D365TableDataFromBacpac).Parameters['Path']
+			$parameter = (Get-Command Clear-D365BacpacTableData).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
@@ -24,9 +24,9 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter TableName' {
-			$parameter = (Get-Command Clear-D365TableDataFromBacpac).Parameters['TableName']
-			$parameter.Name | Should -Be 'TableName'
+		It 'Should have the expected parameter Table' {
+			$parameter = (Get-Command Clear-D365BacpacTableData).Parameters['Table']
+			$parameter.Name | Should -Be 'Table'
 			$parameter.ParameterType.ToString() | Should -Be System.String[]
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
@@ -38,7 +38,7 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter OutputPath' {
-			$parameter = (Get-Command Clear-D365TableDataFromBacpac).Parameters['OutputPath']
+			$parameter = (Get-Command Clear-D365BacpacTableData).Parameters['OutputPath']
 			$parameter.Name | Should -Be 'OutputPath'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
@@ -51,7 +51,7 @@
 			$parameter.ParameterSets['Copy'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter ClearFromSource' {
-			$parameter = (Get-Command Clear-D365TableDataFromBacpac).Parameters['ClearFromSource']
+			$parameter = (Get-Command Clear-D365BacpacTableData).Parameters['ClearFromSource']
 			$parameter.Name | Should -Be 'ClearFromSource'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
 			$parameter.IsDynamic | Should -Be $False
@@ -67,14 +67,14 @@
 	
 	Describe "Testing parameterset Copy" {
 		<#
-		Copy -Path -TableName -OutputPath
-		Copy -Path -TableName -OutputPath
+		Copy -Path -Table -OutputPath
+		Copy -Path -Table -OutputPath
 		#>
 	}
  	Describe "Testing parameterset Keep" {
 		<#
-		Keep -Path -TableName -ClearFromSource
-		Keep -Path -TableName -ClearFromSource
+		Keep -Path -Table -ClearFromSource
+		Keep -Path -Table -ClearFromSource
 		#>
 	}
 
