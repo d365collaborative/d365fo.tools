@@ -17,7 +17,7 @@ Import a bacpac file
 Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>] [-ImportOnly]
- [-MaxParallelism <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
+ [-MaxParallelism <Int32>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
  [<CommonParameters>]
 ```
 
@@ -28,7 +28,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPwd] <String>] [[-AxRuntimeUserPwd] <String>]
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
  [[-AxDbReadonlyUserPwd] <String>] [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
- [-ImportOnly] [-MaxParallelism <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
+ [-ImportOnly] [-MaxParallelism <Int32>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
  [-EnableException] [<CommonParameters>]
 ```
 
@@ -39,7 +39,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] <String> [-AxRuntimeUserPwd] <String>
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
  [-AxDbReadonlyUserPwd] <String> [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
- [-MaxParallelism <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
+ [-MaxParallelism <Int32>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
  [<CommonParameters>]
 ```
 
@@ -544,7 +544,7 @@ Sets SqlPackage.exe's degree of parallelism for concurrent operations running ag
 The default value is 8
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 

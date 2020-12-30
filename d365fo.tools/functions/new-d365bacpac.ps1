@@ -176,7 +176,7 @@ function New-D365Bacpac {
 
         [switch] $ExportOnly,
 
-        [string] $MaxParallelism = 8,
+        [int] $MaxParallelism = 8,
 
         [switch] $ShowOriginalProgress,
 
@@ -230,6 +230,7 @@ function New-D365Bacpac {
         Action     = "export"
         FilePath   = $BacpacFile
         Properties = $Properties.ToArray()
+        MaxParallelism = $MaxParallelism
     }
 
     if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
