@@ -30,7 +30,7 @@
 #>
 function ConvertTo-D365Dacpac {
     [CmdletBinding()]
-    [OutputType('System.IO.Compression.ZipArchiveEntry')]
+    [OutputType('[System.IO.Compression.ZipArchiveEntry]')]
     param (
         [Parameter(Mandatory = $true)]
         [Alias('File')]
