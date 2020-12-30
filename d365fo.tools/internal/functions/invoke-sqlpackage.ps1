@@ -87,7 +87,7 @@ function Invoke-SqlPackage {
     [CmdletBinding()]
     [OutputType([System.Boolean])]
     param (
-        [ValidateSet('Import', 'Export')]
+        [ValidateSet("Import", "Export", "Publish")]
         [string] $Action,
         
         [string] $DatabaseServer,
@@ -109,6 +109,9 @@ function Invoke-SqlPackage {
         [string] $ModelFile,
 
         [int] $MaxParallelism,
+
+        [Alias("ProfileFile")]
+        [string] $PublishFile,
 
         [string] $LogPath,
 
@@ -143,7 +146,7 @@ function Invoke-SqlPackage {
         
         Remove-Item -Path $FilePath -ErrorAction SilentlyContinue -Force
     }
-    else {
+    elseif ($Action -eq "import") {
         $null = $Params.Add("/Action:import")
         $null = $Params.Add("/TargetServerName:$DatabaseServer")
         $null = $Params.Add("/TargetDatabaseName:$DatabaseName")
@@ -155,22 +158,38 @@ function Invoke-SqlPackage {
             $null = $Params.Add("/TargetPassword:$SqlPwd")
         }
     }
+    elseif ($Action -eq "publish") {
+        $Params.Add("/Action:Publish") > $null
+        $Params.Add("/TargetServerName:$DatabaseServer") > $null
+        $Params.Add("/TargetDatabaseName:$DatabaseName") > $null
+        $Params.Add("/SourceFile:`"$FilePath`"") > $null
+        $Params.Add("/Properties:CommandTimeout=0") > $null
+        
+        if (-not $UseTrustedConnection) {
+            $Params.Add("/TargetUser:$SqlUser") > $null
+            $Params.Add("/TargetPassword:$SqlPwd") > $null
+        }
+
+        if ($PublishFile) {
+            $Params.Add("/Profile:`"$PublishFile`"") > $null
+        }
+    }
 
     foreach ($item in $Properties) {
-        $null = $Params.Add("/Properties:$item")
+        $Params.Add("/Properties:$item") > $null
     }
 
-    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
-        $null = $Params.Add("/Diagnostics:true")
-        $null = $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"")
+    if ($DiagnosticFile) {
+        $Params.Add("/Diagnostics:true") > $null
+        $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"") > $null
     }
     
-    if (-not [system.string]::IsNullOrEmpty($ModelFile)) {
-        $null = $Params.Add("/ModelFilePath:`"$ModelFile`"")
+    if ($ModelFile) {
+        $Params.Add("/ModelFilePath:`"$ModelFile`"") > $null
     }
 
-    if (-not [system.string]::IsNullOrEmpty($MaxParallelism)) {
-        $null = $Params.Add("/MaxParallelism:$MaxParallelism")
+    if ($MaxParallelism) {
+        $Params.Add("/MaxParallelism:$MaxParallelism") > $null
     }
 
     Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath

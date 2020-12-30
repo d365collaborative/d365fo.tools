@@ -32,7 +32,6 @@ This will extract the "model.xml" file from inside the bacpac file.
 
 It uses "c:\Temp\AxDB.bacpac" as the Path for the bacpac file.
 It uses the default value "c:\temp\d365fo.tools" as the OutputPath to where it will store the extracted "bacpac.model.xml" file.
-It uses the default ExtractionPath folder "c:\Temp\d365fo.tools\BacpacExtractions".
 
 ### EXAMPLE 2
 ```
@@ -43,7 +42,6 @@ This will extract the "model.xml" file from inside the bacpac file.
 
 It uses "c:\Temp\AxDB.bacpac" as the Path for the bacpac file.
 It uses "c:\Temp\model.xml" as the OutputPath to where it will store the extracted "model.xml" file.
-It uses the default ExtractionPath folder "c:\Temp\d365fo.tools\BacpacExtractions".
 
 It will override the "c:\Temp\model.xml" if already present.
 

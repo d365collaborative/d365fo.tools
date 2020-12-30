@@ -1,19 +1,17 @@
 ﻿
 <#
     .SYNOPSIS
-        Clear out data for a table inside the bacpac file
+        Clear out data for a table inside the bacpac/dacpac or zip file
         
     .DESCRIPTION
-        Remove all data for a table inside a bacpac file, before restoring it into your SQL Server / Azure SQL DB
+        Remove all data for a table inside a bacpac/dacpac or zip file, before restoring it into your SQL Server / Azure SQL DB
         
-        It will extract the bacpac file as a zip archive, locate the desired table and remove the data that otherwise would have been loaded
-        
-        It will re-zip / compress a new bacpac file for you
-        
+        It will open the file as a zip archive, locate the desired table and remove the data that otherwise would have been loaded
+
+        The default behavior is that you get a copy of the file, where the desired data is removed
+
     .PARAMETER Path
-        Path to the bacpac file that you want to work against
-        
-        It can also be a zip file
+        Path to the bacpac/dacpac or zip file that you want to work against
         
     .PARAMETER TableName
         Name of the table that you want to delete the data for
@@ -25,7 +23,7 @@
         Supports wildcard searching e.g. "Sales*" will delete all "dbo.Sales*" tables in the bacpac file
         
     .PARAMETER OutputPath
-        Path to where you want the updated bacpac file to be saved
+        Path to where you want the updated bacpac/dacpac or zip file to be saved
         
     .PARAMETER ClearFromSource
         Instruct the cmdlet to delete tables directly from the source file
@@ -102,7 +100,6 @@ function Clear-D365BacpacTableData {
         if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
 
         $compressPath = ""
-        $newFilename = ""
 
         if ($ClearFromSource) {
             $compressPath = $Path
