@@ -29,8 +29,8 @@
         
 #>
 function ConvertTo-D365Dacpac {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [CmdletBinding()]
-    [OutputType('[System.IO.Compression.ZipArchiveEntry]')]
     param (
         [Parameter(Mandatory = $true)]
         [Alias('File')]
