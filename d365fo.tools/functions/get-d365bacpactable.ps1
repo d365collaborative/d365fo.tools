@@ -201,7 +201,6 @@
         
 #>
 function Get-D365BacpacTable {
-    [Alias("Export-D365ModelFileFromBacpac")]
     [CmdletBinding(DefaultParameterSetName = "Default")]
     param (
         [Parameter(Mandatory = $true)]
