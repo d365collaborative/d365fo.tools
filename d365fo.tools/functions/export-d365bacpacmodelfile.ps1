@@ -53,7 +53,7 @@
         
 #>
 function Export-D365BacpacModelFile {
-    [Alias("Export-D365ModelFileFromBacpac")]
+    [Alias("Get-D365ModelFileFromBacpac")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

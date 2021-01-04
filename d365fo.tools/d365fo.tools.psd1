@@ -3,7 +3,7 @@
     RootModule   = 'd365fo.tools.psm1'
 
     # Version number of this module.
-	ModuleVersion     = '0.6.47'
+	ModuleVersion     = '0.6.48'
 
     # ID used to uniquely identify this module
     GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -302,7 +302,7 @@
 						'Initialize-D365TestAutomationCertificate'
 						, 'Add-D365WIFConfigAuthorityThumbprint'
 						, 'Invoke-D365SqlCmd'
-						, 'Export-D365ModelFileFromBacpac'
+						, 'Get-D365ModelFileFromBacpac'
 						, 'Get-D365SqlOptionsFromBacpacModelFile'
 						, 'Clear-D365TableDataFromBacpac'
 						)
