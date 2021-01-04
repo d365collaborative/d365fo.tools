@@ -1288,7 +1288,7 @@
                            "False"
                        ]
                    ],
-        "Alias":  "",
+        "Alias":  "Get-D365ModelFileFromBacpac",
         "Author":  "Mötz Jensen (@Splaxi)",
         "Synopsis":  "Extract the \"model.xml\" from the bacpac file",
         "Name":  "Export-D365BacpacModelFile",
@@ -1897,7 +1897,7 @@
                            "False"
                        ]
                    ],
-        "Alias":  "Export-D365ModelFileFromBacpac",
+        "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
         "Synopsis":  "Get tables from the bacpac file",
         "Name":  "Get-D365BacpacTable",
