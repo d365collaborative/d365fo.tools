@@ -195,6 +195,8 @@
 						'Invoke-D365LcsDatabaseExport',
 						'Invoke-D365LcsDatabaseRefresh',
 						'Invoke-D365LcsDeployment',
+						'Invoke-D365LcsEnvironmentStart',
+						'Invoke-D365LcsEnvironmentStop',
 						'Invoke-D365LcsUpload',
 						'Invoke-D365LogicApp',
 						'Invoke-D365LogicAppMessage',

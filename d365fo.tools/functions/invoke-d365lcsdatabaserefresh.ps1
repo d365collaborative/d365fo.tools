@@ -34,6 +34,10 @@
         Valid options:
         "https://lcsapi.lcs.dynamics.com"
         "https://lcsapi.eu.lcs.dynamics.com"
+        "https://lcsapi.fr.lcs.dynamics.com"
+        "https://lcsapi.sa.lcs.dynamics.com"
+        "https://lcsapi.uae.lcs.dynamics.com"
+        "https://lcsapi.lcs.dynamics.cn"
         
         Default value can be configured using Set-D365LcsApiConfig
         
@@ -144,10 +148,8 @@ function Invoke-D365LcsDatabaseRefresh {
     [CmdletBinding()]
     [OutputType()]
     param(
-        [Parameter(Mandatory = $false)]
         [int] $ProjectId = $Script:LcsApiProjectId,
         
-        [Parameter(Mandatory = $false)]
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
@@ -157,7 +159,6 @@ function Invoke-D365LcsDatabaseRefresh {
         [Parameter(Mandatory = $true)]
         [string] $TargetEnvironmentId,
 
-        [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
         [switch] $SkipInitialStatusFetch,

@@ -41,6 +41,10 @@
         Valid options:
         "https://lcsapi.lcs.dynamics.com"
         "https://lcsapi.eu.lcs.dynamics.com"
+        "https://lcsapi.fr.lcs.dynamics.com"
+        "https://lcsapi.sa.lcs.dynamics.com"
+        "https://lcsapi.uae.lcs.dynamics.com"
+        "https://lcsapi.lcs.dynamics.cn"
         
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions

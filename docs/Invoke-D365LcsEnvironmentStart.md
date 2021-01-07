@@ -5,56 +5,33 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365LcsDatabaseBackups
+# Invoke-D365LcsEnvironmentStart
 
 ## SYNOPSIS
-Get database backups from LCS project
+Start a specified environment through LCS.
 
 ## SYNTAX
 
 ```
-Get-D365LcsDatabaseBackups [[-ProjectId] <Int32>] [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest]
- [-EnableException] [<CommonParameters>]
+Invoke-D365LcsEnvironmentStart [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-EnvironmentId] <String>
+ [[-LcsApiUri] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get the available database backups from the Asset Library in LCS project
+Start a specified IAAS environment that is Microsoft managed or customer managed through the LCS API.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365LcsDatabaseBackups -ProjectId 123456789 -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+Invoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 ```
 
-This will get all available database backups from the Asset Library inside LCS.
+This will trigger the environment start operation upon the given environment through the LCS API.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
-The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-
-### EXAMPLE 2
-```
-Get-D365LcsDatabaseBackups
-```
-
-This will get all available database backups from the Asset Library inside LCS.
-It will use default values for all parameters.
-
-All default values will come from the configuration available from Get-D365LcsApiConfig.
-
-The default values can be configured using Set-D365LcsApiConfig.
-
-### EXAMPLE 3
-```
-Get-D365LcsDatabaseBackups -Latest
-```
-
-This will get the latest available database backup from the Asset Library inside LCS.
-It will use default values for all parameters.
-
-All default values will come from the configuration available from Get-D365LcsApiConfig.
-
-The default values can be configured using Set-D365LcsApiConfig.
+The environment is identified by the EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
+The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com"
 
 ## PARAMETERS
 
@@ -92,10 +69,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EnvironmentId
+The unique id of the environment that you want to take action upon
+
+The Id can be located inside the LCS portal
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -LcsApiUri
 URI / URL to the LCS API you want to use
 
-Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+Depending where your LCS project is located, there are several valid URI's / URL's
 
 Valid options:
 "https://lcsapi.lcs.dynamics.com"
@@ -113,23 +107,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: $Script:LcsApiLcsApiUri
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Latest
-Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: GetLatest
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -158,7 +137,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Mötz Jensen (@Splaxi)
+Only IAAS (Customer managed and Microsoft managed) are supported with this API.
+Self-service environments do not have a start functionality and will not work with this API.
+
+Tags: Environment, Start, StartStop, Stop, LCS, Api
+
+Author: Billy Richardson (@richardsondev)
 
 ## RELATED LINKS
 
@@ -169,4 +153,6 @@ Author: Mötz Jensen (@Splaxi)
 [Invoke-D365LcsApiRefreshToken]()
 
 [Set-D365LcsApiConfig]()
+
+[Invoke-D365LcsEnvironmentStop]()
 
