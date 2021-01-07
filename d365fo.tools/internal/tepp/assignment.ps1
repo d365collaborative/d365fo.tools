@@ -16,11 +16,12 @@ Register-PSFTeppArgumentCompleter -Command Get-D365LcsDatabaseOperationStatus -P
 Register-PSFTeppArgumentCompleter -Command Get-D365LcsDeploymentStatus -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
 
 
-Register-PSFTeppArgumentCompleter -Command Invoke-D365LcsDatabaseRefresh -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
 Register-PSFTeppArgumentCompleter -Command Invoke-D365LcsDatabaseExport -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
+Register-PSFTeppArgumentCompleter -Command Invoke-D365LcsDatabaseRefresh -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
 Register-PSFTeppArgumentCompleter -Command Invoke-D365LcsDeployment -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
+Register-PSFTeppArgumentCompleter -Command Invoke-D365LcsEnvironmentStart -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
+Register-PSFTeppArgumentCompleter -Command Invoke-D365LcsEnvironmentStop -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
 Register-PSFTeppArgumentCompleter -Command Invoke-D365LcsUpload -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
-
 
 Register-PSFTeppArgumentCompleter -Command Set-D365LcsApiConfig -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
 

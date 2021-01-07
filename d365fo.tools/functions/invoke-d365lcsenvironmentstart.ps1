@@ -20,7 +20,7 @@
         The unique id of the environment that you want to take action upon
         
         The Id can be located inside the LCS portal
-
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -35,7 +35,7 @@
         "https://lcsapi.lcs.dynamics.cn"
         
         Default value can be configured using Set-D365LcsApiConfig
-
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -48,16 +48,16 @@
         The environment is identified by the EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com"
-
+        
     .LINK
         Get-D365LcsApiConfig
         
     .LINK
         Get-D365LcsApiToken
-
+        
     .LINK
         Invoke-D365LcsApiRefreshToken
-
+        
     .LINK
         Set-D365LcsApiConfig
         
@@ -67,7 +67,7 @@
     .NOTES
         Only IAAS (Customer managed and Microsoft managed) are supported with this API. Self-service environments do not have a start functionality and will not work with this API.
         
-        Tags: Environment, Start, StartStop, LCS, Api
+        Tags: Environment, Start, StartStop, Stop, LCS, Api
         
         Author: Billy Richardson (@richardsondev)
         
@@ -77,17 +77,14 @@ function Invoke-D365LcsEnvironmentStart {
     [CmdletBinding()]
     [OutputType()]
     param(
-        [Parameter(Mandatory = $false)]
         [int] $ProjectId = $Script:LcsApiProjectId,
         
-        [Parameter(Mandatory = $false)]
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
         [Parameter(Mandatory = $true)]
         [string] $EnvironmentId,
         
-        [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
         [switch] $EnableException
