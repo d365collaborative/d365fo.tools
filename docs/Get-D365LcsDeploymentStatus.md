@@ -138,6 +138,10 @@ Depending on whether your LCS project is located in europe or not, there is 2 va
 Valid options:
 "https://lcsapi.lcs.dynamics.com"
 "https://lcsapi.eu.lcs.dynamics.com"
+"https://lcsapi.fr.lcs.dynamics.com"
+"https://lcsapi.sa.lcs.dynamics.com"
+"https://lcsapi.uae.lcs.dynamics.com"
+"https://lcsapi.lcs.dynamics.cn"
 
 Default value can be configured using Set-D365LcsApiConfig
 

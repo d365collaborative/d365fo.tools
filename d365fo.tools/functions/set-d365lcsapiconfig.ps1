@@ -31,6 +31,10 @@
         Valid options:
         "https://lcsapi.lcs.dynamics.com"
         "https://lcsapi.eu.lcs.dynamics.com"
+        "https://lcsapi.fr.lcs.dynamics.com"
+        "https://lcsapi.sa.lcs.dynamics.com"
+        "https://lcsapi.uae.lcs.dynamics.com"
+        "https://lcsapi.lcs.dynamics.cn"
         
     .PARAMETER Temporary
         Instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
