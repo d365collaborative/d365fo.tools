@@ -40,7 +40,7 @@
     .EXAMPLE
         PS C:\> Start-LcsEnvironmentStartStop -ProjectId 123456789 -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -IsStop $False -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will trigger the environment start operation upon the given environment through the LCS APIs
+        This will trigger the environment start operation upon the given environment through the LCS API.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
         The environment is identified by the EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
@@ -49,7 +49,7 @@
     .EXAMPLE
         PS C:\> Start-LcsEnvironmentStartStop -ProjectId 123456789 -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -IsStop $True -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will trigger the environment stop operation upon the given environment through the LCS APIs
+        This will trigger the environment stop operation upon the given environment through the LCS API.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
         The environment is identified by the EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
@@ -58,7 +58,7 @@
     .NOTES
         Tags: Environment, Stop, Start, LCS, Api, AAD, Token
         
-        Author: Billy Richardson (jorichar)
+        Author: Billy Richardson (@richardsondev)
 #>
 
 function Start-LcsEnvironmentStartStop {
@@ -149,7 +149,7 @@ function Start-LcsEnvironmentStartStop {
                 $errorText = "Error in $($internalAction) request for environment. Activity Id: '$($activity.OperationActivityId)'"
             }
             else {
-                $errorText = "Unknown error in request for environment:."
+                $errorText = "Unknown error in request for environment."
             }
 
             Write-PSFMessage -Level Host -Message "Unknown error during $($internalAction) request for environment." -Target $operationJob

@@ -43,7 +43,7 @@
     .EXAMPLE
         PS C:\> Invoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will trigger the environment start operation upon the given environment through the LCS APIs
+        This will trigger the environment start operation upon the given environment through the LCS API.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
         The environment is identified by the EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
@@ -67,7 +67,7 @@
     .NOTES
         Only IAAS (Customer managed and Microsoft managed) are supported with this API. Self-service environments do not have a start functionality and will not work with this API.
         
-        Tags: Environment, Start, LCS, Api
+        Tags: Environment, Start, StartStop, LCS, Api
         
         Author: Billy Richardson (@richardsondev)
         
