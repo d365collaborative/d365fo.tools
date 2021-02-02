@@ -32,7 +32,7 @@
         
     .PARAMETER Kill
         Instructs the cmdlet to kill the service(s) that you want to restart
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -71,7 +71,7 @@
         
         This will stop all services and then start all services again.
         It will use the Kill parameter to make sure that the services is stopped.
-
+        
     .NOTES
         Tags: Environment, Service, Services, Aos, Batch, Servicing
         
