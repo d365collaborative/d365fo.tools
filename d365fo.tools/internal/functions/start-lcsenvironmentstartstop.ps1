@@ -4,7 +4,7 @@
         Start or stop a given environment using LCS
         
     .DESCRIPTION
-        Start or stop a specified IAAS environment that is Microsoft managed or customer managed through the LCS API.
+        Start or stop a specified IAAS environment that is Customer Managed through the LCS API.
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
@@ -58,7 +58,7 @@
     .NOTES
         Tags: Environment, Stop, Start, LCS, Api, AAD, Token
         
-        Author: Billy Richardson (@richardsondev)
+        Author: Mötz Jensen (@Splaxi), Billy Richardson (@richardsondev)
 #>
 
 function Start-LcsEnvironmentStartStop {
