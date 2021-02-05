@@ -4,7 +4,7 @@
         Stop a specified environment through LCS.
         
     .DESCRIPTION
-        Stop a specified IAAS environment that is Microsoft managed or customer managed through the LCS API.
+        Stop a specified IAAS environment that is Customer Managed through the LCS API.
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -65,11 +65,13 @@
         Invoke-D365LcsEnvironmentStart
         
     .NOTES
-        Only IAAS (Customer managed and Microsoft managed) are supported with this API. Self-service environments do not have a stop functionality and will not work with this API.
+        Only Customer Managed IAAS environments are supported with this API.
+        Microsoft Managed IAAS environments need to remain online to allow for Microsoft update operations and are not supported with this API.
+        Self-service environments do not have a stop functionality and will not work with this API.
         
         Tags: Environment, Stop, StartStop, Start, LCS, Api
         
-        Author: Billy Richardson (@richardsondev)
+        Author: Mötz Jensen (@Splaxi), Billy Richardson (@richardsondev)
         
 #>
 
