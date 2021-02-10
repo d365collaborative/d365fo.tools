@@ -186,7 +186,21 @@
 						'Invoke-D365DbSync',
 						'Invoke-D365DbSyncPartial',
 						'Invoke-D365DbSyncModule',
-
+						
+						'Invoke-D365GenerateReportAggregateDataEntity',
+						'Invoke-D365GenerateReportAggregateMeasure',
+						'Invoke-D365GenerateReportConfigKey',
+						'Invoke-D365GenerateReportConfigKeyGroup',
+						'Invoke-D365GenerateReportDataEntity',
+						'Invoke-D365GenerateReportDataEntityField',
+						'Invoke-D365GenerateReportKpi',
+						'Invoke-D365GenerateReportLicenseCode',
+						'Invoke-D365GenerateReportMenuItem',
+						'Invoke-D365GenerateReports',
+						'Invoke-D365GenerateReportSsrs',
+						'Invoke-D365GenerateReportTable',
+						'Invoke-D365GenerateReportWorkflowType'
+						
 						'Invoke-D365InstallLicense',
 						'Invoke-D365InstallAzCopy',
 						'Invoke-D365InstallSqlPackage',
