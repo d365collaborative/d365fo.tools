@@ -17,6 +17,7 @@
         
 #>
 function Get-ProductInfoProvider {
+    #!HACK: This can't be solved like we use to - it loads dependent assemblies based on path, when you invoke the method.
     Add-Type -Path "$Script:AOSPath\bin\Microsoft.Dynamics.BusinessPlatform.ProductInformation.Provider.dll"
 
     [Microsoft.Dynamics.BusinessPlatform.ProductInformation.Provider.ProductInfoProvider]::get_Provider()

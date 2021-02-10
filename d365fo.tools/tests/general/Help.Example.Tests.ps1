@@ -3,7 +3,8 @@
     , "Get-DeepClone"
     , "Test-TrustedConnection"
     , "Select-DefaultView"
-
+    , 'QueryDataSourceRecursion'
+    , 'Get-AxDataEntities'
 )
 
 enum LcsAssetFileType {

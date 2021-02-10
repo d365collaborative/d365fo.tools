@@ -6276,6 +6276,552 @@
         "Syntax":  "Invoke-D365DbSyncPartial [-SyncList] \u003cString[]\u003e [[-SyncExtensionsList] \u003cString[]\u003e] [[-SyncMode] \u003cString\u003e] [[-Verbosity] \u003cString\u003e] [[-BinDirTools] \u003cString\u003e] [[-MetadataDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Invoke-D365GenerateReportAggregateDataEntity",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all Aggregate Data Entities and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for Aggregate Data Entity",
+        "Name":  "Invoke-D365GenerateReportAggregateDataEntity",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportAggregateDataEntity\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportAggregateDataEntity [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportAggregateMeasure",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all Aggregate Measures and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for Aggregate Measure",
+        "Name":  "Invoke-D365GenerateReportAggregateMeasure",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportAggregateMeasure\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportAggregateMeasure [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportConfigKey",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all Config Keys and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for Config Key",
+        "Name":  "Invoke-D365GenerateReportConfigKey",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportConfigKey\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportConfigKey [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportConfigKeyGroup",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all Config Key Groups and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for Config Key Group",
+        "Name":  "Invoke-D365GenerateReportConfigKeyGroup",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportConfigKeyGroup\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportConfigKeyGroup [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportDataEntity",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all Data Entities and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for Data Entity",
+        "Name":  "Invoke-D365GenerateReportDataEntity",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportDataEntity\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportDataEntity [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportDataEntityField",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all Data Entities with their fields and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for Data Entity with fields",
+        "Name":  "Invoke-D365GenerateReportDataEntityField",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportDataEntityField\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportDataEntityField [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportKpi",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all KPIs and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for KPI",
+        "Name":  "Invoke-D365GenerateReportKpi",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportKpi\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportKpi [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportLicenseCode",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all License Codes and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for License Code",
+        "Name":  "Invoke-D365GenerateReportLicenseCode",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportLicenseCode\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportLicenseCode [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportMenuItem",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all types of Menu Items and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for Menu Item",
+        "Name":  "Invoke-D365GenerateReportMenuItem",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportMenuItem\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportMenuItem [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReports",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all related objects and generate a metadata report for each",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for all related objects",
+        "Name":  "Invoke-D365GenerateReports",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReports\nThis will generate a report for each related object.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReports [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportSsrs",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all SSRS Reports and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for SSRS Report",
+        "Name":  "Invoke-D365GenerateReportSsrs",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportSsrs\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportSsrs [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportTable",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all Tables and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for Table",
+        "Name":  "Invoke-D365GenerateReportTable",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportTable\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportTable [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365GenerateReportWorkflowType",
+        "Description":  "Traverse the Dynamics 365 Finance \u0026 Operations code repository for all Workflow Types and generate a metadata report",
+        "Tags":  [
+                     "Metadata",
+                     "Report",
+                     "Documentation"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to where you want the report file to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DefaultTempPath"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ],
+                       [
+                           "PackageDirectory",
+                           "Path to the directory containing the installed package / module\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Generate Report for Workflow Type",
+        "Name":  "Invoke-D365GenerateReportWorkflowType",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365GenerateReportWorkflowType\nThis will generate a report.\r\nIt will contain all the metadata and save it into a xlsx (Excel) file.\r\nIt will saved the file to \"c:\\temp\\d365fo.tools\\\"",
+        "Syntax":  "Invoke-D365GenerateReportWorkflowType [[-OutputPath] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Invoke-D365InstallAzCopy",
         "Description":  "Download and extract the AzCopy.exe to your machine",
         "Params":  [
@@ -6768,7 +7314,7 @@
     },
     {
         "CommandName":  "Invoke-D365LcsEnvironmentStart",
-        "Description":  "Start a specified IAAS environment that is Microsoft managed or customer managed through the LCS API.",
+        "Description":  "Start a specified IAAS environment that is Customer Managed through the LCS API.",
         "Tags":  [
                      "Environment",
                      "Start",
@@ -6820,7 +7366,7 @@
                        ]
                    ],
         "Alias":  "",
-        "Author":  "Billy Richardson (@richardsondev)",
+        "Author":  "Mötz Jensen (@Splaxi), Billy Richardson (@richardsondev)",
         "Synopsis":  "Start a specified environment through LCS.",
         "Name":  "Invoke-D365LcsEnvironmentStart",
         "Links":  [
@@ -6835,7 +7381,7 @@
     },
     {
         "CommandName":  "Invoke-D365LcsEnvironmentStop",
-        "Description":  "Stop a specified IAAS environment that is Microsoft managed or customer managed through the LCS API.",
+        "Description":  "Stop a specified IAAS environment that is Customer Managed through the LCS API.",
         "Tags":  [
                      "Environment",
                      "Stop",
@@ -6887,7 +7433,7 @@
                        ]
                    ],
         "Alias":  "",
-        "Author":  "Billy Richardson (@richardsondev)",
+        "Author":  "Mötz Jensen (@Splaxi), Billy Richardson (@richardsondev)",
         "Synopsis":  "Stop a specified environment through LCS.",
         "Name":  "Invoke-D365LcsEnvironmentStop",
         "Links":  [
@@ -8972,6 +9518,14 @@
                            "False"
                        ],
                        [
+                           "Kill",
+                           "Instructs the cmdlet to kill the service(s) that you want to restart",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -8985,8 +9539,8 @@
         "Synopsis":  "Restart the different services",
         "Name":  "Restart-D365Environment",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRestart-D365Environment -All\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -ShowOriginalProgress\nThis will stop all services and then start all services again.\r\nThe progress of Stopping the different services will be written to the console / host.\r\nThe progress of Starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eRestart-D365Environment -ComputerName \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\" -All\nThis will work against the machines: \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\".\r\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eRestart-D365Environment -Aos -Batch\nThis will stop the AOS and Batch services and then start the AOS and Batch services again.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eRestart-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.",
-        "Syntax":  "Restart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nRestart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRestart-D365Environment -All\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -ShowOriginalProgress\nThis will stop all services and then start all services again.\r\nThe progress of Stopping the different services will be written to the console / host.\r\nThe progress of Starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eRestart-D365Environment -ComputerName \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\" -All\nThis will work against the machines: \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\".\r\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eRestart-D365Environment -Aos -Batch\nThis will stop the AOS and Batch services and then start the AOS and Batch services again.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eRestart-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -Kill\nThis will stop all services and then start all services again.\r\nIt will use the Kill parameter to make sure that the services is stopped.",
+        "Syntax":  "Restart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nRestart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Send-D365BroadcastMessage",
@@ -10038,6 +10592,14 @@
                            "False"
                        ],
                        [
+                           "Kill",
+                           "Instructs the cmdlet to kill the service(s) that you want to stop",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -10051,8 +10613,8 @@
         "Synopsis":  "Cmdlet to stop the different services in a Dynamics 365 Finance \u0026 Operations environment",
         "Name":  "Stop-D365Environment",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStop-D365Environment\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStop-D365Environment -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will Stop all D365FO services on the machine.\r\nThe progress of Stopping the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStop-D365Environment -All\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStop-D365Environment -Aos -Batch\nThis will stop the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStop-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services on the machine.",
-        "Syntax":  "Stop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]\nStop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStop-D365Environment\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStop-D365Environment -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will Stop all D365FO services on the machine.\r\nThe progress of Stopping the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStop-D365Environment -All\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStop-D365Environment -Aos -Batch\nThis will stop the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStop-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStop-D365Environment -All -Kill\nThis will stop all D365FO services on the machine.\r\nIt will use the Kill parameter to make sure that the services is stopped.",
+        "Syntax":  "Stop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [[-Kill]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]\nStop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [[-Kill]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Stop-D365EventTrace",
