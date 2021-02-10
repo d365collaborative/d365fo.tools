@@ -9518,6 +9518,14 @@
                            "False"
                        ],
                        [
+                           "Kill",
+                           "Instructs the cmdlet to kill the service(s) that you want to restart",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -9531,8 +9539,8 @@
         "Synopsis":  "Restart the different services",
         "Name":  "Restart-D365Environment",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRestart-D365Environment -All\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -ShowOriginalProgress\nThis will stop all services and then start all services again.\r\nThe progress of Stopping the different services will be written to the console / host.\r\nThe progress of Starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eRestart-D365Environment -ComputerName \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\" -All\nThis will work against the machines: \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\".\r\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eRestart-D365Environment -Aos -Batch\nThis will stop the AOS and Batch services and then start the AOS and Batch services again.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eRestart-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.",
-        "Syntax":  "Restart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nRestart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRestart-D365Environment -All\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -ShowOriginalProgress\nThis will stop all services and then start all services again.\r\nThe progress of Stopping the different services will be written to the console / host.\r\nThe progress of Starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eRestart-D365Environment -ComputerName \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\" -All\nThis will work against the machines: \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\".\r\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eRestart-D365Environment -Aos -Batch\nThis will stop the AOS and Batch services and then start the AOS and Batch services again.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eRestart-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -Kill\nThis will stop all services and then start all services again.\r\nIt will use the Kill parameter to make sure that the services is stopped.",
+        "Syntax":  "Restart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nRestart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Send-D365BroadcastMessage",
@@ -10584,6 +10592,14 @@
                            "False"
                        ],
                        [
+                           "Kill",
+                           "Instructs the cmdlet to kill the service(s) that you want to stop",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "ShowOriginalProgress",
                            "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
                            "",
@@ -10597,8 +10613,8 @@
         "Synopsis":  "Cmdlet to stop the different services in a Dynamics 365 Finance \u0026 Operations environment",
         "Name":  "Stop-D365Environment",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStop-D365Environment\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStop-D365Environment -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will Stop all D365FO services on the machine.\r\nThe progress of Stopping the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStop-D365Environment -All\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStop-D365Environment -Aos -Batch\nThis will stop the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStop-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services on the machine.",
-        "Syntax":  "Stop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]\nStop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStop-D365Environment\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStop-D365Environment -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will Stop all D365FO services on the machine.\r\nThe progress of Stopping the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStop-D365Environment -All\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStop-D365Environment -Aos -Batch\nThis will stop the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStop-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStop-D365Environment -All -Kill\nThis will stop all D365FO services on the machine.\r\nIt will use the Kill parameter to make sure that the services is stopped.",
+        "Syntax":  "Stop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [[-Kill]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]\nStop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [[-Kill]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Stop-D365EventTrace",
