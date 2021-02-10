@@ -36,17 +36,15 @@ function Import-AssemblyFileIntoMemory {
         return
     }
 
-    Invoke-TimeSignal -Start
-
     foreach ($itemPath in $Path) {
 
         $shadowClonePath = "$itemPath`_shadow.dll"
 
         try {
-            Write-PSFMessage -Level Verbose -Message "Cloning $itemPath to $shadowClonePath"
+            Write-PSFMessage -Level Debug -Message "Cloning $itemPath to $shadowClonePath"
             Copy-Item -Path $itemPath -Destination $shadowClonePath -Force
     
-            Write-PSFMessage -Level Verbose -Message "Loading $shadowClonePath into memory"
+            Write-PSFMessage -Level Debug -Message "Loading $shadowClonePath into memory"
             $null = [AppDomain]::CurrentDomain.Load(([System.IO.File]::ReadAllBytes($shadowClonePath)))
         }
         catch {
@@ -55,10 +53,8 @@ function Import-AssemblyFileIntoMemory {
             return
         }
         finally {
-            Write-PSFMessage -Level Verbose -Message "Removing $shadowClonePath"
+            Write-PSFMessage -Level Debug -Message "Removing $shadowClonePath"
             Remove-Item -Path $shadowClonePath -Force -ErrorAction SilentlyContinue
         }
     }
-
-    Invoke-TimeSignal -End
 }

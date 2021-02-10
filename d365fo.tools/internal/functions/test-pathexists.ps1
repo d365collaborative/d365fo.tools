@@ -60,16 +60,16 @@ function Test-PathExists {
             return
         }
 
-        Write-PSFMessage -Level Verbose -Message "Testing the path: $item" -Target $item
+        Write-PSFMessage -Level Debug -Message "Testing the path: $item" -Target $item
         $temp = Test-Path -Path $item -Type $Type
 
         if ((-not $temp) -and ($Create) -and ($Type -eq "Container")) {
-            Write-PSFMessage -Level Verbose -Message "Creating the path: $item" -Target $item
+            Write-PSFMessage -Level Debug -Message "Creating the path: $item" -Target $item
             $null = New-Item -Path $item -ItemType Directory -Force -ErrorAction Stop
             $temp = $true
         }
         elseif ($ShouldNotExist) {
-            Write-PSFMessage -Level Verbose -Message "The should NOT exists: $item" -Target $item
+            Write-PSFMessage -Level Debug -Message "The should NOT exists: $item" -Target $item
         }
         elseif ((-not $temp) -and ($WarningPreference -ne [System.Management.Automation.ActionPreference]::SilentlyContinue)) {
             Write-PSFMessage -Level Host -Message "The <c='em'>$item</c> path wasn't found. Please ensure the path <c='em'>exists</c> and you have enough <c='em'>permission</c> to access the path."
