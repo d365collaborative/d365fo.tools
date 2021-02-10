@@ -35,6 +35,7 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 function Invoke-D365GenerateReportSsrs {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param (
         [string] $OutputPath = $Script:DefaultTempPath,
@@ -73,7 +74,7 @@ function Invoke-D365GenerateReportSsrs {
         $reportsModelInfos = $metadataProvider.Reports.GetPrimaryKeysWithModelInfo()
 
         #array of the names of all the reports that use Print Management (used PrintMgmtReportFormat table from Application Explorer)
-        $printMgmtReports = @("SalesInvoice", "SalesConfirm", "SalesPackingSlip", "WMSPickingList_OrderPick", "FreeTestInvoice", "SalesQuotationConfirmation", 
+        $printMgmtReports = @("SalesInvoice", "SalesConfirm", "SalesPackingSlip", "WMSPickingList_OrderPick", "FreeTestInvoice", "SalesQuotationConfirmation",
             "SalesQuotation", "VendInvoiceDocument", "PurchPackingSlip", "PurchReceiptsList", "PurchPurchaseOrder", "ProjInvoice",
             "PurchRFQFormLetter_Send", "CustInterestNote", "CustCOllectionJour", "CustAccountStatementExt", "AgreementConfirmation", "PSAQuotations",
             "PSAProjInvoice", "PSAContractLineInvoice", "PSAManageInvoice", "PSAManageInvoiceBR", "PSACustRetentionReleaseInvoice")

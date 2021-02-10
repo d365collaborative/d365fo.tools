@@ -21,6 +21,7 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 function Import-GenerateReportAssemblies {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param (
         [string] $BinDir = "$Script:BinDir\bin"

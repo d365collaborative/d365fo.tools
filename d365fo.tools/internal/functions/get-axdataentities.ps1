@@ -93,7 +93,7 @@ Function Get-AxDataEntities {
                         $field_binding = $j.DataSource + "(" + $tableName + ")." + $j.DataField
 
                     }
-                    elseif ($j.IsComputedField -ne $null -and $j.ComputedFieldMethod -ne $null) {
+                    elseif ($null -ne $j.IsComputedField -and $null -ne $j.ComputedFieldMethod) {
 
                         # handle case of AxDataEntityViewUnmappedField{PrimitiveType}
                         $field_binding = "METHOD: " + $j.ComputedFieldMethod
