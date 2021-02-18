@@ -1,5 +1,6 @@
 ﻿--Author: Rasmus Andersen (@ITRasmus)
 --Author: Tommy Skaue (@skaue)
+--Author: Mötz Jensen (@Splaxi)
 
 DROP USER IF EXISTS [axretailruntimeuser]
 DROP USER IF EXISTS [axretaildatasyncuser]
