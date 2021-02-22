@@ -7,7 +7,7 @@
         Cmdlet using the AdminProvisioning tool from D365FO
         
     .PARAMETER AdminSignInName
-        Email for the Admin
+        Email for the Admin, defaults to the output of `whoami /upn`
         
     .PARAMETER DatabaseServer
         The name of the database server
@@ -33,20 +33,25 @@
         PS C:\> Set-D365Admin "claire@contoso.com"
         
         This will provision claire@contoso.com as administrator for the environment
+
+        PS C:\> Set-D365Admin
+        
+        This will provision your current user as administrator for the environment
         
     .NOTES
         Author: Rasmus Andersen (@ITRasmus)
         Author: Mötz Jensen (@Splaxi)
         Author: Mark Furrer (@devax_mf)
+        Author: Ian Bruyninckx (@ibruyninckx)
 #>
 function Set-D365Admin {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(Mandatory = $false, Position = 1)]
         [Alias('Email')]
-        [String]$AdminSignInName,
+        [String]$AdminSignInName = (whoami /upn),
 
         [Parameter(Mandatory = $false, Position = 2)]
         [string]$DatabaseServer = $Script:DatabaseServer,
