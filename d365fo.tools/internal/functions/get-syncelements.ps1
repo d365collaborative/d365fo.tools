@@ -48,7 +48,7 @@ function Get-SyncElements {
 
         Import-AssemblyFileIntoMemory -Path $($assemblies2Process.ToArray())
 
-        $diskMetadataProvider = (New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory).CreateDiskProvider($Script:PackageDirectory)
+        $runtimeMetadataProvider = (New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory).CreateRuntimeProvider($Script:PackageDirectory)
 
         $baseSyncElements = New-Object -TypeName "System.Collections.ArrayList"
         $extensionSyncElements = New-Object -TypeName "System.Collections.ArrayList"
@@ -59,16 +59,16 @@ function Get-SyncElements {
     process {
         Write-PSFMessage -Level Debug -Message "Collecting $ModuleName AOT elements to sync"
 
-        $baseSyncElements.AddRange($diskMetadataProvider.Tables.ListObjects($ModuleName));
-        $baseSyncElements.AddRange($diskMetadataProvider.Views.ListObjects($ModuleName));
-        $baseSyncElements.AddRange($diskMetadataProvider.DataEntityViews.ListObjects($ModuleName));
+        $baseSyncElements.AddRange($runtimeMetadataProvider.Tables.ListObjects($ModuleName));
+        $baseSyncElements.AddRange($runtimeMetadataProvider.Views.ListObjects($ModuleName));
+        $baseSyncElements.AddRange($runtimeMetadataProvider.DataEntityViews.ListObjects($ModuleName));
 
-        $extensionSyncElements.AddRange($diskMetadataProvider.TableExtensions.ListObjects($ModuleName));
+        $extensionSyncElements.AddRange($runtimeMetadataProvider.TableExtensions.ListObjects($ModuleName));
 
         # Some Extension elements have to be 'converted' to their base element that has to be passed to the SyncList of the syncengine
         # Add these elements to an ArrayList
-        $extensionToBaseSyncElements.AddRange($diskMetadataProvider.ViewExtensions.ListObjects($ModuleName));
-        $extensionToBaseSyncElements.AddRange($diskMetadataProvider.DataEntityViewExtensions.ListObjects($ModuleName));
+        $extensionToBaseSyncElements.AddRange($runtimeMetadataProvider.ViewExtensions.ListObjects($ModuleName));
+        $extensionToBaseSyncElements.AddRange($runtimeMetadataProvider.DataEntityViewExtensions.ListObjects($ModuleName));
     }
 
     end {
