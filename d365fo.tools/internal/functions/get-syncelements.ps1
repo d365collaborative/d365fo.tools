@@ -77,7 +77,7 @@ function Get-SyncElements {
             $null = $baseSyncElements.Add($extElement.Substring(0, $extElement.IndexOf('.')))
         }
 
-        Write-PSFMessage -Level Debug -Message "Elements from $ModuleName retrieved: $(($baseSyncElements + $extensionToBaseSyncElements) -join ",")"
+        Write-PSFMessage -Level Debug -Message "Elements from $ModuleName retrieved: $(($baseSyncElements + $extensionSyncElements) -join ",")"
 
         [PSCustomObject]@{
             BaseSyncElements = $baseSyncElements.ToArray();

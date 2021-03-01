@@ -103,7 +103,6 @@
 function Invoke-D365DbSyncPartial {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
         [string[]] $SyncList,
 
         [string[]] $SyncExtensionsList,
