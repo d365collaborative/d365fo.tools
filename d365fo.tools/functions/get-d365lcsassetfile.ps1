@@ -30,11 +30,11 @@
         Default value is "Software Deployable Package"
         
     .PARAMETER AssetName
-        Name of the file that you are looking for
+        Name of the asset that you are looking for
         
         Accepts wildcards for searching. E.g. -AssetName "*ISV*"
         
-        Default value is "*" which will search for all files
+        Default value is "*" which will search for all assets
         
     .PARAMETER AssetVersion
         Version of the Asset file that you are looking for
@@ -44,7 +44,14 @@
         Accepts wildcards for searching. E.g. -AssetName "*ISV*"
         
         Default value is "*" which will search for all files
+
+        .PARAMETER AssetFilename
+                Name of the file that you are looking for
         
+        Accepts wildcards for searching. E.g. -AssetFilename "*ISV*"
+        
+        Default value is "*" which will search for all files via the filename property
+
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
@@ -91,6 +98,17 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
+
+            .EXAMPLE
+        PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetFilename "*MAIN*"
+        
+        This will list all Software Deployable Packages, that matches the "*MAIN*" search pattern.
+        It will search for SoftwareDeployablePackage by using the FileType parameter.
+        It will filter the output to match the AssetFilename "*MAIN*" search pattern.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
         
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\Temp\d365fo.tools -FileName "Main.zip" -ShowOriginalProgress
@@ -131,6 +149,8 @@ function Get-D365LcsAssetFile {
         [string] $AssetName = "*",
 
         [string] $AssetVersion = "*",
+
+        [string] $AssetFilename = "*",
         
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
@@ -154,14 +174,15 @@ function Get-D365LcsAssetFile {
     if (Test-PSFFunctionInterrupt) { return }
 
     if ($Latest) {
-        $assets | Sort-Object -Property "ModifiedDate" -Descending | Select-Object -First 1 | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" "*","Id as AssetId"
+        $assets | Sort-Object -Property "ModifiedDate" -Descending | Select-Object -First 1 | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" "*", "Id as AssetId"
     }
     else {
         foreach ($obj in $assets) {
             if ($obj.Name -NotLike $AssetName) { continue }
             if ($obj.Version -NotLike $AssetVersion) { continue }
+            if ($obj.FileName -NotLike $AssetFilename) { continue }
 
-            $obj | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" "*","Id as AssetId"
+            $obj | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" "*", "Id as AssetId"
         }
     }
 

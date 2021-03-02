@@ -42,3 +42,5 @@ Set-PSFConfig -FullName "d365fo.tools.path.rsat" -Value "C:\Program Files (x86)\
 Set-PSFConfig -FullName "d365fo.tools.path.rsatplayback" -Value "C:\Users\$($env:UserName)\AppData\Roaming\regressionTool\playback" -Initialize -Description "Path to the playback output location where RSAT is writing all the output values."
 
 Set-PSFConfig -FullName "d365fo.tools.path.azcopy" -Value "C:\temp\d365fo.tools\AzCopy\AzCopy.exe" -Initialize -Description "Path to the default location where AzCopy.exe is located."
+
+Set-PSFConfig -FullName "d365fo.tools.path.nuget" -Value "C:\temp\d365fo.tools\nuget\nuget.exe" -Initialize -Description "Path to the default location where nuget.exe is located."

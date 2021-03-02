@@ -103,5 +103,5 @@ function Invoke-D365InstallSqlPackage {
     $tempExtractPath | Remove-Item -Force -Recurse
     $downloadPath | Remove-Item -Force -Recurse
 
-    Set-D365SqlPackagePath $(Join-Path -Path $Path -ChildPath "SqlPackage.exe")
+    Set-D365SqlPackagePath -Path $(Join-Path -Path $Path -ChildPath "SqlPackage.exe")
 }

@@ -159,7 +159,7 @@ function Invoke-D365AzCopyTransfer {
             $params.Add("--overwrite=false")
         }
 
-        Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
         if (Test-PSFFunctionInterrupt) { return }
 

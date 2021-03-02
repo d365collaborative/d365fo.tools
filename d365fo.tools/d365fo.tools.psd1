@@ -87,6 +87,8 @@
 
 						'Get-D365AOTObject',
 
+						'Get-D365AzureDevOpsNuget',
+
 						'Get-D365AzureStorageConfig',
 						'Get-D365AzureStorageFile',
 						'Get-D365AzureStorageUrl',
@@ -177,6 +179,8 @@
 
 						'Invoke-D365AzCopyTransfer',
 						
+						'Invoke-D365AzureDevOpsNugetPush',
+						
 						'Invoke-D365AzureStorageDownload',
 						'Invoke-D365AzureStorageUpload',
 
@@ -201,8 +205,9 @@
 						'Invoke-D365GenerateReportTable',
 						'Invoke-D365GenerateReportWorkflowType'
 						
-						'Invoke-D365InstallLicense',
 						'Invoke-D365InstallAzCopy',
+						'Invoke-D365InstallLicense',
+						'Invoke-D365InstallNuget',
 						'Invoke-D365InstallSqlPackage',
 						
 						'Invoke-D365LcsApiRefreshToken',
@@ -273,6 +278,9 @@
 						'Set-D365FavoriteBookmark',
 						'Set-D365LcsApiConfig',
 						'Set-D365LogicAppConfig',
+						
+						'Set-D365NugetPath',
+
 						'Set-D365OfflineAuthenticationAdminEmail',
 						
 						'Set-D365RsatTier2Crypto',
