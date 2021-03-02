@@ -184,7 +184,7 @@
 	
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
-		__AllParameterSets -SyncList
+		__AllParameterSets -
 		__AllParameterSets -SyncList -SyncExtensionsList -SyncMode -Verbosity -BinDirTools -MetadataDir -DatabaseServer -DatabaseName -SqlUser -SqlPwd -LogPath -ShowOriginalProgress -OutputCommandOnly
 		#>
 	}
