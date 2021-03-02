@@ -13,7 +13,7 @@ Invoke the synchronization process used in Visual Studio
 ## SYNTAX
 
 ```
-Invoke-D365DbSyncPartial [-SyncList] <String[]> [[-SyncExtensionsList] <String[]>] [[-SyncMode] <String>]
+Invoke-D365DbSyncPartial [[-SyncList] <String[]>] [[-SyncExtensionsList] <String[]>] [[-SyncMode] <String>]
  [[-Verbosity] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>]
  [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-LogPath] <String>]
  [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
@@ -65,7 +65,7 @@ Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
 Default value: None
 Accept pipeline input: False

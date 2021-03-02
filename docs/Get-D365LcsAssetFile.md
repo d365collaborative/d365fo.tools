@@ -14,8 +14,8 @@ Get file from the Asset library inside the LCS project
 
 ```
 Get-D365LcsAssetFile [[-ProjectId] <Int32>] [[-FileType] <LcsAssetFileType>] [[-AssetName] <String>]
- [[-AssetVersion] <String>] [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest] [-EnableException]
- [<CommonParameters>]
+ [[-AssetVersion] <String>] [[-AssetFilename] <String>] [[-BearerToken] <String>] [[-LcsApiUri] <String>]
+ [-Latest] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -48,6 +48,19 @@ All default values will come from the configuration available from Get-D365LcsAp
 The default values can be configured using Set-D365LcsApiConfig.
 
 ### EXAMPLE 3
+```
+Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetFilename "*MAIN*"
+```
+
+This will list all Software Deployable Packages, that matches the "*MAIN*" search pattern.
+It will search for SoftwareDeployablePackage by using the FileType parameter.
+It will filter the output to match the AssetFilename "*MAIN*" search pattern.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 4
 ```
 Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\Temp\d365fo.tools -FileName "Main.zip" -ShowOriginalProgress
 ```
@@ -111,13 +124,13 @@ Accept wildcard characters: False
 ```
 
 ### -AssetName
-Name of the file that you are looking for
+Name of the asset that you are looking for
 
 Accepts wildcards for searching.
 E.g.
 -AssetName "*ISV*"
 
-Default value is "*" which will search for all files
+Default value is "*" which will search for all assets
 
 ```yaml
 Type: String
@@ -154,6 +167,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AssetFilename
+Name of the file that you are looking for
+
+Accepts wildcards for searching.
+E.g.
+-AssetFilename "*ISV*"
+
+Default value is "*" which will search for all files via the filename property
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: *
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -BearerToken
 The token you want to use when working against the LCS api
 
@@ -165,7 +199,7 @@ Parameter Sets: (All)
 Aliases: Token
 
 Required: False
-Position: 5
+Position: 6
 Default value: $Script:LcsApiBearerToken
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -192,7 +226,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: $Script:LcsApiLcsApiUri
 Accept pipeline input: False
 Accept wildcard characters: False
