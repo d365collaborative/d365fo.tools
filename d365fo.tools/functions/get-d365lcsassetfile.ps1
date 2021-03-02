@@ -44,14 +44,14 @@
         Accepts wildcards for searching. E.g. -AssetName "*ISV*"
         
         Default value is "*" which will search for all files
-
-        .PARAMETER AssetFilename
-                Name of the file that you are looking for
+        
+    .PARAMETER AssetFilename
+        Name of the file that you are looking for
         
         Accepts wildcards for searching. E.g. -AssetFilename "*ISV*"
         
         Default value is "*" which will search for all files via the filename property
-
+        
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
@@ -98,8 +98,8 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
-            .EXAMPLE
+        
+    .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetFilename "*MAIN*"
         
         This will list all Software Deployable Packages, that matches the "*MAIN*" search pattern.

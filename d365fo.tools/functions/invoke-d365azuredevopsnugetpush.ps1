@@ -1,25 +1,26 @@
-﻿<#
-.SYNOPSIS
-Push a package / nuget to Azure DevOps
-
-.DESCRIPTION
-Push a package / nuget to an Azure DevOps feed
-
-.PARAMETER Path
-Path to the package / nuget that you want to push to the Azure DevOps feed
-
-.PARAMETER Source
-The logical name for the nuget source / connection that you want to use while pushing the package / nuget
-
-This requires you to register the nuget source, by hand, using the nuget.exe tool directly
-
-Base command to use:
-.\nuget sources add -Name "Contoso" -Source "https://pkgs.dev.azure.com/Contoso/Financials/_packaging/Test/nuget/v3/index.json" -username alice@contoso.com -password m9o7jfuch0huJ0YP2W46tTB90TQrMv0rcoZNaueBs3TLy68vF4Ny
-
-Please note that the password is in fact a personal access token and NOT your real password
-
-The value specified for Name in the nuget sources command, is the value to supply for Source for this cmdlet
-
+﻿
+<#
+    .SYNOPSIS
+        Push a package / nuget to Azure DevOps
+        
+    .DESCRIPTION
+        Push a package / nuget to an Azure DevOps feed
+        
+    .PARAMETER Path
+        Path to the package / nuget that you want to push to the Azure DevOps feed
+        
+    .PARAMETER Source
+        The logical name for the nuget source / connection that you want to use while pushing the package / nuget
+        
+        This requires you to register the nuget source, by hand, using the nuget.exe tool directly
+        
+        Base command to use:
+    .\nuget sources add -Name "Contoso" -Source "https://pkgs.dev.azure.com/Contoso/Financials/_packaging/Test/nuget/v3/index.json" -username alice@contoso.com -password m9o7jfuch0huJ0YP2W46tTB90TQrMv0rcoZNaueBs3TLy68vF4Ny
+        
+        Please note that the password is in fact a personal access token and NOT your real password
+        
+        The value specified for Name in the nuget sources command, is the value to supply for Source for this cmdlet
+        
     .PARAMETER LogPath
         The path where the log file(s) will be saved
         
@@ -34,21 +35,21 @@ The value specified for Name in the nuget sources command, is the value to suppl
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
         Will include full path to the executable and the needed parameters based on your selection
-
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
-
-.EXAMPLE
-PS C:\>Invoke-D365AzureDevOpsNugetPush -Path "c:\temp\d365fo.tools\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg" -Source "Contoso"
-
+        
+    .EXAMPLE
+        PS C:\>Invoke-D365AzureDevOpsNugetPush -Path "c:\temp\d365fo.tools\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg" -Source "Contoso"
+        
         This will push the package / nuget to the Azure DevOps feed.
         The file that will be pushed / uploaded is identified by the Path "c:\temp\d365fo.tools\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg".
         The request will be going to the Azure DevOps instance that is registered with the Source (Name) "Contoson" via the nuget.exe tool.
-
-.NOTES
-Author: Mötz Jensen (@Splaxi)
-
+        
+    .NOTES
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Invoke-D365AzureDevOpsNugetPush {
     [CmdletBinding()]
