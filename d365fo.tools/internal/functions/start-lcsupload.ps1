@@ -30,6 +30,11 @@
     .PARAMETER Name
         Name to be assigned / shown on LCS
         
+    .PARAMETER Filename
+        Filename to be assigned / shown on LCS
+        
+        Often will it require an extension for it to be accepted
+        
     .PARAMETER Description
         Description to be assigned / shown on LCS
         
@@ -51,7 +56,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Start-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "SoftwareDeployablePackage" -Name "ReadyForTesting" -Description "Latest release that fixes it all" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "SoftwareDeployablePackage" -Name "ReadyForTesting" -Filename "ReadyForTesting.zip" -Description "Latest release that fixes it all" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will contact the NON-EUROPE LCS API and instruct it that we want to upload a new file to the Asset Library.
         The token "Bearer JldjfafLJdfjlfsalfd..." is used to the authorize against the LCS API.
@@ -78,13 +83,12 @@ function Start-LcsUpload {
         [Parameter(Mandatory = $true)]
         [LcsAssetFileType] $FileType,
 
-        [Parameter(Mandatory = $false)]
         [string] $Name,
 
-        [Parameter(Mandatory = $false)]
+        [string] $Filename,
+
         [string] $Description,
 
-        [Parameter(Mandatory = $false)]
         [string] $LcsApiUri,
 
         [switch] $EnableException
@@ -100,7 +104,7 @@ function Start-LcsUpload {
     }
 
     $fileTypeValue = [int]$FileType
-    $jsonFile = "{ `"Name`": `"$Name`", `"FileName`": `"$fileName`", `"FileDescription`": $jsonDescription, `"SizeByte`": 0, `"FileType`": $fileTypeValue }"
+    $jsonFile = "{ `"Name`": `"$Name`", `"FileName`": `"$Filename`", `"FileDescription`": $jsonDescription, `"SizeByte`": 0, `"FileType`": $fileTypeValue }"
 
     Write-PSFMessage -Level Verbose -Message "Json payload for LCS generated." -Target $jsonFile
     
@@ -132,29 +136,31 @@ function Start-LcsUpload {
         
         if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
             if (($asset) -and ($asset.Message)) {
-                Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)
-                Stop-PSFFunction -Message "Stopping because of errors"
+                Write-PSFMessage -Level Host -Message "Error creating new file asset. $($asset.Message)" -Target $($asset.Message)
+                Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+                return
             }
             else {
                 Write-PSFMessage -Level Host -Message "API Call returned $($result.StatusCode)." -Target $($result.ReasonPhrase)
-                Stop-PSFFunction -Message "Stopping because of errors"
+                Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+                return
             }
         }
 
         if (-not ($asset.Id)) {
             if ($asset.Message) {
                 Write-PSFMessage -Level Host -Message "Error creating new file asset." -Target $($asset.Message)
-                Stop-PSFFunction -Message "Stopping because of errors"
+                Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
             }
             else {
                 Write-PSFMessage -Level Host -Message "Unknown error creating new file asset." -Target $asset
-                Stop-PSFFunction -Message "Stopping because of errors"
+                Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
             }
         }
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         return
     }
 

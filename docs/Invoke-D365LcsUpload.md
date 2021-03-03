@@ -14,8 +14,8 @@ Upload a file to a LCS project
 
 ```
 Invoke-D365LcsUpload [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-FilePath] <String>
- [[-FileType] <LcsAssetFileType>] [[-FileName] <String>] [[-FileDescription] <String>] [[-LcsApiUri] <String>]
- [-EnableException] [<CommonParameters>]
+ [[-FileType] <LcsAssetFileType>] [[-Name] <String>] [[-Filename] <String>] [[-FileDescription] <String>]
+ [[-LcsApiUri] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,27 +25,28 @@ Upload a file to a LCS project using the API provided by Microsoft
 
 ### EXAMPLE 1
 ```
-Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -Name "Release-2019-05-05" -Filename "Release-2019-05-05.zip" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 ```
 
 This will start the upload of a file to the Asset Library.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
 The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
 The file type "Software Deployable Package" determines where inside the Asset Library the file will end up.
-The name inside the Asset Library is based on the FileName "Release-2019-05-05".
+The name inside the Asset Library is based on the Name "Release-2019-05-05".
+The file name inside the Asset Library is based on the FileName "Release-2019-05-05.zip".
 The description inside the Asset Library is based on the FileDescription "Build based on sprint: SuperSprint-1".
 The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
 The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
 
 ### EXAMPLE 2
 ```
-Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05"
+Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05.zip"
 ```
 
 This will start the upload of a file to the Asset Library.
 The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
 The file type "Software Deployable Package" determines where inside the Asset Library the file will end up.
-The name inside the Asset Library is based on the FileName "Release-2019-05-05".
+The file name inside the Asset Library is based on the FileName "Release-2019-05-05.zip".
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -144,7 +145,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -FileName
+### -Name
 Name to be assigned / shown on LCS
 
 ```yaml
@@ -159,6 +160,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Filename
+Filename to be assigned / shown on LCS
+
+Often will it require an extension for it to be accepted
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -FileDescription
 Description to be assigned / shown on LCS
 
@@ -168,7 +186,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -195,7 +213,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: $Script:LcsApiLcsApiUri
 Accept pipeline input: False
 Accept wildcard characters: False

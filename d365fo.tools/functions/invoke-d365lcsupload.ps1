@@ -36,8 +36,13 @@
         
         Default value is "Software Deployable Package"
         
-    .PARAMETER FileName
+    .PARAMETER Name
         Name to be assigned / shown on LCS
+        
+    .PARAMETER Filename
+        Filename to be assigned / shown on LCS
+        
+        Often will it require an extension for it to be accepted
         
     .PARAMETER FileDescription
         Description to be assigned / shown on LCS
@@ -62,24 +67,25 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -Name "Release-2019-05-05" -Filename "Release-2019-05-05.zip" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will start the upload of a file to the Asset Library.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
         The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
         The file type "Software Deployable Package" determines where inside the Asset Library the file will end up.
-        The name inside the Asset Library is based on the FileName "Release-2019-05-05".
+        The name inside the Asset Library is based on the Name "Release-2019-05-05".
+        The file name inside the Asset Library is based on the FileName "Release-2019-05-05.zip".
         The description inside the Asset Library is based on the FileDescription "Build based on sprint: SuperSprint-1".
         The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05"
+        PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05.zip"
         
         This will start the upload of a file to the Asset Library.
         The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
         The file type "Software Deployable Package" determines where inside the Asset Library the file will end up.
-        The name inside the Asset Library is based on the FileName "Release-2019-05-05".
+        The file name inside the Asset Library is based on the FileName "Release-2019-05-05.zip".
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
@@ -137,7 +143,9 @@ function Invoke-D365LcsUpload {
 
         [LcsAssetFileType] $FileType = [LcsAssetFileType]::SoftwareDeployablePackage,
 
-        [string] $FileName,
+        [string] $Name,
+
+        [string] $Filename,
 
         [string] $FileDescription,
 
@@ -150,15 +158,19 @@ function Invoke-D365LcsUpload {
 
     $fileNameExtracted = Split-Path $FilePath -Leaf
 
-    if ($FileName -eq "") {
-        $FileName = $fileNameExtracted
+    if ($Filename -eq "") {
+        $Filename = $fileNameExtracted
+    }
+
+    if ($Name -eq "") {
+        $Name = [System.IO.Path]::GetFileNameWithoutExtension($FilePath)
     }
 
     if (-not ($BearerToken.StartsWith("Bearer "))) {
         $BearerToken = "Bearer $BearerToken"
     }
     
-    $blobDetails = Start-LcsUpload -Token $BearerToken -ProjectId $ProjectId -FileType $FileType -LcsApiUri $LcsApiUri -Name $FileName -Description $FileDescription
+    $blobDetails = Start-LcsUpload -Token $BearerToken -ProjectId $ProjectId -FileType $FileType -LcsApiUri $LcsApiUri -Name $Name -FileName $Filename -Description $FileDescription
 
     if (Test-PSFFunctionInterrupt) { return }
 
@@ -180,6 +192,7 @@ function Invoke-D365LcsUpload {
 
     [PSCustomObject]@{
         AssetId = $blobDetails.Id
-        Name = $FileName
+        Name = $Name
+        Filename = $Filename
     }
 }
