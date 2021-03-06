@@ -19,7 +19,7 @@
         The default value is "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
         
     .EXAMPLE
-        PS C:\>Invoke-D365InstallNuget
+        PS C:\> Invoke-D365InstallNuget
         
         This will download the latest version of nuget.
         The install path is identified by the default value: "C:\temp\d365fo.tools\nuget\nuget.exe".

@@ -34,14 +34,14 @@
         
         Accepts wildcards for searching. E.g. -AssetName "*ISV*"
         
-        Default value is "*" which will search for all assets
+        Default value is "*" which will search for all assets via the Name property
         
     .PARAMETER AssetVersion
         Version of the Asset file that you are looking for
         
         It does a simple compare against the response from LCS and only lists the ones that matches
         
-        Accepts wildcards for searching. E.g. -AssetName "*ISV*"
+        Accepts wildcards for searching. E.g. -AssetVersion "*ISV*"
         
         Default value is "*" which will search for all files
         
@@ -50,8 +50,22 @@
         
         Accepts wildcards for searching. E.g. -AssetFilename "*ISV*"
         
-        Default value is "*" which will search for all files via the filename property
+        Default value is "*" which will search for all files via the FileName property
         
+    .PARAMETER AssetDescription
+        Name of the file that you are looking for
+        
+        Accepts wildcards for searching. E.g. -AssetDescription "*ISV*"
+        
+        Default value is "*" which will search for all files via the FileDescription property
+
+    .PARAMETER AssetId
+        Id of the file that you are looking for
+        
+        Accepts wildcards for searching. E.g. -AssetId "*ISV*"
+        
+        Default value is "*" which will search for all files via the AssetId property
+
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
@@ -82,10 +96,8 @@
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will start the database refresh between the Source and Target environments.
+        This will list all Software Deployable Packages.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-        The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
-        The target environment is identified by the TargetEnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
@@ -102,7 +114,7 @@
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetFilename "*MAIN*"
         
-        This will list all Software Deployable Packages, that matches the "*MAIN*" search pattern.
+        This will list all Software Deployable Packages, that matches the "*MAIN*" search pattern in the AssetFilename.
         It will search for SoftwareDeployablePackage by using the FileType parameter.
         It will filter the output to match the AssetFilename "*MAIN*" search pattern.
         
@@ -110,6 +122,39 @@
         
         The default values can be configured using Set-D365LcsApiConfig.
         
+    .EXAMPLE
+        PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetName "*MAIN*"
+        
+        This will list all Software Deployable Packages, that matches the "*MAIN*" search pattern in the AssetName.
+        It will search for SoftwareDeployablePackage by using the FileType parameter.
+        It will filter the output to match the AssetName "*MAIN*" search pattern.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+
+    .EXAMPLE
+        PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetDescription "*TEST*"
+        
+        This will list all Software Deployable Packages, that matches the "*TEST*" search pattern in the AssetDescription.
+        It will search for SoftwareDeployablePackage by using the FileType parameter.
+        It will filter the output to match the AssetDescription "*TEST*" search pattern.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+
+    .EXAMPLE
+        PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetId "500dd860-eacf-4e04-9f18-f9c8fe1d8e03"
+        
+        This will list all Software Deployable Packages, that matches the "500dd860-eacf-4e04-9f18-f9c8fe1d8e03" search pattern in the AssetId.
+        It will search for SoftwareDeployablePackage by using the FileType parameter.
+        It will filter the output to match the AssetId "500dd860-eacf-4e04-9f18-f9c8fe1d8e03" search pattern.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\Temp\d365fo.tools -FileName "Main.zip" -ShowOriginalProgress
         
@@ -151,6 +196,10 @@ function Get-D365LcsAssetFile {
         [string] $AssetVersion = "*",
 
         [string] $AssetFilename = "*",
+
+        [string] $AssetDescription = "*",
+
+        [string] $AssetId = "*",
         
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
@@ -181,6 +230,8 @@ function Get-D365LcsAssetFile {
             if ($obj.Name -NotLike $AssetName) { continue }
             if ($obj.Version -NotLike $AssetVersion) { continue }
             if ($obj.FileName -NotLike $AssetFilename) { continue }
+            if ($obj.FileDescription -NotLike $AssetDescription) { continue }
+            if ($obj.AssetId -NotLike $AssetId) { continue }
 
             $obj | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" "*", "Id as AssetId"
         }

@@ -122,17 +122,17 @@ function Start-LcsDeployment {
                 }
             }
             elseif ($lcsResponseObject.ActivityId) {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($lcsResponseObject.ActivityId)')"
+                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($lcsResponseObject.ActivityId)') (Raw Response: '$responseString')"
             }
             else {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
+                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Raw Response: '$responseString')"
             }
 
             Write-PSFMessage -Level Host -Message "Error creating new file lcsResponseObject." -Target $($lcsResponseObject.Message)
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
-            Stop-PSFFunction -Message "Stopping because of errors"
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
-
         
         if (-not ( $lcsResponseObject.OperationStatus)) {
             if ( $lcsResponseObject.Message) {
@@ -142,20 +142,21 @@ function Start-LcsDeployment {
                 $errorText = "Error in request for deploying asset to enviroment: '$($lcsResponseObject.ErrorMessage)' (OperationActivityId: '$($lcsResponseObject.OperationActivityId)')"
             }
             elseif ($lcsResponseObject.OperationActivityId -or $lcsResponseObject.ActivityId) {
-                $errorText = "Error in request for deploying asset to environment. (OperationActivityId: '$($lcsResponseObject.OperationActivityId)')"
+                $errorText = "Error in request for deploying asset to environment. (OperationActivityId: '$($lcsResponseObject.OperationActivityId)') (Raw Response: '$responseString')"
             }
             else {
-                $errorText = "Unknown in request for deploying asset to environment."
+                $errorText = "Unknown in request for deploying asset to environment. (Raw Response: '$responseString')"
             }
 
             Write-PSFMessage -Level Host -Message "Unknown in request for deploying asset to environment." -Target $lcsResponseObject
             Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
-            Stop-PSFFunction -Message "Stopping because of errors"
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors"
+        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         return
     }
 

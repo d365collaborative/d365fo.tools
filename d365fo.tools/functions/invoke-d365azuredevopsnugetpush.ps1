@@ -41,7 +41,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\>Invoke-D365AzureDevOpsNugetPush -Path "c:\temp\d365fo.tools\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg" -Source "Contoso"
+        PS C:\> Invoke-D365AzureDevOpsNugetPush -Path "c:\temp\d365fo.tools\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg" -Source "Contoso"
         
         This will push the package / nuget to the Azure DevOps feed.
         The file that will be pushed / uploaded is identified by the Path "c:\temp\d365fo.tools\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg".
