@@ -57,7 +57,7 @@
         The environment is identified by the EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com"
-
+        
     .LINK
         Get-D365LcsApiConfig
         

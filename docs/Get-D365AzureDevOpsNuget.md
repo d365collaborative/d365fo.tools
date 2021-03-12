@@ -50,7 +50,7 @@ The cmdlet will only output the latest version by the Latest switch.
 $currentNugets = Get-D365AzureDevOpsNuget -Uri "https://dev.azure.com/Contoso/Financials" -FeedName "AASBuild365" -PeronalAccessToken "m9o7jfuch0huJ0YP2W46tTB90TQrMv0rcoZNaueBs3TLy68vF4Ny" -Latest
 ```
 
-PS C:\\\>foreach ($item in $currentNugets) {
+PS C:\\\> foreach ($item in $currentNugets) {
 PS C:\\\>     $lcsNugets = Get-D365LcsAssetFile -FileType NuGetPackage -AssetFilename "$($item.Name)*"
 PS C:\\\>     foreach ($itemInner in $lcsNugets) {
 PS C:\\\>         if ($itemInner.FileName -Match "\d+\.\d+\.\d+\.\d+") {
@@ -59,7 +59,7 @@ PS C:\\\>                 $itemInner
 PS C:\\\>             }
 PS C:\\\>         }
 PS C:\\\>     }
-PS C:\\\>}
+PS C:\\\> }
 
 This will fetch all latest nugets from the Azure DevOps artifacts feed (nuget).
 For each nuget found, it will fetch matching nugets from the LCS Asset Library and return those that have a higher version.

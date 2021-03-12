@@ -58,14 +58,14 @@
         Accepts wildcards for searching. E.g. -AssetDescription "*ISV*"
         
         Default value is "*" which will search for all files via the FileDescription property
-
+        
     .PARAMETER AssetId
         Id of the file that you are looking for
         
         Accepts wildcards for searching. E.g. -AssetId "*ISV*"
         
         Default value is "*" which will search for all files via the AssetId property
-
+        
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
@@ -132,7 +132,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetDescription "*TEST*"
         
@@ -143,7 +143,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetId "500dd860-eacf-4e04-9f18-f9c8fe1d8e03"
         
@@ -154,7 +154,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\Temp\d365fo.tools -FileName "Main.zip" -ShowOriginalProgress
         

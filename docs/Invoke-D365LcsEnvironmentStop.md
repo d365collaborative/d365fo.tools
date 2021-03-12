@@ -33,6 +33,17 @@ The environment is identified by the EnvironmentId "958ae597-f089-4811-abbd-c119
 The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
 The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com"
 
+### EXAMPLE 2
+```
+Invoke-D365LcsEnvironmentStop -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae"
+```
+
+This will trigger the environment stop operation upon the given environment through the LCS API.
+The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+The environment is identified by the EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
+The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com"
+
 ## PARAMETERS
 
 ### -ProjectId
