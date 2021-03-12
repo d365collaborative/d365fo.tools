@@ -45,7 +45,7 @@
         
         This will push the package / nuget to the Azure DevOps feed.
         The file that will be pushed / uploaded is identified by the Path "c:\temp\d365fo.tools\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg".
-        The request will be going to the Azure DevOps instance that is registered with the Source (Name) "Contoson" via the nuget.exe tool.
+        The request will be going to the Azure DevOps instance that is registered with the Source (Name) "Contoso" via the nuget.exe tool.
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
