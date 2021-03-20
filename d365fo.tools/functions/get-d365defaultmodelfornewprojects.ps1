@@ -9,7 +9,8 @@
     .EXAMPLE
         PS C:\> Get-D365DefaultModelForNewProjects
         
-        This will display the current default module registered in the "..Documents\Visual Studio 2015\Settings\DynamicsDevConfig.xml" file.
+        This will display the current default module registered in the "DynamicsDevConfig.xml" file. 
+        Located in Documents\Visual Studio Dynamics 365\ or in Documents\Visual Studio 2015\Settings\ depending on the version.
         
     .NOTES
         Tag: Model, Models, Development, Default Model, Module, Project
@@ -29,8 +30,10 @@ function Get-D365DefaultModelForNewProjects {
     [CmdletBinding()]
     param ()
 
-    $filePath = "C:\Users\$env:UserName\Documents\Visual Studio 2015\Settings\DynamicsDevConfig.xml"
-
+    $filePath = "$env:UserProfile\Documents\Visual Studio Dynamics 365\DynamicsDevConfig.xml"
+    if (-not (Test-PathExists -Path $filePath -Type Leaf)) {
+        $filePath = "$env:UserProfile\Documents\Visual Studio 2015\Settings\DynamicsDevConfig.xml"
+    }
     if (-not (Test-PathExists -Path $filePath -Type Leaf)) { return }
 
     if (Test-PSFFunctionInterrupt) { return }
