@@ -2,34 +2,34 @@
 <#
     .SYNOPSIS
         Set the default model used creating new projects in Visual Studio
-
+        
     .DESCRIPTION
         Set the registered default model that is used across all new projects that are created inside Visual Studio when working with D365FO project types
-
+        
         It will backup the current "DynamicsDevConfig.xml" file, for you to revert the changes if anything should go wrong
-
+        
     .PARAMETER Module
         The name of the module / model that you want to be the default model for all new projects used inside Visual Studio when working with D365FO project types
-
+        
     .EXAMPLE
         PS C:\> Set-D365DefaultModelForNewProjects -Model "FleetManagement"
-
+        
         This will update the current default module registered in the "DynamicsDevConfig.xml" file.
         This file is located in Documents\Visual Studio Dynamics 365\ or in Documents\Visual Studio 2015\Settings\ depending on the version.
         It will backup the current "DynamicsDevConfig.xml" file.
         It will replace the value inside the "DefaultModelForNewProjects" tag.
-
+        
     .NOTES
         Tag: Model, Models, Development, Default Model, Module, Project
-
+        
         Author: Mötz Jensen (@Splaxi)
-
+        
         The work for this cmdlet / function was inspired by Robin Kretzschmar (@DarkSmile92) blog post about changing the default model.
-
+        
         The direct link for his blog post is: https://robscode.onl/d365-set-default-model-for-new-projects/
-
+        
         His main blog can found here: https://robscode.onl/
-
+        
 #>
 
 function Set-D365DefaultModelForNewProjects {

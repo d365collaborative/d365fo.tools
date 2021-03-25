@@ -15,8 +15,8 @@
         This requires you to register the nuget source, by hand, using the nuget.exe tool directly
         
         Base command to use:
-        .\nuget sources add -Name "D365FO" -Source "https://pkgs.dev.azure.com/Contoso/DynamicsFnO/_packaging/D365Packages/NuGet/v3/index.json" -username "alice@contoso.dk" -password "uVWw43FLzaWk9H2EDguXMVYD3DaWj3aHBL6bfZkc21cmkwoK8X78"
-
+    .\nuget sources add -Name "D365FO" -Source "https://pkgs.dev.azure.com/Contoso/DynamicsFnO/_packaging/D365Packages/NuGet/v3/index.json" -username "alice@contoso.dk" -password "uVWw43FLzaWk9H2EDguXMVYD3DaWj3aHBL6bfZkc21cmkwoK8X78"
+        
         Please note that the password is in fact a personal access token and NOT your real password
         
         The value specified for Name in the nuget sources command, is the value to supply for Source for this cmdlet
