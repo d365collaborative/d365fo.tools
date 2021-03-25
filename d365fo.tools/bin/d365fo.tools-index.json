@@ -2265,7 +2265,7 @@
         "Synopsis":  "Get the default model used creating new projects in Visual Studio",
         "Name":  "Get-D365DefaultModelForNewProjects",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365DefaultModelForNewProjects\nThis will display the current default module registered in the \"..Documents\\Visual Studio 2015\\Settings\\DynamicsDevConfig.xml\" file.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365DefaultModelForNewProjects\nThis will display the current default module registered in the \"DynamicsDevConfig.xml\" file.\r\nLocated in Documents\\Visual Studio Dynamics 365\\ or in Documents\\Visual Studio 2015\\Settings\\ depending on the version.",
         "Syntax":  "Get-D365DefaultModelForNewProjects [\u003cCommonParameters\u003e]"
     },
     {
@@ -5660,7 +5660,7 @@
                        ],
                        [
                            "Source",
-                           "The logical name for the nuget source / connection that you want to use while pushing the package / nuget\nThis requires you to register the nuget source, by hand, using the nuget.exe tool directly\nBase command to use:\r\n.\\nuget sources add -Name \"Contoso\" -Source \"https://pkgs.dev.azure.com/Contoso/Financials/_packaging/Test/nuget/v3/index.json\" -username alice@contoso.com -password \r\nm9o7jfuch0huJ0YP2W46tTB90TQrMv0rcoZNaueBs3TLy68vF4Ny\nPlease note that the password is in fact a personal access token and NOT your real password\nThe value specified for Name in the nuget sources command, is the value to supply for Source for this cmdlet",
+                           "The logical name for the nuget source / connection that you want to use while pushing the package / nuget\nThis requires you to register the nuget source, by hand, using the nuget.exe tool directly\nBase command to use:\r\n.\\nuget sources add -Name \"D365FO\" -Source \"https://pkgs.dev.azure.com/Contoso/DynamicsFnO/_packaging/D365Packages/NuGet/v3/index.json\" -username \"alice@contoso.dk\" -password \r\n\"uVWw43FLzaWk9H2EDguXMVYD3DaWj3aHBL6bfZkc21cmkwoK8X78\"\nPlease note that the password is in fact a personal access token and NOT your real password\nThe value specified for Name in the nuget sources command, is the value to supply for Source for this cmdlet",
                            "NugetSource,Destination",
                            false,
                            "false",
@@ -5704,7 +5704,7 @@
         "Synopsis":  "Push a package / nuget to Azure DevOps",
         "Name":  "Invoke-D365AzureDevOpsNugetPush",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365AzureDevOpsNugetPush -Path \"c:\\temp\\d365fo.tools\\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg\" -Source \"Contoso\"\nThis will push the package / nuget to the Azure DevOps feed.\r\nThe file that will be pushed / uploaded is identified by the Path \"c:\\temp\\d365fo.tools\\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg\".\r\nThe request will be going to the Azure DevOps instance that is registered with the Source (Name) \"Contoson\" via the nuget.exe tool.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365AzureDevOpsNugetPush -Path \"c:\\temp\\d365fo.tools\\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg\" -Source \"Contoso\"\nThis will push the package / nuget to the Azure DevOps feed.\r\nThe file that will be pushed / uploaded is identified by the Path \"c:\\temp\\d365fo.tools\\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg\".\r\nThe request will be going to the Azure DevOps instance that is registered with the Source (Name) \"Contoso\" via the nuget.exe tool.",
         "Syntax":  "Invoke-D365AzureDevOpsNugetPush [[-Path] \u003cString\u003e] [[-Source] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
@@ -10042,7 +10042,7 @@
         "Synopsis":  "Set the default model used creating new projects in Visual Studio",
         "Name":  "Set-D365DefaultModelForNewProjects",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365DefaultModelForNewProjects -Model \"FleetManagement\"\nThis will update the current default module registered in the \"..Documents\\Visual Studio 2015\\Settings\\DynamicsDevConfig.xml\" file.\r\nIt will backup the current \"DynamicsDevConfig.xml\" file.\r\nIt will replace the value inside the \"DefaultModelForNewProjects\" tag.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365DefaultModelForNewProjects -Model \"FleetManagement\"\nThis will update the current default module registered in the \"DynamicsDevConfig.xml\" file.\r\nThis file is located in Documents\\Visual Studio Dynamics 365\\ or in Documents\\Visual Studio 2015\\Settings\\ depending on the version.\r\nIt will backup the current \"DynamicsDevConfig.xml\" file.\r\nIt will replace the value inside the \"DefaultModelForNewProjects\" tag.",
         "Syntax":  "Set-D365DefaultModelForNewProjects [-Module] \u003cString\u003e [\u003cCommonParameters\u003e]"
     },
     {
