@@ -29,7 +29,7 @@ Invoke-D365AzureDevOpsNugetPush -Path "c:\temp\d365fo.tools\microsoft.dynamics.a
 
 This will push the package / nuget to the Azure DevOps feed.
 The file that will be pushed / uploaded is identified by the Path "c:\temp\d365fo.tools\microsoft.dynamics.ax.application.devalm.buildxpp.10.0.605.10014.nupkg".
-The request will be going to the Azure DevOps instance that is registered with the Source (Name) "Contoson" via the nuget.exe tool.
+The request will be going to the Azure DevOps instance that is registered with the Source (Name) "Contoso" via the nuget.exe tool.
 
 ## PARAMETERS
 
@@ -54,7 +54,7 @@ The logical name for the nuget source / connection that you want to use while pu
 This requires you to register the nuget source, by hand, using the nuget.exe tool directly
 
 Base command to use:
-.\nuget sources add -Name "Contoso" -Source "https://pkgs.dev.azure.com/Contoso/Financials/_packaging/Test/nuget/v3/index.json" -username alice@contoso.com -password m9o7jfuch0huJ0YP2W46tTB90TQrMv0rcoZNaueBs3TLy68vF4Ny
+.\nuget sources add -Name "D365FO" -Source "https://pkgs.dev.azure.com/Contoso/DynamicsFnO/_packaging/D365Packages/NuGet/v3/index.json" -username "alice@contoso.dk" -password "uVWw43FLzaWk9H2EDguXMVYD3DaWj3aHBL6bfZkc21cmkwoK8X78"
 
 Please note that the password is in fact a personal access token and NOT your real password
 

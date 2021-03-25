@@ -28,7 +28,8 @@ It will backup the current "DynamicsDevConfig.xml" file, for you to revert the c
 Set-D365DefaultModelForNewProjects -Model "FleetManagement"
 ```
 
-This will update the current default module registered in the "..Documents\Visual Studio 2015\Settings\DynamicsDevConfig.xml" file.
+This will update the current default module registered in the "DynamicsDevConfig.xml" file.
+This file is located in Documents\Visual Studio Dynamics 365\ or in Documents\Visual Studio 2015\Settings\ depending on the version.
 It will backup the current "DynamicsDevConfig.xml" file.
 It will replace the value inside the "DefaultModelForNewProjects" tag.
 

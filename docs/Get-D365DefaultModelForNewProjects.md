@@ -26,7 +26,8 @@ Get the registered default model that is used across all new projects that are c
 Get-D365DefaultModelForNewProjects
 ```
 
-This will display the current default module registered in the "..Documents\Visual Studio 2015\Settings\DynamicsDevConfig.xml" file.
+This will display the current default module registered in the "DynamicsDevConfig.xml" file.
+Located in Documents\Visual Studio Dynamics 365\ or in Documents\Visual Studio 2015\Settings\ depending on the version.
 
 ## PARAMETERS
 
