@@ -49,7 +49,9 @@
         "https://lcsapi.fr.lcs.dynamics.com"
         "https://lcsapi.sa.lcs.dynamics.com"
         "https://lcsapi.uae.lcs.dynamics.com"
+        "https://lcsapi.ch.lcs.dynamics.com"
         "https://lcsapi.lcs.dynamics.cn"
+        "https://lcsapi.gov.lcs.microsoftdynamics.us"
         
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
