@@ -136,7 +136,9 @@ Valid options:
 "https://lcsapi.fr.lcs.dynamics.com"
 "https://lcsapi.sa.lcs.dynamics.com"
 "https://lcsapi.uae.lcs.dynamics.com"
+"https://lcsapi.ch.lcs.dynamics.com"
 "https://lcsapi.lcs.dynamics.cn"
+"https://lcsapi.gov.lcs.microsoftdynamics.us"
 
 Default value can be configured using Set-D365LcsApiConfig
 

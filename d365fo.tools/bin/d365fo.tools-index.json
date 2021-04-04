@@ -3011,7 +3011,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3112,7 +3112,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3178,7 +3178,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3239,7 +3239,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3324,7 +3324,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3422,7 +3422,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7261,7 +7261,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7350,7 +7350,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7448,7 +7448,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7517,7 +7517,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending where your LCS project is located, there are several valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending where your LCS project is located, there are several valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7584,7 +7584,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending where your LCS project is located, there are several valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending where your LCS project is located, there are several valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7686,7 +7686,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -10170,7 +10170,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"",
                            "resource",
                            false,
                            "true (ByPropertyName)",
