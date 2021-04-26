@@ -155,7 +155,13 @@ function Get-LcsDeploymentStatus {
         Stop-PSFFunction -Message "Stopping because of errors"
         return
     }
-
+    finally {
+        if ($client) {
+            $client.Dispose()
+            $client = $null
+        }
+    }
+    
     Invoke-TimeSignal -End
     
     $lcsResponseObject
