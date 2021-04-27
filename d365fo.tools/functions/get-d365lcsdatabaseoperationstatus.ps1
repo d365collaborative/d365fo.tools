@@ -49,7 +49,7 @@
         The cmdlet will sleep for 300 seconds, before requesting the status of the deployment process from LCS
         
     .PARAMETER SleepInSeconds
-        Time in secounds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
+        Time in seconds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
         
         Default value is 300
         
