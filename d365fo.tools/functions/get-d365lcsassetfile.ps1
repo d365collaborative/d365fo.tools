@@ -220,7 +220,7 @@ function Get-D365LcsAssetFile {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $assets = Get-LcsAssetFile -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri -FileType $([int]$FileType)
+    $assets = Get-LcsAssetFileV2 -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri -FileType $([int]$FileType)
 
     if (Test-PSFFunctionInterrupt) { return }
 
