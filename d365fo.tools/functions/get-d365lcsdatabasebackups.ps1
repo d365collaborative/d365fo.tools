@@ -109,7 +109,7 @@ function Get-D365LcsDatabaseBackups {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $backups = Get-LcsDatabaseBackups -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri
+    $backups = Get-LcsDatabaseBackupsV2 -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri
 
     if (Test-PSFFunctionInterrupt) { return }
 
