@@ -41,6 +41,11 @@
         
         The cmdlet will sleep for 60 seconds, before requesting the status of the validation process from LCS
         
+    .PARAMETER SleepInSeconds
+        Time in seconds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
+        
+        Default value is 60
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -117,20 +122,19 @@ function Get-D365LcsAssetValidationStatus {
     [CmdletBinding()]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [string] $AssetId,
+        
         [int] $ProjectId = $Script:LcsApiProjectId,
         
-        [Parameter(Mandatory = $false)]
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
 
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
-        [string] $AssetId,
-
-        [Parameter(Mandatory = $false)]
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
         [switch] $WaitForValidation,
+
+        [int] $SleepInSeconds = 60,
 
         [switch] $EnableException
     )
@@ -145,8 +149,10 @@ function Get-D365LcsAssetValidationStatus {
 
         do {
             Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Asset Validation Status"
-            Start-Sleep -Seconds 60
-            $status = Get-LcsAssetValidationStatus -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri
+            
+            Start-Sleep -Seconds $SleepInSeconds
+
+            $status = Get-LcsAssetValidationStatusV2 -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri
         }
         while (($status.DisplayStatus -eq "Process") -and $WaitForValidation)
 
