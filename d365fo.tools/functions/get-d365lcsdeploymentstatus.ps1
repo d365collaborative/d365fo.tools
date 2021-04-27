@@ -155,12 +155,14 @@ function Get-D365LcsDeploymentStatus {
             Write-PSFMessage -Level Verbose -Message "Sleeping before hitting the LCS API for Deployment Status"
 
             Start-Sleep -Seconds $SleepInSeconds
-            $deploymentStatus = Get-LcsDeploymentStatus -BearerToken $BearerToken -ProjectId $ProjectId -ActivityId $ActivityId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+            $deploymentStatus = Get-LcsDeploymentStatusV2 -BearerToken $BearerToken -ProjectId $ProjectId -ActivityId $ActivityId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
+      
+            if (Test-PSFFunctionInterrupt) { return }
         }
         while ((($deploymentStatus.OperationStatus -eq "InProgress") -or ($deploymentStatus.OperationStatus -eq "NotStarted") -or ($deploymentStatus.OperationStatus -eq "PreparingEnvironment")) -and $WaitForCompletion)
 
         Invoke-TimeSignal -End
 
-        $deploymentStatus
+        $deploymentStatus | Select-PSFObject * -TypeName "D365FO.TOOLS.LCS.Deployment.Operation.Status"
     }
 }
