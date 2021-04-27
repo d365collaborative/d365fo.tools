@@ -153,6 +153,8 @@ function Get-D365LcsAssetValidationStatus {
             Start-Sleep -Seconds $SleepInSeconds
 
             $status = Get-LcsAssetValidationStatusV2 -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri
+        
+            if (Test-PSFFunctionInterrupt) { return }
         }
         while (($status.DisplayStatus -eq "Process") -and $WaitForValidation)
 
