@@ -37,6 +37,23 @@
         "https://lcsapi.lcs.dynamics.cn"
         "https://lcsapi.gov.lcs.microsoftdynamics.us"
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -80,6 +97,8 @@ function Start-LcsDatabaseExportV2 {
         [Parameter(Mandatory = $true)]
         [string] $LcsApiUri,
 
+        [Timespan] $RetryTimeout = "00:00:00",
+
         [switch] $EnableException
     )
     
@@ -94,6 +113,7 @@ function Start-LcsDatabaseExportV2 {
         $parms.Method = "POST"
         $parms.Uri = "$LcsApiUri/databasemovement/v1/export/project/$($ProjectId)/environment/$($SourceEnvironmentId)/backupName/$($BackupName)"
         $parms.Headers = $headers
+        $parms.RetryTimeout = $RetryTimeout
     }
 
     process {
