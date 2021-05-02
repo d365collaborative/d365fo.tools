@@ -102,6 +102,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter RetryTimeout' {
+			$parameter = (Get-Command Get-D365LcsDatabaseOperationStatus).Parameters['RetryTimeout']
+			$parameter.Name | Should -Be 'RetryTimeout'
+			$parameter.ParameterType.ToString() | Should -Be System.TimeSpan
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 6
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter EnableException' {
 			$parameter = (Get-Command Get-D365LcsDatabaseOperationStatus).Parameters['EnableException']
 			$parameter.Name | Should -Be 'EnableException'
@@ -120,7 +133,7 @@
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -OperationActivityId -EnvironmentId
-		__AllParameterSets -ProjectId -BearerToken -OperationActivityId -EnvironmentId -LcsApiUri -WaitForCompletion -SleepInSeconds -EnableException
+		__AllParameterSets -ProjectId -BearerToken -OperationActivityId -EnvironmentId -LcsApiUri -WaitForCompletion -SleepInSeconds -RetryTimeout -EnableException
 		#>
 	}
 

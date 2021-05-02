@@ -58,6 +58,23 @@
         Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
         This allows you to implement custom retry / error handling logic
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -107,6 +124,17 @@
         The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
         The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
         It will skip the first database operation status fetch and only output the details from starting the export.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365LcsDatabaseExport -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BackupName "BackupViaApi" -RetryTimeout "00:01:00"
+        
+        This will start the database export from the Source environment, and allow for the cmdlet to retry for no more than 1 minute.
+        The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+        The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
@@ -173,6 +201,8 @@ function Invoke-D365LcsDatabaseExport {
 
         [switch] $FailOnErrorMessage,
         
+        [Timespan] $RetryTimeout = "00:00:00",
+
         [switch] $EnableException
     )
 
@@ -182,7 +212,7 @@ function Invoke-D365LcsDatabaseExport {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $exportJob = Start-LcsDatabaseExportV2 -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -BackupName $BackupName -LcsApiUri $LcsApiUri
+    $exportJob = Start-LcsDatabaseExportV2 -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -BackupName $BackupName -LcsApiUri $LcsApiUri -RetryTimeout $RetryTimeout
 
     if (Test-PSFFunctionInterrupt) { return }
 

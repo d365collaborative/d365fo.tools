@@ -46,6 +46,23 @@
         
         Default value is 60
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -87,6 +104,16 @@
         The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
         The output object received from Invoke-D365LcsUpload is piped directly to Get-D365LcsAssetValidationStatus.
         The cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+        
+    .EXAMPLE
+        PS C:\> Get-D365LcsAssetValidationStatus -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -RetryTimeout "00:01:00"
+        
+        This will check the validation status for the file in the Asset Library, and allow for the cmdlet to retry for no more than 1 minute.
+        The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
@@ -136,6 +163,8 @@ function Get-D365LcsAssetValidationStatus {
 
         [int] $SleepInSeconds = 60,
 
+        [Timespan] $RetryTimeout = "00:00:00",
+
         [switch] $EnableException
     )
 
@@ -152,7 +181,7 @@ function Get-D365LcsAssetValidationStatus {
             
             Start-Sleep -Seconds $SleepInSeconds
 
-            $status = Get-LcsAssetValidationStatusV2 -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri
+            $status = Get-LcsAssetValidationStatusV2 -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -LcsApiUri $LcsApiUri -RetryTimeout $RetryTimeout
         
             if (Test-PSFFunctionInterrupt) { return }
         }

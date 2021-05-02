@@ -14,7 +14,8 @@ Start a specified environment through LCS.
 
 ```
 Invoke-D365LcsEnvironmentStart [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-EnvironmentId] <String>
- [[-LcsApiUri] <String>] [-FailOnErrorMessage] [-EnableException] [<CommonParameters>]
+ [[-LcsApiUri] <String>] [-FailOnErrorMessage] [[-RetryTimeout] <TimeSpan>] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,14 +25,38 @@ Start a specified IAAS environment that is Customer Managed through the LCS API.
 
 ### EXAMPLE 1
 ```
-Invoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+Invoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 ```
 
 This will trigger the environment start operation upon the given environment through the LCS API.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-The environment is identified by the EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
 The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com"
+
+### EXAMPLE 2
+```
+Invoke-D365LcsEnvironmentStart -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+```
+
+This will trigger the environment start operation upon the given environment through the LCS API.
+The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 3
+```
+Invoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -RetryTimeout "00:01:00"
+```
+
+This will trigger the environment start operation upon the given environment through the LCS API, and allow for the cmdlet to retry for no more than 1 minute.
+The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
 
 ## PARAMETERS
 
@@ -129,6 +154,35 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

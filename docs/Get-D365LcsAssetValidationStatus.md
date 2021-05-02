@@ -14,8 +14,8 @@ Get the validation status from LCS
 
 ```
 Get-D365LcsAssetValidationStatus [-AssetId] <String> [[-ProjectId] <Int32>] [[-BearerToken] <String>]
- [[-LcsApiUri] <String>] [-WaitForValidation] [[-SleepInSeconds] <Int32>] [-EnableException]
- [<CommonParameters>]
+ [[-LcsApiUri] <String>] [-WaitForValidation] [[-SleepInSeconds] <Int32>] [[-RetryTimeout] <TimeSpan>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -68,6 +68,18 @@ This will start the upload of a file to the Asset Library and check the validati
 The file that will be uploaded is based on the FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip".
 The output object received from Invoke-D365LcsUpload is piped directly to Get-D365LcsAssetValidationStatus.
 The cmdlet will every 60 seconds contact the LCS API endpoint and check if the status of the validation is either success or failure.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 5
+```
+Get-D365LcsAssetValidationStatus -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -RetryTimeout "00:01:00"
+```
+
+This will check the validation status for the file in the Asset Library, and allow for the cmdlet to retry for no more than 1 minute.
+The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -183,6 +195,35 @@ Aliases:
 Required: False
 Position: 5
 Default value: 60
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

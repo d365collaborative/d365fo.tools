@@ -15,7 +15,7 @@ Get the Deployment status from LCS
 ```
 Get-D365LcsDeploymentStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-ActivityId] <String>
  [-EnvironmentId] <String> [[-LcsApiUri] <String>] [-WaitForCompletion] [[-SleepInSeconds] <Int32>]
- [-FailOnErrorMessage] [-EnableException] [<CommonParameters>]
+ [-FailOnErrorMessage] [[-RetryTimeout] <TimeSpan>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -57,6 +57,19 @@ This will check the deployment status of specific activity against an environmen
 The activity is identified by the ActivityId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
 The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 The cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the deployment is either success or failure.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 4
+```
+Get-D365LcsDeploymentStatus -ActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -RetryTimeout "00:01:00"
+```
+
+This will check the deployment status of specific activity against an environment, and allow for the cmdlet to retry for no more than 1 minute.
+The activity is identified by the ActivityId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
+The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -207,6 +220,35 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -15,7 +15,7 @@ Start a database export from an environment
 ```
 Invoke-D365LcsDatabaseExport [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-SourceEnvironmentId] <String>
  [-BackupName] <String> [[-LcsApiUri] <String>] [-SkipInitialStatusFetch] [-FailOnErrorMessage]
- [-EnableException] [<CommonParameters>]
+ [[-RetryTimeout] <TimeSpan>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -78,6 +78,19 @@ This will start the database export from the Source environment.
 The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
 The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
 It will skip the first database operation status fetch and only output the details from starting the export.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 5
+```
+Invoke-D365LcsDatabaseExport -SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -BackupName "BackupViaApi" -RetryTimeout "00:01:00"
+```
+
+This will start the database export from the Source environment, and allow for the cmdlet to retry for no more than 1 minute.
+The source environment is identified by the SourceEnvironmentId "958ae597-f089-4811-abbd-c1190917eaae", which can be obtained in the LCS portal.
+The backup name is identified by the BackupName "BackupViaApi", which instructs the API to save the backup with that filename.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -220,6 +233,35 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

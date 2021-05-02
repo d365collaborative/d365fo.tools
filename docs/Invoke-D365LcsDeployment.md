@@ -15,13 +15,14 @@ Start the deployment of a deployable package
 ### VM (Default)
 ```
 Invoke-D365LcsDeployment [-ProjectId <Int32>] -AssetId <String> -EnvironmentId <String> [-BearerToken <String>]
- [-LcsApiUri <String>] [-FailOnErrorMessage] [-EnableException] [<CommonParameters>]
+ [-LcsApiUri <String>] [-FailOnErrorMessage] [-RetryTimeout <TimeSpan>] [-EnableException] [<CommonParameters>]
 ```
 
 ### Self-Service
 ```
 Invoke-D365LcsDeployment [-ProjectId <Int32>] -AssetId <String> -EnvironmentId <String> -UpdateName <String>
- [-BearerToken <String>] [-LcsApiUri <String>] [-FailOnErrorMessage] [-EnableException] [<CommonParameters>]
+ [-BearerToken <String>] [-LcsApiUri <String>] [-FailOnErrorMessage] [-RetryTimeout <TimeSpan>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -63,6 +64,19 @@ This will start the deployment of the file located in the Asset Library against 
 The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
 The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 The deployment is name "Release_XYZ" by setting the UpdateName parameter, which is mandatory when working against Self-Service environments.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 4
+```
+Invoke-D365LcsDeployment -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -RetryTimeout "00:01:00"
+```
+
+This will start the deployment of the file located in the Asset Library, and allow for the cmdlet to retry for no more than 1 minute.
+The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
+The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -196,6 +210,35 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

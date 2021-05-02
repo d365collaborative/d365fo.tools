@@ -91,6 +91,23 @@
     .PARAMETER Latest
         Instruct the cmdlet to only fetch the latest file from the Asset Library from LCS
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -168,6 +185,16 @@
         
         The default values can be configured using Set-D365LcsApiConfig.
         
+    .EXAMPLE
+        PS C:\> Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -RetryTimeout "00:01:00"
+        
+        This will list all Software Deployable Packages, and allow for the cmdlet to retry for no more than 1 minute.
+        It will search for SoftwareDeployablePackage by using the FileType parameter.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+        
     .LINK
         Get-D365LcsApiConfig
         
@@ -211,6 +238,8 @@ function Get-D365LcsAssetFile {
         [Alias('GetLatest')]
         [switch] $Latest,
 
+        [Timespan] $RetryTimeout = "00:00:00",
+
         [switch] $EnableException
     )
 
@@ -220,7 +249,7 @@ function Get-D365LcsAssetFile {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $assets = Get-LcsAssetFileV2 -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri -FileType $([int]$FileType)
+    $assets = Get-LcsAssetFileV2 -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri -FileType $([int]$FileType) -RetryTimeout $RetryTimeout
 
     if (Test-PSFFunctionInterrupt) { return }
 
