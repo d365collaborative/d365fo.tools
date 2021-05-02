@@ -46,6 +46,12 @@
         
         Default value can be configured using Set-D365LcsApiConfig
         
+    .PARAMETER FailOnErrorMessage
+        Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint
+
+        Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
+        This allows you to implement custom retry / error handling logic
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -131,6 +137,8 @@ function Invoke-D365LcsDeployment {
 
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
+        [switch] $FailOnErrorMessage,
+
         [switch] $EnableException
     )
 
@@ -141,10 +149,23 @@ function Invoke-D365LcsDeployment {
             $BearerToken = "Bearer $BearerToken"
         }
 
-        $deploymentStatus = Start-LcsDeployment -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -EnvironmentId $EnvironmentId -UpdateName $UpdateName -LcsApiUri $LcsApiUri
+        $deploymentStatus = Start-LcsDeploymentV2 -BearerToken $BearerToken -ProjectId $ProjectId -AssetId $AssetId -EnvironmentId $EnvironmentId -UpdateName $UpdateName -LcsApiUri $LcsApiUri
+
+        if (Test-PSFFunctionInterrupt) { return }
+
+        if ($FailOnErrorMessage -and $deploymentStatus.ErrorMessage) {
+            $messageString = "The request against LCS succeeded, but the response was an error message for the operation: <c='em'>$($deploymentStatus.ErrorMessage)</c>."
+            $errorMessagePayload = "`r`n$($deploymentStatus | ConvertTo-Json)"
+            Write-PSFMessage -Level Host -Message $messageString -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $deploymentStatus
+            Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $deploymentStatus
+        }
+
+        $temp = [PSCustomObject]@{ EnvironmentId = "$TargetEnvironmentId"; OperationStatus = "NotStarted"; ProjectId = $ProjectId }
+        #Hack to silence the PSScriptAnalyzer
+        $temp | Out-Null
+
+        $deploymentStatus | Select-PSFObject *, "OperationActivityId as ActivityId", "EnvironmentId from temp as EnvironmentId", "OperationStatus from temp as OperationStatus", "ProjectId from temp as ProjectId" -TypeName "D365FO.TOOLS.LCS.Deployment.Operation.Status"
 
         Invoke-TimeSignal -End
-
-        $deploymentStatus
     }
 }

@@ -38,6 +38,12 @@
         
         Default value can be configured using Set-D365LcsApiConfig
         
+    .PARAMETER FailOnErrorMessage
+        Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint
+
+        Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
+        This allows you to implement custom retry / error handling logic
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -91,6 +97,8 @@ function Invoke-D365LcsEnvironmentStart {
         
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
+        [switch] $FailOnErrorMessage,
+
         [switch] $EnableException
     )
 
@@ -100,9 +108,22 @@ function Invoke-D365LcsEnvironmentStart {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $operationJob = Start-LcsEnvironmentStartStop -ProjectId $ProjectId -BearerToken $BearerToken -EnvironmentId $EnvironmentId -IsStop $False -LcsApiUri $LcsApiUri
+    $environmentAction = Start-LcsEnvironmentStartStopV2 -ProjectId $ProjectId -BearerToken $BearerToken -EnvironmentId $EnvironmentId -IsStop $False -LcsApiUri $LcsApiUri
 
-    $operationJob
+    if (Test-PSFFunctionInterrupt) { return }
+
+    if ($FailOnErrorMessage -and $environmentAction.ErrorMessage) {
+        $messageString = "The request against LCS succeeded, but the response was an error message for the operation: <c='em'>$($environmentAction.ErrorMessage)</c>."
+        $errorMessagePayload = "`r`n$($environmentAction | ConvertTo-Json)"
+        Write-PSFMessage -Level Host -Message $messageString -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $environmentAction
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $environmentAction
+    }
+
+    $temp = [PSCustomObject]@{ EnvironmentId = "$EnvironmentId"; ProjectId = $ProjectId }
+    #Hack to silence the PSScriptAnalyzer
+    $temp | Out-Null
+
+    $environmentAction | Select-PSFObject *, "OperationActivityId as ActivityId", "EnvironmentId from temp as EnvironmentId", "ProjectId from temp as ProjectId" -TypeName "D365FO.TOOLS.LCS.Environment.Operation.Status"
 
     Invoke-TimeSignal -End
 }

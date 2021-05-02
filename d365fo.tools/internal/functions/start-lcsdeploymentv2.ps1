@@ -1,27 +1,27 @@
 ﻿
 <#
     .SYNOPSIS
-        Get the status of a LCS deployment
+        Start LCS deployment
         
     .DESCRIPTION
-        Get the deployment status for an environment in LCS
-        
-    .PARAMETER Token
-        The token to be used for the http request against the LCS API
-        
-    .PARAMETER ProjectId
-        The project id for the Dynamics 365 for Finance & Operations project inside LCS
+        Start the deployment of a deployable package from the LCS API
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
-    .PARAMETER ActivityId
-        The unique id of the action you got from when starting the deployment to the environment
+    .PARAMETER ProjectId
+        The project id for the Dynamics 365 for Finance & Operations project inside LCS
+        
+    .PARAMETER AssetId
+        The unique id of the asset / file that you are trying to deploy from LCS
         
     .PARAMETER EnvironmentId
         The unique id of the environment that you want to work against
         
         The Id can be located inside the LCS portal
+        
+    .PARAMETER UpdateName
+        Name of the update when you are working against Self-Service environments
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
@@ -43,14 +43,14 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Get-LcslcsResponseObject -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -ActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsDeployment -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will start the deployment of the file located in the Asset Library with the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
-        The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
+        This will start the deployment of the file located in the Asset Library.
+        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+        The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
+        The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
-        
-    .LINK
-        Start-LcsDeployment
         
     .NOTES
         Tags: Environment, Url, Config, Configuration, LCS, Upload, Api, AAD, Token, Deployment, Deployable Package
@@ -58,22 +58,26 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 
-function Get-LcsDeploymentStatusV2 {
+function Start-LcsDeploymentV2 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]
         [int] $ProjectId,
     
+        [Parameter(Mandatory = $true)]
         [Alias('Token')]
         [string] $BearerToken,
 
         [Parameter(Mandatory = $true)]
-        [string] $ActivityId,
+        [string] $AssetId,
 
         [Parameter(Mandatory = $true)]
         [string] $EnvironmentId,
         
+        [Parameter(Mandatory = $false)]
+        [string] $UpdateName,
+
         [Parameter(Mandatory = $true)]
         [string] $LcsApiUri,
 
@@ -88,8 +92,8 @@ function Get-LcsDeploymentStatusV2 {
         }
 
         $parms = @{}
-        $parms.Method = "GET"
-        $parms.Uri = "$LcsApiUri/environment/v2/fetchstatus/project/$($ProjectId)/environment/$($EnvironmentId)/operationactivity/$($ActivityId)"
+        $parms.Method = "POST"
+        $parms.Uri = "$LcsApiUri/environment/v2/applyupdate/project/$($ProjectId)/environment/$($EnvironmentId)/asset/$($AssetId)?updateName=$($UpdateName)"
         $parms.Headers = $headers
     }
 
@@ -99,7 +103,7 @@ function Get-LcsDeploymentStatusV2 {
             Invoke-RestMethod @parms
         }
         catch [System.Net.WebException] {
-            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in request for getting the status of a deployment in LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception
+            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in starting a new deployment in LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception -Target $_
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
             return
         }

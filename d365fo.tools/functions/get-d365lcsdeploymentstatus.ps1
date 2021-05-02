@@ -51,6 +51,12 @@
         
         Default value is 300
         
+    .PARAMETER FailOnErrorMessage
+        Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint
+
+        Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
+        This allows you to implement custom retry / error handling logic
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -141,6 +147,8 @@ function Get-D365LcsDeploymentStatus {
 
         [int] $SleepInSeconds = 300,
 
+        [switch] $FailOnErrorMessage,
+        
         [switch] $EnableException
     )
 
@@ -158,9 +166,16 @@ function Get-D365LcsDeploymentStatus {
             $deploymentStatus = Get-LcsDeploymentStatusV2 -BearerToken $BearerToken -ProjectId $ProjectId -ActivityId $ActivityId -EnvironmentId $EnvironmentId -LcsApiUri $LcsApiUri
       
             if (Test-PSFFunctionInterrupt) { return }
+
+            if ($FailOnErrorMessage -and $deploymentStatus.ErrorMessage) {
+                $messageString = "The request against LCS succeeded, but the response was an error message for the operation: <c='em'>$($deploymentStatus.ErrorMessage)</c>."
+                $errorMessagePayload = "`r`n$($deploymentStatus | ConvertTo-Json)"
+                Write-PSFMessage -Level Host -Message $messageString -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $deploymentStatus
+                Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $deploymentStatus
+            }
         }
         while ((($deploymentStatus.OperationStatus -eq "InProgress") -or ($deploymentStatus.OperationStatus -eq "NotStarted") -or ($deploymentStatus.OperationStatus -eq "PreparingEnvironment")) -and $WaitForCompletion)
-
+    
         Invoke-TimeSignal -End
 
         $deploymentStatus | Select-PSFObject * -TypeName "D365FO.TOOLS.LCS.Deployment.Operation.Status"

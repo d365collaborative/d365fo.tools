@@ -52,6 +52,12 @@
         
         Setting this parameter (activate it), will affect the number of output objects. If you skip, only the first response object outputted.
         
+    .PARAMETER FailOnErrorMessage
+        Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint
+
+        Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
+        This allows you to implement custom retry / error handling logic
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -165,6 +171,8 @@ function Invoke-D365LcsDatabaseExport {
 
         [switch] $SkipInitialStatusFetch,
 
+        [switch] $FailOnErrorMessage,
+        
         [switch] $EnableException
     )
 
@@ -174,15 +182,22 @@ function Invoke-D365LcsDatabaseExport {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $exportJob = Start-LcsDatabaseExport -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -BackupName $BackupName -LcsApiUri $LcsApiUri
+    $exportJob = Start-LcsDatabaseExportV2 -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -BackupName $BackupName -LcsApiUri $LcsApiUri
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    $temp = [PSCustomObject]@{ Value = "$SourceEnvironmentId" }
+    if ($FailOnErrorMessage -and $exportJob.ErrorMessage) {
+        $messageString = "The request against LCS succeeded, but the response was an error message for the operation: <c='em'>$($exportJob.ErrorMessage)</c>."
+        $errorMessagePayload = "`r`n$($exportJob | ConvertTo-Json)"
+        Write-PSFMessage -Level Host -Message $messageString -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $exportJob
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $exportJob
+    }
+
+    $temp = [PSCustomObject]@{ EnvironmentId = "$SourceEnvironmentId"; OperationStatus = "NotStarted"; }
     #Hack to silence the PSScriptAnalyzer
     $temp | Out-Null
  
-    $exportJob | Select-PSFObject *, "OperationActivityId as ActivityId", "Value from temp as EnvironmentId" -TypeName "D365FO.TOOLS.LCS.Database.Operation"
+    $exportJob | Select-PSFObject *, "OperationActivityId as ActivityId", "EnvironmentId from temp as EnvironmentId", "OperationStatus from temp as OperationStatus" -TypeName "D365FO.TOOLS.LCS.Database.Operation.Status"
 
     if (-not $SkipInitialStatusFetch) {
         Get-D365LcsDatabaseOperationStatus -ProjectId $ProjectId -BearerToken $BearerToken -OperationActivityId $($exportJob.OperationActivityId) -EnvironmentId $SourceEnvironmentId -LcsApiUri $LcsApiUri -WaitForCompletion:$false -SleepInSeconds 60

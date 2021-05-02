@@ -86,7 +86,7 @@ function Get-LcsAssetValidationStatusV2 {
             Invoke-RestMethod @parms
         }
         catch [System.Net.WebException] {
-            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in request for listing files from the asset library of LCS. $($_.exception.response.StatusDescription)." -Exception $PSItem.Exception
+            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in request for getting the validation status of an asset in the asset library of LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
             return
         }

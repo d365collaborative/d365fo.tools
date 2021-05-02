@@ -52,6 +52,12 @@
         
         Setting this parameter (activate it), will affect the number of output objects. If you skip, only the first response object outputted.
         
+    .PARAMETER FailOnErrorMessage
+        Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint
+
+        Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
+        This allows you to implement custom retry / error handling logic
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -162,6 +168,8 @@ function Invoke-D365LcsDatabaseRefresh {
 
         [switch] $SkipInitialStatusFetch,
 
+        [switch] $FailOnErrorMessage,
+        
         [switch] $EnableException
     )
 
@@ -171,15 +179,22 @@ function Invoke-D365LcsDatabaseRefresh {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $refreshJob = Start-LcsDatabaseRefresh -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -TargetEnvironmentId $TargetEnvironmentId -LcsApiUri $LcsApiUri
+    $refreshJob = Start-LcsDatabaseRefreshV2 -ProjectId $ProjectId -BearerToken $BearerToken -SourceEnvironmentId $SourceEnvironmentId -TargetEnvironmentId $TargetEnvironmentId -LcsApiUri $LcsApiUri
 
     if (Test-PSFFunctionInterrupt) { return }
 
-    $temp = [PSCustomObject]@{ Value = "$TargetEnvironmentId" }
+    if ($FailOnErrorMessage -and $refreshJob.ErrorMessage) {
+        $messageString = "The request against LCS succeeded, but the response was an error message for the operation: <c='em'>$($refreshJob.ErrorMessage)</c>."
+        $errorMessagePayload = "`r`n$($refreshJob | ConvertTo-Json)"
+        Write-PSFMessage -Level Host -Message $messageString -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $refreshJob
+        Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $refreshJob
+    }
+    
+    $temp = [PSCustomObject]@{ EnvironmentId = "$TargetEnvironmentId"; OperationStatus = "NotStarted"; ProjectId = $ProjectId }
     #Hack to silence the PSScriptAnalyzer
     $temp | Out-Null
  
-    $refreshJob | Select-PSFObject *, "OperationActivityId as ActivityId", "Value from temp as EnvironmentId" -TypeName "D365FO.TOOLS.LCS.Database.Operation"
+    $refreshJob | Select-PSFObject *, "OperationActivityId as ActivityId", "EnvironmentId from temp as EnvironmentId", "OperationStatus from temp as OperationStatus", "ProjectId from temp as ProjectId" -TypeName "D365FO.TOOLS.LCS.Database.Operation.Status"
 
     if (-not $SkipInitialStatusFetch) {
         Get-D365LcsDatabaseOperationStatus -ProjectId $ProjectId -BearerToken $BearerToken -OperationActivityId $($refreshJob.OperationActivityId) -EnvironmentId $TargetEnvironmentId -LcsApiUri $LcsApiUri -WaitForCompletion:$false -SleepInSeconds 60
