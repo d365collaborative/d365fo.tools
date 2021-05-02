@@ -40,10 +40,10 @@
         
     .PARAMETER FailOnErrorMessage
         Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint
-
+        
         Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
         This allows you to implement custom retry / error handling logic
-
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
