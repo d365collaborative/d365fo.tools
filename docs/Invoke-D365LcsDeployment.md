@@ -15,13 +15,13 @@ Start the deployment of a deployable package
 ### VM (Default)
 ```
 Invoke-D365LcsDeployment [-ProjectId <Int32>] -AssetId <String> -EnvironmentId <String> [-BearerToken <String>]
- [-LcsApiUri <String>] [-EnableException] [<CommonParameters>]
+ [-LcsApiUri <String>] [-FailOnErrorMessage] [-EnableException] [<CommonParameters>]
 ```
 
 ### Self-Service
 ```
 Invoke-D365LcsDeployment [-ProjectId <Int32>] -AssetId <String> -EnvironmentId <String> -UpdateName <String>
- [-BearerToken <String>] [-LcsApiUri <String>] [-EnableException] [<CommonParameters>]
+ [-BearerToken <String>] [-LcsApiUri <String>] [-FailOnErrorMessage] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -178,6 +178,24 @@ Aliases:
 Required: False
 Position: Named
 Default value: $Script:LcsApiLcsApiUri
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FailOnErrorMessage
+Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint
+
+Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
+This allows you to implement custom retry / error handling logic
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

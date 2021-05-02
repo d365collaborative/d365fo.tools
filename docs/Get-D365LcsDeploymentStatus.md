@@ -15,7 +15,7 @@ Get the Deployment status from LCS
 ```
 Get-D365LcsDeploymentStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-ActivityId] <String>
  [-EnvironmentId] <String> [[-LcsApiUri] <String>] [-WaitForCompletion] [[-SleepInSeconds] <Int32>]
- [-EnableException] [<CommonParameters>]
+ [-FailOnErrorMessage] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -189,6 +189,24 @@ Aliases:
 Required: False
 Position: 6
 Default value: 300
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FailOnErrorMessage
+Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint
+
+Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
+This allows you to implement custom retry / error handling logic
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

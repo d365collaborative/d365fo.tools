@@ -14,8 +14,8 @@ Start a database refresh between 2 environments
 
 ```
 Invoke-D365LcsDatabaseRefresh [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-SourceEnvironmentId] <String>
- [-TargetEnvironmentId] <String> [[-LcsApiUri] <String>] [-SkipInitialStatusFetch] [-EnableException]
- [<CommonParameters>]
+ [-TargetEnvironmentId] <String> [[-LcsApiUri] <String>] [-SkipInitialStatusFetch] [-FailOnErrorMessage]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -193,6 +193,24 @@ The second object is the response object from fetching the status of the refresh
 
 Setting this parameter (activate it), will affect the number of output objects.
 If you skip, only the first response object outputted.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FailOnErrorMessage
+Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint
+
+Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
+This allows you to implement custom retry / error handling logic
 
 ```yaml
 Type: SwitchParameter

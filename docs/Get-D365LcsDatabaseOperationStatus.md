@@ -179,7 +179,7 @@ Accept wildcard characters: False
 ```
 
 ### -SleepInSeconds
-Time in secounds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
+Time in seconds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
 
 Default value is 300
 

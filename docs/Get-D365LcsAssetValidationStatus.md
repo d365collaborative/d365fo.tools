@@ -13,8 +13,9 @@ Get the validation status from LCS
 ## SYNTAX
 
 ```
-Get-D365LcsAssetValidationStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-AssetId] <String>
- [[-LcsApiUri] <String>] [-WaitForValidation] [-EnableException] [<CommonParameters>]
+Get-D365LcsAssetValidationStatus [-AssetId] <String> [[-ProjectId] <Int32>] [[-BearerToken] <String>]
+ [[-LcsApiUri] <String>] [-WaitForValidation] [[-SleepInSeconds] <Int32>] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -74,6 +75,21 @@ The default values can be configured using Set-D365LcsApiConfig.
 
 ## PARAMETERS
 
+### -AssetId
+The unique id of the asset / file that you are trying to deploy from LCS
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -ProjectId
 The project id for the Dynamics 365 for Finance & Operations project inside LCS
 
@@ -85,7 +101,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 2
 Default value: $Script:LcsApiProjectId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -102,24 +118,9 @@ Parameter Sets: (All)
 Aliases: Token
 
 Required: False
-Position: 2
+Position: 3
 Default value: $Script:LcsApiBearerToken
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AssetId
-The unique id of the asset / file that you are trying to deploy from LCS
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 3
-Default value: None
-Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -165,6 +166,23 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SleepInSeconds
+Time in seconds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
+
+Default value is 60
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: 60
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
