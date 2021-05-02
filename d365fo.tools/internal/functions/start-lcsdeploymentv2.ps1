@@ -100,7 +100,7 @@ function Start-LcsDeploymentV2 {
     process {
         try {
             Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
-            Invoke-RestMethod @parms
+            Invoke-RequestHandler @parms
         }
         catch [System.Net.WebException] {
             Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in starting a new deployment in LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception -Target $_

@@ -99,7 +99,7 @@ function Get-LcsDatabaseOperationStatusV2 {
     process {
         try {
             Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
-            Invoke-RestMethod @parms
+            Invoke-RequestHandler @parms
         }
         catch [System.Net.WebException] {
             Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in request for getting the status of a database operation in LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception
