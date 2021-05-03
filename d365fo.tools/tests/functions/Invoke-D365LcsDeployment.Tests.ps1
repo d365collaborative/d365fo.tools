@@ -89,6 +89,32 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter FailOnErrorMessage' {
+			$parameter = (Get-Command Invoke-D365LcsDeployment).Parameters['FailOnErrorMessage']
+			$parameter.Name | Should -Be 'FailOnErrorMessage'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter RetryTimeout' {
+			$parameter = (Get-Command Invoke-D365LcsDeployment).Parameters['RetryTimeout']
+			$parameter.Name | Should -Be 'RetryTimeout'
+			$parameter.ParameterType.ToString() | Should -Be System.TimeSpan
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter EnableException' {
 			$parameter = (Get-Command Invoke-D365LcsDeployment).Parameters['EnableException']
 			$parameter.Name | Should -Be 'EnableException'
@@ -107,13 +133,13 @@
 	Describe "Testing parameterset VM" {
 		<#
 		VM -AssetId -EnvironmentId
-		VM -ProjectId -AssetId -EnvironmentId -BearerToken -LcsApiUri -EnableException
+		VM -ProjectId -AssetId -EnvironmentId -BearerToken -LcsApiUri -FailOnErrorMessage -RetryTimeout -EnableException
 		#>
 	}
  	Describe "Testing parameterset Self-Service" {
 		<#
 		Self-Service -AssetId -EnvironmentId -UpdateName
-		Self-Service -ProjectId -AssetId -EnvironmentId -UpdateName -BearerToken -LcsApiUri -EnableException
+		Self-Service -ProjectId -AssetId -EnvironmentId -UpdateName -BearerToken -LcsApiUri -FailOnErrorMessage -RetryTimeout -EnableException
 		#>
 	}
 

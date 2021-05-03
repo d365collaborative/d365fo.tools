@@ -35,6 +35,23 @@
         "https://lcsapi.lcs.dynamics.cn"
         "https://lcsapi.gov.lcs.microsoftdynamics.us"
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -63,7 +80,7 @@
         Author: Mötz Jensen (@Splaxi), Billy Richardson (@richardsondev)
 #>
 
-function Start-LcsEnvironmentStartStop {
+function Start-LcsEnvironmentStartStopV2 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]
     param(
@@ -83,95 +100,47 @@ function Start-LcsEnvironmentStartStop {
         [Parameter(Mandatory = $true)]
         [string] $LcsApiUri,
 
+        [Timespan] $RetryTimeout = "00:00:00",
+
         [switch] $EnableException
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
+        
+        $internalAction = "start";
+    
+        if ($IsStop -eq $True) {
+            $internalAction = "stop";
+        }
+    
+        $headers = @{
+            "Authorization" = "$BearerToken"
+        }
 
-    Write-PSFMessage -Level Verbose -Message "Json payload for LCS generated." -Target $jsonFile
-    
-    $client = New-Object -TypeName System.Net.Http.HttpClient
-    $client.DefaultRequestHeaders.Clear()
-    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
-    
-    $internalAction = "start";
-    
-    if ($IsStop -eq $True) {
-        $internalAction = "stop";
+        $parms = @{}
+        $parms.Method = "POST"
+        $parms.Uri = "$LcsApiUri/environment/v1/$($internalAction)/project/$($ProjectId)/environment/$($EnvironmentId)"
+        $parms.Headers = $headers
+        $parms.RetryTimeout = $RetryTimeout
     }
-    
-    $deployUri = "$LcsApiUri/environment/v1/$($internalAction)/project/$($ProjectId)/environment/$($EnvironmentId)"
 
-    $request = New-JsonRequest -Uri $deployUri -Token $BearerToken -HttpMethod "POST"
-
-    try {
-        Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
-        $result = Get-AsyncResult -task $client.SendAsync($request)
-
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
-        $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
-
+    process {
         try {
-            $operationJob = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+            Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
+            Invoke-RequestHandler @parms
+        }
+        catch [System.Net.WebException] {
+            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in starting a new deployment in LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception -Target $_
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
         catch {
-            Write-PSFMessage -Level Critical -Message "$responseString"
-        }
-
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $operationJob
-        
-        if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
-            if (($operationJob) -and ($operationJob.ErrorMessage)) {
-                $errorText = ""
-                if ($operationJob.OperationActivityId) {
-                    $errorText = "Error in $($internalAction) request for environment: '$( $operationJob.ErrorMessage)' (Activity Id: '$( $operationJob.OperationActivityId)')"
-                }
-                else {
-                    $errorText = "Error in $($internalAction) request for environment: '$( $operationJob.ErrorMessage)'"
-                }
-            }
-            elseif ($operationJob.OperationActivityId) {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($operationJob.OperationActivityId)')"
-            }
-            else {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
-            }
-
-            Write-PSFMessage -Level Host -Message "Error performing $($internalAction) request for environment." -Target $($operationJob.ErrorMessage)
-            Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
 
-        
-        if (-not ($operationJob.IsSuccess)) {
-            if ( $operationJob.ErrorMessage) {
-                $errorText = "Error in $($internalAction) request for environment: '$( $operationJob.ErrorMessage)' (Activity Id: '$( $operationJob.OperationActivityId)')"
-            }
-            elseif ( $operationJob.OperationActivityId) {
-                $errorText = "Error in $($internalAction) request for environment. Activity Id: '$($activity.OperationActivityId)'"
-            }
-            else {
-                $errorText = "Unknown error in request for environment."
-            }
-
-            Write-PSFMessage -Level Host -Message "Unknown error during $($internalAction) request for environment." -Target $operationJob
-            Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
-            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-        }
+        Invoke-TimeSignal -End
     }
-    catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-        return
-    }
-    finally {
-        if ($client) {
-            $client.Dispose()
-            $client = $null
-        }
-    }
-    
-    Invoke-TimeSignal -End
-    
-    $operationJob
 }

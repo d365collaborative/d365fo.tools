@@ -15,7 +15,8 @@ Get file from the Asset library inside the LCS project
 ```
 Get-D365LcsAssetFile [[-ProjectId] <Int32>] [[-FileType] <LcsAssetFileType>] [[-AssetName] <String>]
  [[-AssetVersion] <String>] [[-AssetFilename] <String>] [[-AssetDescription] <String>] [[-AssetId] <String>]
- [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest] [-EnableException] [<CommonParameters>]
+ [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest] [[-RetryTimeout] <TimeSpan>] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -105,6 +106,18 @@ Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365Az
 This will download the latest Software Deployable Package from the Asset Library in LCS onto your on machine.
 It will list Software Deployable Packages based on the FileType parameter.
 It will list the latest (newest) Software Deployable Package.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 8
+```
+Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -RetryTimeout "00:01:00"
+```
+
+This will list all Software Deployable Packages, and allow for the cmdlet to retry for no more than 1 minute.
+It will search for SoftwareDeployablePackage by using the FileType parameter.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -324,6 +337,35 @@ Aliases: GetLatest
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -106,7 +106,7 @@ function Get-LcsDatabaseOperationStatus {
             $operationStatus = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
         }
         catch {
-            Write-PSFMessage -Level Critical -Message "$responseString"
+            Write-PSFMessage -Level Critical -Message "$responseString" -ErrorRecord $_
         }
     
         Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $operationStatus
@@ -152,11 +152,18 @@ function Get-LcsDatabaseOperationStatus {
         }
     }
     catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+        $_
+        Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception -ErrorRecord $_ -EnableException $true -Target $_
+        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1 -ErrorRecord $_ -Exception $PSItem.Exception -Target $_
         return
     }
-
+    finally {
+        if ($client) {
+            $client.Dispose()
+            $client = $null
+        }
+    }
+    
     Invoke-TimeSignal -End
     
     $operationStatus

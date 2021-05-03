@@ -165,7 +165,13 @@ function Start-LcsUpload {
         Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
         return
     }
-
+    finally {
+        if ($client) {
+            $client.Dispose()
+            $client = $null
+        }
+    }
+    
     Invoke-TimeSignal -End
     
     $asset

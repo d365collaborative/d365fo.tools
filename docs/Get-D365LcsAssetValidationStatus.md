@@ -13,8 +13,9 @@ Get the validation status from LCS
 ## SYNTAX
 
 ```
-Get-D365LcsAssetValidationStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-AssetId] <String>
- [[-LcsApiUri] <String>] [-WaitForValidation] [-EnableException] [<CommonParameters>]
+Get-D365LcsAssetValidationStatus [-AssetId] <String> [[-ProjectId] <Int32>] [[-BearerToken] <String>]
+ [[-LcsApiUri] <String>] [-WaitForValidation] [[-SleepInSeconds] <Int32>] [[-RetryTimeout] <TimeSpan>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -72,7 +73,34 @@ All default values will come from the configuration available from Get-D365LcsAp
 
 The default values can be configured using Set-D365LcsApiConfig.
 
+### EXAMPLE 5
+```
+Get-D365LcsAssetValidationStatus -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -RetryTimeout "00:01:00"
+```
+
+This will check the validation status for the file in the Asset Library, and allow for the cmdlet to retry for no more than 1 minute.
+The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
 ## PARAMETERS
+
+### -AssetId
+The unique id of the asset / file that you are trying to deploy from LCS
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
 ### -ProjectId
 The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -85,7 +113,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 2
 Default value: $Script:LcsApiProjectId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -102,24 +130,9 @@ Parameter Sets: (All)
 Aliases: Token
 
 Required: False
-Position: 2
+Position: 3
 Default value: $Script:LcsApiBearerToken
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AssetId
-The unique id of the asset / file that you are trying to deploy from LCS
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 3
-Default value: None
-Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -165,6 +178,52 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SleepInSeconds
+Time in seconds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
+
+Default value is 60
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: 60
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

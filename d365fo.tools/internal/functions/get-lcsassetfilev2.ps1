@@ -42,6 +42,23 @@
         "https://lcsapi.lcs.dynamics.cn"
         "https://lcsapi.gov.lcs.microsoftdynamics.us"
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -61,7 +78,7 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 
-function Get-LcsAssetFile {
+function Get-LcsAssetFileV2 {
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]
@@ -75,64 +92,43 @@ function Get-LcsAssetFile {
         [Parameter(Mandatory = $true)]
         [string] $LcsApiUri,
 
+        [Timespan] $RetryTimeout = "00:00:00",
+
         [switch] $EnableException
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
+        
+        $fileTypeValue = [int]$FileType
+        
+        $headers = @{
+            "Authorization" = "$BearerToken"
+        }
 
-    Write-PSFMessage -Level Verbose -Message "Json payload for LCS generated." -Target $jsonFile
-    
-    $client = New-Object -TypeName System.Net.Http.HttpClient
-    $client.DefaultRequestHeaders.Clear()
-    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
-    
-    $fileTypeValue = [int]$FileType
-    $lcsRequestUri = "$LcsApiUri/box/fileasset/GetAssets/$($ProjectId)?fileType=$($fileTypeValue)"
-    
-    $request = New-JsonRequest -Uri $lcsRequestUri -Token $BearerToken -HttpMethod "GET"
+        $parms = @{}
+        $parms.Method = "GET"
+        $parms.Uri = "$LcsApiUri/box/fileasset/GetAssets/$($ProjectId)?fileType=$($fileTypeValue)"
+        $parms.Headers = $headers
+        $parms.RetryTimeout = $RetryTimeout
+    }
 
-    try {
-        Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
-        $result = Get-AsyncResult -task $client.SendAsync($request)
-
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
-        $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
-
+    process {
         try {
-            $lcsResponseObject = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+            Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
+            Invoke-RequestHandler @parms
+        }
+        catch [System.Net.WebException] {
+            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in request for listing files from the asset library of LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
         catch {
-            Write-PSFMessage -Level Critical -Message "$responseString"
-        }
-
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $lcsResponseObject
-        
-        if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
-            if (($lcsResponseObject) -and ($lcsResponseObject.Message)) {
-                $errorText = "Error $( $lcsResponseObject.Message) in request for listing all files from the asset library of LCS: '$( $lcsResponseObject.Message)'"
-            }
-            else {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
-            }
-
-            Write-PSFMessage -Level Host -Message "Error listing bacpacs and backups from asset library." -Target $($lcsResponseObject.Message)
-            Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
-    }
-    catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-        return
-    }
-    finally {
-        if ($client) {
-            $client.Dispose()
-            $client = $null
-        }
-    }
 
-    Invoke-TimeSignal -End
-    
-    $lcsResponseObject
+        Invoke-TimeSignal -End
+    }
 }

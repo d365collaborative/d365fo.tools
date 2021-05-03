@@ -14,6 +14,7 @@ $excludeParameters = @(
     , 'ShowOriginalProgress'
     , 'OutputAsHashtable'
     , 'LogPath'
+    , 'FailOnErrorMessage'
 )
 
 $commandsRaw = Get-Command -Module d365fo.tools

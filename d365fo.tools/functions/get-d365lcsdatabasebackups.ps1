@@ -36,6 +36,23 @@
     .PARAMETER Latest
         Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -62,6 +79,16 @@
         PS C:\> Get-D365LcsDatabaseBackups -Latest
         
         This will get the latest available database backup from the Asset Library inside LCS.
+        It will use default values for all parameters.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+        
+    .EXAMPLE
+        PS C:\> Get-D365LcsDatabaseBackups -Latest -RetryTimeout "00:01:00"
+        
+        This will get the latest available database backup from the Asset Library inside LCS, and allow for the cmdlet to retry for no more than 1 minute.
         It will use default values for all parameters.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
@@ -100,6 +127,8 @@ function Get-D365LcsDatabaseBackups {
         [Alias('GetLatest')]
         [switch] $Latest,
 
+        [Timespan] $RetryTimeout = "00:00:00",
+
         [switch] $EnableException
     )
 
@@ -109,7 +138,7 @@ function Get-D365LcsDatabaseBackups {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $backups = Get-LcsDatabaseBackups -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri
+    $backups = Get-LcsDatabaseBackupsV2 -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri -RetryTimeout $RetryTimeout
 
     if (Test-PSFFunctionInterrupt) { return }
 

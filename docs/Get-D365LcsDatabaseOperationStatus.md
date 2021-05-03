@@ -15,7 +15,7 @@ Get the status of a database operation from LCS
 ```
 Get-D365LcsDatabaseOperationStatus [[-ProjectId] <Int32>] [[-BearerToken] <String>]
  [-OperationActivityId] <String> [-EnvironmentId] <String> [[-LcsApiUri] <String>] [-WaitForCompletion]
- [[-SleepInSeconds] <Int32>] [-EnableException] [<CommonParameters>]
+ [[-SleepInSeconds] <Int32>] [[-RetryTimeout] <TimeSpan>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -57,6 +57,19 @@ This will check the database operation status of a specific OperationActivityId 
 The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from executing either the Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets.
 The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 The cmdlet will every 300 seconds contact the LCS API endpoint and check if the status of the database operation status is either success or failure.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 4
+```
+Get-D365LcsDatabaseOperationStatus -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -RetryTimeout "00:01:00"
+```
+
+This will check the database operation status of a specific OperationActivityId against an environment, and allow for the cmdlet to retry for no more than 1 minute.
+The OperationActivityId is identified by the OperationActivityId 123456789, which is obtained from executing either the Invoke-D365LcsDatabaseExport or Invoke-D365LcsDatabaseRefresh cmdlets.
+The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -179,7 +192,7 @@ Accept wildcard characters: False
 ```
 
 ### -SleepInSeconds
-Time in secounds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
+Time in seconds that you want the cmdlet to use as the sleep timer between each request against the LCS endpoint
 
 Default value is 300
 
@@ -191,6 +204,35 @@ Aliases:
 Required: False
 Position: 6
 Default value: 300
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -122,7 +122,13 @@ function Get-LcsAssetValidationStatus {
         Stop-PSFFunction -Message "Stopping because of errors"
         return
     }
-
+    finally {
+        if ($client) {
+            $client.Dispose()
+            $client = $null
+        }
+    }
+    
     Invoke-TimeSignal -End
 
     $asset

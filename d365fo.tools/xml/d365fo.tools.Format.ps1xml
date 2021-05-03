@@ -272,55 +272,9 @@
 			</TableControl>
 		</View>
 		<View>
-			<Name>D365FO.TOOLS.LCS.Database.Operation</Name>
+			<Name>D365FO.TOOLS.LCS.Environment.Operation.Status</Name>
 			<ViewSelectedBy>
-				<TypeName>D365FO.TOOLS.LCS.Database.Operation</TypeName>
-			</ViewSelectedBy>
-			<TableControl>
-				<TableHeaders>
-					<TableColumnHeader>
-						<Width>36</Width>
-					</TableColumnHeader>
-					<TableColumnHeader>
-						<Width>9</Width>
-					</TableColumnHeader>
-					<TableColumnHeader>
-						<Width>36</Width>
-					</TableColumnHeader>
-					<TableColumnHeader>
-						<Width>36</Width>
-					</TableColumnHeader>
-					<TableColumnHeader>
-						<Width>20</Width>
-					</TableColumnHeader>
-				</TableHeaders>
-				<TableRowEntries>
-					<TableRowEntry>
-						<TableColumnItems>
-							<TableColumnItem>
-								<PropertyName>ActivityId</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>IsSuccess</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>EnvironmentId</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>OperationActivityId</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>ErrorMessage</PropertyName>
-							</TableColumnItem>
-						</TableColumnItems>
-					</TableRowEntry>
-				</TableRowEntries>
-			</TableControl>
-		</View>
-		<View>
-			<Name>D365FO.TOOLS.LCS.Database.Operation</Name>
-			<ViewSelectedBy>
-				<TypeName>D365FO.TOOLS.LCS.Database.Operation</TypeName>
+				<TypeName>D365FO.TOOLS.LCS.Environment.Operation.Status</TypeName>
 			</ViewSelectedBy>
 			<ListControl>
 				<ListEntries>
@@ -333,10 +287,13 @@
 								<PropertyName>IsSuccess</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>EnvironmentId</PropertyName>
+								<PropertyName>OperationActivityId</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>OperationActivityId</PropertyName>
+								<PropertyName>ProjectId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>EnvironmentId</PropertyName>
 							</ListItem>
 							<ListItem>
 								<PropertyName>ErrorMessage</PropertyName>
@@ -354,51 +311,46 @@
 			<ViewSelectedBy>
 				<TypeName>D365FO.TOOLS.LCS.Database.Operation.Status</TypeName>
 			</ViewSelectedBy>
-			<TableControl>
-				<TableHeaders>
-					<TableColumnHeader>
-						<Width>36</Width>
-					</TableColumnHeader>
-					<TableColumnHeader>
-						<Width>9</Width>
-					</TableColumnHeader>
-					<TableColumnHeader>
-						<Width>36</Width>
-					</TableColumnHeader>
-					<TableColumnHeader>
-						<Width>18</Width>
-					</TableColumnHeader>
-					<TableColumnHeader>
-						<Width>36</Width>
-					</TableColumnHeader>
-				</TableHeaders>
-				<TableRowEntries>
-					<TableRowEntry>
-						<TableColumnItems>
-							<TableColumnItem>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
 								<PropertyName>ActivityId</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
+							</ListItem>
+							<ListItem>
 								<PropertyName>IsSuccess</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>EnvironmentId</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
+							</ListItem>
+							<ListItem>
 								<PropertyName>OperationStatus</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
+							</ListItem>
+							<ListItem>
+								<PropertyName>CompletionDate</PropertyName>
+							</ListItem>
+							<ListItem>
 								<PropertyName>OperationActivityId</PropertyName>
-							</TableColumnItem>
-						</TableColumnItems>
-					</TableRowEntry>
-				</TableRowEntries>
-			</TableControl>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ProjectId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>EnvironmentId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ErrorMessage</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>VersionEOL</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
 		</View>
 		<View>
-			<Name>D365FO.TOOLS.LCS.Database.Operation.Status</Name>
+			<Name>D365FO.TOOLS.LCS.Deployment.Operation.Status</Name>
 			<ViewSelectedBy>
-				<TypeName>D365FO.TOOLS.LCS.Database.Operation.Status</TypeName>
+				<TypeName>D365FO.TOOLS.LCS.Deployment.Operation.Status</TypeName>
 			</ViewSelectedBy>
 			<ListControl>
 				<ListEntries>

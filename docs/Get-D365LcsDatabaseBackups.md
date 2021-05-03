@@ -14,7 +14,7 @@ Get database backups from LCS project
 
 ```
 Get-D365LcsDatabaseBackups [[-ProjectId] <Int32>] [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest]
- [-EnableException] [<CommonParameters>]
+ [[-RetryTimeout] <TimeSpan>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -50,6 +50,18 @@ Get-D365LcsDatabaseBackups -Latest
 ```
 
 This will get the latest available database backup from the Asset Library inside LCS.
+It will use default values for all parameters.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 4
+```
+Get-D365LcsDatabaseBackups -Latest -RetryTimeout "00:01:00"
+```
+
+This will get the latest available database backup from the Asset Library inside LCS, and allow for the cmdlet to retry for no more than 1 minute.
 It will use default values for all parameters.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
@@ -132,6 +144,35 @@ Aliases: GetLatest
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -37,6 +37,23 @@
         "https://lcsapi.lcs.dynamics.cn"
         "https://lcsapi.gov.lcs.microsoftdynamics.us"
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -60,7 +77,7 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 
-function Start-LcsDatabaseRefresh {
+function Start-LcsDatabaseRefreshV2 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]
     param(
@@ -80,89 +97,41 @@ function Start-LcsDatabaseRefresh {
         [Parameter(Mandatory = $true)]
         [string] $LcsApiUri,
 
+        [Timespan] $RetryTimeout = "00:00:00",
+
         [switch] $EnableException
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
+        
+        $headers = @{
+            "Authorization" = "$BearerToken"
+        }
 
-    Write-PSFMessage -Level Verbose -Message "Json payload for LCS generated." -Target $jsonFile
-    
-    $client = New-Object -TypeName System.Net.Http.HttpClient
-    $client.DefaultRequestHeaders.Clear()
-    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
-    
-    $deployUri = "$LcsApiUri/databasemovement/v1/refresh/project/$($ProjectId)/source/$($SourceEnvironmentId)/target/$($TargetEnvironmentId)"
+        $parms = @{}
+        $parms.Method = "POST"
+        $parms.Uri = "$LcsApiUri/databasemovement/v1/refresh/project/$($ProjectId)/source/$($SourceEnvironmentId)/target/$($TargetEnvironmentId)"
+        $parms.Headers = $headers
+        $parms.RetryTimeout = $RetryTimeout
+    }
 
-    $request = New-JsonRequest -Uri $deployUri -Token $BearerToken -HttpMethod "POST"
-
-    try {
-        Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
-        $result = Get-AsyncResult -task $client.SendAsync($request)
-
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS."
-        $responseString = Get-AsyncResult -task $result.Content.ReadAsStringAsync()
-
+    process {
         try {
-            $refreshJob = ConvertFrom-Json -InputObject $responseString -ErrorAction SilentlyContinue
+            Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
+            Invoke-RequestHandler @parms
+        }
+        catch [System.Net.WebException] {
+            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in starting a new database refresh in LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception -Target $_
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
         catch {
-            Write-PSFMessage -Level Critical -Message "$responseString"
-        }
-
-        Write-PSFMessage -Level Verbose -Message "Extracting the response received from LCS." -Target $refreshJob
-        
-        if (-not ($result.StatusCode -eq [System.Net.HttpStatusCode]::OK)) {
-            if (($refreshJob) -and ($refreshJob.ErrorMessage)) {
-                $errorText = ""
-                if ($refreshJob.OperationActivityId) {
-                    $errorText = "Error in request for database refresh of environment: '$( $refreshJob.ErrorMessage)' (Activity Id: '$( $refreshJob.OperationActivityId)')"
-                }
-                else {
-                    $errorText = "Error in request for database refresh of environment: '$( $refreshJob.ErrorMessage)'"
-                }
-            }
-            elseif ($refreshJob.OperationActivityId) {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase) (Activity Id: '$($refreshJob.OperationActivityId)')"
-            }
-            else {
-                $errorText = "API Call returned $($result.StatusCode): $($result.ReasonPhrase)"
-            }
-
-            Write-PSFMessage -Level Host -Message "Error performing database refresh of environment." -Target $($refreshJob.ErrorMessage)
-            Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
 
-        
-        if (-not ($refreshJob.IsSuccess)) {
-            if ( $refreshJob.ErrorMessage) {
-                $errorText = "Error in request for database refresh of environment: '$( $refreshJob.ErrorMessage)' (Activity Id: '$( $refreshJob.OperationActivityId)')"
-            }
-            elseif ( $refreshJob.OperationActivityId) {
-                $errorText = "Error in request for database refresh of environment. Activity Id: '$($activity.OperationActivityId)'"
-            }
-            else {
-                $errorText = "Unknown error in request for database refresh."
-            }
-
-            Write-PSFMessage -Level Host -Message "Unknown error requesting database refresh." -Target $refreshJob
-            Write-PSFMessage -Level Host -Message $errorText -Target $($result.ReasonPhrase)
-            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-        }
+        Invoke-TimeSignal -End
     }
-    catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-        return
-    }
-    finally {
-        if ($client) {
-            $client.Dispose()
-            $client = $null
-        }
-    }
-    
-    Invoke-TimeSignal -End
-    
-    $refreshJob
 }
