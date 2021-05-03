@@ -26,7 +26,7 @@ The reason behind this process is that sp_updatestats takes significantly longer
 
 ### EXAMPLE 1
 ```
-invoke-D365CleanupTempDBTables -Days 7
+Clear-D365TempDbTables -Days 7
 ```
 
 This will cleanup old tempdb tables.
