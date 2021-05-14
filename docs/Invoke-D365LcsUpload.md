@@ -15,7 +15,7 @@ Upload a file to a LCS project
 ```
 Invoke-D365LcsUpload [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-FilePath] <String>
  [[-FileType] <LcsAssetFileType>] [[-Name] <String>] [[-Filename] <String>] [[-FileDescription] <String>]
- [[-LcsApiUri] <String>] [-EnableException] [<CommonParameters>]
+ [[-LcsApiUri] <String>] [[-RetryTimeout] <TimeSpan>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -217,6 +217,35 @@ Aliases:
 Required: False
 Position: 8
 Default value: $Script:LcsApiLcsApiUri
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -30,12 +30,29 @@
         "https://lcsapi.lcs.dynamics.cn"
         "https://lcsapi.gov.lcs.microsoftdynamics.us"
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Complete-LcsUpload -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Complete-LcsUploadV2 -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will commit the upload process for the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
         The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
@@ -48,7 +65,7 @@
         
 #>
 
-function Complete-LcsUpload {
+function Complete-LcsUploadV2 {
     [CmdletBinding()]
     [OutputType()]
     param(
@@ -64,43 +81,41 @@ function Complete-LcsUpload {
         [Parameter(Mandatory = $false)]
         [string]$LcsApiUri,
 
+        [Timespan] $RetryTimeout = "00:00:00",
+
         [switch] $EnableException
     )
     
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
+        
+        $headers = @{
+            "Authorization" = "$BearerToken"
+        }
 
-    $client = New-Object -TypeName System.Net.Http.HttpClient
-    $client.DefaultRequestHeaders.Clear()
-    $client.DefaultRequestHeaders.UserAgent.ParseAdd("d365fo.tools via PowerShell")
-    
-    $commitFileUri = "$LcsApiUri/box/fileasset/CommitFileAsset/$($ProjectId)?assetId=$AssetId"
+        $parms = @{}
+        $parms.Method = "POST"
+        $parms.Uri = "$LcsApiUri/box/fileasset/CommitFileAsset/$($ProjectId)?assetId=$AssetId"
+        $parms.Headers = $headers
+        $parms.RetryTimeout = $RetryTimeout
+    }
 
-    $request = New-JsonRequest -Uri $commitFileUri -Token $Token
-    
-    Write-PSFMessage -Level Verbose -Message "Sending the commit request against LCS" -Target $request
-
-    try {
-        $commitResult = Get-AsyncResult -Task $client.SendAsync($request)
-
-        Write-PSFMessage -Level Verbose -Message "Parsing the commitResult for success" -Target $commitResult
-        if (($commitResult.StatusCode -ne [System.Net.HttpStatusCode]::NoContent) -and ($commitResult.StatusCode -ne [System.Net.HttpStatusCode]::OK)) {
-            Write-PSFMessage -Level Host -Message "The LCS API returned an http error code" -Exception $PSItem.Exception -Target $commitResult
+    process {
+        try {
+            Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
+            Invoke-RequestHandler @parms
+        }
+        catch [System.Net.WebException] {
+            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in starting a new database refresh in LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception -Target $_
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
-    }
-    catch {
-        Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API" -Exception $PSItem.Exception
-        Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
-        return
-    }
-    finally {
-        if ($client) {
-            $client.Dispose()
-            $client = $null
+        catch {
+            Write-PSFMessage -Level Host -Message "Something went wrong while working against the LCS API." -Exception $PSItem.Exception
+            Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
+            return
         }
-    }
-    
-    Invoke-TimeSignal -End
 
-    $commitResult
+        Invoke-TimeSignal -End
+    }
 }

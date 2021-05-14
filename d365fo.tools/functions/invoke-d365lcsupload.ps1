@@ -64,6 +64,23 @@
         
         Default value can be configured using Set-D365LcsApiConfig
         
+    .PARAMETER RetryTimeout
+        The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+        
+        Needs to be provided in the timspan notation:
+        "hh:mm:ss"
+        
+        hh is the number of hours, numerical notation only
+        mm is the number of minutes
+        ss is the numbers of seconds
+        
+        Each section of the timeout has to valid, e.g.
+        hh can maximum be 23
+        mm can maximum be 59
+        ss can maximum be 59
+        
+        Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -153,6 +170,8 @@ function Invoke-D365LcsUpload {
 
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
+        [Timespan] $RetryTimeout = "00:00:00",
+        
         [switch] $EnableException
     )
 
@@ -172,7 +191,7 @@ function Invoke-D365LcsUpload {
         $BearerToken = "Bearer $BearerToken"
     }
     
-    $blobDetails = Start-LcsUpload -Token $BearerToken -ProjectId $ProjectId -FileType $FileType -LcsApiUri $LcsApiUri -Name $Name -FileName $Filename -Description $FileDescription
+    $blobDetails = Start-LcsUploadV2 -Token $BearerToken -ProjectId $ProjectId -FileType $FileType -LcsApiUri $LcsApiUri -Name $Name -FileName $Filename -Description $FileDescription -RetryTimeout $RetryTimeout
 
     if (Test-PSFFunctionInterrupt) { return }
 
@@ -184,7 +203,7 @@ function Invoke-D365LcsUpload {
 
     Write-PSFMessage -Level Verbose -Message "Upload response" -Target $uploadResponse
 
-    $ackResponse = Complete-LcsUpload -Token $BearerToken -ProjectId $ProjectId -AssetId $blobDetails.Id -LcsApiUri $LcsApiUri
+    $ackResponse = Complete-LcsUploadV2 -Token $BearerToken -ProjectId $ProjectId -AssetId $blobDetails.Id -LcsApiUri $LcsApiUri -RetryTimeout $RetryTimeout
 
     if (Test-PSFFunctionInterrupt) { return }
 
@@ -193,8 +212,8 @@ function Invoke-D365LcsUpload {
     Invoke-TimeSignal -End
 
     [PSCustomObject]@{
-        AssetId = $blobDetails.Id
-        Name = $Name
+        AssetId  = $blobDetails.Id
+        Name     = $Name
         Filename = $Filename
     }
 }

@@ -57,7 +57,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Start-LcsEnvironmentStartStop -ProjectId 123456789 -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -IsStop $False -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsEnvironmentStartStopV2 -ProjectId 123456789 -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -IsStop $False -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will trigger the environment start operation upon the given environment through the LCS API.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
@@ -66,7 +66,7 @@
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
     .EXAMPLE
-        PS C:\> Start-LcsEnvironmentStartStop -ProjectId 123456789 -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -IsStop $True -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsEnvironmentStartStopV2 -ProjectId 123456789 -EnvironmentId "958ae597-f089-4811-abbd-c1190917eaae" -IsStop $True -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will trigger the environment stop operation upon the given environment through the LCS API.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.

@@ -1,10 +1,13 @@
 ﻿
 <#
     .SYNOPSIS
-        Get file from the Asset library inside the LCS project
+        Start the upload process to LCS
         
     .DESCRIPTION
-        Get the available files from the Asset Library in LCS project
+        Start the flow of actions to upload a file to LCS
+        
+    .PARAMETER Token
+        The token to be used for the http request against the LCS API
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -24,8 +27,16 @@
         "Retail Self-Service Package"
         "Commerce Cloud Scale Unit Extension"
         
-    .PARAMETER BearerToken
-        The token you want to use when working against the LCS api
+    .PARAMETER Name
+        Name to be assigned / shown on LCS
+        
+    .PARAMETER Filename
+        Filename to be assigned / shown on LCS
+        
+        Often will it require an extension for it to be accepted
+        
+    .PARAMETER Description
+        Description to be assigned / shown on LCS
         
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
@@ -64,32 +75,39 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Get-LcsAssetFileV2 -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsUploadV2 -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "SoftwareDeployablePackage" -Name "ReadyForTesting" -Filename "ReadyForTesting.zip" -Description "Latest release that fixes it all" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will get all software deployable packages from the Asset Library inside LCS.
-        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-        The FileType is Software Deployable Packages, with the FileType parameter.
-        The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
-        The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
+        This will contact the NON-EUROPE LCS API and instruct it that we want to upload a new file to the Asset Library.
+        The token "Bearer JldjfafLJdfjlfsalfd..." is used to the authorize against the LCS API.
+        The ProjectId is 123456789 and FileType is "SoftwareDeployablePackage".
+        The file will be named "ReadyForTesting" and the Description will be "Latest release that fixes it all".
         
     .NOTES
-        Tags: Environment, LCS, Api, AAD, Token, Asset, File, Files
+        Tags: Url, LCS, Upload, Api, Token
         
         Author: Mötz Jensen (@Splaxi)
+        
 #>
 
-function Get-LcsAssetFileV2 {
+function Start-LcsUploadV2 {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]
+        [string] $Token,
+
+        [Parameter(Mandatory = $true)]
         [int] $ProjectId,
 
+        [Parameter(Mandatory = $true)]
         [LcsAssetFileType] $FileType,
 
-        [Alias('Token')]
-        [string] $BearerToken,
-        
-        [Parameter(Mandatory = $true)]
+        [string] $Name,
+
+        [string] $Filename,
+
+        [string] $Description,
+
         [string] $LcsApiUri,
 
         [Timespan] $RetryTimeout = "00:00:00",
@@ -101,25 +119,34 @@ function Get-LcsAssetFileV2 {
         Invoke-TimeSignal -Start
         
         $fileTypeValue = [int]$FileType
-        
+        $jsonPayload = @{
+            Name            = $Name
+            FileName        = $Filename
+            FileDescription = $jsonDescription
+            SizeByte        = 0
+            FileType        = $fileTypeValue
+        } | ConvertTo-Json
+
         $headers = @{
             "Authorization" = "$BearerToken"
         }
 
         $parms = @{}
-        $parms.Method = "GET"
-        $parms.Uri = "$LcsApiUri/box/fileasset/GetAssets/$($ProjectId)?fileType=$($fileTypeValue)"
+        $parms.Method = "POST"
+        $parms.Uri = "$LcsApiUri/box/fileasset/CreateFileAsset/$ProjectId"
         $parms.Headers = $headers
         $parms.RetryTimeout = $RetryTimeout
+        $parms.Payload = $jsonPayload
+        $parms.ContentType = "application/json"
     }
-
+    
     process {
         try {
             Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
             Invoke-RequestHandler @parms
         }
         catch [System.Net.WebException] {
-            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in request for listing files from the asset library of LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception
+            Write-PSFMessage -Level Host -Message "Error status code <c='em'>$($_.exception.response.statuscode)</c> in starting a new deployment in LCS. <c='em'>$($_.exception.response.StatusDescription)</c>." -Exception $PSItem.Exception -Target $_
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
             return
         }
