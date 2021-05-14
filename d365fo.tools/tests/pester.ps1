@@ -2,8 +2,6 @@
 	$TestGeneral = $true,
 	
 	$TestFunctions = $true,
-
-	$TestScriptAnalyzer = $true,
 	
 	[ValidateSet('None', 'Default', 'Passed', 'Failed', 'Pending', 'Skipped', 'Inconclusive', 'Describe', 'Context', 'Summary', 'Header', 'Fails', 'All')]
 	$Show = "None",
@@ -30,15 +28,10 @@ $totalRun = 0
 $testresults = @()
 
 #region Run General Tests
-if ($TestGeneral -or $TestScriptAnalyzer) {
+if ($TestGeneral) {
 	$files = Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1"
 
-	if (-not $TestScriptAnalyzer) {
-		$files = $files | Where-Object Name -ne "PSScriptAnalyzer.Tests.ps1"
-	}
-	else {
-		$files = $files | Where-Object Name -eq "PSScriptAnalyzer.Tests.ps1"
-	}
+	$files = $files | Where-Object Name -ne "PSScriptAnalyzer.Tests.ps1"
 
 	Write-PSFMessage -Level Important -Message "Modules imported, testing general tests"
 	foreach ($file in $files) {

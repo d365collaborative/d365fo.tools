@@ -1,9 +1,7 @@
 ﻿param (
     $TestGeneral = $true,
 	
-    $TestFunctions = $true,
-
-    $TestScriptAnalyzer = $true
+    $TestFunctions = $true
 )
 
 # Guide for available variables and working with secrets:
@@ -29,4 +27,4 @@ foreach ($item in $modules) {
 
 Import-Module "Pester" -MaximumVersion 4.99.99 -Force
 
-& "$PSScriptRoot\..\d365fo.tools\tests\pester.ps1" -TestGeneral $TestGeneral -TestFunctions $TestFunctions -TestScriptAnalyzer $TestScriptAnalyzer
+& "$PSScriptRoot\..\d365fo.tools\tests\pester.ps1" -TestGeneral $TestGeneral -TestFunctions $TestFunctions
