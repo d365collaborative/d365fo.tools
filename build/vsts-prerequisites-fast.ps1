@@ -6,5 +6,5 @@ $modules = @("PSFramework", "PSScriptAnalyzer", "Azure.Storage", "AzureAd", "PSN
 
 Install-Module "Pester" -MaximumVersion 4.99.99 -Force -SkipPublisherCheck -AllowClobber
 
-."vsts-prerequisites-fast.ps1"
+."$PSScriptRoot\install-modulefast.ps1"
 Install-Modulefast -ModulesToInstall $modules
