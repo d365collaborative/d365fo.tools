@@ -37,7 +37,7 @@ if ($TestGeneral -or $TestScriptAnalyzer) {
 		$files = $files | Where-Object Name -ne "PSScriptAnalyzer.Tests.ps1"
 	}
 	else {
-		$files = $files | Name -eq "PSScriptAnalyzer.Tests.ps1"
+		$files = $files | Where-Object Name -eq "PSScriptAnalyzer.Tests.ps1"
 	}
 
 	Write-PSFMessage -Level Important -Message "Modules imported, testing general tests"
