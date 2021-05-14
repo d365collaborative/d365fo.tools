@@ -6,14 +6,14 @@ $modules = @("PSFramework", "PSScriptAnalyzer", "Azure.Storage", "AzureAd", "PSN
 
 Install-Module "Pester" -MaximumVersion 4.99.99 -Force -SkipPublisherCheck -AllowClobber
 
-foreach ($module in $modules) {
+foreach ($item in $modules) {
     
-    $module = Get-InstalledModule -Name $module -ErrorAction SilentlyContinue
+    $module = Get-InstalledModule -Name $item -ErrorAction SilentlyContinue
 
     if ($null -eq $module) {
-        Write-Host "Installing $module" -ForegroundColor Cyan
-        Install-Module -Name $module -Force -Confirm:$false -Scope CurrentUser -AllowClobber -SkipPublisherCheck
+        Write-Host "Installing $item" -ForegroundColor Cyan
+        Install-Module -Name $item -Force -Confirm:$false -Scope CurrentUser -AllowClobber -SkipPublisherCheck
     }
 
-    Import-Module $module -Force
+    Import-Module $item -Force
 }

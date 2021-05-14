@@ -18,12 +18,12 @@ Write-Host "The user running is: $($env:UserName)"
 
 $modules = @("PSFramework", "PSScriptAnalyzer", "Azure.Storage", "AzureAd", "PSNotification")
 
-foreach ($module in $modules) {
-    $module = Get-Module -Name $module -ErrorAction SilentlyContinue
+foreach ($item in $modules) {
+    $module = Get-Module -Name $item -ErrorAction SilentlyContinue
 
     if ($null -eq $module) {
-        Write-Host "Importing $module" -ForegroundColor Cyan
-        Import-Module $module -Force
+        Write-Host "Importing $item" -ForegroundColor Cyan
+        Import-Module $item -Force
     }
 }
 
