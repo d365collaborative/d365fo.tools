@@ -60,7 +60,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Get-LcsDatabaseOperationStatus -ProjectId 123456789 -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -Token "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsDatabaseOperationStatusV2 -ProjectId 123456789 -OperationActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -Token "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will check the database operation status of a specific OperationActivityId against an environment.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
