@@ -29,12 +29,11 @@ $testresults = @()
 
 #region Run General Tests
 if ($TestGeneral) {
-	$files = Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1"
-
-	$files = $files | Where-Object Name -ne "PSScriptAnalyzer.Tests.ps1"
-
-	Write-PSFMessage -Level Important -Message "Modules imported, testing general tests"
-	foreach ($file in $files) {
+	Write-PSFMessage -Level Important -Message "Modules imported, proceeding with general tests"
+	foreach ($file in (Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1")) {
+	
+		if ($file.Name -notlike $Include) { continue }
+		if ($file.Name -like $Exclude) { continue }
 
 		Write-PSFMessage -Level Significant -Message "  Executing <c='em'>$($file.Name)</c>"
 		$TestOuputFile = Join-Path "$PSScriptRoot\..\..\TestResults" "TEST-$($file.BaseName).xml"
@@ -59,8 +58,9 @@ if ($TestGeneral) {
 
 #region Test Commands
 if ($TestFunctions) {
-	Write-PSFMessage -Level Important -Message "Modules imported, testing individual tests"
+	Write-PSFMessage -Level Important -Message "Proceeding with individual tests"
 	foreach ($file in (Get-ChildItem "$PSScriptRoot\functions" -Recurse -File -Filter "*Tests.ps1")) {
+	
 		if ($file.Name -notlike $Include) { continue }
 		if ($file.Name -like $Exclude) { continue }
 	
