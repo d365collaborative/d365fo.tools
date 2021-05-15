@@ -58,7 +58,7 @@ if ($TestPublic) {
 #endregion Run Public PSScriptAnalyzer Tests
 
 #region Run Internal PSScriptAnalyzer Tests
-if ($TestPublic) {
+if ($TestInternal) {
 	Write-PSFMessage -Level Important -Message "Modules imported, proceeding with general tests"
 	$file = Get-Item "$PSScriptRoot\general\PSScriptAnalyzer.Tests.ps1"
 
