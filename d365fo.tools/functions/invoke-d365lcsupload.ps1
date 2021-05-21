@@ -69,7 +69,7 @@
         
         Used in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script
         This allows you to implement custom retry / error handling logic
-
+        
     .PARAMETER RetryTimeout
         The retry timeout, before the cmdlet should quit retrying based on the 429 status code
         
@@ -135,7 +135,7 @@
         All default values will come from the configuration available from Get-D365LcsApiConfig.
         
         The default values can be configured using Set-D365LcsApiConfig.
-     
+        
     .LINK
         Get-D365LcsApiConfig
         
