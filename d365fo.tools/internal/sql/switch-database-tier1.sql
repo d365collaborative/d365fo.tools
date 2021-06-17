@@ -8,6 +8,8 @@ set @Command =' ALTER DATABASE ['+ @DestinationName + '] SET SINGLE_USER WITH RO
                 ALTER DATABASE ['+ @SourceName +'] MODIFY NAME = ['+ @DestinationName +'];
                 ALTER DATABASE ['+ @DestinationName + '] SET MULTI_USER;
                 ALTER DATABASE ['+ @ToBeName + '] SET MULTI_USER;
+
+                ALTER DATABASE ['+ @ToBeName + '] SET AUTO_CLOSE OFF WITH NO_WAIT
                 '
 
 exec (@Command)
