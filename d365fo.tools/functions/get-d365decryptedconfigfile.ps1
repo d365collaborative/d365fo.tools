@@ -29,17 +29,31 @@ function Get-D365DecryptedConfigFile {
     param(
         [Parameter(Mandatory = $false, Position = 1)]
         [Alias('ExtractFolder')]
-        [string]$DropPath = "C:\temp\d365fo.tools\ConfigFile_Decrypted",
+        [string] $DropPath = "C:\temp\d365fo.tools\ConfigFile_Decrypted",
 
         [Parameter(Mandatory = $false, Position = 2)]
-        [string]$AosServiceWebRootPath = $Script:AOSPath
+        [string] $AosServiceWebRootPath = $Script:AOSPath
     )
 
     $WebConfigFile = Join-Path $AosServiceWebRootPath $Script:WebConfig
 
-    if (!(Test-PathExists -Path $WebConfigFile -Type Leaf)) {return}
-    if (!(Test-PathExists -Path $DropPath -Type Container -Create)) {return}
+    if (!(Test-PathExists -Path $WebConfigFile -Type Leaf)) { return }
+    if (!(Test-PathExists -Path $DropPath -Type Container -Create)) { return }
 
     Write-PSFMessage -Level Verbose -Message "Starting the decryption logic"
     New-DecryptedFile $WebConfigFile $DropPath
+
+    $file = Get-Item -Path "$DropPath\web.config" -ErrorAction SilentlyContinue
+
+    if ($null -eq $file) {
+        $messageString = "There was an error while decrypting the <c='em'>web.config</c> file."
+        Write-PSFMessage -Level Host -Message $messageString
+        Stop-PSFFunction -Message "Stopping because the web.config file wasn't decrypted." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
+        return
+    }
+    
+    [PSCustomObject]@{
+        File     = $file.FullName
+        Filename = $file.Name
+    }
 }
