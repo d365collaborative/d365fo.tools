@@ -127,6 +127,7 @@ function Stop-D365Environment {
     $Params = Get-DeepClone $PSBoundParameters
     if ($Params.ContainsKey("ComputerName")) { $null = $Params.Remove("ComputerName") }
     if ($Params.ContainsKey("ShowOriginalProgress")) { $null = $Params.Remove("ShowOriginalProgress") }
+    if ($Params.ContainsKey("Kill")) { $null = $Params.Remove("Kill") }
 
     $Services = Get-ServiceList @Params
     

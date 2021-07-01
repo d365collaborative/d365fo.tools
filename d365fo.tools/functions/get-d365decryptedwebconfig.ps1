@@ -6,17 +6,37 @@
     .DESCRIPTION
         Function used for decrypting the config file used by the D365 Finance & Operations AOS service
         
-    .PARAMETER DropPath
+    .PARAMETER OutputPath
         Place where the decrypted files should be placed
+
+        Default value is: "c:\temp\d365fo.tools\WebConfigDecrypted"
         
     .PARAMETER AosServiceWebRootPath
         Location of the D365 webroot folder
         
     .EXAMPLE
-        PS C:\> Get-D365DecryptedConfigFile -DropPath "c:\temp\d365fo.tools"
+        PS C:\> Get-D365DecryptedWebConfig
+
+        This will get the config file from the instance, decrypt it and save it.
+        IT will save the decrypted web.config file in the default location: "c:\temp\d365fo.tools\WebConfigDecrypted".
+
+                A result set example:
+
+        Filename   LastModified        File
+--------   ------------        ----
+web.config 7/1/2021 9:01:31 PM C:\temp\d365fo.tools\WebConfigDecrypted\web.config
+
+    .EXAMPLE
+        PS C:\> Get-D365DecryptedWebConfig -OutputPath "c:\temp\d365fo.tools"
         
         This will get the config file from the instance, decrypt it and save it to "c:\temp\d365fo.tools"
         
+        A result set example:
+
+Filename   LastModified        File
+--------   ------------        ----
+web.config 7/1/2021 9:07:36 PM C:\temp\d365fo.tools\web.config
+
     .NOTES
         Tags: Configuration, Service Account, Sql, SqlUser, SqlPwd, WebConfig, Web.Config, Decryption
         
@@ -25,25 +45,23 @@
         
         Used for getting the Password for the database and other service accounts used in environment
 #>
-function Get-D365DecryptedConfigFile {
+function Get-D365DecryptedWebConfig {
+    [Alias("Get-D365DecryptedConfigFile")]
     param(
-        [Parameter(Mandatory = $false, Position = 1)]
-        [Alias('ExtractFolder')]
-        [string] $DropPath = "C:\temp\d365fo.tools\ConfigFile_Decrypted",
+        [string] $OutputPath = "c:\temp\d365fo.tools\WebConfigDecrypted",
 
-        [Parameter(Mandatory = $false, Position = 2)]
         [string] $AosServiceWebRootPath = $Script:AOSPath
     )
 
     $WebConfigFile = Join-Path $AosServiceWebRootPath $Script:WebConfig
 
     if (!(Test-PathExists -Path $WebConfigFile -Type Leaf)) { return }
-    if (!(Test-PathExists -Path $DropPath -Type Container -Create)) { return }
+    if (!(Test-PathExists -Path $OutputPath -Type Container -Create)) { return }
 
     Write-PSFMessage -Level Verbose -Message "Starting the decryption logic"
-    New-DecryptedFile $WebConfigFile $DropPath
+    New-DecryptedFile $WebConfigFile $OutputPath
 
-    $file = Get-Item -Path "$DropPath\web.config" -ErrorAction SilentlyContinue
+    $file = Get-Item -Path "$OutputPath\web.config" -ErrorAction SilentlyContinue
 
     if ($null -eq $file) {
         $messageString = "There was an error while decrypting the <c='em'>web.config</c> file."
@@ -52,8 +70,5 @@ function Get-D365DecryptedConfigFile {
         return
     }
     
-    [PSCustomObject]@{
-        File     = $file.FullName
-        Filename = $file.Name
-    }
+    $file | Select-PSFObject "Name as Filename", "LastWriteTime as LastModified", "Fullname as File"
 }
