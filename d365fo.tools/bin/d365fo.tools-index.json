@@ -476,6 +476,45 @@
         "Syntax":  "Backup-D365Runbook [-File] \u003cString\u003e [[-DestinationPath] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Backup-D365WebConfig",
+        "Description":  "Will backup the web.config file located in the AOS / IIS folder",
+        "Tags":  [
+                     "DEV",
+                     "Tier2",
+                     "DB",
+                     "Database",
+                     "Debug",
+                     "JIT",
+                     "LCS",
+                     "Azure DB"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to the folder where you want the web.config file to be persisted\nDefault is: \"C:\\Temp\\d365fo.tools\\WebConfigBackup\"",
+                           "",
+                           false,
+                           "false",
+                           "$(Join-Path $Script:DefaultTempPath \"WebConfigBackup\")"
+                       ],
+                       [
+                           "Force",
+                           "Instructs the cmdlet to overwrite the destination file if it already exists",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Backup the web.config file",
+        "Name":  "Backup-D365WebConfig",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eBackup-D365WebConfig\nWill locate the web.config file, and backup it up.\r\nIt will look for the file in the AOS / IIS folder. E.g. K:\\AosService\\WebRoot\\web.config.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\WebConfigBackup\".\nA result set example:\nFilename   LastModified         File\r\n--------   ------------         ----\r\nweb.config 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\WebConfigBackup\\web.config\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eBackup-D365WebConfig -Force\nWill locate the web.config file, backup it up, and overwrite if a previous backup file exists.\r\nIt will look for the file in the AOS / IIS folder. E.g. K:\\AosService\\WebRoot\\web.config.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\WebConfigBackup\".\r\nIt will overwrite any file named web.config in the destination folder.\nA result set example:\nFilename   LastModified         File\r\n--------   ------------         ----\r\nweb.config 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\WebConfigBackup\\web.config",
+        "Syntax":  "Backup-D365WebConfig [[-OutputPath] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Clear-D365ActiveBroadcastMessageConfig",
         "Description":  "Clear the active broadcast message config from the configuration store",
         "Tags":  [
@@ -2217,7 +2256,7 @@
         "Syntax":  "Get-D365DatabaseAccess [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365DecryptedConfigFile",
+        "CommandName":  "Get-D365DecryptedWebConfig",
         "Description":  "Function used for decrypting the config file used by the D365 Finance \u0026 Operations AOS service",
         "Tags":  [
                      "Configuration",
@@ -2231,12 +2270,12 @@
                  ],
         "Params":  [
                        [
-                           "DropPath",
-                           "Place where the decrypted files should be placed",
-                           "ExtractFolder",
+                           "OutputPath",
+                           "Place where the decrypted files should be placed\nDefault value is: \"c:\\temp\\d365fo.tools\\WebConfigDecrypted\"",
+                           "",
                            false,
                            "false",
-                           "C:\\temp\\d365fo.tools\\ConfigFile_Decrypted"
+                           "c:\\temp\\d365fo.tools\\WebConfigDecrypted"
                        ],
                        [
                            "AosServiceWebRootPath",
@@ -2247,12 +2286,12 @@
                            "$Script:AOSPath"
                        ]
                    ],
-        "Alias":  "",
+        "Alias":  "Get-D365DecryptedConfigFile",
         "Synopsis":  "Decrypts the AOS config file",
-        "Name":  "Get-D365DecryptedConfigFile",
+        "Name":  "Get-D365DecryptedWebConfig",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365DecryptedConfigFile -DropPath \"c:\\temp\\d365fo.tools\"\nThis will get the config file from the instance, decrypt it and save it to \"c:\\temp\\d365fo.tools\"",
-        "Syntax":  "Get-D365DecryptedConfigFile [[-DropPath] \u003cString\u003e] [[-AosServiceWebRootPath] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365DecryptedWebConfig\nThis will get the config file from the instance, decrypt it and save it.\r\nIT will save the decrypted web.config file in the default location: \"c:\\temp\\d365fo.tools\\WebConfigDecrypted\".\nA result set example:\nFilename   LastModified        File\r\n--------   ------------        ----\r\nweb.config 7/1/2021 9:01:31 PM C:\\temp\\d365fo.tools\\WebConfigDecrypted\\web.config\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365DecryptedWebConfig -OutputPath \"c:\\temp\\d365fo.tools\"\nThis will get the config file from the instance, decrypt it and save it to \"c:\\temp\\d365fo.tools\"\nA result set example:\nFilename   LastModified        File\r\n--------   ------------        ----\r\nweb.config 7/1/2021 9:07:36 PM C:\\temp\\d365fo.tools\\web.config",
+        "Syntax":  "Get-D365DecryptedWebConfig [[-OutputPath] \u003cString\u003e] [[-AosServiceWebRootPath] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365DefaultModelForNewProjects",
@@ -2519,6 +2558,38 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365EventTraceProvider\nWill list all available Event Trace Providers on a D365FO server.\r\nIt will use the default option for the \"Name\" parameter.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365EventTraceProvider -Name Tax\nWill list all available Event Trace Providers on a D365FO server which contains the keyvword \"Tax\".\r\nIt will use the Name parameter value \"Tax\" while searching for Event Trace Providers.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365EventTraceProvider -Name Tax,MR\nWill list all available Event Trace Providers on a D365FO server which contains the keyvword \"Tax\" or \"MR\".\r\nIt will use the Name parameter array value (\"Tax\",\"MR\") while searching for Event Trace Providers.",
         "Syntax":  "Get-D365EventTraceProvider [[-Name] \u003cString[]\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365ExternalIP",
+        "Description":  "Get the external IP address by calling an external webpage and interpret the result from that",
+        "Tags":  [
+                     "DEV",
+                     "Tier2",
+                     "DB",
+                     "Database",
+                     "Debug",
+                     "JIT",
+                     "LCS",
+                     "Azure DB",
+                     "IP"
+                 ],
+        "Params":  [
+                       [
+                           "SaveToClipboard",
+                           "Instruct the cmdlet to copy the IP address directly into the clipboard, to save you the trouble",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get the external IP address",
+        "Name":  "Get-D365ExternalIP",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365ExternalIP\nWill call the external page, interpret the output and display it as output.\nA result set example:\nIpAddress\r\n---------\r\n40.113.130.229\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365ExternalIP -SaveToClipboard\nWill call the external page, interpret the output and display it as output.\r\nIt will save/copy the IP address into the clipboard.\nA result set example:\nIpAddress\r\n---------\r\n40.113.130.229",
+        "Syntax":  "Get-D365ExternalIP [-SaveToClipboard] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365InstalledHotfix",
@@ -9870,6 +9941,45 @@
         "Syntax":  "Restart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nRestart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Restore-D365WebConfig",
+        "Description":  "Will restore the web.config file located back into the AOS / IIS folder",
+        "Tags":  [
+                     "DEV",
+                     "Tier2",
+                     "DB",
+                     "Database",
+                     "Debug",
+                     "JIT",
+                     "LCS",
+                     "Azure DB"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the folder where you the desired web.config file that you want restored is located\nDefault is: \"C:\\Temp\\d365fo.tools\\WebConfigBackup\"",
+                           "",
+                           false,
+                           "false",
+                           "$(Join-Path $Script:DefaultTempPath \"WebConfigBackup\")"
+                       ],
+                       [
+                           "Force",
+                           "Instructs the cmdlet to overwrite the destination file if it already exists",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Restore the web.config file",
+        "Name":  "Restore-D365WebConfig",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRestore-D365WebConfig -Force\nWill restore the web.config file, and overwrite the current web.config file in the AOS / IIS folder.\r\nIt will use the default path \"C:\\Temp\\d365fo.tools\\WebConfigBackup\" as the source directory.\r\nIt will overwrite the current web.config file.\nA result set example:\nFilename   LastModified         File\r\n--------   ------------         ----\r\nweb.config 6/29/2021 7:31:04 PM K:\\AosService\\WebRoot\\web.config",
+        "Syntax":  "Restore-D365WebConfig [[-Path] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Send-D365BroadcastMessage",
         "Description":  "Utilize the same messaging framework available from LCS and send a broadcast message to all online users in the environment",
         "Tags":  [
@@ -10698,6 +10808,69 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365TraceParserFileSize -FileSizeInMB 2048\nThis will configure the maximum TraceParser file to 2048 MB.",
         "Syntax":  "Set-D365TraceParserFileSize [-FileSizeInMB] \u003cString\u003e [[-Path] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Set-D365WebConfigDatabase",
+        "Description":  "Overwrite the current database connection details directly in the web.config file\n\nUsed when you want to connect a DEV box directly to a Tier2 database, and want to debug something that requires better data than usual",
+        "Tags":  [
+                     "DEV",
+                     "Tier2",
+                     "DB",
+                     "Database",
+                     "Debug",
+                     "JIT",
+                     "LCS",
+                     "Azure DB"
+                 ],
+        "Params":  [
+                       [
+                           "DatabaseServer",
+                           "The name of the database server\nObtain when you request JIT (Just-in-Time) access through the LCS portal",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "DatabaseName",
+                           "The name of the database\nObtain when you request JIT (Just-in-Time) access through the LCS portal",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "SqlUser",
+                           "The login name for the SQL Server instance\nObtain when you request JIT (Just-in-Time) access through the LCS portal",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "SqlPwd",
+                           "The password for the SQL Server user\nObtain when you request JIT (Just-in-Time) access through the LCS portal",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Path",
+                           "Path to the web.config file that you want to update with new SQL connection details\nDefault is: \"K:\\AosService\\WebRoot\\web.config\" or what else drive that is recognized by the D365FO components as the service drive",
+                           "",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:AOSPath -ChildPath $Script:WebConfig)"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Set the database connection details",
+        "Name":  "Set-D365WebConfigDatabase",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365WebConfigDatabase -DatabaseServer TestServer.database.windows.net -DatabaseName AxDB -SqlUser User123 -SqlPwd \"Password123\"\nWill overwrite Server, Database, Username and Password directly in the web.config file.\r\nIt will save all details unencrypted.",
+        "Syntax":  "Set-D365WebConfigDatabase [-DatabaseServer] \u003cString\u003e [-DatabaseName] \u003cString\u003e [-SqlUser] \u003cString\u003e [-SqlPwd] \u003cString\u003e [[-Path] \u003cObject\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Set-D365WorkstationMode",
