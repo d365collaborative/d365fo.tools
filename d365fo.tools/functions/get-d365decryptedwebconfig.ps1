@@ -8,7 +8,7 @@
         
     .PARAMETER OutputPath
         Place where the decrypted files should be placed
-
+        
         Default value is: "c:\temp\d365fo.tools\WebConfigDecrypted"
         
     .PARAMETER AosServiceWebRootPath
@@ -16,27 +16,27 @@
         
     .EXAMPLE
         PS C:\> Get-D365DecryptedWebConfig
-
+        
         This will get the config file from the instance, decrypt it and save it.
         IT will save the decrypted web.config file in the default location: "c:\temp\d365fo.tools\WebConfigDecrypted".
-
-                A result set example:
-
+        
+        A result set example:
+        
         Filename   LastModified        File
---------   ------------        ----
-web.config 7/1/2021 9:01:31 PM C:\temp\d365fo.tools\WebConfigDecrypted\web.config
-
+        --------   ------------        ----
+        web.config 7/1/2021 9:01:31 PM C:\temp\d365fo.tools\WebConfigDecrypted\web.config
+        
     .EXAMPLE
         PS C:\> Get-D365DecryptedWebConfig -OutputPath "c:\temp\d365fo.tools"
         
         This will get the config file from the instance, decrypt it and save it to "c:\temp\d365fo.tools"
         
         A result set example:
-
-Filename   LastModified        File
---------   ------------        ----
-web.config 7/1/2021 9:07:36 PM C:\temp\d365fo.tools\web.config
-
+        
+        Filename   LastModified        File
+        --------   ------------        ----
+        web.config 7/1/2021 9:07:36 PM C:\temp\d365fo.tools\web.config
+        
     .NOTES
         Tags: Configuration, Service Account, Sql, SqlUser, SqlPwd, WebConfig, Web.Config, Decryption
         

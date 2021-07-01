@@ -1,36 +1,37 @@
-﻿<#
-.SYNOPSIS
-Restore the web.config file
-
-.DESCRIPTION
-Will restore the web.config file located back into the AOS / IIS folder
-
-.PARAMETER Path
-Path to the folder where you the desired web.config file that you want restored is located
-
-Default is: "C:\Temp\d365fo.tools\WebConfigBackup"
-
+﻿
+<#
+    .SYNOPSIS
+        Restore the web.config file
+        
+    .DESCRIPTION
+        Will restore the web.config file located back into the AOS / IIS folder
+        
+    .PARAMETER Path
+        Path to the folder where you the desired web.config file that you want restored is located
+        
+        Default is: "C:\Temp\d365fo.tools\WebConfigBackup"
+        
     .PARAMETER Force
         Instructs the cmdlet to overwrite the destination file if it already exists
-
-.EXAMPLE
-PS C:\> Restore-D365WebConfig -Force
-
-Will restore the web.config file, and overwrite the current web.config file in the AOS / IIS folder.
-It will use the default path "C:\Temp\d365fo.tools\WebConfigBackup" as the source directory.
-It will overwrite the current web.config file.
-
-A result set example:
-
-Filename   LastModified         File
---------   ------------         ----
-web.config 6/29/2021 7:31:04 PM K:\AosService\WebRoot\web.config
-
-.NOTES
-Tags: DEV, Tier2, DB, Database, Debug, JIT, LCS, Azure DB
-
-Author: Mötz Jensen (@Splaxi)
-
+        
+    .EXAMPLE
+        PS C:\> Restore-D365WebConfig -Force
+        
+        Will restore the web.config file, and overwrite the current web.config file in the AOS / IIS folder.
+        It will use the default path "C:\Temp\d365fo.tools\WebConfigBackup" as the source directory.
+        It will overwrite the current web.config file.
+        
+        A result set example:
+        
+        Filename   LastModified         File
+        --------   ------------         ----
+        web.config 6/29/2021 7:31:04 PM K:\AosService\WebRoot\web.config
+        
+    .NOTES
+        Tags: DEV, Tier2, DB, Database, Debug, JIT, LCS, Azure DB
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Restore-D365WebConfig {
     [CmdletBinding()]

@@ -1,50 +1,51 @@
-﻿<#
-.SYNOPSIS
-Backup the web.config file
-
-.DESCRIPTION
-Will backup the web.config file located in the AOS / IIS folder
-
-.PARAMETER OutputPath
-Path to the folder where you want the web.config file to be persisted
-
-Default is: "C:\Temp\d365fo.tools\WebConfigBackup"
-
+﻿
+<#
+    .SYNOPSIS
+        Backup the web.config file
+        
+    .DESCRIPTION
+        Will backup the web.config file located in the AOS / IIS folder
+        
+    .PARAMETER OutputPath
+        Path to the folder where you want the web.config file to be persisted
+        
+        Default is: "C:\Temp\d365fo.tools\WebConfigBackup"
+        
     .PARAMETER Force
         Instructs the cmdlet to overwrite the destination file if it already exists
-
-.EXAMPLE
-PS C:\> Backup-D365WebConfig
-
-Will locate the web.config file, and backup it up.
-It will look for the file in the AOS / IIS folder. E.g. K:\AosService\WebRoot\web.config.
-It will save the file to the default location: "C:\Temp\d365fo.tools\WebConfigBackup".
-
-A result set example:
-
-Filename   LastModified         File
---------   ------------         ----
-web.config 6/29/2021 7:31:04 PM C:\temp\d365fo.tools\WebConfigBackup\web.config
-
-.EXAMPLE
-PS C:\> Backup-D365WebConfig -Force
-
-Will locate the web.config file, backup it up, and overwrite if a previous backup file exists.
-It will look for the file in the AOS / IIS folder. E.g. K:\AosService\WebRoot\web.config.
-It will save the file to the default location: "C:\Temp\d365fo.tools\WebConfigBackup".
-It will overwrite any file named web.config in the destination folder.
-
-A result set example:
-
-Filename   LastModified         File
---------   ------------         ----
-web.config 6/29/2021 7:31:04 PM C:\temp\d365fo.tools\WebConfigBackup\web.config
-
-.NOTES
-Tags: DEV, Tier2, DB, Database, Debug, JIT, LCS, Azure DB
-
-Author: Mötz Jensen (@Splaxi)
-
+        
+    .EXAMPLE
+        PS C:\> Backup-D365WebConfig
+        
+        Will locate the web.config file, and backup it up.
+        It will look for the file in the AOS / IIS folder. E.g. K:\AosService\WebRoot\web.config.
+        It will save the file to the default location: "C:\Temp\d365fo.tools\WebConfigBackup".
+        
+        A result set example:
+        
+        Filename   LastModified         File
+        --------   ------------         ----
+        web.config 6/29/2021 7:31:04 PM C:\temp\d365fo.tools\WebConfigBackup\web.config
+        
+    .EXAMPLE
+        PS C:\> Backup-D365WebConfig -Force
+        
+        Will locate the web.config file, backup it up, and overwrite if a previous backup file exists.
+        It will look for the file in the AOS / IIS folder. E.g. K:\AosService\WebRoot\web.config.
+        It will save the file to the default location: "C:\Temp\d365fo.tools\WebConfigBackup".
+        It will overwrite any file named web.config in the destination folder.
+        
+        A result set example:
+        
+        Filename   LastModified         File
+        --------   ------------         ----
+        web.config 6/29/2021 7:31:04 PM C:\temp\d365fo.tools\WebConfigBackup\web.config
+        
+    .NOTES
+        Tags: DEV, Tier2, DB, Database, Debug, JIT, LCS, Azure DB
+        
+        Author: Mötz Jensen (@Splaxi)
+        
 #>
 function Backup-D365WebConfig {
     [CmdletBinding()]
