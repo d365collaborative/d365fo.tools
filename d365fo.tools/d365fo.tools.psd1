@@ -179,6 +179,8 @@
 		'Import-D365RsatSelfServiceCertificates',
 						
 		'Initialize-D365RsatCertificate',
+		
+		'Install-D365SupportingSoftware',
 
 		'Invoke-D365AzCopyTransfer',
 						

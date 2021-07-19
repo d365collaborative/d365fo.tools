@@ -5673,6 +5673,35 @@
         "Syntax":  "Initialize-D365RsatCertificate [-CertificateFileName \u003cString\u003e] [-PrivateKeyFileName \u003cString\u003e] [-Password \u003cSecureString\u003e] [-CertificateOnly] [-KeepCertificateFile] [-OutputPath \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Install-D365SupportingSoftware",
+        "Description":  "Installs software commonly used when doing Dynamics 365 Finance and Operations development\n\nCommon ones: fiddler, postman, microsoft-edge, winmerge, notepadplusplus.install, azurepowershell, azure-cli, insomnia-rest-api-client, git.install\n\nFull list of software: https://community.chocolatey.org/packages",
+        "Params":  [
+                       [
+                           "Name",
+                           "The name of the software to install\nSupport a list of softwares that you want to have installed on the system",
+                           "SoftwareName",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Force",
+                           "",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Dag Calafell (@dodiggitydag)",
+        "Synopsis":  "Install software supporting F\u0026O development",
+        "Name":  "Install-D365SupportingSoftware",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInstall-D365SupportingSoftware -Name vscode\nThis will install VSCode on the system.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInstall-D365SupportingSoftware -Name \"vscode\",\"fiddler\"\nThis will install VSCode and fiddler on the system.",
+        "Syntax":  "Install-D365SupportingSoftware [-Name] \u003cString[]\u003e [-Force] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Invoke-D365AzCopyTransfer",
         "Description":  "Transfer a file using the AzCopy tool\n\nYou can upload a local file to an Azure Storage Blob Container\n\nYou can download a file located in an Azure Storage Blob Container to a local folder\n\nYou can transfer a file located in an Azure Storage Blob Container to another Azure Storage Blob Container, across regions and subscriptions, if you have SAS tokens/keys as part of your uri",
         "Tags":  [

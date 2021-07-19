@@ -1,22 +1,29 @@
-
+﻿
 <#
     .SYNOPSIS
         Install software supporting F&O development
         
     .DESCRIPTION
         Installs software commonly used when doing Dynamics 365 Finance and Operations development
-
+        
         Common ones: fiddler, postman, microsoft-edge, winmerge, notepadplusplus.install, azurepowershell, azure-cli, insomnia-rest-api-client, git.install
-
+        
         Full list of software: https://community.chocolatey.org/packages
         
-    .PARAMETER SoftwareName
+    .PARAMETER Name
         The name of the software to install
         
-    .EXAMPLE
-        PS C:\> Install-D365SupportingSoftware -SoftwareName vscode
+        Support a list of softwares that you want to have installed on the system
         
-        This will install the VSCode tool
+    .EXAMPLE
+        PS C:\> Install-D365SupportingSoftware -Name vscode
+        
+        This will install VSCode on the system.
+        
+    .EXAMPLE
+        PS C:\> Install-D365SupportingSoftware -Name "vscode","fiddler"
+        
+        This will install VSCode and fiddler on the system.
         
     .NOTES
         Author: Dag Calafell (@dodiggitydag)
@@ -27,13 +34,16 @@ function Install-D365SupportingSoftware {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true, Position = 1)]
-        [string] $SoftwareName = $Script:SoftwareName
+        [Parameter(Mandatory = $true)]
+        [Alias('SoftwareName')]
+        [string[]] $Name,
+
+        [switch] $Force
     )
 
     BEGIN {
         try {
-            if(Test-Path -Path "$env:ProgramData\Chocolatey") {
+            if (Test-Path -Path "$env:ProgramData\Chocolatey") {
                 choco upgrade chocolatey -y -r
                 choco upgrade all --ignore-checksums -y -r
             }
@@ -50,36 +60,48 @@ function Install-D365SupportingSoftware {
             Stop-PSFFunction -Message "Stopping because of errors"
             return
         }
+
+        #Determine choco executable location
+        #   This is needed because the path variable is not updated in this session yet
+        #   This part is copied from https://chocolatey.org/install.ps1
+        $chocoPath = [Environment]::GetEnvironmentVariable("ChocolateyInstall")
+        if ($chocoPath -eq $null -or $chocoPath -eq '') {
+            $chocoPath = "$env:ALLUSERSPROFILE\Chocolatey"
+        }
+        if (!(Test-Path ($chocoPath))) {
+            $chocoPath = "$env:SYSTEMDRIVE\ProgramData\Chocolatey"
+        }
+        $chocoExePath = Join-Path $chocoPath 'bin\choco.exe'
+
+        if (-not (Test-PathExists -Path $chocoExePath -Type Leaf)) { return }
     }
     
     PROCESS {
-        if(Test-PSFFunctionInterrupt) {return}
+        if (Test-PSFFunctionInterrupt) { return }
 
+
+        
         try {
-            Write-PSFMessage -Level InternalComment -Message "Installing $SoftwareName"
+            foreach ($item in $Name) {
+                Write-PSFMessage -Level InternalComment -Message "Installing $item"
 
-            #Determine choco executable location
-            #   This is needed because the path variable is not updated in this session yet
-            #   This part is copied from https://chocolatey.org/install.ps1
-            $chocoPath = [Environment]::GetEnvironmentVariable("ChocolateyInstall")
-            if ($chocoPath -eq $null -or $chocoPath -eq '') {
-                $chocoPath = "$env:ALLUSERSPROFILE\Chocolatey"
+                $params = New-Object System.Collections.Generic.List[System.Object]
+
+                $params.AddRange(@(
+                        "install"
+                        "$item",
+                        "-y",
+                        "-r"
+                    ))
+
+                if ($Force) {
+                    $params.Add("-f")
+                }
+
+                # Use Chocolatey to install the package
+                Invoke-Process -Executable $chocoExePath -Params $($params.ToArray()) -ShowOriginalProgress:$true
             }
-            if (!(Test-Path ($chocoPath))) {
-                $chocoPath = "$env:SYSTEMDRIVE\ProgramData\Chocolatey"
-            }
-            $chocoExePath = Join-Path $chocoPath 'bin\choco.exe'
-
-            if (-not (Test-PathExists -Path $chocoExePath)) { return }
-
-            $params = @(
-                "install $SoftwareName",
-                "-y",
-                "-r",
-            )
-
-            # Use Chocolatey to install the package
-            Invoke-Process -Executable $chocoExePath -Params $params
+            
         }
         catch {
             Write-PSFMessage -Level Host -Message "Something went wrong while installing software" -Exception $PSItem.Exception
