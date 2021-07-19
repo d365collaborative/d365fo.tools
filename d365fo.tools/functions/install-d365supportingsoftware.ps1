@@ -15,6 +15,9 @@
         
         Support a list of softwares that you want to have installed on the system
         
+    .PARAMETER Force
+        Instruct the cmdlet to install the latest version of the software, regardless if it is already present on the system
+
     .EXAMPLE
         PS C:\> Install-D365SupportingSoftware -Name vscode
         
@@ -24,6 +27,11 @@
         PS C:\> Install-D365SupportingSoftware -Name "vscode","fiddler"
         
         This will install VSCode and fiddler on the system.
+
+    .EXAMPLE
+        PS C:\> Install-D365SupportingSoftware -Name vscode -Force
+        
+        This will install VSCode on the system, forcing it to be (re)installed.
         
     .NOTES
         Author: Dag Calafell (@dodiggitydag)
@@ -32,6 +40,7 @@
 #>
 function Install-D365SupportingSoftware {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

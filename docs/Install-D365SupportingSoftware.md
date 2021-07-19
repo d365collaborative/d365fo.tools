@@ -39,6 +39,13 @@ Install-D365SupportingSoftware -Name "vscode","fiddler"
 
 This will install VSCode and fiddler on the system.
 
+### EXAMPLE 3
+```
+Install-D365SupportingSoftware -Name vscode -Force
+```
+
+This will install VSCode on the system, forcing it to be (re)installed.
+
 ## PARAMETERS
 
 ### -Name
@@ -59,7 +66,7 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-{{ Fill Force Description }}
+Instruct the cmdlet to install the latest version of the software, regardless if it is already present on the system
 
 ```yaml
 Type: SwitchParameter
