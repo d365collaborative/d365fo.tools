@@ -65,8 +65,6 @@ function Get-D365LcsApiConfig {
     Write-PSFMessage -Level Verbose -Message "Extracting all the LCS configuration and building the result object."
 
     foreach ($config in Get-PSFConfig -FullName "d365fo.tools.lcs.*") {
-        if($config.FullName.ToString() -like "d365fo.tools.lcs.environment*") { continue }
-        
         $propertyName = $config.FullName.ToString().Replace("d365fo.tools.lcs.", "")
         $res.$propertyName = $config.Value
     }
