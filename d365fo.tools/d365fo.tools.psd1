@@ -134,6 +134,8 @@
 		'Get-D365LcsDatabaseOperationStatus',
 		'Get-D365LcsDeploymentStatus',
 		'Get-D365LcsEnvironment',
+		'Get-D365LcsEnvironmenHistory',
+		'Get-D365LcsEnvironmentMetadata',
 		'Get-D365LogicAppConfig',
 
 		'Get-D365MaintenanceMode',
