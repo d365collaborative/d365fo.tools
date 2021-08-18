@@ -14,7 +14,7 @@
     .EXAMPLE
         PS C:\> Import-AssemblyFileIntoMemory -Path "C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.BusinessPlatform.ProductInformation.Framework.dll"
         
-        This will create an new file named "C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.BusinessPlatform.ProductInformation.Framework.dll_shawdow.dll"
+        This will create an new file named "Microsoft.Dynamics.BusinessPlatform.ProductInformation.Framework.dll_shawdow.dll" in the temp folder
         The new file is then imported into memory using .NET Reflection.
         After the file has been imported, it will be deleted from disk.
         
@@ -38,7 +38,8 @@ function Import-AssemblyFileIntoMemory {
 
     foreach ($itemPath in $Path) {
 
-        $shadowClonePath = "$itemPath`_shadow.dll"
+        $filename = Split-Path -Path $itemPath -Leaf
+        $shadowClonePath = Join-Path $env:TEMP "$filename`_shadow.dll"
 
         try {
             Write-PSFMessage -Level Debug -Message "Cloning $itemPath to $shadowClonePath"
