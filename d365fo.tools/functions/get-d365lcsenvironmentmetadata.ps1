@@ -82,6 +82,8 @@
         The request time for completion is directly impacted by the number of environments within the LCS project.
         Please be patient and let the system work for you.
         
+        You might experience that not all environments are listed with this request, that would indicate that the LCS project has many environments. Please use the -TraverseAllPages parameter to ensure that all environments are outputted.
+        
         A result set example (Tier1):
         
         EnvironmentId                  : c6566087-23bd-4561-8247-4d7f4efd3172
@@ -150,6 +152,29 @@
         DeploymentStatusDisplay        : Deployed
         CanStart                       : False
         CanStop                        : False
+        
+    .EXAMPLE
+        PS C:\> Get-D365LcsEnvironmentMetadata -ProjectId "123456789" -TraverseAllPages
+        
+        This will show metadata for every available environment from the LCS project, across multiple pages.
+        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+        
+        TraverseAllPages will increase the request time for completion, based on how many entries there is in the history.
+        Please be patient and let the system work for you.
+        
+    .EXAMPLE
+        PS C:\> Get-D365LcsEnvironmentMetadata -ProjectId "123456789" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+        
+        This will show metadata for every available environment from the LCS project.
+        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+        The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        
+    .EXAMPLE
+        PS C:\> Get-D365LcsEnvironmentMetadata -ProjectId "123456789" -EnvironmentName "Contoso-SIT"
+        
+        This will show metadata for every available environment from the LCS project.
+        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+        The environment is identified by the EnvironmentName "Contoso-SIT", which can be obtained in the LCS portal.
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)

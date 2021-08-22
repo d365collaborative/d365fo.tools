@@ -120,6 +120,17 @@
         EnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e
         ProjectId        : 123456789
         
+    .EXAMPLE
+        PS C:\> Get-D365LcsEnvironmentHistory -ProjectId "123456789" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -TraverseAllPages
+        
+        This will list the all the pages of Environment History Data from the LCS API.
+        The LCS project is identified by the ProjectId "123456789", which can be obtained in the LCS portal.
+        The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        The cmdlet will TraverseAllPages from the LCS API.
+        
+        TraverseAllPages will increase the request time for completion, based on how many entries there is in the history.
+        Please be patient and let the system work for you.
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
 #>
