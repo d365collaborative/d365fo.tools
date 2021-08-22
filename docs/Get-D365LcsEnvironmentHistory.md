@@ -5,59 +5,96 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-D365LcsEnvironmentStart
+# Get-D365LcsEnvironmentHistory
 
 ## SYNOPSIS
-Start a specified environment through LCS.
+Get history for a given environment within a LCS project
 
 ## SYNTAX
 
+### Default (Default)
 ```
-Invoke-D365LcsEnvironmentStart [[-ProjectId] <Int32>] [[-BearerToken] <String>] [-EnvironmentId] <String>
- [[-LcsApiUri] <String>] [-FailOnErrorMessage] [[-RetryTimeout] <TimeSpan>] [-EnableException]
+Get-D365LcsEnvironmentHistory [-ProjectId <Int32>] [-BearerToken <String>] -EnvironmentId <String>
+ [-LcsApiUri <String>] [-FailOnErrorMessage] [-RetryTimeout <TimeSpan>] [-EnableException] [<CommonParameters>]
+```
+
+### Pagination
+```
+Get-D365LcsEnvironmentHistory [-ProjectId <Int32>] [-BearerToken <String>] -EnvironmentId <String>
+ [-TraverseAllPages] [-LcsApiUri <String>] [-FailOnErrorMessage] [-RetryTimeout <TimeSpan>] [-EnableException]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Start a specified IAAS environment that is Customer Managed through the LCS API.
+Get history details for a given environment from within a LCS project
+
+There can be multiple pages of data, which requires you to use the TraverseAllPages parameter, if you want all data to be shown
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Invoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+Get-D365LcsEnvironmentHistory -ProjectId "123456789" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
 ```
 
-This will trigger the environment start operation upon the given environment through the LCS API.
-The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+This will list the first page of Environment History Data from the LCS API.
+The LCS project is identified by the ProjectId "123456789", which can be obtained in the LCS portal.
 The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
-The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com"
+
+A result set example:
+
+Name             : Service Update - 10.0.19
+Type             : SFBinaryHotfix
+TypeDisplay      : Binary hotfix
+StartDateTimeUTC : 2021-07-11T00:01:57.423
+EndDateTimeUTC   : 2021-07-11T05:01:12.97
+Status           : Completed
+ActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea30
+EnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e
+ProjectId        : 123456789
+
+Name             : Refresh database
+Type             : SFSourceDbToSandbox
+TypeDisplay      : Refresh database
+StartDateTimeUTC : 2021-06-06T15:17:48.87
+EndDateTimeUTC   : 2021-06-06T16:33:40.367
+Status           : Completed
+ActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea31
+EnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e
+ProjectId        : 123456789
+
+Name             : Export database
+Type             : SFExportSandboxDb
+TypeDisplay      : Export database
+StartDateTimeUTC : 2021-04-27T22:08:01.103
+EndDateTimeUTC   : 2021-04-28T23:30:06.623
+Status           : RollbackCompleted
+ActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea32
+EnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e
+ProjectId        : 123456789
+
+Name             : Main_2021.1.1.1
+Type             : SFApplicationHotfix
+TypeDisplay      : Application deployable package
+StartDateTimeUTC : 2021-03-04T21:44:20.793
+EndDateTimeUTC   : 2021-03-04T22:48:17.303
+Status           : Completed
+ActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea33
+EnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e
+ProjectId        : 123456789
 
 ### EXAMPLE 2
 ```
-Invoke-D365LcsEnvironmentStart -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+Get-D365LcsEnvironmentHistory -ProjectId "123456789" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -TraverseAllPages
 ```
 
-This will trigger the environment start operation upon the given environment through the LCS API.
+This will list the all the pages of Environment History Data from the LCS API.
+The LCS project is identified by the ProjectId "123456789", which can be obtained in the LCS portal.
 The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+The cmdlet will TraverseAllPages from the LCS API.
 
-All default values will come from the configuration available from Get-D365LcsApiConfig.
-
-The default values can be configured using Set-D365LcsApiConfig.
-
-### EXAMPLE 3
-```
-Invoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -RetryTimeout "00:01:00"
-```
-
-This will trigger the environment start operation upon the given environment through the LCS API, and allow for the cmdlet to retry for no more than 1 minute.
-The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-
-All default values will come from the configuration available from Get-D365LcsApiConfig.
-
-The default values can be configured using Set-D365LcsApiConfig.
+TraverseAllPages will increase the request time for completion, based on how many entries there is in the history.
+Please be patient and let the system work for you.
 
 ## PARAMETERS
 
@@ -72,7 +109,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: Named
 Default value: $Script:LcsApiProjectId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -89,16 +126,14 @@ Parameter Sets: (All)
 Aliases: Token
 
 Required: False
-Position: 2
+Position: Named
 Default value: $Script:LcsApiBearerToken
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -EnvironmentId
-The unique id of the environment that you want to take action upon
-
-The Id can be located inside the LCS portal
+Id of the environment that you want to be working against
 
 ```yaml
 Type: String
@@ -106,8 +141,25 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 3
+Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TraverseAllPages
+Instruct the cmdlet to fetch all pages, until there isn't more data available
+
+This can be a slow operation, as it has to call the LCS API multiple times, fetching a single page per call
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Pagination
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -115,7 +167,7 @@ Accept wildcard characters: False
 ### -LcsApiUri
 URI / URL to the LCS API you want to use
 
-Depending where your LCS project is located, there are several valid URI's / URL's
+Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
 
 Valid options:
 "https://lcsapi.lcs.dynamics.com"
@@ -135,7 +187,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
 Default value: $Script:LcsApiLcsApiUri
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -182,7 +234,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: 00:00:00
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -211,24 +263,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### PSCustomObject
 ## NOTES
-Only Customer Managed IAAS environments are supported with this API.
-Microsoft Managed IAAS environments need to remain online to allow for Microsoft update operations and are not supported with this API.
-Self-service environments do not have a stop functionality and will not work with this API.
-
-Tags: Environment, Start, StartStop, Stop, LCS, Api
-
-Author: Mötz Jensen (@Splaxi), Billy Richardson (@richardsondev)
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
-
-[Get-D365LcsApiConfig]()
-
-[Get-D365LcsApiToken]()
-
-[Invoke-D365LcsApiRefreshToken]()
-
-[Set-D365LcsApiConfig]()
-
-[Invoke-D365LcsEnvironmentStop]()
-
