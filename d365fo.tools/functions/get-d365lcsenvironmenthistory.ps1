@@ -72,12 +72,58 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        An example
+        PS C:\> Get-D365LcsEnvironmentHistory -ProjectId "123456789" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
+        
+        This will list the first page of Environment History Data from the LCS API.
+        The LCS project is identified by the ProjectId "123456789", which can be obtained in the LCS portal.
+        The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        
+        A result set example:
+        
+        Name             : Service Update - 10.0.19
+        Type             : SFBinaryHotfix
+        TypeDisplay      : Binary hotfix
+        StartDateTimeUTC : 2021-07-11T00:01:57.423
+        EndDateTimeUTC   : 2021-07-11T05:01:12.97
+        Status           : Completed
+        ActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea30
+        EnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e
+        ProjectId        : 123456789
+        
+        Name             : Refresh database
+        Type             : SFSourceDbToSandbox
+        TypeDisplay      : Refresh database
+        StartDateTimeUTC : 2021-06-06T15:17:48.87
+        EndDateTimeUTC   : 2021-06-06T16:33:40.367
+        Status           : Completed
+        ActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea31
+        EnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e
+        ProjectId        : 123456789
+        
+        Name             : Export database
+        Type             : SFExportSandboxDb
+        TypeDisplay      : Export database
+        StartDateTimeUTC : 2021-04-27T22:08:01.103
+        EndDateTimeUTC   : 2021-04-28T23:30:06.623
+        Status           : RollbackCompleted
+        ActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea32
+        EnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e
+        ProjectId        : 123456789
+        
+        Name             : Main_2021.1.1.1
+        Type             : SFApplicationHotfix
+        TypeDisplay      : Application deployable package
+        StartDateTimeUTC : 2021-03-04T21:44:20.793
+        EndDateTimeUTC   : 2021-03-04T22:48:17.303
+        Status           : Completed
+        ActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea33
+        EnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e
+        ProjectId        : 123456789
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
 #>
-function Get-D365LcsEnvironmenHistory {
+function Get-D365LcsEnvironmentHistory {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     [OutputType('PSCustomObject')]
     param(

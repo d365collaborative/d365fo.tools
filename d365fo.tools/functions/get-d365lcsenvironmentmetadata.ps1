@@ -74,7 +74,82 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        An example
+        PS C:\> Get-D365LcsEnvironmentMetadata -ProjectId "123456789"
+        
+        This will show metadata for every available environment from the LCS project.
+        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+        
+        The request time for completion is directly impacted by the number of environments within the LCS project.
+        Please be patient and let the system work for you.
+        
+        A result set example (Tier1):
+        
+        EnvironmentId                  : c6566087-23bd-4561-8247-4d7f4efd3172
+        EnvironmentName                : DevBox-01
+        ProjectId                      : 123456789
+        EnvironmentInfrastructure      : CustomerManaged
+        EnvironmentType                : DevTestDev
+        EnvironmentGroup               : Primary
+        EnvironmentProduct             : Finance and Operations
+        EnvironmentEndpointBaseUrl     : https://devbox-4d7f4efd3172devaos.cloudax.dynamics.com/
+        DeploymentState                : Stopped
+        TopologyDisplayName            : Finance and Operations - Develop (10.0.18 with Platform update 42)
+        CurrentApplicationBuildVersion : 10.0.793.41
+        CurrentApplicationReleaseName  : 10.0.18
+        CurrentPlatformReleaseName     : Update42
+        CurrentPlatformVersion         : 7.0.5968.16999
+        DeployedOnUTC                  : 7/5/2021 11:19 AM
+        CloudStorageLocation           : West Europe
+        DisasterRecoveryLocation       : North Europe
+        DeploymentStatusDisplay        : Stopped
+        CanStart                       : True
+        CanStop                        : False
+        
+        A result set example (Tier2+):
+        
+        EnvironmentId                  : e7c53b85-8b6a-4ab9-8985-1e1ea89a0f0a
+        EnvironmentName                : Contoso-SIT
+        ProjectId                      : 123456789
+        EnvironmentInfrastructure      : SelfService
+        EnvironmentType                : Sandbox
+        EnvironmentGroup               : Primary
+        EnvironmentProduct             : Finance and Operations
+        EnvironmentEndpointBaseUrl     : https://Contoso-SIT.sandbox.operations.dynamics.com/
+        DeploymentState                : Finished
+        TopologyDisplayName            : AXHA
+        CurrentApplicationBuildVersion : 10.0.761.10019
+        CurrentApplicationReleaseName  : 10.0.17
+        CurrentPlatformReleaseName     : PU41
+        CurrentPlatformVersion         : 7.0.5934.35741
+        DeployedOnUTC                  : 4/1/2020 9:35 PM
+        CloudStorageLocation           : West Europe
+        DisasterRecoveryLocation       :
+        DeploymentStatusDisplay        : Deployed
+        CanStart                       : False
+        CanStop                        : False
+        
+        A result set example (PROD):
+        
+        EnvironmentId                  : a8aab4f4-d4f3-41f0-af80-54cea83b50d2
+        EnvironmentName                : Contoso-PROD
+        ProjectId                      : 123456789
+        EnvironmentInfrastructure      : SelfService
+        EnvironmentType                : Production
+        EnvironmentGroup               : Primary
+        EnvironmentProduct             : Finance and Operations
+        EnvironmentEndpointBaseUrl     : https://Contoso-PROD.operations.dynamics.com/
+        DeploymentState                : Finished
+        TopologyDisplayName            : AXHA
+        CurrentApplicationBuildVersion : 10.0.886.48
+        CurrentApplicationReleaseName  : 10.0.20
+        CurrentPlatformReleaseName     : PU44
+        CurrentPlatformVersion         : 7.0.6060.45
+        DeployedOnUTC                  : 4/9/2020 12:11 PM
+        CloudStorageLocation           : West Europe
+        DisasterRecoveryLocation       :
+        DeploymentStatusDisplay        : Deployed
+        CanStart                       : False
+        CanStop                        : False
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
