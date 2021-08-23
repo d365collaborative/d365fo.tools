@@ -53,7 +53,7 @@ function Get-ApplicationEnvironment {
     $null = $Files2Process.Add((Join-Path $BasePath "Microsoft.Dynamics.AX.Security.Instrumentation.dll"))
     $null = $Files2Process.Add((Join-Path $BasePath "Microsoft.Dynamics.ApplicationPlatform.Environment.dll"))
 
-    Import-AssemblyFileIntoMemory -Path $($Files2Process.ToArray())
+    Import-AssemblyFileIntoMemory -Path $($Files2Process.ToArray()) -UseTempFolder
 
     if (Test-PSFFunctionInterrupt) { return }
 
