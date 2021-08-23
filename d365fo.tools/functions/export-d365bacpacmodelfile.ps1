@@ -71,11 +71,14 @@ function Export-D365BacpacModelFile {
 
         if (Test-PSFFunctionInterrupt) { return }
         
-        if (-not $([System.IO.File]::Exists($OutputPath) -and [System.IO.Directory]::Exists($OutputPath))) {
-            if (-not [System.IO.Path]::GetExtension($OutputPath)) {
-                $OutputPath = Join-Path -Path $OutputPath -ChildPath "bacpac.model.xml"
-            }
+
+        if ($OutputPath -eq $Script:DefaultTempPath) {
+            $OutputPath = Join-Path -Path $OutputPath -ChildPath "bacpac.model.xml"
         }
+        
+        Test-PathExists -Path $(Split-Path -Path $OutputPath -Parent) -Type Container -Create > $null
+
+        if (Test-PSFFunctionInterrupt) { return }
 
         if (-not $Force) {
             if (-not (Test-PathExists -Path $OutputPath -Type Leaf -ShouldNotExist)) {
