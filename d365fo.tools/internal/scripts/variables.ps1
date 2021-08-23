@@ -75,30 +75,10 @@ elseif ($environment.Infrastructure.HostName -like "*sandbox.operations.dynamics
     $Script:EnvironmentType = [EnvironmentType]::MSHostedTier2
 }
 
-if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and (Get-PSFConfigValue -FullName "d365fo.tools.workstation.mode") -eq $true) {
-    Write-PSFMessage -Level Verbose -Message "Workstation mode is enabled. We have an active environment configured. We will load the SqlUser and SqlPwd from that configuration."
-    
-    $d365env = Get-PSFConfigValue -FullName "d365fo.tools.active.environment"
-    $Script:Url = $d365env.URL
-    $Script:DatabaseUserName = $d365env.SqlUser
-    $Script:DatabaseUserPassword = $d365env.SqlPwd
-    $Script:Company = $d365env.Company
-}
-else {
-    $Script:Url = $environment.Infrastructure.HostUrl
-    $Script:DatabaseUserName = $dataAccess.SqlUser
-    $Script:DatabaseUserPassword = $dataAccess.SqlPwd
-    $Script:Company = "DAT"
-
-    if (($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) -and
-        ($Script:EnvironmentType -eq [EnvironmentType]::MSHostedTier2)) {
-        Write-PSFMessage -Level Verbose -Message "We are on a Tier 2 MS hosted Environment. We have an active environment configured. We will load the SqlUser and SqlPwd from that configuration."
-
-        $d365db = Get-PSFConfigValue -FullName "d365fo.tools.active.environment"
-        $Script:DatabaseUserName = $d365db.SqlUser
-        $Script:DatabaseUserPassword = $d365db.SqlPwd
-    }
-}
+$Script:Url = $environment.Infrastructure.HostUrl
+$Script:DatabaseUserName = $dataAccess.SqlUser
+$Script:DatabaseUserPassword = $dataAccess.SqlPwd
+$Script:Company = "DAT"
 
 $Script:IsOnebox = $environment.Common.IsOneboxEnvironment
 
@@ -113,10 +93,6 @@ $Script:InstallationRecordsDir = $RegValue
 $Script:UserIsAdmin = $env:UserName -like "*admin*"
 
 $Script:TfDir = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\"
-
-if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.environment")) {
-    $Script:TfsUri = (Get-PSFConfigValue -FullName "d365fo.tools.active.environment").TfsUri
-}
 
 if ($null -ne (Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app")) {
     $logicApp = Get-PSFConfigValue -FullName "d365fo.tools.active.logic.app"

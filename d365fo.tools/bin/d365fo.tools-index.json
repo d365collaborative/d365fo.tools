@@ -189,158 +189,6 @@
         "Syntax":  "Add-D365BroadcastMessageConfig [-Name] \u003cString\u003e [[-Tenant] \u003cString\u003e] [[-URL] \u003cString\u003e] [[-ClientId] \u003cString\u003e] [[-ClientSecret] \u003cString\u003e] [[-TimeZone] \u003cString\u003e] [[-EndingInMinutes] \u003cInt32\u003e] [-OnPremise] [-Temporary] [-Force] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Add-D365EnvironmentConfig",
-        "Description":  "Adds an environment config to the configuration store",
-        "Tags":  [
-                     "Environment",
-                     "Url",
-                     "Config",
-                     "Configuration",
-                     "Tfs",
-                     "Vsts",
-                     "Sql",
-                     "SqlUser",
-                     "SqlPwd"
-                 ],
-        "Params":  [
-                       [
-                           "Name",
-                           "The logical name of the environment you are about to registered in the configuration",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "URL",
-                           "The URL to the environment you want the module to use when possible",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "SqlUser",
-                           "The login name for the SQL Server instance",
-                           "",
-                           false,
-                           "false",
-                           "sqladmin"
-                       ],
-                       [
-                           "SqlPwd",
-                           "The password for the SQL Server user",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "Company",
-                           "The company you want to work against when calling any browser based cmdlets\nThe default value is \"DAT\"",
-                           "",
-                           false,
-                           "false",
-                           "DAT"
-                       ],
-                       [
-                           "TfsUri",
-                           "The URI for the TFS / VSTS account that you are working against.",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "Force",
-                           "Switch to instruct the cmdlet to overwrite already registered environment entry",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Save an environment config",
-        "Name":  "Add-D365EnvironmentConfig",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eAdd-D365EnvironmentConfig -Name \"Customer-UAT\" -URL \"https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF\" -Company \"DAT\"\nThis will add an entry into the list of environments that is stored with the name \"Customer-UAT\" and with the URL \"https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF\".\r\nThe company is registered \"DAT\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eAdd-D365EnvironmentConfig -Name \"Customer-UAT\" -URL \"https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF\" -Company \"DAT\" -SqlUser \"SqlAdmin\" -SqlPwd \"Pass@word1\"\nThis will add an entry into the list of environments that is stored with the name \"Customer-UAT\" and with the URL \"https://usnconeboxax1aos.cloud.onebox.dynamics.com/?cmp=USMF\".\r\nIt will register the SqlUser as \"SqlAdmin\" and the SqlPassword to \"Pass@word1\".\nThis it useful for working on Tier 2 environments where the SqlUser and SqlPassword cannot be extracted from the environment itself.",
-        "Syntax":  "Add-D365EnvironmentConfig [-Name] \u003cString\u003e [[-URL] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-Company] \u003cString\u003e] [[-TfsUri] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
-    },
-    {
-        "CommandName":  "Add-D365LcsEnvironment",
-        "Description":  "Adds a lcs environment to the configuration store",
-        "Tags":  [
-                     "Servicing",
-                     "Broadcast",
-                     "Message",
-                     "Users",
-                     "Environment",
-                     "Config",
-                     "Configuration",
-                     "ClientId",
-                     "ClientSecret"
-                 ],
-        "Params":  [
-                       [
-                           "Name",
-                           "The logical name of the lcs environment you are about to register in the configuration store",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "ProjectId",
-                           "The project id for the Dynamics 365 for Finance \u0026 Operations project inside LCS",
-                           "",
-                           false,
-                           "false",
-                           "0"
-                       ],
-                       [
-                           "EnvironmentId",
-                           "The unique id of the environment that you want to work against\nThe Id can be located inside the LCS portal",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "Temporary",
-                           "Instruct the cmdlet to only temporarily add the broadcast message configuration in the configuration store",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ],
-                       [
-                           "Force",
-                           "Instruct the cmdlet to overwrite the broadcast message configuration with the same name",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Save a lcs environment",
-        "Name":  "Add-D365LcsEnvironment",
-        "Links":  [
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      null
-                  ],
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eAdd-D365LcsEnvironment -Name \"UAT\" -ProjectId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will create a new lcs environment entry.\r\nThe name of the registration is determined by the Name \"UAT\".\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.",
-        "Syntax":  "Add-D365LcsEnvironment [-Name] \u003cString\u003e [[-ProjectId] \u003cInt32\u003e] [[-EnvironmentId] \u003cString\u003e] [-Temporary] [-Force] [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Add-D365RsatWifConfigAuthorityThumbprint",
         "Description":  "Register a certificate thumbprint in the wif.config file.\nThis can be useful for example when configuring RSAT on a local machine and add the used certificate thumbprint to that AOS.s",
         "Tags":  [
@@ -1612,31 +1460,6 @@
         "Syntax":  "Get-D365ActiveBroadcastMessageConfig [-OutputAsHashtable] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365ActiveEnvironmentConfig",
-        "Description":  "Get active environment configuration object from the configuration store",
-        "Tags":  [
-                     "Environment",
-                     "Url",
-                     "Config",
-                     "Configuration",
-                     "Tfs",
-                     "Vsts",
-                     "Sql",
-                     "SqlUser",
-                     "SqlPwd"
-                 ],
-        "Params":  [
-
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get active environment configuration",
-        "Name":  "Get-D365ActiveEnvironmentConfig",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365ActiveEnvironmentConfig\nThis will get the active environment configuration\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003e$params = @{}\nPS C:\\\u003e $params.SqlUser = (Get-D365ActiveEnvironmentConfig).SqlUser\r\nPS C:\\\u003e $params.SqlPwd = (Get-D365ActiveEnvironmentConfig).SqlPwd\nThis gives you a hashtable with the SqlUser and SqlPwd values from the active environment.\r\nThis enables you to use the $params as splatting for other cmdlets.",
-        "Syntax":  "Get-D365ActiveEnvironmentConfig [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Get-D365AOTObject",
         "Description":  "Enables you to search for different AOT objects",
         "Params":  [
@@ -2479,38 +2302,6 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365Environment\nWill query all D365FO service on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Environment -All\nWill query all D365FO service on the machine.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Environment -OnlyStartTypeAutomatic\nWill query all D365FO service on the machine.\r\nIt will filter out all services that are either configured as manual or disabled.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365Environment -ComputerName \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\" -All\nWill query all D365FO service on the different machines.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365Environment -Aos -Batch\nWill query the Aos \u0026 Batch services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eGet-D365Environment -FinancialReporter -DMF\nWill query the FinancialReporter \u0026 DMF services on the machine.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eGet-D365Environment -OutputServiceDetailsOnly\nWill query all D365FO service on the machine.\r\nWill omit the servername from the output.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eGet-D365Environment -FinancialReporter | Set-Service -StartupType Manual\nThis will configure the Financial Reporter services to be start type manual.",
         "Syntax":  "Get-D365Environment [[-ComputerName] \u003cString[]\u003e] [-All] [-OnlyStartTypeAutomatic] [-OutputServiceDetailsOnly] [\u003cCommonParameters\u003e]\nGet-D365Environment [[-ComputerName] \u003cString[]\u003e] [-Aos] [-Batch] [-FinancialReporter] [-DMF] [-OnlyStartTypeAutomatic] [-OutputServiceDetailsOnly] [\u003cCommonParameters\u003e]"
-    },
-    {
-        "CommandName":  "Get-D365EnvironmentConfig",
-        "Description":  "Get all environment configuration objects from the configuration store",
-        "Tags":  [
-                     "Environment",
-                     "Url",
-                     "Config",
-                     "Configuration",
-                     "Tfs",
-                     "Vsts",
-                     "Sql",
-                     "SqlUser",
-                     "SqlPwd"
-                 ],
-        "Params":  [
-                       [
-                           "Name",
-                           "The name of the environment you are looking for\nDefault value is \"*\" to display all environment configs",
-                           "",
-                           false,
-                           "false",
-                           "*"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get environment configs",
-        "Name":  "Get-D365EnvironmentConfig",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365EnvironmentConfig\nThis will show all environment configs",
-        "Syntax":  "Get-D365EnvironmentConfig [[-Name] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365EnvironmentSettings",
@@ -3597,26 +3388,68 @@
         "Syntax":  "Get-D365LcsDeploymentStatus [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-ActivityId] \u003cString\u003e [-EnvironmentId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-WaitForCompletion] [[-SleepInSeconds] \u003cInt32\u003e] [-FailOnErrorMessage] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365LcsEnvironment",
-        "Description":  "Get all lcs environment objects from the configuration store",
-        "Tags":  [
-                     "Servicing",
-                     "Environment",
-                     "Config",
-                     "Configuration"
-                 ],
+        "CommandName":  "Get-D365LcsEnvironmentHistory",
+        "Description":  "Get history details for a given environment from within a LCS project\n\nThere can be multiple pages of data, which requires you to use the TraverseAllPages parameter, if you want all data to be shown",
         "Params":  [
                        [
-                           "Name",
-                           "The name of the lcs environment you are looking for\nDefault value is \"*\" to display all lcs environments",
+                           "ProjectId",
+                           "The project id for the Dynamics 365 for Finance \u0026 Operations project inside LCS\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
-                           "*"
+                           "$Script:LcsApiProjectId"
                        ],
                        [
-                           "OutputAsHashtable",
-                           "Instruct the cmdlet to return a hashtable object",
+                           "BearerToken",
+                           "The token you want to use when working against the LCS api\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "Token",
+                           false,
+                           "false",
+                           "$Script:LcsApiBearerToken"
+                       ],
+                       [
+                           "EnvironmentId",
+                           "Id of the environment that you want to be working against",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "TraverseAllPages",
+                           "Instruct the cmdlet to fetch all pages, until there isn\u0027t more data available\nThis can be a slow operation, as it has to call the LCS API multiple times, fetching a single page per call",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "LcsApiUri",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "",
+                           false,
+                           "false",
+                           "$Script:LcsApiLcsApiUri"
+                       ],
+                       [
+                           "FailOnErrorMessage",
+                           "Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint\nUsed in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script\r\nThis allows you to implement custom retry / error handling logic",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "RetryTimeout",
+                           "The retry timeout, before the cmdlet should quit retrying based on the 429 status code\nNeeds to be provided in the timspan notation:\r\n\"hh:mm:ss\"\nhh is the number of hours, numerical notation only\r\nmm is the number of minutes\r\nss is the numbers of seconds\nEach section of the timeout has to valid, e.g.\r\nhh can maximum be 23\r\nmm can maximum be 59\r\nss can maximum be 59\nNot setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint",
+                           "",
+                           false,
+                           "false",
+                           "00:00:00"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
                            "",
                            false,
                            "false",
@@ -3625,19 +3458,96 @@
                    ],
         "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get lcs environment",
-        "Name":  "Get-D365LcsEnvironment",
-        "Links":  [
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      null
-                  ],
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironment\nThis will display all lcs environments on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironment -OutputAsHashtable\nThis will display all lcs environments on the machine.\r\nEvery object will be output as a hashtable, for you to utilize as parameters for other cmdlets.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironment -Name \"UAT\"\nThis will display the lcs environment that is saved with the name \"UAT\" on the machine.",
-        "Syntax":  "Get-D365LcsEnvironment [[-Name] \u003cString\u003e] [-OutputAsHashtable] [\u003cCommonParameters\u003e]"
+        "Synopsis":  "Get history for a given environment within a LCS project",
+        "Name":  "Get-D365LcsEnvironmentHistory",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentHistory -ProjectId \"123456789\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will list the first page of Environment History Data from the LCS API.\r\nThe LCS project is identified by the ProjectId \"123456789\", which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nA result set example:\nName             : Service Update - 10.0.19\r\nType             : SFBinaryHotfix\r\nTypeDisplay      : Binary hotfix\r\nStartDateTimeUTC : 2021-07-11T00:01:57.423\r\nEndDateTimeUTC   : 2021-07-11T05:01:12.97\r\nStatus           : Completed\r\nActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea30\r\nEnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\r\nProjectId        : 123456789\nName             : Refresh database\r\nType             : SFSourceDbToSandbox\r\nTypeDisplay      : Refresh database\r\nStartDateTimeUTC : 2021-06-06T15:17:48.87\r\nEndDateTimeUTC   : 2021-06-06T16:33:40.367\r\nStatus           : Completed\r\nActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea31\r\nEnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\r\nProjectId        : 123456789\nName             : Export database\r\nType             : SFExportSandboxDb\r\nTypeDisplay      : Export database\r\nStartDateTimeUTC : 2021-04-27T22:08:01.103\r\nEndDateTimeUTC   : 2021-04-28T23:30:06.623\r\nStatus           : RollbackCompleted\r\nActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea32\r\nEnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\r\nProjectId        : 123456789\nName             : Main_2021.1.1.1\r\nType             : SFApplicationHotfix\r\nTypeDisplay      : Application deployable package\r\nStartDateTimeUTC : 2021-03-04T21:44:20.793\r\nEndDateTimeUTC   : 2021-03-04T22:48:17.303\r\nStatus           : Completed\r\nActivityId       : e3509860-61d4-4003-9b45-6ea7d89aea33\r\nEnvironmentId    : 13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\r\nProjectId        : 123456789\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentHistory -ProjectId \"123456789\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -TraverseAllPages\nThis will list the all the pages of Environment History Data from the LCS API.\r\nThe LCS project is identified by the ProjectId \"123456789\", which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe cmdlet will TraverseAllPages from the LCS API.\nTraverseAllPages will increase the request time for completion, based on how many entries there is in the history.\r\nPlease be patient and let the system work for you.",
+        "Syntax":  "Get-D365LcsEnvironmentHistory [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] -EnvironmentId \u003cString\u003e [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentHistory [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] -EnvironmentId \u003cString\u003e [-TraverseAllPages] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365LcsEnvironmentMetadata",
+        "Description":  "Get all meta data details for environments from within a LCS project\n\nIt supports listing all environments, but also supports single / specific environments by searching based on EnvironmentId or EnvironmentName",
+        "Params":  [
+                       [
+                           "ProjectId",
+                           "The project id for the Dynamics 365 for Finance \u0026 Operations project inside LCS\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "",
+                           false,
+                           "false",
+                           "$Script:LcsApiProjectId"
+                       ],
+                       [
+                           "BearerToken",
+                           "The token you want to use when working against the LCS api\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "Token",
+                           false,
+                           "false",
+                           "$Script:LcsApiBearerToken"
+                       ],
+                       [
+                           "EnvironmentId",
+                           "Id of the environment that you want to be working against",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "EnvironmentName",
+                           "Name of the environment that you want to be working against",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "TraverseAllPages",
+                           "Instruct the cmdlet to fetch all pages, until there isn\u0027t more data available\nThis can be a slow operation, as it has to call the LCS API multiple times, fetching a single page per call",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "LcsApiUri",
+                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "",
+                           false,
+                           "false",
+                           "$Script:LcsApiLcsApiUri"
+                       ],
+                       [
+                           "FailOnErrorMessage",
+                           "Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint\nUsed in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script\r\nThis allows you to implement custom retry / error handling logic",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "RetryTimeout",
+                           "The retry timeout, before the cmdlet should quit retrying based on the 429 status code\nNeeds to be provided in the timspan notation:\r\n\"hh:mm:ss\"\nhh is the number of hours, numerical notation only\r\nmm is the number of minutes\r\nss is the numbers of seconds\nEach section of the timeout has to valid, e.g.\r\nhh can maximum be 23\r\nmm can maximum be 59\r\nss can maximum be 59\nNot setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint",
+                           "",
+                           false,
+                           "false",
+                           "00:00:00"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get LCS environment meta data from within a project",
+        "Name":  "Get-D365LcsEnvironmentMetadata",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentMetadata -ProjectId \"123456789\"\nThis will show metadata for every available environment from the LCS project.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\nThe request time for completion is directly impacted by the number of environments within the LCS project.\r\nPlease be patient and let the system work for you.\nYou might experience that not all environments are listed with this request, that would indicate that the LCS project has many environments. Please use the -TraverseAllPages parameter to ensure that \r\nall environments are outputted.\nA result set example (Tier1):\nEnvironmentId                  : c6566087-23bd-4561-8247-4d7f4efd3172\r\nEnvironmentName                : DevBox-01\r\nProjectId                      : 123456789\r\nEnvironmentInfrastructure      : CustomerManaged\r\nEnvironmentType                : DevTestDev\r\nEnvironmentGroup               : Primary\r\nEnvironmentProduct             : Finance and Operations\r\nEnvironmentEndpointBaseUrl     : https://devbox-4d7f4efd3172devaos.cloudax.dynamics.com/\r\nDeploymentState                : Stopped\r\nTopologyDisplayName            : Finance and Operations - Develop (10.0.18 with Platform update 42)\r\nCurrentApplicationBuildVersion : 10.0.793.41\r\nCurrentApplicationReleaseName  : 10.0.18\r\nCurrentPlatformReleaseName     : Update42\r\nCurrentPlatformVersion         : 7.0.5968.16999\r\nDeployedOnUTC                  : 7/5/2021 11:19 AM\r\nCloudStorageLocation           : West Europe\r\nDisasterRecoveryLocation       : North Europe\r\nDeploymentStatusDisplay        : Stopped\r\nCanStart                       : True\r\nCanStop                        : False\nA result set example (Tier2+):\nEnvironmentId                  : e7c53b85-8b6a-4ab9-8985-1e1ea89a0f0a\r\nEnvironmentName                : Contoso-SIT\r\nProjectId                      : 123456789\r\nEnvironmentInfrastructure      : SelfService\r\nEnvironmentType                : Sandbox\r\nEnvironmentGroup               : Primary\r\nEnvironmentProduct             : Finance and Operations\r\nEnvironmentEndpointBaseUrl     : https://Contoso-SIT.sandbox.operations.dynamics.com/\r\nDeploymentState                : Finished\r\nTopologyDisplayName            : AXHA\r\nCurrentApplicationBuildVersion : 10.0.761.10019\r\nCurrentApplicationReleaseName  : 10.0.17\r\nCurrentPlatformReleaseName     : PU41\r\nCurrentPlatformVersion         : 7.0.5934.35741\r\nDeployedOnUTC                  : 4/1/2020 9:35 PM\r\nCloudStorageLocation           : West Europe\r\nDisasterRecoveryLocation       :\r\nDeploymentStatusDisplay        : Deployed\r\nCanStart                       : False\r\nCanStop                        : False\nA result set example (PROD):\nEnvironmentId                  : a8aab4f4-d4f3-41f0-af80-54cea83b50d2\r\nEnvironmentName                : Contoso-PROD\r\nProjectId                      : 123456789\r\nEnvironmentInfrastructure      : SelfService\r\nEnvironmentType                : Production\r\nEnvironmentGroup               : Primary\r\nEnvironmentProduct             : Finance and Operations\r\nEnvironmentEndpointBaseUrl     : https://Contoso-PROD.operations.dynamics.com/\r\nDeploymentState                : Finished\r\nTopologyDisplayName            : AXHA\r\nCurrentApplicationBuildVersion : 10.0.886.48\r\nCurrentApplicationReleaseName  : 10.0.20\r\nCurrentPlatformReleaseName     : PU44\r\nCurrentPlatformVersion         : 7.0.6060.45\r\nDeployedOnUTC                  : 4/9/2020 12:11 PM\r\nCloudStorageLocation           : West Europe\r\nDisasterRecoveryLocation       :\r\nDeploymentStatusDisplay        : Deployed\r\nCanStart                       : False\r\nCanStop                        : False\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentMetadata -ProjectId \"123456789\" -TraverseAllPages\nThis will show metadata for every available environment from the LCS project, across multiple pages.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\nTraverseAllPages will increase the request time for completion, based on how many entries there is in the history.\r\nPlease be patient and let the system work for you.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentMetadata -ProjectId \"123456789\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will show metadata for every available environment from the LCS project.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentMetadata -ProjectId \"123456789\" -EnvironmentName \"Contoso-SIT\"\nThis will show metadata for every available environment from the LCS project.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentName \"Contoso-SIT\", which can be obtained in the LCS portal.",
+        "Syntax":  "Get-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-EnvironmentId \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-EnvironmentName \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-TraverseAllPages] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365LogicAppConfig",
@@ -5686,7 +5596,7 @@
                        ],
                        [
                            "Force",
-                           "",
+                           "Instruct the cmdlet to install the latest version of the software, regardless if it is already present on the system",
                            "",
                            false,
                            "false",
@@ -5698,7 +5608,7 @@
         "Synopsis":  "Install software supporting F\u0026O development",
         "Name":  "Install-D365SupportingSoftware",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInstall-D365SupportingSoftware -Name vscode\nThis will install VSCode on the system.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInstall-D365SupportingSoftware -Name \"vscode\",\"fiddler\"\nThis will install VSCode and fiddler on the system.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInstall-D365SupportingSoftware -Name vscode\nThis will install VSCode on the system.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInstall-D365SupportingSoftware -Name \"vscode\",\"fiddler\"\nThis will install VSCode and fiddler on the system.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInstall-D365SupportingSoftware -Name vscode -Force\nThis will install VSCode on the system, forcing it to be (re)installed.",
         "Syntax":  "Install-D365SupportingSoftware [-Name] \u003cString[]\u003e [-Force] [\u003cCommonParameters\u003e]"
     },
     {
@@ -7763,7 +7673,7 @@
                       null,
                       null
                   ],
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will trigger the environment start operation upon the given environment through the LCS API.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStart -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will trigger the environment start operation upon the given environment through the LCS API.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -RetryTimeout \"00:01:00\"\nThis will trigger the environment start operation upon the given environment through the LCS API, and allow for the cmdlet to retry for no more than 1 minute.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will trigger the environment start operation upon the given environment through the LCS API.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStart -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will trigger the environment start operation upon the given environment through the LCS API.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -RetryTimeout \"00:01:00\"\nThis will trigger the environment start operation upon the given environment through the LCS API, and allow for the cmdlet to retry for no more than 1 minute.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
         "Syntax":  "Invoke-D365LcsEnvironmentStart [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-EnvironmentId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-FailOnErrorMessage] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
@@ -7846,7 +7756,7 @@
                       null,
                       null
                   ],
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStop -ProjectId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will trigger the environment stop operation upon the given environment through the LCS API.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStop -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will trigger the environment stop operation upon the given environment through the LCS API.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStop -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -RetryTimeout \"00:01:00\"\nThis will trigger the environment stop operation upon the given environment through the LCS API, and allow for the cmdlet to retry for no more than 1 minute.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStop -ProjectId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will trigger the environment stop operation upon the given environment through the LCS API.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStop -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will trigger the environment stop operation upon the given environment through the LCS API.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365LcsEnvironmentStop -ProjectId 123456789 -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" -RetryTimeout \"00:01:00\"\nThis will trigger the environment stop operation upon the given environment through the LCS API, and allow for the cmdlet to retry for no more than 1 minute.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
         "Syntax":  "Invoke-D365LcsEnvironmentStop [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-EnvironmentId] \u003cString\u003e [[-LcsApiUri] \u003cString\u003e] [-FailOnErrorMessage] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
@@ -9563,50 +9473,6 @@
         "Syntax":  "Remove-D365Database [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Remove-D365LcsEnvironment",
-        "Description":  "Remove a lcs environment from the configuration store",
-        "Tags":  [
-                     "Servicing",
-                     "Environment",
-                     "Config",
-                     "Configuration",
-                     ""
-                 ],
-        "Params":  [
-                       [
-                           "Name",
-                           "Name of the lcs environment you want to remove from the configuration store",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "Temporary",
-                           "Instruct the cmdlet to only temporarily remove the lcs environment from the configuration store",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Remove lcs environment",
-        "Name":  "Remove-D365LcsEnvironment",
-        "Links":  [
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      null
-                  ],
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRemove-D365LcsEnvironment -Name \"UAT\"\nThis will remove the lcs environment named \"UAT\" from the machine.",
-        "Syntax":  "Remove-D365LcsEnvironment [-Name] \u003cString\u003e [-Temporary] [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Remove-D365Model",
         "Description":  "Remove a model from a Dynamics 365 for Finance \u0026 Operations environment",
         "Tags":  [
@@ -10181,43 +10047,6 @@
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365ActiveBroadcastMessageConfig -Name \"UAT\"\nThis will set the broadcast message configuration named \"UAT\" as the active configuration.",
         "Syntax":  "Set-D365ActiveBroadcastMessageConfig [-Name] \u003cString\u003e [-Temporary] [\u003cCommonParameters\u003e]"
-    },
-    {
-        "CommandName":  "Set-D365ActiveEnvironmentConfig",
-        "Description":  "Updates the current active environment configuration with a new one",
-        "Params":  [
-                       [
-                           "Name",
-                           "The name the environment configuration you want to load into the active environment configuration",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "ConfigStorageLocation",
-                           "Parameter used to instruct where to store the configuration objects\nThe default value is \"User\" and this will store all configuration for the active user\nValid options are:\r\n\"User\"\r\n\"System\"\n\"System\" will store the configuration so all users can access the configuration objects",
-                           "",
-                           false,
-                           "false",
-                           "User"
-                       ],
-                       [
-                           "Temporary",
-                           "Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Set the active environment configuration",
-        "Name":  "Set-D365ActiveEnvironmentConfig",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365ActiveEnvironmentConfig -Name \"UAT\"\nThis will import the \"UAT-Exports\" set from the Environment configurations.\r\nIt will update the active Environment Configuration.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eSet-D365ActiveEnvironmentConfig -Name \"UAT\" -ConfigStorageLocation \"System\"\nThis will import the \"UAT-Exports\" set from the Environment configurations.\r\nIt will update the active Environment Configuration.\r\nThe data will be stored in the system wide configuration storage, which makes it accessible from all users.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eSet-D365ActiveEnvironmentConfig -Name \"UAT\" -Temporary\nThis will import the \"UAT-Exports\" set from the Environment configurations.\r\nIt will update the active Environment Configuration.\r\nThe update will only last for the rest of this PowerShell console session.",
-        "Syntax":  "Set-D365ActiveEnvironmentConfig [[-Name] \u003cString\u003e] [[-ConfigStorageLocation] \u003cString\u003e] [-Temporary] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Set-D365Admin",

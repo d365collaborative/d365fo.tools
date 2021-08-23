@@ -17,7 +17,7 @@
         
     .PARAMETER Force
         Instruct the cmdlet to install the latest version of the software, regardless if it is already present on the system
-
+        
     .EXAMPLE
         PS C:\> Install-D365SupportingSoftware -Name vscode
         
@@ -27,7 +27,7 @@
         PS C:\> Install-D365SupportingSoftware -Name "vscode","fiddler"
         
         This will install VSCode and fiddler on the system.
-
+        
     .EXAMPLE
         PS C:\> Install-D365SupportingSoftware -Name vscode -Force
         

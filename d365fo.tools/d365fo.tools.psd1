@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.6.61'
+	ModuleVersion     = '0.6.62'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -48,8 +48,6 @@
 	FunctionsToExport = @(
 		'Add-D365AzureStorageConfig',
 		'Add-D365BroadcastMessageConfig',
-		'Add-D365EnvironmentConfig',
-		'Add-D365LcsEnvironment',
 		'Add-D365RsatWifConfigAuthorityThumbprint',
 		'Add-D365WindowsDefenderRules',
 						
@@ -84,7 +82,6 @@
 
 		'Get-D365ActiveAzureStorageConfig',
 		'Get-D365ActiveBroadcastMessageConfig',
-		'Get-D365ActiveEnvironmentConfig',
 
 		'Get-D365AOTObject',
 
@@ -109,7 +106,6 @@
 		'Get-D365DotNetMethod',
 
 		'Get-D365Environment',
-		'Get-D365EnvironmentConfig',
 		'Get-D365EnvironmentSettings',
 		'Get-D365EventTraceProvider',
 		'Get-D365ExternalIP',
@@ -133,7 +129,8 @@
 		'Get-D365LcsDatabaseBackups',
 		'Get-D365LcsDatabaseOperationStatus',
 		'Get-D365LcsDeploymentStatus',
-		'Get-D365LcsEnvironment',
+		'Get-D365LcsEnvironmentHistory',
+		'Get-D365LcsEnvironmentMetadata',
 		'Get-D365LogicAppConfig',
 
 		'Get-D365MaintenanceMode',
@@ -258,7 +255,6 @@
 						
 		'Remove-D365BroadcastMessageConfig',
 		'Remove-D365Database',
-		'Remove-D365LcsEnvironment',
 		'Remove-D365Model',
 		'Remove-D365User',
 
@@ -272,7 +268,6 @@
 
 		'Set-D365ActiveAzureStorageConfig',
 		'Set-D365ActiveBroadcastMessageConfig',
-		'Set-D365ActiveEnvironmentConfig',
 
 		'Set-D365Admin',
 

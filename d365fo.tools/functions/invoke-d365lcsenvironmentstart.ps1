@@ -88,6 +88,7 @@
         PS C:\> Invoke-D365LcsEnvironmentStart -ProjectId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -RetryTimeout "00:01:00"
         
         This will trigger the environment start operation upon the given environment through the LCS API, and allow for the cmdlet to retry for no more than 1 minute.
+        The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
         The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         
         All default values will come from the configuration available from Get-D365LcsApiConfig.
