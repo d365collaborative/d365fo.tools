@@ -113,13 +113,11 @@
 		'Get-D365JsonService',
 
 		'Get-D365InstalledHotfix',
-		'Get-D365InstalledPackageOld',
 		'Get-D365InstalledService',
 		'Get-D365InstanceName',
 
 		'Get-D365Label',
 		'Get-D365Language',
-		'Get-D365LabelOld',
 		'Get-D365LabelFile',
 						
 		'Get-D365LcsApiConfig',
@@ -131,7 +129,6 @@
 		'Get-D365LcsDeploymentStatus',
 		'Get-D365LcsEnvironmentHistory',
 		'Get-D365LcsEnvironmentMetadata',
-		'Get-D365LogicAppConfig',
 
 		'Get-D365MaintenanceMode',
 		'Get-D365Model',
@@ -139,7 +136,6 @@
 		'Get-D365OfflineAuthenticationAdminEmail',
 
 		'Get-D365PackageBundleDetail',
-		'Get-D365PackageLabelFileOld',
 		'Get-D365ProductInformation',
 
 		'Get-D365RsatCertificateThumbprint',
@@ -156,7 +152,6 @@
 		'Get-D365TableField',
 		'Get-D365TableSequence',
 		'Get-D365TablesInChangedTracking',
-		'Get-D365Tier2Params',
 		'Get-D365TfsUri',
 		'Get-D365TfsWorkspace',
 
@@ -219,8 +214,6 @@
 		'Invoke-D365LcsEnvironmentStart',
 		'Invoke-D365LcsEnvironmentStop',
 		'Invoke-D365LcsUpload',
-		'Invoke-D365LogicApp',
-		'Invoke-D365LogicAppMessage',
 
 		'Invoke-D365ModuleCompile',
 		'Invoke-D365ModuleLabelGeneration',
@@ -279,7 +272,6 @@
 
 		'Set-D365FavoriteBookmark',
 		'Set-D365LcsApiConfig',
-		'Set-D365LogicAppConfig',
 						
 		'Set-D365NugetPath',
 
@@ -294,8 +286,6 @@
 		'Set-D365SysAdmin',
 
 		'Set-D365WebConfigDatabase',
-
-		'Set-D365Tier2Params',
 
 		'Set-D365TraceParserFileSize',
 
