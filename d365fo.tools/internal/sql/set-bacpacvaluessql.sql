@@ -115,3 +115,12 @@ END CATCH
 CLOSE retail_ftx;
 DEALLOCATE retail_ftx;
 -- End Refresh Retail FullText Catalogs
+
+--Next, set system parameters ready for being a SQL Server Database.
+UPDATE sysglobalconfiguration
+SET    value = 'SQLSERVER'
+WHERE  NAME = 'BACKENDDB'
+
+UPDATE sysglobalconfiguration
+SET    value = 0
+WHERE  NAME = 'TEMPTABLEINAXDB'
