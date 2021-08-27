@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Upload a file to a LCS project
+        Get a valid OAuth 2.0 access token for LCS
         
     .DESCRIPTION
-        Upload a file to a LCS project using the API provided by Microsoft
+        Get a valid OAuth 2.0 access token for LCS, by providing an easy way to work against the Azure AD of your tenant
         
     .PARAMETER ClientId
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal

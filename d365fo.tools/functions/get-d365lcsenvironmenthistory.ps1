@@ -27,6 +27,15 @@
         
         This can be a slow operation, as it has to call the LCS API multiple times, fetching a single page per call
         
+    .PARAMETER FirstPages
+        Instruct the cmdlet how many pages that you want it to retrieve from the LCS API
+
+        Can only be used in combination with -TraverseAllPages
+
+        The default value is: 99 pages, which should be more than enough
+
+        Please note that when fetching more than 6-7 pages, you will start hitting the 429 throttling from the LCS API endpoint
+
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -127,9 +136,26 @@
         The LCS project is identified by the ProjectId "123456789", which can be obtained in the LCS portal.
         The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         The cmdlet will TraverseAllPages from the LCS API.
+        It will use the default value for the maximum number of pages to return, 99 pages.
         
         TraverseAllPages will increase the request time for completion, based on how many entries there is in the history.
         Please be patient and let the system work for you.
+
+        Please note that when fetching more than 6-7 pages, you will start hitting the 429 throttling from the LCS API endpoint
+
+    .EXAMPLE
+        PS C:\> Get-D365LcsEnvironmentHistory -ProjectId "123456789" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -TraverseAllPages -FirstPages 2
+        
+        This will list the all the pages of Environment History Data from the LCS API.
+        The LCS project is identified by the ProjectId "123456789", which can be obtained in the LCS portal.
+        The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
+        The cmdlet will TraverseAllPages from the LCS API.
+        The cmdlet will be fetching the FirstPages 2, to limit the output from the cmdlet to only the newest 2 pages.
+        
+        TraverseAllPages will increase the request time for completion, based on how many entries there is in the history.
+        Please be patient and let the system work for you.
+        
+        Please note that when fetching more than 6-7 pages, you will start hitting the 429 throttling from the LCS API endpoint
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
@@ -145,9 +171,12 @@ function Get-D365LcsEnvironmentHistory {
 
         [Parameter(Mandatory = $true)]
         [string] $EnvironmentId,
-      
+
         [Parameter(ParameterSetName = 'Pagination')]
         [switch] $TraverseAllPages,
+
+        [Parameter(ParameterSetName = 'Pagination')]
+        [int] $FirstPages = 99,
 
         [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
@@ -195,7 +224,7 @@ function Get-D365LcsEnvironmentHistory {
                 Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($errorMessagePayload))) -Target $deploymentStatus
             }
         }
-        while (($history.ResultHasMorePages -eq $true) -and $TraverseAllPages)
+        while (($history.ResultHasMorePages -eq $true) -and $TraverseAllPages -and $page -le $FirstPages)
     
         $res = $null
 
