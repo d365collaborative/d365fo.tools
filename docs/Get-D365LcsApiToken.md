@@ -18,7 +18,7 @@ Get-D365LcsApiToken [[-ClientId] <String>] [-Username] <String> [-Password] <Str
 ```
 
 ## DESCRIPTION
-Upload a file to a LCS project using the API provided by Microsoft
+Get a valid OAuth 2.0 access token for LCS
 
 ## EXAMPLES
 
