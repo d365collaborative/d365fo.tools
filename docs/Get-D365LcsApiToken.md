@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-D365LcsApiToken
 
 ## SYNOPSIS
-Upload a file to a LCS project
+Get a valid OAuth 2.0 access token for LCS
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Get-D365LcsApiToken [[-ClientId] <String>] [-Username] <String> [-Password] <Str
 ```
 
 ## DESCRIPTION
-Get a valid OAuth 2.0 access token for LCS
+Get a valid OAuth 2.0 access token for LCS, by providing an easy way to work against the Azure AD of your tenant
 
 ## EXAMPLES
 
