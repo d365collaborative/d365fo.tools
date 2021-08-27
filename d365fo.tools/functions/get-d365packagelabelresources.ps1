@@ -2,17 +2,13 @@
 function Get-D365PackageLabelResources {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 1 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Specific', Position = 1 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Specific')]
         [Alias('Path')]
         [string] $FilePath,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [string] $Name = "*",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [string] $Value = "*",
 
         [switch] $IncludePath
