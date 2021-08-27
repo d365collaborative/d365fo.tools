@@ -107,6 +107,8 @@ function Start-D365Environment {
         [switch] $ShowOriginalProgress
     )
 
+    Import-Module -Name "WebAdministration" -Scope "Local"
+
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
         $All = $false
     }
@@ -136,6 +138,10 @@ function Start-D365Environment {
         }
 
         $temp | Start-Service -ErrorAction SilentlyContinue -WarningAction $warningActionValue
+
+        if ($server -eq $env:computername -and ($($temp -join ",") -like "*w3svc*")) {
+            Start-Website -Name "AOSService"
+        }
     }
 
     $Results = foreach ($server in $ComputerName) {

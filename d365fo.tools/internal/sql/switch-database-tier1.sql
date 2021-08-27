@@ -9,7 +9,7 @@ set @Command =' ALTER DATABASE ['+ @DestinationName + '] SET SINGLE_USER WITH RO
                 ALTER DATABASE ['+ @DestinationName + '] SET MULTI_USER;
                 ALTER DATABASE ['+ @ToBeName + '] SET MULTI_USER;
 
-                ALTER DATABASE ['+ @ToBeName + '] SET AUTO_CLOSE OFF WITH NO_WAIT
+                ALTER DATABASE ['+ @DestinationName + '] SET AUTO_CLOSE OFF WITH NO_WAIT
                 '
 
 exec (@Command)
