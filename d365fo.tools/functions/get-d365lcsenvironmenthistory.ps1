@@ -29,13 +29,13 @@
         
     .PARAMETER FirstPages
         Instruct the cmdlet how many pages that you want it to retrieve from the LCS API
-
+        
         Can only be used in combination with -TraverseAllPages
-
+        
         The default value is: 99 pages, which should be more than enough
-
+        
         Please note that when fetching more than 6-7 pages, you will start hitting the 429 throttling from the LCS API endpoint
-
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -140,9 +140,9 @@
         
         TraverseAllPages will increase the request time for completion, based on how many entries there is in the history.
         Please be patient and let the system work for you.
-
+        
         Please note that when fetching more than 6-7 pages, you will start hitting the 429 throttling from the LCS API endpoint
-
+        
     .EXAMPLE
         PS C:\> Get-D365LcsEnvironmentHistory -ProjectId "123456789" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -TraverseAllPages -FirstPages 2
         
