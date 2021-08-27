@@ -113,6 +113,7 @@
 		'Get-D365JsonService',
 
 		'Get-D365InstalledHotfix',
+		'Get-D365InstalledPackage',
 		'Get-D365InstalledService',
 		'Get-D365InstanceName',
 
@@ -136,6 +137,8 @@
 		'Get-D365OfflineAuthenticationAdminEmail',
 
 		'Get-D365PackageBundleDetail',
+		'Get-D365PackageLabelResourceFiles',
+		'Get-D365PackageLabelResources',
 		'Get-D365ProductInformation',
 
 		'Get-D365RsatCertificateThumbprint',
