@@ -33,7 +33,8 @@
 * [[Working with the different D365 services]]
 
 # **Contribute**
-**Start Here**
+
+## **Start Here**
 * [[Do And Do Not]]
 * [[Implementing the messaging system]]
 * [[Getting Started with GitHub]]
@@ -44,15 +45,15 @@
 * [[Azure DevOps Build Configuration]]
 * [[Building-tools]]
 
-**Automation**
+## **Automation**
 * [[Exception handling]]
 
-**Quality Control**
+## **Quality Control**
 * [[Testing & QA]]
 
-**Automated Testing**
+## **Automated Testing**
 * [[Appveyor and tests]]
 
-**Troubleshooting**
+## **Troubleshooting**
 * [[Troubleshoot]]
 * [[Load individual files or dot source the files]]
