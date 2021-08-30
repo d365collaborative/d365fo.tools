@@ -1,12 +1,12 @@
-## **Learn**
-### **Tutorials**
+# **Learn**
+## **Tutorials**
 * [Install as a non-Administrator](https://github.com/d365collaborative/d365fo.tools/wiki/Tutorial-Install-Non-Administrator)
 * [Install as a Administrator](https://github.com/d365collaborative/d365fo.tools/wiki/Tutorial-Install-Administrator)
 * [Import d365fo.tools module](https://github.com/d365collaborative/d365fo.tools/wiki/Tutorial-Import-Module)
 * [List available commands from d365fo.tools module](https://github.com/d365collaborative/d365fo.tools/wiki/Tutorial-List-Commands)
 * [Get help content for a command](https://github.com/d365collaborative/d365fo.tools/wiki/Tutorial-Show-Help)
 
-### **How To**
+## **How To**
 * [Start, Stop and List services](https://github.com/d365collaborative/d365fo.tools/wiki/How-To-Start-Stop-List-D365FO-Services)
 * [Import users into the D365FO environment](https://github.com/d365collaborative/d365fo.tools/wiki/How-To-Import-User-Into-Db)
 * [Import external users into the D365FO environment](https://github.com/d365collaborative/d365fo.tools/wiki/How-To-Import-External-User-Into-Db)
@@ -23,7 +23,16 @@
 * [Download latest bacpac from LCS via AzCopy](https://github.com/d365collaborative/d365fo.tools/wiki/How-To-Download-Latest-Bacpac-From-Lcs)
 * [Register NuGet source](https://github.com/d365collaborative/d365fo.tools/wiki/How-To-Register-Nuget-Source)
 
+## **Guides**
+* [[Configure Azure Logic App]]
+* [[Fix AzureStorageConfig]]
+* [[Run a runnable class]]
+* [[Update users in environment]]
+* [[Work with Azure Storage Account]]
+* [Work with packages, resource label files, language and lables](https://github.com/d365collaborative/d365fo.tools/wiki/Work-with-packages,-resource---label-files,-language-and-lables)
+* [[Working with the different D365 services]]
 
+# **Contribute**
 **Start Here**
 * [[Do And Do Not]]
 * [[Implementing the messaging system]]
@@ -43,15 +52,6 @@
 
 **Automated Testing**
 * [[Appveyor and tests]]
-
-**Guides**
-* [[Configure Azure Logic App]]
-* [[Fix AzureStorageConfig]]
-* [[Run a runnable class]]
-* [[Update users in environment]]
-* [[Work with Azure Storage Account]]
-* [Work with packages, resource label files, language and lables](https://github.com/d365collaborative/d365fo.tools/wiki/Work-with-packages,-resource---label-files,-language-and-lables)
-* [[Working with the different D365 services]]
 
 **Troubleshooting**
 * [[Troubleshoot]]
