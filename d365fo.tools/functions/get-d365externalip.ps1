@@ -49,7 +49,7 @@ function Get-D365ExternalIP {
     }
     
     process {
-        $res = [PSCustomObject]@{"IpAddress" = (Invoke-WebRequest -Uri "http://ifconfig.me/ip").Content }
+        $res = [PSCustomObject]@{"IpAddress" = (Invoke-WebRequest -Uri "https://ifconfig.me/ip").Content }
 
         if ($SaveToClipboard) {
             $res.IpAddress | Set-Clipboard
