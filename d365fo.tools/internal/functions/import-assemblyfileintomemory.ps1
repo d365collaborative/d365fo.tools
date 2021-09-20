@@ -13,9 +13,9 @@
         
     .PARAMETER UseTempFolder
         Instruct the cmdlet to create the file copy in the default temp folder
-
+        
         This switch can be used, if writing to the original folder is not wanted or not possible
-
+        
     .EXAMPLE
         PS C:\> Import-AssemblyFileIntoMemory -Path "C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.BusinessPlatform.ProductInformation.Framework.dll"
         
@@ -29,7 +29,7 @@
         This will create an new file named "Microsoft.Dynamics.BusinessPlatform.ProductInformation.Framework.dll_shawdow.dll" in the temp folder
         The new file is then imported into memory using .NET Reflection.
         After the file has been imported, it will be deleted from disk.
-
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         
