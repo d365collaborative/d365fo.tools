@@ -33,7 +33,8 @@ Get-D365LcsEnvironmentMetadata [-ProjectId <Int32>] [-BearerToken <String>] [-En
 ### Pagination
 ```
 Get-D365LcsEnvironmentMetadata [-ProjectId <Int32>] [-BearerToken <String>] [-TraverseAllPages]
- [-LcsApiUri <String>] [-FailOnErrorMessage] [-RetryTimeout <TimeSpan>] [-EnableException] [<CommonParameters>]
+ [-FirstPages <Int32>] [-LcsApiUri <String>] [-FailOnErrorMessage] [-RetryTimeout <TimeSpan>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -133,9 +134,12 @@ Get-D365LcsEnvironmentMetadata -ProjectId "123456789" -TraverseAllPages
 
 This will show metadata for every available environment from the LCS project, across multiple pages.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+It will use the default value for the maximum number of pages to return, 99 pages.
 
 TraverseAllPages will increase the request time for completion, based on how many entries there is in the history.
 Please be patient and let the system work for you.
+
+Please note that when fetching more than 6-7 pages, you will start hitting the 429 throttling from the LCS API endpoint
 
 ### EXAMPLE 3
 ```
@@ -154,6 +158,21 @@ Get-D365LcsEnvironmentMetadata -ProjectId "123456789" -EnvironmentName "Contoso-
 This will show metadata for every available environment from the LCS project.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
 The environment is identified by the EnvironmentName "Contoso-SIT", which can be obtained in the LCS portal.
+
+### EXAMPLE 5
+```
+Get-D365LcsEnvironmentMetadata -ProjectId "123456789" -TraverseAllPages -FirstPages 2
+```
+
+This will show metadata for every available environment from the LCS project, across multiple pages.
+The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
+It will use the default value for the maximum number of pages to return, 99 pages.
+The cmdlet will be fetching the FirstPages 2, to limit the output from the cmdlet to only the newest 2 pages.
+
+TraverseAllPages will increase the request time for completion, based on how many entries there is in the history.
+Please be patient and let the system work for you.
+
+Please note that when fetching more than 6-7 pages, you will start hitting the 429 throttling from the LCS API endpoint
 
 ## PARAMETERS
 
@@ -234,6 +253,27 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FirstPages
+Instruct the cmdlet how many pages that you want it to retrieve from the LCS API
+
+Can only be used in combination with -TraverseAllPages
+
+The default value is: 99 pages, which should be more than enough
+
+Please note that when fetching more than 6-7 pages, you will start hitting the 429 throttling from the LCS API endpoint
+
+```yaml
+Type: Int32
+Parameter Sets: Pagination
+Aliases:
+
+Required: False
+Position: Named
+Default value: 99
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

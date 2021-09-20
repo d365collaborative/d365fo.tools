@@ -63,6 +63,19 @@
 			$parameter.ParameterSets['Pagination'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Pagination'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter FirstPages' {
+			$parameter = (Get-Command Get-D365LcsEnvironmentHistory).Parameters['FirstPages']
+			$parameter.Name | Should -Be 'FirstPages'
+			$parameter.ParameterType.ToString() | Should -Be System.Int32
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'Pagination'
+			$parameter.ParameterSets.Keys | Should -Contain 'Pagination'
+			$parameter.ParameterSets['Pagination'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['Pagination'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['Pagination'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Pagination'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Pagination'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter LcsApiUri' {
 			$parameter = (Get-Command Get-D365LcsEnvironmentHistory).Parameters['LcsApiUri']
 			$parameter.Name | Should -Be 'LcsApiUri'
@@ -126,7 +139,7 @@
  	Describe "Testing parameterset Pagination" {
 		<#
 		Pagination -EnvironmentId
-		Pagination -ProjectId -BearerToken -EnvironmentId -TraverseAllPages -LcsApiUri -FailOnErrorMessage -RetryTimeout -EnableException
+		Pagination -ProjectId -BearerToken -EnvironmentId -TraverseAllPages -FirstPages -LcsApiUri -FailOnErrorMessage -RetryTimeout -EnableException
 		#>
 	}
 
