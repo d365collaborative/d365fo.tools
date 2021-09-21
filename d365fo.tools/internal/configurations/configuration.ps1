@@ -20,8 +20,6 @@ Set-PSFConfig -FullName "d365fo.tools.azure.storage.accounts" -Value @{} -Initia
 Set-PSFConfig -FullName "d365fo.tools.active.azure.storage.account" -Value @{} -Initialize -Description "Object that stores the Azure Storage Account details that should be used during the module."
 Set-PSFConfig -FullName "d365fo.tools.active.logic.app" -Value @{} -Initialize -Description "Object that stores the Azure Logic App details that should be used during the module."
 
-Set-PSFConfig -FullName "d365fo.tools.tier2.bacpac.params" -Value "" -Initialize -Description "Object that stores json string from a hashtable with details for the Import-D365Bacpac cmdlet."
-
 Set-PSFConfig -FullName "d365fo.tools.lcs.projectid" -Value "" -Initialize -Description "Project number for the specific LCS project that you want to upload to."
 Set-PSFConfig -FullName "d365fo.tools.lcs.clientid" -Value "" -Initialize -Description "Client Id of the Azure Registered App that you configured to be able to use the API of LCS."
 Set-PSFConfig -FullName "d365fo.tools.lcs.lcsapiuri" -Value "" -Initialize -Description "URI / URL for the LCS API."

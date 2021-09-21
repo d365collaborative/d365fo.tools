@@ -1,4 +1,4 @@
-﻿Describe "Invoke-D365LogicApp Unit Tests" -Tag "Unit" {
+﻿Describe "Get-D365InstalledPackage Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -8,12 +8,12 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Invoke-D365LogicApp).ParameterSets.Name | Should -Be '__AllParameterSets'
+			(Get-Command Get-D365InstalledPackage).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
-		It 'Should have the expected parameter Url' {
-			$parameter = (Get-Command Invoke-D365LogicApp).Parameters['Url']
-			$parameter.Name | Should -Be 'Url'
+		It 'Should have the expected parameter Name' {
+			$parameter = (Get-Command Get-D365InstalledPackage).Parameters['Name']
+			$parameter.Name | Should -Be 'Name'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
@@ -24,9 +24,9 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter Payload' {
-			$parameter = (Get-Command Invoke-D365LogicApp).Parameters['Payload']
-			$parameter.Name | Should -Be 'Payload'
+		It 'Should have the expected parameter PackageDirectory' {
+			$parameter = (Get-Command Get-D365InstalledPackage).Parameters['PackageDirectory']
+			$parameter.Name | Should -Be 'PackageDirectory'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
@@ -42,7 +42,7 @@
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -
-		__AllParameterSets -Url -Payload
+		__AllParameterSets -Name -PackageDirectory
 		#>
 	}
 
