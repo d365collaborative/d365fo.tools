@@ -1,6 +1,5 @@
 ﻿$excludeCommands = @(
-    'Invoke-D365LogicAppMessage'
-    , 'Invoke-D365SCDPBundleInstall'
+      'Invoke-D365SCDPBundleInstall'
     , 'Test-D365Command'
     , 'Test-PathExists'
 )

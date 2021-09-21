@@ -4,7 +4,7 @@
         Get label from the resource file
         
     .DESCRIPTION
-        Get label details from the resource file
+        Get label details from the resource file for a Dynamics 365 Finance & Operations environment
         
     .PARAMETER FilePath
         The path to resource file that you want to get label details from
@@ -29,55 +29,51 @@
         Default is OFF - path details will not be part of the output
         
     .EXAMPLE
-        PS C:\> Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll"
+        PS C:\> Get-D365PackageLabelResources -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll"
         
         Will get all labels from the "PRO.resouce.dll" file
         
         The language is determined by the path to the resource file and nothing else
         
     .EXAMPLE
-        PS C:\> Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Name "@PRO505"
+        PS C:\> Get-D365PackageLabelResources -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Name "@PRO505"
         
         Will get the label with the name "@PRO505" from the "PRO.resouce.dll" file
         
         The language is determined by the path to the resource file and nothing else
         
     .EXAMPLE
-        PS C:\> Get-D365Label -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Value "*qty*"
+        PS C:\> Get-D365PackageLabelResources -Path "C:\AOSService\PackagesLocalDirectory\ApplicationSuite\Resources\en-US\PRO.resources.dll" -Value "*qty*"
         
         Will get all the labels where the value fits the search "*qty*" from the "PRO.resouce.dll" file
         
         The language is determined by the path to the resource file and nothing else
         
     .EXAMPLE
-        PS C:\> Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile -Language "da" | Get-D365Label -value "*batch*" -IncludePath
+        PS C:\> Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelResourceFile -Language "da" | Get-D365PackageLabelResources -value "*batch*" -IncludePath
         
         Will get all the labels, across all label files, for the "ApplicationSuite", where the language is "da" and where the label value fits the search "*batch*".
         
         The path to the label file is included in the output.
         
     .NOTES
-        Tags: PackagesLocalDirectory, Label, Labels, Language, Development, Servicing
+        Tags: PackagesLocalDirectory, Label, Labels, Language, Development, Servicing, Resource, Resources
         
         Author: Mötz Jensen (@Splaxi)
         
         There are several advanced scenarios for this cmdlet. See more on github and the wiki pages.
-        
 #>
-function Get-D365LabelOld {
+function Get-D365PackageLabelResources {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 1 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Specific', Position = 1 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Specific')]
         [Alias('Path')]
         [string] $FilePath,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [string] $Name = "*",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [string] $Value = "*",
 
         [switch] $IncludePath

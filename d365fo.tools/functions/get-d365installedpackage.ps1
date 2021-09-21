@@ -25,6 +25,12 @@
         
         Shows the entire list of installed packages located in the default location on the machine
         
+        A result set example:
+        ApplicationFoundationFormAdaptor
+        ApplicationPlatformFormAdaptor
+        ApplicationSuiteFormAdaptor
+        ApplicationWorkspacesFormAdaptor
+        
     .EXAMPLE
         PS C:\> Get-D365InstalledPackage -Name "Application*Adaptor"
         
@@ -41,21 +47,24 @@
         
         Shows the entire list of installed packages located in "J:\AOSService\PackagesLocalDirectory" on the machine
         
+        A result set example:
+        ApplicationFoundationFormAdaptor
+        ApplicationPlatformFormAdaptor
+        ApplicationSuiteFormAdaptor
+        ApplicationWorkspacesFormAdaptor
+        
     .NOTES
         Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages
         
         Author: Mötz Jensen (@Splaxi)
         
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
-        
 #>
-function Get-D365InstalledPackageOld {
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+function Get-D365InstalledPackage {
+    [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
         [string] $Name = "*",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [string] $PackageDirectory = $Script:PackageDirectory
     )
 

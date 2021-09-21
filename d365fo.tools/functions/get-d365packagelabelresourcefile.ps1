@@ -1,16 +1,20 @@
 ﻿
 <#
     .SYNOPSIS
-        Get label file from a package
+        Get label / resource file from a package
         
     .DESCRIPTION
-        Get label file (resource file) from the package directory
+        Get label (resource) file from the package directory of a Dynamics 365 Finance & Operations environment
         
     .PARAMETER PackageDirectory
-        Path to the package that you want to get a label file from
+        Path to the directory containing the installed packages
+        
+        Normally it is located under the AOSService directory in "PackagesLocalDirectory"
+        
+        Default value is fetched from the current configuration on the machine
         
     .PARAMETER Name
-        Name of the label file you are looking for
+        Name of the label (resource) file you are looking for
         
         Accepts wildcards for searching. E.g. -Name "Fixed*Accounting"
         
@@ -24,17 +28,17 @@
         Default value is "en-US" which will search for en-US language files
         
     .EXAMPLE
-        PS C:\> Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite"
+        PS C:\> Get-D365PackageLabelResourceFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite"
         
         Shows all the label files for ApplicationSuite package
         
     .EXAMPLE
-        PS C:\> Get-D365PackageLabelFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite" -Name "Fixed*Accounting"
+        PS C:\> Get-D365PackageLabelResourceFile -PackageDirectory "C:\AOSService\PackagesLocalDirectory\ApplicationSuite" -Name "Fixed*Accounting"
         
         Shows the label files for ApplicationSuite package where the name fits the search "Fixed*Accounting"
         
     .EXAMPLE
-        PS C:\> Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelFile
+        PS C:\> Get-D365InstalledPackage -Name "ApplicationSuite" | Get-D365PackageLabelResourceFile
         
         Shows all label files (en-US) for the ApplicationSuite package
         
@@ -44,22 +48,17 @@
         Author: Mötz Jensen (@Splaxi)
         
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
-        
 #>
-function Get-D365PackageLabelFileOld {
+function Get-D365PackageLabelResourceFile {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true, Position = 1 )]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Specific', Position = 1 )]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Specific')]
         [Alias('Path')]
         [string] $PackageDirectory,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
         [string] $Name = "*",
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]
         [string] $Language = "en-US"
     )
 
