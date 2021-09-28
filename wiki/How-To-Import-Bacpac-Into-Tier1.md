@@ -67,4 +67,4 @@ Start-D365Environment -All
 [[images/howtos/Start-Services.gif]]
 
 ## **Closing comments**
-In this how to we showed you how you can update a Tier1 environment with a bacpac file, and how to make sure that the database is synchronized with the codebase. Depending on where you obtained the bacpac file from, you might need to [update](How-To-Update-Users-In-Db) and/or [enable](How-To-Enable-Users-In-Db.md) the users. Please refer to the How To section and learn how to complete either task.
+In this how to we showed you how you can update a Tier1 environment with a bacpac file, and how to make sure that the database is synchronized with the codebase. Depending on where you obtained the bacpac file from, you might need to [update](How-To-Update-Users-In-Db) and/or [enable](How-To-Enable-Users-In-Db) the users. Please refer to the How To section and learn how to complete either task.
