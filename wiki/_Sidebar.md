@@ -54,6 +54,9 @@
 ## **Automated Testing**
 * [[Appveyor and tests]]
 
+## **Deprecation**
+* [[Deprecation guidelines]]
+
 ## **Troubleshooting**
 * [[Troubleshoot]]
 * [[Load individual files or dot source the files]]
