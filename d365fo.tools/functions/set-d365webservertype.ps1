@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Set the web server type to be used to run the D365FO instance
@@ -6,12 +6,14 @@
     .DESCRIPTION
         Set the web server which will be used to run D365FO: Either IIS or IIS Express.
         Newly deployed development machines will have this set to IIS Express by default.
-
+        
         It will backup the current "DynamicsDevConfig.xml" file, for you to revert the changes if anything should go wrong.
+        
+        It will look for the file located in the default Package Directory.
         
     .PARAMETER RuntimeHostType
         The type of web server you want to use.
-
+        
         Valid options are:
         "IIS"
         "IISExpress"
@@ -28,12 +30,12 @@
         Tag: Web Server, IIS, IIS Express, Development
         
         Author: Sander Holvoet (@smholvoet)
-      
+        
+        Author: Mötz Jensen (@Splaxi)
 #>
 
 function Set-D365WebServerType {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
@@ -42,8 +44,14 @@ function Set-D365WebServerType {
     )
 
     begin {
-        $filePath = "K:\AosService\PackagesLocalDirectory\bin\DynamicsDevConfig.xml"
-
+        if (-not ($script:IsAdminRuntime)) {
+            Write-PSFMessage -Level Host -Message "The cmdlet needs <c='em'>administrator permission</c> (Run As Administrator) to be able to update the configuration. Please start an <c='em'>elevated</c> session and run the cmdlet again."
+            Stop-PSFFunction -Message "Stopping because the function is not run elevated"
+            return
+        }
+    
+        $filePath = Join-Path -Path (Join-Path -Path $Script:PackageDirectory -ChildPath "bin") -ChildPath "DynamicsDevConfig.xml"
+    
         if (-not (Test-PathExists -Path $filePath -Type Leaf)) { return }
     }
 

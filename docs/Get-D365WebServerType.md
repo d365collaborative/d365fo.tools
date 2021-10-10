@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -19,6 +19,8 @@ Get-D365WebServerType [<CommonParameters>]
 ## DESCRIPTION
 Get the web server which will be used to run D365FO: Either IIS or IIS Express.
 Newly deployed development machines will have this set to IIS Express by default.
+
+It will look for the file located in the default Package Directory.
 
 ## EXAMPLES
 
@@ -43,5 +45,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 Tag: Web Server, IIS, IIS Express, Development
 
 Author: Sander Holvoet (@smholvoet)
+
+Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
