@@ -17,7 +17,7 @@
     .EXAMPLE
         PS C:\> Backup-D365WebConfig
         
-        Will locate the web.config file, and backup it up.
+        Will locate the web.config file, and back it up.
         It will look for the file in the AOS / IIS folder. E.g. K:\AosService\WebRoot\web.config.
         It will save the file to the default location: "C:\Temp\d365fo.tools\WebConfigBackup".
         
@@ -30,7 +30,7 @@
     .EXAMPLE
         PS C:\> Backup-D365WebConfig -Force
         
-        Will locate the web.config file, backup it up, and overwrite if a previous backup file exists.
+        Will locate the web.config file, back it up, and overwrite if a previous backup file exists.
         It will look for the file in the AOS / IIS folder. E.g. K:\AosService\WebRoot\web.config.
         It will save the file to the default location: "C:\Temp\d365fo.tools\WebConfigBackup".
         It will overwrite any file named web.config in the destination folder.
