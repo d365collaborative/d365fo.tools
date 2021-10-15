@@ -23,6 +23,6 @@ explorer.exe (Split-Path $(Get-Module d365fo.tools -ListAvailable | Select-Objec
 ```
 
 ## **Debug**
-For general PowerShell debug information, see [How to debug scripts in Windows PowerShel ISE](https://docs.microsoft.com/en-us/powershell/scripting/windows-powershell/ise/how-to-debug-scripts-in-windows-powershell-ise).
+For general PowerShell debug information, see [How to debug scripts in Windows PowerShell ISE](https://docs.microsoft.com/en-us/powershell/scripting/windows-powershell/ise/how-to-debug-scripts-in-windows-powershell-ise).
 
 To debug a cmdlet, first make sure the module is [loaded with the individual files](Load-individual-files-or-dot-source-the-files). Then open the .ps1 file of the cmdlet in PowerShell ISE and set a breakpoint. Finally, call the cmdlet.
