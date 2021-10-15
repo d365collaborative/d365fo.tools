@@ -111,7 +111,7 @@ function Enable-D365MaintenanceMode {
         Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
     }
 
-    if (-not ($Script:IsAdminRuntime)) {
+    if (-not ($Script:IsAdminRuntime) -or ($Script:EnvironmentType -eq [EnvironmentType]::AzureHostedTier1)) {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (which requires local admin)."
 
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
