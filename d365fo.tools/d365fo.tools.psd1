@@ -163,6 +163,7 @@
 		'Get-D365UserAuthenticationDetail',
 
 		'Get-D365VisualStudioCompilerResult',
+		'Get-D365WebServerType',
 		'Get-D365WindowsActivationStatus',
 
 		'Import-D365AadUser',
@@ -289,6 +290,7 @@
 		'Set-D365SysAdmin',
 
 		'Set-D365WebConfigDatabase',
+		'Set-D365WebServerType',
 
 		'Set-D365TraceParserFileSize',
 
