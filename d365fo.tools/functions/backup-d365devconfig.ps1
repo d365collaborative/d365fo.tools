@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Backup the DynamicsDevConfig.xml file

@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Restore the DynamicsDevConfig.xml file
@@ -26,7 +26,7 @@
         Filename              LastModified         File
         --------              ------------         ----
         DynamicsDevConfig.xml 6/29/2021 7:31:04 PM K:\AosService\PackagesLocalDirectory\Bin\DynamicsDevConfig.xml
- 
+        
     .NOTES
         Tags: Web Server, IIS, IIS Express, Development
         
