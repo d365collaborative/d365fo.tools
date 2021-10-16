@@ -19,6 +19,8 @@ $Script:IsAdminRuntime = ([Security.Principal.WindowsPrincipal][Security.Princip
 
 $Script:WebConfig = "web.config"
 
+$Script:DevConfig = "DynamicsDevConfig.xml"
+
 $Script:WifServicesConfig = "wif.services.config"
 
 $Script:Hosts = 'C:\Windows\System32\drivers\etc\hosts'
