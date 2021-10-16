@@ -51,6 +51,7 @@
 		'Add-D365RsatWifConfigAuthorityThumbprint',
 		'Add-D365WindowsDefenderRules',
 						
+		'Backup-D365DevConfig',
 		'Backup-D365MetaDataDir',
 		'Backup-D365Runbook',
 		'Backup-D365WebConfig',
@@ -259,6 +260,8 @@
 		'Rename-D365ComputerName',
 
 		'Restart-D365Environment',
+
+		'Restore-D365DevConfig',
 		'Restore-D365WebConfig',
 
 		'Send-D365BroadcastMessage',
