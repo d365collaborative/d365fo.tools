@@ -50,7 +50,7 @@ function Set-D365WebServerType {
             return
         }
     
-        $filePath = Join-Path -Path (Join-Path -Path $Script:PackageDirectory -ChildPath "bin") -ChildPath "DynamicsDevConfig.xml"
+        $filePath = Join-Path -Path (Join-Path -Path $Script:PackageDirectory -ChildPath "bin") -ChildPath $Script:DevConfig
     
         if (-not (Test-PathExists -Path $filePath -Type Leaf)) { return }
     }

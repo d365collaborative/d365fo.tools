@@ -43,7 +43,7 @@ function Restore-D365DevConfig {
     )
 
     begin {
-        if ($Path -like "*DynamicsDevConfig.xml") {
+        if ($Path -like "*$($Script:DevConfig)") {
             $sourceFile = $Path
         }
         else {
