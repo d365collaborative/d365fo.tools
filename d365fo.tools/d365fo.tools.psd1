@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.6.67'
+	ModuleVersion     = '0.6.68'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -51,6 +51,7 @@
 		'Add-D365RsatWifConfigAuthorityThumbprint',
 		'Add-D365WindowsDefenderRules',
 						
+		'Backup-D365DevConfig',
 		'Backup-D365MetaDataDir',
 		'Backup-D365Runbook',
 		'Backup-D365WebConfig',
@@ -163,6 +164,7 @@
 		'Get-D365UserAuthenticationDetail',
 
 		'Get-D365VisualStudioCompilerResult',
+		'Get-D365WebServerType',
 		'Get-D365WindowsActivationStatus',
 
 		'Import-D365AadUser',
@@ -258,6 +260,8 @@
 		'Rename-D365ComputerName',
 
 		'Restart-D365Environment',
+
+		'Restore-D365DevConfig',
 		'Restore-D365WebConfig',
 
 		'Send-D365BroadcastMessage',
@@ -289,6 +293,7 @@
 		'Set-D365SysAdmin',
 
 		'Set-D365WebConfigDatabase',
+		'Set-D365WebServerType',
 
 		'Set-D365TraceParserFileSize',
 
