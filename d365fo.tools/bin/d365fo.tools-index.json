@@ -359,7 +359,7 @@
         "Synopsis":  "Backup the web.config file",
         "Name":  "Backup-D365WebConfig",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eBackup-D365WebConfig\nWill locate the web.config file, and backup it up.\r\nIt will look for the file in the AOS / IIS folder. E.g. K:\\AosService\\WebRoot\\web.config.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\WebConfigBackup\".\nA result set example:\nFilename   LastModified         File\r\n--------   ------------         ----\r\nweb.config 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\WebConfigBackup\\web.config\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eBackup-D365WebConfig -Force\nWill locate the web.config file, backup it up, and overwrite if a previous backup file exists.\r\nIt will look for the file in the AOS / IIS folder. E.g. K:\\AosService\\WebRoot\\web.config.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\WebConfigBackup\".\r\nIt will overwrite any file named web.config in the destination folder.\nA result set example:\nFilename   LastModified         File\r\n--------   ------------         ----\r\nweb.config 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\WebConfigBackup\\web.config",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eBackup-D365WebConfig\nWill locate the web.config file, and back it up.\r\nIt will look for the file in the AOS / IIS folder. E.g. K:\\AosService\\WebRoot\\web.config.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\WebConfigBackup\".\nA result set example:\nFilename   LastModified         File\r\n--------   ------------         ----\r\nweb.config 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\WebConfigBackup\\web.config\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eBackup-D365WebConfig -Force\nWill locate the web.config file, back it up, and overwrite if a previous backup file exists.\r\nIt will look for the file in the AOS / IIS folder. E.g. K:\\AosService\\WebRoot\\web.config.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\WebConfigBackup\".\r\nIt will overwrite any file named web.config in the destination folder.\nA result set example:\nFilename   LastModified         File\r\n--------   ------------         ----\r\nweb.config 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\WebConfigBackup\\web.config",
         "Syntax":  "Backup-D365WebConfig [[-OutputPath] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
     },
     {
@@ -2446,7 +2446,7 @@
         "Syntax":  "Get-D365InstalledHotfix [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [[-Model] \u003cString\u003e] [[-Name] \u003cString\u003e] [[-KB] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365InstalledPackageOld",
+        "CommandName":  "Get-D365InstalledPackage",
         "Description":  "Get installed package from the machine running the AOS service for Dynamics 365 Finance \u0026 Operations",
         "Tags":  [
                      "PackagesLocalDirectory",
@@ -2477,10 +2477,10 @@
         "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
         "Synopsis":  "Get installed package from Dynamics 365 Finance \u0026 Operations environment",
-        "Name":  "Get-D365InstalledPackageOld",
+        "Name":  "Get-D365InstalledPackage",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage\nShows the entire list of installed packages located in the default location on the machine\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage -Name \"Application*Adaptor\"\nShows the list of installed packages where the name fits the search \"Application*Adaptor\"\nA result set example:\r\nApplicationFoundationFormAdaptor\r\nApplicationPlatformFormAdaptor\r\nApplicationSuiteFormAdaptor\r\nApplicationWorkspacesFormAdaptor\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage -PackageDirectory \"J:\\AOSService\\PackagesLocalDirectory\"\nShows the entire list of installed packages located in \"J:\\AOSService\\PackagesLocalDirectory\" on the machine",
-        "Syntax":  "Get-D365InstalledPackageOld [[-Name] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage\nShows the entire list of installed packages located in the default location on the machine\nA result set example:\r\nApplicationFoundationFormAdaptor\r\nApplicationPlatformFormAdaptor\r\nApplicationSuiteFormAdaptor\r\nApplicationWorkspacesFormAdaptor\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage -Name \"Application*Adaptor\"\nShows the list of installed packages where the name fits the search \"Application*Adaptor\"\nA result set example:\r\nApplicationFoundationFormAdaptor\r\nApplicationPlatformFormAdaptor\r\nApplicationSuiteFormAdaptor\r\nApplicationWorkspacesFormAdaptor\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage -PackageDirectory \"J:\\AOSService\\PackagesLocalDirectory\"\nShows the entire list of installed packages located in \"J:\\AOSService\\PackagesLocalDirectory\" on the machine\nA result set example:\r\nApplicationFoundationFormAdaptor\r\nApplicationPlatformFormAdaptor\r\nApplicationSuiteFormAdaptor\r\nApplicationWorkspacesFormAdaptor",
+        "Syntax":  "Get-D365InstalledPackage [[-Name] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365InstalledService",
@@ -2704,59 +2704,6 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LabelFile\nShows the entire list of label file (ids) for all installed packages / modules located in the default location on the machine\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LabelFile -Name \"Acc*Receivable*\"\nShows the list of label file (ids) for all installed packages / modules where the label file (ids) name fits the search \"Acc*Receivable*\"\nA result set example:\nLabelFileId                        Languages              Module\r\n-----------                        ---------              ------\r\nAccountsReceivable                 {ar-AE, ar, cs, da...} ApplicationSuite\r\nAccountsReceivable_SalesTaxCodesSA {en-US}                ApplicationSuite\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LabelFile -PackageDirectory \"J:\\AOSService\\PackagesLocalDirectory\"\nShows the list of label file (ids) for all installed packages / modules located in \"J:\\AOSService\\PackagesLocalDirectory\" on the machine",
         "Syntax":  "Get-D365LabelFile [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [[-Module] \u003cString\u003e] [[-Name] \u003cString\u003e] [\u003cCommonParameters\u003e]"
-    },
-    {
-        "CommandName":  "Get-D365LabelOld",
-        "Description":  "Get label details from the resource file",
-        "Tags":  [
-                     "PackagesLocalDirectory",
-                     "Label",
-                     "Labels",
-                     "Language",
-                     "Development",
-                     "Servicing"
-                 ],
-        "Params":  [
-                       [
-                           "FilePath",
-                           "The path to resource file that you want to get label details from",
-                           "Path",
-                           true,
-                           "true (ByPropertyName)",
-                           ""
-                       ],
-                       [
-                           "Name",
-                           "Name of the label you are looking for\nAccepts wildcards for searching. E.g. -Name \"@PRO*\"\nDefault value is \"*\" which will search for all labels in the resource file",
-                           "",
-                           false,
-                           "false",
-                           "*"
-                       ],
-                       [
-                           "Value",
-                           "Value of the label you are looking for\nAccepts wildcards for searching. E.g. -Name \"*Qty*\"\nDefault value is \"*\" which will search for all values in the resource file",
-                           "",
-                           false,
-                           "false",
-                           "*"
-                       ],
-                       [
-                           "IncludePath",
-                           "Switch to indicate whether you want the result set to include the path to the resource file or not\nDefault is OFF - path details will not be part of the output",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get label from the resource file",
-        "Name":  "Get-D365LabelOld",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365Label -Path \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\\Resources\\en-US\\PRO.resources.dll\"\nWill get all labels from the \"PRO.resouce.dll\" file\nThe language is determined by the path to the resource file and nothing else\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Label -Path \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\\Resources\\en-US\\PRO.resources.dll\" -Name \"@PRO505\"\nWill get the label with the name \"@PRO505\" from the \"PRO.resouce.dll\" file\nThe language is determined by the path to the resource file and nothing else\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Label -Path \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\\Resources\\en-US\\PRO.resources.dll\" -Value \"*qty*\"\nWill get all the labels where the value fits the search \"*qty*\" from the \"PRO.resouce.dll\" file\nThe language is determined by the path to the resource file and nothing else\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage -Name \"ApplicationSuite\" | Get-D365PackageLabelFile -Language \"da\" | Get-D365Label -value \"*batch*\" -IncludePath\nWill get all the labels, across all label files, for the \"ApplicationSuite\", where the language is \"da\" and where the label value fits the search \"*batch*\".\nThe path to the label file is included in the output.",
-        "Syntax":  "Get-D365LabelOld [-FilePath] \u003cString\u003e [[-Name] \u003cString\u003e] [[-Value] \u003cString\u003e] [-IncludePath] [\u003cCommonParameters\u003e]\nGet-D365LabelOld [-FilePath] \u003cString\u003e [[-Name] \u003cString\u003e] [[-Value] \u003cString\u003e] [-IncludePath] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365Language",
@@ -3566,27 +3513,6 @@
         "Syntax":  "Get-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-EnvironmentId \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-EnvironmentName \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-TraverseAllPages] [-FirstPages \u003cInt32\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365LogicAppConfig",
-        "Description":  "Get the details that are stored for the module when\nit has to invoke the Azure Logic App",
-        "Tags":  [
-                     "LogicApp",
-                     "Logic App",
-                     "Configuration",
-                     "Url",
-                     "Email"
-                 ],
-        "Params":  [
-
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get the registered details for Azure Logic App",
-        "Name":  "Get-D365LogicAppConfig",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LogicAppConfig\nThis will fetch the current registered Azure Logic App details on the machine.",
-        "Syntax":  "Get-D365LogicAppConfig [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Get-D365MaintenanceMode",
         "Description":  "Get the maintenance mode status of the Dynamics 365 environment to make sure that things are in the correct state",
         "Tags":  [
@@ -3871,8 +3797,8 @@
         "Syntax":  "Get-D365PackageBundleDetail [-Path] \u003cString\u003e [[-ExtractionPath] \u003cString\u003e] [[-KB] \u003cString\u003e] [[-Hotfix] \u003cString\u003e] [-Traverse] [-KeepFiles] [-IncludeRawManifest] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365PackageLabelFileOld",
-        "Description":  "Get label file (resource file) from the package directory",
+        "CommandName":  "Get-D365PackageLabelResourceFile",
+        "Description":  "Get label (resource) file from the package directory of a Dynamics 365 Finance \u0026 Operations environment",
         "Tags":  [
                      "PackagesLocalDirectory",
                      "Label",
@@ -3887,7 +3813,7 @@
         "Params":  [
                        [
                            "PackageDirectory",
-                           "Path to the package that you want to get a label file from",
+                           "Path to the directory containing the installed packages\nNormally it is located under the AOSService directory in \"PackagesLocalDirectory\"\nDefault value is fetched from the current configuration on the machine",
                            "Path",
                            true,
                            "true (ByPropertyName)",
@@ -3895,7 +3821,7 @@
                        ],
                        [
                            "Name",
-                           "Name of the label file you are looking for\nAccepts wildcards for searching. E.g. -Name \"Fixed*Accounting\"\nDefault value is \"*\" which will search for all label files",
+                           "Name of the label (resource) file you are looking for\nAccepts wildcards for searching. E.g. -Name \"Fixed*Accounting\"\nDefault value is \"*\" which will search for all label files",
                            "",
                            false,
                            "false",
@@ -3912,11 +3838,66 @@
                    ],
         "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get label file from a package",
-        "Name":  "Get-D365PackageLabelFileOld",
+        "Synopsis":  "Get label / resource file from a package",
+        "Name":  "Get-D365PackageLabelResourceFile",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365PackageLabelFile -PackageDirectory \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\"\nShows all the label files for ApplicationSuite package\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365PackageLabelFile -PackageDirectory \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\" -Name \"Fixed*Accounting\"\nShows the label files for ApplicationSuite package where the name fits the search \"Fixed*Accounting\"\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage -Name \"ApplicationSuite\" | Get-D365PackageLabelFile\nShows all label files (en-US) for the ApplicationSuite package",
-        "Syntax":  "Get-D365PackageLabelFileOld [-PackageDirectory] \u003cString\u003e [[-Name] \u003cString\u003e] [[-Language] \u003cString\u003e] [\u003cCommonParameters\u003e]\nGet-D365PackageLabelFileOld [-PackageDirectory] \u003cString\u003e [[-Name] \u003cString\u003e] [[-Language] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365PackageLabelResourceFile -PackageDirectory \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\"\nShows all the label files for ApplicationSuite package\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365PackageLabelResourceFile -PackageDirectory \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\" -Name \"Fixed*Accounting\"\nShows the label files for ApplicationSuite package where the name fits the search \"Fixed*Accounting\"\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage -Name \"ApplicationSuite\" | Get-D365PackageLabelResourceFile\nShows all label files (en-US) for the ApplicationSuite package",
+        "Syntax":  "Get-D365PackageLabelResourceFile -PackageDirectory \u003cString\u003e [-Name \u003cString\u003e] [-Language \u003cString\u003e] [\u003cCommonParameters\u003e]\nGet-D365PackageLabelResourceFile -PackageDirectory \u003cString\u003e [-Name \u003cString\u003e] [-Language \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365PackageLabelResources",
+        "Description":  "Get label details from the resource file for a Dynamics 365 Finance \u0026 Operations environment",
+        "Tags":  [
+                     "PackagesLocalDirectory",
+                     "Label",
+                     "Labels",
+                     "Language",
+                     "Development",
+                     "Servicing",
+                     "Resource",
+                     "Resources"
+                 ],
+        "Params":  [
+                       [
+                           "FilePath",
+                           "The path to resource file that you want to get label details from",
+                           "Path",
+                           true,
+                           "true (ByPropertyName)",
+                           ""
+                       ],
+                       [
+                           "Name",
+                           "Name of the label you are looking for\nAccepts wildcards for searching. E.g. -Name \"@PRO*\"\nDefault value is \"*\" which will search for all labels in the resource file",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "Value",
+                           "Value of the label you are looking for\nAccepts wildcards for searching. E.g. -Name \"*Qty*\"\nDefault value is \"*\" which will search for all values in the resource file",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "IncludePath",
+                           "Switch to indicate whether you want the result set to include the path to the resource file or not\nDefault is OFF - path details will not be part of the output",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get label from the resource file",
+        "Name":  "Get-D365PackageLabelResources",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365PackageLabelResources -Path \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\\Resources\\en-US\\PRO.resources.dll\"\nWill get all labels from the \"PRO.resouce.dll\" file\nThe language is determined by the path to the resource file and nothing else\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365PackageLabelResources -Path \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\\Resources\\en-US\\PRO.resources.dll\" -Name \"@PRO505\"\nWill get the label with the name \"@PRO505\" from the \"PRO.resouce.dll\" file\nThe language is determined by the path to the resource file and nothing else\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365PackageLabelResources -Path \"C:\\AOSService\\PackagesLocalDirectory\\ApplicationSuite\\Resources\\en-US\\PRO.resources.dll\" -Value \"*qty*\"\nWill get all the labels where the value fits the search \"*qty*\" from the \"PRO.resouce.dll\" file\nThe language is determined by the path to the resource file and nothing else\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365InstalledPackage -Name \"ApplicationSuite\" | Get-D365PackageLabelResourceFile -Language \"da\" | Get-D365PackageLabelResources -value \"*batch*\" -IncludePath\nWill get all the labels, across all label files, for the \"ApplicationSuite\", where the language is \"da\" and where the label value fits the search \"*batch*\".\nThe path to the label file is included in the output.",
+        "Syntax":  "Get-D365PackageLabelResources -FilePath \u003cString\u003e [-Name \u003cString\u003e] [-Value \u003cString\u003e] [-IncludePath] [\u003cCommonParameters\u003e]\nGet-D365PackageLabelResources -FilePath \u003cString\u003e [-Name \u003cString\u003e] [-Value \u003cString\u003e] [-IncludePath] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365ProductInformation",
@@ -4537,27 +4518,6 @@
         "Syntax":  "Get-D365TfsWorkspace [[-Path] \u003cString\u003e] [[-TfsUri] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365Tier2Params",
-        "Description":  "Gets a hashtable with all the stored parameters to be used with Import-D365Bacpac or New-D365Bacpac for Tier 2 environments",
-        "Params":  [
-                       [
-                           "OutputType",
-                           "Used to specify the desired object type of the output\nThe default value is: HashTable\nValid options are:\r\nHashTable\r\nPSCustomObject",
-                           "",
-                           false,
-                           "false",
-                           "HashTable"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get a hashtable with all the stored parameters",
-        "Name":  "Get-D365Tier2Params",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003e$params = Get-D365Tier2Params\nThis will extract the stored parameters and create a hashtable object.\r\nThe hashtable is assigned to the $params variable.",
-        "Syntax":  "Get-D365Tier2Params [[-OutputType] \u003cString\u003e] [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Get-D365Url",
         "Description":  "Get the complete URL for accessing the Dynamics 365 Finance \u0026 Operations instance running on this machine",
         "Tags":  [
@@ -4734,6 +4694,20 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult\nThis will return the compiler output for all modules.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationCommon\\BuildModelResult.log                    55      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationFoundation\\BuildModelResult.log               692      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationPlatform\\BuildModelResult.log                 155      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationSuite\\BuildModelResult.log                  10916      0\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult -ErrorsOnly\nThis will return the compiler output for all modules where there was errors in.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult -ErrorsOnly -OutputAsObjects\nThis will return the compiler output for all modules where there was errors in.\r\nThe output will be PSObjects, which can be assigned to a variable and used for futher analysis.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult -OutputTotals\nThis will return the compiler output for all modules and write a total overview to the console.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationCommon\\BuildModelResult.log                    55      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationFoundation\\BuildModelResult.log               692      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationPlatform\\BuildModelResult.log                 155      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationSuite\\BuildModelResult.log                  10916      0\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\nTotal Errors: 2\r\nTotal Warnings: 11819",
         "Syntax":  "Get-D365VisualStudioCompilerResult [[-Module] \u003cString\u003e] [-ErrorsOnly] [-OutputTotals] [-OutputAsObjects] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365WebServerType",
+        "Description":  "Get the web server which will be used to run D365FO: Either IIS or IIS Express.\nNewly deployed development machines will have this set to IIS Express by default.\n\nIt will look for the file located in the default Package Directory.",
+        "Params":  [
+
+                   ],
+        "Alias":  "",
+        "Author":  "Sander Holvoet (@smholvoet)",
+        "Synopsis":  "Get the default web server to be used",
+        "Name":  "Get-D365WebServerType",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365WebServerType\nThis will display the current web server type registered in the \"DynamicsDevConfig.xml\" file.\r\nLocated in \"K:\\AosService\\PackagesLocalDirectory\\bin\".",
+        "Syntax":  "Get-D365WebServerType [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365WindowsActivationStatus",
@@ -7896,113 +7870,6 @@
         "Syntax":  "Invoke-D365LcsUpload [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-FilePath] \u003cString\u003e [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-Name] \u003cString\u003e] [[-Filename] \u003cString\u003e] [[-FileDescription] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-FailOnErrorMessage] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Invoke-D365LogicApp",
-        "Description":  "Invoke a Logic App using a http request and pass a json object with details about the calling function",
-        "Tags":  [
-                     "LogicApp",
-                     "Logic App",
-                     "Configuration",
-                     "Url",
-                     "Notification"
-                 ],
-        "Params":  [
-                       [
-                           "Url",
-                           "The URL for the http endpoint that you want to invoke",
-                           "",
-                           false,
-                           "false",
-                           "(Get-D365LogicAppConfig).Url"
-                       ],
-                       [
-                           "Payload",
-                           "The data content you want to send to the LogicApp",
-                           "",
-                           false,
-                           "false",
-                           "{}"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Invoke a http request for a Logic App",
-        "Name":  "Invoke-D365LogicApp",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SyncDB | Invoke-D365LogicApp\nThis will execute the sync process and when it is done it will invoke a Azure Logic App with the default parameters that have been configured for the system.",
-        "Syntax":  "Invoke-D365LogicApp [[-Url] \u003cString\u003e] [[-Payload] \u003cString\u003e] [\u003cCommonParameters\u003e]"
-    },
-    {
-        "CommandName":  "Invoke-D365LogicAppMessage",
-        "Description":  "Invoke a Logic App using a http request and pass a json object with details about the calling function",
-        "Tags":  [
-                     "LogicApp",
-                     "Logic App",
-                     "Configuration",
-                     "Url",
-                     "Email",
-                     "Notification",
-                     "Message",
-                     "Email"
-                 ],
-        "Params":  [
-                       [
-                           "Url",
-                           "The URL for the http endpoint that you want to invoke",
-                           "",
-                           false,
-                           "false",
-                           "(Get-D365LogicAppConfig).Url"
-                       ],
-                       [
-                           "Email",
-                           "The email address of the receiver of the message that the cmdlet will send",
-                           "",
-                           false,
-                           "false",
-                           "(Get-D365LogicAppConfig).Email"
-                       ],
-                       [
-                           "Subject",
-                           "Subject string to apply to the email and to the IM message",
-                           "",
-                           false,
-                           "false",
-                           "(Get-D365LogicAppConfig).Subject"
-                       ],
-                       [
-                           "Message",
-                           "The message you want to pass onto the Logic App",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "IncludeAll",
-                           "Switch to instruct the cmdlet to include all cmdlets (names only) from the pipeline",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ],
-                       [
-                           "AsJob",
-                           "Switch to instruct the cmdlet to run the invocation as a job (async)",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Invoke a http request for a Logic App",
-        "Name":  "Invoke-D365LogicAppMessage",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SyncDB | Invoke-D365LogicAppMessage\nThis will execute the sync process and when it is done it will invoke a Azure Logic App with the default parameters that have been configured for the system.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365SyncDB | Invoke-D365LogicAppMessage -Email administrator@contoso.com -Subject \"Work is done\" -Url https://prod-35.westeurope.logic.azure.com:443/\nThis will execute the sync process and when it is done it will invoke a Azure Logic App with the email, subject and URL parameters that are needed to invoke an Azure Logic App.",
-        "Syntax":  "Invoke-D365LogicAppMessage [[-Url] \u003cString\u003e] [[-Email] \u003cString\u003e] [[-Subject] \u003cString\u003e] [[-Message] \u003cString\u003e] [-IncludeAll] [-AsJob] [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Invoke-D365ModuleCompile",
         "Description":  "Compile a package / module / model using the builtin \"xppc.exe\" executable to compile source code",
         "Tags":  [
@@ -10330,59 +10197,6 @@
         "Syntax":  "Set-D365LcsApiConfig [[-ProjectId] \u003cInt32\u003e] [[-ClientId] \u003cString\u003e] [[-BearerToken] \u003cString\u003e] [[-ActiveTokenExpiresOn] \u003cInt64\u003e] [[-RefreshToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Temporary] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Set-D365LogicAppConfig",
-        "Description":  "Store the needed details for the module to execute an Azure Logic App using a HTTP request",
-        "Params":  [
-                       [
-                           "Url",
-                           "The URL for the http request endpoint of the desired\r\nlogic app",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "Email",
-                           "The receiving email address that should be notified",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "Subject",
-                           "The subject of the email that you want to send",
-                           "",
-                           false,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "ConfigStorageLocation",
-                           "Parameter used to instruct where to store the configuration objects\nThe default value is \"User\" and this will store all configuration for the active user\nValid options are:\r\n\"User\"\r\n\"System\"\n\"System\" will store the configuration so all users can access the configuration objects",
-                           "",
-                           false,
-                           "false",
-                           "User"
-                       ],
-                       [
-                           "Temporary",
-                           "Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Set the details for the logic app invoke cmdlet",
-        "Name":  "Set-D365LogicAppConfig",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365LogicAppConfig -Email administrator@contoso.com -Subject \"Work is done\" -Url https://prod-35.westeurope.logic.azure.com:443/\nThis will set all the details about invoking the Logic App.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eSet-D365LogicAppConfig -Email administrator@contoso.com -Subject \"Work is done\" -Url https://prod-35.westeurope.logic.azure.com:443/ -ConfigStorageLocation \"System\"\nThis will set all the details about invoking the Logic App.\r\nThe data will be stored in the system wide configuration storage, which makes it accessible from all users.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eSet-D365LogicAppConfig -Email administrator@contoso.com -Subject \"Work is done\" -Url https://prod-35.westeurope.logic.azure.com:443/ -Temporary\nThis will set all the details about invoking the Logic App.\r\nThe update will only last for the rest of this PowerShell console session.",
-        "Syntax":  "Set-D365LogicAppConfig [-Url] \u003cString\u003e [[-Email] \u003cString\u003e] [[-Subject] \u003cString\u003e] [[-ConfigStorageLocation] \u003cString\u003e] [-Temporary] [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Set-D365NugetPath",
         "Description":  "Update the path where the module will be looking for the nuget.exe executable",
         "Params":  [
@@ -10618,43 +10432,6 @@
         "Syntax":  "Set-D365SysAdmin [[-User] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Set-D365Tier2Params",
-        "Description":  "Saves the hashtable as a json string into the configuration store\n\nThis cmdlet is only intended to be used for New-D365Bacpac and Import-D365Bacpac for Tier2 environments",
-        "Params":  [
-                       [
-                           "InputObject",
-                           "The hashtable containing all the parameters you want to store",
-                           "",
-                           true,
-                           "false",
-                           ""
-                       ],
-                       [
-                           "ConfigStorageLocation",
-                           "Parameter used to instruct where to store the configuration objects\nThe default value is \"User\" and this will store all configuration for the active user\nValid options are:\r\n\"User\"\r\n\"System\"\n\"System\" will store the configuration so all users can access the configuration objects",
-                           "",
-                           false,
-                           "false",
-                           "User"
-                       ],
-                       [
-                           "Temporary",
-                           "Switch to instruct the cmdlet to only temporarily override the persisted settings in the configuration storage",
-                           "",
-                           false,
-                           "false",
-                           "False"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Save hashtable with parameters",
-        "Name":  "Set-D365Tier2Params",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003e$params = @{ SqlUser = \"sqladmin\"\nPS C:\\\u003e SqlPwd = \"pass@word1\"\r\nPS C:\\\u003e }\r\nPS C:\\\u003e Set-D365Tier2Params -InputObject $params",
-        "Syntax":  "Set-D365Tier2Params [-InputObject] \u003cHashtable\u003e [-ConfigStorageLocation \u003cString\u003e] [-Temporary] [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Set-D365TraceParserFileSize",
         "Description":  "Change the maximum file size that the TraceParser generates",
         "Params":  [
@@ -10745,6 +10522,27 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365WebConfigDatabase -DatabaseServer TestServer.database.windows.net -DatabaseName AxDB -SqlUser User123 -SqlPwd \"Password123\"\nWill overwrite Server, Database, Username and Password directly in the web.config file.\r\nIt will save all details unencrypted.",
         "Syntax":  "Set-D365WebConfigDatabase [-DatabaseServer] \u003cString\u003e [-DatabaseName] \u003cString\u003e [-SqlUser] \u003cString\u003e [-SqlPwd] \u003cString\u003e [[-Path] \u003cObject\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Set-D365WebServerType",
+        "Description":  "Set the web server which will be used to run D365FO: Either IIS or IIS Express.\nNewly deployed development machines will have this set to IIS Express by default.\n\nIt will backup the current \"DynamicsDevConfig.xml\" file, for you to revert the changes if anything should go wrong.\n\nIt will look for the file located in the default Package Directory.",
+        "Params":  [
+                       [
+                           "RuntimeHostType",
+                           "The type of web server you want to use.\nValid options are:\r\n\"IIS\"\r\n\"IISExpress\"",
+                           "",
+                           true,
+                           "true (ByValue, ByPropertyName)",
+                           ""
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Sander Holvoet (@smholvoet)",
+        "Synopsis":  "Set the web server type to be used to run the D365FO instance",
+        "Name":  "Set-D365WebServerType",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365WebServerType -RuntimeHostType \"IIS\"\nThis will update the current web server type registered in the \"DynamicsDevConfig.xml\" file.\r\nThis file is located \"K:\\AosService\\PackagesLocalDirectory\\bin\".\r\nIt will backup the current \"DynamicsDevConfig.xml\" file.\r\nIt will replace the value inside the \"RuntimeHostType\" tag.",
+        "Syntax":  "Set-D365WebServerType [-RuntimeHostType] \u003cString\u003e [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Set-D365WorkstationMode",
