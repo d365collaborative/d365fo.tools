@@ -66,6 +66,8 @@ function Add-D365WindowsDefenderRules {
         Add-MpPreference -ExclusionProcess "$Script:BinDir\xppcAgent.exe"
         Add-MpPreference -ExclusionProcess "$Script:BinDir\SyncEngine.exe"
         Add-MpPreference -ExclusionProcess "$AOSPath\Batch.exe"
+        Add-MpPreference -ExclusionProcess "$AOSPath\xppc.exe"
+        Add-MpPreference -ExclusionProcess "$AOSPath\LabelC.exe"
         # add SQLServer
         Add-MpPreference -ExclusionProcess "C:\Program Files\Microsoft SQL Server\130\LocalDB\Binn\sqlservr.exe"
         Add-MpPreference -ExclusionProcess "C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Binn\sqlservr.exe"

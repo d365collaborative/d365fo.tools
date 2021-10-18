@@ -26,7 +26,7 @@ Will backup the web.config file located in the AOS / IIS folder
 Backup-D365WebConfig
 ```
 
-Will locate the web.config file, and backup it up.
+Will locate the web.config file, and back it up.
 It will look for the file in the AOS / IIS folder.
 E.g.
 K:\AosService\WebRoot\web.config.
@@ -43,7 +43,7 @@ web.config 6/29/2021 7:31:04 PM C:\temp\d365fo.tools\WebConfigBackup\web.config
 Backup-D365WebConfig -Force
 ```
 
-Will locate the web.config file, backup it up, and overwrite if a previous backup file exists.
+Will locate the web.config file, back it up, and overwrite if a previous backup file exists.
 It will look for the file in the AOS / IIS folder.
 E.g.
 K:\AosService\WebRoot\web.config.

@@ -54,8 +54,7 @@ function Set-D365DefaultModelForNewProjects {
     process {
         if (Test-PSFFunctionInterrupt) { return }
 
-        $filePathBackup = $filePath.Replace(".xml", ".xml$((Get-Date).Ticks)")
-        Copy-Item -Path $filePath -Destination $filePathBackup -Force
+        Backup-D365DevConfig
 
         $namespace = @{ns = "http://schemas.microsoft.com/dynamics/2012/03/development/configuration" }
 
