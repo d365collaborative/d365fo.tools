@@ -43,7 +43,7 @@ Stop-D365Environment -All
 With the newly created GOLDEN database, we will be switching it in as the D365FO database. Type the following command:
 
 ```
-Switch-D365ActiveDatabase -NewDatabaseName "GOLDEN"
+Switch-D365ActiveDatabase -SourceDatabaseName GOLDEN
 ```
 
 [[images/howtos/Switch-Database.gif]]
