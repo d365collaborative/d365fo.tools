@@ -668,7 +668,7 @@
     },
     {
         "CommandName":  "Disable-D365MaintenanceMode",
-        "Description":  "Sets the Dynamics 365 environment back into operating / running state after been in maintenance mode",
+        "Description":  "Sets the Dynamics 365 environment back into operating / running state after it has been in maintenance mode.",
         "Tags":  [
                      "MaintenanceMode",
                      "Maintenance",
@@ -743,7 +743,7 @@
                        ],
                        [
                            "OutputCommandOnly",
-                           "Instruct the cmdlet to only output the command that you would have to execute by hand\nWill include full path to the executable and the needed parameters based on your selection",
+                           "Instruct the cmdlet to only output the command that you would have to execute by hand\nWill include full path to the executable or SQL script and the needed parameters based on your selection",
                            "",
                            false,
                            "false",
@@ -758,7 +758,7 @@
                       null,
                       null
                   ],
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eDisable-D365MaintenanceMode\nThis will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eDisable-D365MaintenanceMode -ShowOriginalProgress\nThis will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state.\r\nThe output from stopping the services will be written to the console / host.\r\nThe output from the \"deployment\" process will be written to the console / host.\r\nThe output from starting the services will be written to the console / host.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eDisable-D365MaintenanceMode\nOn VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / \r\nrunning state. On cloud hosted environments, a SQL script is used instead.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eDisable-D365MaintenanceMode -ShowOriginalProgress\nOn VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / \r\nrunning state. On cloud hosted environments, a SQL script is used instead.\r\nThe output from stopping the services will be written to the console / host.\r\nThe output from the \"deployment\" process will be written to the console / host.\r\nThe output from starting the services will be written to the console / host.",
         "Syntax":  "Disable-D365MaintenanceMode [[-MetaDataDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
@@ -1035,7 +1035,7 @@
                        ],
                        [
                            "OutputCommandOnly",
-                           "Instruct the cmdlet to only output the command that you would have to execute by hand\nWill include full path to the executable and the needed parameters based on your selection",
+                           "Instruct the cmdlet to only output the command that you would have to execute by hand\nWill include full path to the executable or SQL script and the needed parameters based on your selection",
                            "",
                            false,
                            "false",
@@ -1050,7 +1050,7 @@
                       null,
                       null
                   ],
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eEnable-D365MaintenanceMode\nThis will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eEnable-D365MaintenanceMode -ShowOriginalProgress\nThis will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state\r\nThe output from stopping the services will be written to the console / host.\r\nThe output from the \"deployment\" process will be written to the console / host.\r\nThe output from starting the services will be written to the console / host.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eEnable-D365MaintenanceMode\nOn VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the maintenance \r\nmode. On cloud hosted environments, a SQL script is used instead.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eEnable-D365MaintenanceMode -ShowOriginalProgress\nOn VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the maintenance \r\nmode. On cloud hosted environments, a SQL script is used instead.\r\nThe output from stopping the services will be written to the console / host.\r\nThe output from the \"deployment\" process will be written to the console / host.\r\nThe output from starting the services will be written to the console / host.",
         "Syntax":  "Enable-D365MaintenanceMode [[-MetaDataDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
