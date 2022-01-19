@@ -81,7 +81,6 @@
         If a service does not start, it will throw an exception.
         
     .NOTES
-        Author: Mötz Jensen (@Splaxi)
         Author: Vincent Verweij (@VincentVerweij)
         
 #>
