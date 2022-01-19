@@ -245,6 +245,41 @@
         "Syntax":  "Add-D365WindowsDefenderRules [-Silent] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Backup-D365DevConfig",
+        "Description":  "Will backup the DynamicsDevConfig.xml file located in the PackagesLocalDirectory\\Bin folder",
+        "Tags":  [
+                     "Web Server",
+                     "IIS",
+                     "IIS Express",
+                     "Development"
+                 ],
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to the folder where you want the DynamicsDevConfig.xml file to be persisted\nDefault is: \"C:\\Temp\\d365fo.tools\\DevConfigBackup\"",
+                           "",
+                           false,
+                           "false",
+                           "$(Join-Path $Script:DefaultTempPath \"DevConfigBackup\")"
+                       ],
+                       [
+                           "Force",
+                           "Instructs the cmdlet to overwrite the destination file if it already exists",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Sander Holvoet (@smholvoet)",
+        "Synopsis":  "Backup the DynamicsDevConfig.xml file",
+        "Name":  "Backup-D365DevConfig",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eBackup-D365DevConfig\nWill locate the DynamicsDevConfig.xml file, and back it up.\r\nIt will look for the file in the PackagesLocalDirectory\\Bin folder. E.g. K:\\AosService\\PackagesLocalDirectory\\Bin\\DynamicsDevConfig.xml.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\DevConfigBackup\".\nA result set example:\nFilename              LastModified         File\r\n--------              ------------         ----\r\nDynamicsDevConfig.xml 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\DevConfigBackup\\DynamicsDevConfig.xml\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eBackup-D365DevConfig -Force\nWill locate the DynamicsDevConfig.xml file, back it up, and overwrite if a previous backup file exists.\r\nIt will look for the file in the PackagesLocalDirectory\\Bin folder. E.g. K:\\AosService\\PackagesLocalDirectory\\Bin\\DynamicsDevConfig.xml.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\DevConfigBackup\".\r\nIt will overwrite any file named DynamicsDevConfig.xml in the destination folder.\nA result set example:\nFilename              LastModified         File\r\n--------              ------------         ----\r\nDynamicsDevConfig.xml 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\DevConfigBackup\\DynamicsDevConfig.xml",
+        "Syntax":  "Backup-D365DevConfig [[-OutputPath] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Backup-D365MetaDataDir",
         "Description":  "Creates a backup of all the files and folders from the Metadata directory",
         "Tags":  [
@@ -9719,6 +9754,41 @@
         "Syntax":  "Restart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nRestart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Restore-D365DevConfig",
+        "Description":  "Will restore the DynamicsDevConfig.xml file located in the PackagesLocalDirectory\\Bin folder",
+        "Tags":  [
+                     "Web Server",
+                     "IIS",
+                     "IIS Express",
+                     "Development"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the folder where you the desired DynamicsDevConfig.xml file that you want restored is located\nDefault is: \"C:\\Temp\\d365fo.tools\\DevConfigBackup\"",
+                           "",
+                           false,
+                           "false",
+                           "$(Join-Path $Script:DefaultTempPath \"DevConfigBackup\")"
+                       ],
+                       [
+                           "Force",
+                           "Instructs the cmdlet to overwrite the destination file if it already exists",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Sander Holvoet (@smholvoet)",
+        "Synopsis":  "Restore the DynamicsDevConfig.xml file",
+        "Name":  "Restore-D365DevConfig",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRestore-D365DevConfig -Force\nWill restore the DynamicsDevConfig.xml file, and overwrite the current DynamicsDevConfig.xml file in the PackagesLocalDirectory\\Bin folder.\r\nIt will use the default path \"C:\\Temp\\d365fo.tools\\DevConfigBackup\" as the source directory.\r\nIt will overwrite the current DynamicsDevConfig.xml file.\nA result set example:\nFilename              LastModified         File\r\n--------              ------------         ----\r\nDynamicsDevConfig.xml 6/29/2021 7:31:04 PM K:\\AosService\\PackagesLocalDirectory\\Bin\\DynamicsDevConfig.xml",
+        "Syntax":  "Restore-D365DevConfig [[-Path] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Restore-D365WebConfig",
         "Description":  "Will restore the web.config file located back into the AOS / IIS folder",
         "Tags":  [
@@ -10214,7 +10284,7 @@
         "Synopsis":  "Set the path for nuget.exe",
         "Name":  "Set-D365NugetPath",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365SqlPackagePath -Path \"C:\\temp\\d365fo.tools\\nuget\\nuget.exe\"\nThis will update the path for the nuget.exe in the modules configuration",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365NugetPath -Path \"C:\\temp\\d365fo.tools\\nuget\\nuget.exe\"\nThis will update the path for the nuget.exe in the modules configuration",
         "Syntax":  "Set-D365NugetPath [-Path] \u003cString\u003e [\u003cCommonParameters\u003e]"
     },
     {
