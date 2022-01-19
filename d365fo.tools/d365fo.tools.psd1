@@ -302,6 +302,7 @@
 		'Set-D365FlightServiceCatalogId',
 
 		'Start-D365Environment',
+		'Start-D365EnvironmentV2',
 		'Start-D365EventTrace',
 
 		'Stop-D365Environment',
