@@ -4934,7 +4934,7 @@
                        ],
                        [
                            "IdValue",
-                           "Specify which field to use as ID value when importing the users.\r\nAvailable options \u0027Login\u0027 / \u0027FirstName\u0027\nDefault is \u0027Login\u0027",
+                           "Specify which field to use as ID value when importing the users.\r\nAvailable options \u0027Login\u0027 / \u0027FirstName\u0027 / \u0027UserPrincipalName\u0027\nDefault is \u0027Login\u0027",
                            "",
                            false,
                            "false",
@@ -10711,6 +10711,75 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStart-D365Environment\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStart-D365Environment -OnlyStartTypeAutomatic\nThis will start all D365FO services on the machine that are configured for Automatic startup.\r\nIt will exclude all services that are either manual or disabled in their startup configuration.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStart-D365Environment -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\r\nThe progress of starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStart-D365Environment -All\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStart-D365Environment -Aos -Batch\nThis will start the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStart-D365Environment -FinancialReporter -DMF\nThis will start the FinancialReporter and DMF services on the machine.",
         "Syntax":  "Start-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nStart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Start-D365EnvironmentV2",
+        "Description":  "Can start all relevant services that is running in a D365FO environment",
+        "Params":  [
+                       [
+                           "All",
+                           "Set when you want to start all relevant services\nIncludes:\r\nAos\r\nBatch\r\nFinancial Reporter\r\nData Management Framework",
+                           "",
+                           false,
+                           "false",
+                           "True"
+                       ],
+                       [
+                           "Aos",
+                           "Start the Aos (iis) service",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "Batch",
+                           "Start the batch service",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "FinancialReporter",
+                           "Start the financial reporter (Management Reporter 2012) service",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "DMF",
+                           "Start the Data Management Framework service",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "OnlyStartTypeAutomatic",
+                           "Instruct the cmdlet to filter out services that are set to manual start or disabled",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "ShowOriginalProgress",
+                           "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Vincent Verweij (@VincentVerweij)",
+        "Synopsis":  "Cmdlet to start the different services in a Dynamics 365 Finance \u0026 Operations environment",
+        "Name":  "Start-D365EnvironmentV2",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -OnlyStartTypeAutomatic\nThis will start all D365FO services on the machine that are configured for Automatic startup.\r\nIt will exclude all services that are either manual or disabled in their startup configuration.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\r\nThe progress of starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -All\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -Aos -Batch\nThis will start the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -FinancialReporter -DMF\nThis will start the FinancialReporter and DMF services on the machine.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eEnable-D365Exception\nPS C:\\\u003e Start-D365EnvironmentV2\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\r\nIf a service does not start, it will throw an exception.",
+        "Syntax":  "Start-D365EnvironmentV2 [[-All]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nStart-D365EnvironmentV2 [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Start-D365EventTrace",
