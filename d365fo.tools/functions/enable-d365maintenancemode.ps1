@@ -45,17 +45,17 @@
     .PARAMETER OutputCommandOnly
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
-        Will include full path to the executable and the needed parameters based on your selection
+        Will include full path to the executable or SQL script and the needed parameters based on your selection
         
     .EXAMPLE
         PS C:\> Enable-D365MaintenanceMode
         
-        This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
+        On VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the maintenance mode. On cloud hosted environments, a SQL script is used instead.
         
     .EXAMPLE
         PS C:\> Enable-D365MaintenanceMode -ShowOriginalProgress
         
-        This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
+        On VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the maintenance mode. On cloud hosted environments, a SQL script is used instead.
         The output from stopping the services will be written to the console / host.
         The output from the "deployment" process will be written to the console / host.
         The output from starting the services will be written to the console / host.
@@ -66,11 +66,11 @@
         Author: Mötz Jensen (@splaxi)
         Author: Tommy Skaue (@skaue)
         
-        With administrator privileges:
+        On VHD based environments with administrator privileges:
         The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed.
         
-        Without administrator privileges:
-        Will stop all services, execute a Sql script and start all services.
+        Without administrator privileges or on cloud hosted environments:
+        Will stop all services, execute a SQL script and starts the AOS service (other services are not needed during maintenance mode).
         
     .LINK
         Get-D365MaintenanceMode
@@ -111,7 +111,7 @@ function Enable-D365MaintenanceMode {
         Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
     }
 
-    if (-not ($Script:IsAdminRuntime)) {
+    if (-not ($Script:IsAdminRuntime) -or ($Script:EnvironmentType -eq [EnvironmentType]::AzureHostedTier1)) {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (which requires local admin)."
 
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -123,13 +123,14 @@ function Enable-D365MaintenanceMode {
             SqlPwd         = $SqlPwd
         }
 
+        $enableMaintenanceModeSQLScriptName = "enable-maintenancemode.sql"
         if ($OutputCommandOnly) {
-            $scriptContent = Get-content -Path $("$script:ModuleRoot\internal\sql\disable-maintenancemode.sql") -Raw
-            Write-PSFMessage -Level Host -Message "It seems that you're want the command, but you're running in a non-elevated console. Will output the SQL script that is avaiable."
+            $scriptContent = Get-content -Path $("$script:ModuleRoot\internal\sql\$enableMaintenanceModeSQLScriptName") -Raw
+            Write-PSFMessage -Level Host -Message "It seems that you want the command, but you're running in a non-elevated console. Will output the SQL script that is avaiable."
             Write-PSFMessage -Level Host -Message "$scriptContent"
         }
         else {
-            Invoke-D365SqlScript @Params -FilePath $("$script:ModuleRoot\internal\sql\enable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
+            Invoke-D365SqlScript @Params -FilePath $("$script:ModuleRoot\internal\sql\$enableMaintenanceModeSQLScriptName") -TrustedConnection $UseTrustedConnection
         }
     }
     else {
