@@ -262,7 +262,7 @@ function Get-D365LcsAssetFile {
             if ($obj.Version -NotLike $AssetVersion) { continue }
             if ($obj.FileName -NotLike $AssetFilename) { continue }
             if ($obj.FileDescription -NotLike $AssetDescription) { continue }
-            if ($obj.AssetId -NotLike $AssetId) { continue }
+            if ($obj.Id -NotLike $AssetId) { continue }
 
             $obj | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" "*", "Id as AssetId"
         }

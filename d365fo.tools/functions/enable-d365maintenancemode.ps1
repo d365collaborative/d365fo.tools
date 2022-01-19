@@ -123,14 +123,13 @@ function Enable-D365MaintenanceMode {
             SqlPwd         = $SqlPwd
         }
 
-        $enableMaintenanceModeSQLScriptName = "enable-maintenancemode.sql"
         if ($OutputCommandOnly) {
-            $scriptContent = Get-content -Path $("$script:ModuleRoot\internal\sql\$enableMaintenanceModeSQLScriptName") -Raw
+            $scriptContent = Get-content -Path $("$script:ModuleRoot\internal\sql\enable-maintenancemode.sql") -Raw
             Write-PSFMessage -Level Host -Message "It seems that you want the command, but you're running in a non-elevated console. Will output the SQL script that is avaiable."
             Write-PSFMessage -Level Host -Message "$scriptContent"
         }
         else {
-            Invoke-D365SqlScript @Params -FilePath $("$script:ModuleRoot\internal\sql\$enableMaintenanceModeSQLScriptName") -TrustedConnection $UseTrustedConnection
+            Invoke-D365SqlScript @Params -FilePath $("$script:ModuleRoot\internal\sql\enable-maintenancemode.sql") -TrustedConnection $UseTrustedConnection
         }
     }
     else {

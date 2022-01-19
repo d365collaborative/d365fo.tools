@@ -125,9 +125,8 @@ function Disable-D365MaintenanceMode {
             SqlPwd         = $SqlPwd
         }
 
-        $disableMaintenanceModeSQLScriptName = "disable-maintenancemode.sql"
         if ($OutputCommandOnly) {
-            $scriptContent = Get-content -Path $("$script:ModuleRoot\internal\sql\$disableMaintenanceModeSQLScriptName") -Raw
+            $scriptContent = Get-content -Path $("$script:ModuleRoot\internal\sql\disable-maintenancemode.sql") -Raw
             Write-PSFMessage -Level Host -Message "It seems that you want the command, but you're running in a non-elevated console. Will output the SQL script that is avaiable."
             Write-PSFMessage -Level Host -Message "$scriptContent"
         }
