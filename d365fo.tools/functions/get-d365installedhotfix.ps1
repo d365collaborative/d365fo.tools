@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Get installed hotfix
+        Get installed hotfix (DEPRECATED)
         
     .DESCRIPTION
-        Get all relevant details for installed hotfix
+        Get all relevant details for installed hotfixes on environments that are not on a "One Version" version. This cmdlet is deprecated since 2021-10-05 and will be removed by 2022-04-05.
         
     .PARAMETER BinDir
         The path to the bin directory for the environment

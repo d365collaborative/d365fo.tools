@@ -44,6 +44,7 @@
 * [[Branching]]
 * [[Azure DevOps Build Configuration]]
 * [[Building-tools]]
+* [[How To Write Wiki Pages]]
 
 ## **Automation**
 * [[Exception handling]]
@@ -53,6 +54,9 @@
 
 ## **Automated Testing**
 * [[Appveyor and tests]]
+
+## **Deprecation**
+* [[Deprecation guidelines]]
 
 ## **Troubleshooting**
 * [[Troubleshoot]]
