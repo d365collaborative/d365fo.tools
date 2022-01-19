@@ -2419,7 +2419,7 @@
     },
     {
         "CommandName":  "Get-D365InstalledHotfix",
-        "Description":  "Get all relevant details for installed hotfix",
+        "Description":  "Get all relevant details for installed hotfixes on environments that are not on a \"One Version\" version. This cmdlet is deprecated since 2021-10-05 and will be removed by 2022-04-05.",
         "Tags":  [
                      "Hotfix",
                      "Servicing",
@@ -2474,7 +2474,7 @@
                    ],
         "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get installed hotfix",
+        "Synopsis":  "Get installed hotfix (DEPRECATED)",
         "Name":  "Get-D365InstalledHotfix",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365InstalledHotfix\nThis will display all installed hotfixes found on this machine\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365InstalledHotfix -Model \"*retail*\"\nThis will display all installed hotfixes found for all models that matches the search for \"*retail*\" found on this machine\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365InstalledHotfix -Model \"*retail*\" -KB \"*43*\"\nThis will display all installed hotfixes found for all models that matches the search for \"*retail*\" and only with KB\u0027s that matches the search for \"*43*\" found on this machine",
