@@ -41,7 +41,7 @@
         
     .PARAMETER IdValue
         Specify which field to use as ID value when importing the users.
-        Available options 'Login' / 'FirstName'
+        Available options 'Login' / 'FirstName' / 'UserPrincipalName'
         
         Default is 'Login'
         
@@ -147,7 +147,7 @@ function Import-D365AadUser {
         [string] $NameSuffix = "",
 
         [Parameter(Mandatory = $false, Position = 9)]
-        [ValidateSet('Login', 'FirstName')]
+        [ValidateSet('Login', 'FirstName', 'UserPrincipalName')]
         [string] $IdValue = "Login",
 
         [Parameter(Mandatory = $false, Position = 10)]
@@ -304,6 +304,9 @@ function Import-D365AadUser {
             $id = ""
             if ($IdValue -eq 'Login') {
                 $id = $IdPrefix + $(Get-LoginFromEmail $user.Mail)
+            }
+            elseif($IdValue -eq 'UserPrincipalName') {
+                $id = $IdPrefix + $user.UserPrincipalName
             }
             else {
                 $id = $IdPrefix + $user.GivenName
