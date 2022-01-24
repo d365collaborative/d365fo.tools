@@ -64,7 +64,7 @@ So now you will have an Azure Storage Account and its configuration details pers
 ## **Authenticate with LCS and retrieve database backup information from LCS**
 The following cmdlets show how you can retrieve information about database backups that exist in LCS. We will later use this information to retrieve the backups.
 
-To call these and other cmdlets, you need to authenticate the d365fo.tools with LCS. A how-to for the authentication can be found at [Authenticate with LCS API](How-To-Authenticate-With-LCS-API.md). 
+To call these and other cmdlets, you need to authenticate the d365fo.tools with LCS. A how-to for the authentication can be found at [Authenticate with LCS API](How-To-Authenticate-With-LCS-API). 
 
 The following script will:
 1. Authenticate with the LCS API and store the refresh token and registered application along with the LCS project id
