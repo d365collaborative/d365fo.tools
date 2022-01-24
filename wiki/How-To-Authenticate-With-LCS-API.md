@@ -18,23 +18,23 @@ Please visit the [Install as an Administrator](https://github.com/d365collaborat
 
 Please visit the [Import d365fo.tools module](https://github.com/d365collaborative/d365fo.tools/wiki/Tutorial-Import-Module) tutorial to see the different ways you can load the d365fo.module into a PowerShell session.
 
-To learn more about the prerequisites for this how-to, you should visit Adrià Ariste's [blog](https://ariste.info/en) - more specific the following [post](https://ariste.info/en/msdyn365-azure-devops-alm), [section 7 Setup Release Pipelines](https://ariste.info/en/msdyn365-azure-devops-alm/#Setup_Release_Pipelines) & [section 9 LCS DB API](https://ariste.info/en/msdyn365-azure-devops-alm/#LCS_DB_API)
+To learn more about the prerequisites for this how-to, you should visit Adrià Ariste's [blog](https://ariste.info/en) - more specific the following [guide](https://ariste.info/en/msdyn365-azure-devops-alm), [chapter "Release Pipelines"](https://ariste.info/en/dynamics365almguide/setting-up-release-pipeline-in-azure-devops-for-dynamics-365-for-finance-and-operations/) & [chapter "LCS DB API"](https://ariste.info/en/dynamics365almguide/call-the-lcs-database-movement-api-from-your-azure-devops-pipelines/)
 
 ## **Configure LCS API access details**
 For you to be able to communicate with the LCS API, you will need an username, password and a registered application. As mentioned in the prerequisites, you should read the blog post from Adrià Ariste.
 
 The following script will:
 1. Test that your username, password and registered application is working
-2. Store the refresh token and registered application along with the LCS project id
+2. Store the authentication token and registered application along with the LCS project id
 
 ```powershell
-#We'll start by testing that we can obtain a valid OAuth token, to make sure our details are correct
+# We will start by testing that we can obtain a valid OAuth token, to make sure our details are correct
 Get-D365LcsApiToken -ClientId "e70cac82-6a7c-4f9e-a8b9-e707b961e986" -Username "Lcs-Automation@contoso.com" -Password "fT1DHcLdeTWC9aumugHr" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 
-#Now we are going to save the details, the refresh token, the registered application and the project id
+# Now we are going to save the details, the refresh token, the registered application and the project id
 Get-D365LcsApiToken -ClientId "e70cac82-6a7c-4f9e-a8b9-e707b961e986" -Username "Lcs-Automation@contoso.com" -Password "fT1DHcLdeTWC9aumugHr" -LcsApiUri "https://lcsapi.lcs.dynamics.com" | Set-D365LcsApiConfig -ProjectId "123456789" -ClientId "e70cac82-6a7c-4f9e-a8b9-e707b961e986"
 ```
 
-[[images/howtos/01.01-LCS-API-Get-D365LcsApiToken.gif]]
+[[images/howtos/Authenticate-LCS-API.gif]]
 
-So now you will have the refresh token, the registered application and the project id persisted on your machine, which will enable different cmdlets to utilize them going forward.
+So now you will have the authentication token, the registered application and the project id persisted on your machine, which will enable different cmdlets to utilize them going forward.
