@@ -18,6 +18,8 @@ END
 
 IF EXISTS (SELECT * FROM sys.syslogins WHERE NAME = 'axdbadmin')
 BEGIN
+	ALTER AUTHORIZATION ON database::@DATABASENAME TO sa
+
 	CREATE USER axdbadmin FROM LOGIN axdbadmin
 	EXEC sp_addrolemember 'db_owner', 'axdbadmin'
 END

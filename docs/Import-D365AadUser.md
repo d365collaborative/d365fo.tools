@@ -240,7 +240,7 @@ Accept wildcard characters: False
 
 ### -IdValue
 Specify which field to use as ID value when importing the users.
-Available options 'Login' / 'FirstName'
+Available options 'Login' / 'FirstName' / 'UserPrincipalName'
 
 Default is 'Login'
 

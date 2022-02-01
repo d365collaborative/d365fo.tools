@@ -28,14 +28,16 @@ Sets the Dynamics 365 environment into maintenance mode to enable the user to up
 Enable-D365MaintenanceMode
 ```
 
-This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
+On VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the maintenance mode.
+On cloud hosted environments, a SQL script is used instead.
 
 ### EXAMPLE 2
 ```
 Enable-D365MaintenanceMode -ShowOriginalProgress
 ```
 
-This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state
+On VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the maintenance mode.
+On cloud hosted environments, a SQL script is used instead.
 The output from stopping the services will be written to the console / host.
 The output from the "deployment" process will be written to the console / host.
 The output from starting the services will be written to the console / host.
@@ -178,7 +180,7 @@ Accept wildcard characters: False
 ### -OutputCommandOnly
 Instruct the cmdlet to only output the command that you would have to execute by hand
 
-Will include full path to the executable and the needed parameters based on your selection
+Will include full path to the executable or SQL script and the needed parameters based on your selection
 
 ```yaml
 Type: SwitchParameter
@@ -205,11 +207,11 @@ Tags: MaintenanceMode, Maintenance, License, Configuration, Servicing
 Author: Mötz Jensen (@splaxi)
 Author: Tommy Skaue (@skaue)
 
-With administrator privileges:
+On VHD based environments with administrator privileges:
 The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed.
 
-Without administrator privileges:
-Will stop all services, execute a Sql script and start all services.
+Without administrator privileges or on cloud hosted environments:
+Will stop all services, execute a SQL script and starts the AOS service (other services are not needed during maintenance mode).
 
 ## RELATED LINKS
 

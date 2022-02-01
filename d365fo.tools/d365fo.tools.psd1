@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.6.69'
+	ModuleVersion     = '0.6.70'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -302,6 +302,7 @@
 		'Set-D365FlightServiceCatalogId',
 
 		'Start-D365Environment',
+		'Start-D365EnvironmentV2',
 		'Start-D365EventTrace',
 
 		'Stop-D365Environment',

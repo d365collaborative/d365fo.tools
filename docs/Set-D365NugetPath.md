@@ -23,7 +23,7 @@ Update the path where the module will be looking for the nuget.exe executable
 
 ### EXAMPLE 1
 ```
-Set-D365SqlPackagePath -Path "C:\temp\d365fo.tools\nuget\nuget.exe"
+Set-D365NugetPath -Path "C:\temp\d365fo.tools\nuget\nuget.exe"
 ```
 
 This will update the path for the nuget.exe in the modules configuration
