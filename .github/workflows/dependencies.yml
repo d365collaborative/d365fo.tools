@@ -1,0 +1,10 @@
+# Used to define the dependencies of the d365fo.tools PowerShell module
+# in a way that can be evaluated for the GitHub dependency graph.
+# See https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-the-dependency-graph
+name: Dependencies
+
+jobs:
+  dependencies:
+    steps:
+      - name: PSFramework
+        uses: PowershellFrameworkCollective/psframework@32c18f13173be8cc6b6803c63c40b9d7ab5aec12
