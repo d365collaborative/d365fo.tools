@@ -1,4 +1,4 @@
-TOPIC
+﻿TOPIC
     about_Deployable_Packages
 
 SHORT DESCRIPTION
@@ -8,7 +8,7 @@ LONG DESCRIPTION
     "A deployable package is a unit of deployment that can be applied to any environment. It can consist of a binary hotfix to the runtime components of Application Object Server (AOS), an updated application package, or a new application package."
     - Install deployable packages from the command line (https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/deployment/install-deployable-package)
 
-    The link above to the Microsoft documentation provides further guidance on how to install deployable packages on environments that cannot be updated using Lifecylce Services (LCS). This is a multi-step process which can be error prone if not done regularly or automated in some way. 
+    The link above to the Microsoft documentation provides further guidance on how to install deployable packages on environments that cannot be updated using Lifecylce Services (LCS). This is a multi-step process which can be error prone if not done regularly or automated in some way.
 
     The d365fo.tools provide a collection of cmdlets that wrap this process in some easy to use PowerShell commands. The names of the cmdlets contain some terms, which are briefly explained:
 
@@ -33,7 +33,7 @@ Get-D365InstalledPackage
 Set-D365SDPCleanUp and Get-D365SDPCleanUp
     These two commands provide an easy way to change or view the Windows registry entries that control how soon the contents of the folder where deployable packages are stored are deleted. This folder is used on cloud hosted environments by the updates done through LCS.
 
-Get-D365Runbook 
+Get-D365Runbook
     Used to retrieve a list of runbook files that are available on a D365FO environment. The output can be piped to other cmdlets that work with runbooks.
 
 Get-D365RunbookId
@@ -46,7 +46,7 @@ Get-D365RunbookLogFile
     Used to retrieve the log file from the installation folder of a package for specific installation step.
 
 Backup-D365Runbook
-    Used to create a backup of a runbook file. 
+    Used to create a backup of a runbook file.
 
 KEYWORDS
     DeployablePackage, Runbook
