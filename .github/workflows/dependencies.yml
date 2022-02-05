@@ -4,6 +4,9 @@
 # The actual dependencies are defined in https://github.com/d365collaborative/d365fo.tools/blob/master/d365fo.tools/d365fo.tools.psd1
 name: Dependencies
 
+on:
+  workflow_dispatch:
+  
 jobs:
   dependencies:
     steps:
