@@ -24,7 +24,9 @@
 	PowerShellVersion = '5.0'
 	
 	# Modules that must be imported into the global environment prior to importing
-	# this module
+	# this module.
+	# To enable the GitHub dependency graph, changes should be synchronized with
+	# https://github.com/d365collaborative/d365fo.tools/blob/master/.github/workflows/dependencies.yml
 	RequiredModules   = @(
 		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' }
 		, @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }
