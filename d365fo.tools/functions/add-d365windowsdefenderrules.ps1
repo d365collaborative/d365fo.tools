@@ -75,7 +75,7 @@ function Add-D365WindowsDefenderRules {
         Add-MpPreference -ExclusionProcess "C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Binn\sqlservr.exe"
 		# add IIS and IISExpress
 		Add-MpPreference -ExclusionProcess "C:\Windows\System32\inetsrv\w3wp.exe"
-		Add-MpPreference -ExclusionProcess "C:\Program Files\IIS Express\iisexpress.exe"		
+		Add-MpPreference -ExclusionProcess "C:\Program Files\IIS Express\iisexpress.exe"
 
         #Compile kicks off the defender. Exclude base path to AOS helps on that.
         Add-MpPreference -ExclusionPath $AOSServicePath
