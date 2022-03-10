@@ -56,7 +56,9 @@ function Add-D365WindowsDefenderRules {
         
         # visual studio & tools
         Add-MpPreference -ExclusionProcess "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe"
+        Add-MpPreference -ExclusionProcess "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\devenv.exe"
         Add-MpPreference -ExclusionProcess "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\devenv.exe"
+        Add-MpPreference -ExclusionProcess "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.exe"
         Add-MpPreference -ExclusionProcess "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"
         Add-MpPreference -ExclusionProcess "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
         Add-MpPreference -ExclusionProcess "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe"
@@ -71,6 +73,9 @@ function Add-D365WindowsDefenderRules {
         # add SQLServer
         Add-MpPreference -ExclusionProcess "C:\Program Files\Microsoft SQL Server\130\LocalDB\Binn\sqlservr.exe"
         Add-MpPreference -ExclusionProcess "C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Binn\sqlservr.exe"
+		# add IIS and IISExpress
+		Add-MpPreference -ExclusionProcess "C:\Windows\System32\inetsrv\w3wp.exe"
+		Add-MpPreference -ExclusionProcess "C:\Program Files\IIS Express\iisexpress.exe"
 
         #Compile kicks off the defender. Exclude base path to AOS helps on that.
         Add-MpPreference -ExclusionPath $AOSServicePath
@@ -94,6 +99,9 @@ function Add-D365WindowsDefenderRules {
         Add-MpPreference -ExclusionPath "C:\Users\Administrator\AppData\Local\Microsoft\VisualStudio"
         Add-MpPreference -ExclusionPath "C:\Users\Administrator\AppData\Local\Microsoft\WebsiteCache"
         Add-MpPreference -ExclusionPath "C:\Users\Administrator\AppData\Roaming\Microsoft\VisualStudio"
+		Add-MpPreference -ExclusionPath "$Env:USERPROFILE\AppData\Local\Microsoft\VisualStudio"
+		Add-MpPreference -ExclusionPath "$Env:USERPROFILE\AppData\Local\Microsoft\WebsiteCache"
+		Add-MpPreference -ExclusionPath "$Env:USERPROFILE\AppData\Roaming\Microsoft\VisualStudio"
     }
     catch {
         Write-PSFMessage -Level Host -Message "Something went wrong while configuring Windows Defender rules." -Exception $PSItem.Exception
