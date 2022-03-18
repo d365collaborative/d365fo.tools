@@ -1,0 +1,25 @@
+# Used to define the dependencies of the d365fo.tools PowerShell module
+# in a way that can be evaluated for the GitHub dependency graph.
+# See https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-the-dependency-graph
+# The actual dependencies are defined in https://github.com/d365collaborative/d365fo.tools/blob/master/d365fo.tools/d365fo.tools.psd1
+name: Dependencies
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  dependencies:
+    steps:
+      - name: PSFramework
+        uses: PowershellFrameworkCollective/psframework@32c18f13173be8cc6b6803c63c40b9d7ab5aec12 # version 1.0.12
+      - name: Azure.Storage
+        uses: Azure/azure-powershell@v4.4.0-September2017 # unclear which commit/tag corresponds to https://www.powershellgallery.com/packages/Azure.Storage/4.4.0
+      # AzureAd does not seem to have a public GitHub repository
+      # - name: AzureAd
+      #   uses: 
+      - name: PSNotification
+        uses: Splaxi/PSNotification@b344c3dfdb04db1a338f203d1a0c5ae72d67ae89 # version 0.5.3
+      - name: PSOAuthHelper
+        uses: Splaxi/PSOAuthHelper@837a2da63bf76e86f339a4e43e38df5a3b82affe # version 0.3.0
+      - name: ImportExcel
+        uses: dfinke/ImportExcel@v7.1.0

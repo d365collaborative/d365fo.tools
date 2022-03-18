@@ -1,0 +1,55 @@
+﻿TOPIC
+    about_Deployable_Packages
+
+SHORT DESCRIPTION
+    Describes the concept of deployable packages and how to work with them using the d365fo.tools.
+
+LONG DESCRIPTION
+    "A deployable package is a unit of deployment that can be applied to any environment. It can consist of a binary hotfix to the runtime components of Application Object Server (AOS), an updated application package, or a new application package."
+    - Install deployable packages from the command line (https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/deployment/install-deployable-package)
+
+    The link above to the Microsoft documentation provides further guidance on how to install deployable packages on environments that cannot be updated using Lifecylce Services (LCS). This is a multi-step process which can be error prone if not done regularly or automated in some way.
+
+    The d365fo.tools provide a collection of cmdlets that wrap this process in some easy to use PowerShell commands. The names of the cmdlets contain some terms, which are briefly explained:
+
+    - SDP: short for Software Deployable Package
+    - Runbook: A runbook is a xml file created during the install process. It defines all the steps that will be executed by the installer.
+    - Topology: A topology is another xml file that defines the components of the D365FO environment. The runbook is created based on the topology.
+
+    The following gives an overview of the available cmdlets. Further information for each cmdlet is available in its help.
+
+Invoke-D365SDPInstall
+    The Invoke-D365SDPInstall cmdlet is the main command used to install a deployable package.
+
+New-D365TopologyFile
+    Used to create a topology xml file. Note that this is done by the Invoke-D365SDPInstall cmdlet automatically, so this command is usually used if the topology file is needed for something else than the installation of a deployable package. It can for example be useful to compare two different environments.
+
+Get-D365InstalledService
+    Used to retrieve a list of services available in a D365FO environment. The output can be used as the -Services parameter of the New-D365TopologyFile command.
+
+Get-D365InstalledPackage
+    Used to retrieve a list of packages available in a D365FO environment.
+
+Set-D365SDPCleanUp and Get-D365SDPCleanUp
+    These two commands provide an easy way to change or view the Windows registry entries that control how soon the contents of the folder where deployable packages are stored are deleted. This folder is used on cloud hosted environments by the updates done through LCS.
+
+Get-D365Runbook
+    Used to retrieve a list of runbook files that are available on a D365FO environment. The output can be piped to other cmdlets that work with runbooks.
+
+Get-D365RunbookId
+    Used to retrieve the id of a runbook from a runbook file.
+
+Invoke-D365RunbookAnalyzer
+    Used to analyze the issues of a failed runbook.
+
+Get-D365RunbookLogFile
+    Used to retrieve the log file from the installation folder of a package for specific installation step.
+
+Backup-D365Runbook
+    Used to create a backup of a runbook file.
+
+KEYWORDS
+    DeployablePackage, Runbook
+
+SEE ALSO
+    Guide "Work with packages, resource label files, language and labels" (https://github.com/d365collaborative/d365fo.tools/wiki/Work-with-packages,-resource---label-files,-language-and-lables)

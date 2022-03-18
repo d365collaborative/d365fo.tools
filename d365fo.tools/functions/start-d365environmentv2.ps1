@@ -161,7 +161,7 @@ function Start-D365EnvironmentV2 {
         $temp = $temp | Where-Object StartType -eq "Automatic"
     }
 
-    $temp | Select-Object @{Name = "Server"; Expression = { $ComputerName } }, Name, Status, StartType, DisplayName
+    $Results = $temp | Select-Object @{Name = "Server"; Expression = { $ComputerName } }, Name, Status, StartType, DisplayName
 
     Write-PSFMessage -Level Verbose "Results are: $Results" -Target ($Results.Name -join ",")
 
