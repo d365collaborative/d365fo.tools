@@ -33,13 +33,13 @@ The new file is stored at "C:\temp\CurrentTopology.xml"
 ### EXAMPLE 2
 ```
 $Services = @(Get-D365InstalledService | ForEach-Object {$_.Servicename})
-```
 
-PS C:\\\> New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services $Services -NewPath C:\temp\CurrentTopology.xml
+New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services $Services -NewPath C:\temp\CurrentTopology.xml
+```
 
 This will get all the services already installed on the machine.
 Afterwards the list is piped
-to New-D365TopologyFile where all services are import into the new topology file that is stored at "C:\temp\CurrentTopology.xml"
+to New-D365TopologyFile where all services are imported into the new topology file that is stored at "C:\temp\CurrentTopology.xml"
 
 ## PARAMETERS
 

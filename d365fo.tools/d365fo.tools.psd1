@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.6.70'
+	ModuleVersion     = '0.6.72'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -24,7 +24,9 @@
 	PowerShellVersion = '5.0'
 	
 	# Modules that must be imported into the global environment prior to importing
-	# this module
+	# this module.
+	# To enable the GitHub dependency graph, changes should be synchronized with
+	# https://github.com/d365collaborative/d365fo.tools/blob/master/.github/workflows/dependencies.yml
 	RequiredModules   = @(
 		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' }
 		, @{ ModuleName = 'Azure.Storage'; ModuleVersion = '4.4.0' }
