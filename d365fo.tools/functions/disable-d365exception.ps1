@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Disables throwing of exceptions
