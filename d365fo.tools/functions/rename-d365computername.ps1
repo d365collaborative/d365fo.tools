@@ -94,9 +94,13 @@ function Rename-D365ComputerName {
         return
     }
 
-    $executable = "$Script:SQLTools\rsconfig.exe"
+    $executable = "$Script:SSRSTools\rsconfig.exe"
 
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) {
+        $executable = "$Script:SQLTools\rsconfig.exe" # fall back to pre 10.0.24
+
+        if (-not (Test-PathExists -Path $executable -Type Leaf)) { return } 
+    }
 
     if (Test-PSFFunctionInterrupt) { return }
 
