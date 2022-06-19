@@ -32,7 +32,7 @@ function Set-D365WorkstationMode {
     )
 
     Set-PSFConfig -FullName "d365fo.tools.workstation.mode" -Value $Enabled
-    Get-PSFConfig -FullName "d365fo.tools.workstation.mode" | Register-PSFConfig
+    Register-PSFConfig -FullName "d365fo.tools.workstation.mode"
 
     Write-PSFMessage -Level Host -Message "Please <c='em'>restart</c> the powershell session / console. This change affects core functionality that <c='em'>requires</c> the module to be <c='em'>reloaded</c>."
 }

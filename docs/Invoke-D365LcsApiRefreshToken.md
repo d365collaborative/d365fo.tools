@@ -14,12 +14,13 @@ Refresh the token for lcs communication
 
 ### Object
 ```
-Invoke-D365LcsApiRefreshToken -ClientId <String> [-InputObject <PSObject>] [<CommonParameters>]
+Invoke-D365LcsApiRefreshToken -ClientId <String> [-InputObject <PSObject>] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ### Simple
 ```
-Invoke-D365LcsApiRefreshToken -ClientId <String> -RefreshToken <String> [<CommonParameters>]
+Invoke-D365LcsApiRefreshToken -ClientId <String> -RefreshToken <String> [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -113,6 +114,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

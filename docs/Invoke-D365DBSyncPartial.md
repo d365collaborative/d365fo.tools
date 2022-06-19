@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-D365DBSyncPartial
+# Invoke-D365DbSyncPartial
 
 ## SYNOPSIS
 Invoke the synchronization process used in Visual Studio
@@ -13,10 +13,10 @@ Invoke the synchronization process used in Visual Studio
 ## SYNTAX
 
 ```
-Invoke-D365DBSyncPartial [[-SyncMode] <String>] [[-SyncList] <String[]>] [[-LogPath] <String>]
+Invoke-D365DbSyncPartial [[-SyncList] <String[]>] [[-SyncExtensionsList] <String[]>] [[-SyncMode] <String>]
  [[-Verbosity] <String>] [[-BinDirTools] <String>] [[-MetadataDir] <String>] [[-DatabaseServer] <String>]
- [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [-ShowOriginalProgress]
- [-OutputCommandOnly] [<CommonParameters>]
+ [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-LogPath] <String>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,7 +29,6 @@ Uses the sync.exe (engine) to synchronize the database for the environment
 Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable"
 ```
 
-Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
 This will invoke the sync engine and have it work against the database.
 It will run with the default value "PartialList" as the SyncMode.
 It will run the sync process against "CustCustomerEntity" and "SalesTable"
@@ -39,34 +38,42 @@ It will run the sync process against "CustCustomerEntity" and "SalesTable"
 Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -Verbose
 ```
 
-Will sync the "CustCustomerEntity" and "SalesTable" objects in the database.
 This will invoke the sync engine and have it work against the database.
 It will run with the default value "PartialList" as the SyncMode.
 It will run the sync process against "CustCustomerEntity" and "SalesTable"
 
 It will output the same level of details that Visual Studio would normally do.
 
+### EXAMPLE 3
+```
+Invoke-D365DBSyncPartial -SyncList "CustCustomerEntity","SalesTable" -SyncExtensionsList "CaseLog.Extension","CategoryTable.Extension" -Verbose
+```
+
+This will invoke the sync engine and have it work against the database.
+It will run with the default value "PartialList" as the SyncMode.
+It will run the sync process against "CustCustomerEntity", "SalesTable", "CaseLog.Extension" and "CategoryTable.Extension"
+
+It will output the same level of details that Visual Studio would normally do.
+
 ## PARAMETERS
 
-### -SyncMode
-The sync mode the sync engine will use
-
-Default value is: "PartialList"
+### -SyncList
+The list of objects that you want to pass on to the database synchronoziation engine
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 1
-Default value: PartialList
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SyncList
-The list of objects that you want to pass on to the database synchronoziation engine
+### -SyncExtensionsList
+The list of extension objects that you want to pass on to the database synchronoziation engine
 
 ```yaml
 Type: String[]
@@ -80,8 +87,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LogPath
-The path where the log file will be saved
+### -SyncMode
+The sync mode the sync engine will use
+
+Default value is: "PartialList"
 
 ```yaml
 Type: String
@@ -90,7 +99,7 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: C:\temp\D365FO.Tools\Sync
+Default value: PartialList
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -211,6 +220,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 11
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\DbSync")
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ShowOriginalProgress
 Instruct the cmdlet to show the standard output in the console
 
@@ -256,6 +282,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 Tags: Database, Sync, SyncDB, Synchronization, Servicing
 
 Author: Mötz Jensen (@Splaxi)
+
+Author: Jasper Callens - Cegeka
 
 Inspired by:
 https://axdynamx.blogspot.com/2017/10/how-to-synchronize-manually-database.html

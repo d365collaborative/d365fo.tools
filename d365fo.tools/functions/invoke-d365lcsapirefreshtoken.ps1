@@ -15,6 +15,10 @@
     .PARAMETER InputObject
         The entire object that you received from the Get-D365LcsApiToken command, which contains the needed RefreshToken
         
+    .PARAMETER EnableException
+        This parameters disables user-friendly warnings and enables the throwing of exceptions
+        This is less user friendly, but allows catching exceptions in calling scripts
+        
     .EXAMPLE
         PS C:\> Invoke-D365LcsApiRefreshToken -ClientId "9b4f4503-b970-4ade-abc6-2c086e4c4929" -RefreshToken "Tsdljfasfe2j32324"
         
@@ -67,6 +71,7 @@
 #>
 
 function Invoke-D365LcsApiRefreshToken {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseProcessBlockForPipelineCommand", "")]
     [CmdletBinding()]
     [OutputType()]
     param (
@@ -80,7 +85,9 @@ function Invoke-D365LcsApiRefreshToken {
         [string] $RefreshToken,
 
         [Parameter(Mandatory = $false, ParameterSetName = "Object")]
-        [PSCustomObject] $InputObject
+        [PSCustomObject] $InputObject,
+
+        [switch] $EnableException
     )
 
     if ($PsCmdlet.ParameterSetName -eq "Simple") {

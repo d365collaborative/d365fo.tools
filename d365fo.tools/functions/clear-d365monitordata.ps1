@@ -31,5 +31,7 @@ function Clear-D365MonitorData {
         [string] $Path = (Join-Path $script:ServiceDrive "\MonAgentData\SingleAgent\Tables")
     )
     
-    Get-ChildItem -Path $Path | Remove-Item -Force -ErrorAction SilentlyContinue
+    process {
+        Get-ChildItem -Path $Path | Remove-Item -Force -ErrorAction SilentlyContinue
+    }
 }

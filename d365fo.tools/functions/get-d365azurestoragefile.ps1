@@ -60,21 +60,17 @@
 function Get-D365AzureStorageFile {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [Parameter(Mandatory = $false)]
-        [string] $AccountId = $Script:AccountId,
+        [string] $AccountId = $Script:AzureStorageAccountId,
 
-        [Parameter(Mandatory = $false)]
-        [string] $AccessToken = $Script:AccessToken,
+        [string] $AccessToken = $Script:AzureStorageAccessToken,
 
-        [Parameter(Mandatory = $false)]
-        [string] $SAS = $Script:SAS,
+        [string] $SAS = $Script:AzureStorageSAS,
 
-        [Parameter(Mandatory = $false)]
         [Alias('Blob')]
         [Alias('Blobname')]
-        [string] $Container = $Script:Container,
+        [string] $Container = $Script:AzureStorageContainer,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default')]
+        [Parameter(ParameterSetName = 'Default')]
         [Alias('FileName')]
         [string] $Name = "*",
 

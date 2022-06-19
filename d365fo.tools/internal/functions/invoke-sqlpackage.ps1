@@ -42,6 +42,19 @@
         
         This is used to override SQL Server options, like collation and etc
         
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database
+        
+        The default value is 8
+        
+    .PARAMETER PublishFile
+        Path to the profile / publish xml file that contains all the advanced configuration instructions for the SqlPackage
+        
+        Used only in combination with the Publish action
+        
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -81,7 +94,7 @@ function Invoke-SqlPackage {
     [CmdletBinding()]
     [OutputType([System.Boolean])]
     param (
-        [ValidateSet('Import', 'Export')]
+        [ValidateSet("Import", "Export", "Publish")]
         [string] $Action,
         
         [string] $DatabaseServer,
@@ -101,6 +114,13 @@ function Invoke-SqlPackage {
         [string] $DiagnosticFile,
 
         [string] $ModelFile,
+
+        [int] $MaxParallelism,
+
+        [Alias("ProfileFile")]
+        [string] $PublishFile,
+
+        [string] $LogPath,
 
         [switch] $ShowOriginalProgress,
 
@@ -133,7 +153,7 @@ function Invoke-SqlPackage {
         
         Remove-Item -Path $FilePath -ErrorAction SilentlyContinue -Force
     }
-    else {
+    elseif ($Action -eq "import") {
         $null = $Params.Add("/Action:import")
         $null = $Params.Add("/TargetServerName:$DatabaseServer")
         $null = $Params.Add("/TargetDatabaseName:$DatabaseName")
@@ -145,21 +165,41 @@ function Invoke-SqlPackage {
             $null = $Params.Add("/TargetPassword:$SqlPwd")
         }
     }
+    elseif ($Action -eq "publish") {
+        $Params.Add("/Action:Publish") > $null
+        $Params.Add("/TargetServerName:$DatabaseServer") > $null
+        $Params.Add("/TargetDatabaseName:$DatabaseName") > $null
+        $Params.Add("/SourceFile:`"$FilePath`"") > $null
+        $Params.Add("/Properties:CommandTimeout=0") > $null
+        
+        if (-not $UseTrustedConnection) {
+            $Params.Add("/TargetUser:$SqlUser") > $null
+            $Params.Add("/TargetPassword:$SqlPwd") > $null
+        }
+
+        if ($PublishFile) {
+            $Params.Add("/Profile:`"$PublishFile`"") > $null
+        }
+    }
 
     foreach ($item in $Properties) {
-        $null = $Params.Add("/Properties:$item")
+        $Params.Add("/Properties:$item") > $null
     }
 
-    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
-        $null = $Params.Add("/Diagnostics:true")
-        $null = $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"")
+    if ($DiagnosticFile) {
+        $Params.Add("/Diagnostics:true") > $null
+        $Params.Add("/DiagnosticsFile:`"$DiagnosticFile`"") > $null
     }
     
-    if (-not [system.string]::IsNullOrEmpty($ModelFile)) {
-        $null = $Params.Add("/ModelFilePath:`"$ModelFile`"")
+    if ($ModelFile) {
+        $Params.Add("/ModelFilePath:`"$ModelFile`"") > $null
     }
 
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    if ($MaxParallelism) {
+        $Params.Add("/MaxParallelism:$MaxParallelism") > $null
+    }
+
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     
     if (Test-PSFFunctionInterrupt) {
         Write-PSFMessage -Level Critical -Message "The SqlPackage.exe exited with an error."

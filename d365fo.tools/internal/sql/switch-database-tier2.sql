@@ -2,8 +2,8 @@
 Declare @Command as nvarchar(2000)
 
 
-set @Command =' ALTER DATABASE ['+ @OrigName + '] MODIFY NAME = [' + @OrigName + '_original];
-                ALTER DATABASE ['+ @NewName +'] MODIFY NAME = ['+ @OrigName +'];
+set @Command =' ALTER DATABASE ['+ @DestinationName + '] MODIFY NAME = [' + @ToBeName + '];
+                ALTER DATABASE ['+ @SourceName +'] MODIFY NAME = ['+ @DestinationName +'];
                 '
 
 exec (@Command)

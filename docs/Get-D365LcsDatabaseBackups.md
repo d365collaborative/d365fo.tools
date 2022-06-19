@@ -13,8 +13,8 @@ Get database backups from LCS project
 ## SYNTAX
 
 ```
-Get-D365LcsDatabaseBackups [[-ProjectId] <Int32>] [[-BearerToken] <String>] [[-LcsApiUri] <String>]
- [<CommonParameters>]
+Get-D365LcsDatabaseBackups [[-ProjectId] <Int32>] [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest]
+ [[-RetryTimeout] <TimeSpan>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,6 +38,30 @@ Get-D365LcsDatabaseBackups
 ```
 
 This will get all available database backups from the Asset Library inside LCS.
+It will use default values for all parameters.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 3
+```
+Get-D365LcsDatabaseBackups -Latest
+```
+
+This will get the latest available database backup from the Asset Library inside LCS.
+It will use default values for all parameters.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 4
+```
+Get-D365LcsDatabaseBackups -Latest -RetryTimeout "00:01:00"
+```
+
+This will get the latest available database backup from the Asset Library inside LCS, and allow for the cmdlet to retry for no more than 1 minute.
 It will use default values for all parameters.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
@@ -83,11 +107,18 @@ Accept wildcard characters: False
 ### -LcsApiUri
 URI / URL to the LCS API you want to use
 
-Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+The value depends on where your LCS project is located. There are multiple valid URI's / URL's
 
 Valid options:
 "https://lcsapi.lcs.dynamics.com"
 "https://lcsapi.eu.lcs.dynamics.com"
+"https://lcsapi.fr.lcs.dynamics.com"
+"https://lcsapi.sa.lcs.dynamics.com"
+"https://lcsapi.uae.lcs.dynamics.com"
+"https://lcsapi.ch.lcs.dynamics.com"
+"https://lcsapi.no.lcs.dynamics.com"
+"https://lcsapi.lcs.dynamics.cn"
+"https://lcsapi.gov.lcs.microsoftdynamics.us"
 
 Default value can be configured using Set-D365LcsApiConfig
 
@@ -99,6 +130,66 @@ Aliases:
 Required: False
 Position: 3
 Default value: $Script:LcsApiLcsApiUri
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Latest
+Instruct the cmdlet to only fetch the latest file from the Azure Storage Account
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: GetLatest
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RetryTimeout
+The retry timeout, before the cmdlet should quit retrying based on the 429 status code
+
+Needs to be provided in the timspan notation:
+"hh:mm:ss"
+
+hh is the number of hours, numerical notation only
+mm is the number of minutes
+ss is the numbers of seconds
+
+Each section of the timeout has to valid, e.g.
+hh can maximum be 23
+mm can maximum be 59
+ss can maximum be 59
+
+Not setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint
+
+```yaml
+Type: TimeSpan
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: 00:00:00
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

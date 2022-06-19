@@ -17,7 +17,8 @@ Import a bacpac file
 Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>] [-ImportOnly]
- [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
+ [-MaxParallelism <Int32>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ### ImportOnlyTier2
@@ -27,7 +28,8 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [[-AxDeployExtUserPwd] <String>] [[-AxDbAdminPwd] <String>] [[-AxRuntimeUserPwd] <String>]
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
  [[-AxDbReadonlyUserPwd] <String>] [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
- [-ImportOnly] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
+ [-ImportOnly] [-MaxParallelism <Int32>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ### ImportTier2
@@ -37,7 +39,8 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-AxDeployExtUserPwd] <String> [-AxDbAdminPwd] <String> [-AxRuntimeUserPwd] <String>
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
  [-AxDbReadonlyUserPwd] <String> [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
- [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
+ [-MaxParallelism <Int32>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,6 +49,15 @@ Import a bacpac file to either a Tier1 or Tier2 environment
 ## EXAMPLES
 
 ### EXAMPLE 1
+```
+Invoke-D365InstallSqlPackage
+```
+
+You should always install the latest version of the SqlPackage.exe, which is used by New-D365Bacpac.
+
+This will fetch the latest .Net Core Version of SqlPackage.exe and install it at "C:\temp\d365fo.tools\SqlPackage".
+
+### EXAMPLE 2
 ```
 Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
 ```
@@ -57,7 +69,7 @@ It will import the "C:\temp\uat.bacpac" file into a new database named "Imported
 The next thing to do is to switch the active database out with the new one you just imported.
 "ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
 
-### EXAMPLE 2
+### EXAMPLE 3
 ```
 Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile "C:\temp\uat.bacpac" -AxDeployExtUserPwd "XxXx" -AxDbAdminPwd "XxXx" -AxRuntimeUserPwd "XxXx" -AxMrRuntimeUserPwd "XxXx" -AxRetailRuntimeUserPwd "XxXx" -AxRetailDataSyncUserPwd "XxXx" -AxDbReadonlyUserPwd "XxXx" -NewDatabaseName "ImportedDatabase"
 ```
@@ -70,7 +82,7 @@ It will import the "C:\temp\uat.bacpac" file into a new database named "Imported
 The next thing to do is to switch the active database out with the new one you just imported.
 "ImportedDatabase" will be switched in as the active database, while the old one will be named "AXDB_original".
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt"
 ```
@@ -78,6 +90,29 @@ Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabase
 This will instruct the cmdlet that the import will be working against a SQL Server instance.
 It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
 It will output a diagnostic file to "C:\temp\ImportLog.txt".
+
+### EXAMPLE 5
+```
+Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt" -MaxParallelism 32
+```
+
+This will instruct the cmdlet that the import will be working against a SQL Server instance.
+It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+It will output a diagnostic file to "C:\temp\ImportLog.txt".
+
+It will use 32 connections against the database server while importing the bacpac file.
+
+### EXAMPLE 6
+```
+Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -ImportOnly
+```
+
+This will instruct the cmdlet that the import will be working against a SQL Server instance.
+It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+No cleanup or prepping jobs will be executed, because this is for importing only.
+
+This would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.
+You would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.
 
 ## PARAMETERS
 
@@ -499,6 +534,40 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MaxParallelism
+Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database
+
+The default value is 8
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 8
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: Named
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ImportBacpac")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

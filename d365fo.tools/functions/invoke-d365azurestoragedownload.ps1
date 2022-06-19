@@ -81,15 +81,18 @@
 function Invoke-D365AzureStorageDownload {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
-        [string] $AccountId = $Script:AccountId,
+        [Parameter(Mandatory = $false)]
+        [string] $AccountId = $Script:AzureStorageAccountId,
 
-        [string] $AccessToken = $Script:AccessToken,
+        [Parameter(Mandatory = $false)]
+        [string] $AccessToken = $Script:AzureStorageAccessToken,
 
-        [string] $SAS = $Script:SAS,
+        [Parameter(Mandatory = $false)]
+        [string] $SAS = $Script:AzureStorageSAS,
 
         [Alias('Blob')]
         [Alias('Blobname')]
-        [string] $Container = $Script:Container,
+        [string] $Container = $Script:AzureStorageContainer,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Default', ValueFromPipelineByPropertyName = $true)]
         [Alias('Name')]

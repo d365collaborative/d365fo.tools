@@ -41,7 +41,7 @@
         
     .PARAMETER IdValue
         Specify which field to use as ID value when importing the users.
-        Available options 'Login' / 'FirstName'
+        Available options 'Login' / 'FirstName' / 'UserPrincipalName'
         
         Default is 'Login'
         
@@ -83,9 +83,21 @@
         Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
         
     .EXAMPLE
+        PS C:\> Import-D365AadUser -AadGroupName "CustomerTeam1" -ForceExactAadGroupName
+        
+        This is used to force the cmdlet to find the exact named group in Azure Active Directory.
+        
+    .EXAMPLE
         PS C:\> Import-D365AadUser -AadGroupId "99999999-aaaa-bbbb-cccc-9999999999"
         
         Imports all the users that is present in the AAD Group called CustomerTeam1
+        
+    .EXAMPLE
+        PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -SkipAzureAd
+        
+        Imports Claire and Allen as users.
+        Will NOT make you connect to the Azure Active Directory(AAD).
+        The needed details will be based on the e-mail address only, and the rest will be blanked.
         
     .NOTES
         Tags: User, Users, Security, Configuration, Permission, AAD, Azure Active Directory, Group, Groups
@@ -93,6 +105,7 @@
         Author: Rasmus Andersen (@ITRasmus)
         Author: Charles Colombel (@dropshind)
         Author: Mötz Jensen (@Splaxi)
+        Author: Miklós Molnár (@scifimiki)
         
         At no circumstances can this cmdlet be used to import users into a PROD environment.
         
@@ -134,7 +147,7 @@ function Import-D365AadUser {
         [string] $NameSuffix = "",
 
         [Parameter(Mandatory = $false, Position = 9)]
-        [ValidateSet('Login', 'FirstName')]
+        [ValidateSet('Login', 'FirstName', 'UserPrincipalName')]
         [string] $IdValue = "Login",
 
         [Parameter(Mandatory = $false, Position = 10)]
@@ -192,7 +205,7 @@ function Import-D365AadUser {
             $group = Get-AzureADGroup -ObjectId $AadGroupId
         }
         else {
-            if ($ForceExactAadGroupName -eq $true) {
+            if ($ForceExactAadGroupName) {
                 Write-PSFMessage -Level Verbose -Message "Search AadGroup by its exactly name : $AadGroupName"
                 $group = Get-AzureADGroup -Filter "DisplayName eq '$AadGroupName'"
             }
@@ -225,7 +238,7 @@ function Import-D365AadUser {
         foreach ($user in $userlist) {
             if ($user.ObjectType -eq "User") {
                 $azureAdUser = Get-AzureADUser -ObjectId $user.ObjectId
-                if($null -eq $azureAdUser.Mail) {
+                if ($null -eq $azureAdUser.Mail) {
                     Write-PSFMessage -Level Critical "User $($user.ObjectId) did not have an Mail"
                 }
                 else {
@@ -292,9 +305,19 @@ function Import-D365AadUser {
             if ($IdValue -eq 'Login') {
                 $id = $IdPrefix + $(Get-LoginFromEmail $user.Mail)
             }
+            elseif($IdValue -eq 'UserPrincipalName') {
+                $id = $IdPrefix + $user.UserPrincipalName
+            }
             else {
                 $id = $IdPrefix + $user.GivenName
             }
+            
+            if ($id.Length -gt 20) {
+                $oldId = $id
+                $id = $id -replace '^(.{0,20}).*','$1'
+                Write-PSFMessage -Level Host -Message "The id <c='em'>'$oldId'</c> does not fit the <c='em'>20 character limit</c> on UserInfo table's ID field and will be truncated to <c='em'>'$id'</c>"
+            }
+            
             Write-PSFMessage -Level Verbose -Message "Id for user $($user.Mail) : $id"
 
             $name = ""

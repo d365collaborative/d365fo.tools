@@ -33,6 +33,9 @@
     .PARAMETER ObjectId
         The Azure Active Directory object id for the imported user
         
+    .PARAMETER Language
+        Language that should be configured for the user, for when they sign-in to the D365 environment
+        
     .EXAMPLE
         PS C:\> $SqlCommand = Get-SqlCommand -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123"
         PS C:\> Import-AadUserIntoD365FO -SqlCommand $SqlCommand -SignInName "Claire@contoso.com" -Name "Claire" -Id "claire" -SID "123XYZ" -StartupCompany "DAT" -IdentityProvider "XYZ" -NetworkDomain "Contoso.com" -ObjectId "123XYZ"
@@ -64,7 +67,9 @@ function Import-AadUserIntoD365FO {
 
         [string] $NetworkDomain,
 
-        [string] $ObjectId
+        [string] $ObjectId,
+
+        [string] $Language
     )
 
     Write-PSFMessage -Level Verbose -Message "Testing the Email $signInName" -Target $signInName
@@ -81,7 +86,7 @@ function Import-AadUserIntoD365FO {
 
         if ($idTaken -eq $false) {
 
-            $userAdded = New-D365FOUser $sqlCommand $SignInName $Name $Id $Sid $StartUpCompany $IdentityProvider $NetworkDomain $ObjectId
+            $userAdded = New-D365FOUser $sqlCommand $SignInName $Name $Id $Sid $StartUpCompany $IdentityProvider $NetworkDomain $ObjectId $Language
 
             if ($userAdded -eq $true) {
 

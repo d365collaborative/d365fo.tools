@@ -13,7 +13,7 @@ Get Azure Storage Account configs
 ## SYNTAX
 
 ```
-Get-D365AzureStorageConfig [[-Name] <String>] [<CommonParameters>]
+Get-D365AzureStorageConfig [[-Name] <String>] [-OutputAsHashtable] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,6 +27,14 @@ Get-D365AzureStorageConfig
 ```
 
 This will show all Azure Storage Account configs
+
+### EXAMPLE 2
+```
+Get-D365AzureStorageConfig -OutputAsHashtable
+```
+
+This will show all Azure Storage Account configs.
+Every object will be output as a hashtable, for you to utilize as parameters for other cmdlets.
 
 ## PARAMETERS
 
@@ -43,6 +51,21 @@ Aliases:
 Required: False
 Position: 1
 Default value: *
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputAsHashtable
+Instruct the cmdlet to return a hastable object
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

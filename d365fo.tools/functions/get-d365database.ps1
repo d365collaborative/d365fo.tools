@@ -45,22 +45,17 @@
 #>
 
 function Get-D365Database {
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [CmdletBinding()]
     [OutputType('[PsCustomObject]')]
     param (
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 1 )]
         [string[]] $Name = "*",
 
-        [Parameter(Mandatory = $false, Position = 2 )]
         [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 3 )]
         [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 4 )]
         [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 5 )]
         [string] $SqlPwd = $Script:DatabaseUserPassword
     )
 

@@ -30,6 +30,11 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -71,6 +76,9 @@ function Rename-D365ComputerName {
 
         [string] $SqlPwd = $Script:DatabaseUserPassword,
 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\RsConfig"),
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly,
@@ -86,9 +94,13 @@ function Rename-D365ComputerName {
         return
     }
 
-    $executable = "$Script:SQLTools\rsconfig.exe"
+    $executable = "$Script:SSRSTools\rsconfig.exe"
 
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+    if (-not (Test-PathExists -Path $executable -Type Leaf)) {
+        $executable = "$Script:SQLTools\rsconfig.exe" # fall back to pre 10.0.24
+
+        if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+    }
 
     if (Test-PSFFunctionInterrupt) { return }
 
@@ -148,7 +160,7 @@ function Rename-D365ComputerName {
     $params.Add("-d")
     $params.Add("`"$SSRSReportDatabase`"")
 
-    Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
     if (-not $OutputCommandOnly) {
         Write-PSFMessage -Level Host -Message "Computer has been <c='em'>renamed</c>. Please <c='em'>restart the computer</c> to make sure that all changes are being applied correctly."

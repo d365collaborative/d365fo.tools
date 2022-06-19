@@ -4,7 +4,7 @@
         Sets the environment back into operating state
         
     .DESCRIPTION
-        Sets the Dynamics 365 environment back into operating / running state after been in maintenance mode
+        Sets the Dynamics 365 environment back into operating / running state after it has been in maintenance mode.
         
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
@@ -32,6 +32,11 @@
     .PARAMETER SqlPwd
         The password for the SQL Server user
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -40,17 +45,17 @@
     .PARAMETER OutputCommandOnly
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
-        Will include full path to the executable and the needed parameters based on your selection
+        Will include full path to the executable or SQL script and the needed parameters based on your selection
         
     .EXAMPLE
         PS C:\> Disable-D365MaintenanceMode
         
-        This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state.
+        On VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state. On cloud hosted environments, a SQL script is used instead.
         
     .EXAMPLE
         PS C:\> Disable-D365MaintenanceMode -ShowOriginalProgress
         
-        This will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state.
+        On VHD based environments, this will execute the Microsoft.Dynamics.AX.Deployment.Setup.exe with the default values that was pulled from the environment and put the environment into the operate / running state. On cloud hosted environments, a SQL script is used instead.
         The output from stopping the services will be written to the console / host.
         The output from the "deployment" process will be written to the console / host.
         The output from starting the services will be written to the console / host.
@@ -61,11 +66,11 @@
         Author: Mötz Jensen (@splaxi)
         Author: Tommy Skaue (@skaue)
         
-        With administrator privileges:
+        On VHD based environments with administrator privileges:
         The cmdlet wraps the execution of Microsoft.Dynamics.AX.Deployment.Setup.exe and parses the parameters needed.
         
-        Without administrator privileges:
-        Will stop all services, execute a Sql script and start all services.
+        Without administrator privileges or on cloud hosted environments:
+        Will stop all services, execute a SQL script and start all services.
         
     .LINK
         Enable-D365MaintenanceMode
@@ -89,6 +94,9 @@ function Disable-D365MaintenanceMode {
 
         [string] $SqlPwd = $Script:DatabaseUserPassword,
 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\MaintenanceMode"),
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly
@@ -105,7 +113,7 @@ function Disable-D365MaintenanceMode {
         Stop-D365Environment -All -ShowOriginalProgress:$ShowOriginalProgress | Format-Table
     }
 
-    if (-not ($Script:IsAdminRuntime)) {
+    if (-not ($Script:IsAdminRuntime) -or ($Script:EnvironmentType -eq [EnvironmentType]::AzureHostedTier1)) {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode without using executable (which requires local admin)."
         
         $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -119,7 +127,7 @@ function Disable-D365MaintenanceMode {
 
         if ($OutputCommandOnly) {
             $scriptContent = Get-content -Path $("$script:ModuleRoot\internal\sql\disable-maintenancemode.sql") -Raw
-            Write-PSFMessage -Level Host -Message "It seems that you're want the command, but you're running in a non-elevated console. Will output the SQL script that is avaiable."
+            Write-PSFMessage -Level Host -Message "It seems that you want the command, but you're running in a non-elevated console. Will output the SQL script that is avaiable."
             Write-PSFMessage -Level Host -Message "$scriptContent"
         }
         else {
@@ -129,7 +137,7 @@ function Disable-D365MaintenanceMode {
     else {
         Write-PSFMessage -Level Verbose -Message "Setting Maintenance Mode using executable."
 
-        $executable = Join-Path $BinDir "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
+        $executable = Join-Path -Path $BinDir -ChildPath "bin\Microsoft.Dynamics.AX.Deployment.Setup.exe"
 
         if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
         if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
@@ -144,7 +152,7 @@ function Disable-D365MaintenanceMode {
             "-setupmode", "maintenancemode",
             "-isinmaintenancemode", "false")
 
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
 
     if ($OutputCommandOnly) { return }

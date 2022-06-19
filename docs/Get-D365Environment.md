@@ -14,13 +14,14 @@ Cmdlet to get the current status for the different services in a Dynamics 365 Fi
 
 ### Default (Default)
 ```
-Get-D365Environment [[-ComputerName] <String[]>] [-All] [<CommonParameters>]
+Get-D365Environment [[-ComputerName] <String[]>] [-All] [-OnlyStartTypeAutomatic] [-OutputServiceDetailsOnly]
+ [<CommonParameters>]
 ```
 
 ### Specific
 ```
 Get-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
- [<CommonParameters>]
+ [-OnlyStartTypeAutomatic] [-OutputServiceDetailsOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,24 +31,61 @@ List status for all relevant services that is running in a D365FO environment
 
 ### EXAMPLE 1
 ```
+Get-D365Environment
+```
+
+Will query all D365FO service on the machine.
+
+### EXAMPLE 2
+```
 Get-D365Environment -All
 ```
 
-Will query all D365FO service on the machine
+Will query all D365FO service on the machine.
 
-### EXAMPLE 2
+### EXAMPLE 3
+```
+Get-D365Environment -OnlyStartTypeAutomatic
+```
+
+Will query all D365FO service on the machine.
+It will filter out all services that are either configured as manual or disabled.
+
+### EXAMPLE 4
 ```
 Get-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
 ```
 
-Will query all D365FO service on the different machines
+Will query all D365FO service on the different machines.
 
-### EXAMPLE 3
+### EXAMPLE 5
 ```
 Get-D365Environment -Aos -Batch
 ```
 
-Will query the Aos & Batch services on the machine
+Will query the Aos & Batch services on the machine.
+
+### EXAMPLE 6
+```
+Get-D365Environment -FinancialReporter -DMF
+```
+
+Will query the FinancialReporter & DMF services on the machine.
+
+### EXAMPLE 7
+```
+Get-D365Environment -OutputServiceDetailsOnly
+```
+
+Will query all D365FO service on the machine.
+Will omit the servername from the output.
+
+### EXAMPLE 8
+```
+Get-D365Environment -FinancialReporter | Set-Service -StartupType Manual
+```
+
+This will configure the Financial Reporter services to be start type manual.
 
 ## PARAMETERS
 
@@ -81,14 +119,14 @@ Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: True
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Aos
-Switch to instruct the cmdlet to query the AOS (IIS) service
+Instruct the cmdlet to query the AOS (IIS) service
 
 ```yaml
 Type: SwitchParameter
@@ -96,14 +134,14 @@ Parameter Sets: Specific
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Batch
-Switch to instruct the cmdlet query the batch service
+Instruct the cmdlet query the batch service
 
 ```yaml
 Type: SwitchParameter
@@ -111,14 +149,14 @@ Parameter Sets: Specific
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -FinancialReporter
-Switch to instruct the cmdlet query the financial reporter (Management Reporter 2012)
+Instruct the cmdlet query the financial reporter (Management Reporter 2012)
 
 ```yaml
 Type: SwitchParameter
@@ -126,14 +164,14 @@ Parameter Sets: Specific
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -DMF
-Switch to instruct the cmdlet query the DMF service
+Instruct the cmdlet query the DMF service
 
 ```yaml
 Type: SwitchParameter
@@ -141,7 +179,37 @@ Parameter Sets: Specific
 Aliases:
 
 Required: False
-Position: 6
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OnlyStartTypeAutomatic
+Instruct the cmdlet to filter out services that are set to manual start or disabled
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputServiceDetailsOnly
+Instruct the cmdlet to exclude the server name from the output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

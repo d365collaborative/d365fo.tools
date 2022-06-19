@@ -1,38 +1,41 @@
 ﻿# **d365fo.tools**
-Powershell module to handle the different management tasks during a Dynamics 365 Finace & Operations (D365FO)
+
+PowerShell module to handle the different management tasks during a Dynamics 365 Finance & Operations (D365FO)
 Read more about D365FO on [docs.microsoft.com](https://docs.microsoft.com/en-us/dynamics365/unified-operations/fin-and-ops/index)
 
-Available on Powershellgallery
+Available on PowerShell Gallery
 [d365fo.tools](https://www.powershellgallery.com/packages/d365fo.tools)
 
-## **Getting started**
-### **Install the latest module**
+[[_TOC_]]
+
+## Getting started
+### Install the latest module
 ```
 Install-Module -Name d365fo.tools
 ```
 
-### **Install without administrator privileges**
+### Install without administrator privileges
 ```
 Install-Module -Name d365fo.tools -Scope CurrentUser
 ```
-### **List all available commands / functions**
+### List all available commands / functions
 
 ```
 Get-Command -Module d365fo.tools
 ```
 
-### **Update the module**
+### Update the module
 
 ```
 Update-Module -name d365fo.tools
 ```
 
-### **Update the module - force**
+### Update the module - force
 
 ```
 Update-Module -name d365fo.tools -Force
 ```
-## **Getting help**
+## Getting help
 
 The best way to get started and learn about the different cmdlets available is to install the tools onto your D365FO developer box.
 You can also visit the **'docs'** folder in this repository (look at the top). Click this link [**docs**](https://github.com/d365collaborative/d365fo.tools/tree/master/docs) to jump straight inside.
@@ -77,3 +80,7 @@ For sake of the sanity and just trying to help people out, we copy & pasted **al
 ## Contributing
 
 Want to contribute to the project? We'd love to have you! Visit our [contributing.md](https://github.com/d365collaborative/d365fo.tools/blob/master/contributing.md) for a jump start.
+
+## Dependencies
+
+This module depends on other modules. The dependencies are documented in the [dependency graph](https://github.com/d365collaborative/d365fo.tools/network/dependencies) and the Dependencies section of the Package Details of the [package listing](https://www.powershellgallery.com/packages/d365fo.tools) in the PowerShell Gallery.

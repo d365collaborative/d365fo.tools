@@ -1,0 +1,26 @@
+name: Wiki Update
+
+# Run when contents of the wiki folder are changed
+on:
+  push:
+    paths:
+      - 'wiki/**'
+    branches:
+      - development
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Publish wiki folder to repository wiki
+        uses: FH-Inway/github-wiki-publish-action@rsync
+        with:
+          path: "wiki/"
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

@@ -13,7 +13,7 @@ Get the details from an axscdppkg file
 ## SYNTAX
 
 ```
-Get-D365PackageBundleDetail [-Path] <String> [[-ExtractionPath] <String>] [-KB <String>] [-Hotfix <String>]
+Get-D365PackageBundleDetail [-Path] <String> [[-ExtractionPath] <String>] [[-KB] <String>] [[-Hotfix] <String>]
  [-Traverse] [-KeepFiles] [-IncludeRawManifest] [<CommonParameters>]
 ```
 
@@ -43,10 +43,19 @@ It will extract the content into C:\Temp\20180905 and keep the files after compl
 
 ### EXAMPLE 3
 ```
-Advanced scenario
+Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest
 ```
 
-PS C:\\\> Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
+This is an advanced scenario.
+
+This will traverse the "HotfixPackageBundle.axscdppkg" file and will include the raw manifest file details in the output.
+
+### EXAMPLE 4
+```
+Get-D365PackageBundleDetail -Path C:\temp\HotfixPackageBundle.axscdppkg -Traverse -IncludeRawManifest | ForEach-Object {$_.RawManifest | Out-File "C:\temp\$($_.PackageId).txt"}
+```
+
+This is an advanced scenario.
 
 This will traverse the "HotfixPackageBundle.axscdppkg" file and save the manifest files into c:\temp.
 Everything else is omitted and cleaned up.
@@ -62,7 +71,7 @@ Parameter Sets: (All)
 Aliases: File
 
 Required: True
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -79,7 +88,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 2
 Default value: ([System.IO.Path]::GetTempPath())
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -100,7 +109,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 3
 Default value: *
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -121,7 +130,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 4
 Default value: *
 Accept pipeline input: False
 Accept wildcard characters: False

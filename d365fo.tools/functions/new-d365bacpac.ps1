@@ -48,6 +48,9 @@
     .PARAMETER ExportOnly
         Switch to instruct the cmdlet to either just create a dump bacpac file or run the prepping process first
         
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database. The default value is 8.
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -61,6 +64,13 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365InstallSqlPackage
+        
+        You should always install the latest version of the SqlPackage.exe, which is used by New-D365Bacpac.
+        
+        This will fetch the latest .Net Core Version of SqlPackage.exe and install it at "C:\temp\d365fo.tools\SqlPackage".
         
     .EXAMPLE
         PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac"
@@ -106,6 +116,17 @@
         
         It will output a diagnostic file to "C:\temp\ExportLog.txt".
         
+    .EXAMPLE
+        PS C:\> New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -MaxParallelism 32
+        
+        Will backup the "AXDB" database and restore is as "Testing1" again the localhost SQL Server.
+        Will run the prepping process against the restored database.
+        Will export a bacpac file to "C:\Temp\Bacpac\Testing1.bacpac".
+        Will delete the restored database.
+        It will use trusted connection (Windows authentication) while working against the SQL Server.
+        
+        It will use 32 connections against the database server while generating the bacpac file.
+        
     .NOTES
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
@@ -115,6 +136,7 @@
 #>
 function New-D365Bacpac {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseProcessBlockForPipelineCommand", "")]
     [CmdletBinding(DefaultParameterSetName = 'ExportTier2')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'ExportTier1', Position = 0)]
@@ -154,12 +176,13 @@ function New-D365Bacpac {
 
         [switch] $ExportOnly,
 
+        [int] $MaxParallelism = 8,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly,
 
         [switch] $EnableException
-
     )
     
     Invoke-TimeSignal -Start
@@ -183,10 +206,18 @@ function New-D365Bacpac {
     
     if (-not (Test-PathExists -Path (Split-Path $BacpacFile -Parent) -Type Container -Create)) { return }
 
+    # Work around to make sure to keep Storage when using the non-core version of the SqlPackage
+    $executable = $Script:SqlPackagePath
+    $classicPattern = "C:\Program Files*\Microsoft SQL Server\1*0\DAC\bin\SqlPackage.exe"
+
     [System.Collections.ArrayList] $Properties = New-Object -TypeName "System.Collections.ArrayList"
 
     $null = $Properties.Add("VerifyFullTextDocumentTypesSupported=false")
-    $null = $Properties.Add("Storage=File")
+
+    if($executable -like $classicPattern) {
+        Write-PSFMessage -Level Verbose -Message "Looks like we are running against the non-core version of SqlPackage.exe. Then we need to support the Storage=File property."
+        $null = $Properties.Add("Storage=File")
+    }
 
     $BaseParams = @{
         DatabaseServer = $DatabaseServer
@@ -199,6 +230,7 @@ function New-D365Bacpac {
         Action     = "export"
         FilePath   = $BacpacFile
         Properties = $Properties.ToArray()
+        MaxParallelism = $MaxParallelism
     }
 
     if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {

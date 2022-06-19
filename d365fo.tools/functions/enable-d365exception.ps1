@@ -17,6 +17,9 @@
         Tags: Exception, Exceptions, Warning, Warnings
         
         Author: Mötz Jensen (@Splaxi)
+
+    .LINK
+        Disable-D365Exception
 #>
 
 function Enable-D365Exception {
@@ -25,5 +28,7 @@ function Enable-D365Exception {
 
     Write-PSFMessage -Level Verbose -Message "Enabling exception across the entire module." -Target $configurationValue
 
+    Set-PSFFeature -Name 'PSFramework.InheritEnableException' -Value $true -ModuleName "D365fo.tools"
+    Set-PSFFeature -Name 'PSFramework.InheritEnableException' -Value $true -ModuleName "PSOAuthHelper"
     $PSDefaultParameterValues['*:EnableException'] = $true
 }

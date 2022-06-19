@@ -14,13 +14,14 @@ Cmdlet to start the different services in a Dynamics 365 Finance & Operations en
 
 ### Default (Default)
 ```
-Start-D365Environment [[-ComputerName] <String[]>] [-All] [-ShowOriginalProgress] [<CommonParameters>]
+Start-D365Environment [[-ComputerName] <String[]>] [-All] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress]
+ [<CommonParameters>]
 ```
 
 ### Specific
 ```
 Start-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
- [-ShowOriginalProgress] [<CommonParameters>]
+ [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -39,6 +40,14 @@ This will start all D365FO services on the machine.
 
 ### EXAMPLE 2
 ```
+Start-D365Environment -OnlyStartTypeAutomatic
+```
+
+This will start all D365FO services on the machine that are configured for Automatic startup.
+It will exclude all services that are either manual or disabled in their startup configuration.
+
+### EXAMPLE 3
+```
 Start-D365Environment -ShowOriginalProgress
 ```
 
@@ -47,19 +56,26 @@ Default is "-All".
 This will start all D365FO services on the machine.
 The progress of starting the different services will be written to the console / host.
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 Start-D365Environment -All
 ```
 
 This will start all D365FO services on the machine.
 
-### EXAMPLE 4
+### EXAMPLE 5
 ```
 Start-D365Environment -Aos -Batch
 ```
 
 This will start the Aos & Batch D365FO services on the machine.
+
+### EXAMPLE 6
+```
+Start-D365Environment -FinancialReporter -DMF
+```
+
+This will start the FinancialReporter and DMF services on the machine.
 
 ## PARAMETERS
 
@@ -158,6 +174,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OnlyStartTypeAutomatic
+Instruct the cmdlet to filter out services that are set to manual start or disabled
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ShowOriginalProgress
 Instruct the cmdlet to show the standard output in the console
 
@@ -169,7 +200,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

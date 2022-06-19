@@ -79,6 +79,16 @@
         
         Nothing else will be executed
         
+    .PARAMETER MaxParallelism
+        Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database
+        
+        The default value is 8
+        
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -92,6 +102,13 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365InstallSqlPackage
+        
+        You should always install the latest version of the SqlPackage.exe, which is used by New-D365Bacpac.
+        
+        This will fetch the latest .Net Core Version of SqlPackage.exe and install it at "C:\temp\d365fo.tools\SqlPackage".
         
     .EXAMPLE
         PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase"
@@ -119,6 +136,25 @@
         It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
         It will output a diagnostic file to "C:\temp\ImportLog.txt".
         
+    .EXAMPLE
+        PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\temp\ImportLog.txt" -MaxParallelism 32
+        
+        This will instruct the cmdlet that the import will be working against a SQL Server instance.
+        It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+        It will output a diagnostic file to "C:\temp\ImportLog.txt".
+        
+        It will use 32 connections against the database server while importing the bacpac file.
+        
+    .EXAMPLE
+        PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -ImportOnly
+        
+        This will instruct the cmdlet that the import will be working against a SQL Server instance.
+        It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+        No cleanup or prepping jobs will be executed, because this is for importing only.
+        
+        This would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.
+        You would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.
+        
     .NOTES
         Tags: Database, Bacpac, Tier1, Tier2, Golden Config, Config, Configuration
         
@@ -127,6 +163,7 @@
         
 #>
 function Import-D365Bacpac {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseProcessBlockForPipelineCommand", "")]
     [CmdletBinding(DefaultParameterSetName = 'ImportTier1')]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportTier1', Position = 0)]
@@ -198,6 +235,11 @@ function Import-D365Bacpac {
         [Parameter(Mandatory = $false, ParameterSetName = 'ImportTier1')]
         [Parameter(Mandatory = $true, ParameterSetName = 'ImportOnlyTier2')]
         [switch] $ImportOnly,
+        
+        [int] $MaxParallelism = 8,
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ImportBacpac"),
 
         [switch] $ShowOriginalProgress,
 
@@ -233,6 +275,7 @@ function Import-D365Bacpac {
     $ImportParams = @{
         Action   = "import"
         FilePath = $BacpacFile
+        MaxParallelism = $MaxParallelism
     }
 
     if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
@@ -265,7 +308,7 @@ function Import-D365Bacpac {
     $Params.DatabaseName = $NewDatabaseName
     
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings"
-    Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
     if ($OutputCommandOnly) { return }
 

@@ -27,6 +27,11 @@
     .PARAMETER Replace
         Instruct the cmdlet to replace an already existing model
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -71,6 +76,9 @@ function Import-D365Model {
 
         [switch] $Replace,
 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModelUtilImport"),
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly
@@ -79,10 +87,10 @@ function Import-D365Model {
     Invoke-TimeSignal -Start
     
     if($Replace) {
-        Invoke-ModelUtil -Command "Replace" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir
+        Invoke-ModelUtil -Command "Replace" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
     else {
-        Invoke-ModelUtil -Command "Import" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir
+        Invoke-ModelUtil -Command "Import" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
 
     Invoke-TimeSignal -End

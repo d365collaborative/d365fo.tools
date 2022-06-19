@@ -56,18 +56,31 @@
 			$parameter.ParameterSets['Object'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Object'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter EnableException' {
+			$parameter = (Get-Command Invoke-D365LcsApiRefreshToken).Parameters['EnableException']
+			$parameter.Name | Should -Be 'EnableException'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset Object" {
 		<#
 		Object -ClientId
-		Object -ClientId -InputObject
+		Object -ClientId -InputObject -EnableException
 		#>
 	}
  	Describe "Testing parameterset Simple" {
 		<#
 		Simple -ClientId -RefreshToken
-		Simple -ClientId -RefreshToken
+		Simple -ClientId -RefreshToken -EnableException
 		#>
 	}
 

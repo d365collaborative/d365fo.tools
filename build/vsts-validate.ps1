@@ -1,4 +1,13 @@
-﻿# Guide for available variables and working with secrets:
+﻿param (
+    $TestGeneral = $true,
+	
+    $TestFunctions = $true,
+
+	$Exclude = ""
+
+)
+
+# Guide for available variables and working with secrets:
 # https://docs.microsoft.com/en-us/vsts/build-release/concepts/definitions/build/variables?tabs=powershell
 
 # Needs to ensure things are Done Right and only legal commits to master get built
@@ -8,13 +17,17 @@
 Write-Host "Working on the machine named: $($env:computername)"
 Write-Host "The user running is: $($env:UserName)"
 
-$modules = @("Pester", "PSFramework", "PSScriptAnalyzer", "Az.Storage", "AzureAd", "PSNotification")
+$modules = @("PSFramework", "PSScriptAnalyzer", "Az.Storage", "AzureAd", "PSNotification", "PSOAuthHelper", "ImportExcel")
 
-foreach ($module in $modules) {
-    Write-Host "Importing $module" -ForegroundColor Cyan
-    Import-Module $module -Force -PassThru
+foreach ($item in $modules) {
+    $module = Get-Module -Name $item -ErrorAction SilentlyContinue
+
+    if ($null -eq $module) {
+        Write-Host "Importing $item" -ForegroundColor Cyan
+        Import-Module $item -Force
+    }
 }
 
-#(Get-Module -ListAvailable).ModuleBase
+Import-Module "Pester" -MaximumVersion 4.99.99 -Force
 
-& "$PSScriptRoot\..\d365fo.tools\tests\pester.ps1"
+& "$PSScriptRoot\..\d365fo.tools\tests\pester.ps1" -TestGeneral $TestGeneral -TestFunctions $TestFunctions -Exclude $Exclude

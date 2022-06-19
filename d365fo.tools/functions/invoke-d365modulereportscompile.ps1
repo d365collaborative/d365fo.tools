@@ -12,8 +12,12 @@
     .PARAMETER OutputDir
         The path to the folder to save generated artifacts
         
-    .PARAMETER LogDir
-        The path to the folder to save logs
+    .PARAMETER LogPath
+        Path where you want to store the log outputs generated from the compiler
+        
+        Also used as the path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
         
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
@@ -67,12 +71,14 @@ function Invoke-D365ModuleReportsCompile {
     [OutputType('[PsCustomObject]')]
     param (
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias("ModuleName")]
         [string] $Module,
 
         [Alias('Output')]
         [string] $OutputDir = $Script:MetaDataDir,
 
-        [string] $LogDir = $Script:DefaultTempPath,
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModuleCompile"),
 
         [string] $MetaDataDir = $Script:MetaDataDir,
 
@@ -89,23 +95,23 @@ function Invoke-D365ModuleReportsCompile {
         Invoke-TimeSignal -Start
 
         $tool = "ReportsC.exe"
-        $executable = Join-Path $BinDir $tool
+        $executable = Join-Path -Path $BinDir -ChildPath $tool
 
         if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
         if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
-        if (-not (Test-PathExists -Path $LogDir -Type Container -Create)) { return }
+        if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) { return }
     }
     
     process {
-        $logDirModule = Join-Path $LogDir $Module
-        $outputDirModule = Join-Path $OutputDir $Module
+        $logDirModule = Join-Path -Path $LogPath -ChildPath $Module
+        $outputDirModule = Join-Path -Path $OutputDir -ChildPath $Module
         
         if (-not (Test-PathExists -Path $logDirModule -Type Container -Create)) { return }
 
         if (Test-PSFFunctionInterrupt) { return }
 
-        $logFile = Join-Path $logDirModule "Dynamics.AX.$Module.ReportsC.log"
-        $logXmlFile = Join-Path $logDirModule "Dynamics.AX.$Module.ReportsC.xml"
+        $logFile = Join-Path -Path $logDirModule -ChildPath "Dynamics.AX.$Module.ReportsC.log"
+        $logXmlFile = Join-Path -Path $logDirModule -ChildPath "Dynamics.AX.$Module.ReportsC.xml"
 
         $params = @("-metadata=`"$MetaDataDir`"",
             "-modelmodule=`"$Module`"",
@@ -115,7 +121,7 @@ function Invoke-D365ModuleReportsCompile {
             "-xmlLog=`"$logXmlFile`""
         )
 
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $logDirModule
 
         if ($OutputCommandOnly) { return }
 

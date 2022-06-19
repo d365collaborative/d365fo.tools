@@ -13,7 +13,7 @@ Get installed package / module from Dynamics 365 Finance & Operations environmen
 ## SYNTAX
 
 ```
-Get-D365Module [[-BinDir] <String>] [[-PackageDirectory] <String>] [[-Name] <String>] [-Expand]
+Get-D365Module [[-Name] <String>] [-ExcludeBinaryModules] [[-BinDir] <String>] [[-PackageDirectory] <String>]
  [<CommonParameters>]
 ```
 
@@ -29,13 +29,32 @@ Get-D365Module
 
 Shows the entire list of installed packages / modules located in the default location on the machine.
 
+A result set example:
+
+ModuleName                               IsBinary Version         References
+----------                               -------- -------         ----------
+AccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
+ApplicationCommon                        False    10.0.8008.26462 {ApplicationFoundation, ApplicationPlatform}
+ApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}
+ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
+Custom                                   True     10.0.0.0        {ApplicationPlatform}
+
 ### EXAMPLE 2
 ```
-Get-D365Module -Expand
+Get-D365Module -ExcludeBinaryModules
 ```
 
-Shows the entire list of installed packages / modules located in the default location on the machine.
-Will include the file version for each package / module.
+Outputs the all packages / modules that are NOT binary.
+Will only include modules that is IsBinary = "False".
+
+A result set example:
+
+ModuleName                               IsBinary Version         References
+----------                               -------- -------         ----------
+AccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
+ApplicationCommon                        False    10.0.8008.26462 {ApplicationFoundation, ApplicationPlatform}
+ApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}
+ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
 
 ### EXAMPLE 3
 ```
@@ -45,27 +64,51 @@ Get-D365Module -Name "Application*Adaptor"
 Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
 
 A result set example:
-ApplicationFoundationFormAdaptor
-ApplicationPlatformFormAdaptor
-ApplicationSuiteFormAdaptor
-ApplicationWorkspacesFormAdaptor
 
-### EXAMPLE 4
-```
-Get-D365Module -Name "Application*Adaptor" -Expand
-```
-
-Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
-Will include the file version for each package / module.
-
-### EXAMPLE 5
-```
-Get-D365Module -PackageDirectory "J:\AOSService\PackagesLocalDirectory"
-```
-
-Shows the entire list of installed packages / modules located in "J:\AOSService\PackagesLocalDirectory" on the machine
+ModuleName                               IsBinary Version         References
+----------                               -------- -------         ----------
+ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
+ApplicationPlatformFormAdaptor           False    7.0.4841.35227  {ApplicationPlatform, TestEssentials}
+ApplicationSuiteFormAdaptor              False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
+ApplicationWorkspacesFormAdaptor         False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...
 
 ## PARAMETERS
+
+### -Name
+Name of the package / module that you are looking for
+
+Accepts wildcards for searching.
+E.g.
+-Name "Application*Adaptor"
+
+Default value is "*" which will search for all packages / modules
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: *
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludeBinaryModules
+Instruct the cmdlet to exclude binary modules from the output
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -BinDir
 The path to the bin directory for the environment
@@ -80,7 +123,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 2
 Default value: "$Script:BinDir\bin"
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -99,44 +142,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
-Default value: $Script:PackageDirectory
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Name
-Name of the package / module that you are looking for
-
-Accepts wildcards for searching.
-E.g.
--Name "Application*Adaptor"
-
-Default value is "*" which will search for all packages / modules
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
 Position: 3
-Default value: *
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Expand
-Adds the version of the package / module to the output
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
+Default value: $Script:PackageDirectory
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -14,12 +14,13 @@ Restart the different services
 
 ### Default (Default)
 ```
-Restart-D365Environment [[-ComputerName] <String[]>] [-All] [-ShowOriginalProgress] [<CommonParameters>]
+Restart-D365Environment [[-ComputerName] <String[]>] [-All] [-Kill] [-ShowOriginalProgress]
+ [<CommonParameters>]
 ```
 
 ### Specific
 ```
-Restart-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
+Restart-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF] [-Kill]
  [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
@@ -58,6 +59,21 @@ Restart-D365Environment -Aos -Batch
 ```
 
 This will stop the AOS and Batch services and then start the AOS and Batch services again.
+
+### EXAMPLE 5
+```
+Restart-D365Environment -FinancialReporter -DMF
+```
+
+This will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.
+
+### EXAMPLE 6
+```
+Restart-D365Environment -All -Kill
+```
+
+This will stop all services and then start all services again.
+It will use the Kill parameter to make sure that the services is stopped.
 
 ## PARAMETERS
 
@@ -152,6 +168,21 @@ Aliases:
 
 Required: False
 Position: 6
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Kill
+Instructs the cmdlet to kill the service(s) that you want to restart
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

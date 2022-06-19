@@ -39,6 +39,9 @@
         
         Default path is the same as the aos service PackagesLocalDirectory
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -99,6 +102,8 @@ function Invoke-ModelUtil {
 
         [string] $MetaDataDir = "$Script:MetaDataDir",
 
+        [string] $LogPath,
+
         [switch] $ShowOriginalProgress,
 
         [switch] $OutputCommandOnly
@@ -110,7 +115,7 @@ function Invoke-ModelUtil {
         Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
     }
 
-    $executable = Join-Path $BinDir "ModelUtil.exe"
+    $executable = Join-Path -Path $BinDir -ChildPath "ModelUtil.exe"
     if (-not (Test-PathExists -Path $executable -Type Leaf)) {
         Stop-PSFFunction -Message "Stopping because of missing paths." -StepsUpward 1
     }
@@ -153,7 +158,12 @@ function Invoke-ModelUtil {
 
     Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $($params.ToArray() -join " ")
     
-    Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+    if (Test-PSFFunctionInterrupt) {
+        Stop-PSFFunction -Message "Stopping because of 'ModelUtil.exe' failed its execution." -StepsUpward 1
+        return
+    }
 
     Invoke-TimeSignal -End
 }

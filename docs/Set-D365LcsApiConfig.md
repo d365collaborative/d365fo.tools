@@ -133,11 +133,18 @@ Accept wildcard characters: False
 ### -LcsApiUri
 URI / URL to the LCS API you want to use
 
-Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+The value depends on where your LCS project is located. There are multiple valid URI's / URL's
 
 Valid options:
 "https://lcsapi.lcs.dynamics.com"
 "https://lcsapi.eu.lcs.dynamics.com"
+"https://lcsapi.fr.lcs.dynamics.com"
+"https://lcsapi.sa.lcs.dynamics.com"
+"https://lcsapi.uae.lcs.dynamics.com"
+"https://lcsapi.ch.lcs.dynamics.com"
+"https://lcsapi.no.lcs.dynamics.com"
+"https://lcsapi.lcs.dynamics.cn"
+"https://lcsapi.gov.lcs.microsoftdynamics.us"
 
 ```yaml
 Type: String

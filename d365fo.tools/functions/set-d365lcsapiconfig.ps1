@@ -26,11 +26,18 @@
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
-        Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+        The value depends on where your LCS project is located. There are multiple valid URI's / URL's
         
         Valid options:
         "https://lcsapi.lcs.dynamics.com"
         "https://lcsapi.eu.lcs.dynamics.com"
+        "https://lcsapi.fr.lcs.dynamics.com"
+        "https://lcsapi.sa.lcs.dynamics.com"
+        "https://lcsapi.uae.lcs.dynamics.com"
+        "https://lcsapi.ch.lcs.dynamics.com"
+        "https://lcsapi.no.lcs.dynamics.com"
+        "https://lcsapi.lcs.dynamics.cn"
+        "https://lcsapi.gov.lcs.microsoftdynamics.us"
         
     .PARAMETER Temporary
         Instruct the cmdlet to only temporarily override the persisted settings in the configuration storage
@@ -96,30 +103,32 @@ function Set-D365LcsApiConfig {
 
     )
 
-    #The ':keys' label is used to have a continue inside the switch statement itself
-    :keys foreach ($key in $PSBoundParameters.Keys) {
+    process {
+        #The ':keys' label is used to have a continue inside the switch statement itself
+        :keys foreach ($key in $PSBoundParameters.Keys) {
         
-        $configurationValue = $PSBoundParameters.Item($key)
-        $configurationName = $key.ToLower()
-        $fullConfigName = ""
+            $configurationValue = $PSBoundParameters.Item($key)
+            $configurationName = $key.ToLower()
+            $fullConfigName = ""
 
-        Write-PSFMessage -Level Verbose -Message "Working on $key with $configurationValue" -Target $configurationValue
+            Write-PSFMessage -Level Verbose -Message "Working on $key with $configurationValue" -Target $configurationValue
         
-        switch ($key) {
-            "Temporary" {
-                continue keys
+            switch ($key) {
+                "Temporary" {
+                    continue keys
+                }
+
+                Default {
+                    $fullConfigName = "d365fo.tools.lcs.$configurationName"
+                }
             }
 
-            Default {
-                $fullConfigName = "d365fo.tools.lcs.$configurationName"
-            }
+            Write-PSFMessage -Level Verbose -Message "Setting $fullConfigName to $configurationValue" -Target $configurationValue
+        
+            Set-PSFConfig -FullName $fullConfigName -Value $configurationValue
+            if (-not $Temporary) { Register-PSFConfig -FullName $fullConfigName -Scope UserDefault }
         }
 
-        Write-PSFMessage -Level Verbose -Message "Setting $fullConfigName to $configurationValue" -Target $configurationValue
-        
-        Set-PSFConfig -FullName $fullConfigName -Value $configurationValue
-        if (-not $Temporary) { Register-PSFConfig -FullName $fullConfigName -Scope UserDefault }
+        Update-LcsApiVariables
     }
-
-    Update-LcsApiVariables
 }

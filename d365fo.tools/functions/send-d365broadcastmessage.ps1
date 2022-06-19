@@ -66,7 +66,6 @@
     .EXAMPLE
         PS C:\> Send-D365BroadcastMessage -OnPremise -Tenant "https://adfs.local/adfs" -URL "https://ax-sandbox.d365fo.local" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
         
-        
         This will send a message to all active users that are working on the D365FO OnPremise environment located at "https://ax-sandbox.d365fo.local".
         It will authenticate against Local ADFS with the "https://adfs.local/adfs" path
         It will use the ClientId "dea8d7a9-1602-4429-b138-111111111111" and ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" go get access to the environment.
@@ -135,18 +134,18 @@ function Send-D365BroadcastMessage {
         [switch] $OnPremise = $Script:BroadcastOnPremise
     )
 
-     $bearerParms = @{
-            Resource        = $URL
-            ClientId        = $ClientId
-            ClientSecret    = $ClientSecret
+    $URL = $URL -replace "/$", ""
+
+    $bearerParms = @{
+        Resource     = $URL
+        ClientId     = $ClientId
+        ClientSecret = $ClientSecret
     }
 
-    if ($OnPremise)
-    {
+    if ($OnPremise) {
         $bearerParms.AuthProviderUri = "$Tenant/oauth2/token"
     }
-    else
-    {
+    else {
         $bearerParms.AuthProviderUri = "https://login.microsoftonline.com/$Tenant/oauth2/token"
     }
 
@@ -161,12 +160,10 @@ function Send-D365BroadcastMessage {
 
     [System.UriBuilder] $messageEndpoint = $URL
 
-    if($OnPremise)
-    {
+    if ($OnPremise) {
         $messageEndpoint.Path = "namespaces/AXSF/api/services/SysBroadcastMessageServices/SysBroadcastMessageService/AddMessage"
     }
-    else
-    {
+    else {
         $messageEndpoint.Path = "api/services/SysBroadcastMessageServices/SysBroadcastMessageService/AddMessage"
     }
 

@@ -23,31 +23,32 @@
 #>
 function Get-D365UserAuthenticationDetail {
     param(
-        [Parameter(Mandatory = $true, ValueFromPipeline = $true, Position = 1)]
-        [string]$Email
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [string] $Email
     )
 
-    $instanceProvider = Get-InstanceIdentityProvider
+    process {
+        $instanceProvider = Get-InstanceIdentityProvider
 
-    [string]$identityProvider = Get-CanonicalIdentityProvider
+        [string]$identityProvider = Get-CanonicalIdentityProvider
     
-    $networkDomain = Get-NetworkDomain $Email
+        $networkDomain = Get-NetworkDomain $Email
 
-    $instanceProviderName = $instanceProvider.TrimEnd('/')
-    $instanceProviderName = $instanceProviderName.Substring($instanceProviderName.LastIndexOf('/')+1)
-    $instanceProviderIdentityProvider = Get-IdentityProvider "sample@$instanceProviderName"
-    $emailIdentityProvider = Get-IdentityProvider $Email
+        $instanceProviderName = $instanceProvider.TrimEnd('/')
+        $instanceProviderName = $instanceProviderName.Substring($instanceProviderName.LastIndexOf('/') + 1)
+        $instanceProviderIdentityProvider = Get-IdentityProvider "sample@$instanceProviderName"
+        $emailIdentityProvider = Get-IdentityProvider $Email
 
-    if ($instanceProviderIdentityProvider -ne $emailIdentityProvider) {
-        $identityProvider = $emailIdentityProvider
-    }
+        if ($instanceProviderIdentityProvider -ne $emailIdentityProvider) {
+            $identityProvider = $emailIdentityProvider
+        }
 
-    $SID = Get-UserSIDFromAad $Email $identityProvider
+        $SID = Get-UserSIDFromAad $Email $identityProvider
 
-
-    @{"SID"                = $SID
-        "NetworkDomain"    = $networkDomain
-        "IdentityProvider" = $identityProvider
-        "InstanceProvider" = $instanceProvider
+        @{"SID"                = $SID
+            "NetworkDomain"    = $networkDomain
+            "IdentityProvider" = $identityProvider
+            "InstanceProvider" = $instanceProvider
+        }
     }
 }

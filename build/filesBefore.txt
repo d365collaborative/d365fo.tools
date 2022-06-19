@@ -1,2 +1,4 @@
 ﻿# List all files that are loaded in the preimport.ps1
 # In the order they are loaded during preimport
+
+internal\scripts\enums.ps1

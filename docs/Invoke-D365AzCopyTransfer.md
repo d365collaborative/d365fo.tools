@@ -14,7 +14,8 @@ Transfer a file using AzCopy
 
 ```
 Invoke-D365AzCopyTransfer [-SourceUri] <String> [-DestinationUri] <String> [[-FileName] <String>]
- [-ShowOriginalProgress] [-OutputCommandOnly] [-Force] [-EnableException] [<CommonParameters>]
+ [-DeleteOnTransferComplete] [[-LogPath] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-Force]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -62,6 +63,31 @@ For this to work, you need to make sure both SourceUri and DestinationUri has an
 
 If there exists a file already, the file will NOT be overwritten.
 
+### EXAMPLE 4
+```
+Invoke-D365AzCopyTransfer -SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=..." -DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac" -DeleteOnTransferComplete
+```
+
+This will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.
+The file that will be transfered/downloaded is SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...".
+The file will be transfered/downloaded to DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac".
+
+After the file has been transfered to your local "c:\temp\d365fo.tools\GOLDER.bacpac", it will be deleted from the SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...".
+
+### EXAMPLE 5
+```
+$DestinationParms = Get-D365AzureStorageUrl -OutputAsHashtable
+```
+
+PS C:\\\> $BlobFileDetails = Get-D365LcsDatabaseBackups -Latest | Invoke-D365AzCopyTransfer @DestinationParms
+PS C:\\\> $BlobFileDetails | Invoke-D365AzCopyTransfer -DestinationUri "C:\Temp" -DeleteOnTransferComplete
+
+This will transfer the lastest backup file from LCS Asset Library to your local "C:\Temp".
+It will get a destination Url, for it to transfer the backup file between the LCS storage account and your own.
+The newly transfered file, that lives in your own storage account, will then be downloaded to your local "c:\Temp".
+
+After the file has been downloaded to your local "C:\Temp", it will be deleted from your own storage account.
+
 ## PARAMETERS
 
 ### -SourceUri
@@ -105,6 +131,40 @@ Aliases:
 Required: False
 Position: 3
 Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -DeleteOnTransferComplete
+Instruct the cmdlet to delete the source file when done transfering
+
+Default is $false which will leave the source file
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 4
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\AzCopy")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -182,7 +242,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac, Container
+Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac, Container, LCS, Asset, Library
 
 Author: Mötz Jensen (@Splaxi)
 

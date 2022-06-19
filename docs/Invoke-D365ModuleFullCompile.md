@@ -13,7 +13,7 @@ Compile a package
 ## SYNTAX
 
 ```
-Invoke-D365ModuleFullCompile [-Module] <String> [[-OutputDir] <String>] [[-LogDir] <String>]
+Invoke-D365ModuleFullCompile [-Module] <String> [[-OutputDir] <String>] [[-LogPath] <String>]
  [[-MetaDataDir] <String>] [[-ReferenceDir] <String>] [[-BinDir] <String>] [-ShowOriginalProgress]
  [-OutputCommandOnly] [<CommonParameters>]
 ```
@@ -47,7 +47,7 @@ The package to compile
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModuleName
 
 Required: True
 Position: 1
@@ -71,17 +71,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LogDir
-The path to the folder to save logs
+### -LogPath
+Path where you want to store the log outputs generated from the compiler
+
+Also used as the path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: LogDir
 
 Required: False
 Position: 3
-Default value: $Script:DefaultTempPath
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModuleCompile")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

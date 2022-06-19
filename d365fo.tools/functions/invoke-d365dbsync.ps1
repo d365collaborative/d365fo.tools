@@ -16,9 +16,6 @@
         
         Default value is normally the AOS Service PackagesLocalDirectory
         
-    .PARAMETER LogPath
-        The path where the log file will be saved
-        
     .PARAMETER SyncMode
         The sync mode the sync engine will use
         
@@ -43,6 +40,11 @@
         
     .PARAMETER SqlPwd
         The password for the SQL Server user
+        
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
         
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
@@ -74,38 +76,29 @@
         
 #>
 
-function Invoke-D365DBSync {
+function Invoke-D365DbSync {
     [CmdletBinding()]
     param (
+        [string] $BinDirTools = $Script:BinDirTools,
 
-        [Parameter(Mandatory = $false, Position = 0)]
-        [string]$BinDirTools = $Script:BinDirTools,
+        [string] $MetadataDir = $Script:MetaDataDir,
 
-        [Parameter(Mandatory = $false, Position = 1)]
-        [string]$MetadataDir = $Script:MetaDataDir,
-
-        [Parameter(Mandatory = $false, Position = 2)]
-        [string]$LogPath = "C:\temp\D365FO.Tools\Sync",
-
-        [Parameter(Mandatory = $false, Position = 3)]
         #[ValidateSet('None', 'PartialList','InitialSchema','FullIds','PreTableViewSyncActions','FullTablesAndViews','PostTableViewSyncActions','KPIs','AnalysisEnums','DropTables','FullSecurity','PartialSecurity','CleanSecurity','ADEs','FullAll','Bootstrap','LegacyIds','Diag')]
-        [string]$SyncMode = 'FullAll',
+        [string] $SyncMode = 'FullAll',
         
-        [Parameter(Mandatory = $false, Position = 4)]
         [ValidateSet('Normal', 'Quiet', 'Minimal', 'Normal', 'Detailed', 'Diagnostic')]
-        [string]$Verbosity = 'Normal',
+        [string] $Verbosity = 'Normal',
 
-        [Parameter(Mandatory = $false, Position = 5)]
-        [string]$DatabaseServer = $Script:DatabaseServer,
+        [string] $DatabaseServer = $Script:DatabaseServer,
 
-        [Parameter(Mandatory = $false, Position = 6)]
-        [string]$DatabaseName = $Script:DatabaseName,
+        [string] $DatabaseName = $Script:DatabaseName,
 
-        [Parameter(Mandatory = $false, Position = 7)]
-        [string]$SqlUser = $Script:DatabaseUserName,
+        [string] $SqlUser = $Script:DatabaseUserName,
 
-        [Parameter(Mandatory = $false, Position = 8)]
-        [string]$SqlPwd = $Script:DatabaseUserPassword,
+        [string] $SqlPwd = $Script:DatabaseUserPassword,
+ 
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\DbSync"),
 
         [switch] $ShowOriginalProgress,
 
@@ -131,10 +124,9 @@ function Invoke-D365DBSync {
         return
     }
 
-    $executable = Join-Path $BinDirTools "SyncEngine.exe"
+    $executable = Join-Path -Path $BinDirTools -ChildPath "SyncEngine.exe"
     if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
     if (-not (Test-PathExists -Path $MetadataDir -Type Container)) { return }
-    if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) { return }
 
     Write-PSFMessage -Level Debug -Message "Testing if the SyncEngine is already running."
     $syncEngine = Get-Process -Name "SyncEngine" -ErrorAction SilentlyContinue
@@ -154,7 +146,7 @@ function Invoke-D365DBSync {
 
     Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param
     #! We should consider to redirect the standard output & error like this: https://stackoverflow.com/questions/8761888/capturing-standard-out-and-error-with-start-process
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     
     Invoke-TimeSignal -End
 }

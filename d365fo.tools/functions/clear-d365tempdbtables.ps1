@@ -34,7 +34,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> invoke-D365CleanupTempDBTables -Days 7
+        PS C:\> Clear-D365TempDbTables -Days 7
         
         This will cleanup old tempdb tables.
         It will use 7 as the Days parameter.

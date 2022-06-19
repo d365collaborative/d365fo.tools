@@ -31,6 +31,7 @@ function Set-D365AzCopyPath {
     if (Test-PSFFunctionInterrupt) { return }
 
     Set-PSFConfig -FullName "d365fo.tools.path.azcopy" -Value $Path
+    Register-PSFConfig -FullName "d365fo.tools.path.azcopy"
     
     Update-ModuleVariables
 }

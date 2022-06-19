@@ -13,8 +13,8 @@ Export a model from Dynamics 365 for Finance & Operations
 ## SYNTAX
 
 ```
-Export-D365Model [-Path] <String> [-Model] <String> [[-BinDir] <String>] [[-MetaDataDir] <String>]
- [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+Export-D365Model [-Path] <String> [-Model] <String> [-Force] [[-BinDir] <String>] [[-MetaDataDir] <String>]
+ [[-LogPath] <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,12 +53,27 @@ Name of the model that you want to work against
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Module
+Aliases: Modelname
 
 Required: True
 Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Force
+Instruct the cmdlet to overwrite already existing file
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -94,6 +109,23 @@ Aliases:
 Required: False
 Position: 4
 Default value: "$Script:MetaDataDir"
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogPath
+The path where the log file(s) will be saved
+
+When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: LogDir
+
+Required: False
+Position: 5
+Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\ModelUtilExport")
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -45,10 +45,10 @@ This searches for all packages that matches Application* and pipes them into Get
 
 ### EXAMPLE 4
 ```
-This is an advanced example and shouldn't be something you resolve to every time.
+Get-D365AOTObject -Path "C:\AOSService\PackagesLocalDirectory\*" -Name *flush* -ObjectType AxClass -SearchInPackages
 ```
 
-PS C:\\\> Get-D365AOTObject -Path "C:\AOSService\PackagesLocalDirectory\*" -Name *flush* -ObjectType AxClass -SearchInPackages
+This is an advanced example and shouldn't be something you resolve to every time.
 
 This will search across all packages and will look for the all AxClasses that matches the search *flush*.
 It will NOT search in the XppMetaData directory for each package.
@@ -66,7 +66,7 @@ Parameter Sets: (All)
 Aliases: PackageDirectory
 
 Required: True
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -81,7 +81,7 @@ Parameter Sets: (All)
 Aliases: Type
 
 Required: False
-Position: 3
+Position: 2
 Default value: @("AxClass")
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -102,7 +102,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 3
 Default value: *
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -118,7 +118,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -133,7 +133,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

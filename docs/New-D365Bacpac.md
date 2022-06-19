@@ -16,16 +16,16 @@ Generate a bacpac file from a database
 ```
 New-D365Bacpac [-ExportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [-SqlUser] <String>
  [-SqlPwd] <String> [[-NewDatabaseName] <String>] [[-BacpacFile] <String>] [[-CustomSqlFile] <String>]
- [-DiagnosticFile <String>] [-ExportOnly] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
- [<CommonParameters>]
+ [-DiagnosticFile <String>] [-ExportOnly] [-MaxParallelism <Int32>] [-ShowOriginalProgress]
+ [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ### ExportTier1
 ```
 New-D365Bacpac [-ExportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
  [[-SqlPwd] <String>] [[-BackupDirectory] <String>] [[-NewDatabaseName] <String>] [[-BacpacFile] <String>]
- [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ExportOnly] [-ShowOriginalProgress]
- [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
+ [[-CustomSqlFile] <String>] [-DiagnosticFile <String>] [-ExportOnly] [-MaxParallelism <Int32>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,6 +38,15 @@ Can be used to automate backup from Tier 2 (MS hosted) environment
 
 ### EXAMPLE 1
 ```
+Invoke-D365InstallSqlPackage
+```
+
+You should always install the latest version of the SqlPackage.exe, which is used by New-D365Bacpac.
+
+This will fetch the latest .Net Core Version of SqlPackage.exe and install it at "C:\temp\d365fo.tools\SqlPackage".
+
+### EXAMPLE 2
+```
 New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac"
 ```
 
@@ -47,7 +56,7 @@ Will export a bacpac file to "C:\Temp\Bacpac\Testing1.bacpac".
 Will delete the restored database.
 It will use trusted connection (Windows authentication) while working against the SQL Server.
 
-### EXAMPLE 2
+### EXAMPLE 3
 ```
 New-D365Bacpac -ExportModeTier2 -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac
 ```
@@ -57,7 +66,7 @@ Will run the prepping process against the copy database.
 Will export a bacpac file.
 Will delete the copy database.
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac"
 ```
@@ -69,7 +78,7 @@ Will run the prepping process against the copy database.
 Will export a bacpac file.
 Will delete the copy database.
 
-### EXAMPLE 4
+### EXAMPLE 5
 ```
 New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatabaseName Testing1 -BacpacFile C:\Temp\Bacpac\Testing1.bacpac -ExportOnly
 ```
@@ -77,7 +86,7 @@ New-D365Bacpac -ExportModeTier2 -SqlUser User123 -SqlPwd "Password123" -NewDatab
 Will export a bacpac file.
 The bacpac should be able to restore back into the database without any preparing because it is coming from the environment from the beginning
 
-### EXAMPLE 5
+### EXAMPLE 6
 ```
 New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -DiagnosticFile "C:\temp\ExportLog.txt"
 ```
@@ -89,6 +98,19 @@ Will delete the restored database.
 It will use trusted connection (Windows authentication) while working against the SQL Server.
 
 It will output a diagnostic file to "C:\temp\ExportLog.txt".
+
+### EXAMPLE 7
+```
+New-D365Bacpac -ExportModeTier1 -BackupDirectory c:\Temp\backup\ -NewDatabaseName Testing1 -BacpacFile "C:\Temp\Bacpac\Testing1.bacpac" -MaxParallelism 32
+```
+
+Will backup the "AXDB" database and restore is as "Testing1" again the localhost SQL Server.
+Will run the prepping process against the restored database.
+Will export a bacpac file to "C:\Temp\Bacpac\Testing1.bacpac".
+Will delete the restored database.
+It will use trusted connection (Windows authentication) while working against the SQL Server.
+
+It will use 32 connections against the database server while generating the bacpac file.
 
 ## PARAMETERS
 
@@ -297,6 +319,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MaxParallelism
+Sets SqlPackage.exe's degree of parallelism for concurrent operations running against a database.
+The default value is 8.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 8
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

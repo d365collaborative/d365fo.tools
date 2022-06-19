@@ -19,31 +19,64 @@
         DMF
         
     .PARAMETER Aos
-        Switch to instruct the cmdlet to query the AOS (IIS) service
+        Instruct the cmdlet to query the AOS (IIS) service
         
     .PARAMETER Batch
-        Switch to instruct the cmdlet query the batch service
+        Instruct the cmdlet query the batch service
         
     .PARAMETER FinancialReporter
-        Switch to instruct the cmdlet query the financial reporter (Management Reporter 2012)
+        Instruct the cmdlet query the financial reporter (Management Reporter 2012)
         
     .PARAMETER DMF
-        Switch to instruct the cmdlet query the DMF service
+        Instruct the cmdlet query the DMF service
+        
+    .PARAMETER OnlyStartTypeAutomatic
+        Instruct the cmdlet to filter out services that are set to manual start or disabled
+        
+    .PARAMETER OutputServiceDetailsOnly
+        Instruct the cmdlet to exclude the server name from the output
+        
+    .EXAMPLE
+        PS C:\> Get-D365Environment
+        
+        Will query all D365FO service on the machine.
         
     .EXAMPLE
         PS C:\> Get-D365Environment -All
         
-        Will query all D365FO service on the machine
+        Will query all D365FO service on the machine.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Environment -OnlyStartTypeAutomatic
+        
+        Will query all D365FO service on the machine.
+        It will filter out all services that are either configured as manual or disabled.
         
     .EXAMPLE
         PS C:\> Get-D365Environment -ComputerName "TEST-SB-AOS1","TEST-SB-AOS2","TEST-SB-BI1" -All
         
-        Will query all D365FO service on the different machines
+        Will query all D365FO service on the different machines.
         
     .EXAMPLE
         PS C:\> Get-D365Environment -Aos -Batch
         
-        Will query the Aos & Batch services on the machine
+        Will query the Aos & Batch services on the machine.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Environment -FinancialReporter -DMF
+        
+        Will query the FinancialReporter & DMF services on the machine.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Environment -OutputServiceDetailsOnly
+        
+        Will query all D365FO service on the machine.
+        Will omit the servername from the output.
+        
+    .EXAMPLE
+        PS C:\> Get-D365Environment -FinancialReporter | Set-Service -StartupType Manual
+        
+        This will configure the Financial Reporter services to be start type manual.
         
     .NOTES
         Tags: Environment, Service, Services, Aos, Batch, Servicing
@@ -60,20 +93,24 @@ function Get-D365Environment {
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 1 )]
         [string[]] $ComputerName = @($env:computername),
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default')]
         [switch] $All = $true,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 2 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
         [switch] $Aos,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 3 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
         [switch] $Batch,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
         [switch] $FinancialReporter,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
-        [switch] $DMF
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
+        [switch] $DMF,
+
+        [switch] $OnlyStartTypeAutomatic,
+
+        [switch] $OutputServiceDetailsOnly
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
@@ -88,12 +125,24 @@ function Get-D365Environment {
 
     $Params = Get-DeepClone $PSBoundParameters
     if($Params.ContainsKey("ComputerName")){$null = $Params.Remove("ComputerName")}
+    if($Params.ContainsKey("OutputServiceDetailsOnly")){$null = $Params.Remove("OutputServiceDetailsOnly")}
+    if($Params.ContainsKey("OnlyStartTypeAutomatic")){$null = $Params.Remove("OnlyStartTypeAutomatic")}
 
     $Services = Get-ServiceList @Params
 
     $Results = foreach ($server in $ComputerName) {
-        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue| Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, DisplayName
+        Get-Service -ComputerName $server -Name $Services -ErrorAction SilentlyContinue | Select-Object @{Name = "Server"; Expression = {$Server}}, Name, Status, StartType, DisplayName
     }
     
-    $Results | Select-PSFObject -TypeName "D365FO.TOOLS.Environment.Service" Server, DisplayName, Status, Name
+    $outputTypeName = "D365FO.TOOLS.Environment.Service"
+
+    if($OutputServiceDetailsOnly) {
+        $outputTypeName = "D365FO.TOOLS.Environment.Service.Minimal"
+    }
+
+    if($OnlyStartTypeAutomatic){
+        $Results = $Results | Where-Object StartType -eq "Automatic"
+    }
+
+    $Results | Select-PSFObject -TypeName $outputTypeName Server, DisplayName, Status, StartType, Name
 }

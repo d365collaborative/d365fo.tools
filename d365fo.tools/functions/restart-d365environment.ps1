@@ -30,6 +30,9 @@
     .PARAMETER DMF
         Instructs the cmdlet to work against the DMF service
         
+    .PARAMETER Kill
+        Instructs the cmdlet to kill the service(s) that you want to restart
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -57,6 +60,17 @@
         PS C:\> Restart-D365Environment -Aos -Batch
         
         This will stop the AOS and Batch services and then start the AOS and Batch services again.
+        
+    .EXAMPLE
+        PS C:\> Restart-D365Environment -FinancialReporter -DMF
+        
+        This will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.
+        
+    .EXAMPLE
+        PS C:\> Restart-D365Environment -All -Kill
+        
+        This will stop all services and then start all services again.
+        It will use the Kill parameter to make sure that the services is stopped.
         
     .NOTES
         Tags: Environment, Service, Services, Aos, Batch, Servicing
@@ -89,11 +103,16 @@ function Restart-D365Environment {
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
         [switch] $DMF,
 
+        [switch] $Kill,
+
         [Parameter(Mandatory = $False)]
         [switch] $ShowOriginalProgress
     )
 
     Stop-D365Environment @PSBoundParameters | Format-Table
+    
+    $parms = Get-DeepClone $PSBoundParameters
+    if ($parms.ContainsKey("Kill")) { $null = $Params.Remove("Kill") }
 
-    Start-D365Environment @PSBoundParameters | Format-Table
+    Start-D365Environment @parms | Format-Table
 }

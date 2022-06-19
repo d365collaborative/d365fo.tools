@@ -15,15 +15,9 @@ foreach ($file in (Get-ChildItem "$ModuleRoot\internal\tepp\*.tepp.ps1" -ErrorAc
 
 # Load License
 . Import-ModuleFile -Path "$ModuleRoot\internal\scripts\license.ps1"
- 
-# Load Enums
-. Import-ModuleFile -Path "$ModuleRoot\internal\scripts\enum-environmenttype.ps1"
 
 # Load Variables
 . Import-ModuleFile -Path "$ModuleRoot\internal\scripts\variables.ps1"
 
-# Add the System.Web type
-Add-Type -AssemblyName System.Web
-
-# Add the System.Net.Http type
-Add-Type -AssemblyName System.Net.Http
+# Load dot net assemblies
+. Import-ModuleFile -Path "$ModuleRoot\internal\scripts\load-dotnet-assemblies.ps1"

@@ -11,7 +11,7 @@
     .PARAMETER Path
         Path to the update package that you want to install into the environment
         
-        The cmdlet only supports a path to an unblocked zip-file
+        The cmdlet supports a path to a zip-file or directory with the unpacked contents.
         
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
@@ -48,6 +48,11 @@
         
         Default value is "Runbook"
         
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -59,9 +64,16 @@
         Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
-        PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -QuickInstallAll
+        PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
+        
+        This will install the package contained in the c:\temp\package.zip file using a runbook in memory while executing.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -DevInstall
         
         This will install the extracted package in c:\temp\ using a runbook in memory while executing.
+        
+        This command is to be used on Microsoft Hosted Tier1 development environment, where you don't have access to the administrator user account on the vm.
         
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
@@ -85,6 +97,7 @@
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
         
         Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step.
+        
         
     .NOTES
         Author: Tommy Skaue (@skaue)
@@ -119,6 +132,9 @@ function Invoke-D365SDPInstall {
         
         [Parameter(Mandatory = $false, Position = 5 )]
         [string] $RunbookId = "Runbook",
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\SdpInstall"),
 
         [switch] $ShowOriginalProgress,
 
@@ -162,11 +178,15 @@ function Invoke-D365SDPInstall {
         }
     }
 
-    # Input is a relative path, hence we set the path to the current directory
-    if ($Path -eq ".") {
+    # Input is a relative path which needs to be converted to an absolute path.
+    # see https://powershellmagazine.com/2013/01/16/pstip-check-if-the-path-is-relative-or-absolute/
+    if (-not ([System.IO.Path]::IsPathRooted($Path) -or (Split-Path -Path $Path -IsAbsolute))) {
         $currentPath = Get-Location
-        Write-PSFMessage -Level Verbose "Updating path to '$currentPath' as relative paths are not supported"
-        $Path = $currentPath
+        # https://stackoverflow.com/a/13847304/2720554
+        $absolutePath = Join-Path -Path $currentPath -ChildPath $Path
+        $absolutePath = [System.IO.Path]::GetFullPath($absolutePath)
+        Write-PSFMessage -Level Verbose "Updating path to '$absolutePath' as relative paths are not supported"
+        $Path = $absolutePath
     }
 
     # $Util = Join-Path $Path "AXUpdateInstaller.exe"
@@ -182,13 +202,13 @@ function Invoke-D365SDPInstall {
         Write-PSFMessage -Level Verbose "Using QuickInstallAll mode"
         $params = "quickinstallall"
 
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
     elseif ($DevInstall) {
         Write-PSFMessage -Level Verbose "Using DevInstall mode"
         $params = "devinstall"
 
-        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     }
     else {
         $Command = $Command.ToLowerInvariant()
@@ -212,7 +232,7 @@ function Invoke-D365SDPInstall {
                 )
                 
                 #Generate (second command)
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
                 if (Test-PSFFunctionInterrupt) { return }
 
@@ -221,7 +241,7 @@ function Invoke-D365SDPInstall {
                     "-runbookFile=`"$runbookFile`""
                 )
 
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
                 if (Test-PSFFunctionInterrupt) { return }
 
@@ -230,7 +250,7 @@ function Invoke-D365SDPInstall {
                     "-runbookId=`"$runbookId`""
                 )
 
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
                 if (Test-PSFFunctionInterrupt) { return }
             }
@@ -312,7 +332,7 @@ function Invoke-D365SDPInstall {
             }
 
             if ($RunCommand) {
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
                 if (Test-PSFFunctionInterrupt) { return }
             }

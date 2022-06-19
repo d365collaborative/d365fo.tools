@@ -8,17 +8,17 @@ schema: 2.0.0
 # Get-D365LcsApiToken
 
 ## SYNOPSIS
-Upload a file to a LCS project
+Get a valid OAuth 2.0 access token for LCS
 
 ## SYNTAX
 
 ```
 Get-D365LcsApiToken [[-ClientId] <String>] [-Username] <String> [-Password] <String> [[-LcsApiUri] <String>]
- [<CommonParameters>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Upload a file to a LCS project using the API provided by Microsoft
+Get a valid OAuth 2.0 access token for LCS, by providing an easy way to work against the Azure AD of your tenant
 
 ## EXAMPLES
 
@@ -128,11 +128,18 @@ Accept wildcard characters: False
 ### -LcsApiUri
 URI / URL to the LCS API you want to use
 
-Depending on whether your LCS project is located in europe or not, there is 2 valid URI's / URL's
+The value depends on where your LCS project is located. There are multiple valid URI's / URL's
 
 Valid options:
 "https://lcsapi.lcs.dynamics.com"
 "https://lcsapi.eu.lcs.dynamics.com"
+"https://lcsapi.fr.lcs.dynamics.com"
+"https://lcsapi.sa.lcs.dynamics.com"
+"https://lcsapi.uae.lcs.dynamics.com"
+"https://lcsapi.ch.lcs.dynamics.com"
+"https://lcsapi.no.lcs.dynamics.com"
+"https://lcsapi.lcs.dynamics.cn"
+"https://lcsapi.gov.lcs.microsoftdynamics.us"
 
 Default value can be configured using Set-D365LcsApiConfig
 
@@ -144,6 +151,22 @@ Aliases:
 Required: False
 Position: 4
 Default value: $Script:LcsApiApiUri
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableException
+This parameters disables user-friendly warnings and enables the throwing of exceptions
+This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -33,12 +33,20 @@ function Get-UserSIDFromAad {
 
     try {
 
+        $productDetails = Get-ProductInfoProvider
+
         Add-Type -Path "$Script:AOSPath\bin\Microsoft.Dynamics.BusinessPlatform.SharedTypes.dll"
         Add-Type -Path "$Script:AOSPath\bin\Microsoft.Dynamics.ApplicationPlatform.PerformanceCounters.dll"
         Add-Type -Path "$Script:AOSPath\bin\Microsoft.Dynamics.ApplicationPlatform.XppServices.Instrumentation.dll"
         Add-Type -Path "$Script:AOSPath\bin\Microsoft.Dynamics.AX.Security.SidGenerator.dll"
 
-        $SID = [Microsoft.Dynamics.Ax.Security.SidGenerator]::Generate($SignInName, $Provider)
+        if ($([Version]$productDetails.ApplicationVersion) -ge $([Version]"10.0.13")) {
+            $SID = [Microsoft.Dynamics.Ax.Security.SidGenerator]::Generate($SignInName, $Provider, [Microsoft.Dynamics.Ax.Security.SidGenerator+SidAlgorithm]::Sha1)
+        }
+        else {
+            $SID = [Microsoft.Dynamics.Ax.Security.SidGenerator]::Generate($SignInName, $Provider)
+        }
+        
         Write-PSFMessage -Level Verbose -Message "Generated SID: $SID" -Target $SID
 
         $SID

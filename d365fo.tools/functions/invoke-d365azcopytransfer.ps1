@@ -21,6 +21,16 @@
     .PARAMETER FileName
         You might only pass a blob container or folder name in the DestinationUri parameter and want to give the transfered file another name than the original file name
         
+    .PARAMETER DeleteOnTransferComplete
+        Instruct the cmdlet to delete the source file when done transfering
+        
+        Default is $false which will leave the source file
+        
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
+        
+        When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
@@ -66,8 +76,28 @@
         
         If there exists a file already, the file will NOT be overwritten.
         
+    .EXAMPLE
+        PS C:\> Invoke-D365AzCopyTransfer -SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=..." -DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac" -DeleteOnTransferComplete
+        
+        This will transfer a file from an Azure Storage Blob Container to a local folder/file on the machine.
+        The file that will be transfered/downloaded is SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...".
+        The file will be transfered/downloaded to DestinationUri "c:\temp\d365fo.tools\GOLDER.bacpac".
+        
+        After the file has been transfered to your local "c:\temp\d365fo.tools\GOLDER.bacpac", it will be deleted from the SourceUri "https://123.blob.core.windows.net/containername/filename?sv=2015-12-11&sr=...".
+        
+    .EXAMPLE
+        PS C:\> $DestinationParms = Get-D365AzureStorageUrl -OutputAsHashtable
+        PS C:\> $BlobFileDetails = Get-D365LcsDatabaseBackups -Latest | Invoke-D365AzCopyTransfer @DestinationParms
+        PS C:\> $BlobFileDetails | Invoke-D365AzCopyTransfer -DestinationUri "C:\Temp" -DeleteOnTransferComplete
+        
+        This will transfer the lastest backup file from LCS Asset Library to your local "C:\Temp".
+        It will get a destination Url, for it to transfer the backup file between the LCS storage account and your own.
+        The newly transfered file, that lives in your own storage account, will then be downloaded to your local "c:\Temp".
+        
+        After the file has been downloaded to your local "C:\Temp", it will be deleted from your own storage account.
+        
     .NOTES
-        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac, Container
+        Tags: Azure, Azure Storage, Config, Configuration, Token, Blob, File, Files, Latest, Bacpac, Container, LCS, Asset, Library
         
         Author: Mötz Jensen (@Splaxi)
         
@@ -86,7 +116,13 @@ function Invoke-D365AzCopyTransfer {
         [Parameter(Mandatory = $true)]
         [string] $DestinationUri,
 
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [string] $FileName,
+
+        [switch] $DeleteOnTransferComplete,
+
+        [Alias('LogDir')]
+        [string] $LogPath = $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\AzCopy"),
 
         [switch] $ShowOriginalProgress,
 
@@ -97,54 +133,68 @@ function Invoke-D365AzCopyTransfer {
         [switch] $EnableException
     )
 
-    $executable = $Script:AzCopyPath
+    process {
+        $executable = $Script:AzCopyPath
 
-    Invoke-TimeSignal -Start
+        Invoke-TimeSignal -Start
 
-    if (-not [string]::IsNullOrEmpty($FileName)) {
-        if ($DestinationUri -like "*?*") {
-            $DestinationUri = $DestinationUri.Replace("?", "/$FileName`?")
-        }
-        else {
-            if ([System.IO.File]::GetAttributes($DestinationUri).HasFlag([System.IO.FileAttributes]::Directory)) {
-                $DestinationUri = Join-Path $DestinationUri $FileName
+        if (-not [string]::IsNullOrEmpty($FileName)) {
+            if ($DestinationUri -like "*?*") {
+                $DestinationUri = $DestinationUri.Replace("?", "/$FileName`?")
+            }
+            else {
+                if ([System.IO.File]::GetAttributes($DestinationUri).HasFlag([System.IO.FileAttributes]::Directory)) {
+                    $DestinationUri = Join-Path -Path $DestinationUri -ChildPath $FileName
+                }
             }
         }
+
+        $params = New-Object System.Collections.Generic.List[string]
+
+        $params.Add("copy")
+        $params.Add("`"$SourceUri`"")
+        $params.Add("`"$DestinationUri`"")
+
+        if (-not $Force) {
+            $params.Add("--overwrite=false")
+        }
+
+        Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+        if (Test-PSFFunctionInterrupt) { return }
+
+        if ($DeleteOnTransferComplete) {
+
+            $params = New-Object System.Collections.Generic.List[string]
+
+            $params.Add("remove")
+            $params.Add("`"$SourceUri`"")
+
+            Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+        }
+
+        if ($DestinationUri -notlike "*https*") {
+            $filePath = Get-ChildItem -Path $DestinationUri -Recurse -File | Sort-Object CreationTime -Descending | Select-Object -First 1
+            $FileName = $filePath.Name
+        }
+        else {
+            $filePath = $DestinationUri
+        }
+
+        #Filename is missing. If Https / SAS, we need some work.
+        #If local file, it should be easy to solve
+        $res = @{
+            File       = $filePath
+            SourceUri  = $filePath
+            PSTypeName = 'D365FO.TOOLS.AZCOPYTRANSFER'
+        }
+
+        if (-not [string]::IsNullOrEmpty($FileName)) {
+            $res.FileName = $FileName
+        }
+
+        [PSCustomObject]$res
+
+        Invoke-TimeSignal -End
     }
-
-    $params = New-Object System.Collections.Generic.List[string]
-
-    $params.Add("copy")
-    $params.Add("`"$SourceUri`"")
-    $params.Add("`"$DestinationUri`"")
-
-    if (-not $Force) {
-        $params.Add("--overwrite=false")
-    }
-
-    Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
-
-    if (Test-PSFFunctionInterrupt) { return }
-
-    if ($DestinationUri -notlike "*https*") {
-        $filePath = Get-ChildItem -Path $DestinationUri -Recurse -File | Sort-Object CreationTime -Descending | Select-Object -First 1
-        $FileName = $filePath.Name
-    }
-    else {
-        $filePath = $DestinationUri
-    }
-
-    #Filename is missing. If Https / SAS, we need some work.
-    #If local file, it should be easy to solve
-    $res = @{
-        File = $filePath
-    }
-
-    if (-not [string]::IsNullOrEmpty($FileName)) {
-        $res.FileName = $FileName
-    }
-
-    [PSCustomObject]$res
-
-    Invoke-TimeSignal -End
 }

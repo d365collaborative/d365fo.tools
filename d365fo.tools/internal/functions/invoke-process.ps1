@@ -12,15 +12,18 @@
     .PARAMETER Params
         Array of string parameters that you want to pass to the executable
         
-    .PARAMETER OutputCommandOnly
-        Instruct the cmdlet to only output the command that you would have to execute by hand
-        
-        Will include full path to the executable and the needed parameters based on your selection
+    .PARAMETER LogPath
+        The path where the log file(s) will be saved
         
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
         
         Default is $false which will silence the standard output
+        
+    .PARAMETER OutputCommandOnly
+        Instruct the cmdlet to only output the command that you would have to execute by hand
+        
+        Will include full path to the executable and the needed parameters based on your selection
         
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
@@ -54,24 +57,25 @@ function Invoke-Process {
     [OutputType()]
     param (
         [Parameter(Mandatory = $true)]
-        
         [Alias('Executable')]
         [string] $Path,
 
         [Parameter(Mandatory = $true)]
         [string[]] $Params,
 
-        [switch] $OutputCommandOnly,
+        [string] $LogPath,
 
         [switch] $ShowOriginalProgress,
+        
+        [switch] $OutputCommandOnly,
 
         [switch] $EnableException
     )
 
     Invoke-TimeSignal -Start
 
-    if (-not (Test-PathExists -Path $Path -Type Leaf)) {return}
-
+    if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
+    
     if (Test-PSFFunctionInterrupt) { return }
 
     $tool = Split-Path -Path $Path -Leaf
@@ -94,7 +98,7 @@ function Invoke-Process {
 
     Write-PSFMessage -Level Verbose "Starting the $tool" -Target "$($params -join " ")"
 
-    if($OutputCommandOnly){
+    if ($OutputCommandOnly) {
         Write-PSFMessage -Level Host "$Path $($pinfo.Arguments)"
         return
     }
@@ -115,11 +119,21 @@ function Invoke-Process {
         Write-PSFMessage -Level Host "Error output was: \r\n $stderr"
 
         $messageString = "Stopping because an Exit Code from $tool wasn't 0 (zero) like expected."
-        Stop-PSFFunction -Message "Stopping because of Exit Code." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>',''))) -StepsUpward 1
+        Stop-PSFFunction -Message "Stopping because of Exit Code." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
         return
     }
     else {
         Write-PSFMessage -Level Verbose "Standard output was: \r\n $stdout"
+    }
+
+    if ((-not $ShowOriginalProgress) -and (-not ([string]::IsNullOrEmpty($LogPath)))) {
+        if (-not (Test-PathExists -Path $LogPath -Type Container -Create)) { return }
+
+        $stdOutputPath = Join-Path -Path $LogPath -ChildPath "$tool`_StdOutput.log"
+        $errOutputPath = Join-Path -Path $LogPath -ChildPath "$tool`_ErrOutput.log"
+
+        $stdout | Out-File -FilePath $stdOutputPath -Encoding utf8 -Force
+        $stderr | Out-File -FilePath $errOutputPath -Encoding utf8 -Force
     }
 
     Invoke-TimeSignal -End

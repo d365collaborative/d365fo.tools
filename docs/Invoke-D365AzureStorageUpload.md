@@ -15,13 +15,15 @@ Upload a file to Azure
 ### Default (Default)
 ```
 Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] -Filepath <String> [-DeleteOnUpload] [-EnableException] [<CommonParameters>]
+ [-Container <String>] -Filepath <String> [-ContentType <String>] [-DeleteOnUpload] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
 Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] -Filepath <String> [-DeleteOnUpload] [-EnableException] [<CommonParameters>]
+ [-Container <String>] -Filepath <String> [-ContentType <String>] [-DeleteOnUpload] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -75,7 +77,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:AccountId
+Default value: $Script:AzureStorageAccountId
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -90,7 +92,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:AccessToken
+Default value: $Script:AzureStorageAccessToken
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -105,7 +107,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:SAS
+Default value: $Script:AzureStorageSAS
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -120,7 +122,7 @@ Aliases: Blobname, Blob
 
 Required: False
 Position: Named
-Default value: $Script:Container
+Default value: $Script:AzureStorageContainer
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -149,6 +151,26 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -ContentType
+Media type of the file that is going to be uploaded
+
+The value will be used for the blob property "Content Type".
+If the parameter is left empty, the commandlet will try to automatically determined the value based on the file's extension.
+If the parameter is left empty and the value cannot be automatically be determined, Azure storage will automatically assign "application/octet-stream" as the content type.
+Valid media type values can be found here: https://www.iana.org/assignments/media-types/media-types.xhtml
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

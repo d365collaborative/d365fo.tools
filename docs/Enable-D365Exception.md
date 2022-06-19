@@ -45,3 +45,6 @@ Tags: Exception, Exceptions, Warning, Warnings
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
+
+[Disable-D365Exception]()
+
