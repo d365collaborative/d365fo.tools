@@ -14,5 +14,5 @@ Register-PSFTeppScriptblock -Name "d365fo.tools.lcs.options" -ScriptBlock { [Lcs
 <#
 [ValidateSet("https://lcsapi.lcs.dynamics.com", "https://lcsapi.eu.lcs.dynamics.com")]
 #>
-Register-PSFTeppScriptblock -Name "d365fo.tools.lcs.api.urls" -ScriptBlock { 'https://lcsapi.lcs.dynamics.com', 'https://lcsapi.eu.lcs.dynamics.com', 'https://lcsapi.fr.lcs.dynamics.com', 'https://lcsapi.sa.lcs.dynamics.com', 'https://lcsapi.uae.lcs.dynamics.com', 'https://lcsapi.ch.lcs.dynamics.com', 'https://lcsapi.lcs.dynamics.cn', 'https://lcsapi.gov.lcs.microsoftdynamics.us' }
+Register-PSFTeppScriptblock -Name "d365fo.tools.lcs.api.urls" -ScriptBlock { 'https://lcsapi.lcs.dynamics.com', 'https://lcsapi.eu.lcs.dynamics.com', 'https://lcsapi.fr.lcs.dynamics.com', 'https://lcsapi.sa.lcs.dynamics.com', 'https://lcsapi.uae.lcs.dynamics.com', 'https://lcsapi.ch.lcs.dynamics.com', 'https://lcsapi.no.lcs.dynamics.com', 'https://lcsapi.lcs.dynamics.cn', 'https://lcsapi.gov.lcs.microsoftdynamics.us' }
 

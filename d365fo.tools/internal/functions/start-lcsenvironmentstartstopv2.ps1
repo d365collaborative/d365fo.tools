@@ -23,7 +23,7 @@
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
-        Depending where your LCS project is located, there are several valid URI's / URL's
+        The value depends on where your LCS project is located. There are multiple valid URI's / URL's
         
         Valid options:
         "https://lcsapi.lcs.dynamics.com"
@@ -32,6 +32,7 @@
         "https://lcsapi.sa.lcs.dynamics.com"
         "https://lcsapi.uae.lcs.dynamics.com"
         "https://lcsapi.ch.lcs.dynamics.com"
+        "https://lcsapi.no.lcs.dynamics.com"
         "https://lcsapi.lcs.dynamics.cn"
         "https://lcsapi.gov.lcs.microsoftdynamics.us"
         
