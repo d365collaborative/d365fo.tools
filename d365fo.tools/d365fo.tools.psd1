@@ -70,6 +70,7 @@
 		'Disable-D365SqlChangeTracking',
 		'Disable-D365User',
 		'Disable-D365Flight',
+		'Disable-D365Exception',
 
 		'Enable-D365Exception',
 		'Enable-D365MaintenanceMode',
