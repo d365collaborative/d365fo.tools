@@ -11,7 +11,7 @@
     .PARAMETER Path
         Path to the update package that you want to install into the environment
         
-        The cmdlet only supports a path to an unblocked zip-file
+        The cmdlet supports a path to a zip-file or directory with the unpacked contents.
         
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
@@ -64,9 +64,9 @@
         Will include full path to the executable and the needed parameters based on your selection
         
     .EXAMPLE
-        PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -QuickInstallAll
+        PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
         
-        This will install the extracted package in c:\temp\ using a runbook in memory while executing.
+        This will install the package contained in the c:\temp\package.zip file using a runbook in memory while executing.
         
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -DevInstall
@@ -178,11 +178,15 @@ function Invoke-D365SDPInstall {
         }
     }
 
-    # Input is a relative path, hence we set the path to the current directory
-    if ($Path -eq ".") {
+    # Input is a relative path which needs to be converted to an absolute path.
+    # see https://powershellmagazine.com/2013/01/16/pstip-check-if-the-path-is-relative-or-absolute/
+    if (-not ([System.IO.Path]::IsPathRooted($Path) -or (Split-Path -Path $Path -IsAbsolute))) {
         $currentPath = Get-Location
-        Write-PSFMessage -Level Verbose "Updating path to '$currentPath' as relative paths are not supported"
-        $Path = $currentPath
+        # https://stackoverflow.com/a/13847304/2720554
+        $absolutePath = Join-Path -Path $currentPath -ChildPath $Path
+        $absolutePath = [System.IO.Path]::GetFullPath($absolutePath)
+        Write-PSFMessage -Level Verbose "Updating path to '$absolutePath' as relative paths are not supported"
+        $Path = $absolutePath
     }
 
     # $Util = Join-Path $Path "AXUpdateInstaller.exe"
