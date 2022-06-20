@@ -98,6 +98,8 @@ $Script:TfDir = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE
 
 $Script:SQLTools = "C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn"
 
+$Script:SSRSTools = "C:\Program Files\Microsoft SQL Server Reporting Services\Shared Tools"
+
 $Script:DefaultTempPath = "c:\temp\d365fo.tools"
 
 foreach ($item in (Get-PSFConfig -FullName d365fo.tools.active*)) {
