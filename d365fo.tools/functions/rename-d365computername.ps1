@@ -95,9 +95,11 @@ function Rename-D365ComputerName {
     }
 
     $executable = "$Script:SSRSTools\rsconfig.exe"
+    $SSRSInstance = "SSRS"
 
     if (-not (Test-PathExists -Path $executable -Type Leaf)) {
         $executable = "$Script:SQLTools\rsconfig.exe" # fall back to pre 10.0.24
+        $SSRSInstance = ""  # no instance name needed for old VMs
 
         if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
     }
@@ -159,6 +161,11 @@ function Rename-D365ComputerName {
     $params.Add("-c")
     $params.Add("-d")
     $params.Add("`"$SSRSReportDatabase`"")
+
+    if ($SSRSInstance) {
+        $params.Add("-i")
+        $params.Add("`"$SSRSInstance`"")
+    }
 
     Invoke-Process -Executable $executable -Params $params.ToArray() -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
