@@ -50,6 +50,8 @@
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
+
+        https://stackoverflow.com/questions/24370814/how-to-capture-process-output-asynchronously-in-powershell/36539226#36539226
 #>
 
 function Invoke-Process {
@@ -106,12 +108,17 @@ function Invoke-Process {
     $p.Start() | Out-Null
     
     if (-not $ShowOriginalProgress) {
-        $stdout = $p.StandardOutput.ReadToEnd()
-        $stderr = $p.StandardError.ReadToEnd()
+        $outTask = $p.StandardOutput.ReadToEndAsync();
+        $errTask = $p.StandardError.ReadToEndAsync();
     }
 
     Write-PSFMessage -Level Verbose "Waiting for the $tool to complete"
     $p.WaitForExit()
+
+    if (-not $ShowOriginalProgress) {
+        $stdout = $outTask.Result
+        $stderr = $errTask.Result
+    }
 
     if ($p.ExitCode -ne 0 -and (-not $ShowOriginalProgress)) {
         Write-PSFMessage -Level Host "Exit code from $tool indicated an error happened. Will output both standard stream and error stream."
