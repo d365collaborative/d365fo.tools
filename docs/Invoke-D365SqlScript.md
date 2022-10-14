@@ -15,13 +15,15 @@ Execute a SQL Script or a SQL Command
 ### FilePath
 ```
 Invoke-D365SqlScript [-FilePath] <String> [-DatabaseServer <String>] [-DatabaseName <String>]
- [-SqlUser <String>] [-SqlPwd <String>] [-TrustedConnection <Boolean>] [-EnableException] [<CommonParameters>]
+ [-SqlUser <String>] [-SqlPwd <String>] [-TrustedConnection <Boolean>] [-EnableException] [-NoPooling]
+ [<CommonParameters>]
 ```
 
 ### Command
 ```
 Invoke-D365SqlScript [-Command] <String> [-DatabaseServer <String>] [-DatabaseName <String>]
- [-SqlUser <String>] [-SqlPwd <String>] [-TrustedConnection <Boolean>] [-EnableException] [<CommonParameters>]
+ [-SqlUser <String>] [-SqlPwd <String>] [-TrustedConnection <Boolean>] [-EnableException] [-NoPooling]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,6 +44,14 @@ Invoke-D365SqlScript -Command "DELETE FROM SALESTABLE WHERE RECID = 123456789"
 ```
 
 This will execute "DELETE FROM SALESTABLE WHERE RECID = 123456789" against the registered SQL Server on the machine.
+
+### EXAMPLE 3
+```
+Invoke-D365SqlScript -Command "DELETE FROM SALESTABLE WHERE RECID = 123456789" -NoPooling
+```
+
+This will execute "DELETE FROM SALESTABLE WHERE RECID = 123456789" against the registered SQL Server on the machine.
+It will not use connection pooling.
 
 ## PARAMETERS
 
@@ -158,6 +168,21 @@ Accept wildcard characters: False
 ### -EnableException
 This parameters disables user-friendly warnings and enables the throwing of exceptions
 This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoPooling
+Should the connection use connection pooling or not
 
 ```yaml
 Type: SwitchParameter

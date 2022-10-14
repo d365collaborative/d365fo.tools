@@ -39,10 +39,10 @@ https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deploy
 
 ### EXAMPLE 1
 ```
-Invoke-D365SDPInstall -Path "c:\temp\" -QuickInstallAll
+Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
 ```
 
-This will install the extracted package in c:\temp\ using a runbook in memory while executing.
+This will install the package contained in the c:\temp\package.zip file using a runbook in memory while executing.
 
 ### EXAMPLE 2
 ```
@@ -91,7 +91,7 @@ Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook fr
 ### -Path
 Path to the update package that you want to install into the environment
 
-The cmdlet only supports a path to an unblocked zip-file
+The cmdlet supports a path to a zip-file or directory with the unpacked contents.
 
 ```yaml
 Type: String

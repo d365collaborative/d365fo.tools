@@ -17,7 +17,7 @@
         Tags: Exception, Exceptions, Warning, Warnings
         
         Author: Florian Hopfner (@FH-Inway)
-    
+        
     .LINK
         Enable-D365Exception
 #>
