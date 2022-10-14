@@ -107,7 +107,8 @@ Accept wildcard characters: False
 ### -LcsApiUri
 URI / URL to the LCS API you want to use
 
-The value depends on where your LCS project is located. There are multiple valid URI's / URL's
+The value depends on where your LCS project is located.
+There are multiple valid URI's / URL's
 
 Valid options:
 "https://lcsapi.lcs.dynamics.com"

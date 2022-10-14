@@ -35,6 +35,9 @@
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
         
+    .PARAMETER NoPooling
+        Should the connection use connection pooling or not
+        
     .EXAMPLE
         PS C:\> Invoke-D365SqlScript -FilePath "C:\temp\d365fo.tools\DeleteUser.sql"
         
@@ -44,6 +47,12 @@
         PS C:\> Invoke-D365SqlScript -Command "DELETE FROM SALESTABLE WHERE RECID = 123456789"
         
         This will execute "DELETE FROM SALESTABLE WHERE RECID = 123456789" against the registered SQL Server on the machine.
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365SqlScript -Command "DELETE FROM SALESTABLE WHERE RECID = 123456789" -NoPooling
+        
+        This will execute "DELETE FROM SALESTABLE WHERE RECID = 123456789" against the registered SQL Server on the machine.
+        It will not use connection pooling.
         
     .NOTES
         Author: Mötz Jensen (@splaxi)
@@ -70,7 +79,10 @@ Function Invoke-D365SqlScript {
         
         [bool] $TrustedConnection = $false,
 
-        [switch] $EnableException
+        [switch] $EnableException,
+
+        [switch] $NoPooling
+
     )
 
     if ($PSCmdlet.ParameterSetName -eq "FilePath") {
@@ -93,7 +105,7 @@ Function Invoke-D365SqlScript {
     
     $Params.TrustedConnection = $UseTrustedConnection
 
-    $sqlCommand = Get-SqlCommand @Params
+    $sqlCommand = Get-SqlCommand @Params -NoPooling:$NoPooling
 
     if ($PSCmdlet.ParameterSetName -eq "FilePath") {
         $sqlCommand.CommandText = (Get-Content "$FilePath") -join [Environment]::NewLine

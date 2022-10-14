@@ -25,10 +25,19 @@
     .PARAMETER TrustedConnection
         Should the connection use a Trusted Connection or not
         
+    .PARAMETER NoPooling
+        Should the connection use connection pooling or not
+        
     .EXAMPLE
         PS C:\> Get-SqlCommand -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -TrustedConnection $true
         
         This will initialize a new SqlCommand object (.NET type) with localhost as the server name, AxDB as the database and the User123 sql credentials.
+        
+    .EXAMPLE
+        PS C:\> Get-SqlCommand -DatabaseServer localhost -DatabaseName AxDB -SqlUser User123 -SqlPwd "Password123" -TrustedConnection $true -NoPooling
+        
+        This will initialize a new SqlCommand object (.NET type) with localhost as the server name, AxDB as the database and the User123 sql credentials.
+        The connection will not use connection pooling.
         
     .NOTES
         Author: Rasmus Andersen (@ITRasmus)
@@ -51,7 +60,9 @@ function Get-SQLCommand {
         [string] $SqlPwd,
 
         [Parameter(Mandatory = $false)]
-        [boolean] $TrustedConnection
+        [boolean] $TrustedConnection,
+
+        [switch] $NoPooling
     )
 
     Write-PSFMessage -Level Debug -Message "Writing the bound parameters" -Target $PsBoundParameters
@@ -59,6 +70,9 @@ function Get-SQLCommand {
 
     $null = $Params.Add("Server='$DatabaseServer';")
     $null = $Params.Add("Database='$DatabaseName';")
+    
+    # We have learned that closing a connection is not enough to closing the connection.
+    if ($NoPooling) { $null = $Params.Add("Pooling=false;") }
 
     if ($null -eq $TrustedConnection -or (-not $TrustedConnection)) {
         $null = $Params.Add("User='$SqlUser';")

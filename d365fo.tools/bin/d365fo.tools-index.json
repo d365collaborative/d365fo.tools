@@ -610,6 +610,26 @@
         "Syntax":  "ConvertTo-D365Dacpac [-Path] \u003cString\u003e [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Disable-D365Exception",
+        "Description":  "Restore the default exception behavior of the module to not support throwing exceptions\n\nUseful when the default behavior was changed with Enable-D365Exception and the default behavior should be restored",
+        "Tags":  [
+                     "Exception",
+                     "Exceptions",
+                     "Warning",
+                     "Warnings"
+                 ],
+        "Params":  [
+
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (@FH-Inway)",
+        "Synopsis":  "Disables throwing of exceptions",
+        "Name":  "Disable-D365Exception",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eDisable-D365Exception\nThis will restore the default behavior of the module to not support throwing exceptions.",
+        "Syntax":  "Disable-D365Exception [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Disable-D365Flight",
         "Description":  "Provides a method for disabling a flight in D365FO.",
         "Tags":  [
@@ -2956,7 +2976,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3030,7 +3050,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3107,7 +3127,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3200,7 +3220,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3306,7 +3326,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3415,7 +3435,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -3508,7 +3528,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7352,7 +7372,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7457,7 +7477,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7571,7 +7591,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7656,7 +7676,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending where your LCS project is located, there are several valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7739,7 +7759,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending where your LCS project is located, there are several valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -7857,7 +7877,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
                            "",
                            false,
                            "false",
@@ -8511,7 +8531,7 @@
         "Params":  [
                        [
                            "Path",
-                           "Path to the update package that you want to install into the environment\nThe cmdlet only supports a path to an unblocked zip-file",
+                           "Path to the update package that you want to install into the environment\nThe cmdlet supports a path to a zip-file or directory with the unpacked contents.",
                            "File,Hotfix",
                            true,
                            "false",
@@ -8595,7 +8615,7 @@
         "Synopsis":  "Invoke the AxUpdateInstaller.exe file from Software Deployable Package (SDP)",
         "Name":  "Invoke-D365SDPInstall",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -QuickInstallAll\nThis will install the extracted package in c:\\temp\\ using a runbook in memory while executing.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -DevInstall\nThis will install the extracted package in c:\\temp\\ using a runbook in memory while executing.\nThis command is to be used on Microsoft Hosted Tier1 development environment, where you don\u0027t have access to the administrator user account on the vm.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetTopology\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Generate -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Import -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Execute -RunbookId \u0027MyRunbook\u0027\nManual operations that first create Topology XML from current environment, then generate runbook with id \u0027MyRunbook\u0027, then import it and finally execute it.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RunAll\nCreate Topology XML from current environment. Using default runbook id \u0027Runbook\u0027 and run all the operations from generate, to import to execute.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RerunStep -Step 18 -RunbookId \u0027MyRunbook\u0027\nRerun runbook with id \u0027MyRunbook\u0027 from step 18.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetStepComplete -Step 24 -RunbookId \u0027MyRunbook\u0027\nMark step 24 complete in runbook with id \u0027MyRunbook\u0027 and continue the runbook from the next step.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\package.zip\" -QuickInstallAll\nThis will install the package contained in the c:\\temp\\package.zip file using a runbook in memory while executing.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -DevInstall\nThis will install the extracted package in c:\\temp\\ using a runbook in memory while executing.\nThis command is to be used on Microsoft Hosted Tier1 development environment, where you don\u0027t have access to the administrator user account on the vm.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetTopology\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Generate -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Import -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Execute -RunbookId \u0027MyRunbook\u0027\nManual operations that first create Topology XML from current environment, then generate runbook with id \u0027MyRunbook\u0027, then import it and finally execute it.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RunAll\nCreate Topology XML from current environment. Using default runbook id \u0027Runbook\u0027 and run all the operations from generate, to import to execute.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RerunStep -Step 18 -RunbookId \u0027MyRunbook\u0027\nRerun runbook with id \u0027MyRunbook\u0027 from step 18.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetStepComplete -Step 24 -RunbookId \u0027MyRunbook\u0027\nMark step 24 complete in runbook with id \u0027MyRunbook\u0027 and continue the runbook from the next step.",
         "Syntax":  "Invoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-QuickInstallAll]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-DevInstall]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [-Command] \u003cString\u003e [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
@@ -8694,6 +8714,14 @@
                            false,
                            "false",
                            "False"
+                       ],
+                       [
+                           "NoPooling",
+                           "Should the connection use connection pooling or not",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "Invoke-D365SqlCmd",
@@ -8701,8 +8729,8 @@
         "Synopsis":  "Execute a SQL Script or a SQL Command",
         "Name":  "Invoke-D365SqlScript",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SqlScript -FilePath \"C:\\temp\\d365fo.tools\\DeleteUser.sql\"\nThis will execute the \"C:\\temp\\d365fo.tools\\DeleteUser.sql\" against the registered SQL Server on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365SqlScript -Command \"DELETE FROM SALESTABLE WHERE RECID = 123456789\"\nThis will execute \"DELETE FROM SALESTABLE WHERE RECID = 123456789\" against the registered SQL Server on the machine.",
-        "Syntax":  "Invoke-D365SqlScript [-FilePath] \u003cString\u003e [-DatabaseServer \u003cString\u003e] [-DatabaseName \u003cString\u003e] [-SqlUser \u003cString\u003e] [-SqlPwd \u003cString\u003e] [-TrustedConnection \u003cBoolean\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nInvoke-D365SqlScript [-Command] \u003cString\u003e [-DatabaseServer \u003cString\u003e] [-DatabaseName \u003cString\u003e] [-SqlUser \u003cString\u003e] [-SqlPwd \u003cString\u003e] [-TrustedConnection \u003cBoolean\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SqlScript -FilePath \"C:\\temp\\d365fo.tools\\DeleteUser.sql\"\nThis will execute the \"C:\\temp\\d365fo.tools\\DeleteUser.sql\" against the registered SQL Server on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365SqlScript -Command \"DELETE FROM SALESTABLE WHERE RECID = 123456789\"\nThis will execute \"DELETE FROM SALESTABLE WHERE RECID = 123456789\" against the registered SQL Server on the machine.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365SqlScript -Command \"DELETE FROM SALESTABLE WHERE RECID = 123456789\" -NoPooling\nThis will execute \"DELETE FROM SALESTABLE WHERE RECID = 123456789\" against the registered SQL Server on the machine.\r\nIt will not use connection pooling.",
+        "Syntax":  "Invoke-D365SqlScript [-FilePath] \u003cString\u003e [-DatabaseServer \u003cString\u003e] [-DatabaseName \u003cString\u003e] [-SqlUser \u003cString\u003e] [-SqlPwd \u003cString\u003e] [-TrustedConnection \u003cBoolean\u003e] [-EnableException] [-NoPooling] [\u003cCommonParameters\u003e]\nInvoke-D365SqlScript [-Command] \u003cString\u003e [-DatabaseServer \u003cString\u003e] [-DatabaseName \u003cString\u003e] [-SqlUser \u003cString\u003e] [-SqlPwd \u003cString\u003e] [-TrustedConnection \u003cBoolean\u003e] [-EnableException] [-NoPooling] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365SysFlushAodCache",
@@ -10243,7 +10271,7 @@
                        ],
                        [
                            "LcsApiUri",
-                           "URI / URL to the LCS API you want to use\nDepending on whether your LCS project is located in europe or not, there is 2 valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"",
                            "resource",
                            false,
                            "true (ByPropertyName)",

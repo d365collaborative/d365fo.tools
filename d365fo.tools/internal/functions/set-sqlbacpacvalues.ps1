@@ -69,7 +69,8 @@ function Set-SqlBacpacValues {
         SqlUser = $SqlUser; SqlPwd = $SqlPwd; TrustedConnection = $TrustedConnection;
     }
 
-    $sqlCommand = Get-SQLCommand @Params
+    # We have learned that pooling keeps the connection open and that is not what we want
+    $sqlCommand = Get-SQLCommand @Params -NoPooling
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\set-bacpacvaluessql.sql") -join [Environment]::NewLine
     $commandText = $commandText.Replace('@DATABASENAME', $DatabaseName)
