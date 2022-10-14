@@ -105,7 +105,7 @@ Function Invoke-D365SqlScript {
     
     $Params.TrustedConnection = $UseTrustedConnection
 
-    $sqlCommand = Get-SqlCommand @Params -NoPooling:$NoPooling
+    $sqlCommand = Get-SqlCommand @Params
 
     if ($PSCmdlet.ParameterSetName -eq "FilePath") {
         $sqlCommand.CommandText = (Get-Content "$FilePath") -join [Environment]::NewLine
