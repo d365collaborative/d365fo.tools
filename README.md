@@ -10,29 +10,29 @@ Available on PowerShell Gallery
 
 ## Getting started
 ### Install the latest module
-```
+```PowerShell
 Install-Module -Name d365fo.tools
 ```
 
 ### Install without administrator privileges
-```
+```PowerShell
 Install-Module -Name d365fo.tools -Scope CurrentUser
 ```
 ### List all available commands / functions
 
-```
+```PowerShell
 Get-Command -Module d365fo.tools
 ```
 
 ### Update the module
 
-```
+```PowerShell
 Update-Module -name d365fo.tools
 ```
 
 ### Update the module - force
 
-```
+```PowerShell
 Update-Module -name d365fo.tools -Force
 ```
 ## Getting help
@@ -46,7 +46,7 @@ Since the project started we have adopted and extended the comment based help in
 
 Getting help is as easy as writing **Get-Help CommandName**
 
-```
+```PowerShell
 Get-Help New-D365Bacpac
 ```
 
@@ -54,7 +54,7 @@ Get-Help New-D365Bacpac
 
 Getting the entire help is as easy as writing **Get-Help CommandName -Full**
 
-```
+```PowerShell
 Get-Help New-D365Bacpac -Full
 ```
 
@@ -62,7 +62,7 @@ Get-Help New-D365Bacpac -Full
 
 Getting all the available examples for a given command is as easy as writing **Get-Help CommandName -Examples**
 
-```
+```PowerShell
 Get-Help New-D365Bacpac -Examples
 ```
 
