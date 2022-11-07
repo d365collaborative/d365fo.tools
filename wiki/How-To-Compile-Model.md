@@ -15,7 +15,7 @@ Please visit the [Import d365fo.tools module](https://github.com/d365collaborati
 ## **List all modules / models**
 Listing all installed modules / models can help you while troubleshooting your environment. Type the following command:
 
-```
+```PowerShell
 Get-D365Module
 ```
 
@@ -25,7 +25,7 @@ Get-D365Module
 ## **Search for modules / models**
 To limit the output of modules in the console, you can utilize the search functionality in the `Get-D365Module` cmdlet. Type the following command:
 
-```
+```PowerShell
 Get-D365Module -Name *Project*
 ```
 
@@ -35,7 +35,7 @@ Get-D365Module -Name *Project*
 ## **Compile module / model**
 We need to know the name of the module / model that we want to compile, and provide that as a parameter. Type the following command:
 
-```
+```PowerShell
 Invoke-D365ModuleFullCompile -Module Project
 ```
 
@@ -45,11 +45,14 @@ Invoke-D365ModuleFullCompile -Module Project
 ## **Compile multiple modules / models**
 We can utilize the `Get-D365Module` cmdlet and its output to the PowerShell pipeline, to supply the needed parameters to the `Invoke-D365ModuleFullCompile` cmdlet. Type the following command:
 
-```
+```PowerShell
 Get-D365Module -Name *Project* | Invoke-D365ModuleFullCompile
 ```
 
 [[images/howtos/Compile-Modules.gif]]
+
+You can also use utilize `-InDependencyOrder` parameter of `Get-D365Module` to get and compile modules in the right order. One module
+might depend on other modules and this allows you to compile dependencies first.
 
 ## **Closing comments**
 In this how to we showed you how to compile a specific module / model in a D365FO environment. We also showed you how to combine the `Get-D365Module` cmdlet with the `Invoke-D365ModuleFullCompile` cmdlet to make it easier to compile multiple modules / models.

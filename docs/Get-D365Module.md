@@ -13,8 +13,8 @@ Get installed package / module from Dynamics 365 Finance & Operations environmen
 ## SYNTAX
 
 ```
-Get-D365Module [[-Name] <String>] [-ExcludeBinaryModules] [[-BinDir] <String>] [[-PackageDirectory] <String>]
- [<CommonParameters>]
+Get-D365Module [[-Name] <String>] [-ExcludeBinaryModules] [-InDependencyOrder] [[-BinDir] <String>]
+ [[-PackageDirectory] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -57,6 +57,23 @@ ApplicationFoundation                    False    7.0.5493.35504  {ApplicationPl
 ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
 
 ### EXAMPLE 3
+```
+Get-D365Module -InDependencyOrder
+```
+
+Return packages / modules in dependency order, starting with modules with no references to other modules.
+
+A result set example:
+
+ModuleName                               IsBinary Version         References
+----------                               -------- -------         ----------
+ApplicationPlatform                      False    7.0.0.0         {}
+ApplicationFoundation                    False    7.0.0.0         {ApplicationPlatform}
+ApplicationCommon                        False    10.21.36.8818   {ApplicationFoundation, ApplicationPlatform}
+AppTroubleshootingCore                   False    10.21.1136.2...
+{ApplicationCommon, ApplicationFoundation, Applica...
+
+### EXAMPLE 4
 ```
 Get-D365Module -Name "Application*Adaptor"
 ```
@@ -102,6 +119,22 @@ Instruct the cmdlet to exclude binary modules from the output
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InDependencyOrder
+Instructs the cmdlet to return modules in dependency order, starting with modules
+with no references to other modules.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: Dependency
 
 Required: False
 Position: Named
