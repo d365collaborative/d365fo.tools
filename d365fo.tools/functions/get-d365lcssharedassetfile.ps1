@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Get information for assets from the shared asset library of LCS
@@ -10,7 +10,7 @@
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
         
         Default value can be configured using Set-D365LcsApiConfig
-
+        
         Although the assets are stored in the shared asset library, their information is retrieved in context of a project to get the full information.
         
     .PARAMETER FileType
@@ -179,7 +179,7 @@
         The default values can be configured using Set-D365LcsApiConfig.
         
     .EXAMPLE
-        PS C:\> $asset = Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -Latest 
+        PS C:\> $asset = Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -Latest
         PS C:\> Invoke-D365AzCopyTransfer -SourceUri $asset.FileLocation -DestinationUri C:\Temp\d365fo.tools\$($asset.Filename) -ShowOriginalProgress
         
         This will download the latest Software Deployable Package from the shared asset library in LCS onto your local machine.
@@ -211,7 +211,7 @@
         
     .LINK
         Set-D365LcsApiConfig
-
+        
     .LINK
         Get-D365LcsAssetFile
         

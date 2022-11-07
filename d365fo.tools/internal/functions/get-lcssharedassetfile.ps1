@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Get information for all assets of a type from the shared asset library of LCS

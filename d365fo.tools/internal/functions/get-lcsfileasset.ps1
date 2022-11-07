@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Get information for a single asset from the project or shared asset library of LCS
@@ -57,7 +57,7 @@
     .EXAMPLE
         PS C:\> Get-LcsFileAsset -ProjectId 123456789 -AssetId "e70cac82-6a7c-4f9e-a8b9-e707b961e986" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will get the information of the asset identified by the asset id. 
+        This will get the information of the asset identified by the asset id.
         The asset can either be part of the project asset library or the shared asset library. Note that in both cases, the project id is required.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
