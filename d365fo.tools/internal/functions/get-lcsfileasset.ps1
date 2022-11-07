@@ -1,28 +1,16 @@
 
 <#
     .SYNOPSIS
-        Get file from the Asset library inside the LCS project
+        Get information for a single asset from the project or shared asset library of LCS
         
     .DESCRIPTION
-        Get the available files from the Asset Library in LCS project
+        Get the information for an available file asset from the project or shared asset library of LCS
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
         
-    .PARAMETER FileType
-        Type of file you want to upload
-        
-        Valid options:
-        "Model"
-        "Process Data Package"
-        "Software Deployable Package"
-        "GER Configuration"
-        "Data Package"
-        "PowerBI Report Model"
-        "E-Commerce Package"
-        "NuGet Package"
-        "Retail Self-Service Package"
-        "Commerce Cloud Scale Unit Extension"
+    .PARAMETER AssetId
+        Id of the asset you want to get information for
         
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
@@ -63,20 +51,22 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
+        Usually this parameter is not used directly, but via the Enable-D365Exception cmdlet
+        See https://github.com/d365collaborative/d365fo.tools/wiki/Exception-handling#what-does-the--enableexception-parameter-do for further information
         
     .EXAMPLE
-        PS C:\> Get-LcsAssetFileV2 -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsFileAsset -ProjectId 123456789 -AssetId "e70cac82-6a7c-4f9e-a8b9-e707b961e986" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
-        This will get all software deployable packages from the Asset Library inside LCS.
+        This will get the information of the asset identified by the asset id. 
+        The asset can either be part of the project asset library or the shared asset library. Note that in both cases, the project id is required.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
-        The FileType is Software Deployable Packages, with the FileType parameter.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .NOTES
         Tags: Environment, LCS, Api, AAD, Token, Asset, File, Files
         
-        Author: Mötz Jensen (@Splaxi)
+        Author: Florian Hopfner (@FH-Inway)
 #>
 
 function Get-LcsFileAsset {
@@ -85,6 +75,7 @@ function Get-LcsFileAsset {
         [Parameter(Mandatory = $true)]
         [int] $ProjectId,
 
+        [Parameter(Mandatory = $true)]
         [string] $AssetId,
 
         [Alias('Token')]
