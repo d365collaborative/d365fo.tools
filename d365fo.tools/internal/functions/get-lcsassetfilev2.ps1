@@ -1,16 +1,16 @@
 ﻿
 <#
     .SYNOPSIS
-        Get file from the Asset library inside the LCS project
+        Get information for all assets of a type from the asset library inside a LCS project
         
     .DESCRIPTION
-        Get the available files from the Asset Library in LCS project
+        Get the information for the available file assets of a certain type from the asset library inside a LCS project
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
         
     .PARAMETER FileType
-        Type of file you want to upload
+        Type of asset you want to get information for
         
         Valid options:
         "Model"

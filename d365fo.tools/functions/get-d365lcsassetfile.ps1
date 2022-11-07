@@ -207,6 +207,9 @@
         
     .LINK
         Set-D365LcsApiConfig
+
+    .LINK
+        Get-D365LcsSharedAssetFile
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
