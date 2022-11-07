@@ -5,41 +5,41 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365LcsAssetFile
+# Get-D365LcsSharedAssetFile
 
 ## SYNOPSIS
-Get file from the Asset library inside the LCS project
+Get information for assets from the shared asset library of LCS
 
 ## SYNTAX
 
 ```
-Get-D365LcsAssetFile [[-ProjectId] <Int32>] [[-FileType] <LcsAssetFileType>] [[-AssetName] <String>]
+Get-D365LcsSharedAssetFile [[-ProjectId] <Int32>] [[-FileType] <LcsAssetFileType>] [[-AssetName] <String>]
  [[-AssetVersion] <String>] [[-AssetFilename] <String>] [[-AssetDescription] <String>] [[-AssetId] <String>]
  [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest] [[-RetryTimeout] <TimeSpan>] [-EnableException]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get the available files from the Asset Library in LCS project
+Get the information for the file assets from the shared asset library of LCS matching the search criteria
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365LcsAssetFile -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+Get-D365LcsSharedAssetFile -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 ```
 
-This will list all Software Deployable Packages.
+This will list all Software Deployable Packages in the shared asset library.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
 The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
 The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
 
 ### EXAMPLE 2
 ```
-Get-D365LcsAssetFile -FileType SoftwareDeployablePackage
+Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage
 ```
 
-This will list all Software Deployable Packages.
+This will list all Software Deployable Packages in the shared asset library.
 It will search for SoftwareDeployablePackage by using the FileType parameter.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
@@ -51,7 +51,7 @@ The default values can be configured using Set-D365LcsApiConfig.
 Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetFilename "*MAIN*"
 ```
 
-This will list all Software Deployable Packages, that matches the "*MAIN*" search pattern in the AssetFilename.
+This will list all Software Deployable Packages in the shared asset library that match the "*MAIN*" search pattern in the file name of the asset.
 It will search for SoftwareDeployablePackage by using the FileType parameter.
 It will filter the output to match the AssetFilename "*MAIN*" search pattern.
 
@@ -64,7 +64,7 @@ The default values can be configured using Set-D365LcsApiConfig.
 Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetName "*MAIN*"
 ```
 
-This will list all Software Deployable Packages, that matches the "*MAIN*" search pattern in the AssetName.
+This will list all Software Deployable Packages in the shared asset library that match the "*MAIN*" search pattern in the name of the asset.
 It will search for SoftwareDeployablePackage by using the FileType parameter.
 It will filter the output to match the AssetName "*MAIN*" search pattern.
 
@@ -77,7 +77,7 @@ The default values can be configured using Set-D365LcsApiConfig.
 Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetDescription "*TEST*"
 ```
 
-This will list all Software Deployable Packages, that matches the "*TEST*" search pattern in the AssetDescription.
+This will list all Software Deployable Packages in the shared asset library that match the "*TEST*" search pattern in the asset description.
 It will search for SoftwareDeployablePackage by using the FileType parameter.
 It will filter the output to match the AssetDescription "*TEST*" search pattern.
 
@@ -90,7 +90,7 @@ The default values can be configured using Set-D365LcsApiConfig.
 Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetId "500dd860-eacf-4e04-9f18-f9c8fe1d8e03"
 ```
 
-This will list all Software Deployable Packages, that matches the "500dd860-eacf-4e04-9f18-f9c8fe1d8e03" search pattern in the AssetId.
+This will list all Software Deployable Packages in the shared asset library that match the "500dd860-eacf-4e04-9f18-f9c8fe1d8e03" search pattern in the asset id.
 It will search for SoftwareDeployablePackage by using the FileType parameter.
 It will filter the output to match the AssetId "500dd860-eacf-4e04-9f18-f9c8fe1d8e03" search pattern.
 
@@ -100,10 +100,12 @@ The default values can be configured using Set-D365LcsApiConfig.
 
 ### EXAMPLE 7
 ```
-Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\Temp\d365fo.tools -FileName "Main.zip" -ShowOriginalProgress
+$asset = Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -Latest
 ```
 
-This will download the latest Software Deployable Package from the Asset Library in LCS onto your on machine.
+PS C:\\\> Invoke-D365AzCopyTransfer -SourceUri $asset.FileLocation -DestinationUri C:\Temp\d365fo.tools\$($asset.Filename) -ShowOriginalProgress
+
+This will download the latest Software Deployable Package from the shared asset library in LCS onto your local machine.
 It will list Software Deployable Packages based on the FileType parameter.
 It will list the latest (newest) Software Deployable Package.
 
@@ -113,10 +115,10 @@ The default values can be configured using Set-D365LcsApiConfig.
 
 ### EXAMPLE 8
 ```
-Get-D365LcsAssetFile -FileType SoftwareDeployablePackage -RetryTimeout "00:01:00"
+Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -RetryTimeout "00:01:00"
 ```
 
-This will list all Software Deployable Packages, and allow for the cmdlet to retry for no more than 1 minute.
+This will list all Software Deployable Packages in the shared asset library and allow for the cmdlet to retry for no more than 1 minute.
 It will search for SoftwareDeployablePackage by using the FileType parameter.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
@@ -129,6 +131,8 @@ The default values can be configured using Set-D365LcsApiConfig.
 The project id for the Dynamics 365 for Finance & Operations project inside LCS
 
 Default value can be configured using Set-D365LcsApiConfig
+
+Although the assets are stored in the shared asset library, their information is retrieved in context of a project to get the full information.
 
 ```yaml
 Type: Int32
@@ -156,7 +160,6 @@ Valid options:
 "NuGet Package"
 "Retail Self-Service Package"
 "Commerce Cloud Scale Unit Extension"
-
 
 Default value is "Software Deployable Package"
 
@@ -375,6 +378,8 @@ Accept wildcard characters: False
 ### -EnableException
 This parameters disables user-friendly warnings and enables the throwing of exceptions
 This is less user friendly, but allows catching exceptions in calling scripts
+Usually this parameter is not used directly, but via the Enable-D365Exception cmdlet
+See https://github.com/d365collaborative/d365fo.tools/wiki/Exception-handling#what-does-the--enableexception-parameter-do for further information
 
 ```yaml
 Type: SwitchParameter
@@ -396,7 +401,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Mötz Jensen (@Splaxi)
+Author: Florian Hopfner (@FH-Inway)
 
 ## RELATED LINKS
 
@@ -408,5 +413,5 @@ Author: Mötz Jensen (@Splaxi)
 
 [Set-D365LcsApiConfig]()
 
-[Get-D365LcsSharedAssetFile]()
+[Get-D365LcsAssetFile]()
 
