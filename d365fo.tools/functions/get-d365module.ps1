@@ -15,6 +15,10 @@
         
     .PARAMETER ExcludeBinaryModules
         Instruct the cmdlet to exclude binary modules from the output
+
+    .PARAMETER InDependencyOrder
+        Instructs the cmdlet to return modules in dependency order, starting with modules
+        with no references to other modules.
         
     .PARAMETER BinDir
         The path to the bin directory for the environment
@@ -61,6 +65,20 @@
         ApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...
         
     .EXAMPLE
+        PS C:\> Get-D365Module -InDependencyOrder
+
+        Return packages / modules in dependency order, starting with modules with no references to other modules.
+
+        A result set example:
+        
+        ModuleName                               IsBinary Version         References
+        ----------                               -------- -------         ----------
+        ApplicationPlatform                      False    7.0.0.0         {}
+        ApplicationFoundation                    False    7.0.0.0         {ApplicationPlatform}
+        ApplicationCommon                        False    10.21.36.8818   {ApplicationFoundation, ApplicationPlatform}
+        AppTroubleshootingCore                   False    10.21.1136.2... {ApplicationCommon, ApplicationFoundation, Applica...
+
+    .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor"
         
         Shows the list of installed packages / modules where the name fits the search "Application*Adaptor".
@@ -89,6 +107,9 @@ function Get-D365Module {
 
         [switch] $ExcludeBinaryModules,
 
+        [Alias("Dependency")]
+        [switch] $InDependencyOrder,
+
         [string] $BinDir = "$Script:BinDir\bin",
 
         [string] $PackageDirectory = $Script:PackageDirectory
@@ -114,13 +135,22 @@ function Get-D365Module {
 
         Write-PSFMessage -Level Verbose -Message "Intializing RuntimeProvider."
 
-        $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
+        $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $PackageDirectory
         $metadataProviderFactoryViaRuntime = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
         $metadataProviderViaRuntime = $metadataProviderFactoryViaRuntime.CreateRuntimeProvider($runtimeProviderConfiguration)
 
         Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProviderViaRuntime
 
-        $modules = $metadataProviderViaRuntime.ModelManifest.ListModules()
+        $modelManifest = $metadataProviderViaRuntime.ModelManifest
+
+        if ($InDependencyOrder -eq $true) {
+            $modules = $modelManifest.ListModulesInDependencyOrder()
+        }
+        else {
+            $modules = $modelManifest.ListModules()
+        }
+
+        
         $modules | ForEach-Object {
             $_ | Add-Member -MemberType NoteProperty -Name 'IsBinary' -Value $false
         }
@@ -146,13 +176,17 @@ function Get-D365Module {
             }
         }
 
-        if($ExcludeBinaryModules -eq $true){
+        if ($ExcludeBinaryModules -eq $true) {
             $modules = $modules | Where-Object IsBinary -eq $false
+        }
+
+        if ($InDependencyOrder -eq $false) {
+            $modules = $modules | Sort-Object Name
         }
 
         Write-PSFMessage -Level Verbose -Message "Looping through all modules."
 
-        foreach ($obj in $($modules | Sort-Object Name)) {
+        foreach ($obj in $modules) {
             Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
             if ($obj.Name -NotLike $Name) { continue }
 

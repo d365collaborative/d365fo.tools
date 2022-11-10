@@ -202,7 +202,7 @@ function Get-D365Model {
 
         Write-PSFMessage -Level Verbose -Message "Intializing RuntimeProvider."
 
-        $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $Script:PackageDirectory
+        $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $PackageDirectory
         $metadataProviderFactoryViaRuntime = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
         $metadataProviderViaRuntime = $metadataProviderFactoryViaRuntime.CreateRuntimeProvider($runtimeProviderConfiguration)
 
@@ -227,7 +227,7 @@ function Get-D365Model {
 
             $diskModels = $metadataProviderViaDisk.ModelManifest.ListModelInfos()
 
-            foreach($model in $models) {
+            foreach ($model in $models) {
                 if ($diskModels.Name -NotContains $model.Name) {
                     $model.IsBinary = $true
                 }
@@ -238,7 +238,7 @@ function Get-D365Model {
             $models = $models | Where-Object Customization -eq "Allow"
         }
 
-        if($ExcludeBinaryModels -eq $true){
+        if ($ExcludeBinaryModels -eq $true){
             $models = $models | Where-Object IsBinary -eq $false
         }
     }
