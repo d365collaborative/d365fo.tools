@@ -163,6 +163,8 @@
         
         Author: Mötz Jensen (@Splaxi)
         
+        Author: Martin Dráb (@goshoom)
+        
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         
 #>
