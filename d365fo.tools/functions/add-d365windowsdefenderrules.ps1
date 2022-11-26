@@ -27,10 +27,12 @@
         
     .NOTES
         Tags: DevTools, Developer, Performance
-        
+
         Author: Robin Kretzschmar (@darksmile92)
         
         Author: Mötz Jensen (@Splaxi)
+
+        Author: Florian Hopfner (@FH-Inway)
 #>
 function Add-D365WindowsDefenderRules {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
