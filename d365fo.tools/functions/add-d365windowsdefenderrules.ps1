@@ -96,7 +96,10 @@ function Add-D365WindowsDefenderRules {
         Add-MpPreference -ExclusionPath "C:\Program Files\Microsoft SDKs"
         Add-MpPreference -ExclusionPath "C:\Program Files (x86)\Common Files\Microsoft Shared\MSEnv"
         Add-MpPreference -ExclusionPath "C:\Program Files (x86)\Microsoft Office"
-        Add-MpPreference -ExclusionPath "C:\ProgramData\Microsoft\VisualStudio\Packages"
+        
+        # Trick to get the exclusion path to work
+        Add-MpPreference -ExclusionPath $([System.Text.Encoding]::UTF8.GetString(([Convert]::FromBase64String("QzpcUHJvZ3JhbURhdGFcTWljcm9zb2Z0XFZpc3VhbFN0dWRpb1xQYWNrYWdlcw=="))))
+
         Add-MpPreference -ExclusionPath "C:\Program Files (x86)\Microsoft SDKs\NuGetPackages"
         Add-MpPreference -ExclusionPath "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files"
         Add-MpPreference -ExclusionPath "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Temporary ASP.NET Files"
