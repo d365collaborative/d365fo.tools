@@ -15,7 +15,7 @@ Please visit the [Import d365fo.tools module](https://github.com/d365collaborati
 ## **List all modules / models**
 Listing all installed modules / models can help you while troubleshooting your environment. Type the following command:
 
-```
+```PowerShell
 Get-D365Module
 ```
 
@@ -25,7 +25,7 @@ Get-D365Module
 ## **List all modules / models**
 To limit the output of modules in the console, you can utilize the search functionality in the `Get-D365Module` cmdlet. Type the following command:
 
-```
+```PowerShell
 Get-D365Module -Name *Project*
 ```
 

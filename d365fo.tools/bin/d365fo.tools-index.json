@@ -3015,6 +3015,7 @@
                       null,
                       null,
                       null,
+                      null,
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will list all Software Deployable Packages.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage\nThis will list all Software Deployable Packages.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetFilename \"*MAIN*\"\nThis will list all Software Deployable Packages, that matches the \"*MAIN*\" search pattern in the AssetFilename.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetFilename \"*MAIN*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetName \"*MAIN*\"\nThis will list all Software Deployable Packages, that matches the \"*MAIN*\" search pattern in the AssetName.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetName \"*MAIN*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetDescription \"*TEST*\"\nThis will list all Software Deployable Packages, that matches the \"*TEST*\" search pattern in the AssetDescription.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetDescription \"*TEST*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetId \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\"\nThis will list all Software Deployable Packages, that matches the \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\" search pattern in the AssetId.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetId \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\\Temp\\d365fo.tools -FileName \"Main.zip\" -ShowOriginalProgress\nThis will download the latest Software Deployable Package from the Asset Library in LCS onto your on machine.\r\nIt will list Software Deployable Packages based on the FileType parameter.\r\nIt will list the latest (newest) Software Deployable Package.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -RetryTimeout \"00:01:00\"\nThis will list all Software Deployable Packages, and allow for the cmdlet to retry for no more than 1 minute.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
@@ -3568,6 +3569,121 @@
         "Syntax":  "Get-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-EnvironmentId \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-EnvironmentName \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-TraverseAllPages] [-FirstPages \u003cInt32\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Get-D365LcsSharedAssetFile",
+        "Description":  "Get the information for the file assets from the shared asset library of LCS matching the search criteria",
+        "Params":  [
+                       [
+                           "ProjectId",
+                           "The project id for the Dynamics 365 for Finance \u0026 Operations project inside LCS\nDefault value can be configured using Set-D365LcsApiConfig\nAlthough the assets are stored in the shared asset library, their information is retrieved in context of a project to get the full information.",
+                           "",
+                           false,
+                           "false",
+                           "$Script:LcsApiProjectId"
+                       ],
+                       [
+                           "FileType",
+                           "Type of file you want to list from the LCS Asset Library\nValid options:\r\n\"Model\"\r\n\"Process Data Package\"\r\n\"Software Deployable Package\"\r\n\"GER Configuration\"\r\n\"Data Package\"\r\n\"PowerBI Report Model\"\r\n\"E-Commerce Package\"\r\n\"NuGet Package\"\r\n\"Retail Self-Service Package\"\r\n\"Commerce Cloud Scale Unit Extension\"\nDefault value is \"Software Deployable Package\"",
+                           "",
+                           false,
+                           "false",
+                           "SoftwareDeployablePackage"
+                       ],
+                       [
+                           "AssetName",
+                           "Name of the asset that you are looking for\nAccepts wildcards for searching. E.g. -AssetName \"*ISV*\"\nDefault value is \"*\" which will search for all assets via the Name property",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "AssetVersion",
+                           "Version of the Asset file that you are looking for\nIt does a simple compare against the response from LCS and only lists the ones that matches\nAccepts wildcards for searching. E.g. -AssetVersion \"*ISV*\"\nDefault value is \"*\" which will search for all files",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "AssetFilename",
+                           "Name of the file that you are looking for\nAccepts wildcards for searching. E.g. -AssetFilename \"*ISV*\"\nDefault value is \"*\" which will search for all files via the FileName property",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "AssetDescription",
+                           "Name of the file that you are looking for\nAccepts wildcards for searching. E.g. -AssetDescription \"*ISV*\"\nDefault value is \"*\" which will search for all files via the FileDescription property",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "AssetId",
+                           "Id of the file that you are looking for\nAccepts wildcards for searching. E.g. -AssetId \"*ISV*\"\nDefault value is \"*\" which will search for all files via the AssetId property",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "BearerToken",
+                           "The token you want to use when working against the LCS api\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "Token",
+                           false,
+                           "false",
+                           "$Script:LcsApiBearerToken"
+                       ],
+                       [
+                           "LcsApiUri",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "",
+                           false,
+                           "false",
+                           "$Script:LcsApiLcsApiUri"
+                       ],
+                       [
+                           "Latest",
+                           "Instruct the cmdlet to only fetch the latest file from the Asset Library from LCS",
+                           "GetLatest",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "RetryTimeout",
+                           "The retry timeout, before the cmdlet should quit retrying based on the 429 status code\nNeeds to be provided in the timspan notation:\r\n\"hh:mm:ss\"\nhh is the number of hours, numerical notation only\r\nmm is the number of minutes\r\nss is the numbers of seconds\nEach section of the timeout has to valid, e.g.\r\nhh can maximum be 23\r\nmm can maximum be 59\r\nss can maximum be 59\nNot setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint",
+                           "",
+                           false,
+                           "false",
+                           "00:00:00"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts\r\nUsually this parameter is not used directly, but via the Enable-D365Exception cmdlet\r\nSee https://github.com/d365collaborative/d365fo.tools/wiki/Exception-handling#what-does-the--enableexception-parameter-do for further information",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (@FH-Inway)",
+        "Synopsis":  "Get information for assets from the shared asset library of LCS",
+        "Name":  "Get-D365LcsSharedAssetFile",
+        "Links":  [
+                      null,
+                      null,
+                      null,
+                      null,
+                      null
+                  ],
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsSharedAssetFile -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will list all Software Deployable Packages in the shared asset library.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage\nThis will list all Software Deployable Packages in the shared asset library.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetFilename \"*MAIN*\"\nThis will list all Software Deployable Packages in the shared asset library that match the \"*MAIN*\" search pattern in the file name of the asset.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetFilename \"*MAIN*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetName \"*MAIN*\"\nThis will list all Software Deployable Packages in the shared asset library that match the \"*MAIN*\" search pattern in the name of the asset.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetName \"*MAIN*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetDescription \"*TEST*\"\nThis will list all Software Deployable Packages in the shared asset library that match the \"*TEST*\" search pattern in the asset description.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetDescription \"*TEST*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetId \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\"\nThis will list all Software Deployable Packages in the shared asset library that match the \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\" search pattern in the asset id.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetId \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003e$asset = Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -Latest\nPS C:\\\u003e Invoke-D365AzCopyTransfer -SourceUri $asset.FileLocation -DestinationUri C:\\Temp\\d365fo.tools\\$($asset.Filename) -ShowOriginalProgress\nThis will download the latest Software Deployable Package from the shared asset library in LCS onto your local machine.\r\nIt will list Software Deployable Packages based on the FileType parameter.\r\nIt will list the latest (newest) Software Deployable Package.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eGet-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -RetryTimeout \"00:01:00\"\nThis will list all Software Deployable Packages in the shared asset library and allow for the cmdlet to retry for no more than 1 minute.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
+        "Syntax":  "Get-D365LcsSharedAssetFile [[-ProjectId] \u003cInt32\u003e] [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-AssetName] \u003cString\u003e] [[-AssetVersion] \u003cString\u003e] [[-AssetFilename] \u003cString\u003e] [[-AssetDescription] \u003cString\u003e] [[-AssetId] \u003cString\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Get-D365MaintenanceMode",
         "Description":  "Get the maintenance mode status of the Dynamics 365 environment to make sure that things are in the correct state",
         "Tags":  [
@@ -3728,6 +3844,14 @@
                            "False"
                        ],
                        [
+                           "InDependencyOrder",
+                           "Instructs the cmdlet to return modules in dependency order, starting with modules\r\nwith no references to other modules.",
+                           "Dependency",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "BinDir",
                            "The path to the bin directory for the environment\nDefault path is the same as the AOS service PackagesLocalDirectory\\bin\nDefault value is fetched from the current configuration on the machine",
                            "",
@@ -3749,8 +3873,8 @@
         "Synopsis":  "Get installed package / module from Dynamics 365 Finance \u0026 Operations environment",
         "Name":  "Get-D365Module",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365Module\nShows the entire list of installed packages / modules located in the default location on the machine.\nA result set example:\nModuleName                               IsBinary Version         References\r\n----------                               -------- -------         ----------\r\nAccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...\r\nApplicationCommon                        False    10.0.8008.26462 {ApplicationFoundation, ApplicationPlatform}\r\nApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}\r\nApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...\r\nCustom                                   True     10.0.0.0        {ApplicationPlatform}\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Module -ExcludeBinaryModules\nOutputs the all packages / modules that are NOT binary.\r\nWill only include modules that is IsBinary = \"False\".\nA result set example:\nModuleName                               IsBinary Version         References\r\n----------                               -------- -------         ----------\r\nAccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...\r\nApplicationCommon                        False    10.0.8008.26462 {ApplicationFoundation, ApplicationPlatform}\r\nApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}\r\nApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Module -Name \"Application*Adaptor\"\nShows the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nA result set example:\nModuleName                               IsBinary Version         References\r\n----------                               -------- -------         ----------\r\nApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...\r\nApplicationPlatformFormAdaptor           False    7.0.4841.35227  {ApplicationPlatform, TestEssentials}\r\nApplicationSuiteFormAdaptor              False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...\r\nApplicationWorkspacesFormAdaptor         False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...",
-        "Syntax":  "Get-D365Module [[-Name] \u003cString\u003e] [-ExcludeBinaryModules] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365Module\nShows the entire list of installed packages / modules located in the default location on the machine.\nA result set example:\nModuleName                               IsBinary Version         References\r\n----------                               -------- -------         ----------\r\nAccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...\r\nApplicationCommon                        False    10.0.8008.26462 {ApplicationFoundation, ApplicationPlatform}\r\nApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}\r\nApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...\r\nCustom                                   True     10.0.0.0        {ApplicationPlatform}\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Module -ExcludeBinaryModules\nOutputs the all packages / modules that are NOT binary.\r\nWill only include modules that is IsBinary = \"False\".\nA result set example:\nModuleName                               IsBinary Version         References\r\n----------                               -------- -------         ----------\r\nAccountsPayableMobile                    False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...\r\nApplicationCommon                        False    10.0.8008.26462 {ApplicationFoundation, ApplicationPlatform}\r\nApplicationFoundation                    False    7.0.5493.35504  {ApplicationPlatform}\r\nApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Module -InDependencyOrder\nReturn packages / modules in dependency order, starting with modules with no references to other modules.\nA result set example:\nModuleName                               IsBinary Version         References\r\n----------                               -------- -------         ----------\r\nApplicationPlatform                      False    7.0.0.0         {}\r\nApplicationFoundation                    False    7.0.0.0         {ApplicationPlatform}\r\nApplicationCommon                        False    10.21.36.8818   {ApplicationFoundation, ApplicationPlatform}\r\nAppTroubleshootingCore                   False    10.21.1136.2... {ApplicationCommon, ApplicationFoundation, Applica...\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365Module -Name \"Application*Adaptor\"\nShows the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nA result set example:\nModuleName                               IsBinary Version         References\r\n----------                               -------- -------         ----------\r\nApplicationFoundationFormAdaptor         False    7.0.4841.35227  {ApplicationPlatform, ApplicationFoundation, TestE...\r\nApplicationPlatformFormAdaptor           False    7.0.4841.35227  {ApplicationPlatform, TestEssentials}\r\nApplicationSuiteFormAdaptor              False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...\r\nApplicationWorkspacesFormAdaptor         False    10.0.9107.14827 {ApplicationFoundation, ApplicationPlatform, Appli...",
+        "Syntax":  "Get-D365Module [[-Name] \u003cString\u003e] [-ExcludeBinaryModules] [-InDependencyOrder] [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365OfflineAuthenticationAdminEmail",
