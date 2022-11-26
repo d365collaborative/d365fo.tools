@@ -50,7 +50,7 @@
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
-
+        
         https://stackoverflow.com/questions/24370814/how-to-capture-process-output-asynchronously-in-powershell/36539226#36539226
 #>
 

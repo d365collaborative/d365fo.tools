@@ -52,7 +52,7 @@
 		'Add-D365BroadcastMessageConfig',
 		'Add-D365RsatWifConfigAuthorityThumbprint',
 		'Add-D365WindowsDefenderRules',
-						
+
 		'Backup-D365DevConfig',
 		'Backup-D365MetaDataDir',
 		'Backup-D365Runbook',
@@ -128,6 +128,7 @@
 		'Get-D365LcsApiConfig',
 		'Get-D365LcsApiToken',
 		'Get-D365LcsAssetFile',
+		'Get-D365LcsSharedAssetFile',
 		'Get-D365LcsAssetValidationStatus',
 		'Get-D365LcsDatabaseBackups',
 		'Get-D365LcsDatabaseOperationStatus',
