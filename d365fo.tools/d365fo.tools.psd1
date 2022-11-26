@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.6.76'
+	ModuleVersion     = '0.6.77'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -52,7 +52,7 @@
 		'Add-D365BroadcastMessageConfig',
 		'Add-D365RsatWifConfigAuthorityThumbprint',
 		'Add-D365WindowsDefenderRules',
-						
+
 		'Backup-D365DevConfig',
 		'Backup-D365MetaDataDir',
 		'Backup-D365Runbook',
@@ -128,6 +128,7 @@
 		'Get-D365LcsApiConfig',
 		'Get-D365LcsApiToken',
 		'Get-D365LcsAssetFile',
+		'Get-D365LcsSharedAssetFile',
 		'Get-D365LcsAssetValidationStatus',
 		'Get-D365LcsDatabaseBackups',
 		'Get-D365LcsDatabaseOperationStatus',

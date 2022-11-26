@@ -15,7 +15,7 @@
         
     .PARAMETER ExcludeBinaryModules
         Instruct the cmdlet to exclude binary modules from the output
-
+        
     .PARAMETER InDependencyOrder
         Instructs the cmdlet to return modules in dependency order, starting with modules
         with no references to other modules.
@@ -66,9 +66,9 @@
         
     .EXAMPLE
         PS C:\> Get-D365Module -InDependencyOrder
-
+        
         Return packages / modules in dependency order, starting with modules with no references to other modules.
-
+        
         A result set example:
         
         ModuleName                               IsBinary Version         References
@@ -77,7 +77,7 @@
         ApplicationFoundation                    False    7.0.0.0         {ApplicationPlatform}
         ApplicationCommon                        False    10.21.36.8818   {ApplicationFoundation, ApplicationPlatform}
         AppTroubleshootingCore                   False    10.21.1136.2... {ApplicationCommon, ApplicationFoundation, Applica...
-
+        
     .EXAMPLE
         PS C:\> Get-D365Module -Name "Application*Adaptor"
         
@@ -96,6 +96,8 @@
         Tags: PackagesLocalDirectory, Servicing, Model, Models, Package, Packages
         
         Author: Mötz Jensen (@Splaxi)
+        
+        Author: Martin Dráb (@goshoom)
         
         The cmdlet supports piping and can be used in advanced scenarios. See more on github and the wiki pages.
         

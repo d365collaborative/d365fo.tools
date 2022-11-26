@@ -143,6 +143,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/Action:export")
         $null = $Params.Add("/SourceServerName:$DatabaseServer")
         $null = $Params.Add("/SourceDatabaseName:$DatabaseName")
+        $null = $Params.Add("/SourceTrustServerCertificate:True")
         $null = $Params.Add("/TargetFile:`"$FilePath`"")
         $null = $Params.Add("/Properties:CommandTimeout=0")
     
@@ -157,6 +158,7 @@ function Invoke-SqlPackage {
         $null = $Params.Add("/Action:import")
         $null = $Params.Add("/TargetServerName:$DatabaseServer")
         $null = $Params.Add("/TargetDatabaseName:$DatabaseName")
+        $null = $Params.Add("/TargetTrustServerCertificate:True")
         $null = $Params.Add("/SourceFile:`"$FilePath`"")
         $null = $Params.Add("/Properties:CommandTimeout=0")
         
@@ -169,6 +171,7 @@ function Invoke-SqlPackage {
         $Params.Add("/Action:Publish") > $null
         $Params.Add("/TargetServerName:$DatabaseServer") > $null
         $Params.Add("/TargetDatabaseName:$DatabaseName") > $null
+        $Params.Add("/TargetTrustServerCertificate:True") > $null
         $Params.Add("/SourceFile:`"$FilePath`"") > $null
         $Params.Add("/Properties:CommandTimeout=0") > $null
         

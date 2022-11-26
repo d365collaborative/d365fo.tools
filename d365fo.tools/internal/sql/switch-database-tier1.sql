@@ -1,3 +1,6 @@
+/*
+    Author: Oleksandr Nikolaiev (@onikolaiev)
+*/
 
 Declare @Command as nvarchar(2000)
 
