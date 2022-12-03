@@ -21,6 +21,6 @@ jobs:
       - name: Publish wiki folder to repository wiki
         uses: FH-Inway/github-wiki-publish-action@rsync
         with:
-          path: "wiki/ docs/"
+          path: "/github/workspace/wiki/ /github/workspace/docs/"
         env:
           GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
