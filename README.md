@@ -41,14 +41,14 @@ Update-Module -name d365fo.tools -Force
 ```
 ## Getting help
 
-[The wiki](https://github.com/d365collaborative/d365fo.tools/wiki) contains more details about installation and also guides to help you with some common tasks.
+[The wiki](https://github.com/d365collaborative/d365fo.tools/wiki) contains more details about installation and also guides to help you with some common tasks. It also contains documentation for all the module's commands. Expand the wiki's `Pages` control at the top of the content sidebar to view and search the list of command documentation pages.
 
-The best way to learn about the different cmdlets available is to install the tools onto your D365FO developer box.
+Another way to learn about the different cmdlets available is to install the tools onto your D365FO developer box.
 You can also visit the **'docs'** folder in this repository (look at the top). Click this link [**docs**](https://github.com/d365collaborative/d365fo.tools/tree/master/docs) to jump straight inside.
 
 Since the project started we have adopted and extended the comment based help inside each cmdlet / function. This means that every single command contains at least one fully working example on how to run it and what to expect from the cmdlet.
 
-**Getting help starts inside the PowerShell console**
+**Getting help inside the PowerShell console**
 
 Getting help is as easy as writing **Get-Help CommandName**
 
@@ -80,6 +80,8 @@ We know that when you are learning about new stuff and just want to share your f
 We have implemented **platyPS** (https://github.com/PowerShell/platyPS) to generate markdown files for each cmdlet / function available in the module. These files are hosted here on github for you to consume in your web browser and the give you the look and feel of other documentation sites.
 
 The generated help markdown files are located inside the **'docs'** folder in this repository. Click this [link](https://github.com/d365collaborative/d365fo.tools/tree/master/docs) to jump straight inside.
+
+They are also available in the [wiki](https://github.com/d365collaborative/d365fo.tools/wiki) in the list of pages.
 
 For sake of the sanity and just trying to help people out, we copy & pasted **all** the old examples previously available in the readme into the wiki. The page is located [here](https://github.com/d365collaborative/d365fo.tools/wiki/Old-readme-examples). We **don't** plan on keep the **"Old readme examples"** wiki up-to-date going forward. If you believe we are missing some examples that should be part of the comment based help, please create an issue.
 
