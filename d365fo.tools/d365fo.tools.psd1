@@ -251,6 +251,7 @@
 		'New-D365Bacpac',
 		'New-D365CAReport',
 		'New-D365ISVLicense',
+		'New-D365ModuleToRemove',
 		'New-D365TopologyFile',
 
 		'Register-D365AzureStorageConfig',
