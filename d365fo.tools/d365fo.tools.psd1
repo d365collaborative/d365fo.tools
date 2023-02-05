@@ -50,6 +50,7 @@
 	FunctionsToExport = @(
 		'Add-D365AzureStorageConfig',
 		'Add-D365BroadcastMessageConfig',
+		'Add-D365ModuleToRemove',
 		'Add-D365RsatWifConfigAuthorityThumbprint',
 		'Add-D365WindowsDefenderRules',
 
