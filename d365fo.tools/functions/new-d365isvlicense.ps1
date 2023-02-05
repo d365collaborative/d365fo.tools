@@ -29,6 +29,7 @@
     .NOTES
         Author: Mötz Jensen (@splaxi)
         Author: Szabolcs Eötvös
+        Author: Florian Hopfner (@FH-Inway)
         
 #>
 function New-D365ISVLicense {
@@ -52,39 +53,7 @@ function New-D365ISVLicense {
     }
     
     process {
-
-        if (-not (Test-PathExists -Path $Path, $LicenseFile -Type "Leaf")) { return }
-
-        $null = New-Item -Path (Split-Path $OutputPath -Parent) -ItemType Directory -ErrorAction SilentlyContinue
-
-        Unblock-File $Path
-        Unblock-File $LicenseFile
-
-        $ExtractionPath = [System.IO.Path]::GetTempPath()
-
-        $packageTemp = Join-Path $ExtractionPath ((Get-Random -Maximum 99999).ToString())
-
-        Write-PSFMessage -Level Verbose -Message "Extracting the template zip file to $packageTemp." -Target $packageTemp
-        Expand-Archive -Path $Path -DestinationPath $packageTemp
-
-        $licenseMergePath = Join-Path $packageTemp "AosService\Scripts\License"
-		
-        if (Test-Path -Path $licenseMergePath) {
-            Get-ChildItem -Path $licenseMergePath | Remove-Item -Force -ErrorAction SilentlyContinue
-        }
-        else {
-            $null = New-Item -Path $licenseMergePath -ItemType Directory -ErrorAction SilentlyContinue
-        }
-		
-        Write-PSFMessage -Level Verbose -Message "Copying the license file into place."
-        Copy-Item -Path $LicenseFile -Destination $licenseMergePath
-
-        Write-PSFMessage -Level Verbose -Message "Compressing the folder into a zip file and storing it at $OutputPath" -Target $OutputPath
-        Compress-Archive -Path "$packageTemp\*" -DestinationPath $OutputPath -Force
-
-        [PSCustomObject]@{
-            File = $OutputPath
-        }
+        Add-FileToPackage -File $LicenseFile -Archive $Path -Path "AosService\Scripts\License" -OutputPath $OutputPath -ClearPath
     }
 
     end {
