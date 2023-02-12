@@ -22,6 +22,14 @@
         
         This will take the "C:\temp\ModuleToRemove.txt" file and add it to the "C:\temp\DeployablePackage.zip" deployable package in the "AOSService/Scripts" folder.
         
+    .EXAMPLE
+        PS C:\> New-D365ModuleToRemove -Path C:\Temp -Modules "MyRemovedModule1","MySecondRemovedModule" | Add-D365ModuleToRemove -DeployablePackage C:\Temp\DeployablePackage.zip
+        
+        This will create a new ModuleToRemove.txt file and fill in "MyRemovedModule1" and "MySecondRemovedModule" as the modules to remove. The file is then added to the "C:\Temp\DeployablePackage.zip" deployable package.
+        
+    .LINK
+        New-D365ModuleToRemove
+        
     .NOTES
         Author: Florian Hopfner (@FH-Inway)
         
@@ -31,7 +39,10 @@ function Add-D365ModuleToRemove {
     [CmdletBinding()]
     param (
 
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(
+            Mandatory = $true, 
+            Position = 1,
+            ValueFromPipelineByPropertyName = $true)]
         [string] $ModuleToRemove,
 
         [Parameter(Mandatory = $true, Position = 2)]

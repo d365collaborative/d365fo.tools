@@ -29,6 +29,14 @@ New-D365ModuleToRemove -Path C:\Temp -Modules "MyRemovedModule1","MySecondRemove
 This will create a new ModuleToRemove.txt file and fill in "MyRemovedModule1" and "MySecondRemovedModule" as the modules to remove.
 The new file is stored at "C:\Temp\ModuleToRemove.txt"
 
+### EXAMPLE 2
+```
+New-D365ModuleToRemove -Path C:\Temp -Modules "MyRemovedModule1","MySecondRemovedModule" | Add-D365ModuleToRemove -DeployablePackage C:\Temp\DeployablePackage.zip
+```
+
+This will create a new ModuleToRemove.txt file and fill in "MyRemovedModule1" and "MySecondRemovedModule" as the modules to remove.
+The file is then added to the "C:\Temp\DeployablePackage.zip" deployable package.
+
 ## PARAMETERS
 
 ### -Path
@@ -72,3 +80,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 Author: Florian Hopfner (@FH-Inway)
 
 ## RELATED LINKS
+
+[Add-D365ModuleToRemove]()
+
