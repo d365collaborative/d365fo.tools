@@ -2,25 +2,25 @@
 <#
     .SYNOPSIS
         Create a new ModuleToRemove.txt file
-
+        
     .DESCRIPTION
         Create a new ModuleToRemove.txt file based on a list of module names
-
+        
     .PARAMETER Path
         Path to the ModuleToRemove.txt file
-
+        
     .PARAMETER Modules
         The array with all the module names that you want to fill into the ModuleToRemove.txt file
-
+        
     .EXAMPLE
         PS C:\> New-D365ModuleToRemove -Path C:\Temp -Modules "MyRemovedModule1","MySecondRemovedModule"
-
+        
         This will create a new ModuleToRemove.txt file and fill in "MyRemovedModule1" and "MySecondRemovedModule" as the modules to remove.
         The new file is stored at "C:\Temp\ModuleToRemove.txt"
-
+        
     .NOTES
         Author: Florian Hopfner (@FH-Inway)
-
+        
 #>
 function New-D365ModuleToRemove {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
