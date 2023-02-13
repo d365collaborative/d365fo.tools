@@ -36,11 +36,11 @@
 
     .PARAMETER XRefSqlServer
         The name of the SQL server where the cross references database is located; the default is "$env:COMPUTERNAME"
-        This parameter is only used for XRefGenerationOnly 
+        This parameter is only used for XRefGenerationOnly
 
     .PARAMETER XRefDbName
         The name of the cross references database; the default is "DYNAMICSXREFDB"
-        This parameter is only used for XRefGenerationOnly 
+        This parameter is only used for XRefGenerationOnly
 
     .PARAMETER XRefGeneration
         Instruct the cmdlet to enable the generation of XRef metadata while running the compile
