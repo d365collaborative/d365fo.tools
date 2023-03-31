@@ -67,7 +67,6 @@
         
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
-
 function Remove-LcsAssetFile {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]

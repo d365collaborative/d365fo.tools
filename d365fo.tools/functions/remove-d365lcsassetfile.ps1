@@ -86,7 +86,6 @@
         Author: Oleksandr Nikolaiev (@onikolaiev)
         
 #>
-
 function Remove-D365LcsAssetFile {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
