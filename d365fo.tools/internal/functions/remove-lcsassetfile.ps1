@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Delete a single asset from the LCS project Asset Library 
+        Delete a single asset from the LCS project Asset Library
         
     .DESCRIPTION
-        Delete a single asset from the LCS project Asset Library 
+        Delete a single asset from the LCS project Asset Library
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -87,7 +87,6 @@ function Remove-LcsAssetFile {
 
         [switch] $EnableException
     )
-
     begin {
         Invoke-TimeSignal -Start
         
@@ -101,7 +100,6 @@ function Remove-LcsAssetFile {
         $parms.Headers = $headers
         $parms.RetryTimeout = $RetryTimeout
     }
-
     process {
         try {
             Write-PSFMessage -Level Verbose -Message "Invoke LCS request."
@@ -118,7 +116,6 @@ function Remove-LcsAssetFile {
             Stop-PSFFunction -Message "Stopping because of errors" -StepsUpward 1
             return
         }
-
         Invoke-TimeSignal -End
     }
 }

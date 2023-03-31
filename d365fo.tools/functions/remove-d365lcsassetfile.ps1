@@ -1,24 +1,21 @@
-﻿
-<#
+﻿<#
     .SYNOPSIS
-        Delete asset from the LCS project Asset Library 
-        
+        Delete asset from the LCS project Asset Library
+
     .DESCRIPTION
         Delete asset from the LCS project Asset Library
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
-        
         Default value can be configured using Set-D365LcsApiConfig
-        
+
     .PARAMETER AssetId
         LCS Id of the file that you are looking for
-        
+
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
-        
         Default value can be configured using Set-D365LcsApiConfig
-        
+
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
         
@@ -34,7 +31,6 @@
         "https://lcsapi.no.lcs.dynamics.com"
         "https://lcsapi.lcs.dynamics.cn"
         "https://lcsapi.gov.lcs.microsoftdynamics.us"
-        
         Default value can be configured using Set-D365LcsApiConfig
 
     .PARAMETER RetryTimeout
@@ -66,7 +62,6 @@
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
     
-        
     .LINK
         Get-D365LcsApiConfig
         
@@ -84,7 +79,7 @@
 
     .NOTES
         Author: Oleksandr Nikolaiev (@onikolaiev)
-        
+
 #>
 function Remove-D365LcsAssetFile {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
