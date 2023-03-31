@@ -254,7 +254,8 @@
 		'New-D365TopologyFile',
 
 		'Register-D365AzureStorageConfig',
-						
+		
+		'Remove-D365LcsAssetFile',
 		'Remove-D365BroadcastMessageConfig',
 		'Remove-D365Database',
 		'Remove-D365Model',
