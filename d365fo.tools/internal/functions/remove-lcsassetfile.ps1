@@ -1,4 +1,5 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Delete a single asset from the LCS project Asset Library 
         
@@ -68,6 +69,7 @@
 #>
 
 function Remove-LcsAssetFile {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]

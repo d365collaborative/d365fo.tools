@@ -1,4 +1,5 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Delete asset from the LCS project Asset Library 
         
@@ -87,6 +88,7 @@
 #>
 
 function Remove-D365LcsAssetFile {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     [OutputType()]
     param (
