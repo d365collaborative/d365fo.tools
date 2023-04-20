@@ -14,8 +14,9 @@ Compile a package / module / model
 
 ```
 Invoke-D365ModuleCompile [-Module] <String> [[-OutputDir] <String>] [[-LogPath] <String>]
- [[-MetaDataDir] <String>] [[-ReferenceDir] <String>] [[-BinDir] <String>] [-XRefGeneration]
- [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+ [[-MetaDataDir] <String>] [[-ReferenceDir] <String>] [[-BinDir] <String>] [[-XRefSqlServer] <String>]
+ [[-XRefDbName] <String>] [-XRefGeneration] [-XRefGenerationOnly] [-ShowOriginalProgress] [-OutputCommandOnly]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -51,6 +52,21 @@ The default output from the compile will be silenced.
 The compiler will generate XRef metadata while compiling.
 
 If an error should occur, both the standard output and error output will be written to the console / host.
+
+### EXAMPLE 4
+```
+Invoke-D365ModuleCompile -Module MyModel -XRefGenerationOnly
+```
+
+This will use the default paths and start the xppc.exe with the needed parameters to only generate cross references for the MyModel package.
+
+### EXAMPLE 5
+```
+Get-D365Module -ExcludeBinaryModules -InDependencyOrder | Invoke-D365ModuleCompile -XRefGenerationOnly -ShowOriginalProgress
+```
+
+This will update all cross references, keeping the assemblies and PDB files unmodified.
+The output from the compile will be written to the console / host.
 
 ## PARAMETERS
 
@@ -154,8 +170,55 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -XRefSqlServer
+The name of the SQL server where the cross references database is located; the default is "$env:COMPUTERNAME"
+This parameter is only used for XRefGenerationOnly
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: $env:COMPUTERNAME
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -XRefDbName
+The name of the cross references database; the default is "DYNAMICSXREFDB"
+This parameter is only used for XRefGenerationOnly
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: DYNAMICSXREFDB
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -XRefGeneration
 Instruct the cmdlet to enable the generation of XRef metadata while running the compile
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -XRefGenerationOnly
+Instruct the cmdlet to only generate XRef metadata while running the compile and not update the assemblies and PDB files
 
 ```yaml
 Type: SwitchParameter

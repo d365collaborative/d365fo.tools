@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -36,7 +36,6 @@ The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com
 
 ### -ProjectId
 The project id for the Dynamics 365 for Finance & Operations project inside LCS
-
 Default value can be configured using Set-D365LcsApiConfig
 
 ```yaml
@@ -68,7 +67,6 @@ Accept wildcard characters: False
 
 ### -BearerToken
 The token you want to use when working against the LCS api
-
 Default value can be configured using Set-D365LcsApiConfig
 
 ```yaml
@@ -99,7 +97,6 @@ Valid options:
 "https://lcsapi.no.lcs.dynamics.com"
 "https://lcsapi.lcs.dynamics.cn"
 "https://lcsapi.gov.lcs.microsoftdynamics.us"
-
 Default value can be configured using Set-D365LcsApiConfig
 
 ```yaml
