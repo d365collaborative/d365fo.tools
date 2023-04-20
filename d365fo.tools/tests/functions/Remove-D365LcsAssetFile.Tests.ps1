@@ -9,7 +9,8 @@
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
 			(Get-Command Remove-D365LcsAssetFile).ParameterSets.Name | Should -Be '__AllParameterSets'
-		}		
+		}
+		
 		It 'Should have the expected parameter ProjectId' {
 			$parameter = (Get-Command Remove-D365LcsAssetFile).Parameters['ProjectId']
 			$parameter.Name | Should -Be 'ProjectId'
@@ -92,7 +93,7 @@
 	
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
-		__AllParameterSets -
+		__AllParameterSets -AssetId
 		__AllParameterSets -ProjectId -AssetId -BearerToken -LcsApiUri -RetryTimeout -EnableException
 		#>
 	}
