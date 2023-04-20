@@ -192,19 +192,21 @@ function Get-D365Module {
             Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
             if ($obj.Name -NotLike $Name) { continue }
 
+            $moduleName = $obj.Name
+
             $res = [Ordered]@{
-                Module = $obj.Name
-                ModuleName = $obj.Name
+                Module = $moduleName
+                ModuleName = $moduleName
                 IsBinary = $obj.IsBinary
                 PSTypeName = 'D365FO.TOOLS.ModuleInfo'
             }
 
-            $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
+            $moduleAssemblyPath = Join-Path $PackageDirectory "$moduleName\bin\Dynamics.AX.$moduleName.dll"
 
-            if (Test-Path -Path $modulepath -PathType Container) {
-                $fileversion = Get-FileVersion -Path (Get-ChildItem $modulepath -Filter "Dynamics.AX.$($obj.Name).dll").FullName
-                $version = $fileversion.FileVersion
-                $versionUpdated = $fileversion.FileVersionUpdated
+            if (Test-Path -Path $moduleAssemblyPath) {
+                $fileVersion = Get-FileVersion -Path $moduleAssemblyPath
+                $version = $fileVersion.FileVersion
+                $versionUpdated = $fileVersion.FileVersionUpdated
             }
             else {
                 $version = ""

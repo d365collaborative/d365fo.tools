@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.6.77'
+	ModuleVersion     = '0.6.78'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -50,6 +50,7 @@
 	FunctionsToExport = @(
 		'Add-D365AzureStorageConfig',
 		'Add-D365BroadcastMessageConfig',
+		'Add-D365ModuleToRemove',
 		'Add-D365RsatWifConfigAuthorityThumbprint',
 		'Add-D365WindowsDefenderRules',
 
@@ -251,10 +252,12 @@
 		'New-D365Bacpac',
 		'New-D365CAReport',
 		'New-D365ISVLicense',
+		'New-D365ModuleToRemove',
 		'New-D365TopologyFile',
 
 		'Register-D365AzureStorageConfig',
-						
+		
+		'Remove-D365LcsAssetFile',
 		'Remove-D365BroadcastMessageConfig',
 		'Remove-D365Database',
 		'Remove-D365Model',
