@@ -189,6 +189,43 @@
         "Syntax":  "Add-D365BroadcastMessageConfig [-Name] \u003cString\u003e [[-Tenant] \u003cString\u003e] [[-URL] \u003cString\u003e] [[-ClientId] \u003cString\u003e] [[-ClientSecret] \u003cString\u003e] [[-TimeZone] \u003cString\u003e] [[-EndingInMinutes] \u003cInt32\u003e] [-OnPremise] [-Temporary] [-Force] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Add-D365ModuleToRemove",
+        "Description":  "Modifies an existing deployable package and adds a ModuleToRemove.txt file to it.",
+        "Params":  [
+                       [
+                           "ModuleToRemove",
+                           "Path to the ModuleToRemove.txt file that you want to have inside a deployable package",
+                           "",
+                           true,
+                           "true (ByPropertyName)",
+                           ""
+                       ],
+                       [
+                           "DeployablePackage",
+                           "Path to the deployable package file where the ModuleToRemove.txt file should be added",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "OutputPath",
+                           "Path where you want the generated deployable package to be stored\nDefault value is the same as the \"DeployablePackage\" parameter",
+                           "",
+                           false,
+                           "false",
+                           "$DeployablePackage"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (@FH-Inway)",
+        "Synopsis":  "Adds a ModuleToRemove.txt file to a deployable package",
+        "Name":  "Add-D365ModuleToRemove",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eAdd-D365ModuleToRemove -ModuleToRemove \"C:\\temp\\ModuleToRemove.txt\" -DeployablePackage \"C:\\temp\\DeployablePackage.zip\"\nThis will take the \"C:\\temp\\ModuleToRemove.txt\" file and add it to the \"C:\\temp\\DeployablePackage.zip\" deployable package in the \"AOSService/Scripts\" folder.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365ModuleToRemove -Path C:\\Temp -Modules \"MyRemovedModule1\",\"MySecondRemovedModule\" | Add-D365ModuleToRemove -DeployablePackage C:\\Temp\\DeployablePackage.zip\nThis will create a new ModuleToRemove.txt file and fill in \"MyRemovedModule1\" and \"MySecondRemovedModule\" as the modules to remove. The file is then added to the \"C:\\Temp\\DeployablePackage.zip\" \r\ndeployable package.",
+        "Syntax":  "Add-D365ModuleToRemove [-ModuleToRemove] \u003cString\u003e [-DeployablePackage] \u003cString\u003e [-OutputPath \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Add-D365RsatWifConfigAuthorityThumbprint",
         "Description":  "Register a certificate thumbprint in the wif.config file.\nThis can be useful for example when configuring RSAT on a local machine and add the used certificate thumbprint to that AOS.s",
         "Tags":  [
@@ -8107,8 +8144,32 @@
                            "$Script:BinDirTools"
                        ],
                        [
+                           "XRefSqlServer",
+                           "The name of the SQL server where the cross references database is located; the default is \"$env:COMPUTERNAME\"\r\nThis parameter is only used for XRefGenerationOnly",
+                           "",
+                           false,
+                           "false",
+                           "$env:COMPUTERNAME"
+                       ],
+                       [
+                           "XRefDbName",
+                           "The name of the cross references database; the default is \"DYNAMICSXREFDB\"\r\nThis parameter is only used for XRefGenerationOnly",
+                           "",
+                           false,
+                           "false",
+                           "DYNAMICSXREFDB"
+                       ],
+                       [
                            "XRefGeneration",
                            "Instruct the cmdlet to enable the generation of XRef metadata while running the compile",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "XRefGenerationOnly",
+                           "Instruct the cmdlet to only generate XRef metadata while running the compile and not update the assemblies and PDB files",
                            "",
                            false,
                            "false",
@@ -8136,8 +8197,8 @@
         "Synopsis":  "Compile a package / module / model",
         "Name":  "Invoke-D365ModuleCompile",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe output from the compile will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -XRefGeneration\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\r\nThe compiler will generate XRef metadata while compiling.\nIf an error should occur, both the standard output and error output will be written to the console / host.",
-        "Syntax":  "Invoke-D365ModuleCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-XRefGeneration] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -ShowOriginalProgress\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe output from the compile will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -XRefGeneration\nThis will use the default paths and start the xppc.exe with the needed parameters to compile MyModel package.\r\nThe default output from the compile will be silenced.\r\nThe compiler will generate XRef metadata while compiling.\nIf an error should occur, both the standard output and error output will be written to the console / host.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365ModuleCompile -Module MyModel -XRefGenerationOnly\nThis will use the default paths and start the xppc.exe with the needed parameters to only generate cross references for the MyModel package.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365Module -ExcludeBinaryModules -InDependencyOrder | Invoke-D365ModuleCompile -XRefGenerationOnly -ShowOriginalProgress\nThis will update all cross references, keeping the assemblies and PDB files unmodified.\r\nThe output from the compile will be written to the console / host.",
+        "Syntax":  "Invoke-D365ModuleCompile [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [[-XRefSqlServer] \u003cString\u003e] [[-XRefDbName] \u003cString\u003e] [-XRefGeneration] [-XRefGenerationOnly] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365ModuleFullCompile",
@@ -9312,6 +9373,35 @@
         "Syntax":  "New-D365ISVLicense [-LicenseFile] \u003cString\u003e [-Path \u003cString\u003e] [-OutputPath \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "New-D365ModuleToRemove",
+        "Description":  "Create a new ModuleToRemove.txt file based on a list of module names",
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the ModuleToRemove.txt file",
+                           "Folder",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Modules",
+                           "The array with all the module names that you want to fill into the ModuleToRemove.txt file",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (@FH-Inway)",
+        "Synopsis":  "Create a new ModuleToRemove.txt file",
+        "Name":  "New-D365ModuleToRemove",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365ModuleToRemove -Path C:\\Temp -Modules \"MyRemovedModule1\",\"MySecondRemovedModule\"\nThis will create a new ModuleToRemove.txt file and fill in \"MyRemovedModule1\" and \"MySecondRemovedModule\" as the modules to remove.\r\nThe new file is stored at \"C:\\Temp\\ModuleToRemove.txt\"\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365ModuleToRemove -Path C:\\Temp -Modules \"MyRemovedModule1\",\"MySecondRemovedModule\" | Add-D365ModuleToRemove -DeployablePackage C:\\Temp\\DeployablePackage.zip\nThis will create a new ModuleToRemove.txt file and fill in \"MyRemovedModule1\" and \"MySecondRemovedModule\" as the modules to remove. The file is then added to the \"C:\\Temp\\DeployablePackage.zip\" \r\ndeployable package.",
+        "Syntax":  "New-D365ModuleToRemove [-Path] \u003cString\u003e [-Modules] \u003cString[]\u003e [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "New-D365TopologyFile",
         "Description":  "Build a new topology file based on a template and update the ServiceModelList",
         "Params":  [
@@ -9541,6 +9631,73 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRemove-D365Database -DatabaseName \"ExportClone\"\nThis will remove the \"ExportClone\" from the default SQL Server instance that is registered on the machine.",
         "Syntax":  "Remove-D365Database [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Remove-D365LcsAssetFile",
+        "Description":  "Delete asset from the LCS project Asset Library",
+        "Params":  [
+                       [
+                           "ProjectId",
+                           "The project id for the Dynamics 365 for Finance \u0026 Operations project inside LCS\r\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "",
+                           false,
+                           "false",
+                           "$Script:LcsApiProjectId"
+                       ],
+                       [
+                           "AssetId",
+                           "LCS Id of the file that you are looking for",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "BearerToken",
+                           "The token you want to use when working against the LCS api\r\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "Token",
+                           false,
+                           "false",
+                           "$Script:LcsApiBearerToken"
+                       ],
+                       [
+                           "LcsApiUri",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\r\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "",
+                           false,
+                           "false",
+                           "$Script:LcsApiLcsApiUri"
+                       ],
+                       [
+                           "RetryTimeout",
+                           "The retry timeout, before the cmdlet should quit retrying based on the 429 status code\nNeeds to be provided in the timspan notation:\r\n\"hh:mm:ss\"\nhh is the number of hours, numerical notation only\r\nmm is the number of minutes\r\nss is the numbers of seconds\nEach section of the timeout has to valid, e.g.\r\nhh can maximum be 23\r\nmm can maximum be 59\r\nss can maximum be 59\nNot setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint",
+                           "",
+                           false,
+                           "false",
+                           "00:00:00"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Oleksandr Nikolaiev (@onikolaiev)",
+        "Synopsis":  "Delete asset from the LCS project Asset Library",
+        "Name":  "Remove-D365LcsAssetFile",
+        "Links":  [
+                      null,
+                      null,
+                      null,
+                      null,
+                      null
+                  ],
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRemove-D365LcsAssetFile -ProjectId 123456789 -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\" -AssetId \"812bcb0e-23fb-476d-8a92-985f20a704b9\"\nThis will delete the Asset file from the LCS Asset Library.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).",
+        "Syntax":  "Remove-D365LcsAssetFile [[-ProjectId] \u003cInt32\u003e] [-AssetId] \u003cString\u003e [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Remove-D365Model",
