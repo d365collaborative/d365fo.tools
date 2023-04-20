@@ -50,6 +50,7 @@
 	FunctionsToExport = @(
 		'Add-D365AzureStorageConfig',
 		'Add-D365BroadcastMessageConfig',
+		'Add-D365ModuleToRemove',
 		'Add-D365RsatWifConfigAuthorityThumbprint',
 		'Add-D365WindowsDefenderRules',
 
@@ -251,6 +252,7 @@
 		'New-D365Bacpac',
 		'New-D365CAReport',
 		'New-D365ISVLicense',
+		'New-D365ModuleToRemove',
 		'New-D365TopologyFile',
 
 		'Register-D365AzureStorageConfig',
