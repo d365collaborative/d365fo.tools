@@ -33,9 +33,20 @@
         The path to the bin directory for the environment
         
         Default path is the same as the aos service PackagesLocalDirectory\bin
-        
+
+    .PARAMETER XRefSqlServer
+        The name of the SQL server where the cross references database is located; the default is "$env:COMPUTERNAME"
+        This parameter is only used for XRefGenerationOnly
+
+    .PARAMETER XRefDbName
+        The name of the cross references database; the default is "DYNAMICSXREFDB"
+        This parameter is only used for XRefGenerationOnly
+
     .PARAMETER XRefGeneration
         Instruct the cmdlet to enable the generation of XRef metadata while running the compile
+        
+    .PARAMETER XRefGenerationOnly
+        Instruct the cmdlet to only generate XRef metadata while running the compile and not update the assemblies and PDB files
         
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
@@ -70,6 +81,17 @@
         
         If an error should occur, both the standard output and error output will be written to the console / host.
         
+    .EXAMPLE
+        PS C:\> Invoke-D365ModuleCompile -Module MyModel -XRefGenerationOnly
+        
+        This will use the default paths and start the xppc.exe with the needed parameters to only generate cross references for the MyModel package.
+
+    .EXAMPLE
+        PS C:\> Get-D365Module -ExcludeBinaryModules -InDependencyOrder | Invoke-D365ModuleCompile -XRefGenerationOnly -ShowOriginalProgress
+        
+        This will update all cross references, keeping the assemblies and PDB files unmodified.
+        The output from the compile will be written to the console / host.
+
     .NOTES
         Tags: Compile, Model, Servicing, X++
         
@@ -100,7 +122,13 @@ function Invoke-D365ModuleCompile {
 
         [string] $BinDir = $Script:BinDirTools,
 
+        [string] $XRefSqlServer = $env:COMPUTERNAME,
+
+        [string] $XRefDbName = "DYNAMICSXREFDB",
+
         [switch] $XRefGeneration,
+
+        [switch] $XRefGenerationOnly,
 
         [switch] $ShowOriginalProgress,
 
@@ -139,7 +167,13 @@ function Invoke-D365ModuleCompile {
             "-verbose"
         )
 
-        if ($XRefGeneration) {
+        if ($XRefGenerationOnly) {
+            $params += @("-xrefonly",
+                "-xrefSqlServer=`"$XRefSqlServer`"",
+                "-xrefDbName=`"$XRefDbName`""
+            )
+        }
+        elseif ($XRefGeneration) {
             $params += "-xref"
         }
 
