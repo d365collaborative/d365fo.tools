@@ -50,6 +50,7 @@ jobs:
       with:
         files: '**/TEST-*.xml'
         check_name: 'General Unit Tests Results'
+        comment-mode: 'off'
 
   public-functions-unit-tests:
     name: Validate Public Functions using PSScriptAnalyzer Unit Tests
@@ -76,6 +77,7 @@ jobs:
       with:
         files: '**/TEST-*.xml'
         check_name: 'Public Functions Unit Tests Results'
+        comment-mode: 'off'
 
   internal-functions-unit-tests:
     name: Validate Internal Functions using PSScriptAnalyzer Unit Tests
@@ -102,6 +104,7 @@ jobs:
       with:
         files: '**/TEST-*.xml'
         check_name: 'Internal Functions Unit Tests Results'
+        comment-mode: 'off'
 
   individual-unit-tests:
     name: Validate Individual Unit Tests
@@ -128,3 +131,4 @@ jobs:
       with:
         files: '**/TEST-*.xml'
         check_name: 'Individual Unit Tests Results'
+        comment-mode: 'off'
