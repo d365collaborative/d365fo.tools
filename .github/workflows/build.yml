@@ -1,0 +1,134 @@
+# run the Powershell scripts in build folder as part of a GitHub Action
+
+name: d365fo.tools-PR-Test
+
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+
+  prerequisites:
+    name: Prerequisites
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Cache Powershell Modules
+      uses: actions/cache@v3
+      with:
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
+        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
+    - name: Prerequisites
+      shell: powershell
+      run: build\vsts-prerequisites.ps1
+
+  general-unit-tests:
+    name: Validate General Unit Tests
+    runs-on: windows-latest
+    needs: prerequisites
+    steps:
+    - uses: actions/checkout@v3
+    - name: Cache Powershell Modules
+      id: cache-powershell-modules
+      uses: actions/cache@v3
+      with:
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
+        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
+    - name: Prerequisites
+      if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
+      shell: powershell
+      run: build\vsts-prerequisites.ps1
+    - name: Validate
+      shell: powershell
+      run: build\vsts-validate.ps1 -TestGeneral $true -TestFunctions $false -Exclude "PSScriptAnalyzer.Tests.ps1"
+    - name: Publish Test Results **/TEST-*.xml
+      if: always()
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      with:
+        files: '**/TEST-*.xml'
+        check_name: 'General Unit Tests Results'
+        comment_mode: 'off'
+
+  public-functions-unit-tests:
+    name: Validate Public Functions using PSScriptAnalyzer Unit Tests
+    runs-on: windows-latest
+    needs: prerequisites
+    steps:
+    - uses: actions/checkout@v3
+    - name: Cache Powershell Modules
+      id: cache-powershell-modules
+      uses: actions/cache@v3
+      with:
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
+        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
+    - name: Prerequisites
+      if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
+      shell: powershell
+      run: build\vsts-prerequisites.ps1
+    - name: Validate
+      shell: powershell
+      run: build\vsts-validate-psscriptanalyzer.ps1 -TestPublic $true -TestInternal $false
+    - name: Publish Test Results **/TEST-*.xml
+      if: always()
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      with:
+        files: '**/TEST-*.xml'
+        check_name: 'Public Functions Unit Tests Results'
+        comment_mode: 'off'
+
+  internal-functions-unit-tests:
+    name: Validate Internal Functions using PSScriptAnalyzer Unit Tests
+    runs-on: windows-latest
+    needs: Prerequisites
+    steps:
+    - uses: actions/checkout@v3
+    - name: Cache Powershell Modules
+      id: cache-powershell-modules
+      uses: actions/cache@v3
+      with:
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
+        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
+    - name: Prerequisites
+      if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
+      shell: powershell
+      run: build\vsts-prerequisites.ps1
+    - name: Validate
+      shell: powershell
+      run: build\vsts-validate-psscriptanalyzer.ps1 -TestPublic $false -TestInternal $true
+    - name: Publish Test Results **/TEST-*.xml
+      if: always()
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      with:
+        files: '**/TEST-*.xml'
+        check_name: 'Internal Functions Unit Tests Results'
+        comment_mode: 'off'
+
+  individual-unit-tests:
+    name: Validate Individual Unit Tests
+    runs-on: windows-latest
+    needs: prerequisites
+    steps:
+    - uses: actions/checkout@v3
+    - name: Cache Powershell Modules
+      id: cache-powershell-modules
+      uses: actions/cache@v3
+      with:
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
+        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
+    - name: Prerequisites
+      if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
+      shell: powershell
+      run: build\vsts-prerequisites.ps1
+    - name: Validate
+      shell: powershell
+      run: build\vsts-validate.ps1 -TestGeneral $false -TestFunctions $true
+    - name: Publish Test Results **/TEST-*.xml
+      if: always()
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      with:
+        files: '**/TEST-*.xml'
+        check_name: 'Individual Unit Tests Results'
+        comment_mode: 'off'
