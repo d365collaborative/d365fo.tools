@@ -10,6 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
+
   general-unit-tests:
     name: Validate General Unit Tests
     runs-on: windows-latest
@@ -18,10 +19,28 @@ jobs:
     - name: Prerequisites
       shell: powershell
       run: build\vsts-prerequisites.ps1
-    - name: Run General Unit Tests
+    - name: Validate
       shell: powershell
       run: build\vsts-validate.ps1 -TestGeneral $true -TestFunctions $false -Exclude "PSScriptAnalyzer.Tests.ps1"
     - name: Publish Test Results **/TEST-*.xml
-      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      with:
+        files: '**/TEST-*.xml'
+
+  public-functions-unit-tests:
+    name: Validate Public Functions using PSScriptAnalyzer Unit Tests
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Prerequisites
+      shell: powershell
+      run: build\vsts-prerequisites.ps1
+    - name: Validate
+      shell: powershell
+      run: build\vsts-validate-psscriptanalyzer.ps1 -TestPublic $true -TestInternal $false
+    - name: Publish Test Results **/TEST-*.xml
+      if: always()
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
       with:
         files: '**/TEST-*.xml'
