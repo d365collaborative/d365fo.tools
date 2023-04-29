@@ -19,7 +19,7 @@ jobs:
     - name: Cache Powershell Modules
       uses: actions/cache@v3
       with:
-        path: C:\Users\runneradmin\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       shell: powershell
@@ -35,7 +35,7 @@ jobs:
       id: cache-powershell-modules
       uses: actions/cache@v3
       with:
-        path: C:\Users\runneradmin\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
@@ -61,7 +61,7 @@ jobs:
       id: cache-powershell-modules
       uses: actions/cache@v3
       with:
-        path: C:\Users\runneradmin\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
@@ -87,7 +87,7 @@ jobs:
       id: cache-powershell-modules
       uses: actions/cache@v3
       with:
-        path: C:\Users\runneradmin\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
@@ -113,7 +113,7 @@ jobs:
       id: cache-powershell-modules
       uses: actions/cache@v3
       with:
-        path: C:\Users\runneradmin\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
