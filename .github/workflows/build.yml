@@ -24,6 +24,11 @@ jobs:
     - name: Prerequisites
       shell: powershell
       run: build\vsts-prerequisites.ps1
+    - name: Debug
+      shell: powershell
+      run: |
+        $PSModulePath
+        Get-Module -ListAvailable
 
   general-unit-tests:
     name: Validate General Unit Tests
