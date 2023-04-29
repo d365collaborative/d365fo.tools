@@ -1,0 +1,23 @@
+# run the Powershell scripts in build folder as part of a GitHub Action
+
+name: d365fo.tools-PR-Test
+
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  general-unit-tests:
+    name: Validate General Unit Tests
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prerequisites
+      shell: powershell
+      run: build\vsts-prerequisites.ps1
+    - name: Run General Unit Tests
+      shell: powershell
+      run: build\vsts-validate.ps1
