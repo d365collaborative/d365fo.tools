@@ -20,4 +20,8 @@ jobs:
       run: build\vsts-prerequisites.ps1
     - name: Run General Unit Tests
       shell: powershell
-      run: build\vsts-validate.ps1
+      run: build\vsts-validate.ps1 -TestGeneral $true -TestFunctions $false -Exclude "PSScriptAnalyzer.Tests.ps1"
+    - name: Publish Test Results **/TEST-*.xml
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      with:
+        files: '**/TEST-*.xml'
