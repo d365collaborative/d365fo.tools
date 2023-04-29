@@ -19,17 +19,11 @@ jobs:
     - name: Cache Powershell Modules
       uses: actions/cache@v3
       with:
-        path: ${env:USERPROFILE}\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\PowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       shell: powershell
       run: build\vsts-prerequisites.ps1
-    - name: Debug
-      shell: powershell
-      run: |
-        ${env:USERPROFILE}
-        $PSModulePath
-        Get-Module -ListAvailable
 
   general-unit-tests:
     name: Validate General Unit Tests
@@ -41,7 +35,7 @@ jobs:
       id: cache-powershell-modules
       uses: actions/cache@v3
       with:
-        path: ${{ env.USERPROFILE }}\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\PowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
@@ -67,7 +61,7 @@ jobs:
       id: cache-powershell-modules
       uses: actions/cache@v3
       with:
-        path: ${{ env.USERPROFILE }}\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\PowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
@@ -93,7 +87,7 @@ jobs:
       id: cache-powershell-modules
       uses: actions/cache@v3
       with:
-        path: ${{ env.USERPROFILE }}\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\PowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
@@ -119,7 +113,7 @@ jobs:
       id: cache-powershell-modules
       uses: actions/cache@v3
       with:
-        path: ${{ env.USERPROFILE }}\Documents\PowerShell\Modules
+        path: C:\Users\runneradmin\Documents\PowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
