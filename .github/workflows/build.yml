@@ -19,7 +19,7 @@ jobs:
     - name: Cache Powershell Modules
       uses: actions/cache@v3
       with:
-        path: ${{ env.USERPROFILE }}\Documents\PowerShell\Modules
+        path: ${env:USERPROFILE}\Documents\PowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
     - name: Prerequisites
       shell: powershell
@@ -27,6 +27,7 @@ jobs:
     - name: Debug
       shell: powershell
       run: |
+        ${env:USERPROFILE}
         $PSModulePath
         Get-Module -ListAvailable
 
