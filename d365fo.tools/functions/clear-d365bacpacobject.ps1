@@ -74,7 +74,7 @@
 #>
 function Clear-D365BacpacObject {
     [CmdletBinding(DefaultParameterSetName = "Copy")]
-    [OutputType('[PsCustomObject]')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     param (
         [Parameter(Mandatory = $true)]
         [Alias('File')]
