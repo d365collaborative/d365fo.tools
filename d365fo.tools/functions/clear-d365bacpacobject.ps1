@@ -1,4 +1,5 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Clear out sql objects from inside the bacpac/dacpac or zip file
         
@@ -8,11 +9,11 @@
         It will open the file as a zip archive, locate the desired sql object and remove it, so when importing the bacpac the object will not be created
         
         The default behavior is that you get a copy of the file, where the desired sql objects are removed
-
-.PARAMETER Path
+        
+    .PARAMETER Path
         Path to the bacpac/dacpac or zip file that you want to work against
-
-.PARAMETER Name
+        
+    .PARAMETER Name
         Name of the sql object that you want to remove
         
         Supports an array of names
@@ -22,14 +23,14 @@
         Some sql objects are 3 part named, which will require that you fill them in with brackets E.g. [dbo].[SalesTable].[CustomIndexName1]
         - Index
         - Constraints
-
-.PARAMETER ObjectType
-Instruct the cmdlet, the type of object that you want to remove
-
-As we are manipulating the bacpac file, we can only handle 1 ObjectType per run
-
-If you want to remove SqlView and SqlIndex, you will have to run the cmdlet 1 time for SqlViews and 1 time for SqlIndex
-
+        
+    .PARAMETER ObjectType
+        Instruct the cmdlet, the type of object that you want to remove
+        
+        As we are manipulating the bacpac file, we can only handle 1 ObjectType per run
+        
+        If you want to remove SqlView and SqlIndex, you will have to run the cmdlet 1 time for SqlViews and 1 time for SqlIndex
+        
     .PARAMETER OutputPath
         Path to where you want the updated bacpac/dacpac or zip file to be saved
         
@@ -37,8 +38,8 @@ If you want to remove SqlView and SqlIndex, you will have to run the cmdlet 1 ti
         Instruct the cmdlet to delete sql objects directly from the source file
         
         It will save disk space and time, because it doesn't have to create a copy of the bacpac file, before deleting sql objects from it
-
-.EXAMPLE
+        
+    .EXAMPLE
         PS C:\> Clear-D365BacpacObject -Path "C:\Temp\AxDB.bacpac" -ObjectType SqlView -Name "View2" -OutputPath "C:\Temp\AXBD_Cleaned.bacpac"
         
         This will remove the SqlView "View2" from inside the bacpac file.
@@ -66,10 +67,10 @@ If you want to remove SqlView and SqlIndex, you will have to run the cmdlet 1 ti
         
         Caution:
         It will remove from the source "C:\Temp\AxDB.bacpac" directly. So if the original file is important for further processing, please consider the risks carefully.
-
-.NOTES
-It will NOT fail, if it can't find any object with the specified name
-
+        
+    .NOTES
+        It will NOT fail, if it can't find any object with the specified name
+        
 #>
 function Clear-D365BacpacObject {
     [CmdletBinding(DefaultParameterSetName = "Copy")]
