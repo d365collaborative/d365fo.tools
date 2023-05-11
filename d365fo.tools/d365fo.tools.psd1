@@ -60,6 +60,7 @@
 		'Backup-D365WebConfig',
 
 		'Clear-D365ActiveBroadcastMessageConfig',
+		'Clear-D365BacpacObject',
 		'Clear-D365BacpacTableData',
 		'Clear-D365MonitorData',
 		'Clear-D365TempDbTables',
