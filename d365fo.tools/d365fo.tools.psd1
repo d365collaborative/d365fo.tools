@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.6.78'
+	ModuleVersion     = '0.6.79'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -60,6 +60,7 @@
 		'Backup-D365WebConfig',
 
 		'Clear-D365ActiveBroadcastMessageConfig',
+		'Clear-D365BacpacObject',
 		'Clear-D365BacpacTableData',
 		'Clear-D365MonitorData',
 		'Clear-D365TempDbTables',
