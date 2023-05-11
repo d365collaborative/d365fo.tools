@@ -474,6 +474,58 @@
         "Syntax":  "Clear-D365ActiveBroadcastMessageConfig [-Temporary] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Clear-D365BacpacObject",
+        "Description":  "Remove a set of sql objects from inside a bacpac/dacpac or zip file, before restoring it into your SQL Server / Azure SQL DB\n\nIt will open the file as a zip archive, locate the desired sql object and remove it, so when importing the bacpac the object will not be created\n\nThe default behavior is that you get a copy of the file, where the desired sql objects are removed",
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the bacpac/dacpac or zip file that you want to work against",
+                           "BacpacFile,File",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Name",
+                           "Name of the sql object that you want to remove\nSupports an array of names\nIf a schema name isn\u0027t supplied as part of the table name, the cmdlet will prefix it with \"dbo.\"\nSome sql objects are 3 part named, which will require that you fill them in with brackets E.g. [dbo].[SalesTable].[CustomIndexName1]\r\n- Index\r\n- Constraints",
+                           "ObjectName",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ObjectType",
+                           "Instruct the cmdlet, the type of object that you want to remove\nAs we are manipulating the bacpac file, we can only handle 1 ObjectType per run\nIf you want to remove SqlView and SqlIndex, you will have to run the cmdlet 1 time for SqlViews and 1 time for SqlIndex",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "OutputPath",
+                           "Path to where you want the updated bacpac/dacpac or zip file to be saved",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClearFromSource",
+                           "Instruct the cmdlet to delete sql objects directly from the source file\nIt will save disk space and time, because it doesn\u0027t have to create a copy of the bacpac file, before deleting sql objects from it",
+                           "",
+                           true,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Synopsis":  "Clear out sql objects from inside the bacpac/dacpac or zip file",
+        "Name":  "Clear-D365BacpacObject",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eClear-D365BacpacObject -Path \"C:\\Temp\\AxDB.bacpac\" -ObjectType SqlView -Name \"View2\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\"\nThis will remove the SqlView \"View2\" from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"View2\" as the name of the object to delete.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eClear-D365BacpacObject -Path \"C:\\Temp\\AxDB.bacpac\" -ObjectType SqlView -Name \"dbo.View1\",\"View2\" -OutputPath \"C:\\Temp\\AXBD_Cleaned.bacpac\"\nThis will remove the SqlView(s) \"dbo.View1\" and \"View2\" from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"dbo.View1\",\"View2\" as the names of objects to delete.\r\nIt uses \"C:\\Temp\\AXBD_Cleaned.bacpac\" as the OutputPath to where it will store the updated bacpac file.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eClear-D365BacpacObject -Path \"C:\\Temp\\AxDB.bacpac\" -ObjectType SqlIndex -Name \"[dbo].[SalesTable].[CustomIndexName1]\" -ClearFromSource\nThis will remove the SqlIndex \"CustomIndexName1\" from the dbo.SalesTable table from inside the bacpac file.\nIt uses \"C:\\Temp\\AxDB.bacpac\" as the Path for the bacpac file.\r\nIt uses \"[dbo].[SalesTable].[CustomIndexName1]\" as the name of the object to delete.\nCaution:\r\nIt will remove from the source \"C:\\Temp\\AxDB.bacpac\" directly. So if the original file is important for further processing, please consider the risks carefully.",
+        "Syntax":  "Clear-D365BacpacObject -Path \u003cString\u003e -Name \u003cString[]\u003e [-ObjectType \u003cString\u003e] -OutputPath \u003cString\u003e [\u003cCommonParameters\u003e]\nClear-D365BacpacObject -Path \u003cString\u003e -Name \u003cString[]\u003e [-ObjectType \u003cString\u003e] -ClearFromSource [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Clear-D365BacpacTableData",
         "Description":  "Remove all data for a table inside a bacpac/dacpac or zip file, before restoring it into your SQL Server / Azure SQL DB\n\nIt will open the file as a zip archive, locate the desired table and remove the data that otherwise would have been loaded\n\nThe default behavior is that you get a copy of the file, where the desired data is removed",
         "Tags":  [
