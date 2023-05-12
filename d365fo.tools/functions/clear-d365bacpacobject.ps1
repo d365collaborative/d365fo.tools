@@ -30,6 +30,9 @@
         As we are manipulating the bacpac file, we can only handle 1 ObjectType per run
         
         If you want to remove SqlView and SqlIndex, you will have to run the cmdlet 1 time for SqlViews and 1 time for SqlIndex
+
+        Supported types are:
+        "SqlView", "SqlTable", "SqlIndex", "SqlCheckConstraint"
         
     .PARAMETER OutputPath
         Path to where you want the updated bacpac/dacpac or zip file to be saved
