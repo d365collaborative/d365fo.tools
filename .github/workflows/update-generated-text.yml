@@ -1,0 +1,41 @@
+# Run the scrips documented in https://github.com/d365collaborative/d365fo.tools/wiki/Building-tools
+# Creates a pull request with the changes
+
+name: d365fo.tools-Generate-Text
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  generateText:
+    name: Generate text
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Cache Powershell Modules
+      id: cache-powershell-modules
+      uses: actions/cache@v3
+      with:
+        path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
+        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1, **/buildtools.ps1') }}
+    - name: Prerequisites
+      if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
+      shell: powershell
+      run: build\vsts-prerequisites.ps1
+    - name: BuildTools
+      if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
+      shell: powershell
+      run: build\buildtools.ps1
+    - name: Format comment based help
+      shell: powershell
+      run: build\formatCommentBasedHelp.ps1
+    - name: Create a pull request for changes
+      uses: peter-evans/create-pull-request@v5
+      with:
+        commit-message: | 
+          'Update comment based help and tests
+          
+          This pull request was automatically created by the d365fo.tools-Generate-Text action'
+        title: 'Update comment based help and tests'
+        body: 'This pull request was automatically created by the d365fo.tools-Generate-Text action'
