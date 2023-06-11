@@ -30,6 +30,12 @@ jobs:
     - name: Format comment based help
       shell: powershell
       run: build\format-commentbasedhelp.ps1
+    - name: Generate parameter unit tests
+      shell: powershell
+      run: build\generate-parameterunittests.ps1
+    - name: Update documentation
+      shell: powershell
+      run: build\update-docs.ps1
     - name: Create a pull request for changes
       uses: peter-evans/create-pull-request@v5
       with:
