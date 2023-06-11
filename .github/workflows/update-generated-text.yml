@@ -29,7 +29,7 @@ jobs:
       run: build\buildtools.ps1
     - name: Format comment based help
       shell: powershell
-      run: build\formatCommentBasedHelp.ps1
+      run: build\format-commentbasedhelp.ps1
     - name: Create a pull request for changes
       uses: peter-evans/create-pull-request@v5
       with:
