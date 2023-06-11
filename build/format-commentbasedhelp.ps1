@@ -1,7 +1,7 @@
 # Script to format the comments/documentation of the cmdlets used for the commend based help.
 # based on https://gist.github.com/Splaxi/ff7485a24f6ed9937f3e8da76b5d4840
 # See also https://github.com/d365collaborative/d365fo.tools/wiki/Building-tools
-$path = "$($env:SYSTEM_DEFAULTWORKINGDIRECTORY)\d365fo.tools"
+$path = "$PSScriptRoot\..\d365fo.tools"
 
 function Get-Header ($text) {
     $start = $text.IndexOf('<#')
