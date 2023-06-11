@@ -7,7 +7,7 @@ Import-Module $path -Force
 
 $excludeCommands = @()
 
-$commandsRaw = Get-Command -Module $moduleName
+$commandsRaw = Get-Command -Module d365fo.tools
 
 if ($excludeCommands.Count -gt 0) {
     $commands = $commandsRaw | Select-String -Pattern $excludeCommands -SimpleMatch -NotMatch
