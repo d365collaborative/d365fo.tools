@@ -129,7 +129,7 @@ function Get-D365LcsApiToken {
         [string] $Password,
 
         [Parameter(Mandatory = $false)]
-        [string] $LcsApiUri = $Script:LcsApiApiUri,
+        [string] $LcsApiUri = $Script:LcsApiLcsApiUri,
 
         [switch] $EnableException
     )
