@@ -252,11 +252,6 @@ function Import-D365Bacpac {
         return
     }
 
-    if($DatabaseName.Contains("-"))
-    {
-        $DatabaseName = $DatabaseName.Replace("-","_")
-    }
-    
     if ($PSBoundParameters.ContainsKey("CustomSqlFile")) {
         if (-not (Test-PathExists -Path $CustomSqlFile -Type Leaf)) {
             return
