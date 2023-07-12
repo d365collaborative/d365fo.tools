@@ -1,8 +1,8 @@
 ﻿Write-Host "Working on the machine named: $($env:computername)"
 Write-Host "The user running is: $($env:UserName)"
 
-# $modules = @("PSFramework", "Azure.Storage", "AzureAd", "PSNotification", "PSOAuthHelper", "PowerShellGet", "PackageManagement","ImportExcel","PSScriptAnalyzer")
-$modules = @("PSFramework", "PSScriptAnalyzer", "Azure.Storage", "AzureAd", "PSNotification", "PSOAuthHelper", "ImportExcel")
+# $modules = @("PSFramework", "Az.Storage", "AzureAd", "PSNotification", "PSOAuthHelper", "PowerShellGet", "PackageManagement","ImportExcel","PSScriptAnalyzer")
+$modules = @("PSFramework", "PSScriptAnalyzer", "Az.Storage", "AzureAd", "PSNotification", "PSOAuthHelper", "ImportExcel")
 
 Install-Module "Pester" -MaximumVersion 4.99.99 -Force -Confirm:$false -Scope CurrentUser -AllowClobber -SkipPublisherCheck
 
