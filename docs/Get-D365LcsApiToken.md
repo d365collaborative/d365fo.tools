@@ -151,7 +151,7 @@ Aliases:
 
 Required: False
 Position: 4
-Default value: $Script:LcsApiApiUri
+Default value: $Script:LcsApiLcsApiUri
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

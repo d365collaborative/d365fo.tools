@@ -15,14 +15,14 @@ Upload a file to Azure
 ### Default (Default)
 ```
 Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] -Filepath <String> [-ContentType <String>] [-DeleteOnUpload] [-EnableException]
+ [-Container <String>] -Filepath <String> [-ContentType <String>] [-Force] [-DeleteOnUpload] [-EnableException]
  [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
 Invoke-D365AzureStorageUpload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] -Filepath <String> [-ContentType <String>] [-DeleteOnUpload] [-EnableException]
+ [-Container <String>] -Filepath <String> [-ContentType <String>] [-Force] [-DeleteOnUpload] [-EnableException]
  [<CommonParameters>]
 ```
 
@@ -170,6 +170,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Instruct the cmdlet to overwrite the file in the container if it already exists
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

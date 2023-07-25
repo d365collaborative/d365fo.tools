@@ -15,13 +15,13 @@ Download a file to Azure
 ### Default (Default)
 ```
 Invoke-D365AzureStorageDownload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] -FileName <String> [-Path <String>] [-EnableException] [<CommonParameters>]
+ [-Container <String>] -FileName <String> [-Path <String>] [-Force] [-EnableException] [<CommonParameters>]
 ```
 
 ### Latest
 ```
 Invoke-D365AzureStorageDownload [-AccountId <String>] [-AccessToken <String>] [-SAS <String>]
- [-Container <String>] [-Path <String>] [-Latest] [-EnableException] [<CommonParameters>]
+ [-Container <String>] [-Path <String>] [-Latest] [-Force] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -178,6 +178,21 @@ Aliases: GetLatest
 
 Required: True
 Position: 5
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Instruct the cmdlet to overwrite the local file if it already exists
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
