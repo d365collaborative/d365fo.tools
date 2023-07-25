@@ -29,6 +29,9 @@
     .PARAMETER Latest
         Instruct the cmdlet to download the latest file from Azure regardless of name
         
+    .PARAMETER Force
+        Instruct the cmdlet to overwrite the local file if it already exists
+
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -87,7 +90,6 @@ function Invoke-D365AzureStorageDownload {
         [Parameter(Mandatory = $false)]
         [string] $SAS = $Script:AzureStorageSAS,
 
-        [Parameter(Mandatory = $false)]
         [Alias('Blob')]
         [Alias('Blobname')]
         [string] $Container = $Script:AzureStorageContainer,
@@ -96,12 +98,13 @@ function Invoke-D365AzureStorageDownload {
         [Alias('Name')]
         [string] $FileName,
 
-        [Parameter(Mandatory = $false)]
         [string] $Path = $Script:DefaultTempPath,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Latest', Position = 4 )]
         [Alias('GetLatest')]
         [switch] $Latest,
+
+        [switch] $Force,
 
         [switch] $EnableException
     )
@@ -120,7 +123,7 @@ function Invoke-D365AzureStorageDownload {
         }
     }
     PROCESS {
-        if (Test-PSFFunctionInterrupt) {return}
+        if (Test-PSFFunctionInterrupt) { return }
 
         Invoke-TimeSignal -Start
 
@@ -129,41 +132,40 @@ function Invoke-D365AzureStorageDownload {
             if ([string]::IsNullOrEmpty($SAS)) {
                 Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with AccessToken"
 
-                $storageContext = new-AzureStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
+                $storageContext = New-AzStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
             }
             else {
                 Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with SAS"
 
                 $conString = $("BlobEndpoint=https://{0}.blob.core.windows.net/;QueueEndpoint=https://{0}.queue.core.windows.net/;FileEndpoint=https://{0}.file.core.windows.net/;TableEndpoint=https://{0}.table.core.windows.net/;SharedAccessSignature={1}" -f $AccountId.ToLower(), $SAS)
-                $storageContext = new-AzureStorageContext -ConnectionString $conString
+                $storageContext = New-AzStorageContext -ConnectionString $conString
             }
-
-            $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($storageContext.ConnectionString)
-
-            $blobClient = $cloudStorageAccount.CreateCloudBlobClient()
-
-            $blobContainer = $blobClient.GetContainerReference($Container.ToLower());
 
             Write-PSFMessage -Level Verbose -Message "Start download from Azure Storage Account"
 
             if ($Latest) {
-                $files = $blobContainer.ListBlobs()
-                $File = ($files | Sort-Object -Descending { $_.Properties.LastModified } | Select-Object -First 1)
-    
-                $NewFile = Join-Path $Path $($File.Name)
+                $files = Get-AzStorageBlob -Container $($Container.ToLower()) -Context $storageContext
 
-                $File.DownloadToFile($NewFile, [System.IO.FileMode]::Create)
+                $File = ($files | Sort-Object -Descending { $_.LastModified } | Select-Object -First 1)
 
                 $FileName = $File.Name
+                
+                Write-PSFMessage -Level Verbose -Message "Filename is: $FileName"
+
+                $NewFile = Join-Path $Path $($File.Name)
+
+                $null = Get-AzStorageBlobContent -Container $($Container.ToLower()) -Blob $File.Name -Destination $NewFile -Context $storageContext -Force:$Force
             }
             else {
+
+                Write-PSFMessage -Level Verbose -Message "Filename is: $FileName"
+
                 $NewFile = Join-Path $Path $FileName
 
-                $blockBlob = $blobContainer.GetBlockBlobReference($FileName);
-                $blockBlob.DownloadToFile($NewFile, [System.IO.FileMode]::Create)
+                $null = Get-AzStorageBlobContent -Container $($Container.ToLower()) -Blob $FileName -Destination $NewFile -Context $storageContext -Force:$Force
             }
 
-            Get-Item -Path $NewFile | Select-PSFObject "Name as Filename", @{Name = "Size"; Expression = {[PSFSize]$_.Length}}, "LastWriteTime as LastModified", "Fullname as File"
+            Get-Item -Path $NewFile | Select-PSFObject "Name as Filename", @{Name = "Size"; Expression = { [PSFSize]$_.Length } }, "LastWriteTime as LastModified", "Fullname as File"
         }
         catch {
             $messageString = "Something went wrong while <c='em'>downloading</c> the file from Azure."
@@ -176,5 +178,5 @@ function Invoke-D365AzureStorageDownload {
         }
     }
 
-    END {}
+    END { }
 }
