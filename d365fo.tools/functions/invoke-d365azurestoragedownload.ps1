@@ -31,7 +31,7 @@
         
     .PARAMETER Force
         Instruct the cmdlet to overwrite the local file if it already exists
-
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
