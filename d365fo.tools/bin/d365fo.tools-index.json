@@ -495,7 +495,7 @@
                        ],
                        [
                            "ObjectType",
-                           "Instruct the cmdlet, the type of object that you want to remove\nAs we are manipulating the bacpac file, we can only handle 1 ObjectType per run\nIf you want to remove SqlView and SqlIndex, you will have to run the cmdlet 1 time for SqlViews and 1 time for SqlIndex",
+                           "Instruct the cmdlet, the type of object that you want to remove\nAs we are manipulating the bacpac file, we can only handle 1 ObjectType per run\nIf you want to remove SqlView and SqlIndex, you will have to run the cmdlet 1 time for SqlViews and 1 time for SqlIndex\nSupported types are:\r\n\"SqlView\", \"SqlTable\", \"SqlIndex\", \"SqlCheckConstraint\"",
                            "",
                            false,
                            "false",
@@ -2968,7 +2968,7 @@
                            "",
                            false,
                            "false",
-                           "$Script:LcsApiApiUri"
+                           "$Script:LcsApiLcsApiUri"
                        ],
                        [
                            "EnableException",
@@ -6105,6 +6105,14 @@
                            "False"
                        ],
                        [
+                           "Force",
+                           "Instruct the cmdlet to overwrite the local file if it already exists",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "EnableException",
                            "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
                            "",
@@ -6119,7 +6127,7 @@
         "Name":  "Invoke-D365AzureStorageDownload",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365AzureStorageDownload -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\" -FileName \"OriginalUAT.bacpac\" -Path \r\n\"c:\\temp\"\nWill download the \"OriginalUAT.bacpac\" file from the storage account and save it to \"c:\\temp\\OriginalUAT.bacpac\"\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365AzureStorageDownload -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\" -Path \"c:\\temp\" -Latest\nWill download the file with the latest modified datetime from the storage account and save it to \"c:\\temp\\\".\r\nThe complete path to the file will returned as output from the cmdlet.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003e$AzureParams = Get-D365ActiveAzureStorageConfig\nPS C:\\\u003e Invoke-D365AzureStorageDownload @AzureParams -Path \"c:\\temp\" -Latest\nThis will get the current Azure Storage Account configuration details\r\nand use them as parameters to download the latest file from an Azure Storage Account\nWill download the file with the latest modified datetime from the storage account and save it to \"c:\\temp\\\".\r\nThe complete path to the file will returned as output from the cmdlet.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365AzureStorageDownload -Latest\nThis will use the default parameter values that are based on the configuration stored inside \"Get-D365ActiveAzureStorageConfig\".\r\nWill download the file with the latest modified datetime from the storage account and save it to \"c:\\temp\\d365fo.tools\".\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eInvoke-D365AzureStorageDownload -AccountId \"miscfiles\" -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -Container \"backupfiles\" -Path \"c:\\temp\" -Latest\nWill download the file with the latest modified datetime from the storage account and save it to \"c:\\temp\\\".\r\nA SAS key is used to gain access to the container and downloading the file from it.\r\nThe complete path to the file will returned as output from the cmdlet.",
-        "Syntax":  "Invoke-D365AzureStorageDownload [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] -FileName \u003cString\u003e [-Path \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nInvoke-D365AzureStorageDownload [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] [-Path \u003cString\u003e] [-Latest] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365AzureStorageDownload [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] -FileName \u003cString\u003e [-Path \u003cString\u003e] [-Force] [-EnableException] [\u003cCommonParameters\u003e]\nInvoke-D365AzureStorageDownload [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] [-Path \u003cString\u003e] [-Latest] [-Force] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365AzureStorageUpload",
@@ -6186,6 +6194,14 @@
                            ""
                        ],
                        [
+                           "Force",
+                           "Instruct the cmdlet to overwrite the file in the container if it already exists",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "DeleteOnUpload",
                            "Switch to tell the cmdlet if you want the local file to be deleted after the upload completes",
                            "",
@@ -6208,7 +6224,7 @@
         "Name":  "Invoke-D365AzureStorageUpload",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365AzureStorageUpload -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\" -Filepath \r\n\"c:\\temp\\bacpac\\UAT_20180701.bacpac\" -DeleteOnUpload\nThis will upload the \"c:\\temp\\bacpac\\UAT_20180701.bacpac\" up to the \"backupfiles\" container, inside the \"miscfiles\" Azure Storage Account that is access with the \r\n\"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" token.\r\nAfter upload the local file will be deleted.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003e$AzureParams = Get-D365ActiveAzureStorageConfig\nPS C:\\\u003e New-D365Bacpac | Invoke-D365AzureStorageUpload @AzureParams\nThis will get the current Azure Storage Account configuration details and use them as parameters to upload the file to an Azure Storage Account.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365Bacpac | Invoke-D365AzureStorageUpload\nThis will generate a new bacpac file using the \"New-D365Bacpac\" cmdlet.\r\nThe file will be uploaded to an Azure Storage Account using the \"Invoke-D365AzureStorageUpload\" cmdlet.\r\nThis will use the default parameter values that are based on the configuration stored inside \"Get-D365ActiveAzureStorageConfig\" for the \"Invoke-D365AzureStorageUpload\" cmdlet.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365AzureStorageUpload -AccountId \"miscfiles\" -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -Container \"backupfiles\" -Filepath \r\n\"c:\\temp\\bacpac\\UAT_20180701.bacpac\" -DeleteOnUpload\nThis will upload the \"c:\\temp\\bacpac\\UAT_20180701.bacpac\" up to the \"backupfiles\" container, inside the \"miscfiles\" Azure Storage Account.\r\nA SAS key is used to gain access to the container and uploading the file to it.",
-        "Syntax":  "Invoke-D365AzureStorageUpload [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] -Filepath \u003cString\u003e [-ContentType \u003cString\u003e] [-DeleteOnUpload] [-EnableException] [\u003cCommonParameters\u003e]\nInvoke-D365AzureStorageUpload [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] -Filepath \u003cString\u003e [-ContentType \u003cString\u003e] [-DeleteOnUpload] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365AzureStorageUpload [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] -Filepath \u003cString\u003e [-ContentType \u003cString\u003e] [-Force] [-DeleteOnUpload] [-EnableException] [\u003cCommonParameters\u003e]\nInvoke-D365AzureStorageUpload [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] -Filepath \u003cString\u003e [-ContentType \u003cString\u003e] [-Force] [-DeleteOnUpload] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365BestPractice",
@@ -7443,7 +7459,7 @@
     },
     {
         "CommandName":  "Invoke-D365InstallSqlPackage",
-        "Description":  "Download and extract the DotNet/.NET core x64 edition of the SqlPackage.exe to your machine\n\nIt parses the raw html page and tries to extract the latest download link",
+        "Description":  "Download and extract the DotNet/.NET core x64 edition of the SqlPackage.exe to your machine\n\nIt parses the raw html page and tries to extract the latest download link.\nAs of 12th April 2022, no .NET Core link is available on the download page. The cmdlet will always use the Url parameter.",
         "Params":  [
                        [
                            "Path",
@@ -7463,11 +7479,11 @@
                        ],
                        [
                            "Url",
-                           "Url/Uri to where the latest SqlPackage download is located\nThe default value is for v18.4.1 (15.0.4630.1) as of writing",
+                           "Url/Uri to where the latest SqlPackage download is located\nThe default value is for v19.1 (16.0.6161.0) as of writing. This is the last version of SqlPackage based on .NET Core.\r\nAccording to the Microsoft documentation, a .NET Core version of SqlPackage should be used.\r\nhttps://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/database/import-database\r\nFurther discussion can be found here: https://github.com/d365collaborative/d365fo.tools/issues/708",
                            "",
                            false,
                            "false",
-                           "https://go.microsoft.com/fwlink/?linkid=2113704"
+                           "https://go.microsoft.com/fwlink/?linkid=2196334"
                        ]
                    ],
         "Alias":  "",
