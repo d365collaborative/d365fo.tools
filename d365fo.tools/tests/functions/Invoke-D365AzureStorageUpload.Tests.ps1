@@ -95,6 +95,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter Force' {
+			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['Force']
+			$parameter.Name | Should -Be 'Force'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter DeleteOnUpload' {
 			$parameter = (Get-Command Invoke-D365AzureStorageUpload).Parameters['DeleteOnUpload']
 			$parameter.Name | Should -Be 'DeleteOnUpload'
@@ -126,13 +139,13 @@
 	Describe "Testing parameterset Default" {
 		<#
 		Default -Filepath
-		Default -AccountId -AccessToken -SAS -Container -Filepath -ContentType -DeleteOnUpload -EnableException
+		Default -AccountId -AccessToken -SAS -Container -Filepath -ContentType -Force -DeleteOnUpload -EnableException
 		#>
 	}
  	Describe "Testing parameterset Pipeline" {
 		<#
 		Pipeline -Filepath
-		Pipeline -AccountId -AccessToken -SAS -Container -Filepath -ContentType -DeleteOnUpload -EnableException
+		Pipeline -AccountId -AccessToken -SAS -Container -Filepath -ContentType -Force -DeleteOnUpload -EnableException
 		#>
 	}
 
