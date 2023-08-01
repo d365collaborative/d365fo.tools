@@ -143,16 +143,8 @@ function Get-D365Module {
 
         Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProviderViaRuntime
 
-        $modelManifest = $metadataProviderViaRuntime.ModelManifest
+        $modules = $metadataProviderViaRuntime.ModelManifest.ListModulesInDependencyOrder()
 
-        if ($InDependencyOrder -eq $true) {
-            $modules = $modelManifest.ListModulesInDependencyOrder()
-        }
-        else {
-            $modules = $modelManifest.ListModules()
-        }
-
-        
         $modules | ForEach-Object {
             $_ | Add-Member -MemberType NoteProperty -Name 'IsBinary' -Value $false
         }
@@ -169,13 +161,25 @@ function Get-D365Module {
 
             Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProviderViaDisk
 
-            $diskModules = $metadataProviderViaDisk.ModelManifest.ListModules()
+            $diskModules = $metadataProviderViaDisk.ModelManifest.ListModulesInDependencyOrder()
 
-            foreach($module in $modules) {
+            foreach ($module in $modules) {
                 if ($diskModules.Name -NotContains $module.Name) {
                     $module.IsBinary = $true
                 }
             }
+            
+            $uncompiledModules = @(
+                foreach ($module in $diskModules) {
+                    if ($modules.Name -NotContains $module.Name) {
+                        $module | Add-Member -MemberType NoteProperty -Name 'IsBinary' -Value $false
+                        $module
+                    }
+                }
+            )
+
+            # Combined both arrays
+            $modules = $modules + $uncompiledModules
         }
 
         if ($ExcludeBinaryModules -eq $true) {
@@ -195,9 +199,9 @@ function Get-D365Module {
             $moduleName = $obj.Name
 
             $res = [Ordered]@{
-                Module = $moduleName
+                Module     = $moduleName
                 ModuleName = $moduleName
-                IsBinary = $obj.IsBinary
+                IsBinary   = $obj.IsBinary
                 PSTypeName = 'D365FO.TOOLS.ModuleInfo'
             }
 
