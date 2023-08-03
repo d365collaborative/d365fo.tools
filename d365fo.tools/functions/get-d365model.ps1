@@ -234,13 +234,25 @@ function Get-D365Model {
                     $model.IsBinary = $true
                 }
             }
+
+            $uncompiledModels = @(
+                foreach ($model in $diskModels) {
+                    if ($models.Name -NotContains $model.Name) {
+                        $model | Add-Member -MemberType NoteProperty -Name 'IsBinary' -Value $false
+                        $model
+                    }
+                }
+            )
+
+            # Combined both arrays
+            $models = $models + $uncompiledModels
         }
 
         if ($CustomizableOnly) {
             $models = $models | Where-Object Customization -eq "Allow"
         }
 
-        if ($ExcludeBinaryModels -eq $true){
+        if ($ExcludeBinaryModels -eq $true) {
             $models = $models | Where-Object IsBinary -eq $false
         }
     }

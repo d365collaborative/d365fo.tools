@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.7.0'
+	ModuleVersion     = '0.7.1'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -31,7 +31,6 @@
 		  @{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' }
 		, @{ ModuleName = 'Az.Storage'; ModuleVersion = '1.11.0' }
 		, @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
-		, @{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
 		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.3.0' }
 		, @{ ModuleName = 'ImportExcel'; ModuleVersion = '7.1.0' }
 	)
