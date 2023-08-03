@@ -274,6 +274,8 @@ function Clear-D365BacpacObject {
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zipArch, $pathModelWorking, "model.xml") > $null
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zipArch, $pathOriginWorking, "Origin.xml") > $null
 
+    $res = @{ }
+    
     if ($zipArch) {
         $zipArch.Dispose()
     }
