@@ -102,7 +102,7 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
-
+        
     .PARAMETER Properties
         String array of properties to be used by SQLPackage.exe
         See https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-import#properties-specific-to-the-import-action for more information.
@@ -159,12 +159,12 @@
         
         This would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.
         You would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.
-
+        
     .EXAMPLE
         PS C:\> [System.Collections.ArrayList] $PropertiesList = New-Object -TypeName "System.Collections.ArrayList"
         PS C:\> $PropertiesList.Add("DisableIndexesForDataPhase=false")
         PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -Properties $PropertiesList.ToArray()
-
+        
         This will instruct the cmdlet that the import will be working against a SQL Server instance.
         It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
         It will use the DisableIndexesForDataPhase SQLPackage property to disable the index rebuild during the data phase of the import.
