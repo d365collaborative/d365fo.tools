@@ -102,6 +102,11 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
+
+    .PARAMETER Properties
+        String array of properties to be used by SQLPackage.exe
+        See https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-import#properties-specific-to-the-import-action for more information.
+        Note that some properties are already set by the cmdlet, and cannot be overridden.
         
     .EXAMPLE
         PS C:\> Invoke-D365InstallSqlPackage
@@ -154,6 +159,15 @@
         
         This would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.
         You would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.
+
+    .EXAMPLE
+        PS C:\> [System.Collections.ArrayList] $PropertiesList = New-Object -TypeName "System.Collections.ArrayList"
+        PS C:\> $PropertiesList.Add("DisableIndexesForDataPhase=false")
+        PS C:\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -Properties $PropertiesList.ToArray()
+
+        This will instruct the cmdlet that the import will be working against a SQL Server instance.
+        It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+        It will use the DisableIndexesForDataPhase SQLPackage property to disable the index rebuild during the data phase of the import.
         
     .NOTES
         Tags: Database, Bacpac, Tier1, Tier2, Golden Config, Config, Configuration
@@ -245,7 +259,9 @@ function Import-D365Bacpac {
 
         [switch] $OutputCommandOnly,
 
-        [switch] $EnableException
+        [switch] $EnableException,
+
+        [string[]] $Properties
     )
 
     if (-not (Test-PathExists -Path $BacpacFile -Type Leaf)) {
@@ -289,6 +305,11 @@ function Import-D365Bacpac {
         $ImportParams.ModelFile = $ModelFile
     }
 
+    [System.Collections.ArrayList] $PropertiesList = New-Object -TypeName "System.Collections.ArrayList"
+    foreach ($item in $Properties) {
+        $PropertiesList.Add($item) > $null
+    }
+
     Write-PSFMessage -Level Verbose "Testing if we are working against a Tier2 / Azure DB"
     if ($ImportModeTier2) {
         Write-PSFMessage -Level Verbose "Start collecting the current Azure DB instance settings"
@@ -297,18 +318,19 @@ function Import-D365Bacpac {
 
         if ($null -eq $Objectives) { return }
 
-        [System.Collections.ArrayList] $Properties = New-Object -TypeName "System.Collections.ArrayList"
-        $null = $Properties.Add("DatabaseEdition=$($Objectives.DatabaseEdition)")
-        $null = $Properties.Add("DatabaseServiceObjective=$($Objectives.DatabaseServiceObjective)")
-
-        $ImportParams.Properties = $Properties.ToArray()
+        $null = $PropertiesList.Add("DatabaseEdition=$($Objectives.DatabaseEdition)")
+        $null = $PropertiesList.Add("DatabaseServiceObjective=$($Objectives.DatabaseServiceObjective)")
     }
+    $ImportParams.Properties = $PropertiesList.ToArray()
     
     $Params = Get-DeepClone $BaseParams
     $Params.DatabaseName = $NewDatabaseName
+    $Params.TrustedConnection = $UseTrustedConnection
+    $Params.OutputCommandOnly = $OutputCommandOnly
+    $Params.LogPath = $LogPath
     
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings"
-    Invoke-SqlPackage @Params @ImportParams -TrustedConnection $UseTrustedConnection -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+    Invoke-SqlPackage @Params @ImportParams -ShowOriginalProgress:$ShowOriginalProgress
 
     if ($OutputCommandOnly) { return }
 
