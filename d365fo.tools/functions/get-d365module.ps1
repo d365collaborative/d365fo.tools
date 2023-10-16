@@ -161,7 +161,12 @@ function Get-D365Module {
 
             Write-PSFMessage -Level Verbose -Message "MetadataProvider initialized." -Target $metadataProviderViaDisk
 
-            $diskModules = $metadataProviderViaDisk.ModelManifest.ListModulesInDependencyOrder()
+            try {
+                $diskModules = $metadataProviderViaDisk.ModelManifest.ListModulesInDependencyOrder()
+            } catch {
+                Write-PSFMessage -Level Warning -Message "Failed to retrieve disk modules in dependency order. Falling back to ListModules()." -Target $metadataProviderViaDisk
+                $diskModules = $metadataProviderViaDisk.ModelManifest.ListModules()
+            }
 
             foreach ($module in $modules) {
                 if ($diskModules.Name -NotContains $module.Name) {

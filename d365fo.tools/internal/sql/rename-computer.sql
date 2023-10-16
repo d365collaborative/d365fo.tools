@@ -1,8 +1,8 @@
 ﻿BEGIN TRY
-	EXEC sp_dropserver [@OldComputerName];
+	EXEC sp_dropserver @@SERVERNAME;
 END TRY
 BEGIN CATCH
-	PRINT '@OldComputerName could not be dropped!'
+	PRINT 'Old SQL server name could not be dropped!'
 END CATCH
 
 EXEC sp_addserver [@NewComputerName], local;

@@ -18,7 +18,7 @@ Import-D365Bacpac [-ImportModeTier1] [[-DatabaseServer] <String>] [[-DatabaseNam
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [-BacpacFile] <String> [-NewDatabaseName] <String>
  [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>] [-ImportOnly]
  [-MaxParallelism <Int32>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
- [<CommonParameters>]
+ [-Properties <String[]>] [<CommonParameters>]
 ```
 
 ### ImportOnlyTier2
@@ -29,7 +29,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [[-AxMrRuntimeUserPwd] <String>] [[-AxRetailRuntimeUserPwd] <String>] [[-AxRetailDataSyncUserPwd] <String>]
  [[-AxDbReadonlyUserPwd] <String>] [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
  [-ImportOnly] [-MaxParallelism <Int32>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
- [-EnableException] [<CommonParameters>]
+ [-EnableException] [-Properties <String[]>] [<CommonParameters>]
 ```
 
 ### ImportTier2
@@ -40,7 +40,7 @@ Import-D365Bacpac [-ImportModeTier2] [[-DatabaseServer] <String>] [[-DatabaseNam
  [-AxMrRuntimeUserPwd] <String> [-AxRetailRuntimeUserPwd] <String> [-AxRetailDataSyncUserPwd] <String>
  [-AxDbReadonlyUserPwd] <String> [-CustomSqlFile <String>] [-ModelFile <String>] [-DiagnosticFile <String>]
  [-MaxParallelism <Int32>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-EnableException]
- [<CommonParameters>]
+ [-Properties <String[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -113,6 +113,18 @@ No cleanup or prepping jobs will be executed, because this is for importing only
 
 This would be something that you can use when extract a bacpac file from a Tier1 and want to import it into a Tier1.
 You would still need to execute the Switch-D365ActiveDatabase cmdlet, to get the newly imported database to be the AXDB database.
+
+### EXAMPLE 7
+```
+[System.Collections.ArrayList] $PropertiesList = New-Object -TypeName "System.Collections.ArrayList"
+```
+
+PS C:\\\> $PropertiesList.Add("DisableIndexesForDataPhase=false")
+PS C:\\\> Import-D365Bacpac -ImportModeTier1 -BacpacFile "C:\temp\uat.bacpac" -NewDatabaseName "ImportedDatabase" -Properties $PropertiesList.ToArray()
+
+This will instruct the cmdlet that the import will be working against a SQL Server instance.
+It will import the "C:\temp\uat.bacpac" file into a new database named "ImportedDatabase".
+It will use the DisableIndexesForDataPhase SQLPackage property to disable the index rebuild during the data phase of the import.
 
 ## PARAMETERS
 
@@ -618,6 +630,23 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Properties
+String array of properties to be used by SQLPackage.exe
+See https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-import#properties-specific-to-the-import-action for more information.
+Note that some properties are already set by the cmdlet, and cannot be overridden.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
