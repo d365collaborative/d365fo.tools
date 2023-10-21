@@ -326,11 +326,14 @@ function Import-D365Bacpac {
     $Params = Get-DeepClone $BaseParams
     $Params.DatabaseName = $NewDatabaseName
     $Params.TrustedConnection = $UseTrustedConnection
-    $Params.OutputCommandOnly = $OutputCommandOnly
-    $Params.LogPath = $LogPath
+
+    $SqlPackageParams = Get-DeepClone $Params
+    $SqlPackageParams.OutputCommandOnly = $OutputCommandOnly
+    $SqlPackageParams.LogPath = $LogPath
+    $SqlPackageParams.ShowOriginalProgress = $ShowOriginalProgress
     
     Write-PSFMessage -Level Verbose "Start importing the bacpac with a new database name and current settings"
-    Invoke-SqlPackage @Params @ImportParams -ShowOriginalProgress:$ShowOriginalProgress
+    Invoke-SqlPackage @SqlPackageParams @ImportParams
 
     if ($OutputCommandOnly) { return }
 
@@ -363,14 +366,14 @@ function Import-D365Bacpac {
     else {
         Write-PSFMessage -Level Verbose "Building sql statement to update the imported SQL database"
 
-        $res = Set-SqlBacpacValues @Params -TrustedConnection $UseTrustedConnection
+        $res = Set-SqlBacpacValues @Params
             
         if (-not ($res)) { return }
     }
 
     if ($ExecuteCustomSQL) {
         Write-PSFMessage -Level Verbose -Message "Invoking the Execution of custom SQL script"
-        $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile -TrustedConnection $UseTrustedConnection
+        $res = Invoke-D365SqlScript @Params -FilePath $CustomSqlFile
 
         if (-not ($res)) { return }
     }
