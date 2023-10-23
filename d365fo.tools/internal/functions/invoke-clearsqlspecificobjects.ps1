@@ -63,7 +63,10 @@ Function Invoke-ClearSqlSpecificObjects {
         [switch] $EnableException
     )
     
-    $sqlCommand = Get-SQLCommand @PsBoundParameters
+    $Params = Get-DeepClone $PSBoundParameters
+    if($Params.ContainsKey("EnableException")){$null = $Params.Remove("EnableException")}
+
+    $sqlCommand = Get-SqlCommand @Params
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\clear-sqlbacpacdatabase.sql") -join [Environment]::NewLine
 

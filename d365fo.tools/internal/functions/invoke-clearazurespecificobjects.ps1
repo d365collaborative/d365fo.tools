@@ -57,7 +57,10 @@ Function Invoke-ClearAzureSpecificObjects {
         [switch] $EnableException
     )
         
-    $sqlCommand = Get-SQLCommand @PsBoundParameters -TrustedConnection $false
+    $Params = Get-DeepClone $PSBoundParameters
+    if($Params.ContainsKey("EnableException")){$null = $Params.Remove("EnableException")}
+
+    $sqlCommand = Get-SqlCommand @Params -TrustedConnection $false
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\clear-azurebacpacdatabase.sql") -join [Environment]::NewLine
 
