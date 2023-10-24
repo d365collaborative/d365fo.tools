@@ -62,7 +62,10 @@ function Get-InstanceValues {
         [switch] $EnableException
     )
         
-    $sqlCommand = Get-SqlCommand @PsBoundParameters
+    $Params = Get-DeepClone $PSBoundParameters
+    if($Params.ContainsKey("EnableException")){$null = $Params.Remove("EnableException")}
+
+    $sqlCommand = Get-SqlCommand @Params
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\get-instancevalues.sql") -join [Environment]::NewLine
 

@@ -73,14 +73,14 @@ function Invoke-D365InstallSqlPackage {
     )
 
     if (-not $SkipExtractFromPage) {
-        $content = (Invoke-WebRequest -Uri "https://docs.microsoft.com/en-us/sql/tools/sqlpackage-download" -UseBasicParsing).content
+        $content = (Invoke-WebRequest -Uri "https://learn.microsoft.com/en-us/sql/tools/sqlpackage-download" -UseBasicParsing).content
         $res = $content -match '<td.*>Windows .NET Core<.*/td>\s*<td.*><a href="(https://.*)" .*'
         
         if ($res) {
             $Url = ([string]$Matches[1]).Trim()
         }
         else {
-            Write-PSFMessage -Level Host -Message "Parsing the web page didn't succeed. Will fall back to the download url." -Target "https://docs.microsoft.com/en-us/sql/tools/sqlpackage-download"
+            Write-PSFMessage -Level Host -Message "Parsing the web page didn't succeed. Will fall back to the download url." -Target "https://learn.microsoft.com/en-us/sql/tools/sqlpackage-download"
         }
     }
 

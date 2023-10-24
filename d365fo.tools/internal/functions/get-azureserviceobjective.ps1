@@ -53,8 +53,11 @@ function Get-AzureServiceObjective {
 
         [switch] $EnableException
     )
-        
-    $sqlCommand = Get-SqlCommand @PsBoundParameters -TrustedConnection $false
+    
+    $Params = Get-DeepClone $PSBoundParameters
+    if($Params.ContainsKey("EnableException")){$null = $Params.Remove("EnableException")}
+
+    $sqlCommand = Get-SqlCommand @Params -TrustedConnection $false
 
     $commandText = (Get-Content "$script:ModuleRoot\internal\sql\get-azureserviceobjective.sql") -join [Environment]::NewLine
 
