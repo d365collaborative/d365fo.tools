@@ -23,6 +23,10 @@
         
         $true will make RSAT start adding the operation options in the excel parameter file
         $false will stop RSAT from adding the operation options in the excel parameter file
+
+    .PARAMETER RSATConfigFilename
+        Specifies the file name of the RSAT configuration file. Default is 'Microsoft.Dynamics.RegressionSuite.WpfApp.exe.config'
+        If you are using an older version of RSAT, you might need to change this to 'Microsoft.Dynamics.RegressionSuite.WindowsApp.exe.config'
         
     .EXAMPLE
         PS C:\> Set-D365RsatConfiguration -LogGenerationEnabled $true
@@ -58,14 +62,17 @@ function Set-D365RsatConfiguration {
         [bool] $VerboseSnapshotsEnabled,
 
         [Parameter(Mandatory = $false)]
-        [bool] $AddOperatorFieldsToExcelValidationEnabled
+        [bool] $AddOperatorFieldsToExcelValidationEnabled,
+
+        [Parameter(Mandatory = $false)]
+        $RSATConfigFilename = "Microsoft.Dynamics.RegressionSuite.WpfApp.exe.config"
     )
 
-    $configPath = Join-Path $Script:RsatPath "Microsoft.Dynamics.RegressionSuite.WindowsApp.exe.config"
+    $configPath = Join-Path $Script:RsatPath $RSATConfigFilename
 
     if (-not (Test-PathExists -Path $configPath -Type Leaf)) {
-        Write-PSFMessage -Level Critical -Message "The 'Microsoft.Dynamics.RegressionSuite.WindowsApp.exe.config' file could not be found on the system."
-        Stop-PSFFunction -Message  "Stopping because the 'Microsoft.Dynamics.RegressionSuite.WindowsApp.exe.config' file could not be located."
+        Write-PSFMessage -Level Critical -Message "The '$RSATConfigFilename' file could not be found on the system."
+        Stop-PSFFunction -Message  "Stopping because the '$RSATConfigFilename' file could not be located."
         return
     }
 
@@ -74,17 +81,23 @@ function Set-D365RsatConfiguration {
 
         if ($PSBoundParameters.Keys -contains "LogGenerationEnabled") {
             $logGenerationAttribute = $xmlConfig.SelectNodes('//appSettings//add[@key="LogGeneration"]')
-            $logGenerationAttribute.SetAttribute('value', $LogGenerationEnabled.ToString().ToLower())
+            if ($logGenerationAttribute) {
+                $logGenerationAttribute.SetAttribute('value', $LogGenerationEnabled.ToString().ToLower())
+            }
         }
 
         if ($PSBoundParameters.Keys -contains "VerboseSnapshotsEnabled") {
             $verboseSnapshotsAttribute = $xmlConfig.SelectNodes('//appSettings//add[@key="VerboseSnapshotsEnabled"]')
-            $verboseSnapshotsAttribute.SetAttribute('value', $VerboseSnapshotsEnabled.ToString().ToLower())
+            if ($verboseSnapshotsAttribute) {
+                $verboseSnapshotsAttribute.SetAttribute('value', $VerboseSnapshotsEnabled.ToString().ToLower())
+            }
         }
 
         if ($PSBoundParameters.Keys -contains "AddOperatorFieldsToExcelValidationEnabled") {
             $addOperatorFieldsToExcelValidationAttribute = $xmlConfig.SelectNodes('//appSettings//add[@key="AddOperatorFieldsToExcelValidation"]')
-            $addOperatorFieldsToExcelValidationAttribute.SetAttribute('value', $AddOperatorFieldsToExcelValidationEnabled.ToString().ToLower())
+            if ($addOperatorFieldsToExcelValidationAttribute) {
+                $addOperatorFieldsToExcelValidationAttribute.SetAttribute('value', $AddOperatorFieldsToExcelValidationEnabled.ToString().ToLower())
+            }
         }
 
         $xmlConfig.Save($configPath)
