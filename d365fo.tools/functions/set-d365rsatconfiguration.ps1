@@ -23,7 +23,7 @@
         
         $true will make RSAT start adding the operation options in the excel parameter file
         $false will stop RSAT from adding the operation options in the excel parameter file
-
+        
     .PARAMETER RSATConfigFilename
         Specifies the file name of the RSAT configuration file. Default is 'Microsoft.Dynamics.RegressionSuite.WpfApp.exe.config'
         If you are using an older version of RSAT, you might need to change this to 'Microsoft.Dynamics.RegressionSuite.WindowsApp.exe.config'

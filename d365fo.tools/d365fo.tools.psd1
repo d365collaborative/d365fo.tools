@@ -156,6 +156,7 @@
 		'Get-D365RunbookLogFile',
 
 		'Get-D365SDPCleanUp',
+		'Get-D365SDPDetails',
 
 		'Get-D365Table',
 		'Get-D365TableField',
