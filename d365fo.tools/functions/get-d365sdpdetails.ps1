@@ -54,6 +54,7 @@
 #>#
 function Get-D365SDPDetails {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     param (
         [Parameter(Mandatory = $True)]
         [Alias('File')]
