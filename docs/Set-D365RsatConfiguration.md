@@ -14,7 +14,7 @@ Set different RSAT configuration values
 
 ```
 Set-D365RsatConfiguration [[-LogGenerationEnabled] <Boolean>] [[-VerboseSnapshotsEnabled] <Boolean>]
- [[-AddOperatorFieldsToExcelValidationEnabled] <Boolean>] [<CommonParameters>]
+ [[-AddOperatorFieldsToExcelValidationEnabled] <Boolean>] [[-RSATConfigFilename] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -95,6 +95,23 @@ Aliases:
 Required: False
 Position: 3
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RSATConfigFilename
+Specifies the file name of the RSAT configuration file.
+Default is 'Microsoft.Dynamics.RegressionSuite.WpfApp.exe.config'
+If you are using an older version of RSAT, you might need to change this to 'Microsoft.Dynamics.RegressionSuite.WindowsApp.exe.config'
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: Microsoft.Dynamics.RegressionSuite.WpfApp.exe.config
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.7.4'
+	ModuleVersion     = '0.7.5'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -156,6 +156,7 @@
 		'Get-D365RunbookLogFile',
 
 		'Get-D365SDPCleanUp',
+		'Get-D365SDPDetails',
 
 		'Get-D365Table',
 		'Get-D365TableField',
