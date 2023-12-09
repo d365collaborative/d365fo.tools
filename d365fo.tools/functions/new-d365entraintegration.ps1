@@ -1,186 +1,244 @@
 <#
-  .SYNOPSIS
-  Enable Microsoft Entra ID integrations. Run the script on a CHE server.
-  https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-tools/secure-developer-vm#set-up-a-new-application-and-certificate-registration
+    .SYNOPSIS
+        Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).
 
-  .DESCRIPTION
-  The CHEauth.ps1 script generates a selfsigned certificate, installs it to certstore "LocalMachine", grants NetworkService READ permission to it and exports the certificate for Azure application ID to Desktop
-  and updates the web.config with application ID together with thumbprint of certificate.
-  Create an Azure application with API permissions: Dynamics ERP – This permission is required to access finance and operations environments, Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type)
-  Add Env FO URL to RedirectURI in Authentication in the Azure Application.
-  
-  .PARAMETER appID
-  Specifies the Azure application ID. This is hardcoded and not checked in Microsoft Entra!
+    .DESCRIPTION
+        Enable the Microsoft Entra ID integration by executing some of the steps described in https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-tools/secure-developer-vm#external-integrations.
+        The steps executed are:
+            1. Create a self-signed certificate and save it to Desktop or use a provided certificate.
+            2. Install the certificate to the "LocalMachine" certificate store.
+            3. Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
+            4. Update the web.config with the application ID and the thumbprint of the certificate.
+        To execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:
+            a. Dynamics ERP – This permission is required to access finance and operations environments.
+            b. Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
+        The URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.
+        Finally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.
 
-  .PARAMETER certName
-  Specifies the name for the certificate.
-  By default, it's named "CHEAuth"
+    .Parameter ExistingCertificateFile
+        The path to a certificate file. If this parameter is provided, the cmdlet will not create a new certificate.
+    
+    .PARAMETER ClientId
+        The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal.
+        It is assumed that an application with this id already exists in Azure.
 
-  .PARAMETER certExpire
-  Specifies the expiration date for the certificate.
-  By default it's 2 years
+    .PARAMETER CertificateName
+        The name for the certificate. By default, it is named "CHEAuth".
 
-  .OUTPUTS
-  A certificate to Desktop of the current user that must be uploaded to the Application ID
+    .PARAMETER CertificateExpirationYears
+        The number of years the certificate is valid. By default, it is valid for 2 years.
 
-  .EXAMPLE
-  PS> .\CHEauth.ps1
-  Creates a selfsigned certificate named "CHEAuth" and expires after 2 years. It will ask for appID.
+    .PARAMETER NewCertificateFile
+        The path to the certificate file that will be created. By default, it is created on the Desktop of the current user.
 
-  .EXAMPLE
-  PS> .\CHEauth.ps1 -appid 3485734867345786736 -certname "Selfsignedcert"
-  Creates a selfsigned certificate with name "Selfsignedcert" that expires after default 2 years
+    .PARAMETER Force
+        Forces the execution of some of the steps. For example, if a certificate with the same name already exists, it will be deleted and recreated.
 
-  .EXAMPLE
-  PS> .\CHEauth.ps1 -appid 3485734867345786736 -certname "Selfsignedcert" -certexpire 1
-  Creates a selfsigned certificate with name "Selfsignedcert" that expires after 1 year
+    .OUTPUTS
+    A certificate to the Desktop of the current user that must be uploaded to the Application ID.
+
+    .EXAMPLE
+        PS C:\> New-D365EntraIntegration
+
+        Creates a self-signed certificate named "CHEAuth" which expires after 2 years. 
+        It will ask for a ClientId/AppId.
+
+    .EXAMPLE
+        PS c:\> New-D365EntraIntegration -ClientId 3485734867345786736 -CertificateName "SelfsignedCert"
+
+        Creates a self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
+
+    .EXAMPLE
+        PS C:\> New-D365EntraIntegration -AppId 3485734867345786736 -CertificateName "SelfsignedCert" -CertificateExpirationYears 1
+
+        Creates a self-signed certificate with the name "SelfsignedCert" that expires after 1 year.
+
+    .NOTES
+        Author: Øystein Brenna (@oysbre)
+        Author: Florian Hopfner (@FH-Inway)
 #>
-If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
-{   
-#"No Administrative rights, it will display a popup window asking user for Admin rights"
-$arguments = "& '" + $myinvocation.mycommand.definition + "'";Start-Process "$psHome\powershell.exe" -Verb runAs -ArgumentList $arguments;break
-}
 
-#Create and Install cert in Localmachine certstore
- param (
-        [Parameter(Mandatory=$true)][string]$appID,
-        [Parameter(Mandatory = $true)]${certName[CHEauth]},
-        [Parameter(Mandatory = $true)]${certExpire[2]}
+function New-D365EntraIntegration {
+    [CmdletBinding()]
+    param (
+        
+        [Parameter(Mandatory = $true, Position = 0)]
+        [Parameter(ParameterSetName = "ExistingCertificate")]
+        [string] $ExistingCertificateFile,
+    
+        [Parameter(Mandatory = $true)]
+        [Parameter(ParameterSetName = "ExistingCertificate")]
+        [Parameter(ParameterSetName = "NewCertificate")]
+        [Alias("AppId")]
+        [string] $ClientId,
+
+        [Parameter(Mandatory = $false)]
+        [Parameter(ParameterSetName = "NewCertificate")]
+        [string]$CertificateName = "CHEAuth",
+
+        [Parameter(Mandatory = $false)]
+        [Parameter(ParameterSetName = "NewCertificate")]
+        [int]$CertificateExpirationYears = 2,
+
+        [Parameter(Mandatory = $false)]
+        [Parameter(ParameterSetName = "NewCertificate")]
+        [string] $NewCertificateFile = "$env:USERPROFILE\Desktop\$CertificateName.cer",
+
+        [Parameter(Mandatory = $false)]
+        [switch] $Force
     )
-    $certName = if (${certName[CHEauth]}) { ${certName[CHEauth]} }
-    else {
-        "CHEauth"
-    }
-    $certExpire = if (${certExpire[2]}) {  ${certExpire[2]}   }
-    else {
-        2
+
+    if (-not ($Script:IsAdminRuntime)) {
+        Write-PSFMessage -Level Critical -Message "It seems that you ran this cmdlet <c='em'>non-elevated</c>. Enabling the Entra integration requires you to run this cmdlet from an elevated console. Please exit the current console and start a new with `"Run As Administrator`""
+        Stop-PSFFunction -Message "Stopping because the function is not run elevated"
+        return
     }
 
-#----Region variables----
-$certFilepath = "$env:USERPROFILE\Desktop" ## Specify your preferred location. Desktop is default.
-$certStorelocation = "Cert:\LocalMachine\My"
-#----End Region variables----
+    $certStorelocation = "Cert:\LocalMachine\My"
+    $certThumbprint = ""
 
-#BEGIN
-CLS
-write-host "Using variables: " -ForegroundColor CYAN
-write-host '$certName: ' $($certName) -ForegroundColor Magenta
-write-host '$certExpire: ' $($certExpire) -ForegroundColor Magenta
-write-host '$certFilepath: ' $($certFilepath) -ForegroundColor Magenta
-write-host '$certStorelocation: ' $($certStorelocation) -ForegroundColor Magenta
-write-host '$appID: ' $($appID) -ForegroundColor Magenta
-write-host ""
-write-host "Check if the variables is ok." -ForegroundColor Green
+    # Steps 1 and 2: Create or use existing certificate and install it to the certificate store
 
+    # Check and install provided certificate file
+    if ($PSCmdlet.ParameterSetName -eq "ExistingCertificate") {
+        if (-not (Test-PathExists -Path $ExistingCertificateFile -Type Leaf)) {
+            Write-PSFMessage -Level Host -Message "The provided certificate file <c='em'>$ExistingCertificateFile</c> does not exist."
+            Stop-PSFFunction -Message "Stopping because the provided certificate file does not exist"
+            return
+        }
 
-if ($appID -eq ""){
-write-host 'Please provide Azure application ID in variable $appID and rerun the script' -ForegroundColor Red
-write-host 'The application need access to:' -ForegroundColor yellow
-write-host "Dynamics ERP – This permission is required to access finance and operations environments." -ForegroundColor yellow
-write-host "Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type)" -ForegroundColor yellow
-pause;exit
+        $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($ExistingCertificateFile)
+        # Check for existing certificate that has the same thumbprint as the provided certificate
+        $existingcert = Get-ChildItem -Path $certStorelocation -ErrorAction SilentlyContinue | Where-Object {$_.Thumbprint -eq $cert.Thumbprint}
+        if ($existingcert) {
+            Write-PSFMessage -Level Warning -Message "A certificate with the same thumbprint as the provided certificate <c='em'>$ExistingCertificateFile</c> already exists in <c='em'>$certStorelocation</c>."
+            if (-not $Force) {
+                Stop-PSFFunction -Message "Stopping because a certificate with the same thumbprint as the provided certificate already exists"
+                return
+                
+            }
+            Write-PSFMessage -Level Host -Message "Deleting and installing the provided certificate."
+            $existingcert | Remove-Item
+        }
+        # Install certificate
+        $certStore = New-Object System.Security.Cryptography.X509Certificates.X509Store($certStorelocation, "CurrentUser")
+        $certStore.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite)
+        $certStore.Add($cert)
+        $certStore.Close()
+        $certThumbprint = $cert.Thumbprint
+        Write-PSFMessage -Level Host -Message "Certificate <c='em'>$ExistingCertificateFile</c> installed to <c='em'>$certStorelocation</c>."
+    }
+
+    # Create and install certificate
+    if ($PSCmdlet.ParameterSetName -eq "NewCertificate") {
+        #Check for existing certificate
+        $existingcert = Get-ChildItem -Path $certStorelocation -ErrorAction SilentlyContinue | Where-Object {$_.Subject -Match "$CertificateName"}
+        if ($existingcert) {
+            Write-PSFMessage -Level Warning -Message "A certificate with name <c='em'>$CertificateName</c> already exists in <c='em'>$certStorelocation</c> with expiredate <c='em'>$($existingcert.NotAfter)</c>."
+            if (-not $Force) {
+                Stop-PSFFunction -Message "Stopping because a certificate with the same name already exists"
+                return
+            }
+            Write-PSFMessage -Level Host -Message "Deleting and re-creating the certificate."
+            $existingcert | Remove-Item
+        }
+
+        # Check for existing certificate file
+        if (Test-PathExists -Path $NewCertificateFile -Type Leaf) {
+            Write-PSFMessage -Level Warning -Message "A certificate file with the same name as the new certificate file <c='em'>$NewCertificateFile</c> already exists."
+            if (-not $Force) {
+                Stop-PSFFunction -Message "Stopping because a certificate file with the same name already exists"
+                return
+            }
+            Write-PSFMessage -Level Host -Message "The existing certificate file will be overwritten."
+        }
+
+        # Create certificate
+        $certParams = @{
+            Subject = "CN=$certname"
+            CertStoreLocation = $certStorelocation
+            KeyExportPolicy = 'Exportable'
+            KeySpec = 'Signature'
+            KeyLength = 2048
+            KeyAlgorithm = 'RSA'
+            HashAlgorithm = 'SHA256'
+            NotAfter = (Get-Date).AddYears($certExpire)
+        }
+        $cert = New-SelfSignedCertificate @certParams
+        $certThumbprint = $cert.Thumbprint
+        Export-Certificate -Cert $cert -FilePath $NewCertificateFile -Force:$Force
+        Write-PSFMessage -Level Host -Message "Certificate <c='em'>$CertificateName</c> created and saved to <c='em'>$NewCertificateFile</c>."
+    }
+
+    # Sanity checks before next steps
+    if (-not $certThumbprint) {
+        Write-PSFMessage -Level Critical -Message "Unable to get the certificate thumbprint."
+        Stop-PSFFunction -Message "Stopping because the certificate thumbprint could not be retrieved"
+        return
+    }
+    $certobj = Get-ChildItem Cert:\LocalMachine\My | Where-Object Thumbprint -eq $certThumbprint
+    if (-not $certobj) {
+        Write-PSFMessage -Level Host -Message "Unable to get the certificate object."
+        Stop-PSFFunction -Message "Stopping because the certificate object could not be retrieved"
+        return
+    }
+
+    # Step 3: Grant NetworkService READ permission to the certificate by setting ACL rights
+    # Check if on cloud-hosted environment
+    if ($Script:EnvironmentType -eq [EnvironmentType]::AzureHostedTier1) {
+        # Get private key container name
+        $privatekey = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPrivateKey($CertObj)
+        $containerName = ""
+        if ($privateKey.GetType().Name -ieq "RSACng") {
+            $containerName = $privateKey.Key.UniqueName
+        }
+        else {
+            $containerName = $privateKey.CspKeyContainerInfo.UniqueKeyContainerName
+        }
+        $keyFullPath = $env:ProgramData + "\Microsoft\Crypto\RSA\MachineKeys\" + $containerName;
+        if (-not (Test-PathExists -Path $keyFullPath -PathType Leaf)) {
+            Write-PSFMessage -Level Host -Message "Unable to get the private key container to set read permission for NetworkService."
+            Stop-PSFFunction -Message "Stopping because the private key container to set read permission for NetworkService could not be retrieved"
+        }
+        # Grant NetworkService account access to certificate if it does not already have it
+        $networkServiceSID = New-Object System.Security.Principal.SecurityIdentifier([System.Security.Principal.WellKnownSidType]::NetworkServiceSid, $null)
+        $permissions = (Get-Item $keyFullPath).GetAccessControl()
+        $newRuleSet = 0
+        $identityNetwork = $permissions.access `
+            | Where-Object {$_.identityreference -eq "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)"} `
+            | Select-Object
+        if ($identityNetwork.IdentityReference -ne "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)") {
+            $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, 'FullControl', 'None', 'None', 'Allow')
+            $permissions.AddAccessRule($rule1)
+            $newRuleSet = 1
+            Write-PSFMessage -Level Host -Message "Added NetworkService with FULLCONTROL access to certificate"
+        }
+        elseif ($identityNetwork.FileSystemRights -ne 'FullControl') {
+            $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, 'FullControl', 'None', 'None', 'Allow')
+            $permissions.AddAccessRule($rule1)
+            $newRuleSet = 1
+            Write-PSFMessage -Level Host -Message "Gave NetworkService FULLCONTROL access to certificate"
+        }
+        if ($newRuleSet -eq 1){
+            Set-Acl -Path $keyFullPath -AclObject $permissions
+        }
+    }
+
+    # Step 4: Update web.config
+    $webConfigFile = Join-Path -path $Script:AOSPath $Script:WebConfig
+    Backup-D365WebConfig
+    if (-not (Test-PathExists -Path $webConfigFile -PathType Leaf)) {
+        Write-PSFMessage -Level Host -Message "Unable to find the web.config file."
+        Stop-PSFFunction -Message "Stopping because the web.config file could not be found"
+    }
+    [xml]$xml = Get-Content $webConfigFile
+    $nodes = ($xml.configuration.appSettings).ChildNodes
+    $aadRealm = $nodes | Where-Object -Property Key -eq "Aad.Realm"
+    $aadRealm.value = "spn:$ClientId"
+    $infraThumb = $nodes | Where-Object -Property Key -eq "Infrastructure.S2ScertThumbprint"
+    $infraThumb.value = $certThumbprint
+    $graphThumb = $nodes | Where-Object -Property Key -eq "GraphApi.GraphAPIServicePrincipalCert"
+    $graphThumb.value = $certThumbprint
+    $xml.Save($webConfigFile)
+    Write-PSFMessage -Level Host -Message "web.config was updated with the application ID and the thumbprint of the certificate."
 }
-
-#Check for existsting cert
-$existingcert = Get-ChildItem -Path $certStorelocation -ea 0 | Where-Object {$_.Subject -Match "$certname"} # | Select-Object Thumbprint, FriendlyName
-if ($existingcert){
-write-host "A certificate with name $($certName) already exists in $($certStorelocation) with expiredate $($existingcert.notafter). Delete and re-create? " -ForegroundColor yellow;$certDel = read-host
-    if ($certDel -eq 'y'){
-        $existingcert| Remove-Item
-    }
-    else {write-host "Existing cert found in certstore. Cannot continue. Exiting.";pause;exit }
-}#end if check existing cert
-
-if (test-path "$certFilepath\$certname.cer"){
-    write-host "Certfile already exists. Delete?" -ForegroundColor yellow;$certDelFile = read-host
-    if ($certDelFile -eq 'y'){
-        remove-item  "$certFilepath\$certname.cer" -force
-    }
-    else {write-host "Existing certfile found. Cannot continue. Exiting.";pause;exit }
-}#end if check existing certfile
-
-#Create cert
-Write-host "Create, install and export cert $($certName) for Azure application ID $($appid) ?" -ForegroundColor CYAN ;$certAns = read-host
-if ($certAns -eq "y"){
-    write-host "Creating selfsigned cert $($certname) with $($certExpire) years expiration date..." -foregroundcolor yellow
-    $cert = New-SelfSignedCertificate -Subject "CN=$certname" -CertStoreLocation $certStorelocation -KeyExportPolicy Exportable -KeySpec Signature -KeyLength 2048 -KeyAlgorithm RSA -HashAlgorithm SHA256 -NotAfter (get-date).AddYears($certExpire)
-    write-host "Exporting cert $($certname)" -foregroundcolor yellow
-    Export-Certificate -Cert $cert -FilePath "$certFilepath\$certname.cer"   
-    $certthumbprint = $cert.Thumbprint
-    write-host "Thumprint: " $certthumbprint
-    write-host ""
-    
-    #Set ACL rights
-    $certobj = Get-ChildItem Cert:\LocalMachine\My | Where-Object Thumbprint -eq $certthumbprint
-    $privatekey = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPrivateKey($CertObj)
-    $containerName = ""
-    if ($privateKey.GetType().Name -ieq "RSACng") {
-        $containerName = $privateKey.Key.UniqueName
-    }
-    else {
-        $containerName = $privateKey.CspKeyContainerInfo.UniqueKeyContainerName
-    }
-
-    $keyFullPath =  $env:ProgramData + "\Microsoft\Crypto\RSA\MachineKeys\" + $containerName;
-    if (-Not (Test-Path -Path $keyFullPath -PathType Leaf)) {
-        throw "Unable to get the privatekey container to set permissions."
-    }
-
-    #Grant NetworkService account access to cert
-    $networkServiceSID = New-Object System.Security.Principal.SecurityIdentifier([System.Security.Principal.WellKnownSidType]::NetworkServiceSid, $null)
-    $permissions = (Get-Item $keyFullPath).GetAccessControl()
-    $newruleset = 0
-    $identnetwork = $permissions.access | where-object {$_.identityreference -eq "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)"} | select
-    if($identnetwork.IdentityReference -ne "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)"){
-        $rule1 = new-object security.accesscontrol.filesystemaccessrule($networkServiceSID, 'FullControl', 'None', 'None', 'Allow')
-        $permissions.AddAccessRule($rule1)
-        $newruleset = 1
-        write-host "Added NetworkService with FULLCONTROL access to cert" -ForegroundColor Yellow
-    }
-    else {
-    if ($identnetwork.FileSystemRights -ne 'FullControl'){
-        $rule1 = new-object security.accesscontrol.filesystemaccessrule($networkServiceSID, 'FullControl', 'None', 'None', 'Allow')
-        $permissions.AddAccessRule($rule1)
-        $newruleset = 1
-        write-host "Gave NetworkService FULLCONTROL access to cert" -ForegroundColor Yellow
-    }    
-    }
-
-    #set permissions rules if updated
-    if ($newruleset -eq 1){
-        Set-Acl -Path $keyFullPath -AclObject $permissions
-    }
-    
-    write-host ""
-    write-host "Selfsigned cert installed. Upload the cert $($certName) to Azure Application id $($appid)" -ForegroundColor green
-    write-host "In the Microsoft Entra admin center, in App registrations, select your application $($appID)." -ForegroundColor Yellow
-    write-host "Select Certificates & secrets > Certificates > Upload certificate." -ForegroundColor Yellow
-    write-host "Select the file you want to upload. It must be one of the following file types: .cer, .pem, .crt." -ForegroundColor Yellow
-    write-host "Select Add." -ForegroundColor Yellow
-    write-host ""
-
-    #update web.config
-    write-host "Enabling certauth in D365..." -ForegroundColor Yellow
-    if (test-path "$env:servicedrive\AOSService\Webroot\web.config"){
-        write-host 'Creating a backup of "$($env:servicedrive\AOSService\Webroot\web.config)' -ForegroundColor yellow
-        copy-item "$env:servicedrive\AOSService\Webroot\web.config" -destination "$env:servicedrive\AOSService\Webroot\web.config_$((Get-Date).tostring("dd-MMM-yyyy"))"
-        [xml]$xml = Get-Content "$env:servicedrive\AOSService\Webroot\web.config"
-        if ($xml.SelectNodes('//add[@key="Aad.Realm"]/@value') -ne "spn:$appID"){
-            $nodes = ($xml.configuration.appSettings).ChildNodes
-            $clientid = $nodes | Where-object -Property Key -eq "Aad.Realm"
-            $clientid.value = "spn:$appID"
-            $InfraThumb = $nodes | Where-object -Property Key -eq "Infrastructure.S2SCertThumbprint"
-            $InfraThumb.value = $certthumbprint
-            $GraphThumb = $nodes | Where-object -Property Key -eq "GraphApi.GraphAPIServicePrincipalCert"
-            $GraphThumb.value = $certthumbprint
-            $xml.Save("$env:servicedrive\AOSService\Webroot\web.config")
-            write-host "Aad.Realm set. Import of users should now be enabled." -ForegroundColor green
-        }#xml select nodes
-    }#end if test-path xml file
-    else {write-host 'AOSService drive not found! Are you running the script on a CHE environment ?' -ForegroundColor red}
-
-
-}#end if $certAns
-else {write-host "Skipped creating cert." -ForegroundColor green}
-
-start-sleep -s 20
