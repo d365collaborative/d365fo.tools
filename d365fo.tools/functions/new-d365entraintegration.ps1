@@ -35,23 +35,34 @@
         Forces the execution of some of the steps. For example, if a certificate with the same name already exists, it will be deleted and recreated.
 
     .OUTPUTS
-    A certificate to the Desktop of the current user that must be uploaded to the Application ID.
+        If a new certificate is created, the certificate file is placed on the Desktop of the current user.
+        It must be uploaded to the Azure Application.
 
     .EXAMPLE
         PS C:\> New-D365EntraIntegration
 
-        Creates a self-signed certificate named "CHEAuth" which expires after 2 years. 
+        Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years. 
         It will ask for a ClientId/AppId.
+
+    .EXAMPLE
+        PS C:\> New-D365EntraIntegration -ClientId 3485734867345786736
+
+        Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years. 
 
     .EXAMPLE
         PS c:\> New-D365EntraIntegration -ClientId 3485734867345786736 -CertificateName "SelfsignedCert"
 
-        Creates a self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
+        Enables the Entra ID integration with a new self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
 
     .EXAMPLE
         PS C:\> New-D365EntraIntegration -AppId 3485734867345786736 -CertificateName "SelfsignedCert" -CertificateExpirationYears 1
 
-        Creates a self-signed certificate with the name "SelfsignedCert" that expires after 1 year.
+        Enables the Entra ID integration with a new self-signed certificate with the name "SelfsignedCert" that expires after 1 year.
+
+    .EXAMPLE
+        PS C:\> New-D365EntraIntegration -AppId 3485734867345786736 -ExistingCertificateFile "C:\Temp\SelfsignedCert.cer"
+
+        Enables the Entra ID integration with the certificate file "C:\Temp\SelfsignedCert.cer"
 
     .NOTES
         Author: Øystein Brenna (@oysbre)
