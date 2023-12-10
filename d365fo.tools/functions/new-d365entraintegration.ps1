@@ -99,8 +99,8 @@ function New-D365EntraIntegration {
         return
     }
 
-    $certStorelocation = "Cert:\LocalMachine\My"
-    $certThumbprint = ""
+    $certificateStoreLocation = "Cert:\LocalMachine\My"
+    $certificateThumbprint = ""
 
     # Steps 1 and 2: Create or use existing certificate and install it to the certificate store
 
@@ -112,40 +112,37 @@ function New-D365EntraIntegration {
             return
         }
 
-        $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($ExistingCertificateFile)
+        $certificate = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($ExistingCertificateFile)
         # Check for existing certificate that has the same thumbprint as the provided certificate
-        $existingcert = Get-ChildItem -Path $certStorelocation -ErrorAction SilentlyContinue | Where-Object {$_.Thumbprint -eq $cert.Thumbprint}
-        if ($existingcert) {
-            Write-PSFMessage -Level Warning -Message "A certificate with the same thumbprint as the provided certificate <c='em'>$ExistingCertificateFile</c> already exists in <c='em'>$certStorelocation</c>."
+        $existingCertificate = Get-ChildItem -Path $certificateStoreLocation -ErrorAction SilentlyContinue | Where-Object {$_.Thumbprint -eq $certificate.Thumbprint}
+        if ($existingCertificate) {
+            Write-PSFMessage -Level Warning -Message "A certificate with the same thumbprint as the provided certificate <c='em'>$ExistingCertificateFile</c> already exists in <c='em'>$certificateStoreLocation</c>."
             if (-not $Force) {
                 Stop-PSFFunction -Message "Stopping because a certificate with the same thumbprint as the provided certificate already exists"
                 return
                 
             }
             Write-PSFMessage -Level Host -Message "Deleting and installing the provided certificate."
-            $existingcert | Remove-Item
+            $existingCertificate | Remove-Item
         }
         # Install certificate
-        $certStore = New-Object System.Security.Cryptography.X509Certificates.X509Store($certStorelocation, "CurrentUser")
-        $certStore.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite)
-        $certStore.Add($cert)
-        $certStore.Close()
-        $certThumbprint = $cert.Thumbprint
-        Write-PSFMessage -Level Host -Message "Certificate <c='em'>$ExistingCertificateFile</c> installed to <c='em'>$certStorelocation</c>."
+        $certificate = Import-Certificate -FilePath $ExistingCertificateFile -CertStoreLocation $certificateStoreLocation
+        $certificateThumbprint = $certificate.Thumbprint
+        Write-PSFMessage -Level Host -Message "Certificate <c='em'>$ExistingCertificateFile</c> installed to <c='em'>$certificateStoreLocation</c>."
     }
 
     # Create and install certificate
     if ($PSCmdlet.ParameterSetName -eq "NewCertificate") {
         #Check for existing certificate
-        $existingcert = Get-ChildItem -Path $certStorelocation -ErrorAction SilentlyContinue | Where-Object {$_.Subject -Match "$CertificateName"}
-        if ($existingcert) {
-            Write-PSFMessage -Level Warning -Message "A certificate with name <c='em'>$CertificateName</c> already exists in <c='em'>$certStorelocation</c> with expiredate <c='em'>$($existingcert.NotAfter)</c>."
+        $existingCertificate = Get-ChildItem -Path $certificateStoreLocation -ErrorAction SilentlyContinue | Where-Object {$_.Subject -Match "$CertificateName"}
+        if ($existingCertificate) {
+            Write-PSFMessage -Level Warning -Message "A certificate with name <c='em'>$CertificateName</c> already exists in <c='em'>$certificateStoreLocation</c> with expiration date <c='em'>$($existingCertificate.NotAfter)</c>."
             if (-not $Force) {
                 Stop-PSFFunction -Message "Stopping because a certificate with the same name already exists"
                 return
             }
             Write-PSFMessage -Level Host -Message "Deleting and re-creating the certificate."
-            $existingcert | Remove-Item
+            $existingCertificate | Remove-Item
         }
 
         # Check for existing certificate file
@@ -159,30 +156,30 @@ function New-D365EntraIntegration {
         }
 
         # Create certificate
-        $certParams = @{
-            Subject = "CN=$certname"
-            CertStoreLocation = $certStorelocation
+        $certificateParams = @{
+            Subject = "CN=$CertificateName"
+            CertStoreLocation = $certificateStoreLocation
             KeyExportPolicy = 'Exportable'
             KeySpec = 'Signature'
             KeyLength = 2048
             KeyAlgorithm = 'RSA'
             HashAlgorithm = 'SHA256'
-            NotAfter = (Get-Date).AddYears($certExpire)
+            NotAfter = (Get-Date).AddYears($CertificateExpirationYears)
         }
-        $cert = New-SelfSignedCertificate @certParams
-        $certThumbprint = $cert.Thumbprint
-        Export-Certificate -Cert $cert -FilePath $NewCertificateFile -Force:$Force
+        $certificate = New-SelfSignedCertificate @certificateParams
+        $certificateThumbprint = $certificate.Thumbprint
+        $null = Export-Certificate -Cert $certificate -FilePath $NewCertificateFile -Force:$Force
         Write-PSFMessage -Level Host -Message "Certificate <c='em'>$CertificateName</c> created and saved to <c='em'>$NewCertificateFile</c>."
     }
 
     # Sanity checks before next steps
-    if (-not $certThumbprint) {
-        Write-PSFMessage -Level Critical -Message "Unable to get the certificate thumbprint."
+    if (-not $certificateThumbprint) {
+        Write-PSFMessage -Level Host -Message "Unable to get the certificate thumbprint."
         Stop-PSFFunction -Message "Stopping because the certificate thumbprint could not be retrieved"
         return
     }
-    $certobj = Get-ChildItem Cert:\LocalMachine\My | Where-Object Thumbprint -eq $certThumbprint
-    if (-not $certobj) {
+    $certificateObject = Get-ChildItem Cert:\LocalMachine\My | Where-Object Thumbprint -eq $certificateThumbprint
+    if (-not $certificateObject) {
         Write-PSFMessage -Level Host -Message "Unable to get the certificate object."
         Stop-PSFFunction -Message "Stopping because the certificate object could not be retrieved"
         return
@@ -192,7 +189,7 @@ function New-D365EntraIntegration {
     # Check if on cloud-hosted environment
     if ($Script:EnvironmentType -eq [EnvironmentType]::AzureHostedTier1) {
         # Get private key container name
-        $privatekey = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPrivateKey($CertObj)
+        $privatekey = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPrivateKey($certificateObject)
         $containerName = ""
         if ($privateKey.GetType().Name -ieq "RSACng") {
             $containerName = $privateKey.Key.UniqueName
@@ -241,9 +238,9 @@ function New-D365EntraIntegration {
     $aadRealm = $nodes | Where-Object -Property Key -eq "Aad.Realm"
     $aadRealm.value = "spn:$ClientId"
     $infraThumb = $nodes | Where-Object -Property Key -eq "Infrastructure.S2ScertThumbprint"
-    $infraThumb.value = $certThumbprint
+    $infraThumb.value = $certificateThumbprint
     $graphThumb = $nodes | Where-Object -Property Key -eq "GraphApi.GraphAPIServicePrincipalCert"
-    $graphThumb.value = $certThumbprint
+    $graphThumb.value = $certificateThumbprint
     $xml.Save($webConfigFile)
     Write-PSFMessage -Level Host -Message "web.config was updated with the application ID and the thumbprint of the certificate."
 }
