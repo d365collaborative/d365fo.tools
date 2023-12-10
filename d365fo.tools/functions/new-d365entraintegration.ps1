@@ -237,7 +237,7 @@ function New-D365EntraIntegration {
     $nodes = ($xml.configuration.appSettings).ChildNodes
     $aadRealm = $nodes | Where-Object -Property Key -eq "Aad.Realm"
     $aadRealm.value = "spn:$ClientId"
-    $infraThumb = $nodes | Where-Object -Property Key -eq "Infrastructure.S2ScertThumbprint"
+    $infraThumb = $nodes | Where-Object -Property Key -eq "Infrastructure.S2SCertThumbprint"
     $infraThumb.value = $certificateThumbprint
     $graphThumb = $nodes | Where-Object -Property Key -eq "GraphApi.GraphAPIServicePrincipalCert"
     $graphThumb.value = $certificateThumbprint
