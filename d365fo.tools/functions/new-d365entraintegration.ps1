@@ -227,9 +227,19 @@ function New-D365EntraIntegration {
     }
 
     # Step 4: Update web.config
-    $webConfigFile = Join-Path -path $Script:AOSPath $Script:WebConfig
-    Backup-D365WebConfig
-    if (-not (Test-PathExists -Path $webConfigFile -PathType Leaf)) {
+    $webConfigBackup = Join-Path $Script:DefaultTempPath "WebConfigBackup"
+    $webConfigFileBackup = Join-Path $webConfigBackup $Script:WebConfig
+    if (Test-PathExists -Path $webConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
+        Write-PSFMessage -Level Warning -Message "Backup of web.config already exists."
+        if (-not $Force) {
+            Stop-PSFFunction -Message "Stopping because a backup of web.config already exists"
+            return
+        }
+        Write-PSFMessage -Level Host -Message "Backup of web.config will be overwritten."
+    }
+    $null = Backup-D365WebConfig -Force:$Force
+    $webConfigFile = Join-Path -Path $Script:AOSPath $Script:WebConfig
+    if (-not (Test-PathExists -Path $webConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
         Write-PSFMessage -Level Host -Message "Unable to find the web.config file."
         Stop-PSFFunction -Message "Stopping because the web.config file could not be found"
     }
