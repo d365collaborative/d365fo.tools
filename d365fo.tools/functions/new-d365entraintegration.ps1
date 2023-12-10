@@ -198,7 +198,7 @@ function New-D365EntraIntegration {
             $containerName = $privateKey.CspKeyContainerInfo.UniqueKeyContainerName
         }
         $keyFullPath = $env:ProgramData + "\Microsoft\Crypto\RSA\MachineKeys\" + $containerName;
-        if (-not (Test-PathExists -Path $keyFullPath -PathType Leaf)) {
+        if (-not (Test-PathExists -Path $keyFullPath -Type Leaf)) {
             Write-PSFMessage -Level Host -Message "Unable to get the private key container to set read permission for NetworkService."
             Stop-PSFFunction -Message "Stopping because the private key container to set read permission for NetworkService could not be retrieved"
         }
