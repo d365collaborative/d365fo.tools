@@ -146,7 +146,7 @@ function New-D365EntraIntegration {
         }
 
         # Check for existing certificate file
-        if (Test-PathExists -Path $NewCertificateFile -Type Leaf) {
+        if (Test-PathExists -Path $NewCertificateFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
             Write-PSFMessage -Level Warning -Message "A certificate file with the same name as the new certificate file <c='em'>$NewCertificateFile</c> already exists."
             if (-not $Force) {
                 Stop-PSFFunction -Message "Stopping because a certificate file with the same name already exists"
@@ -243,4 +243,8 @@ function New-D365EntraIntegration {
     $graphThumb.value = $certificateThumbprint
     $xml.Save($webConfigFile)
     Write-PSFMessage -Level Host -Message "web.config was updated with the application ID and the thumbprint of the certificate."
+
+    if ($PSCmdlet.ParameterSetName -eq "NewCertificate") {
+        Write-PSFMessage -Level Host -Message "The certificate file <c='em'>$NewCertificateFile</c> must be uploaded to the Azure application, see https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app#add-a-certificate."
+    }
 }
