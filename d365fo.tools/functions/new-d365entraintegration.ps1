@@ -70,32 +70,26 @@
 #>
 
 function New-D365EntraIntegration {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = "NewCertificate")]
     param (
         
-        [Parameter(Mandatory = $true, Position = 0)]
-        [Parameter(ParameterSetName = "ExistingCertificate")]
+        [Parameter(Mandatory = $true, ParameterSetName = "ExistingCertificate")]
         [string] $ExistingCertificateFile,
     
-        [Parameter(Mandatory = $true)]
-        [Parameter(ParameterSetName = "ExistingCertificate")]
-        [Parameter(ParameterSetName = "NewCertificate")]
+        [Parameter(Mandatory = $true, ParameterSetName = "ExistingCertificate")]
+        [Parameter(Mandatory = $true, ParameterSetName = "NewCertificate")]
         [Alias("AppId")]
         [string] $ClientId,
 
-        [Parameter(Mandatory = $false)]
         [Parameter(ParameterSetName = "NewCertificate")]
         [string]$CertificateName = "CHEAuth",
 
-        [Parameter(Mandatory = $false)]
         [Parameter(ParameterSetName = "NewCertificate")]
         [int]$CertificateExpirationYears = 2,
 
-        [Parameter(Mandatory = $false)]
         [Parameter(ParameterSetName = "NewCertificate")]
         [string] $NewCertificateFile = "$env:USERPROFILE\Desktop\$CertificateName.cer",
 
-        [Parameter(Mandatory = $false)]
         [switch] $Force
     )
 
