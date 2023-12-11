@@ -252,6 +252,7 @@
 
 		'New-D365Bacpac',
 		'New-D365CAReport',
+		'New-D365EntraIntegration',
 		'New-D365ISVLicense',
 		'New-D365ModuleToRemove',
 		'New-D365TopologyFile',
