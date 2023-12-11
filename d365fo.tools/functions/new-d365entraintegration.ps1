@@ -15,12 +15,16 @@
         The URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.
         Finally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.
 
-    .Parameter ExistingCertificateFile
-        The path to a certificate file. If this parameter is provided, the cmdlet will not create a new certificate.
-    
     .PARAMETER ClientId
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal.
         It is assumed that an application with this id already exists in Azure.
+
+    .Parameter ExistingCertificateFile
+        The path to a certificate file. If this parameter is provided, the cmdlet will not create a new certificate.
+
+    .Parameter ExistingCertificatePrivateKeyFile
+        The path to a certificate private key file. 
+        If this parameter is not provided, the certificate can be installed to the certificate store, the NetworkService cannot be granted READ permission.
 
     .PARAMETER CertificateName
         The name for the certificate. By default, it is named "CHEAuth".
@@ -30,6 +34,14 @@
 
     .PARAMETER NewCertificateFile
         The path to the certificate file that will be created. By default, it is created on the Desktop of the current user.
+
+    .PARAMETER NewCertificatePrivateKeyFile
+        The path to the certificate private key file that will be created. By default, it is created on the Desktop of the current user.
+
+    .PARAMETER CertificatePassword
+        The password for the certificate private key file. 
+        If not provided when creating a new certificate, no private key file will be created.
+        If not provided when using an existing certificate, the private key file cannot be installed.
 
     .PARAMETER Force
         Forces the execution of some of the steps. For example, if a certificate with the same name already exists, it will be deleted and recreated.
@@ -73,13 +85,15 @@ function New-D365EntraIntegration {
     [CmdletBinding(DefaultParameterSetName = "NewCertificate")]
     param (
         
+        [Parameter(Mandatory = $true)]
+        [Alias("AppId")]
+        [string] $ClientId,
+
         [Parameter(Mandatory = $true, ParameterSetName = "ExistingCertificate")]
         [string] $ExistingCertificateFile,
     
-        [Parameter(Mandatory = $true, ParameterSetName = "ExistingCertificate")]
-        [Parameter(Mandatory = $true, ParameterSetName = "NewCertificate")]
-        [Alias("AppId")]
-        [string] $ClientId,
+        [Parameter(ParameterSetName = "ExistingCertificate")]
+        [string] $ExistingCertificatePrivateKeyFile,
 
         [Parameter(ParameterSetName = "NewCertificate")]
         [string]$CertificateName = "CHEAuth",
@@ -89,6 +103,11 @@ function New-D365EntraIntegration {
 
         [Parameter(ParameterSetName = "NewCertificate")]
         [string] $NewCertificateFile = "$env:USERPROFILE\Desktop\$CertificateName.cer",
+
+        [Parameter(ParameterSetName = "NewCertificate")]
+        [string] $NewCertificatePrivateKeyFile = "$env:USERPROFILE\Desktop\$CertificateName.pfx",
+
+        [Security.SecureString] $CertificatePassword,
 
         [switch] $Force
     )
@@ -112,6 +131,12 @@ function New-D365EntraIntegration {
             return
         }
 
+        if ($CertificatePassword -and -not (Test-PathExists -Path $ExistingCertificatePrivateKeyFile -Type Leaf)) {
+            Write-PSFMessage -Level Host -Message "The provided certificate private key file <c='em'>$ExistingCertificatePrivateKeyFile</c> does not exist."
+            Stop-PSFFunction -Message "Stopping because the provided certificate private key file does not exist"
+            return
+        }
+
         $certificate = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($ExistingCertificateFile)
         # Check for existing certificate that has the same thumbprint as the provided certificate
         $existingCertificate = Get-ChildItem -Path $certificateStoreLocation -ErrorAction SilentlyContinue | Where-Object {$_.Thumbprint -eq $certificate.Thumbprint}
@@ -126,6 +151,9 @@ function New-D365EntraIntegration {
             $existingCertificate | Remove-Item
         }
         # Install certificate
+        if ($CertificatePassword) {
+            $null = Import-PfxCertificate -FilePath $ExistingCertificatePrivateKeyFile -CertStoreLocation $certificateStoreLocation -Password $CertificatePassword
+        }
         $certificate = Import-Certificate -FilePath $ExistingCertificateFile -CertStoreLocation $certificateStoreLocation
         $certificateThumbprint = $certificate.Thumbprint
         Write-PSFMessage -Level Host -Message "Certificate <c='em'>$ExistingCertificateFile</c> installed to <c='em'>$certificateStoreLocation</c>."
@@ -154,6 +182,14 @@ function New-D365EntraIntegration {
             }
             Write-PSFMessage -Level Host -Message "The existing certificate file will be overwritten."
         }
+        if ($CertificatePassword -and (Test-PathExists -Path $NewCertificatePrivateKeyFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
+            Write-PSFMessage -Level Warning -Message "A certificate private key file with the same name as the new certificate private key file <c='em'>$NewCertificatePrivateKeyFile</c> already exists."
+            if (-not $Force) {
+                Stop-PSFFunction -Message "Stopping because a certificate private key file with the same name already exists"
+                return
+            }
+            Write-PSFMessage -Level Host -Message "The existing certificate private key file will be overwritten."
+        }
 
         # Create certificate
         $certificateParams = @{
@@ -170,6 +206,10 @@ function New-D365EntraIntegration {
         $certificateThumbprint = $certificate.Thumbprint
         $null = Export-Certificate -Cert $certificate -FilePath $NewCertificateFile -Force:$Force
         Write-PSFMessage -Level Host -Message "Certificate <c='em'>$CertificateName</c> created and saved to <c='em'>$NewCertificateFile</c>."
+        if ($CertificatePassword) {
+            $null = Export-PfxCertificate -Cert $certificate -FilePath $NewCertificatePrivateKeyFile -Password $CertificatePassword -Force:$Force
+            Write-PSFMessage -Level Host -Message "Certificate private key file <c='em'>$NewCertificatePrivateKeyFile</c> created."
+        }
     }
 
     # Sanity checks before next steps
