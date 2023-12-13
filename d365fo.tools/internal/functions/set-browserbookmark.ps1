@@ -22,6 +22,10 @@
     .EXAMPLE
         PS C:\> Set-BrowserBookmark -PathBrowser 'C:\Users\Admin....\AppData\Local\Microsoft\Edge\User Data\Default' -Uri 'https://devdevaos.axcloud.dynamics.com/?cmp=DAT&mi=DefaultDashboard' -Name "D365FO"
         
+        This will work against the Edge browser.
+        The bookmark will be for the 'https://devdevaos.axcloud.dynamics.com/?cmp=DAT&mi=DefaultDashboard' system.
+        The name will be "D365FO".
+
     .NOTES
         Author: Mötz Jensen (@Splaxi)
 #>
