@@ -30,6 +30,7 @@
         Author: Mötz Jensen (@Splaxi)
 #>
 function Set-BrowserBookmark {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [string] $PathBrowser,
