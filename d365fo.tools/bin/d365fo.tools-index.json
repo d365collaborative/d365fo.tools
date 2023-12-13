@@ -10526,7 +10526,7 @@
     },
     {
         "CommandName":  "Set-D365FavoriteBookmark",
-        "Description":  "Enable the favorite bar in internet explorer and put in the URL as a favorite",
+        "Description":  "Enable the favorite bar in Edge \u0026 Chrome and put in the URL as a favorite/bookmark",
         "Params":  [
                        [
                            "URL",
