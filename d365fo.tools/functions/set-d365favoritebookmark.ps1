@@ -4,7 +4,7 @@
         Enable the favorite bar and add an URL
         
     .DESCRIPTION
-        Enable the favorite bar in internet explorer and put in the URL as a favorite
+        Enable the favorite bar in Edge & Chrome and put in the URL as a favorite/bookmark
         
     .PARAMETER URL
         The URL of the shortcut you want to add to the favorite bar
@@ -45,7 +45,7 @@
 #>
 function Set-D365FavoriteBookmark {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-    [CmdletBinding(DefaultParameterSetName="D365FO")]
+    [CmdletBinding(DefaultParameterSetName = "D365FO")]
     param (
         [Parameter(ValueFromPipelineByPropertyName = $true)]
         [string] $URL,
@@ -62,30 +62,25 @@ function Set-D365FavoriteBookmark {
     
     process {
         if ($PSCmdlet.ParameterSetName -eq "D365FO") {
-            $fileName = "D365FO.url"
+            $name = "D365FO"
         }
-        else{
-            $fileName = "AzureDevOps.url"
+        else {
+            $name = "AzureDevOps"
         }
+
+        # Is edge installed?
+        $pathEdgeBase = "$($env:LOCALAPPDATA)\Microsoft\Edge\User Data\Default"
         
-        $filePath = Join-Path (Join-Path $Home "Favorites\Links") $fileName
+        if (Test-PathExists -Path $pathEdgeBase -Type Container) {
+            Set-BrowserBookmark -PathBrowser $pathEdgeBase -Uri $URL -Name $name
+        }
 
-        $pathShowBar = 'HKCU:\Software\Microsoft\Internet Explorer\MINIE\'
-        $propShowBar = 'LinksBandEnabled'
-        
-        $pathLockBar = 'HKCU:\Software\Microsoft\Internet Explorer\Toolbar\'
-        $propLockBar = 'Locked'
+        # Is chrome installed?
+        $pathChromeBase = "$($env:LOCALAPPDATA)\Google\Chrome\User Data\Default"
 
-        $value = "00000001"
-    
-        Write-PSFMessage -Level Verbose -Message "Setting the show bar and lock bar registry values."
-        Set-ItemProperty -Path $pathShowBar -Name $propShowBar -Value $value -Type "DWord"
-        Set-ItemProperty -Path $pathLockBar -Name $propLockBar -Value $value -Type "DWord"
-
-        $null = New-Item -Path $filePath -Force -ErrorAction SilentlyContinue
-
-        $LinkContent = (Get-Content "$script:ModuleRoot\internal\misc\$fileName") -Join [Environment]::NewLine
-        $LinkContent.Replace("##URL##", $URL) | Out-File $filePath -Force
+        if (Test-PathExists -Path $pathChromeBase -Type Container) {
+            Set-BrowserBookmark -PathBrowser $pathChromeBase -Uri $URL -Name $name
+        }
     }
     
     end {
