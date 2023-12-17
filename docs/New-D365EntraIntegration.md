@@ -55,34 +55,26 @@ Finally, after running the cmdlet, if a new certificate was created, it must be 
 
 ### EXAMPLE 1
 ```
-New-D365EntraIntegration
-```
-
-Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years.
-It will ask for a ClientId/AppId.
-
-### EXAMPLE 2
-```
 New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986
 ```
 
 Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years.
 
-### EXAMPLE 3
+### EXAMPLE 2
 ```
 New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert"
 ```
 
 Enables the Entra ID integration with a new self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
 
-### EXAMPLE 4
+### EXAMPLE 3
 ```
 New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert" -CertificateExpirationYears 1
 ```
 
 Enables the Entra ID integration with a new self-signed certificate with the name "SelfsignedCert" that expires after 1 year.
 
-### EXAMPLE 5
+### EXAMPLE 4
 ```
 $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
 ```
@@ -92,7 +84,7 @@ PS C:\\\> New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -
 Enables the Entra ID integration with a new self-signed certificate with the name "CHEAuth" that expires after 2 years, using the provided password to generate the private key of the certificate.
 The certificate file and the private key file are saved to the Desktop of the current user.
 
-### EXAMPLE 6
+### EXAMPLE 5
 ```
 $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
 ```
