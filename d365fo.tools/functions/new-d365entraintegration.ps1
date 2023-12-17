@@ -96,7 +96,9 @@
 #>
 
 function New-D365EntraIntegration {
-    [CmdletBinding(DefaultParameterSetName = "NewCertificate")]
+    [CmdletBinding(
+        DefaultParameterSetName = "NewCertificate",
+        SupportsShouldProcess)]
     param (
         
         [Parameter(Mandatory = $true)]
