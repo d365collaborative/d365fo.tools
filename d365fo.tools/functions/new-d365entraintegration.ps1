@@ -15,8 +15,9 @@
         4. Update the web.config with the application ID and the thumbprint of the certificate.
         
         To execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:
-        a. Dynamics ERP â€“ This permission is required to access finance and operations environments.
+        a. Dynamics ERP - This permission is required to access finance and operations environments.
         b. Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
+        
         The URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.
         Finally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.
         
@@ -90,7 +91,7 @@
         Enables the Entra ID integration with the certificate file "C:\Temp\SelfsignedCert.cer", the private key file "C:\Temp\SelfsignedCert.pfx" and the provided password to install it.
         
     .NOTES
-        Author: Ã˜ystein Brenna (@oysbre)
+        Author: Øystein Brenna (@oysbre)
         Author: Florian Hopfner (@FH-Inway)
 #>
 
