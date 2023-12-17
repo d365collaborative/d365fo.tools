@@ -16,14 +16,14 @@ Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).
 ```
 New-D365EntraIntegration -ClientId <String> [-CertificateName <String>] [-CertificateExpirationYears <Int32>]
  [-NewCertificateFile <String>] [-NewCertificatePrivateKeyFile <String>] [-CertificatePassword <SecureString>]
- [-Force] [<CommonParameters>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ExistingCertificate
 ```
 New-D365EntraIntegration -ClientId <String> -ExistingCertificateFile <String>
- [-ExistingCertificatePrivateKeyFile <String>] [-CertificatePassword <SecureString>] [-Force]
- [<CommonParameters>]
+ [-ExistingCertificatePrivateKeyFile <String>] [-CertificatePassword <SecureString>] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,9 +44,10 @@ Update the web.config with the application ID and the thumbprint of the certific
 To execute the steps, the id of an Azure application must be provided.
 The application must have the following API permissions:
 a.
-Dynamics ERP â€" This permission is required to access finance and operations environments.
+Dynamics ERP - This permission is required to access finance and operations environments.
 b.
 Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
+
 The URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.
 Finally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.
 
@@ -247,6 +248,37 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -257,7 +289,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ### If a new certificate is created, the certificate file is placed on the Desktop of the current user.
 ### It must be uploaded to the Azure Application.
 ## NOTES
-Author:  ˜ystein Brenna (@oysbre)
+Author: Øystein Brenna (@oysbre)
 Author: Florian Hopfner (@FH-Inway)
 
 ## RELATED LINKS
