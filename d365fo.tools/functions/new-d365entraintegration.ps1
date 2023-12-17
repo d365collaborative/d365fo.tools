@@ -57,12 +57,6 @@
         It must be uploaded to the Azure Application.
         
     .EXAMPLE
-        PS C:\> New-D365EntraIntegration
-        
-        Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years.
-        It will ask for a ClientId/AppId.
-        
-    .EXAMPLE
         PS C:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986
         
         Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years.
