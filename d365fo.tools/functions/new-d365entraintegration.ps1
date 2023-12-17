@@ -9,14 +9,14 @@
         If a new certificate is created and the integration is also to be enabled on other environments with the same certificate, a certificate password must be specified in order to create a certificate private key file.
         
         The steps executed are:
-
+        
         1. Create a self-signed certificate and save it to Desktop or use a provided certificate.
         2. Install the certificate to the "LocalMachine" certificate store.
         3. Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
         4. Update the web.config with the application ID and the thumbprint of the certificate.
         
         To execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:
-
+        
         a. Dynamics ERP - This permission is required to access finance and operations environments.
         b. Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
         
@@ -53,7 +53,7 @@
         
     .PARAMETER Force
         Forces the execution of some of the steps. For example, if a certificate with the same name already exists, it will be deleted and recreated.
-
+        
     .Parameter WhatIf
         Executes the cmdlet until the first operation that would change the state of the system, without executing that operation.
         Subsequent operations are likely to fail.

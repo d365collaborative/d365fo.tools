@@ -32,6 +32,7 @@ The integration can either be enabled with an existing certificate or a new self
 If a new certificate is created and the integration is also to be enabled on other environments with the same certificate, a certificate password must be specified in order to create a certificate private key file.
 
 The steps executed are:
+
 1.
 Create a self-signed certificate and save it to Desktop or use a provided certificate.
 2.
@@ -43,6 +44,7 @@ Update the web.config with the application ID and the thumbprint of the certific
 
 To execute the steps, the id of an Azure application must be provided.
 The application must have the following API permissions:
+
 a.
 Dynamics ERP - This permission is required to access finance and operations environments.
 b.
@@ -241,8 +243,9 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+Executes the cmdlet until the first operation that would change the state of the system, without executing that operation.
+Subsequent operations are likely to fail.
+This is currently not fully implemented and should not be used.
 
 ```yaml
 Type: SwitchParameter
@@ -257,7 +260,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-Prompts you for confirmation before running the cmdlet.
+Prompts for confirmation before each operation of the cmdlet that changes the state of the system.
 
 ```yaml
 Type: SwitchParameter
