@@ -4,11 +4,15 @@
 
     .DESCRIPTION
         Enable the Microsoft Entra ID integration by executing some of the steps described in https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-tools/secure-developer-vm#external-integrations.
+        The integration can either be enabled with an existing certificate or a new self-signed certificate can be created.
+        If a new certificate is created and the integration is also to be enabled on other environments with the same certificate, a certificate password must be specified in order to create a certificate private key file.
+
         The steps executed are:
             1. Create a self-signed certificate and save it to Desktop or use a provided certificate.
             2. Install the certificate to the "LocalMachine" certificate store.
             3. Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
             4. Update the web.config with the application ID and the thumbprint of the certificate.
+        
         To execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:
             a. Dynamics ERP – This permission is required to access finance and operations environments.
             b. Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
@@ -24,7 +28,7 @@
 
     .Parameter ExistingCertificatePrivateKeyFile
         The path to a certificate private key file. 
-        If this parameter is not provided, the certificate can be installed to the certificate store, the NetworkService cannot be granted READ permission.
+        If this parameter is not provided, the certificate can be installed to the certificate store, but the NetworkService cannot be granted READ permission.
 
     .PARAMETER CertificateName
         The name for the certificate. By default, it is named "CHEAuth".
@@ -57,24 +61,32 @@
         It will ask for a ClientId/AppId.
 
     .EXAMPLE
-        PS C:\> New-D365EntraIntegration -ClientId 3485734867345786736
+        PS C:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986
 
         Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years. 
 
     .EXAMPLE
-        PS c:\> New-D365EntraIntegration -ClientId 3485734867345786736 -CertificateName "SelfsignedCert"
+        PS c:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert"
 
         Enables the Entra ID integration with a new self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
 
     .EXAMPLE
-        PS C:\> New-D365EntraIntegration -AppId 3485734867345786736 -CertificateName "SelfsignedCert" -CertificateExpirationYears 1
+        PS C:\> New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert" -CertificateExpirationYears 1
 
         Enables the Entra ID integration with a new self-signed certificate with the name "SelfsignedCert" that expires after 1 year.
 
     .EXAMPLE
-        PS C:\> New-D365EntraIntegration -AppId 3485734867345786736 -ExistingCertificateFile "C:\Temp\SelfsignedCert.cer"
+        PS C:\> $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
+        PS C:\> New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificatePassword $securePassword
 
-        Enables the Entra ID integration with the certificate file "C:\Temp\SelfsignedCert.cer"
+        Enables the Entra ID integration with a new self-signed certificate with the name "CHEAuth" that expires after 2 years, using the provided password to generate the private key of the certificate.
+        The certificate file and the private key file are saved to the Desktop of the current user.
+
+    .EXAMPLE
+        PS C:\> $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
+        PS C:\> New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -ExistingCertificateFile "C:\Temp\SelfsignedCert.cer" -ExistingCertificatePrivateKeyFile "C:\Temp\SelfsignedCert.pfx" -CertificatePassword $securePassword
+
+        Enables the Entra ID integration with the certificate file "C:\Temp\SelfsignedCert.cer", the private key file "C:\Temp\SelfsignedCert.pfx" and the provided password to install it.
 
     .NOTES
         Author: Øystein Brenna (@oysbre)
@@ -125,6 +137,7 @@ function New-D365EntraIntegration {
 
     # Check and install provided certificate file
     if ($PSCmdlet.ParameterSetName -eq "ExistingCertificate") {
+        Write-PSFMessage -Level Verbose -Message "Steps 1+2: Starting installation of existing certificate"
         if (-not (Test-PathExists -Path $ExistingCertificateFile -Type Leaf)) {
             Write-PSFMessage -Level Host -Message "The provided certificate file <c='em'>$ExistingCertificateFile</c> does not exist."
             Stop-PSFFunction -Message "Stopping because the provided certificate file does not exist"
@@ -161,6 +174,7 @@ function New-D365EntraIntegration {
 
     # Create and install certificate
     if ($PSCmdlet.ParameterSetName -eq "NewCertificate") {
+        Write-PSFMessage -Level Verbose -Message "Steps 1+2: Starting creation of new certificate"
         #Check for existing certificate
         $existingCertificate = Get-ChildItem -Path $certificateStoreLocation -ErrorAction SilentlyContinue | Where-Object {$_.Subject -Match "$CertificateName"}
         if ($existingCertificate) {
@@ -228,6 +242,7 @@ function New-D365EntraIntegration {
     # Step 3: Grant NetworkService READ permission to the certificate by setting ACL rights
     # Check if on cloud-hosted environment
     if ($Script:EnvironmentType -eq [EnvironmentType]::AzureHostedTier1) {
+        Write-PSFMessage -Level Verbose -Message "Step 3: Starting granting NetworkService READ permission to the certificate"
         # Get private key container name
         $privatekey = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPrivateKey($certificateObject)
         $containerName = ""
@@ -256,20 +271,22 @@ function New-D365EntraIntegration {
             $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, $readFileSystemRight, $allowAccessControlType)
             $permissions.AddAccessRule($rule1)
             $newRuleSet = 1
-            Write-PSFMessage -Level Host -Message "Added NetworkService with READ access to certificate"
+            Write-PSFMessage -Level Verbose -Message "Added NetworkService with READ access to certificate"
         }
         elseif ($identityNetwork.FileSystemRights -ne $readFileSystemRight) {
             $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, $readFileSystemRight, $allowAccessControlType)
             $permissions.AddAccessRule($rule1)
             $newRuleSet = 1
-            Write-PSFMessage -Level Host -Message "Gave NetworkService READ access to certificate"
+            Write-PSFMessage -Level Verbose -Message "Gave NetworkService READ access to certificate"
         }
         if ($newRuleSet -eq 1){
             Set-Acl -Path $keyFullPath -AclObject $permissions
+            Write-PSFMessage -Level Host -Message "NetworkService was granted READ permission to the certificate."
         }
     }
 
     # Step 4: Update web.config
+    Write-PSFMessage -Level Verbose -Message "Step 4: Starting updating web.config"
     $webConfigBackup = Join-Path $Script:DefaultTempPath "WebConfigBackup"
     $webConfigFileBackup = Join-Path $webConfigBackup $Script:WebConfig
     if (Test-PathExists -Path $webConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
