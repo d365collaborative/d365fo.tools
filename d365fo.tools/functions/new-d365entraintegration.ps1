@@ -243,23 +243,26 @@ function New-D365EntraIntegration {
             Stop-PSFFunction -Message "Stopping because the private key container to set read permission for NetworkService could not be retrieved"
         }
         # Grant NetworkService account access to certificate if it does not already have it
-        $networkServiceSID = New-Object System.Security.Principal.SecurityIdentifier([System.Security.Principal.WellKnownSidType]::NetworkServiceSid, $null)
+        $networkServiceSidType = [System.Security.Principal.WellKnownSidType]::NetworkServiceSid
+        $readFileSystemRight = [System.Security.AccessControl.FileSystemRights]::Read
+        $allowAccessControlType = [System.Security.AccessControl.AccessControlType]::Allow
+        $networkServiceSID = New-Object System.Security.Principal.SecurityIdentifier($networkServiceSidType, $null)
         $permissions = (Get-Item $keyFullPath).GetAccessControl()
         $newRuleSet = 0
         $identityNetwork = $permissions.access `
             | Where-Object {$_.identityreference -eq "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)"} `
             | Select-Object
         if ($identityNetwork.IdentityReference -ne "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)") {
-            $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, 'FullControl', 'None', 'None', 'Allow')
+            $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, $readFileSystemRight, $allowAccessControlType)
             $permissions.AddAccessRule($rule1)
             $newRuleSet = 1
-            Write-PSFMessage -Level Host -Message "Added NetworkService with FULLCONTROL access to certificate"
+            Write-PSFMessage -Level Host -Message "Added NetworkService with READ access to certificate"
         }
-        elseif ($identityNetwork.FileSystemRights -ne 'FullControl') {
-            $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, 'FullControl', 'None', 'None', 'Allow')
+        elseif ($identityNetwork.FileSystemRights -ne $readFileSystemRight) {
+            $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, $readFileSystemRight, $allowAccessControlType)
             $permissions.AddAccessRule($rule1)
             $newRuleSet = 1
-            Write-PSFMessage -Level Host -Message "Gave NetworkService FULLCONTROL access to certificate"
+            Write-PSFMessage -Level Host -Message "Gave NetworkService READ access to certificate"
         }
         if ($newRuleSet -eq 1){
             Set-Acl -Path $keyFullPath -AclObject $permissions
