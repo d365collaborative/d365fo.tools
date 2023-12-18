@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.7.6'
+	ModuleVersion     = '0.7.7'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -252,6 +252,7 @@
 
 		'New-D365Bacpac',
 		'New-D365CAReport',
+		'New-D365EntraIntegration',
 		'New-D365ISVLicense',
 		'New-D365ModuleToRemove',
 		'New-D365TopologyFile',

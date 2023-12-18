@@ -23,7 +23,7 @@ Set-D365FavoriteBookmark [-URL <String>] [-AzureDevOps] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Enable the favorite bar in internet explorer and put in the URL as a favorite
+Enable the favorite bar in Edge & Chrome and put in the URL as a favorite/bookmark
 
 ## EXAMPLES
 
