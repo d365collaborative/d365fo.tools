@@ -240,7 +240,7 @@ function New-D365EntraIntegration {
         Stop-PSFFunction -Message "Stopping because the certificate thumbprint could not be retrieved"
         return
     }
-    $certificateObject = Get-ChildItem Cert:\LocalMachine\My | Where-Object Thumbprint -eq $certificateThumbprint
+    $certificateObject = Get-ChildItem $certificateStoreLocation | Where-Object Thumbprint -eq $certificateThumbprint
     if (-not $certificateObject) {
         Write-PSFMessage -Level Host -Message "Unable to get the certificate object."
         Stop-PSFFunction -Message "Stopping because the certificate object could not be retrieved"
