@@ -86,10 +86,10 @@
         
     .EXAMPLE
         PS C:\> Get-D365LcsEnvironmentRsatCertificate -ProjectId "123456789" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" | Import-D365RsatSelfServiceCertificates
-
+        
         This will download the active rsat certificate file for the environment from the LCS project.
         The resulting files are then imported into the certificate store on the local machine.
-
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
 #>
