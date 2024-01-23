@@ -3658,6 +3658,83 @@
         "Syntax":  "Get-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-EnvironmentId \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-EnvironmentName \u003cString\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]\nGet-D365LcsEnvironmentMetadata [-ProjectId \u003cInt32\u003e] [-BearerToken \u003cString\u003e] [-TraverseAllPages] [-FirstPages \u003cInt32\u003e] [-LcsApiUri \u003cString\u003e] [-FailOnErrorMessage] [-RetryTimeout \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Get-D365LcsEnvironmentRsatCertificate",
+        "Description":  "Get all meta data details for environments from within a LCS project\n\nIt supports listing all environments, but also supports single / specific environments by searching based on EnvironmentId or EnvironmentName",
+        "Params":  [
+                       [
+                           "ProjectId",
+                           "The project id for the Dynamics 365 for Finance \u0026 Operations project inside LCS\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "",
+                           false,
+                           "false",
+                           "$Script:LcsApiProjectId"
+                       ],
+                       [
+                           "BearerToken",
+                           "The token you want to use when working against the LCS api\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "Token",
+                           false,
+                           "false",
+                           "$Script:LcsApiBearerToken"
+                       ],
+                       [
+                           "EnvironmentId",
+                           "Id of the environment that you want to be working against",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "OutputPath",
+                           "Path to where you want the certificate files to be saved\nThe default value is: \"c:\\temp\\d365fo.tools\\RsatCert\\\"",
+                           "",
+                           false,
+                           "false",
+                           "$(Join-Path $Script:DefaultTempPath \"RsatCert\")"
+                       ],
+                       [
+                           "LcsApiUri",
+                           "URI / URL to the LCS API you want to use\nThe value depends on where your LCS project is located. There are multiple valid URI\u0027s / URL\u0027s\nValid options:\r\n\"https://lcsapi.lcs.dynamics.com\"\r\n\"https://lcsapi.eu.lcs.dynamics.com\"\r\n\"https://lcsapi.fr.lcs.dynamics.com\"\r\n\"https://lcsapi.sa.lcs.dynamics.com\"\r\n\"https://lcsapi.uae.lcs.dynamics.com\"\r\n\"https://lcsapi.ch.lcs.dynamics.com\"\r\n\"https://lcsapi.no.lcs.dynamics.com\"\r\n\"https://lcsapi.lcs.dynamics.cn\"\r\n\"https://lcsapi.gov.lcs.microsoftdynamics.us\"\nDefault value can be configured using Set-D365LcsApiConfig",
+                           "",
+                           false,
+                           "false",
+                           "$Script:LcsApiLcsApiUri"
+                       ],
+                       [
+                           "FailOnErrorMessage",
+                           "Instruct the cmdlet to write logging information to the console, if there is an error message in the response from the LCS endpoint\nUsed in combination with either Enable-D365Exception cmdlet, or the -EnableException directly on this cmdlet, it will throw an exception and break/stop execution of the script\r\nThis allows you to implement custom retry / error handling logic",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "RetryTimeout",
+                           "The retry timeout, before the cmdlet should quit retrying based on the 429 status code\nNeeds to be provided in the timspan notation:\r\n\"hh:mm:ss\"\nhh is the number of hours, numerical notation only\r\nmm is the number of minutes\r\nss is the numbers of seconds\nEach section of the timeout has to valid, e.g.\r\nhh can maximum be 23\r\nmm can maximum be 59\r\nss can maximum be 59\nNot setting this parameter will result in the cmdlet to try for ever to handle the 429 push back from the endpoint",
+                           "",
+                           false,
+                           "false",
+                           "00:00:00"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Get LCS environment meta data from within a project",
+        "Name":  "Get-D365LcsEnvironmentRsatCertificate",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentRsatCertificate -ProjectId \"123456789\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will download the active rsat certificate file for the environment from the LCS project.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nA result set example:\nPath     : c:\\temp\\d365fo.tools\\RsatCert\\RSATCertificate_ABC-UAT_20240101-012030\r\nCerFile  : C:\\temp\\d365fo.tools\\RsatCert\\RSATCertificate_ABC-UAT_20240101-012030\\RSATCertificate_ABC-UAT_20240101-012030.cer\r\nPfxFile  : C:\\temp\\d365fo.tools\\RsatCert\\RSATCertificate_ABC-UAT_20240101-012030\\RSATCertificate_ABC-UAT_20240101-012030.pfx\r\nFileName : RSATCertificate_ABC-UAT_20240101-012030.zip\r\nPassword : 9zbPiLMTk676mkq5FvqQ",
+        "Syntax":  "Get-D365LcsEnvironmentRsatCertificate [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-EnvironmentId] \u003cString\u003e [[-OutputPath] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-FailOnErrorMessage] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Get-D365LcsSharedAssetFile",
         "Description":  "Get the information for the file assets from the shared asset library of LCS matching the search criteria",
         "Params":  [
@@ -9431,6 +9508,107 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -SuffixWithModule\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\r\nIt will append the module name to the desired output file, which will then be \"c:\\temp\\d365fo.tools\\CAReport-ApplicationSuite.xlsx\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -PackagesRoot\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the binary metadata to look for the module and model.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.",
         "Syntax":  "New-D365CAReport [[-OutputPath] \u003cString\u003e] [-Module] \u003cString\u003e [-Model] \u003cString\u003e [-SuffixWithModule] [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-XmlLog] \u003cString\u003e] [-PackagesRoot] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "New-D365EntraIntegration",
+        "Description":  "Enable the Microsoft Entra ID integration by executing some of the steps described in https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-tools/secure-developer-vm#external-integrations.\nThe integration can either be enabled with an existing certificate or a new self-signed certificate can be created.\nIf a new certificate is created and the integration is also to be enabled on other environments with the same certificate, a certificate password must be specified in order to create a certificate private key file.\n\nThe steps executed are:\n\n1. Create a self-signed certificate and save it to Desktop or use a provided certificate.\n2. Install the certificate to the \"LocalMachine\" certificate store.\n3. Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).\n4. Update the web.config with the application ID and the thumbprint of the certificate.\n\nTo execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:\n\na. Dynamics ERP - This permission is required to access finance and operations environments.\nb. Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).\n\nThe URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.\nFinally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.",
+        "Params":  [
+                       [
+                           "ClientId",
+                           "The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal.\r\nIt is assumed that an application with this id already exists in Azure.",
+                           "AppId",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ExistingCertificateFile",
+                           "The path to a certificate file. If this parameter is provided, the cmdlet will not create a new certificate.",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ExistingCertificatePrivateKeyFile",
+                           "The path to a certificate private key file.\r\nIf this parameter is not provided, the certificate can be installed to the certificate store, but the NetworkService cannot be granted READ permission.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "CertificateName",
+                           "The name for the certificate. By default, it is named \"CHEAuth\".",
+                           "",
+                           false,
+                           "false",
+                           "CHEAuth"
+                       ],
+                       [
+                           "CertificateExpirationYears",
+                           "The number of years the certificate is valid. By default, it is valid for 2 years.",
+                           "",
+                           false,
+                           "false",
+                           "2"
+                       ],
+                       [
+                           "NewCertificateFile",
+                           "The path to the certificate file that will be created. By default, it is created on the Desktop of the current user.",
+                           "",
+                           false,
+                           "false",
+                           "\"$env:USERPROFILE\\Desktop\\$CertificateName.cer\""
+                       ],
+                       [
+                           "NewCertificatePrivateKeyFile",
+                           "The path to the certificate private key file that will be created. By default, it is created on the Desktop of the current user.",
+                           "",
+                           false,
+                           "false",
+                           "\"$env:USERPROFILE\\Desktop\\$CertificateName.pfx\""
+                       ],
+                       [
+                           "CertificatePassword",
+                           "The password for the certificate private key file.\r\nIf not provided when creating a new certificate, no private key file will be created.\r\nIf not provided when using an existing certificate, the private key file cannot be installed.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Force",
+                           "Forces the execution of some of the steps. For example, if a certificate with the same name already exists, it will be deleted and recreated.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "WhatIf",
+                           "Executes the cmdlet until the first operation that would change the state of the system, without executing that operation.\r\nSubsequent operations are likely to fail.\r\nThis is currently not fully implemented and should not be used.",
+                           "wi",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Confirm",
+                           "Prompts for confirmation before each operation of the cmdlet that changes the state of the system.",
+                           "cf",
+                           false,
+                           "false",
+                           ""
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Øystein Brenna (@oysbre)",
+        "Synopsis":  "Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).",
+        "Name":  "New-D365EntraIntegration",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986\nEnables the Entra ID integration with a new self-signed certificate named \"CHEAuth\" which expires after 2 years.\n-------------------------- EXAMPLE 2 --------------------------\nPS c:\\\u003eNew-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName \"SelfsignedCert\"\nEnables the Entra ID integration with a new self-signed certificate with the name \"Selfsignedcert\" that expires after 2 years.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName \"SelfsignedCert\" -CertificateExpirationYears 1\nEnables the Entra ID integration with a new self-signed certificate with the name \"SelfsignedCert\" that expires after 1 year.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003e$securePassword = Read-Host -AsSecureString -Prompt \"Enter the certificate password\"\nPS C:\\\u003e New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificatePassword $securePassword\nEnables the Entra ID integration with a new self-signed certificate with the name \"CHEAuth\" that expires after 2 years, using the provided password to generate the private key of the certificate.\r\nThe certificate file and the private key file are saved to the Desktop of the current user.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003e$securePassword = Read-Host -AsSecureString -Prompt \"Enter the certificate password\"\nPS C:\\\u003e New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -ExistingCertificateFile \"C:\\Temp\\SelfsignedCert.cer\" -ExistingCertificatePrivateKeyFile \"C:\\Temp\\SelfsignedCert.pfx\" \r\n-CertificatePassword $securePassword\nEnables the Entra ID integration with the certificate file \"C:\\Temp\\SelfsignedCert.cer\", the private key file \"C:\\Temp\\SelfsignedCert.pfx\" and the provided password to install it.",
+        "Syntax":  "New-D365EntraIntegration -ClientId \u003cString\u003e [-CertificateName \u003cString\u003e] [-CertificateExpirationYears \u003cInt32\u003e] [-NewCertificateFile \u003cString\u003e] [-NewCertificatePrivateKeyFile \u003cString\u003e] [-CertificatePassword \u003cSecureString\u003e] [-Force] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]\nNew-D365EntraIntegration -ClientId \u003cString\u003e -ExistingCertificateFile \u003cString\u003e [-ExistingCertificatePrivateKeyFile \u003cString\u003e] [-CertificatePassword \u003cSecureString\u003e] [-Force] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "New-D365ISVLicense",
