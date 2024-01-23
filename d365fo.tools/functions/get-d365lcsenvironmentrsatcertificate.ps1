@@ -1,12 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Get LCS environment meta data from within a project
+        Get LCS environment rsat certificate from within a project
         
     .DESCRIPTION
-        Get all meta data details for environments from within a LCS project
-        
-        It supports listing all environments, but also supports single / specific environments by searching based on EnvironmentId or EnvironmentName
+        Download and persist the active rsat certificate from environments from within a LCS project
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
