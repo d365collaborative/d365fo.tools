@@ -65,7 +65,7 @@ if ($environment.Infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::LocalHostedTier1
     $Script:CanUseTrustedConnection = $true
 }
-elseif ($environment.Infrastructure.HostName -like "*cloudax.*dynamics.com*") {
+elseif ($environment.Infrastructure.HostName -match "(cloudax|axcloud).*dynamics.com") {
     $Script:EnvironmentType = [EnvironmentType]::AzureHostedTier1
     $Script:CanUseTrustedConnection = $true
 }
