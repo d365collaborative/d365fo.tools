@@ -136,6 +136,7 @@
 		'Get-D365LcsDeploymentStatus',
 		'Get-D365LcsEnvironmentHistory',
 		'Get-D365LcsEnvironmentMetadata',
+		'Get-D365LcsEnvironmentRsatCertificate',
 
 		'Get-D365MaintenanceMode',
 		'Get-D365Model',
