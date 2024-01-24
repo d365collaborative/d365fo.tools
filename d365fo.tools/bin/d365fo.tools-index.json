@@ -3659,7 +3659,7 @@
     },
     {
         "CommandName":  "Get-D365LcsEnvironmentRsatCertificate",
-        "Description":  "Get all meta data details for environments from within a LCS project\n\nIt supports listing all environments, but also supports single / specific environments by searching based on EnvironmentId or EnvironmentName",
+        "Description":  "Download and persist the active rsat certificate from environments from within a LCS project",
         "Params":  [
                        [
                            "ProjectId",
@@ -3728,10 +3728,10 @@
                    ],
         "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get LCS environment meta data from within a project",
+        "Synopsis":  "Get LCS environment rsat certificate from within a project",
         "Name":  "Get-D365LcsEnvironmentRsatCertificate",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentRsatCertificate -ProjectId \"123456789\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will download the active rsat certificate file for the environment from the LCS project.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nA result set example:\nPath     : c:\\temp\\d365fo.tools\\RsatCert\\RSATCertificate_ABC-UAT_20240101-012030\r\nCerFile  : C:\\temp\\d365fo.tools\\RsatCert\\RSATCertificate_ABC-UAT_20240101-012030\\RSATCertificate_ABC-UAT_20240101-012030.cer\r\nPfxFile  : C:\\temp\\d365fo.tools\\RsatCert\\RSATCertificate_ABC-UAT_20240101-012030\\RSATCertificate_ABC-UAT_20240101-012030.pfx\r\nFileName : RSATCertificate_ABC-UAT_20240101-012030.zip\r\nPassword : 9zbPiLMTk676mkq5FvqQ",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentRsatCertificate -ProjectId \"123456789\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\"\nThis will download the active rsat certificate file for the environment from the LCS project.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe environment is identified by the EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\", which can be obtained in the LCS portal.\nA result set example:\nPath     : c:\\temp\\d365fo.tools\\RsatCert\\RSATCertificate_ABC-UAT_20240101-012030\r\nCerFile  : C:\\temp\\d365fo.tools\\RsatCert\\RSATCertificate_ABC-UAT_20240101-012030\\RSATCertificate_ABC-UAT_20240101-012030.cer\r\nPfxFile  : C:\\temp\\d365fo.tools\\RsatCert\\RSATCertificate_ABC-UAT_20240101-012030\\RSATCertificate_ABC-UAT_20240101-012030.pfx\r\nFileName : RSATCertificate_ABC-UAT_20240101-012030.zip\r\nPassword : 9zbPiLMTk676mkq5FvqQ\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsEnvironmentRsatCertificate -ProjectId \"123456789\" -EnvironmentId \"13cc7700-c13b-4ea3-81cd-2d26fa72ec5e\" | Import-D365RsatSelfServiceCertificates\nThis will download the active rsat certificate file for the environment from the LCS project.\r\nThe resulting files are then imported into the certificate store on the local machine.",
         "Syntax":  "Get-D365LcsEnvironmentRsatCertificate [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-EnvironmentId] \u003cString\u003e [[-OutputPath] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-FailOnErrorMessage] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
@@ -5858,7 +5858,7 @@
                            "Path to the folder where the .cer and .pxf files are located\nThe files needs to be extracted from the zip archive",
                            "",
                            true,
-                           "false",
+                           "true (ByPropertyName)",
                            ""
                        ],
                        [
@@ -5866,7 +5866,7 @@
                            "Password for the .pxf file\nWorking with self-service environments, the password will be displayed during the download of the zip archive",
                            "",
                            true,
-                           "false",
+                           "true (ByPropertyName)",
                            ""
                        ]
                    ],
@@ -5875,7 +5875,7 @@
         "Synopsis":  "Import certificates for RSAT",
         "Name":  "Import-D365RsatSelfServiceCertificates",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365RsatSelfServiceCertificates -Path \"C:\\Temp\\UAT\" -Password \"123456789\"\nThis will import the .cer and .pxf files into the correct stored, bases on the files located in \"C:\\Temp\\UAT\".\r\nAfter import it will display the thumbprint for both certificates.\nSample output:\r\n[23:43:05][Import-D365RsatSelfServiceCertificates] Pfx Thumbprint:  B4D6921321434235463463414312343253523A05\r\n[23:43:05][Import-D365RsatSelfServiceCertificates] Cert Thumbprint: B4D6921321434235463463414312343253523A05",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365RsatSelfServiceCertificates -Path \"C:\\Temp\\UAT\" -Password \"123456789\"\nThis will import the .cer and .pxf files into the correct store, bases on the files located in \"C:\\Temp\\UAT\".\r\nAfter import it will display the thumbprint for both certificates.\nSample output:\r\n[23:43:05][Import-D365RsatSelfServiceCertificates] Pfx Thumbprint:  B4D6921321434235463463414312343253523A05\r\n[23:43:05][Import-D365RsatSelfServiceCertificates] Cert Thumbprint: B4D6921321434235463463414312343253523A05",
         "Syntax":  "Import-D365RsatSelfServiceCertificates [-Path] \u003cObject\u003e [-Password] \u003cObject\u003e [\u003cCommonParameters\u003e]"
     },
     {
