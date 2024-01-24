@@ -21,7 +21,7 @@
     .EXAMPLE
         PS C:\> Import-D365RsatSelfServiceCertificates -Path "C:\Temp\UAT" -Password "123456789"
         
-        This will import the .cer and .pxf files into the correct stored, bases on the files located in "C:\Temp\UAT".
+        This will import the .cer and .pxf files into the correct store, bases on the files located in "C:\Temp\UAT".
         After import it will display the thumbprint for both certificates.
         
         Sample output:
@@ -37,10 +37,14 @@ function Import-D365RsatSelfServiceCertificates {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSingularNouns", "")]
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(
+            Mandatory = $true,
+            ValueFromPipelineByPropertyName)]
         $Path,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(
+            Mandatory = $true,
+            ValueFromPipelineByPropertyName)]
         $Password
     )
     

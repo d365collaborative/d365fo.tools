@@ -29,7 +29,7 @@ The zip file needs to be unblocked and then extracted into a folder, with only t
 Import-D365RsatSelfServiceCertificates -Path "C:\Temp\UAT" -Password "123456789"
 ```
 
-This will import the .cer and .pxf files into the correct stored, bases on the files located in "C:\Temp\UAT".
+This will import the .cer and .pxf files into the correct store, bases on the files located in "C:\Temp\UAT".
 After import it will display the thumbprint for both certificates.
 
 Sample output:
@@ -51,7 +51,7 @@ Aliases:
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -68,7 +68,7 @@ Aliases:
 Required: True
 Position: 2
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
