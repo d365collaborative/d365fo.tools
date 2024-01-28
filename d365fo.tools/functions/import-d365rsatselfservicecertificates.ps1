@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Import certificates for RSAT
@@ -51,12 +51,14 @@ function Import-D365RsatSelfServiceCertificates {
     )
     
     begin {
-        [Security.SecureString] $PasswordSecure = (ConvertTo-SecureString -String $Password -Force -AsPlainText)
-
-        if (-not (Test-PathExists -Path $Path -Type Container)) { return }
+        
     }
     
     process {
+        [Security.SecureString] $PasswordSecure = (ConvertTo-SecureString -String $Password -Force -AsPlainText)
+    
+        if (-not (Test-PathExists -Path $Path -Type Container)) { return }
+
         if (Test-PSFFunctionInterrupt) { return }
 
         $pathCertFile = (Get-ChildItem -Path "$Path\*.cer" | Select-Object -First 1).FullName
