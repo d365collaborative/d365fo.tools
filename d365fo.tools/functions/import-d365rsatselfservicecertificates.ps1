@@ -1,4 +1,4 @@
-﻿
+
 <#
     .SYNOPSIS
         Import certificates for RSAT
@@ -39,13 +39,15 @@ function Import-D365RsatSelfServiceCertificates {
     param (
         [Parameter(
             Mandatory = $true,
-            ValueFromPipelineByPropertyName)]
-        $Path,
+            ValueFromPipelineByPropertyName = $true)]
+        [ValidateNotNullOrEmpty()]
+        [string] $Path,
 
         [Parameter(
             Mandatory = $true,
-            ValueFromPipelineByPropertyName)]
-        $Password
+            ValueFromPipelineByPropertyName = $true)]
+        [ValidateNotNullOrEmpty()]
+        [string] $Password
     )
     
     begin {
