@@ -14,7 +14,7 @@
 		It 'Should have the expected parameter Path' {
 			$parameter = (Get-Command Import-D365RsatSelfServiceCertificates).Parameters['Path']
 			$parameter.Name | Should -Be 'Path'
-			$parameter.ParameterType.ToString() | Should -Be System.Object
+			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
@@ -27,7 +27,7 @@
 		It 'Should have the expected parameter Password' {
 			$parameter = (Get-Command Import-D365RsatSelfServiceCertificates).Parameters['Password']
 			$parameter.Name | Should -Be 'Password'
-			$parameter.ParameterType.ToString() | Should -Be System.Object
+			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
