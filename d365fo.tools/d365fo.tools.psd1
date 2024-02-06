@@ -115,6 +115,8 @@
 		'Get-D365EventTraceProvider',
 		'Get-D365ExternalIP',
 
+		'Get-D365Flight',
+		
 		'Get-D365JsonService',
 
 		'Get-D365InstalledHotfix',
