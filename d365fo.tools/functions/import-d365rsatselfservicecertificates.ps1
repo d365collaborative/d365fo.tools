@@ -39,22 +39,26 @@ function Import-D365RsatSelfServiceCertificates {
     param (
         [Parameter(
             Mandatory = $true,
-            ValueFromPipelineByPropertyName)]
-        $Path,
+            ValueFromPipelineByPropertyName = $true)]
+        [ValidateNotNullOrEmpty()]
+        [string] $Path,
 
         [Parameter(
             Mandatory = $true,
-            ValueFromPipelineByPropertyName)]
-        $Password
+            ValueFromPipelineByPropertyName = $true)]
+        [ValidateNotNullOrEmpty()]
+        [string] $Password
     )
     
     begin {
-        [Security.SecureString] $PasswordSecure = (ConvertTo-SecureString -String $Password -Force -AsPlainText)
-
-        if (-not (Test-PathExists -Path $Path -Type Container)) { return }
+        
     }
     
     process {
+        [Security.SecureString] $PasswordSecure = (ConvertTo-SecureString -String $Password -Force -AsPlainText)
+    
+        if (-not (Test-PathExists -Path $Path -Type Container)) { return }
+
         if (Test-PSFFunctionInterrupt) { return }
 
         $pathCertFile = (Get-ChildItem -Path "$Path\*.cer" | Select-Object -First 1).FullName
