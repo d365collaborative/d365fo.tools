@@ -5876,7 +5876,7 @@
         "Name":  "Import-D365RsatSelfServiceCertificates",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365RsatSelfServiceCertificates -Path \"C:\\Temp\\UAT\" -Password \"123456789\"\nThis will import the .cer and .pxf files into the correct store, bases on the files located in \"C:\\Temp\\UAT\".\r\nAfter import it will display the thumbprint for both certificates.\nSample output:\r\n[23:43:05][Import-D365RsatSelfServiceCertificates] Pfx Thumbprint:  B4D6921321434235463463414312343253523A05\r\n[23:43:05][Import-D365RsatSelfServiceCertificates] Cert Thumbprint: B4D6921321434235463463414312343253523A05",
-        "Syntax":  "Import-D365RsatSelfServiceCertificates [-Path] \u003cObject\u003e [-Password] \u003cObject\u003e [\u003cCommonParameters\u003e]"
+        "Syntax":  "Import-D365RsatSelfServiceCertificates [-Path] \u003cString\u003e [-Password] \u003cString\u003e [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Initialize-D365RsatCertificate",
@@ -11695,6 +11695,40 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eTest-D365Command -CommandText \u0027Import-D365Bacpac -ImportModeTier2 -SqlUser \"sqladmin\" -SqlPwd \"XyzXyz\" -BacpacFile2 \"C:\\temp\\uat.bacpac\"\u0027 -Mode \"Validate\" -IncludeHelp\nThis will validate all the parameters that have been passed to the Import-D365Bacpac cmdlet.\r\nAll supplied parameters that matches a parameter will be marked with an asterisk.\r\nWill print the coloring help.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eTest-D365Command -CommandText \u0027Import-D365Bacpac\u0027 -Mode \"ShowParameters\" -IncludeHelp\nThis will display all the parameter sets and their individual parameters.\r\nWill print the coloring help.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003e$params = @{}\nPS C:\\\u003e $params.DatabaseName = \"SAMPLEVALUE\"\r\nPS C:\\\u003e Test-D365Command -CommandText \u0027Import-D365Bacpac -ImportModeTier2\u0027 -SplatInput $params -Mode \"Validate\"\nThis builds a hashtable with a property names \"DatabaseName\".\r\nThe hashtable is passed to the cmdlet to be part of the validation.",
         "Syntax":  "Test-D365Command [-CommandText] \u003cString\u003e [-Mode] \u003cString\u003e [-SplatInput \u003cHashtable\u003e] [-ShowSplatStyleV1] [-ShowSplatStyleV2] [-IncludeHelp] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Test-D365DataverseConnection",
+        "Description":  "Invokes the built-in http communication endpount, that validates the connection between the D365FO environment and dataverse",
+        "Params":  [
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "\"$Script:BinDir\\bin\""
+                       ]
+                   ],
+        "Alias":  "",
+        "Synopsis":  "Test the dataverse connection",
+        "Name":  "Test-D365DataverseConnection",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eTest-D365DataverseConnection\nThis will invoke the http communication component, that validates the basic settings between D365FO and Dataverse.\r\nIt will output the raw details from the call, to make it easier to troubleshoot the connectivity between D365FO and Dataverse.",
+        "Syntax":  "Test-D365DataverseConnection [[-BinDir] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Test-D365EntraIntegration",
+        "Description":  "Validates the configuration of the web.config file and the certificate for the environment\n\nIf any of the configuration is missing or in someway incorrect, it will prompt and stating corrective actions needed",
+        "Params":  [
+
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Test the Entra Id integration",
+        "Name":  "Test-D365EntraIntegration",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eTest-D365EntraIntegration\nThis will validate the settings inside the web.config file.\r\nIt will search for Aad.Realm, Infrastructure.S2SCertThumbprint, GraphApi.GraphAPIServicePrincipalCert\r\nIt will search for the certificate that matches the thumbprint.\nA result set example:\nEntraAppId                           Thumbprint                               Subject    Expiration\r\n----------                           ----------                               -------    ----------\r\ne068e004-8bec-48c3-a36f-2ab4982ee738 0768175DF3DFDEA3FA78925ADC1E588707649335 CN=CHEAuth 2/5/2026 8:09:28 AM",
+        "Syntax":  "Test-D365EntraIntegration [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Test-D365FlightServiceCatalogId",
