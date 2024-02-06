@@ -57,7 +57,7 @@ function Test-D365DataverseConnection {
             $task = $method.Invoke($cdsWebApiClient, @($cdsApiPath))
             $response = $task.GetAwaiter().GetResult()
 
-            $logger.LogContent.ToString()
+            $response
         }
         catch {
             Write-PSFHostColor -String $logger.LogContent.ToString() -DefaultColor Red
