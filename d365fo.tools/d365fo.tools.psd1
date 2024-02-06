@@ -321,6 +321,8 @@
 		'Switch-D365ActiveDatabase',
 
 		'Test-D365Command',
+		'Test-D365DataverseConnection',
+		'Test-D365EntraIntegration',
 		'Test-D365FlightServiceCatalogId',
 		'Test-D365LabelIdIsValid',
 						
