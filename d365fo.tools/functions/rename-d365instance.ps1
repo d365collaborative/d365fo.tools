@@ -92,7 +92,7 @@ function Rename-D365Instance {
     # Backup files
     if ($null -ne $BackupExtension -and $BackupExtension -ne '') {
         foreach ($item in $Files) {
-            Backup-File $item $BackupExtension
+            Backup-File -File $item -Suffix $BackupExtension
         }
     }
 
