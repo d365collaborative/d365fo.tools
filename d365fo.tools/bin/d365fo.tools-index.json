@@ -2527,6 +2527,63 @@
         "Syntax":  "Get-D365ExternalIP [-SaveToClipboard] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Get-D365Flight",
+        "Description":  "Provides a method for listing a flight in D365FO.",
+        "Tags":  [
+                     "Flight",
+                     "Flighting"
+                 ],
+        "Params":  [
+                       [
+                           "FlightName",
+                           "Name of the flight that you are looking for\nSupports wildcards \"*\"",
+                           "",
+                           false,
+                           "false",
+                           "*"
+                       ],
+                       [
+                           "DatabaseServer",
+                           "The name of the database server\nIf on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)\nIf Azure use the full address to the database server, e.g. server.database.windows.net",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseServer"
+                       ],
+                       [
+                           "DatabaseName",
+                           "The name of the database",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseName"
+                       ],
+                       [
+                           "SqlUser",
+                           "The login name for the SQL Server instance",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseUserName"
+                       ],
+                       [
+                           "SqlPwd",
+                           "The password for the SQL Server user",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseUserPassword"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Used to get a flight",
+        "Name":  "Get-D365Flight",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365Flight\nThis will list all flights that are configured on the environment.\r\nIt will show the name and the enabled status.\nA result set example:\nFlightName                         Enabled FlightServiceId\r\n----------                         ------- ---------------\r\nWHSWorkCancelForcedFlight          1       12719367\r\nTAMRebateGlobalEnableFeature       1       12719367\r\nEnablePerfInfoSimpleLoggerV2       1       12719367\r\nEnablePerfInfoLogODataV2           1       12719367\r\nEnablePerfInfoLogEtwRequestTableV2 1       12719367\r\nEnablePerfInfoCursorLayerV2        1       12719367\r\nEnablePerfInfoFormEngineLayerV2    1       12719367\r\nEnablePerfInfoMutexWaitLayerV2     1       12719367\r\nEnablePerfInfoSecurityLayerV2      1       12719367\r\nEnablePerfInfoSessionLayerV2       1       12719367\r\nEnablePerfInfoSQLLayerV2           1       12719367\r\nEnablePerfInfoXppContainerLayerV2  1       12719367\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Flight -FlightName WHSWorkCancelForcedFlight\nThis will list the flight with the specified name on the environment.\r\nIt will show the name and the enabled status.\nA result set example:\nFlightName                         Enabled FlightServiceId\r\n----------                         ------- ---------------\r\nWHSWorkCancelForcedFlight          1       12719367\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Flight -FlightName WHS*\nThis will list the flight with the specified pattern on the environment.\r\nIt will filter the output to match the \"WHS*\" pattern.\r\nIt will show the name and the enabled status.\nA result set example:\nFlightName                         Enabled FlightServiceId\r\n----------                         ------- ---------------\r\nWHSWorkCancelForcedFlight          1       12719367",
+        "Syntax":  "Get-D365Flight [[-FlightName] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Get-D365InstalledHotfix",
         "Description":  "Get all relevant details for installed hotfixes on environments that are not on a \"One Version\" version. This cmdlet is deprecated since 2021-10-05 and will be removed by 2022-04-05.",
         "Tags":  [
