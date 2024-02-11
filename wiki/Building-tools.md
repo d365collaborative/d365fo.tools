@@ -1,5 +1,11 @@
 When you contribute to the d365fo.tools project you will quickly learn that we have several validation steps that might throw an error when you are creating PR's against the repository.
 
+These validations are checked when you create a pull request. The checks are done by GitHub Actions and are defined in the [build.yml](https://github.com/d365collaborative/d365fo.tools/blob/development/.github/workflows/build.yml) file. The GitHub Action will run the PowerShell scripts in the [build](https://github.com/d365collaborative/d365fo.tools/tree/development/build) folder of the repository starting with `vsts-`.
+
+For some of the checks, we have created PowerShell scripts that can be used to automatically make the changes needed to pass the validation. You can run these scripts locally on your machine to make the changes needed before you create a pull request. They are also available as a GitHub Action defined in the [update-generated-text.yml](https://github.com/d365collaborative/d365fo.tools/blob/development/.github/workflows/update-generated-text.yml). If you have your own fork of the repository, you can use this action to automatically update the generated files in your pull requests.
+
+To run the scripts locally, follow the instructions below.
+
 ## **Prerequisites**
 * PSModuleDevelopment (PowerShell module to aid with development)
    * `Install-Module PSModuleDevelopment -Force -Confirm:$false`
