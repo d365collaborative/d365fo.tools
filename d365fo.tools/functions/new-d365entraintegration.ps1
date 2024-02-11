@@ -54,7 +54,7 @@
         
     .PARAMETER Force
         Forces the execution of some of the steps. For example, if a certificate with the same name already exists, it will be deleted and recreated.
-
+        
     .Parameter AddAppRegistrationToWifConfig
         Adds the application registration to the WIF config. This is not part of the official Microsoft documentation to enable the Entra ID integration. It is however highly recommended to fix additional issues with the missing entry integration.
         
@@ -74,10 +74,10 @@
         PS C:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986
         
         Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years.
-
+        
     .EXAMPLE
         PS C:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -AddAppRegistrationToWifConfig
-
+        
         Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years and adds the application registration to the wif.config.
         
     .EXAMPLE
@@ -105,7 +105,7 @@
         
     .NOTES
         Test-D365EntraIntegration can be used to validate an entra integration.
-
+        
         Author: Øystein Brenna (@oysbre)
         Author: Florian Hopfner (@FH-Inway)
 #>

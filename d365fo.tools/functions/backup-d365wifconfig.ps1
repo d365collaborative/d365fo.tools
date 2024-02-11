@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Backup the wif.config file

@@ -11,10 +11,10 @@
         
     .PARAMETER Suffix
         The suffix value that you want to append to the file name when backing it up in the same directory.
-
+        
     .PARAMETER DestinationPath
         Path to the folder where you want the backup file to be placed. This parameter is used when you want to backup the file in a different directory.
-
+        
     .PARAMETER Force
         Instructs the cmdlet to overwrite an already existing backup of the file.
         
@@ -22,18 +22,18 @@
         PS C:\> Backup-File -File c:\temp\d365fo.tools\test.txt -Suffix "Original"
         
         This will backup the "test.txt" file as "test_Original.txt" inside "c:\temp\d365fo.tools\"
-
+        
     .EXAMPLE
         PS C:\> Backup-File -File c:\temp\d365fo.tools\test.txt -Suffix "Original" -Force
         
         This will backup the "test.txt" file as "test_Original.txt" inside "c:\temp\d365fo.tools\"
         If the file already exists in the destination folder, it will be overwritten.
-
-    .EXAMPLE 
+        
+    .EXAMPLE
         PS C:\> Backup-File -File c:\temp\d365fo.tools\test.txt -DestinationPath c:\temp\d365fo.tools\backup
         
         This will backup the "test.txt" file to "c:\temp\d365fo.tools\backup\test.txt"
-
+        
     .EXAMPLE
         PS C:\> Backup-File -File c:\temp\d365fo.tools\test.txt -DestinationPath c:\temp\d365fo.tools\backup -Force
         
