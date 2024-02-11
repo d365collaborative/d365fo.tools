@@ -36,6 +36,9 @@ jobs:
     - name: Update documentation
       shell: powershell
       run: build\update-docs.ps1
+    - name: Generate Find-D365Command index
+      shell: powershell
+      run: build\generate-findd365commandindex.ps1
     - name: Create a pull request for changes
       uses: peter-evans/create-pull-request@v5
       with:
