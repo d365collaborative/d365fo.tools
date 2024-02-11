@@ -10,16 +10,16 @@
         
         The steps executed are:
         
-        - 1. Create a self-signed certificate and save it to Desktop or use a provided certificate.
-        - 2. Install the certificate to the "LocalMachine" certificate store.
-        - 3. Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
-        - 4. Update the web.config with the application ID and the thumbprint of the certificate.
-        - 5. (Optional) Add the application registration to the WIF config.
+        - 1) Create a self-signed certificate and save it to Desktop or use a provided certificate.
+        - 2) Install the certificate to the "LocalMachine" certificate store.
+        - 3) Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
+        - 4) Update the web.config with the application ID and the thumbprint of the certificate.
+        - 5) (Optional) Add the application registration to the WIF config.
         
         To execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:
         
-        - a. Dynamics ERP - This permission is required to access finance and operations environments.
-        - b. Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
+        - Dynamics ERP - This permission is required to access finance and operations environments.
+        - Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
         
         The URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.
         Finally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.
@@ -81,7 +81,7 @@
         Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years and adds the application registration to the wif.config.
         
     .EXAMPLE
-        PS c:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert"
+        PS C:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert"
         
         Enables the Entra ID integration with a new self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
         
@@ -91,19 +91,15 @@
         Enables the Entra ID integration with a new self-signed certificate with the name "SelfsignedCert" that expires after 1 year.
         
     .EXAMPLE
-        ```powershell
         PS C:\> $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
         PS C:\> New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificatePassword $securePassword
-        ```
         
         Enables the Entra ID integration with a new self-signed certificate with the name "CHEAuth" that expires after 2 years, using the provided password to generate the private key of the certificate.
         The certificate file and the private key file are saved to the Desktop of the current user.
         
     .EXAMPLE
-        ```powershell
         PS C:\> $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
         PS C:\> New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -ExistingCertificateFile "C:\Temp\SelfsignedCert.cer" -ExistingCertificatePrivateKeyFile "C:\Temp\SelfsignedCert.pfx" -CertificatePassword $securePassword
-        ```
         
         Enables the Entra ID integration with the certificate file "C:\Temp\SelfsignedCert.cer", the private key file "C:\Temp\SelfsignedCert.pfx" and the provided password to install it.
         
