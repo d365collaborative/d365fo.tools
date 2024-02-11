@@ -43,8 +43,8 @@ jobs:
       uses: peter-evans/create-pull-request@v5
       with:
         commit-message: | 
-          'Update comment based help and tests
+          🤖 Fix best practice deviations
           
           This pull request was automatically created by the d365fo.tools-Generate-Text action'
-        title: 'Update comment based help and tests'
-        body: 'This pull request was automatically created by the d365fo.tools-Generate-Text action'
+        title: '🤖 Fix best practice deviations'
+        body: 'This pull request was automatically created by the d365fo.tools-Generate-Text action. See [Building tools](https://github.com/d365collaborative/d365fo.tools/wiki/Building-tools) for more information.'
