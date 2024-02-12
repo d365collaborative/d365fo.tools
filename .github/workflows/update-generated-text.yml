@@ -36,12 +36,15 @@ jobs:
     - name: Update documentation
       shell: powershell
       run: build\update-docs.ps1
+    - name: Generate Find-D365Command index
+      shell: powershell
+      run: build\generate-findcommandindex.ps1
     - name: Create a pull request for changes
       uses: peter-evans/create-pull-request@v5
       with:
         commit-message: | 
-          'Update comment based help and tests
+          🤖 Fix best practice deviations
           
           This pull request was automatically created by the d365fo.tools-Generate-Text action'
-        title: 'Update comment based help and tests'
-        body: 'This pull request was automatically created by the d365fo.tools-Generate-Text action'
+        title: '🤖 Fix best practice deviations'
+        body: 'This pull request was automatically created by the d365fo.tools-Generate-Text action. See [Building tools](https://github.com/d365collaborative/d365fo.tools/wiki/Building-tools) for more information.'
