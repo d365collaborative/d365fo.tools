@@ -10,15 +10,16 @@
         
         The steps executed are:
         
-        1. Create a self-signed certificate and save it to Desktop or use a provided certificate.
-        2. Install the certificate to the "LocalMachine" certificate store.
-        3. Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
-        4. Update the web.config with the application ID and the thumbprint of the certificate.
+        - 1) Create a self-signed certificate and save it to Desktop or use a provided certificate.
+        - 2) Install the certificate to the "LocalMachine" certificate store.
+        - 3) Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
+        - 4) Update the web.config with the application ID and the thumbprint of the certificate.
+        - 5) (Optional) Add the application registration to the WIF config.
         
         To execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:
         
-        a. Dynamics ERP - This permission is required to access finance and operations environments.
-        b. Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
+        - Dynamics ERP - This permission is required to access finance and operations environments.
+        - Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
         
         The URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.
         Finally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.
@@ -54,6 +55,9 @@
     .PARAMETER Force
         Forces the execution of some of the steps. For example, if a certificate with the same name already exists, it will be deleted and recreated.
         
+    .Parameter AddAppRegistrationToWifConfig
+        Adds the application registration to the WIF config. This is not part of the official Microsoft documentation to enable the Entra ID integration. It is however highly recommended to fix additional issues with the missing entry integration.
+        
     .Parameter WhatIf
         Executes the cmdlet until the first operation that would change the state of the system, without executing that operation.
         Subsequent operations are likely to fail.
@@ -72,7 +76,12 @@
         Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years.
         
     .EXAMPLE
-        PS c:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert"
+        PS C:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -AddAppRegistrationToWifConfig
+        
+        Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years and adds the application registration to the wif.config.
+        
+    .EXAMPLE
+        PS C:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert"
         
         Enables the Entra ID integration with a new self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
         
@@ -95,6 +104,8 @@
         Enables the Entra ID integration with the certificate file "C:\Temp\SelfsignedCert.cer", the private key file "C:\Temp\SelfsignedCert.pfx" and the provided password to install it.
         
     .NOTES
+        Test-D365EntraIntegration can be used to validate an entra integration.
+        
         Author: Øystein Brenna (@oysbre)
         Author: Florian Hopfner (@FH-Inway)
 #>
@@ -129,7 +140,9 @@ function New-D365EntraIntegration {
 
         [Security.SecureString] $CertificatePassword,
 
-        [switch] $Force
+        [switch] $Force,
+
+        [switch] $AddAppRegistrationToWifConfig
     )
 
     if (-not ($Script:IsAdminRuntime)) {
@@ -324,5 +337,33 @@ function New-D365EntraIntegration {
 
     if ($PSCmdlet.ParameterSetName -eq "NewCertificate") {
         Write-PSFMessage -Level Host -Message "The certificate file <c='em'>$NewCertificateFile</c> must be uploaded to the Azure application, see https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app#add-a-certificate."
+    }
+
+    # Step 5: Add app registration to Wif.config
+    if ($AddAppRegistrationToWifConfig) {
+        Write-PSFMessage -Level Verbose -Message "Step 5: Starting adding app registration to Wif.config"
+        $wifConfigBackup = Join-Path $Script:DefaultTempPath "WifConfigBackup"
+        $wifConfigFileBackup = Join-Path $wifConfigBackup $Script:WifConfig
+        if (Test-PathExists -Path $wifConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
+            Write-PSFMessage -Level Warning -Message "Backup of Wif.config already exists."
+            if (-not $Force) {
+                Stop-PSFFunction -Message "Stopping because a backup of Wif.config already exists"
+                return
+            }
+            Write-PSFMessage -Level Host -Message "Backup of Wif.config will be overwritten."
+        }
+        $null = Backup-D365WifConfig -Force:$Force
+        $wifConfigFile = Join-Path -Path $Script:AOSPath $Script:WifConfig
+        if (-not (Test-PathExists -Path $wifConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
+            Write-PSFMessage -Level Host -Message "Unable to find the Wif.config file."
+            Stop-PSFFunction -Message "Stopping because the Wif.config file could not be found"
+        }
+        [xml]$xml = Get-Content $wifConfigFile
+        $audienceUris = $xml.'system.identityModel'.identityConfiguration.securityTokenHandlers.securityTokenHandlerConfiguration.audienceUris
+        $audienceUriElement = $xml.CreateElement('add')
+        $audienceUriElement.SetAttribute('value', "spn:$ClientId")
+        $audienceUris.PrependChild($audienceUriElement)
+        $xml.Save($wifConfigFile)
+        Write-PSFMessage -Level Host -Message "Wif.config was updated with the audience URIs."
     }
 }

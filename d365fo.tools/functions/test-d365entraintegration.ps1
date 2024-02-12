@@ -36,6 +36,7 @@ function Test-D365EntraIntegration {
         return
     }
 
+    # Check web.config
     $webConfigFile = Join-Path -Path $Script:AOSPath $Script:WebConfig
     
     if (-not (Test-PathExists -Path $webConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
@@ -68,12 +69,35 @@ function Test-D365EntraIntegration {
     }
 
     if ((-not [System.String]::IsNullOrWhiteSpace($config.S2SCertThumbprint)) -and $config.S2SCertThumbprint -ne $config.GraphAPIServicePrincipalCert) {
-        Write-PSFMessage -Level Host -Message "The <c='em'>'Infrastructure.S2SCertThumbprint'</c> and the <c='em'>'GraphApi.GraphAPIServicePrincipalCert'</c> value doesn't match each other. This indicates that you a <c='em'>corrupted</c> configuration. Running the <c='em'>'New-D365EntraIntegration'</c> cmdlet could assist with fixing the configuration."
-        Stop-PSFFunction -Message "Stopping because the 'Infrastructure.S2SCertThumbprint' and 'GraphApi.GraphAPIServicePrincipalCert' values doesn't match"
+        Write-PSFMessage -Level Host -Message "The <c='em'>'Infrastructure.S2SCertThumbprint'</c> and the <c='em'>'GraphApi.GraphAPIServicePrincipalCert'</c> value do not match each other. This indicates that you have a <c='em'>corrupted</c> configuration. Running the <c='em'>'New-D365EntraIntegration'</c> cmdlet could assist with fixing the configuration."
+        Stop-PSFFunction -Message "Stopping because the 'Infrastructure.S2SCertThumbprint' and 'GraphApi.GraphAPIServicePrincipalCert' values do not match"
     }
 
     if (Test-PSFFunctionInterrupt) { return }
+
+    # Check wif.config
+    $wifConfigFile = Join-Path -Path $Script:AOSPath $Script:WifConfig
     
+    if (-not (Test-PathExists -Path $wifConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
+        Write-PSFMessage -Level Host -Message "Unable to find the wif.config file."
+        Stop-PSFFunction -Message "Stopping because the wif.config file could not be found"
+    }
+    
+    [xml]$xml = Get-Content $wifConfigFile
+    $nodes = ($xml.'system.identityModel'.identityConfiguration.securityTokenHandlers.securityTokenHandlerConfiguration.audienceUris).ChildNodes
+    $config.AudienceUri = $nodes | Where-Object { $_.value -like "*$($config.AadRealm)*" } | Select-Object -First 1 -ExpandProperty value
+
+    if ([System.String]::IsNullOrWhiteSpace($config.AudienceUri)) {
+        Write-PSFMessage -Level Host -Message "The <c='em'>'AudienceUri'</c> value is empty. This may not be needed, but in case of issues, try running the <c='em'>'New-D365EntraIntegration'</c> cmdlet with the -AddAppRegistrationToWifConfig switch."
+    }
+    elseif ($config.AadRealm -ne $config.AudienceUri) {
+        Write-PSFMessage -Level Host -Message "The <c='em'>'Aad.Realm'</c> and the <c='em'>'AudienceUri'</c> value do not match each other. This indicates that you have a <c='em'>corrupted</c> configuration. Running the <c='em'>'New-D365EntraIntegration'</c> cmdlet with the -AddAppRegistrationToWifConfig switch could assist with fixing the configuration."
+        Stop-PSFFunction -Message "Stopping because the 'Aad.Realm' and 'AudienceUri' values do not match"
+    }
+
+    if (Test-PSFFunctionInterrupt) { return }
+
+    # Check certificate
     $certStoreLocation = "Cert:\LocalMachine\My"
     
     $certEntra = Get-ChildItem -Path $certStoreLocation -ErrorAction SilentlyContinue | Where-Object { $_.Thumbprint -eq $config.S2SCertThumbprint } | Select-Object -First 1

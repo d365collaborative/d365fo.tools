@@ -128,18 +128,31 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter AddAppRegistrationToWifConfig' {
+			$parameter = (Get-Command New-D365EntraIntegration).Parameters['AddAppRegistrationToWifConfig']
+			$parameter.Name | Should -Be 'AddAppRegistrationToWifConfig'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset NewCertificate" {
 		<#
 		NewCertificate -ClientId
-		NewCertificate -ClientId -CertificateName -CertificateExpirationYears -NewCertificateFile -NewCertificatePrivateKeyFile -CertificatePassword -Force
+		NewCertificate -ClientId -CertificateName -CertificateExpirationYears -NewCertificateFile -NewCertificatePrivateKeyFile -CertificatePassword -Force -AddAppRegistrationToWifConfig
 		#>
 	}
  	Describe "Testing parameterset ExistingCertificate" {
 		<#
 		ExistingCertificate -ClientId -ExistingCertificateFile
-		ExistingCertificate -ClientId -ExistingCertificateFile -ExistingCertificatePrivateKeyFile -CertificatePassword -Force
+		ExistingCertificate -ClientId -ExistingCertificateFile -ExistingCertificatePrivateKeyFile -CertificatePassword -Force -AddAppRegistrationToWifConfig
 		#>
 	}
 

@@ -57,6 +57,7 @@
 		'Backup-D365MetaDataDir',
 		'Backup-D365Runbook',
 		'Backup-D365WebConfig',
+		'Backup-D365WifConfig',
 
 		'Clear-D365ActiveBroadcastMessageConfig',
 		'Clear-D365BacpacObject',

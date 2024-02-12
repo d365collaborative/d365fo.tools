@@ -16,14 +16,14 @@ Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).
 ```
 New-D365EntraIntegration -ClientId <String> [-CertificateName <String>] [-CertificateExpirationYears <Int32>]
  [-NewCertificateFile <String>] [-NewCertificatePrivateKeyFile <String>] [-CertificatePassword <SecureString>]
- [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Force] [-AddAppRegistrationToWifConfig] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ExistingCertificate
 ```
 New-D365EntraIntegration -ClientId <String> -ExistingCertificateFile <String>
- [-ExistingCertificatePrivateKeyFile <String>] [-CertificatePassword <SecureString>] [-Force] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-ExistingCertificatePrivateKeyFile <String>] [-CertificatePassword <SecureString>] [-Force]
+ [-AddAppRegistrationToWifConfig] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,22 +33,17 @@ If a new certificate is created and the integration is also to be enabled on oth
 
 The steps executed are:
 
-1.
-Create a self-signed certificate and save it to Desktop or use a provided certificate.
-2.
-Install the certificate to the "LocalMachine" certificate store.
-3.
-Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
-4.
-Update the web.config with the application ID and the thumbprint of the certificate.
+- 1) Create a self-signed certificate and save it to Desktop or use a provided certificate.
+- 2) Install the certificate to the "LocalMachine" certificate store.
+- 3) Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
+- 4) Update the web.config with the application ID and the thumbprint of the certificate.
+- 5) (Optional) Add the application registration to the WIF config.
 
 To execute the steps, the id of an Azure application must be provided.
 The application must have the following API permissions:
 
-a.
-Dynamics ERP - This permission is required to access finance and operations environments.
-b.
-Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
+- Dynamics ERP - This permission is required to access finance and operations environments.
+- Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
 
 The URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.
 Finally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.
@@ -64,19 +59,26 @@ Enables the Entra ID integration with a new self-signed certificate named "CHEAu
 
 ### EXAMPLE 2
 ```
+New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -AddAppRegistrationToWifConfig
+```
+
+Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years and adds the application registration to the wif.config.
+
+### EXAMPLE 3
+```
 New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert"
 ```
 
 Enables the Entra ID integration with a new self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert" -CertificateExpirationYears 1
 ```
 
 Enables the Entra ID integration with a new self-signed certificate with the name "SelfsignedCert" that expires after 1 year.
 
-### EXAMPLE 4
+### EXAMPLE 5
 ```
 $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
 ```
@@ -86,7 +88,7 @@ PS C:\\\> New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -
 Enables the Entra ID integration with a new self-signed certificate with the name "CHEAuth" that expires after 2 years, using the provided password to generate the private key of the certificate.
 The certificate file and the private key file are saved to the Desktop of the current user.
 
-### EXAMPLE 5
+### EXAMPLE 6
 ```
 $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
 ```
@@ -242,6 +244,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AddAppRegistrationToWifConfig
+Adds the application registration to the WIF config.
+This is not part of the official Microsoft documentation to enable the Entra ID integration.
+It is however highly recommended to fix additional issues with the missing entry integration.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -WhatIf
 Executes the cmdlet until the first operation that would change the state of the system, without executing that operation.
 Subsequent operations are likely to fail.
@@ -284,6 +303,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ### If a new certificate is created, the certificate file is placed on the Desktop of the current user.
 ### It must be uploaded to the Azure Application.
 ## NOTES
+Test-D365EntraIntegration can be used to validate an entra integration.
+
 Author: Øystein Brenna (@oysbre)
 Author: Florian Hopfner (@FH-Inway)
 

@@ -67,18 +67,7 @@ function Backup-D365DevConfig {
         if (-not (Test-PathExists -Path $File -Type Leaf)) { return }
 
         if (Test-PSFFunctionInterrupt) { return }
-    
-        $fileName = Split-Path -Path $File -Leaf
-        $destinationFile = $(Join-Path -Path $OutputPath -ChildPath $fileName)
 
-        if (-not $Force) {
-            if ((-not (Test-PathExists -Path $destinationFile -Type Leaf -ShouldNotExist -ErrorAction SilentlyContinue -WarningAction SilentlyContinue))) {
-                Write-PSFMessage -Level Host -Message "The <c='em'>$destinationFile</c> already exists. Consider changing the <c='em'>destination</c> path or set the <c='em'>Force</c> parameter to overwrite the file."
-                return
-            }
-        }
-
-        Write-PSFMessage -Level Verbose -Message "Copying from: $File" -Target $item
-        Copy-Item -Path $File -Destination $destinationFile -Force:$Force -PassThru | Select-PSFObject "Name as Filename", "LastWriteTime as LastModified", "Fullname as File"
+        Backup-File -File $File -DestinationPath $OutputPath -Force:$Force
     }
 }

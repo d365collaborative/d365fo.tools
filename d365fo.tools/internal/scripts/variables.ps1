@@ -21,6 +21,8 @@ $Script:WebConfig = "web.config"
 
 $Script:DevConfig = "DynamicsDevConfig.xml"
 
+$Script:WifConfig = "wif.config"
+
 $Script:WifServicesConfig = "wif.services.config"
 
 $Script:Hosts = 'C:\Windows\System32\drivers\etc\hosts'
