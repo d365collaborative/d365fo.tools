@@ -39,6 +39,9 @@
 ### **Automation**
 * [[Exception handling]]
 
+### **Configuration**
+* [[Configuration]]
+
 # **Contribute**
 
 ## **Start Here**
