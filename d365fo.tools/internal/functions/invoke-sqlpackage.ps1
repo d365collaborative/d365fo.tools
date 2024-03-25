@@ -133,7 +133,22 @@ function Invoke-SqlPackage {
 
     Invoke-TimeSignal -Start
 
-    if (!(Test-PathExists -Path $executable -Type Leaf)) { return }
+    if (!(Test-PathExists -Path $executable -Type Leaf)){
+        try{
+            $envSqlPackage = (Get-Command -Name "sqlpackage.exe").Source
+            if (!(Test-PathExists -Path $envSqlPackage -Type Leaf)) { return }
+            else{ 
+                $executable = $envSqlPackage
+                Set-D365SqlPackagePath -Path $executable
+            }            
+        }
+        catch
+        {
+            # SqlPackage.exe is not in $Script:SqlPackagePath
+            # and not in %PATH%, so
+            return
+        }
+    }
 
     Write-PSFMessage -Level Verbose -Message "Starting to prepare the parameters for sqlpackage.exe"
 
