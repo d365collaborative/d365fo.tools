@@ -137,10 +137,10 @@ function Invoke-SqlPackage {
         try{
             $envSqlPackage = (Get-Command -Name "sqlpackage.exe").Source
             if (!(Test-PathExists -Path $envSqlPackage -Type Leaf)) { return }
-            else{ 
+            else{
                 $executable = $envSqlPackage
                 Set-D365SqlPackagePath -Path $executable
-            }            
+            }
         }
         catch
         {
