@@ -17,8 +17,8 @@
     .PARAMETER Url
         Url/Uri to where the SqlPackage download is located
         
-        The default value is for version 162.2.111.2 as of writing. 
-
+        The default value is for version 162.2.111.2 as of writing.
+        
         Further discussion can be found here: https://github.com/d365collaborative/d365fo.tools/discussions/816
         
     .EXAMPLE
