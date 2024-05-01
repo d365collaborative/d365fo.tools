@@ -435,6 +435,35 @@
         "Syntax":  "Backup-D365WebConfig [[-OutputPath] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Backup-D365WifConfig",
+        "Description":  "Will backup the wif.config file located in the AOS / IIS folder",
+        "Params":  [
+                       [
+                           "OutputPath",
+                           "Path to the folder where you want the web.config file to be persisted\nDefault is: \"C:\\Temp\\d365fo.tools\\WifConfigBackup\"",
+                           "",
+                           false,
+                           "false",
+                           "$(Join-Path $Script:DefaultTempPath \"WifConfigBackup\")"
+                       ],
+                       [
+                           "Force",
+                           "Instructs the cmdlet to overwrite the destination file if it already exists",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (@FH-Inway)",
+        "Synopsis":  "Backup the wif.config file",
+        "Name":  "Backup-D365WifConfig",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eBackup-D365WifConfig\nWill locate the wif.config file, and back it up.\r\nIt will look for the file in the AOS / IIS folder. E.g. K:\\AosService\\WebRoot\\wif.config.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\WifConfigBackup\".\nA result set example:\nFilename   LastModified         File\r\n--------   ------------         ----\r\nwif.config 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\WifConfigBackup\\wif.config\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eBackup-D365WifConfig -Force\nWill locate the wif.config file, back it up, and overwrite if a previous backup file exists.\r\nIt will look for the file in the AOS / IIS folder. E.g. K:\\AosService\\WebRoot\\wif.config.\r\nIt will save the file to the default location: \"C:\\Temp\\d365fo.tools\\WifConfigBackup\".\r\nIt will overwrite any file named wif.config in the destination folder.\nA result set example:\nFilename   LastModified         File\r\n--------   ------------         ----\r\nwif.config 6/29/2021 7:31:04 PM C:\\temp\\d365fo.tools\\WifConfigBackup\\wif.config",
+        "Syntax":  "Backup-D365WifConfig [[-OutputPath] \u003cString\u003e] [-Force] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Clear-D365ActiveBroadcastMessageConfig",
         "Description":  "Clear the active broadcast message config from the configuration store",
         "Tags":  [
@@ -7622,7 +7651,7 @@
     },
     {
         "CommandName":  "Invoke-D365InstallSqlPackage",
-        "Description":  "Download and extract the DotNet/.NET core x64 edition of the SqlPackage.exe to your machine\n\nIt parses the raw html page and tries to extract the latest download link.\nAs of 12th April 2022, no .NET Core link is available on the download page. The cmdlet will always use the Url parameter.",
+        "Description":  "Download and extract SqlPackage.exe to your machine.",
         "Params":  [
                        [
                            "Path",
@@ -7633,8 +7662,8 @@
                            "C:\\temp\\d365fo.tools\\SqlPackage"
                        ],
                        [
-                           "SkipExtractFromPage",
-                           "Instruct the cmdlet to skip trying to parse the download page and to rely on the Url parameter only",
+                           "Latest",
+                           "Overrides the Url parameter and uses the latest download URL provided by the evergreen link https://aka.ms/sqlpackage-windows",
                            "",
                            false,
                            "false",
@@ -7642,11 +7671,11 @@
                        ],
                        [
                            "Url",
-                           "Url/Uri to where the latest SqlPackage download is located\nThe default value is for v19.1 (16.0.6161.0) as of writing. This is the last version of SqlPackage based on .NET Core.\r\nAccording to the Microsoft documentation, a .NET Core version of SqlPackage should be used.\r\nhttps://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/database/import-database\r\nFurther discussion can be found here: https://github.com/d365collaborative/d365fo.tools/issues/708",
+                           "Url/Uri to where the SqlPackage download is located\nThe default value is for version 162.2.111.2 as of writing.\nFurther discussion can be found here: https://github.com/d365collaborative/d365fo.tools/discussions/816",
                            "",
                            false,
                            "false",
-                           "https://go.microsoft.com/fwlink/?linkid=2196334"
+                           "https://go.microsoft.com/fwlink/?linkid=2261576"
                        ]
                    ],
         "Alias":  "",
@@ -7654,8 +7683,8 @@
         "Synopsis":  "Download SqlPackage.exe to your machine",
         "Name":  "Invoke-D365InstallSqlPackage",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage\nThis will download and extract the latest SqlPackage.exe.\r\nIt will use the default value for the Path parameter, for where to save the SqlPackage.exe.\r\nIt will try to extract the latest download URL from the RAW html page.\r\nIt will update the path for the SqlPackage.exe in configuration.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage -Path \"C:\\temp\\SqlPackage\"\nThis will download and extract the latest SqlPackage.exe.\r\nIt will try to extract the latest download URL from the RAW html page.\r\nIt will update the path for the SqlPackage.exe in configuration.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage -SkipExtractFromPage\nThis will download and extract the latest SqlPackage.exe.\r\nIt will rely on the Url parameter to based the download from.\r\nIt will use the default value of the Url parameter.\r\nIt will update the path for the SqlPackage.exe in configuration.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage -SkipExtractFromPage -Url \"https://go.microsoft.com/fwlink/?linkid=3030303\"\nThis will download and extract the latest SqlPackage.exe.\r\nIt will rely on the Url parameter to based the download from.\r\nIt will use the \"https://go.microsoft.com/fwlink/?linkid=3030303\" as value for the Url parameter.\r\nIt will update the path for the SqlPackage.exe in configuration.",
-        "Syntax":  "Invoke-D365InstallSqlPackage [[-Path] \u003cString\u003e] [-SkipExtractFromPage] [[-Url] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage\nThis will download and extract SqlPackage.exe.\r\nIt will use the default value for the Path parameter, for where to save the SqlPackage.exe.\r\nIt will update the path for the SqlPackage.exe in configuration.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage -Path \"C:\\temp\\SqlPackage\"\nThis will download and extract SqlPackage.exe.\r\nIt will save the SqlPackage.exe to \"C:\\temp\\SqlPackage\".\r\nIt will update the path for the SqlPackage.exe in configuration.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage -Latest\nThis will download and extract the latest SqlPackage.exe.\r\nIt will use https://aka.ms/sqlpackage-windows as the download URL.\r\nIt will update the path for the SqlPackage.exe in configuration.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365InstallSqlPackage -Url \"https://go.microsoft.com/fwlink/?linkid=3030303\"\nThis will download and extract SqlPackage.exe.\r\nIt will rely on the Url parameter to base the download on.\r\nIt will use the \"https://go.microsoft.com/fwlink/?linkid=3030303\" as value for the Url parameter.\r\nIt will update the path for the SqlPackage.exe in configuration.",
+        "Syntax":  "Invoke-D365InstallSqlPackage [-Path \u003cString\u003e] [-Url \u003cString\u003e] [\u003cCommonParameters\u003e]\nInvoke-D365InstallSqlPackage [-Path \u003cString\u003e] [-Latest] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365LcsApiRefreshToken",
@@ -9568,7 +9597,7 @@
     },
     {
         "CommandName":  "New-D365EntraIntegration",
-        "Description":  "Enable the Microsoft Entra ID integration by executing some of the steps described in https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-tools/secure-developer-vm#external-integrations.\nThe integration can either be enabled with an existing certificate or a new self-signed certificate can be created.\nIf a new certificate is created and the integration is also to be enabled on other environments with the same certificate, a certificate password must be specified in order to create a certificate private key file.\n\nThe steps executed are:\n\n1. Create a self-signed certificate and save it to Desktop or use a provided certificate.\n2. Install the certificate to the \"LocalMachine\" certificate store.\n3. Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).\n4. Update the web.config with the application ID and the thumbprint of the certificate.\n\nTo execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:\n\na. Dynamics ERP - This permission is required to access finance and operations environments.\nb. Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).\n\nThe URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.\nFinally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.",
+        "Description":  "Enable the Microsoft Entra ID integration by executing some of the steps described in https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-tools/secure-developer-vm#external-integrations.\nThe integration can either be enabled with an existing certificate or a new self-signed certificate can be created.\nIf a new certificate is created and the integration is also to be enabled on other environments with the same certificate, a certificate password must be specified in order to create a certificate private key file.\n\nThe steps executed are:\n\n- 1) Create a self-signed certificate and save it to Desktop or use a provided certificate.\n- 2) Install the certificate to the \"LocalMachine\" certificate store.\n- 3) Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).\n- 4) Update the web.config with the application ID and the thumbprint of the certificate.\n- 5) (Optional) Add the application registration to the WIF config.\n\nTo execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:\n\n- Dynamics ERP - This permission is required to access finance and operations environments.\n- Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).\n\nThe URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.\nFinally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.",
         "Params":  [
                        [
                            "ClientId",
@@ -9643,6 +9672,14 @@
                            "False"
                        ],
                        [
+                           "AddAppRegistrationToWifConfig",
+                           "Adds the application registration to the WIF config. This is not part of the official Microsoft documentation to enable the Entra ID integration. It is however highly recommended to fix additional \r\nissues with the missing entry integration.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "WhatIf",
                            "Executes the cmdlet until the first operation that would change the state of the system, without executing that operation.\r\nSubsequent operations are likely to fail.\r\nThis is currently not fully implemented and should not be used.",
                            "wi",
@@ -9664,8 +9701,8 @@
         "Synopsis":  "Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).",
         "Name":  "New-D365EntraIntegration",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986\nEnables the Entra ID integration with a new self-signed certificate named \"CHEAuth\" which expires after 2 years.\n-------------------------- EXAMPLE 2 --------------------------\nPS c:\\\u003eNew-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName \"SelfsignedCert\"\nEnables the Entra ID integration with a new self-signed certificate with the name \"Selfsignedcert\" that expires after 2 years.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName \"SelfsignedCert\" -CertificateExpirationYears 1\nEnables the Entra ID integration with a new self-signed certificate with the name \"SelfsignedCert\" that expires after 1 year.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003e$securePassword = Read-Host -AsSecureString -Prompt \"Enter the certificate password\"\nPS C:\\\u003e New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificatePassword $securePassword\nEnables the Entra ID integration with a new self-signed certificate with the name \"CHEAuth\" that expires after 2 years, using the provided password to generate the private key of the certificate.\r\nThe certificate file and the private key file are saved to the Desktop of the current user.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003e$securePassword = Read-Host -AsSecureString -Prompt \"Enter the certificate password\"\nPS C:\\\u003e New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -ExistingCertificateFile \"C:\\Temp\\SelfsignedCert.cer\" -ExistingCertificatePrivateKeyFile \"C:\\Temp\\SelfsignedCert.pfx\" \r\n-CertificatePassword $securePassword\nEnables the Entra ID integration with the certificate file \"C:\\Temp\\SelfsignedCert.cer\", the private key file \"C:\\Temp\\SelfsignedCert.pfx\" and the provided password to install it.",
-        "Syntax":  "New-D365EntraIntegration -ClientId \u003cString\u003e [-CertificateName \u003cString\u003e] [-CertificateExpirationYears \u003cInt32\u003e] [-NewCertificateFile \u003cString\u003e] [-NewCertificatePrivateKeyFile \u003cString\u003e] [-CertificatePassword \u003cSecureString\u003e] [-Force] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]\nNew-D365EntraIntegration -ClientId \u003cString\u003e -ExistingCertificateFile \u003cString\u003e [-ExistingCertificatePrivateKeyFile \u003cString\u003e] [-CertificatePassword \u003cSecureString\u003e] [-Force] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986\nEnables the Entra ID integration with a new self-signed certificate named \"CHEAuth\" which expires after 2 years.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -AddAppRegistrationToWifConfig\nEnables the Entra ID integration with a new self-signed certificate named \"CHEAuth\" which expires after 2 years and adds the application registration to the wif.config.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName \"SelfsignedCert\"\nEnables the Entra ID integration with a new self-signed certificate with the name \"Selfsignedcert\" that expires after 2 years.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eNew-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName \"SelfsignedCert\" -CertificateExpirationYears 1\nEnables the Entra ID integration with a new self-signed certificate with the name \"SelfsignedCert\" that expires after 1 year.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003e$securePassword = Read-Host -AsSecureString -Prompt \"Enter the certificate password\"\nPS C:\\\u003e New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificatePassword $securePassword\nEnables the Entra ID integration with a new self-signed certificate with the name \"CHEAuth\" that expires after 2 years, using the provided password to generate the private key of the certificate.\r\nThe certificate file and the private key file are saved to the Desktop of the current user.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003e$securePassword = Read-Host -AsSecureString -Prompt \"Enter the certificate password\"\nPS C:\\\u003e New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -ExistingCertificateFile \"C:\\Temp\\SelfsignedCert.cer\" -ExistingCertificatePrivateKeyFile \"C:\\Temp\\SelfsignedCert.pfx\" \r\n-CertificatePassword $securePassword\nEnables the Entra ID integration with the certificate file \"C:\\Temp\\SelfsignedCert.cer\", the private key file \"C:\\Temp\\SelfsignedCert.pfx\" and the provided password to install it.",
+        "Syntax":  "New-D365EntraIntegration -ClientId \u003cString\u003e [-CertificateName \u003cString\u003e] [-CertificateExpirationYears \u003cInt32\u003e] [-NewCertificateFile \u003cString\u003e] [-NewCertificatePrivateKeyFile \u003cString\u003e] [-CertificatePassword \u003cSecureString\u003e] [-Force] [-AddAppRegistrationToWifConfig] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]\nNew-D365EntraIntegration -ClientId \u003cString\u003e -ExistingCertificateFile \u003cString\u003e [-ExistingCertificatePrivateKeyFile \u003cString\u003e] [-CertificatePassword \u003cSecureString\u003e] [-Force] [-AddAppRegistrationToWifConfig] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "New-D365ISVLicense",
