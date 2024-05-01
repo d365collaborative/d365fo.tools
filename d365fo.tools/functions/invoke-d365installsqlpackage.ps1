@@ -101,7 +101,7 @@ function Invoke-D365InstallSqlPackage {
     $SqlPackagePath = Join-Path -Path $Path -ChildPath "SqlPackage.exe"
     Set-D365SqlPackagePath -Path $SqlPackagePath
 
-    $result = Invoke-Process -Path $SqlPackagePath -Params "/Version" 
+    $result = Invoke-Process -Path $SqlPackagePath -Params "/Version"
     $version = $result.stdout -replace "`r`n", ""
 
     Write-PSFMessage -Level Host -Message "SqlPackage.exe version $version has been downloaded and extracted to $SqlPackagePath"
