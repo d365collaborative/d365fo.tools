@@ -217,6 +217,10 @@ function Invoke-SqlPackage {
         $Params.Add("/MaxParallelism:$MaxParallelism") > $null
     }
 
+    $result = Invoke-Process -Path $executable -Params "/Version" 
+    $version = $result.stdout -replace "`r`n", ""
+    Write-PSFMessage -Level Verbose -Message "Using SQLPackage version $version"
+
     Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
     
     if (Test-PSFFunctionInterrupt) {
