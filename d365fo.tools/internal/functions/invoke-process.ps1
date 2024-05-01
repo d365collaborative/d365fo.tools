@@ -144,4 +144,12 @@ function Invoke-Process {
     }
 
     Invoke-TimeSignal -End
+
+    if (-not $ShowOriginalProgress) {
+        [PSCustomObject]@{
+            stdout = $stdout
+            stderr = $stderr
+            ExitCode = $p.ExitCode
+        }
+    }
 }
