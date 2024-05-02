@@ -13,7 +13,7 @@ Import certificates for RSAT
 ## SYNTAX
 
 ```
-Import-D365RsatSelfServiceCertificates [-Path] <Object> [-Password] <Object> [<CommonParameters>]
+Import-D365RsatSelfServiceCertificates [-Path] <String> [-Password] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,7 +44,7 @@ Path to the folder where the .cer and .pxf files are located
 The files needs to be extracted from the zip archive
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -61,7 +61,7 @@ Password for the .pxf file
 Working with self-service environments, the password will be displayed during the download of the zip archive
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 

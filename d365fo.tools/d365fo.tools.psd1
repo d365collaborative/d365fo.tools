@@ -3,7 +3,7 @@
 	RootModule        = 'd365fo.tools.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.7.9'
+	ModuleVersion     = '0.7.10'
 
 	# ID used to uniquely identify this module
 	GUID              = '7c7b26d4-f764-4cb0-a692-459a0a689dbb'
@@ -57,6 +57,7 @@
 		'Backup-D365MetaDataDir',
 		'Backup-D365Runbook',
 		'Backup-D365WebConfig',
+		'Backup-D365WifConfig',
 
 		'Clear-D365ActiveBroadcastMessageConfig',
 		'Clear-D365BacpacObject',
@@ -115,6 +116,8 @@
 		'Get-D365EventTraceProvider',
 		'Get-D365ExternalIP',
 
+		'Get-D365Flight',
+		
 		'Get-D365JsonService',
 
 		'Get-D365InstalledHotfix',
@@ -321,6 +324,8 @@
 		'Switch-D365ActiveDatabase',
 
 		'Test-D365Command',
+		'Test-D365DataverseConnection',
+		'Test-D365EntraIntegration',
 		'Test-D365FlightServiceCatalogId',
 		'Test-D365LabelIdIsValid',
 						
