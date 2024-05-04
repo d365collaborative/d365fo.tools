@@ -18,7 +18,7 @@ on:
           - $False
           - $True
       skipValidation:
-        description: "Determines if the module is validated before building"
+        description: "Determines if the module validation is skipped"
         default: false
         required: false
         type: boolean
