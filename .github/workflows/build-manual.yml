@@ -22,6 +22,7 @@ jobs:
   call-tmpl-build-release:
     uses: ./.github/workflows/tmpl-build-release.yml
     with:
+      module: 'd365fo.tools'
       skippublish: ${{ inputs.skippublish }}
       skipghrelease: ${{ inputs.skipghrelease }}
     secrets:
