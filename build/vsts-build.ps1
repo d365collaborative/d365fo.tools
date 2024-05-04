@@ -9,6 +9,8 @@ param (
 
 	$Repository = 'PSGallery',
 
+	$WorkingDirectory,
+
 	$ApiKey,
 
 	[switch]
@@ -18,10 +20,22 @@ param (
 	$AutoVersion
 )
 
+#region Handle Working Directory Defaults
+if (-not $WorkingDirectory)
+{
+	if ($env:RELEASE_PRIMARYARTIFACTSOURCEALIAS)
+	{
+		$WorkingDirectory = Join-Path -Path $env:SYSTEM_DEFAULTWORKINGDIRECTORY -ChildPath $env:RELEASE_PRIMARYARTIFACTSOURCEALIAS
+	}
+	else { $WorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY }
+}
+if (-not $WorkingDirectory) { $WorkingDirectory = Split-Path $PSScriptRoot }
+#endregion Handle Working Directory Defaults
+
 # Prepare publish folder
 Write-PSFMessage -Level Important -Message "Creating and populating publishing directory"
-$publishDir = New-Item -Path $env:SYSTEM_DEFAULTWORKINGDIRECTORY -Name publish -ItemType Directory
-Copy-Item -Path "$($env:SYSTEM_DEFAULTWORKINGDIRECTORY)\$ModuleName" -Destination $publishDir.FullName -Recurse -Force
+$publishDir = New-Item -Path $WorkingDirectory -Name publish -ItemType Directory
+Copy-Item -Path "$WorkingDirectory\$ModuleName" -Destination $publishDir.FullName -Recurse -Force
 
 # Create commands.ps1
 $text = @()
