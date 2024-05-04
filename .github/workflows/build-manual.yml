@@ -17,6 +17,11 @@ on:
         options:
           - $False
           - $True
+      skipValidation:
+        description: "Determines if the module is validated before building"
+        default: false
+        required: false
+        type: boolean
 
 jobs:
   call-tmpl-build-release:
@@ -25,5 +30,6 @@ jobs:
       module: 'd365fo.tools'
       skippublish: ${{ inputs.skippublish }}
       skipghrelease: ${{ inputs.skipghrelease }}
+      skipValidation: ${{ inputs.skipValidation }}
     secrets:
       apikey: ${{ secrets.ApiKey }}

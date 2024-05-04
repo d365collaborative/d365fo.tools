@@ -27,6 +27,11 @@ on:
         default: $False
         required: false
         type: string
+      skipValidation:
+        description: "Determines if the module is validated before building"
+        default: false
+        required: false
+        type: boolean
     secrets:
       apikey:
         description: "Key for the PowerShell Gallery API"
@@ -45,6 +50,7 @@ jobs:
     - name: Validate
       run: .\build\vsts-validate.ps1
       shell: powershell
+      if: ${{ inputs.skipValidation }} == false
     - name: Build
       run: .\build\vsts-build.ps1 -ApiKey ${{ secrets.apikey }} -AutoVersion:${{ inputs.autoversion }} -SkipPublish:${{ inputs.skippublish }}
       shell: powershell
