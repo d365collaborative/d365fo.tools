@@ -50,7 +50,7 @@ jobs:
     - name: Validate
       run: .\build\vsts-validate.ps1
       shell: powershell
-      if: ${{ inputs.skipValidation }} == false
+      if: ${{ ! inputs.skipValidation }}
     - name: Build
       run: .\build\vsts-build.ps1 -ApiKey ${{ secrets.apikey }} -AutoVersion:${{ inputs.autoversion }} -SkipPublish:${{ inputs.skippublish }}
       shell: powershell
