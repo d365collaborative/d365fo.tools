@@ -65,6 +65,7 @@ jobs:
 
     - name: Create GitHub release
       uses: softprops/action-gh-release@v2
+      if: ${{ ! inputs.skipghrelease }}
       with:
         name: ${{ env.VERSION }}
         tag_name: ${{ env.VERSION }}
