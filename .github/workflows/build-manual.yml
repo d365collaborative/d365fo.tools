@@ -1,0 +1,28 @@
+on:
+  workflow_dispatch:
+    inputs:
+      skippublish:
+        description: "Determines if the publishing to the PowerShell Gallery is skipped"
+        default: $True
+        required: false
+        type: choice
+        options:
+          - $False
+          - $True
+      skipghrelease:
+        description: "Determines if creation of a GitHub release is skipped"
+        default: $False
+        required: false
+        type: choice
+        options:
+          - $False
+          - $True
+
+jobs:
+  call-tmpl-build-release:
+    uses: ./.github/workflows/tmpl-build-release.yml
+    with:
+      skippublish: ${{ inputs.skippublish }}
+      skipghrelease: ${{ inputs.skipghrelease }}
+    secrets:
+      apikey: ${{ secrets.ApiKey }}
