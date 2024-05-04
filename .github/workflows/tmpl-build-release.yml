@@ -1,0 +1,63 @@
+# Template for a reusable workflow to build and release a PowerShell module.
+# The template expects the following PowerShell scripts in the build folder of the repository root
+# that do the actual validated build and release:
+# - vsts-prerequisities.ps1
+# - vsts-validate.ps1
+# - vsts-build.ps1
+
+on:
+  workflow_call:
+    inputs:
+      autoversion:
+        description: "Determines if the module's build version number is automatically incremented"
+        default: $True
+        required: false
+        type: string
+      skippublish:
+        description: "Determines if the publishing to the PowerShell Gallery is skipped"
+        default: $False
+        required: false
+        type: string
+      skipghrelease:
+        description: "Determines if a GitHub release is created"
+        default: $False
+        required: false
+        type: string
+    secrets:
+      apikey:
+        description: "Key for the PowerShell Gallery API"
+        required: true
+
+jobs:
+  build-and-release:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Prerequisites
+      run: .\build\vsts-prerequisites.ps1
+      shell: powershell
+    - name: Validate
+      run: .\build\vsts-validate.ps1
+      shell: powershell
+    - name: Build
+      run: .\build\vsts-build.ps1 -ApiKey ${{ secrets.apikey }} -AutoVersion:${{ inputs.autoversion }} -SkipPublish:${{ inputs.skippublish }}
+      shell: powershell
+    
+    - name: Get version
+      run: |
+        $publishDir = Get-Item -Path publish
+        [version]$version = (Import-PowerShellDataFile -Path "$($publishDir.FullName)\d365bap.tools\d365bap.tools.psd1").ModuleVersion
+        $githubReleaseVersion = "$($version.Major).$($version.Minor).$($version.Build)"
+        "VERSION=$githubReleaseVersion" >> $env:GITHUB_ENV
+      shell: powershell
+
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v2
+      with:
+        name: ${{ env.VERSION }}
+        tag_name: ${{ env.VERSION }}
+        draft: false
+        prerelease: true
+        generate_release_notes: true
