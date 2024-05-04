@@ -22,7 +22,7 @@ on:
 
 jobs:
   call-tmpl-build-release:
-    uses: ./.github/workflows/tmpl-build-release.yml
+    uses: fh-inway/d365.psmodule-alm/.github/workflows/tmpl-build-release.yml@main
     with:
       module: 'd365fo.tools'
       skippublish: ${{ inputs.skippublish }}
