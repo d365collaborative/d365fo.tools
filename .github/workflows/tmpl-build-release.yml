@@ -8,6 +8,10 @@
 on:
   workflow_call:
     inputs:
+      module:
+        description: "The name of the module to build and release"
+        required: true
+        type: string
       autoversion:
         description: "Determines if the module's build version number is automatically incremented"
         default: $True
@@ -48,7 +52,7 @@ jobs:
     - name: Get version
       run: |
         $publishDir = Get-Item -Path publish
-        [version]$version = (Import-PowerShellDataFile -Path "$($publishDir.FullName)\d365bap.tools\d365bap.tools.psd1").ModuleVersion
+        [version]$version = (Import-PowerShellDataFile -Path "$($publishDir.FullName)\${{ inputs.module }}\${{ inputs.module }}.psd1").ModuleVersion
         $githubReleaseVersion = "$($version.Major).$($version.Minor).$($version.Build)"
         "VERSION=$githubReleaseVersion" >> $env:GITHUB_ENV
       shell: powershell
