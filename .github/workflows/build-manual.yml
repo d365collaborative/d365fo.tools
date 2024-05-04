@@ -11,12 +11,9 @@ on:
           - $True
       skipghrelease:
         description: "Determines if creation of a GitHub release is skipped"
-        default: $False
+        default: false
         required: false
-        type: choice
-        options:
-          - $False
-          - $True
+        type: boolean
       skipValidation:
         description: "Determines if the module validation is skipped"
         default: false

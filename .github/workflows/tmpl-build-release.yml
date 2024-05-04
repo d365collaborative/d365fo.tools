@@ -24,9 +24,9 @@ on:
         type: string
       skipghrelease:
         description: "Determines if a GitHub release is created"
-        default: $False
+        default: false
         required: false
-        type: string
+        type: boolean
       skipValidation:
         description: "Determines if the module validation is skipped"
         default: false
@@ -50,7 +50,7 @@ jobs:
     - name: Validate
       run: .\build\vsts-validate.ps1
       shell: powershell
-      if: ${{ ! inputs.skipValidation }}
+      if: ${{ success() && ! inputs.skipValidation }}
     - name: Build
       run: .\build\vsts-build.ps1 -ApiKey ${{ secrets.apikey }} -AutoVersion:${{ inputs.autoversion }} -SkipPublish:${{ inputs.skippublish }}
       shell: powershell
@@ -62,10 +62,11 @@ jobs:
         $githubReleaseVersion = "$($version.Major).$($version.Minor).$($version.Build)"
         "VERSION=$githubReleaseVersion" >> $env:GITHUB_ENV
       shell: powershell
+      if: ${{ success() && ! inputs.skipghrelease }}
 
     - name: Create GitHub release
       uses: softprops/action-gh-release@v2
-      if: ${{ ! inputs.skipghrelease }}
+      if: ${{ success() && ! inputs.skipghrelease }}
       with:
         name: ${{ env.VERSION }}
         tag_name: ${{ env.VERSION }}
