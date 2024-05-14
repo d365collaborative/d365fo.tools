@@ -1,30 +1,49 @@
 ﻿<#
-."C:\GIT\GITHUB\d365fo.tools.Workspace\d365fo.tools\d365fo.tools\internal\functions\repair-bacpacmodelreplace.ps1"
 .SYNOPSIS
-Short description
+Repair a bacpac model file - using replace logic
 
 .DESCRIPTION
-Long description
+Will use a search value, to replace an text value from the model file
 
 .PARAMETER Path
-Parameter description
+Path to the bacpac model file that you want to work against
 
 .PARAMETER OutputPath
-Parameter description
+Path to where the repaired model file should be placed
 
 .PARAMETER Search
-Parameter description
+Search pattern that is used to replace the value
+
+Works directly on the value entered, not wildcard or regex is supported at all
+
+E.g. "<Property Name=\"AutoDrop\" Value=\"True\" />"
 
 .PARAMETER Replace
-Parameter description
+Replace value that you want to substitute your search value with
 
 .EXAMPLE
-An example
+PS C:\> Repair-BacpacModelReplace -Path c:\temp\model.xml -OutputPath c:\temp\repaired_model.xml -Search "<Property Name=\"AutoDrop\" Value=\"True\" />" -Replace ""
+
+This will replace the below section from the model file
+
+<Property Name="AutoDrop" Value="True" />
 
 .NOTES
-General notes
+Author: Mötz Jensen (@Splaxi)
 
-Repair-BacpacModelReplace -Path "C:\Temp\INOX\Bacpac\Base.xml" -OutputPath "C:\Temp\INOX\Bacpac\Working.xml" -Search '<Property Name="IsArithAbortOn" Value="True" />' -Replace ''
+Json files has to be an array directly in the root of the file. All " (double quotes) has to be escaped with \" - otherwise it will not work as intended.
+
+This cmdlet is inspired by the work of "Brad Bateman" (github: @batetech)
+        
+        His github profile can be found here:
+        https://github.com/batetech
+
+Florian Hopfner did a gist implementation, and did all the inital work in terms of finding the fastest way to work against the model file
+
+The original gist is: https://gist.github.com/FH-Inway/f485c720b43b72bffaca5fb6c094707e
+
+His github profile can be found here:
+        https://github.com/FH-Inway
 #>
 function Repair-BacpacModelReplace {
     [CmdletBinding()]
