@@ -71,16 +71,16 @@
         "*<Element Type=\"SqlRoleMembership\">*" can identify below, "*<References Name=*ms_db_configwriter*" qualifies that we are locating the correct one and together with "*</Element>*" - we know when to stop.
         
         <Element Type="SqlRoleMembership">
-        <Relationship Name="Member">
-        <Entry>
-        <References Name="[ms_db_configwriter]" />
-        </Entry>
-        </Relationship>
-        <Relationship Name="Role">
-        <Entry>
-        <References ExternalSource="BuiltIns" Name="[db_ddladmin]" />
-        </Entry>
-        </Relationship>
+            <Relationship Name="Member">
+                <Entry>
+                    <References Name="[ms_db_configwriter]" />
+                </Entry>
+            </Relationship>
+            <Relationship Name="Role">
+                <Entry>
+                    <References ExternalSource="BuiltIns" Name="[db_ddladmin]" />
+                </Entry>
+            </Relationship>
         </Element>
         
     .PARAMETER PathRepairReplace
@@ -116,7 +116,7 @@
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         Author: Florian Hopfner (@FH-Inway)
-        
+
         Json files has to be an array directly in the root of the file. All " (double quotes) has to be escaped with \" - otherwise it will not work as intended.
         
         This cmdlet is inspired by the work of "Brad Bateman" (github: @batetech)

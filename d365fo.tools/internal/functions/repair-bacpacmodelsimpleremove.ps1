@@ -32,22 +32,22 @@
         This will remove the below section from the model file
         
         <Element Type="SqlPermissionStatement" Name="[Grant.Delete.Object].[ms_db_configreader].[dbo].[dbo].[AutotuneBase]">
-        <Property Name="Permission" Value="4" />
-        <Relationship Name="Grantee">
-        <Entry>
-        <References Name="[ms_db_configreader]" />
-        </Entry>
-        </Relationship>
-        <Relationship Name="Grantor">
-        <Entry>
-        <References ExternalSource="BuiltIns" Name="[dbo]" />
-        </Entry>
-        </Relationship>
-        <Relationship Name="SecuredObject">
-        <Entry>
-        <References Name="[dbo].[AutotuneBase]" />
-        </Entry>
-        </Relationship>
+            <Property Name="Permission" Value="4" />
+            <Relationship Name="Grantee">
+                <Entry>
+                    <References Name="[ms_db_configreader]" />
+                </Entry>
+            </Relationship>
+            <Relationship Name="Grantor">
+                <Entry>
+                    <References ExternalSource="BuiltIns" Name="[dbo]" />
+                </Entry>
+            </Relationship>
+                <Relationship Name="SecuredObject">
+                <Entry>
+                    <References Name="[dbo].[AutotuneBase]" />
+                </Entry>
+            </Relationship>
         </Element>
         
     .NOTES
