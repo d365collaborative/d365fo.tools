@@ -33,22 +33,22 @@
         "*<Element Type=\"SqlPermissionStatement\"*ms_db_configreader*" can identify below, and together with "*</Element>*" - we know when to stop.
         
         <Element Type="SqlPermissionStatement" Name="[Grant.Delete.Object].[ms_db_configreader].[dbo].[dbo].[AutotuneBase]">
-        <Property Name="Permission" Value="4" />
-        <Relationship Name="Grantee">
-        <Entry>
-        <References Name="[ms_db_configreader]" />
-        </Entry>
-        </Relationship>
-        <Relationship Name="Grantor">
-        <Entry>
-        <References ExternalSource="BuiltIns" Name="[dbo]" />
-        </Entry>
-        </Relationship>
-        <Relationship Name="SecuredObject">
-        <Entry>
-        <References Name="[dbo].[AutotuneBase]" />
-        </Entry>
-        </Relationship>
+            <Property Name="Permission" Value="4" />
+            <Relationship Name="Grantee">
+                <Entry>
+                    <References Name="[ms_db_configreader]" />
+                </Entry>
+            </Relationship>
+            <Relationship Name="Grantor">
+                <Entry>
+                    <References ExternalSource="BuiltIns" Name="[dbo]" />
+                </Entry>
+            </Relationship>
+            <Relationship Name="SecuredObject">
+                <Entry>
+                    <References Name="[dbo].[AutotuneBase]" />
+                </Entry>
+            </Relationship>
         </Element>
         
     .PARAMETER PathRepairQualifier
