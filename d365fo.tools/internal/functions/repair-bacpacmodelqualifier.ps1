@@ -34,7 +34,7 @@
         E.g. "*</Element>*"
         
     .EXAMPLE
-        PS C:\> Repair-BacpacModelQualifier -Path c:\temp\model.xml -OutputPath c:\temp\repaired_model.xml -Search "*<Element Type=\"SqlRoleMembership\">*" -Qualifier "*<References Name=*ms_db_configwriter*" -End "*</Element>*"
+        PS C:\> Repair-BacpacModelQualifier -Path c:\temp\model.xml -OutputPath c:\temp\repaired_model.xml -Search '*<Element Type="SqlRoleMembership">*' -Qualifier "*<References Name=*ms_db_configwriter*" -End "*</Element>*"
         
         This will remove the below section from the model file
         
