@@ -272,7 +272,7 @@
 		'Rename-D365Instance',
 		'Rename-D365ComputerName',
 
-		'Repair-D365BacpacModel',
+		'Repair-D365BacpacModelFile',
 		
 		'Restart-D365Environment',
 
