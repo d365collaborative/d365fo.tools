@@ -39,16 +39,16 @@
         This will remove the below section from the model file
         
         <Element Type="SqlRoleMembership">
-            <Relationship Name="Member">
-            <Entry>
-                <References Name="[ms_db_configwriter]" />
-            </Entry>
-            </Relationship>
-            <Relationship Name="Role">
-                <Entry>
-                    <References ExternalSource="BuiltIns" Name="[db_ddladmin]" />
-                </Entry>
-            </Relationship>
+        <Relationship Name="Member">
+        <Entry>
+        <References Name="[ms_db_configwriter]" />
+        </Entry>
+        </Relationship>
+        <Relationship Name="Role">
+        <Entry>
+        <References ExternalSource="BuiltIns" Name="[db_ddladmin]" />
+        </Entry>
+        </Relationship>
         </Element>
         
     .NOTES

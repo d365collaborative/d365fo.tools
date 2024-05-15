@@ -10347,6 +10347,75 @@
         "Syntax":  "Rename-D365Instance [-NewName] \u003cString\u003e [[-AosServiceWebRootPath] \u003cString\u003e] [[-IISServerApplicationHostConfigFile] \u003cString\u003e] [[-HostsFile] \u003cString\u003e] [[-BackupExtension] \u003cString\u003e] [[-MRConfigFile] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Repair-D365BacpacModelFile",
+        "Description":  "As the backend of the Azure SQL infrastructure keeps evolving, the bacpac file can contain invalid instructions while we are trying to import into a local SQL Server installation on a Tier1 environment",
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the bacpac model file that you want to work against",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "OutputPath",
+                           "Path to where the repaired model file should be placed\nThe default value is going to create a file next to the Path (input) file, with the \u0027-edited\u0027 name appended to it",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "PathRepairSimple",
+                           "Path to the json file, that contains all the instructions to be executed in the \"Simple\" section\nThe default json file is part of the module, and can be located with the below command:\r\nexplorer.exe $(Join-Path -Path $(Split-Path -Path (Get-Module d365fo.tools -ListAvailable)[0].Path -Parent) -ChildPath \"internal\\misc\")\r\n- Look for the \"RepairBacpac.Simple.json\" file\nOr you can see the latest version, online, inside the github repository: https://github.com/d365collaborative/d365fo.tools/tree/master/d365fo.tools/internal/misc/RepairBacpac.Simple.json\nSimple means, that we can remove complex elements, based on some basic logic. E.g.\n{\r\n\"Search\": \"*\u003cElement Type=\\\"SqlPermissionStatement\\\"*ms_db_configreader*\",\r\n\"End\": \"*\u003c/Element\u003e*\"\r\n}\n\"*\u003cElement Type=\\\"SqlPermissionStatement\\\"*ms_db_configreader*\" can identify below, and together with \"*\u003c/Element\u003e*\" - we know when to stop.\n\u003cElement Type=\"SqlPermissionStatement\" Name=\"[Grant.Delete.Object].[ms_db_configreader].[dbo].[dbo].[AutotuneBase]\"\u003e\r\n\u003cProperty Name=\"Permission\" Value=\"4\" /\u003e\r\n\u003cRelationship Name=\"Grantee\"\u003e\r\n\u003cEntry\u003e\r\n\u003cReferences Name=\"[ms_db_configreader]\" /\u003e\r\n\u003c/Entry\u003e\r\n\u003c/Relationship\u003e\r\n\u003cRelationship Name=\"Grantor\"\u003e\r\n\u003cEntry\u003e\r\n\u003cReferences ExternalSource=\"BuiltIns\" Name=\"[dbo]\" /\u003e\r\n\u003c/Entry\u003e\r\n\u003c/Relationship\u003e\r\n\u003cRelationship Name=\"SecuredObject\"\u003e\r\n\u003cEntry\u003e\r\n\u003cReferences Name=\"[dbo].[AutotuneBase]\" /\u003e\r\n\u003c/Entry\u003e\r\n\u003c/Relationship\u003e\r\n\u003c/Element\u003e",
+                           "",
+                           false,
+                           "false",
+                           "\"$script:ModuleRoot\\internal\\misc\\RepairBacpac.Simple.json\""
+                       ],
+                       [
+                           "PathRepairQualifier",
+                           "Path to the json file, that contains all the instructions to be executed in the \"Qualifier\" section\nThe default json file is part of the module, and can be located with the below command:\r\nexplorer.exe $(Join-Path -Path $(Split-Path -Path (Get-Module d365fo.tools -ListAvailable)[0].Path -Parent) -ChildPath \"internal\\misc\")\r\n- Look for the \"RepairBacpac.Qualifier.json\" file\nOr you can see the latest version, online, inside the github repository: https://github.com/d365collaborative/d365fo.tools/tree/master/d365fo.tools/internal/misc/RepairBacpac.Qualifier.json\nQualifier means, that we can remove complex elements, based on some basic logic. E.g.\n{\r\n\"Search\": \"*\u003cElement Type=\\\"SqlRoleMembership\\\"\u003e*\",\r\n\"Qualifier\": \"*\u003cReferences Name=*ms_db_configwriter*\",\r\n\"End\": \"*\u003c/Element\u003e*\"\r\n}\n\"*\u003cElement Type=\\\"SqlRoleMembership\\\"\u003e*\" can identify below, \"*\u003cReferences Name=*ms_db_configwriter*\" qualifies that we are locating the correct one and together with \"*\u003c/Element\u003e*\" - we know when to \r\nstop.\n\u003cElement Type=\"SqlRoleMembership\"\u003e\r\n\u003cRelationship Name=\"Member\"\u003e\r\n\u003cEntry\u003e\r\n\u003cReferences Name=\"[ms_db_configwriter]\" /\u003e\r\n\u003c/Entry\u003e\r\n\u003c/Relationship\u003e\r\n\u003cRelationship Name=\"Role\"\u003e\r\n\u003cEntry\u003e\r\n\u003cReferences ExternalSource=\"BuiltIns\" Name=\"[db_ddladmin]\" /\u003e\r\n\u003c/Entry\u003e\r\n\u003c/Relationship\u003e\r\n\u003c/Element\u003e",
+                           "",
+                           false,
+                           "false",
+                           "\"$script:ModuleRoot\\internal\\misc\\RepairBacpac.Qualifier.json\""
+                       ],
+                       [
+                           "PathRepairReplace",
+                           "Path to the json file, that contains all the instructions to be executed in the \"Replace\" section\nThe default json file is part of the module, and can be located with the below command:\r\nexplorer.exe $(Join-Path -Path $(Split-Path -Path (Get-Module d365fo.tools -ListAvailable)[0].Path -Parent) -ChildPath \"internal\\misc\")\r\n- Look for the \"RepairBacpac.Replace.json\" file\nOr you can see the latest version, online, inside the github repository: https://github.com/d365collaborative/d365fo.tools/tree/master/d365fo.tools/internal/misc/RepairBacpac.Replace.json\nReplace means, that we can replace/remove strings, based on some basic logic. E.g.\n{\r\n\"Search\": \"\u003cProperty Name=\\\"AutoDrop\\\" Value=\\\"True\\\" /\u003e\",\r\n\"Replace\": \"\"\r\n}\n\"\u003cProperty Name=\\\"AutoDrop\\\" Value=\\\"True\\\" /\u003e\" can identify below, and \"\" is the value we want to replace with it.\n\u003cProperty Name=\"AutoDrop\" Value=\"True\" /\u003e",
+                           "",
+                           false,
+                           "false",
+                           "\"$script:ModuleRoot\\internal\\misc\\RepairBacpac.Replace.json\""
+                       ],
+                       [
+                           "KeepFiles",
+                           "Instruct the cmdlet to keep the files from the repair process\nThe files are very large, so only use this as a way to analyze why your model file didn\u0027t end up in the desired state\nUse it while you evolve/develop your instructions, but remove it from ANY full automation scripts",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "Force",
+                           "Instruct the cmdlet to overwrite the file specified in the OutputPath if it already exists",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Repair a bacpac model file",
+        "Name":  "Repair-D365BacpacModelFile",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRepair-D365BacpacModelFile -Path C:\\Temp\\INOX\\Bacpac\\Base.xml -PathRepairSimple \u0027\u0027 -PathRepairQualifier \u0027\u0027 -PathRepairReplace \u0027C:\\Temp\\RepairBacpac.Replace.Custom.json\u0027\nThis will only process the Replace section, as the other repair paths are empty - indicating to skip them.\r\nIt will load the instructions from the \u0027C:\\Temp\\RepairBacpac.Replace.Custom.json\u0027 file and run those in the Replace section.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRepair-D365BacpacModelFile -Path C:\\Temp\\INOX\\Bacpac\\Base.xml -KeepFiles -Force\nThis will process all repair sections.\r\nIt will keep the files in the temporary work directory, for the user to analyze the files further.\r\nIt will Force overwrite the output file, if it exists already.",
+        "Syntax":  "Repair-D365BacpacModelFile [-Path] \u003cString\u003e [[-OutputPath] \u003cString\u003e] [[-PathRepairSimple] \u003cString\u003e] [[-PathRepairQualifier] \u003cString\u003e] [[-PathRepairReplace] \u003cString\u003e] [-KeepFiles] [-Force] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Restart-D365Environment",
         "Description":  "Restart the different services in a Dynamics 365 Finance \u0026 Operations environment",
         "Tags":  [
