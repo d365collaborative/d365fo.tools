@@ -60,7 +60,7 @@
         His github profile can be found here:
         https://github.com/batetech
         
-        Florian Hopfner did a gist implementation, and did all the inital work in terms of finding the fastest way to work against the model file
+        Florian Hopfner did a gist implementation, which has been used as the foundation for this implementation
         
         The original gist is: https://gist.github.com/FH-Inway/f485c720b43b72bffaca5fb6c094707e
         
