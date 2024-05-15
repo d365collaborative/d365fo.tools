@@ -35,9 +35,9 @@
         E.g. "<Property Name=\"AutoDrop\" Value=\"True\" />"
         
         Replace value that you want to substitute your search value with
-
+        
         E.g. ""
-
+        
     .EXAMPLE
         PS C:\> $removeIns1 = [pscustomobject][ordered]@{Search = '*<Element Type="SqlPermissionStatement"*ms_db_configreader*';End = '*</Element>*'}
         PS C:\> $replace1 = [pscustomobject][ordered]@{Search = '<Property Name="AutoDrop" Value="True" />';Replace = ''}
@@ -46,22 +46,22 @@
         This will remove the below section from the model file, based on the RemoveInstructions:
         
         <Element Type="SqlPermissionStatement" Name="[Grant.Delete.Object].[ms_db_configreader].[dbo].[dbo].[AutotuneBase]">
-            <Property Name="Permission" Value="4" />
-            <Relationship Name="Grantee">
-                <Entry>
-                    <References Name="[ms_db_configreader]" />
-                </Entry>
-            </Relationship>
-            <Relationship Name="Grantor">
-                <Entry>
-                    <References ExternalSource="BuiltIns" Name="[dbo]" />
-                </Entry>
-            </Relationship>
-                <Relationship Name="SecuredObject">
-                <Entry>
-                    <References Name="[dbo].[AutotuneBase]" />
-                </Entry>
-            </Relationship>
+        <Property Name="Permission" Value="4" />
+        <Relationship Name="Grantee">
+        <Entry>
+        <References Name="[ms_db_configreader]" />
+        </Entry>
+        </Relationship>
+        <Relationship Name="Grantor">
+        <Entry>
+        <References ExternalSource="BuiltIns" Name="[dbo]" />
+        </Entry>
+        </Relationship>
+        <Relationship Name="SecuredObject">
+        <Entry>
+        <References Name="[dbo].[AutotuneBase]" />
+        </Entry>
+        </Relationship>
         </Element>
         
         This will remove the below section from the model file, based on the ReplaceInstructions:
