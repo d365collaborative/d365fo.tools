@@ -152,8 +152,11 @@ function Repair-D365BacpacModelFile {
         $OutputPath = $Path.Replace([System.IO.Path]::GetExtension($path), "-edited$([System.IO.Path]::GetExtension($path))")
     }
 
-    # Load all the simple delete instructions
-    $arrSimple = Get-Content -Path $PathRepairSimple -Raw | ConvertFrom-Json
+    $arrSimple = @()
+    if ([string]::IsNullOrEmpty($PathRepairSimple)) {
+        # Load all the simple delete instructions
+        $arrSimple = Get-Content -Path $PathRepairSimple -Raw | ConvertFrom-Json
+    }
     
     # Create a local working directory, in the temporary directory
     $directoryObj = New-Item -Path "$([System.IO.Path]::GetTempPath())$((New-Guid).Guid)" -ItemType Directory -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
@@ -178,7 +181,11 @@ function Repair-D365BacpacModelFile {
         $forOutput = $localInput
     }
 
-    $arrQualifier = Get-Content -Path $PathRepairQualifier -Raw | ConvertFrom-Json
+    $arrQualifier = @()
+    if ([string]::IsNullOrEmpty($PathRepairQualifier)) {
+        # Load all the qualification delete instructions
+        $arrQualifier = Get-Content -Path $PathRepairQualifier -Raw | ConvertFrom-Json
+    }
 
     # Path to help us keep track of the file and what changes have been made - troubleshooting is easier with this one
     $localInput = Join-Path -Path $directoryObj.FullName -ChildPath "raw.qualifier.input.xml"
@@ -204,7 +211,11 @@ function Repair-D365BacpacModelFile {
         $forOutput = $localInput
     }
 
-    $arrReplace = Get-Content -Path $PathRepairReplace -Raw | ConvertFrom-Json
+    $arrReplace = @()
+    if ([string]::IsNullOrEmpty($PathRepairReplace)) {
+        # Load all the replace instructions
+        $arrReplace = Get-Content -Path $PathRepairReplace -Raw | ConvertFrom-Json
+    }
 
     # Path to help us keep track of the file and what changes have been made - troubleshooting is easier with this one
     $localInput = Join-Path -Path $directoryObj.FullName -ChildPath "raw.replace.input.xml"
