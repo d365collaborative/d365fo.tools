@@ -112,6 +112,7 @@ His github profile can be found here:
 function Repair-D365BacpacModel {
     [CmdletBinding()]
     param (
+        [Parameter(Mandatory)]
         [string] $Path,
 
         [string] $OutputPath,
