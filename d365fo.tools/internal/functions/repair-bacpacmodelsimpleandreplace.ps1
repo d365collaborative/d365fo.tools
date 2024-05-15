@@ -1,10 +1,12 @@
 ﻿
 <#
     .SYNOPSIS
-        Repair a bacpac model file - using simple logic
+        Repair a bacpac model file - using simple remove AND replace logic
         
     .DESCRIPTION
         Will use a search pattern, and end pattern, to remove an element from the model file
+
+        Will use a search pattern, with the replacement value, to replace the string within the model file
         
     .PARAMETER Path
         Path to the bacpac model file that you want to work against
@@ -12,14 +14,13 @@
     .PARAMETER OutputPath
         Path to where the repaired model file should be placed
         
-    .PARAMETER Search
+    .PARAMETER RemoveInstructions
         Search pattern that is used to start the removable of the element
-        
+
         Supports wildcard - as it utilizes the -Like operation that is available directly in powershell
         
         E.g. "*<Element Type=\"SqlPermissionStatement\"*ms_db_configreader*"
-        
-    .PARAMETER End
+    
         End pattern that is used to conclude the removable of the element
         
         Supports wildcard - as it utilizes the -Like operation that is available directly in powershell
@@ -27,9 +28,11 @@
         E.g. "*</Element>*"
         
     .EXAMPLE
-        PS C:\> Repair-BacpacModelSimpleRemove -Path c:\temp\model.xml -OutputPath c:\temp\repaired_model.xml -Search "*<Element Type=\"SqlPermissionStatement\"*ms_db_configreader*" -End "*</Element>*"
+        PS C:\> $removeIns1 = [pscustomobject][ordered]@{Search = '*<Element Type="SqlPermissionStatement"*ms_db_configreader*';End = '*</Element>*'}
+        PS C:\> $replace1 = [pscustomobject][ordered]@{Search = '<Property Name="AutoDrop" Value="True" />';Replace = ''}
+        PS C:\> Repair-BacpacModelSimpleAndReplace -Path c:\temp\model.xml -OutputPath c:\temp\repaired_model.xml -RemoveInstructions @($removeIns1) -ReplaceInstructions @($replace1)
         
-        This will remove the below section from the model file
+        This will remove the below section from the model file, based on the RemoveInstructions:
         
         <Element Type="SqlPermissionStatement" Name="[Grant.Delete.Object].[ms_db_configreader].[dbo].[dbo].[AutotuneBase]">
             <Property Name="Permission" Value="4" />
@@ -50,6 +53,10 @@
             </Relationship>
         </Element>
         
+        This will remove the below section from the model file, based on the ReplaceInstructions:
+
+        <Property Name="AutoDrop" Value="True" />
+        
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         
@@ -66,18 +73,19 @@
         
         His github profile can be found here:
         https://github.com/FH-Inway
+    
+        https://devblog.pekspro.com/posts/multiple-find-and-replace-with-powershell
 #>
-function Repair-BacpacModelSimpleRemove {
+function Repair-BacpacModelSimpleAndReplace {
     [CmdletBinding()]
     param (
         [string] $Path,
 
         [string] $OutputPath,
 
-        [string] $Search,
+        [Object[]] $RemoveInstructions,
 
-        [string] $End
-        
+        [Object[]] $ReplaceInstructions
     )
     
     [int]$flushCounter = 500000
@@ -94,20 +102,27 @@ function Repair-BacpacModelSimpleRemove {
             # Skipping empty lines
             if (-not [string]::IsNullOrEmpty($line)) {
 
-                if ($line -like $Search) {
-                    # We hit search pattern, will read lines until hitting the end pattern.
-                    # AKA - simply remove lines until finding it.
+                # Implement Replace Logic directly here - so we only handle replace once, if the line contains data..
+                foreach ($ReplaceIns in $ReplaceInstructions) {
+                    $line = $line.Replace($ReplaceIns.Search, $ReplaceIns.Replace)
+                }
+
+                foreach ($remove in $RemoveInstructions) {
                     
-                    while ($stream.Peek() -ge 0) {
-                        $line = $stream.ReadLine();
-                        
-                        if ($line -like $End) {
-                            continue LineLoop
+                    if ($line -like $remove.Search) {
+                        # We found the search pattern - next is just removing lines, until we find the end pattern
+
+                        while ($stream.Peek() -ge 0) {
+                            $line = $stream.ReadLine();
+
+                            if ($line -like $remove.End) {
+                                # We found the end tag, so we need to start the line loop again.
+                                continue LineLoop
+                            }
                         }
                     }
                 }
             
-                # Persisting all lines that didn't meet the search pattern
                 $buffer.Add($line)
             }
             else {
@@ -123,12 +138,11 @@ function Repair-BacpacModelSimpleRemove {
         }
     }
     finally {
-        # We need to close the stream object, to release the file system lock on the input file
         $stream.Close()
         $stream.Dispose()
     }
 
-    #flush anything still remaining in the buffer
+    # Flush anything still remaining in the buffer
     if ($bufferCounter -gt 0) {
         $buffer | Add-Content -LiteralPath $OutputPath -Encoding UTF8
         $buffer = $null;

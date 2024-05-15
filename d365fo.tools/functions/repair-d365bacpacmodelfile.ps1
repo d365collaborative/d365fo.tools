@@ -110,8 +110,13 @@
         
         Use it while you evolve/develop your instructions, but remove it from ANY full automation scripts
         
+    .PARAMETER Force
+        Instruct the cmdlet to overwrite the file specified in the OutputPath if it already exists
+
     .EXAMPLE
-        An example
+        PS C:\> Repair-D365BacpacModelFile -Path C:\Temp\INOX\Bacpac\Base.xml -PathRepairSimple '' -PathRepairQualifier '' -PathRepairReplace 'C:\Temp\RepairBacpac.Replace.Custom.json'
+        
+        This will only process the Replace section, as the other repair paths are empty - indicating to skip them
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
@@ -145,101 +150,96 @@ function Repair-D365BacpacModelFile {
 
         [string] $PathRepairReplace = "$script:ModuleRoot\internal\misc\RepairBacpac.Replace.json",
 
-        [switch] $KeepFiles
+        [switch] $KeepFiles,
+
+        [switch] $Force
+
     )
+    begin {
+        if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
 
-    if ([string]::IsNullOrEmpty($OutputPath)) {
-        $OutputPath = $Path.Replace([System.IO.Path]::GetExtension($path), "-edited$([System.IO.Path]::GetExtension($path))")
-    }
+        if (Test-PSFFunctionInterrupt) { return }
 
-    $arrSimple = @()
-    if ([string]::IsNullOrEmpty($PathRepairSimple)) {
-        # Load all the simple delete instructions
-        $arrSimple = Get-Content -Path $PathRepairSimple -Raw | ConvertFrom-Json
+        if ([string]::IsNullOrEmpty($OutputPath)) {
+            $OutputPath = $Path.Replace([System.IO.Path]::GetExtension($path), "-edited$([System.IO.Path]::GetExtension($path))")
+        }
+
+        if (-not $Force) {
+            if (-not (Test-PathExists -Path $OutputPath -Type Leaf -ShouldNotExist)) {
+                Write-PSFMessage -Level Host -Message "The <c='em'>$OutputPath</c> already exists. Consider changing the <c='em'>OutputPath</c> or set the <c='em'>Force</c> parameter to overwrite the file."
+                Stop-PSFFunction -Message "Stopping because output path was already present."
+                return
+            }
+        }
+
+        if (Test-PSFFunctionInterrupt) { return }
     }
     
-    # Create a local working directory, in the temporary directory
-    $directoryObj = New-Item -Path "$([System.IO.Path]::GetTempPath())$((New-Guid).Guid)" -ItemType Directory -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    end {
+        if (Test-PSFFunctionInterrupt) { return }
+
+        # Create a local working directory, in the temporary directory
+        $directoryObj = New-Item -Path "$([System.IO.Path]::GetTempPath())$((New-Guid).Guid)" -ItemType Directory -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     
-    # Path to help us keep track of the file and what changes have been made - troubleshooting is easier with this one
-    $localInput = Join-Path -Path $directoryObj.FullName -ChildPath "raw.simple.input.xml"
+        if ($KeepFiles) {
+            Write-PSFMessage -Level Host -Message "The working directory used for this repair is:`r`n<c='em'>$($directoryObj.FullName)</c>`r`n - Please only use the KeepFiles when needed."
+        }
 
-    # Clone input file to the local temporary file
-    Copy-Item -Path $Path -Destination $localInput -Force
+        # Path to help us keep track of the file and what changes have been made - troubleshooting is easier with this one
+        $localInput = Join-Path -Path $directoryObj.FullName -ChildPath "raw.simple&replace.input.xml"
+        $forOutput = Join-Path -Path $directoryObj.FullName -ChildPath "0.simple&replace.output.xml"
 
-    for ($i = 0; $i -lt $arrSimple.Count; $i++) {
-        $forInput = Join-Path -Path $directoryObj.FullName -ChildPath "$i.simple.input.xml"
-        $forOutput = Join-Path -Path $directoryObj.FullName -ChildPath "$i.simple.output.xml"
+        # Clone input file to the local temporary file
+        Copy-Item -Path $Path -Destination $localInput -Force
 
-        Copy-Item -Path $localInput -Destination $forInput -Force
-        Repair-BacpacModelSimpleRemove -Path $forInput -OutputPath $forOutput -Search $arrSimple[$i].Search -End $arrSimple[$i].End
+        $arrSimple = @()
+        if (-not [string]::IsNullOrEmpty($PathRepairSimple)) {
+            # Load all the simple delete instructions
+            $arrSimple = Get-Content -Path $PathRepairSimple -Raw | ConvertFrom-Json
+        }
 
-        $localInput = $forOutput
-    }
+        $arrReplace = @()
+        if (-not [string]::IsNullOrEmpty($PathRepairReplace)) {
+            # Load all the replace instructions
+            $arrReplace = Get-Content -Path $PathRepairReplace -Raw | ConvertFrom-Json
+        }
 
-    if ($arrSimple.Count -lt 1) {
-        $forOutput = $localInput
-    }
+        Repair-BacpacModelSimpleAndReplace -Path $localInput -OutputPath $forOutput -RemoveInstructions $arrSimple -ReplaceInstructions $arrReplace
 
-    $arrQualifier = @()
-    if ([string]::IsNullOrEmpty($PathRepairQualifier)) {
-        # Load all the qualification delete instructions
-        $arrQualifier = Get-Content -Path $PathRepairQualifier -Raw | ConvertFrom-Json
-    }
+        $arrQualifier = @()
+        if (-not [string]::IsNullOrEmpty($PathRepairQualifier)) {
+            # Load all the qualification delete instructions
+            $arrQualifier = Get-Content -Path $PathRepairQualifier -Raw | ConvertFrom-Json
+        }
 
-    # Path to help us keep track of the file and what changes have been made - troubleshooting is easier with this one
-    $localInput = Join-Path -Path $directoryObj.FullName -ChildPath "raw.qualifier.input.xml"
+        # Path to help us keep track of the file and what changes have been made - troubleshooting is easier with this one
+        $localInput = Join-Path -Path $directoryObj.FullName -ChildPath "raw.qualifier.input.xml"
 
-    # Clone input file to the local temporary file
-    Copy-Item -Path $forOutput -Destination $localInput -Force
+        # Clone input file to the local temporary file
+        Copy-Item -Path $forOutput -Destination $localInput -Force
 
-    if (-not $KeepFiles) {
-        Get-ChildItem -Path "$($directoryObj.FullName)\*.simple.*.xml" | Remove-Item -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-    }
+        if (-not $KeepFiles) {
+            Get-ChildItem -Path "$($directoryObj.FullName)\*.simple&replace.*.xml" | Remove-Item -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        }
 
-    for ($i = 0; $i -lt $arrQualifier.Count; $i++) {
-        $forInput = Join-Path -Path $directoryObj.FullName -ChildPath "$i.qualifier.input.xml"
-        $forOutput = Join-Path -Path $directoryObj.FullName -ChildPath "$i.qualifier.output.xml"
+        for ($i = 0; $i -lt $arrQualifier.Count; $i++) {
+            $forInput = Join-Path -Path $directoryObj.FullName -ChildPath "$i.qualifier.input.xml"
+            $forOutput = Join-Path -Path $directoryObj.FullName -ChildPath "$i.qualifier.output.xml"
 
-        Copy-Item -Path $localInput -Destination $forInput -Force
-        Repair-BacpacModelQualifier -Path $forInput -OutputPath $forOutput -Search $arrQualifier[$i].Search -Qualifier $arrQualifier[$i].Qualifier -End $arrQualifier[$i].End
+            Copy-Item -Path $localInput -Destination $forInput -Force
+            Repair-BacpacModelQualifier -Path $forInput -OutputPath $forOutput -Search $arrQualifier[$i].Search -Qualifier $arrQualifier[$i].Qualifier -End $arrQualifier[$i].End
 
-        $localInput = $forOutput
-    }
+            $localInput = $forOutput
+        }
 
-    if ($arrQualifier.Count -lt 1) {
-        $forOutput = $localInput
-    }
+        if ($arrQualifier.Count -lt 1) {
+            $forOutput = $localInput
+        }
 
-    $arrReplace = @()
-    if ([string]::IsNullOrEmpty($PathRepairReplace)) {
-        # Load all the replace instructions
-        $arrReplace = Get-Content -Path $PathRepairReplace -Raw | ConvertFrom-Json
-    }
+        Copy-Item -Path $forOutput -Destination $OutputPath -Force
 
-    # Path to help us keep track of the file and what changes have been made - troubleshooting is easier with this one
-    $localInput = Join-Path -Path $directoryObj.FullName -ChildPath "raw.replace.input.xml"
-
-    # Clone input file to the local temporary file
-    Copy-Item -Path $forOutput -Destination $localInput -Force
-
-    if (-not $KeepFiles) {
-        Get-ChildItem -Path "$($directoryObj.FullName)\*.qualifier.*.xml" | Remove-Item -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-    }
-
-    for ($i = 0; $i -lt $arrReplace.Count; $i++) {
-        $forInput = Join-Path -Path $directoryObj.FullName -ChildPath "$i.replace.input.xml"
-        $forOutput = Join-Path -Path $directoryObj.FullName -ChildPath "$i.replace.output.xml"
-
-        Copy-Item -Path $localInput -Destination $forInput -Force
-        Repair-BacpacModelReplace -Path $forInput -OutputPath $forOutput -Search $arrReplace[$i].Search -Replace $arrReplace[$i].Replace
-
-        $localInput = $forOutput
-    }
-
-    Copy-Item -Path $forOutput -Destination $OutputPath -Force
-
-    if (-not $KeepFiles) {
-        Get-ChildItem -Path "$($directoryObj.FullName)\*.replace.*.xml" | Remove-Item -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        if (-not $KeepFiles) {
+            Get-ChildItem -Path "$($directoryObj.FullName)\*.qualifier.*.xml" | Remove-Item -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        }
     }
 }
