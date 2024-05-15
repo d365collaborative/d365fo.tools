@@ -241,5 +241,10 @@ function Repair-D365BacpacModelFile {
         if (-not $KeepFiles) {
             Get-ChildItem -Path "$($directoryObj.FullName)\*.qualifier.*.xml" | Remove-Item -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         }
+
+        [PSCustomObject]@{
+            File     = $OutputPath
+            Filename = $(Split-Path -Path $OutputPath -Leaf)
+        }
     }
 }
