@@ -1,0 +1,12 @@
+﻿[
+    {
+        "Search": "*<Element Type=\"SqlRoleMembership\">*",
+        "Qualifier": "*<References Name=*ms_db_configwriter*",
+        "End": "*</Element>*"
+    },
+    {
+        "Search": "*<Element Type=\"SqlRoleMembership\">*",
+        "Qualifier": "*<References Name=*ms_db_configreader*",
+        "End": "*</Element>*"
+    }
+]

@@ -1,0 +1,32 @@
+on:
+  workflow_dispatch:
+    inputs:
+      skippublish:
+        description: "Determines if the publishing to the PowerShell Gallery is skipped"
+        default: $True
+        required: false
+        type: choice
+        options:
+          - $False
+          - $True
+      skipghrelease:
+        description: "Determines if creation of a GitHub release is skipped"
+        default: false
+        required: false
+        type: boolean
+      skipValidation:
+        description: "Determines if the module validation is skipped"
+        default: false
+        required: false
+        type: boolean
+
+jobs:
+  call-tmpl-build-release:
+    uses: fh-inway/d365.psmodule-alm/.github/workflows/tmpl-build-release.yml@main
+    with:
+      module: 'd365fo.tools'
+      skippublish: ${{ inputs.skippublish }}
+      skipghrelease: ${{ inputs.skipghrelease }}
+      skipValidation: ${{ inputs.skipValidation }}
+    secrets:
+      apikey: ${{ secrets.ApiKey }}

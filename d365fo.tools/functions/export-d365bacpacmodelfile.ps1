@@ -70,7 +70,6 @@ function Export-D365BacpacModelFile {
         if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
 
         if (Test-PSFFunctionInterrupt) { return }
-        
 
         if ($OutputPath -eq $Script:DefaultTempPath) {
             $OutputPath = Join-Path -Path $OutputPath -ChildPath "bacpac.model.xml"

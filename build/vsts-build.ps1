@@ -5,23 +5,47 @@ It expects as input an ApiKey authorized to publish the module.
 Insert any build steps you may need to take before publishing it here.
 #>
 param (
-	$ApiKey
+	$ModuleName = 'd365fo.tools',
+
+	$Repository = 'PSGallery',
+
+	$WorkingDirectory,
+
+	$ApiKey,
+
+	[switch]
+	$SkipPublish,
+
+	[switch]
+	$AutoVersion
 )
+
+#region Handle Working Directory Defaults
+if (-not $WorkingDirectory)
+{
+	if ($env:RELEASE_PRIMARYARTIFACTSOURCEALIAS)
+	{
+		$WorkingDirectory = Join-Path -Path $env:SYSTEM_DEFAULTWORKINGDIRECTORY -ChildPath $env:RELEASE_PRIMARYARTIFACTSOURCEALIAS
+	}
+	else { $WorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY }
+}
+if (-not $WorkingDirectory) { $WorkingDirectory = Split-Path $PSScriptRoot }
+#endregion Handle Working Directory Defaults
 
 # Prepare publish folder
 Write-PSFMessage -Level Important -Message "Creating and populating publishing directory"
-$publishDir = New-Item -Path $env:SYSTEM_DEFAULTWORKINGDIRECTORY -Name publish -ItemType Directory
-Copy-Item -Path "$($env:SYSTEM_DEFAULTWORKINGDIRECTORY)\d365fo.tools" -Destination $publishDir.FullName -Recurse -Force
+$publishDir = New-Item -Path $WorkingDirectory -Name publish -ItemType Directory
+Copy-Item -Path "$WorkingDirectory\$ModuleName" -Destination $publishDir.FullName -Recurse -Force
 
 # Create commands.ps1
 $text = @()
-Get-ChildItem -Path "$($publishDir.FullName)\d365fo.tools\internal\functions\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
+Get-ChildItem -Path "$($publishDir.FullName)\$ModuleName\internal\functions\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
 	$text += [System.IO.File]::ReadAllText($_.FullName)
 }
-Get-ChildItem -Path "$($publishDir.FullName)\d365fo.tools\functions\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
+Get-ChildItem -Path "$($publishDir.FullName)\$ModuleName\functions\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
 	$text += [System.IO.File]::ReadAllText($_.FullName)
 }
-$text -join "`n`n" | Set-Content -Path "$($publishDir.FullName)\d365fo.tools\commands.ps1"
+$text -join "`n`n" | Set-Content -Path "$($publishDir.FullName)\$ModuleName\commands.ps1"
 
 # Create resourcesBefore.ps1
 $processed = @()
@@ -30,7 +54,7 @@ foreach ($line in (Get-Content "$($PSScriptRoot)\filesBefore.txt" | Where-Object
 {
 	if ([string]::IsNullOrWhiteSpace($line)) { continue }
 	
-	$basePath = Join-Path "$($publishDir.FullName)\d365fo.tools" $line
+	$basePath = Join-Path "$($publishDir.FullName)\$ModuleName" $line
 	foreach ($entry in (Resolve-PSFPath -Path $basePath))
 	{
 		$item = Get-Item $entry
@@ -40,7 +64,7 @@ foreach ($line in (Get-Content "$($PSScriptRoot)\filesBefore.txt" | Where-Object
 		$processed += $item.FullName
 	}
 }
-if ($text) { $text -join "`n`n" | Set-Content -Path "$($publishDir.FullName)\d365fo.tools\resourcesBefore.ps1" }
+if ($text) { $text -join "`n`n" | Set-Content -Path "$($publishDir.FullName)\$ModuleName\resourcesBefore.ps1" }
 
 # Create resourcesAfter.ps1
 $processed = @()
@@ -49,7 +73,7 @@ foreach ($line in (Get-Content "$($PSScriptRoot)\filesAfter.txt" | Where-Object 
 {
 	if ([string]::IsNullOrWhiteSpace($line)) { continue }
 	
-	$basePath = Join-Path "$($publishDir.FullName)\d365fo.tools" $line
+	$basePath = Join-Path "$($publishDir.FullName)\$ModuleName" $line
 	foreach ($entry in (Resolve-PSFPath -Path $basePath))
 	{
 		$item = Get-Item $entry
@@ -59,7 +83,27 @@ foreach ($line in (Get-Content "$($PSScriptRoot)\filesAfter.txt" | Where-Object 
 		$processed += $item.FullName
 	}
 }
-if ($text) { $text -join "`n`n" | Set-Content -Path "$($publishDir.FullName)\d365fo.tools\resourcesAfter.ps1" }
+if ($text) { $text -join "`n`n" | Set-Content -Path "$($publishDir.FullName)\$ModuleName\resourcesAfter.ps1" }
+
+#region Updating the Module Version
+if ($AutoVersion)
+{
+	Write-PSFMessage -Level Important -Message "Updating module version numbers."
+	try { [version]$remoteVersion = (Find-Module $ModuleName -Repository $Repository -ErrorAction Stop).Version }
+	catch
+	{
+		Stop-PSFFunction -Message "Failed to access $Repository" -EnableException $true -ErrorRecord $_
+	}
+	if (-not $remoteVersion)
+	{
+		Stop-PSFFunction -Message "Couldn't find $ModuleName on repository $Repository" -EnableException $true
+	}
+	$newBuildNumber = $remoteVersion.Build + 1
+	[version]$localVersion = (Import-PowerShellDataFile -Path "$($publishDir.FullName)\$ModuleName\$ModuleName.psd1").ModuleVersion
+	Update-ModuleManifest -Path "$($publishDir.FullName)\$ModuleName\$ModuleName.psd1" -ModuleVersion "$($localVersion.Major).$($localVersion.Minor).$($newBuildNumber)"
+}
+#endregion Updating the Module Version
 
 # Publish to Gallery
-Publish-Module -Path "$($publishDir.FullName)\d365fo.tools" -NuGetApiKey $ApiKey -Force
+if ($SkipPublish) { return }
+Publish-Module -Path "$($publishDir.FullName)\$ModuleName" -NuGetApiKey $ApiKey -Force

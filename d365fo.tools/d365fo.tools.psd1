@@ -27,8 +27,8 @@
 	# this module.
 	# To enable the GitHub dependency graph, changes should be synchronized with
 	# https://github.com/d365collaborative/d365fo.tools/blob/master/.github/workflows/dependencies.yml
-    RequiredModules   = @(
-		  @{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' }
+	RequiredModules   = @(
+		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' }
 		, @{ ModuleName = 'Az.Storage'; ModuleVersion = '1.11.0' }
 		, @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
 		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.3.0' }
@@ -272,6 +272,8 @@
 		'Rename-D365Instance',
 		'Rename-D365ComputerName',
 
+		'Repair-D365BacpacModelFile',
+		
 		'Restart-D365Environment',
 
 		'Restore-D365DevConfig',
