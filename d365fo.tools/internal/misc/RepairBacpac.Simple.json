@@ -1,0 +1,10 @@
+﻿[
+    {
+        "Search": "*<Element Type=\"SqlPermissionStatement\"*ms_db_configreader*",
+        "End": "*</Element>*"
+    },
+    {
+        "Search": "*<Element Type=\"SqlPermissionStatement\"*ms_db_configwriter*",
+        "End": "*</Element>*"
+    }
+]
