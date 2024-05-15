@@ -12,6 +12,8 @@
     .PARAMETER OutputPath
         Path to where the repaired model file should be placed
         
+        The default value is going to create a file next to the Path (input) file, with the '-edited' name appended to it
+
     .PARAMETER PathRepairSimple
         Path to the json file, that contains all the instructions to be executed in the "Simple" section
         
@@ -144,6 +146,10 @@ function Repair-D365BacpacModelFile {
 
         [switch] $KeepFiles
     )
+
+    if ([string]::IsNullOrEmpty($OutputPath)) {
+        $OutputPath = $Path.Replace([System.IO.Path]::GetExtension($path), "-edited$([System.IO.Path]::GetExtension($path))")
+    }
 
     # Load all the simple delete instructions
     $arrSimple = Get-Content -Path $PathRepairSimple -Raw | ConvertFrom-Json
