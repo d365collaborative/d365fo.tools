@@ -116,8 +116,16 @@
     .EXAMPLE
         PS C:\> Repair-D365BacpacModelFile -Path C:\Temp\INOX\Bacpac\Base.xml -PathRepairSimple '' -PathRepairQualifier '' -PathRepairReplace 'C:\Temp\RepairBacpac.Replace.Custom.json'
         
-        This will only process the Replace section, as the other repair paths are empty - indicating to skip them
+        This will only process the Replace section, as the other repair paths are empty - indicating to skip them.
+        It will load the instructions from the 'C:\Temp\RepairBacpac.Replace.Custom.json' file and run those in the Replace section.
         
+    .EXAMPLE
+        PS C:\> Repair-D365BacpacModelFile -Path C:\Temp\INOX\Bacpac\Base.xml -KeepFiles -Force
+        
+        This will process all repair sections.
+        It will keep the files in the temporary work directory, for the user to analyze the files further.
+        It will Force overwrite the output file, if it exists already.
+
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         Author: Florian Hopfner (@FH-Inway)
