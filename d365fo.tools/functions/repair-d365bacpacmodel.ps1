@@ -3,7 +3,7 @@
 Repair a bacpac model file
 
 .DESCRIPTION
-As the backend of the Azure SQL infrastructure keeps evovling, the bacpac file can contain invalid instructions while we are trying to import into a local SQL Server installation on a Tier1 environment
+As the backend of the Azure SQL infrastructure keeps evolving, the bacpac file can contain invalid instructions while we are trying to import into a local SQL Server installation on a Tier1 environment
 
 .PARAMETER Path
 Path to the bacpac model file that you want to work against
