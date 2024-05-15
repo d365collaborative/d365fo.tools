@@ -5,7 +5,7 @@
         
     .DESCRIPTION
         Will use a search pattern, and end pattern, to remove an element from the model file
-
+        
         Will use a search pattern, with the replacement value, to replace the string within the model file
         
     .PARAMETER Path
@@ -16,11 +16,11 @@
         
     .PARAMETER RemoveInstructions
         Search pattern that is used to start the removable of the element
-
+        
         Supports wildcard - as it utilizes the -Like operation that is available directly in powershell
         
         E.g. "*<Element Type=\"SqlPermissionStatement\"*ms_db_configreader*"
-    
+        
         End pattern that is used to conclude the removable of the element
         
         Supports wildcard - as it utilizes the -Like operation that is available directly in powershell
@@ -54,7 +54,7 @@
         </Element>
         
         This will remove the below section from the model file, based on the ReplaceInstructions:
-
+        
         <Property Name="AutoDrop" Value="True" />
         
     .NOTES
@@ -73,7 +73,7 @@
         
         His github profile can be found here:
         https://github.com/FH-Inway
-    
+        
         https://devblog.pekspro.com/posts/multiple-find-and-replace-with-powershell
 #>
 function Repair-BacpacModelSimpleAndReplace {

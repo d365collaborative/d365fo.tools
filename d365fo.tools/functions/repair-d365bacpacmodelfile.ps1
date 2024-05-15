@@ -13,7 +13,7 @@
         Path to where the repaired model file should be placed
         
         The default value is going to create a file next to the Path (input) file, with the '-edited' name appended to it
-
+        
     .PARAMETER PathRepairSimple
         Path to the json file, that contains all the instructions to be executed in the "Simple" section
         
@@ -112,7 +112,7 @@
         
     .PARAMETER Force
         Instruct the cmdlet to overwrite the file specified in the OutputPath if it already exists
-
+        
     .EXAMPLE
         PS C:\> Repair-D365BacpacModelFile -Path C:\Temp\INOX\Bacpac\Base.xml -PathRepairSimple '' -PathRepairQualifier '' -PathRepairReplace 'C:\Temp\RepairBacpac.Replace.Custom.json'
         
@@ -121,7 +121,7 @@
     .NOTES
         Author: Mötz Jensen (@Splaxi)
         Author: Florian Hopfner (@FH-Inway)
-
+        
         Json files has to be an array directly in the root of the file. All " (double quotes) has to be escaped with \" - otherwise it will not work as intended.
         
         This cmdlet is inspired by the work of "Brad Bateman" (github: @batetech)
