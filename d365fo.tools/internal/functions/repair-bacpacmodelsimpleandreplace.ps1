@@ -27,6 +27,17 @@
         
         E.g. "*</Element>*"
         
+    .PARAMETER ReplaceInstructions
+        Search pattern that is used to replace the value
+        
+        Works directly on the value entered, no wildcard or regex is supported at all
+        
+        E.g. "<Property Name=\"AutoDrop\" Value=\"True\" />"
+        
+        Replace value that you want to substitute your search value with
+
+        E.g. ""
+
     .EXAMPLE
         PS C:\> $removeIns1 = [pscustomobject][ordered]@{Search = '*<Element Type="SqlPermissionStatement"*ms_db_configreader*';End = '*</Element>*'}
         PS C:\> $replace1 = [pscustomobject][ordered]@{Search = '<Property Name="AutoDrop" Value="True" />';Replace = ''}
@@ -87,6 +98,10 @@ function Repair-BacpacModelSimpleAndReplace {
 
         [Object[]] $ReplaceInstructions
     )
+    Invoke-TimeSignal -Start
+    
+    Write-PSFMessage -Level Verbose -Message "RemoveInstructions count is: $($RemoveInstructions.Count)" -Target $RemoveInstructions
+    Write-PSFMessage -Level Verbose -Message "ReplaceInstructions count is: $($ReplaceInstructions.Count)" -Target $ReplaceInstructions
     
     [int]$flushCounter = 500000
 
@@ -148,4 +163,6 @@ function Repair-BacpacModelSimpleAndReplace {
         $buffer = $null;
         $bufferCounter = 0;
     }
+
+    Invoke-TimeSignal -End
 }

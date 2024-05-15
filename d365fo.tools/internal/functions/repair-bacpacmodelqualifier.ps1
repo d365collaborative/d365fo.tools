@@ -83,6 +83,10 @@ function Repair-BacpacModelQualifier {
         
     )
     
+    Invoke-TimeSignal -Start
+    
+    Write-PSFMessage -Level Verbose -Message "Will search for: $Search - Qualify with: $Qualifier" -Target @($Search, $Qualifier, $End)
+    
     [int]$flushCounter = 500000
 
     $buffer = [System.Collections.Generic.List[string]]::new($flushCounter) #much faster than PS array using +=
@@ -152,4 +156,6 @@ function Repair-BacpacModelQualifier {
         $buffer = $null;
         $bufferCounter = 0;
     }
+
+    Invoke-TimeSignal -End
 }

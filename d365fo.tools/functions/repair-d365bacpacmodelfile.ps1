@@ -118,7 +118,7 @@
         
         This will only process the Replace section, as the other repair paths are empty - indicating to skip them.
         It will load the instructions from the 'C:\Temp\RepairBacpac.Replace.Custom.json' file and run those in the Replace section.
-        
+
     .EXAMPLE
         PS C:\> Repair-D365BacpacModelFile -Path C:\Temp\INOX\Bacpac\Base.xml -KeepFiles -Force
         
@@ -164,6 +164,8 @@ function Repair-D365BacpacModelFile {
 
     )
     begin {
+        Invoke-TimeSignal -Start
+
         if (-not (Test-PathExists -Path $Path -Type Leaf)) { return }
 
         if (Test-PSFFunctionInterrupt) { return }
@@ -212,6 +214,8 @@ function Repair-D365BacpacModelFile {
             $arrReplace = Get-Content -Path $PathRepairReplace -Raw | ConvertFrom-Json
         }
 
+        Write-PSFMessage -Level Verbose -Message "Starting the Remove and Replace section of the repair." -Target @($arrSimple, $arrReplace)
+
         Repair-BacpacModelSimpleAndReplace -Path $localInput -OutputPath $forOutput -RemoveInstructions $arrSimple -ReplaceInstructions $arrReplace
 
         $arrQualifier = @()
@@ -229,6 +233,8 @@ function Repair-D365BacpacModelFile {
         if (-not $KeepFiles) {
             Get-ChildItem -Path "$($directoryObj.FullName)\*.simple&replace.*.xml" | Remove-Item -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         }
+
+        Write-PSFMessage -Level Verbose -Message "Starting the Qualifier section of the repair." -Target @($arrSimple, $arrReplace)
 
         for ($i = 0; $i -lt $arrQualifier.Count; $i++) {
             $forInput = Join-Path -Path $directoryObj.FullName -ChildPath "$i.qualifier.input.xml"
@@ -254,5 +260,7 @@ function Repair-D365BacpacModelFile {
             File     = $OutputPath
             Filename = $(Split-Path -Path $OutputPath -Leaf)
         }
+
+        Invoke-TimeSignal -End
     }
 }
