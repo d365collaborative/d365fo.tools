@@ -24,7 +24,7 @@ As the backend of the Azure SQL infrastructure keeps evolving, the bacpac file c
 
 ### EXAMPLE 1
 ```
-Repair-D365BacpacModelFile -Path C:\Temp\INOX\Bacpac\Base.xml -PathRepairSimple '' -PathRepairQualifier '' -PathRepairReplace 'C:\Temp\RepairBacpac.Replace.Custom.json'
+Repair-D365BacpacModelFile -Path C:\Temp\\Base.xml -PathRepairSimple '' -PathRepairQualifier '' -PathRepairReplace 'C:\Temp\RepairBacpac.Replace.Custom.json'
 ```
 
 This will only process the Replace section, as the other repair paths are empty - indicating to skip them.
@@ -32,7 +32,7 @@ It will load the instructions from the 'C:\Temp\RepairBacpac.Replace.Custom.json
 
 ### EXAMPLE 2
 ```
-Repair-D365BacpacModelFile -Path C:\Temp\INOX\Bacpac\Base.xml -KeepFiles -Force
+Repair-D365BacpacModelFile -Path C:\Temp\\Base.xml -KeepFiles -Force
 ```
 
 This will process all repair sections.
