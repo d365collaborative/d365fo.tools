@@ -14,12 +14,15 @@
         - 2) Install the certificate to the "LocalMachine" certificate store.
         - 3) Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
         - 4) Update the web.config with the application ID and the thumbprint of the certificate.
-        - 5) (Optional) Add the application registration to the WIF config.
+        - 5) Add the application registration to the WIF config.
+        - 6) Clear cached LCS configuration in AxDB.
+        - 7) Restart the IIS service.
         
         To execute the steps, the id of an Azure application must be provided. The application must have the following API permissions:
         
         - Dynamics ERP - This permission is required to access finance and operations environments.
         - Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
+        - Dynamics Lifecylce service (permission of type Delegated)
         
         The URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.
         Finally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.
@@ -28,10 +31,10 @@
         The Azure Registered Application Id / Client Id obtained while creating a Registered App inside the Azure Portal.
         It is assumed that an application with this id already exists in Azure.
         
-    .Parameter ExistingCertificateFile
+    .PARAMETER ExistingCertificateFile
         The path to a certificate file. If this parameter is provided, the cmdlet will not create a new certificate.
         
-    .Parameter ExistingCertificatePrivateKeyFile
+    .PARAMETER ExistingCertificatePrivateKeyFile
         The path to a certificate private key file.
         If this parameter is not provided, the certificate can be installed to the certificate store, but the NetworkService cannot be granted READ permission.
         
@@ -55,15 +58,12 @@
     .PARAMETER Force
         Forces the execution of some of the steps. For example, if a certificate with the same name already exists, it will be deleted and recreated.
         
-    .Parameter AddAppRegistrationToWifConfig
-        Adds the application registration to the WIF config. This is not part of the official Microsoft documentation to enable the Entra ID integration. It is however highly recommended to fix additional issues with the missing entry integration.
-        
-    .Parameter WhatIf
+    .PARAMETER WhatIf
         Executes the cmdlet until the first operation that would change the state of the system, without executing that operation.
         Subsequent operations are likely to fail.
         This is currently not fully implemented and should not be used.
         
-    .Parameter Confirm
+    .PARAMETER Confirm
         Prompts for confirmation before each operation of the cmdlet that changes the state of the system.
         
     .OUTPUTS
@@ -140,9 +140,7 @@ function New-D365EntraIntegration {
 
         [Security.SecureString] $CertificatePassword,
 
-        [switch] $Force,
-
-        [switch] $AddAppRegistrationToWifConfig
+        [switch] $Force
     )
 
     if (-not ($Script:IsAdminRuntime)) {
@@ -335,35 +333,46 @@ function New-D365EntraIntegration {
     $xml.Save($webConfigFile)
     Write-PSFMessage -Level Host -Message "web.config was updated with the application ID and the thumbprint of the certificate."
 
+    # Step 5: Add app registration to Wif.config
+    Write-PSFMessage -Level Verbose -Message "Step 5: Starting adding app registration to Wif.config"
+    $wifConfigBackup = Join-Path $Script:DefaultTempPath "WifConfigBackup"
+    $wifConfigFileBackup = Join-Path $wifConfigBackup $Script:WifConfig
+    if (Test-PathExists -Path $wifConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
+        Write-PSFMessage -Level Warning -Message "Backup of Wif.config already exists."
+        if (-not $Force) {
+            Stop-PSFFunction -Message "Stopping because a backup of Wif.config already exists"
+            return
+        }
+        Write-PSFMessage -Level Host -Message "Backup of Wif.config will be overwritten."
+    }
+    $null = Backup-D365WifConfig -Force:$Force
+    $wifConfigFile = Join-Path -Path $Script:AOSPath $Script:WifConfig
+    if (-not (Test-PathExists -Path $wifConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
+        Write-PSFMessage -Level Host -Message "Unable to find the Wif.config file."
+        Stop-PSFFunction -Message "Stopping because the Wif.config file could not be found"
+    }
+    [xml]$xml = Get-Content $wifConfigFile
+    $audienceUris = $xml.'system.identityModel'.identityConfiguration.securityTokenHandlers.securityTokenHandlerConfiguration.audienceUris
+    $audienceUriElement = $xml.CreateElement('add')
+    $audienceUriElement.SetAttribute('value', "spn:$ClientId")
+    $audienceUris.AppendChild($audienceUriElement)
+    $xml.Save($wifConfigFile)
+    Write-PSFMessage -Level Host -Message "Wif.config was updated with the audience URIs."
+
+    # Step 6: Clear cached LCS configuration in AxDB
+    Write-PSFMessage -Level Verbose -Message "Step 6: Starting clearing cached LCS configuration in AxDB"
+    Invoke-D365SqlScript -Command "DELETE FROM SYSOAUTHCONFIGURATION where SECURERESOURCE = 'https://lcsapi.lcs.dynamics.com'"
+    Invoke-D365SqlScript -Command "DELETE FROM SYSOAUTHUSERTOKENS where SECURERESOURCE = 'https://lcsapi.lcs.dynamics.com'"
+    Write-PSFMessage -Level Host -Message "Cached LCS configuration in AxDB was cleared."
+
+    # Step 7: Restart IIS
+    Write-PSFMessage -Level Verbose -Message "Step 7: Starting restarting IIS"
+    Restart-D365Environment -Aos
+    Write-PSFMessage -Level Host -Message "IIS was restarted."
+
+    Test-D365EntraIntegration
+
     if ($PSCmdlet.ParameterSetName -eq "NewCertificate") {
         Write-PSFMessage -Level Host -Message "The certificate file <c='em'>$NewCertificateFile</c> must be uploaded to the Azure application, see https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app#add-a-certificate."
-    }
-
-    # Step 5: Add app registration to Wif.config
-    if ($AddAppRegistrationToWifConfig) {
-        Write-PSFMessage -Level Verbose -Message "Step 5: Starting adding app registration to Wif.config"
-        $wifConfigBackup = Join-Path $Script:DefaultTempPath "WifConfigBackup"
-        $wifConfigFileBackup = Join-Path $wifConfigBackup $Script:WifConfig
-        if (Test-PathExists -Path $wifConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
-            Write-PSFMessage -Level Warning -Message "Backup of Wif.config already exists."
-            if (-not $Force) {
-                Stop-PSFFunction -Message "Stopping because a backup of Wif.config already exists"
-                return
-            }
-            Write-PSFMessage -Level Host -Message "Backup of Wif.config will be overwritten."
-        }
-        $null = Backup-D365WifConfig -Force:$Force
-        $wifConfigFile = Join-Path -Path $Script:AOSPath $Script:WifConfig
-        if (-not (Test-PathExists -Path $wifConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
-            Write-PSFMessage -Level Host -Message "Unable to find the Wif.config file."
-            Stop-PSFFunction -Message "Stopping because the Wif.config file could not be found"
-        }
-        [xml]$xml = Get-Content $wifConfigFile
-        $audienceUris = $xml.'system.identityModel'.identityConfiguration.securityTokenHandlers.securityTokenHandlerConfiguration.audienceUris
-        $audienceUriElement = $xml.CreateElement('add')
-        $audienceUriElement.SetAttribute('value', "spn:$ClientId")
-        $audienceUris.PrependChild($audienceUriElement)
-        $xml.Save($wifConfigFile)
-        Write-PSFMessage -Level Host -Message "Wif.config was updated with the audience URIs."
     }
 }

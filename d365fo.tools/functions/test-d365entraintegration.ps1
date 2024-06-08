@@ -88,10 +88,11 @@ function Test-D365EntraIntegration {
     $config.AudienceUri = $nodes | Where-Object { $_.value -like "*$($config.AadRealm)*" } | Select-Object -First 1 -ExpandProperty value
 
     if ([System.String]::IsNullOrWhiteSpace($config.AudienceUri)) {
-        Write-PSFMessage -Level Host -Message "The <c='em'>'AudienceUri'</c> value is empty. This may not be needed, but in case of issues, try running the <c='em'>'New-D365EntraIntegration'</c> cmdlet with the -AddAppRegistrationToWifConfig switch."
+        Write-PSFMessage -Level Host -Message "The <c='em'>'AudienceUri'</c> value is empty.  This indicates that you have a <c='em'>corrupted</c> configuration. Try running the <c='em'>'New-D365EntraIntegration'</c> cmdlet to fix the configuration."
+        Stop-PSFFunction -Message "Stopping because the 'AudienceUri' value is empty"
     }
     elseif ($config.AadRealm -ne $config.AudienceUri) {
-        Write-PSFMessage -Level Host -Message "The <c='em'>'Aad.Realm'</c> and the <c='em'>'AudienceUri'</c> value do not match each other. This indicates that you have a <c='em'>corrupted</c> configuration. Running the <c='em'>'New-D365EntraIntegration'</c> cmdlet with the -AddAppRegistrationToWifConfig switch could assist with fixing the configuration."
+        Write-PSFMessage -Level Host -Message "The <c='em'>'Aad.Realm'</c> and the <c='em'>'AudienceUri'</c> value do not match each other. This indicates that you have a <c='em'>corrupted</c> configuration. Try running the <c='em'>'New-D365EntraIntegration'</c> cmdlet to fix the configuration."
         Stop-PSFFunction -Message "Stopping because the 'Aad.Realm' and 'AudienceUri' values do not match"
     }
 
