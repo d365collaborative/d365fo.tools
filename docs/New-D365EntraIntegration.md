@@ -16,14 +16,14 @@ Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).
 ```
 New-D365EntraIntegration -ClientId <String> [-CertificateName <String>] [-CertificateExpirationYears <Int32>]
  [-NewCertificateFile <String>] [-NewCertificatePrivateKeyFile <String>] [-CertificatePassword <SecureString>]
- [-Force] [-AddAppRegistrationToWifConfig] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ExistingCertificate
 ```
 New-D365EntraIntegration -ClientId <String> -ExistingCertificateFile <String>
- [-ExistingCertificatePrivateKeyFile <String>] [-CertificatePassword <SecureString>] [-Force]
- [-AddAppRegistrationToWifConfig] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ExistingCertificatePrivateKeyFile <String>] [-CertificatePassword <SecureString>] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,13 +37,16 @@ The steps executed are:
 - 2) Install the certificate to the "LocalMachine" certificate store.
 - 3) Grant NetworkService READ permission to the certificate (only on cloud-hosted environments).
 - 4) Update the web.config with the application ID and the thumbprint of the certificate.
-- 5) (Optional) Add the application registration to the WIF config.
+- 5) Add the application registration to the WIF config.
+- 6) Clear cached LCS configuration in AxDB.
+- 7) Restart the IIS service.
 
 To execute the steps, the id of an Azure application must be provided.
 The application must have the following API permissions:
 
 - Dynamics ERP - This permission is required to access finance and operations environments.
 - Microsoft Graph (User.Read.All and Group.Read.All permissions of the Application type).
+- Dynamics Lifecylce service (permission of type Delegated)
 
 The URL of the finance and operations environment must also be added to the RedirectURI in the Authentication section of the Azure application.
 Finally, after running the cmdlet, if a new certificate was created, it must be uploaded to the Azure application.
@@ -59,26 +62,19 @@ Enables the Entra ID integration with a new self-signed certificate named "CHEAu
 
 ### EXAMPLE 2
 ```
-New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -AddAppRegistrationToWifConfig
-```
-
-Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years and adds the application registration to the wif.config.
-
-### EXAMPLE 3
-```
 New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert"
 ```
 
 Enables the Entra ID integration with a new self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
 
-### EXAMPLE 4
+### EXAMPLE 3
 ```
 New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert" -CertificateExpirationYears 1
 ```
 
 Enables the Entra ID integration with a new self-signed certificate with the name "SelfsignedCert" that expires after 1 year.
 
-### EXAMPLE 5
+### EXAMPLE 4
 ```
 $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
 ```
@@ -88,7 +84,7 @@ PS C:\\\> New-D365EntraIntegration -AppId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -
 Enables the Entra ID integration with a new self-signed certificate with the name "CHEAuth" that expires after 2 years, using the provided password to generate the private key of the certificate.
 The certificate file and the private key file are saved to the Desktop of the current user.
 
-### EXAMPLE 6
+### EXAMPLE 5
 ```
 $securePassword = Read-Host -AsSecureString -Prompt "Enter the certificate password"
 ```
@@ -231,23 +227,6 @@ Accept wildcard characters: False
 ### -Force
 Forces the execution of some of the steps.
 For example, if a certificate with the same name already exists, it will be deleted and recreated.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AddAppRegistrationToWifConfig
-Adds the application registration to the WIF config.
-This is not part of the official Microsoft documentation to enable the Entra ID integration.
-It is however highly recommended to fix additional issues with the missing entry integration.
 
 ```yaml
 Type: SwitchParameter
