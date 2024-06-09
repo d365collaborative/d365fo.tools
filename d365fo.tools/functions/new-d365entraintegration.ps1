@@ -1,4 +1,4 @@
-﻿
+
 <#
     .SYNOPSIS
         Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).
@@ -187,8 +187,11 @@ function New-D365EntraIntegration {
     }
 
     # Step 3: Grant NetworkService READ permission to the certificate
-    Write-PSFMessage -Level Verbose -Message "Step 3: Starting granting NetworkService READ permission to the certificate"
-    Grant-NetworkServiceReadPermissionToCertificate -certificateObject $certificateObject
+    # Check if on cloud-hosted environment
+    if ($Script:EnvironmentType -eq [EnvironmentType]::AzureHostedTier1) {
+        Write-PSFMessage -Level Verbose -Message "Step 3: Starting granting NetworkService READ permission to the certificate"
+        Grant-NetworkServiceReadPermissionToCertificate -certificateObject $certificateObject
+    }
 
     # Step 4: Update web.config with application ID and certificate thumbprint
     Write-PSFMessage -Level Verbose -Message "Step 4: Starting updating web.config with application ID and certificate thumbprint"
