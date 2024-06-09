@@ -186,51 +186,9 @@ function New-D365EntraIntegration {
         return
     }
 
-    # Step 3: Grant NetworkService READ permission to the certificate by setting ACL rights
-    # Check if on cloud-hosted environment
-    if ($Script:EnvironmentType -eq [EnvironmentType]::AzureHostedTier1) {
-        Write-PSFMessage -Level Verbose -Message "Step 3: Starting granting NetworkService READ permission to the certificate"
-        # Get private key container name
-        $privatekey = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPrivateKey($certificateObject)
-        $containerName = ""
-        if ($privateKey.GetType().Name -ieq "RSACng") {
-            $containerName = $privateKey.Key.UniqueName
-        }
-        else {
-            $containerName = $privateKey.CspKeyContainerInfo.UniqueKeyContainerName
-        }
-        $keyFullPath = $env:ProgramData + "\Microsoft\Crypto\RSA\MachineKeys\" + $containerName;
-        if (-not (Test-PathExists -Path $keyFullPath -Type Leaf)) {
-            Write-PSFMessage -Level Host -Message "Unable to get the private key container to set read permission for NetworkService."
-            Stop-PSFFunction -Message "Stopping because the private key container to set read permission for NetworkService could not be retrieved"
-        }
-        # Grant NetworkService account access to certificate if it does not already have it
-        $networkServiceSidType = [System.Security.Principal.WellKnownSidType]::NetworkServiceSid
-        $readFileSystemRight = [System.Security.AccessControl.FileSystemRights]::Read
-        $allowAccessControlType = [System.Security.AccessControl.AccessControlType]::Allow
-        $networkServiceSID = New-Object System.Security.Principal.SecurityIdentifier($networkServiceSidType, $null)
-        $permissions = (Get-Item $keyFullPath).GetAccessControl()
-        $newRuleSet = 0
-        $identityNetwork = $permissions.access `
-            | Where-Object {$_.identityreference -eq "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)"} `
-            | Select-Object
-        if ($identityNetwork.IdentityReference -ne "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)") {
-            $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, $readFileSystemRight, $allowAccessControlType)
-            $permissions.AddAccessRule($rule1)
-            $newRuleSet = 1
-            Write-PSFMessage -Level Verbose -Message "Added NetworkService with READ access to certificate"
-        }
-        elseif ($identityNetwork.FileSystemRights -ne $readFileSystemRight) {
-            $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, $readFileSystemRight, $allowAccessControlType)
-            $permissions.AddAccessRule($rule1)
-            $newRuleSet = 1
-            Write-PSFMessage -Level Verbose -Message "Gave NetworkService READ access to certificate"
-        }
-        if ($newRuleSet -eq 1){
-            Set-Acl -Path $keyFullPath -AclObject $permissions
-            Write-PSFMessage -Level Host -Message "NetworkService was granted READ permission to the certificate."
-        }
-    }
+    # Step 3: Grant NetworkService READ permission to the certificate
+    Write-PSFMessage -Level Verbose -Message "Step 3: Starting granting NetworkService READ permission to the certificate"
+    Grant-NetworkServiceReadPermissionToCertificate -certificateObject $certificateObject
 
     # Step 4: Update web.config
     Write-PSFMessage -Level Verbose -Message "Step 4: Starting updating web.config"
@@ -422,4 +380,56 @@ function CreateAndInstallNewCertificate {
         Write-PSFMessage -Level Host -Message "Certificate private key file <c='em'>$NewCertificatePrivateKeyFile</c> created."
     }
     $certificate.Thumbprint
+}
+
+function Grant-NetworkServiceReadPermissionToCertificate {
+    param (
+        [Parameter(Mandatory)]
+        [System.Security.Cryptography.X509Certificates.X509Certificate2] $certificateObject
+    )
+
+    # Get private key container name
+    $privateKey = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPrivateKey($certificateObject)
+    $containerName = ""
+    if ($privateKey.GetType().Name -ieq "RSACng") {
+        $containerName = $privateKey.Key.UniqueName
+    }
+    else {
+        $containerName = $privateKey.CspKeyContainerInfo.UniqueKeyContainerName
+    }
+    $keyFullPath = $env:ProgramData + "\Microsoft\Crypto\RSA\MachineKeys\" + $containerName
+
+    if (-not (Test-PathExists -Path $keyFullPath -Type Leaf)) {
+        Write-PSFMessage -Level Host -Message "Unable to get the private key container to set read permission for NetworkService."
+        Stop-PSFFunction -Message "Stopping because the private key container to set read permission for NetworkService could not be retrieved"
+    }
+
+    # Grant NetworkService account access to certificate if it does not already have it
+    $networkServiceSidType = [System.Security.Principal.WellKnownSidType]::NetworkServiceSid
+    $readFileSystemRight = [System.Security.AccessControl.FileSystemRights]::Read
+    $allowAccessControlType = [System.Security.AccessControl.AccessControlType]::Allow
+    $networkServiceSID = New-Object System.Security.Principal.SecurityIdentifier($networkServiceSidType, $null)
+    $permissions = (Get-Item $keyFullPath).GetAccessControl()
+    $newRuleSet = 0
+    $identityNetwork = $permissions.access `
+        | Where-Object {$_.identityreference -eq "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)"} `
+        | Select-Object
+
+    if ($identityNetwork.IdentityReference -ne "$($networkServiceSID.Translate([System.Security.Principal.NTAccount]).value)") {
+        $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, $readFileSystemRight, $allowAccessControlType)
+        $permissions.AddAccessRule($rule1)
+        $newRuleSet = 1
+        Write-PSFMessage -Level Verbose -Message "Added NetworkService with READ access to certificate"
+    }
+    elseif ($identityNetwork.FileSystemRights -ne $readFileSystemRight) {
+        $rule1 = New-Object Security.AccessControl.FileSystemAccessRule($networkServiceSID, $readFileSystemRight, $allowAccessControlType)
+        $permissions.AddAccessRule($rule1)
+        $newRuleSet = 1
+        Write-PSFMessage -Level Verbose -Message "Gave NetworkService READ access to certificate"
+    }
+
+    if ($newRuleSet -eq 1){
+        Set-Acl -Path $keyFullPath -AclObject $permissions
+        Write-PSFMessage -Level Host -Message "NetworkService was granted READ permission to the certificate."
+    }
 }
