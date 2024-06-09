@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).
@@ -202,7 +202,7 @@ function New-D365EntraIntegration {
         CertificateThumbprint = $certificateThumbprint
         Force = $Force
     }
-    Update-WebConfig -AOSPath @params
+    Update-WebConfig @params
 
     # Step 5: Add app registration to Wif.config
     Write-PSFMessage -Level Verbose -Message "Step 5: Starting adding app registration to Wif.config"
