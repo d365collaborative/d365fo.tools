@@ -190,34 +190,16 @@ function New-D365EntraIntegration {
     Write-PSFMessage -Level Verbose -Message "Step 3: Starting granting NetworkService READ permission to the certificate"
     Grant-NetworkServiceReadPermissionToCertificate -certificateObject $certificateObject
 
-    # Step 4: Update web.config
-    Write-PSFMessage -Level Verbose -Message "Step 4: Starting updating web.config"
-    $webConfigBackup = Join-Path $Script:DefaultTempPath "WebConfigBackup"
-    $webConfigFileBackup = Join-Path $webConfigBackup $Script:WebConfig
-    if (Test-PathExists -Path $webConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
-        Write-PSFMessage -Level Warning -Message "Backup of web.config already exists."
-        if (-not $Force) {
-            Stop-PSFFunction -Message "Stopping because a backup of web.config already exists"
-            return
-        }
-        Write-PSFMessage -Level Host -Message "Backup of web.config will be overwritten."
+    # Step 4: Update web.config with application ID and certificate thumbprint
+    Write-PSFMessage -Level Verbose -Message "Step 4: Starting updating web.config with application ID and certificate thumbprint"
+    $params = @{
+        AOSPath = $Script:AOSPath
+        WebConfig = $Script:WebConfig
+        ClientId = $ClientId
+        CertificateThumbprint = $certificateThumbprint
+        Force = $Force
     }
-    $null = Backup-D365WebConfig -Force:$Force
-    $webConfigFile = Join-Path -Path $Script:AOSPath $Script:WebConfig
-    if (-not (Test-PathExists -Path $webConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
-        Write-PSFMessage -Level Host -Message "Unable to find the web.config file."
-        Stop-PSFFunction -Message "Stopping because the web.config file could not be found"
-    }
-    [xml]$xml = Get-Content $webConfigFile
-    $nodes = ($xml.configuration.appSettings).ChildNodes
-    $aadRealm = $nodes | Where-Object -Property Key -eq "Aad.Realm"
-    $aadRealm.value = "spn:$ClientId"
-    $infraThumb = $nodes | Where-Object -Property Key -eq "Infrastructure.S2SCertThumbprint"
-    $infraThumb.value = $certificateThumbprint
-    $graphThumb = $nodes | Where-Object -Property Key -eq "GraphApi.GraphAPIServicePrincipalCert"
-    $graphThumb.value = $certificateThumbprint
-    $xml.Save($webConfigFile)
-    Write-PSFMessage -Level Host -Message "web.config was updated with the application ID and the thumbprint of the certificate."
+    Update-WebConfig -AOSPath @params
 
     # Step 5: Add app registration to Wif.config
     Write-PSFMessage -Level Verbose -Message "Step 5: Starting adding app registration to Wif.config"
@@ -432,4 +414,50 @@ function Grant-NetworkServiceReadPermissionToCertificate {
         Set-Acl -Path $keyFullPath -AclObject $permissions
         Write-PSFMessage -Level Host -Message "NetworkService was granted READ permission to the certificate."
     }
+}
+
+function Update-WebConfig {
+    param (
+        [Parameter(Mandatory)]
+        [string] $AOSPath,
+
+        [Parameter(Mandatory)]
+        [string] $WebConfig,
+
+        [Parameter(Mandatory)]
+        [string] $ClientId,
+
+        [Parameter(Mandatory)]
+        [string] $CertificateThumbprint,
+
+        [switch] $Force
+    )
+
+    Write-PSFMessage -Level Verbose -Message "Starting updating web.config"
+    $webConfigBackup = Join-Path $Script:DefaultTempPath "WebConfigBackup"
+    $webConfigFileBackup = Join-Path $webConfigBackup $WebConfig
+    if (Test-PathExists -Path $webConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
+        Write-PSFMessage -Level Warning -Message "Backup of web.config already exists."
+        if (-not $Force) {
+            Stop-PSFFunction -Message "Stopping because a backup of web.config already exists"
+            return
+        }
+        Write-PSFMessage -Level Host -Message "Backup of web.config will be overwritten."
+    }
+    $null = Backup-D365WebConfig -Force:$Force
+    $webConfigFile = Join-Path -Path $AOSPath $WebConfig
+    if (-not (Test-PathExists -Path $webConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
+        Write-PSFMessage -Level Host -Message "Unable to find the web.config file."
+        Stop-PSFFunction -Message "Stopping because the web.config file could not be found"
+    }
+    [xml]$xml = Get-Content $webConfigFile
+    $nodes = ($xml.configuration.appSettings).ChildNodes
+    $aadRealm = $nodes | Where-Object -Property Key -eq "Aad.Realm"
+    $aadRealm.value = "spn:$ClientId"
+    $infraThumb = $nodes | Where-Object -Property Key -eq "Infrastructure.S2SCertThumbprint"
+    $infraThumb.value = $CertificateThumbprint
+    $graphThumb = $nodes | Where-Object -Property Key -eq "GraphApi.GraphAPIServicePrincipalCert"
+    $graphThumb.value = $CertificateThumbprint
+    $xml.Save($webConfigFile)
+    Write-PSFMessage -Level Host -Message "web.config was updated with the application ID and the thumbprint of the certificate."
 }
