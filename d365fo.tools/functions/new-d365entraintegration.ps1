@@ -156,8 +156,9 @@ function New-D365EntraIntegration {
             CertificateFile = $ExistingCertificateFile
             PrivateKeyFile = $ExistingCertificatePrivateKeyFile
             CertificatePassword = $CertificatePassword
+            Force = $Force
         }
-        $certificateThumbprint = CheckAndInstallCertificate @params
+        $certificateThumbprint = CheckAndInstallExistingCertificate @params
     }
 
     # Create and install certificate
@@ -351,16 +352,16 @@ function New-D365EntraIntegration {
     }
 }
 
-function CheckAndInstallCertificate {
+function CheckAndInstallExistingCertificate {
     param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [string] $CertificateFile,
 
-        [Parameter(Mandatory = $false)]
         [string] $PrivateKeyFile,
 
-        [Parameter(Mandatory = $false)]
-        [Security.SecureString] $CertificatePassword
+        [Security.SecureString] $CertificatePassword,
+
+        [switch] $Force
     )
 
     if (-not (Test-PathExists -Path $CertificateFile -Type Leaf)) {
