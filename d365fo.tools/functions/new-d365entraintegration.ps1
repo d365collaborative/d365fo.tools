@@ -203,34 +203,7 @@ function New-D365EntraIntegration {
 
     # Step 5: Add app registration to Wif.config
     Write-PSFMessage -Level Verbose -Message "Step 5: Starting adding app registration to Wif.config"
-    $wifConfigBackup = Join-Path $Script:DefaultTempPath "WifConfigBackup"
-    $wifConfigFileBackup = Join-Path $wifConfigBackup $Script:WifConfig
-    if (Test-PathExists -Path $wifConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
-        Write-PSFMessage -Level Warning -Message "Backup of Wif.config already exists."
-        if (-not $Force) {
-            Stop-PSFFunction -Message "Stopping because a backup of Wif.config already exists"
-            return
-        }
-        Write-PSFMessage -Level Host -Message "Backup of Wif.config will be overwritten."
-    }
-    $null = Backup-D365WifConfig -Force:$Force
-    $wifConfigFile = Join-Path -Path $Script:AOSPath $Script:WifConfig
-    if (-not (Test-PathExists -Path $wifConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
-        Write-PSFMessage -Level Host -Message "Unable to find the Wif.config file."
-        Stop-PSFFunction -Message "Stopping because the Wif.config file could not be found"
-    }
-    [xml]$xml = Get-Content $wifConfigFile
-    $audienceUris = $xml.'system.identityModel'.identityConfiguration.securityTokenHandlers.securityTokenHandlerConfiguration.audienceUris
-    $existingAudienceUri = $audienceUris.ChildNodes | Where-Object {$_.value -eq "spn:$ClientId"}
-    if (-not $existingAudienceUri) {
-        $audienceUriElement = $xml.CreateElement('add')
-        $audienceUriElement.SetAttribute('value', "spn:$ClientId")
-        $audienceUris.AppendChild($audienceUriElement)
-        $xml.Save($wifConfigFile)
-        Write-PSFMessage -Level Host -Message "Wif.config was updated with the audience URI."
-    } else {
-        Write-PSFMessage -Level Host -Message "Audience URI already exists in Wif.config."
-    }
+    Update-WifConfig -AOSPath $Script:AOSPath -WifConfig $Script:WifConfig -ClientId $ClientId -Force:$Force
 
     # Step 6: Clear cached LCS configuration in AxDB
     Write-PSFMessage -Level Verbose -Message "Step 6: Starting clearing cached LCS configuration in AxDB"
@@ -460,4 +433,49 @@ function Update-WebConfig {
     $graphThumb.value = $CertificateThumbprint
     $xml.Save($webConfigFile)
     Write-PSFMessage -Level Host -Message "web.config was updated with the application ID and the thumbprint of the certificate."
+}
+
+function Update-WifConfig {
+    param (
+        [Parameter(Mandatory)]
+        [string] $AOSPath,
+
+        [Parameter(Mandatory)]
+        [string] $WifConfig,
+
+        [Parameter(Mandatory)]
+        [string] $ClientId,
+
+        [switch] $Force
+    )
+
+    Write-PSFMessage -Level Verbose -Message "Step 5: Starting adding app registration to Wif.config"
+    $wifConfigBackup = Join-Path $Script:DefaultTempPath "WifConfigBackup"
+    $wifConfigFileBackup = Join-Path $wifConfigBackup $WifConfig
+    if (Test-PathExists -Path $wifConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
+        Write-PSFMessage -Level Warning -Message "Backup of Wif.config already exists."
+        if (-not $Force) {
+            Stop-PSFFunction -Message "Stopping because a backup of Wif.config already exists"
+            return
+        }
+        Write-PSFMessage -Level Host -Message "Backup of Wif.config will be overwritten."
+    }
+    $null = Backup-D365WifConfig -Force:$Force
+    $wifConfigFile = Join-Path -Path $AOSPath $WifConfig
+    if (-not (Test-PathExists -Path $wifConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
+        Write-PSFMessage -Level Host -Message "Unable to find the Wif.config file."
+        Stop-PSFFunction -Message "Stopping because the Wif.config file could not be found"
+    }
+    [xml]$xml = Get-Content $wifConfigFile
+    $audienceUris = $xml.'system.identityModel'.identityConfiguration.securityTokenHandlers.securityTokenHandlerConfiguration.audienceUris
+    $existingAudienceUri = $audienceUris.ChildNodes | Where-Object {$_.value -eq "spn:$ClientId"}
+    if (-not $existingAudienceUri) {
+        $audienceUriElement = $xml.CreateElement('add')
+        $audienceUriElement.SetAttribute('value', "spn:$ClientId")
+        $audienceUris.AppendChild($audienceUriElement)
+        $xml.Save($wifConfigFile)
+        Write-PSFMessage -Level Host -Message "Wif.config was updated with the audience URI."
+    } else {
+        Write-PSFMessage -Level Host -Message "Audience URI already exists in Wif.config."
+    }
 }
