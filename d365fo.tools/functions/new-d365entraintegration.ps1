@@ -174,6 +174,7 @@ function New-D365EntraIntegration {
     }
 
     # Sanity checks before next steps
+    if (Test-PSFFunctionInterrupt) { return }
     if (-not $certificateThumbprint) {
         Write-PSFMessage -Level Host -Message "Unable to get the certificate thumbprint."
         Stop-PSFFunction -Message "Stopping because the certificate thumbprint could not be retrieved"
@@ -191,6 +192,7 @@ function New-D365EntraIntegration {
     if ($Script:EnvironmentType -eq [EnvironmentType]::AzureHostedTier1) {
         Write-PSFMessage -Level Verbose -Message "Step 3: Starting granting NetworkService READ permission to the certificate"
         Grant-NetworkServiceReadPermissionToCertificate -certificateObject $certificateObject
+        if (Test-PSFFunctionInterrupt) { return }
     }
 
     # Step 4: Update web.config with application ID and certificate thumbprint
@@ -203,10 +205,12 @@ function New-D365EntraIntegration {
         Force = $Force
     }
     Update-WebConfig @params
+    if (Test-PSFFunctionInterrupt) { return }
 
     # Step 5: Add app registration to Wif.config
     Write-PSFMessage -Level Verbose -Message "Step 5: Starting adding app registration to Wif.config"
     Update-WifConfig -AOSPath $Script:AOSPath -WifConfig $Script:WifConfig -ClientId $ClientId -Force:$Force
+    if (Test-PSFFunctionInterrupt) { return }
 
     # Step 6: Clear cached LCS configuration in AxDB
     Write-PSFMessage -Level Verbose -Message "Step 6: Starting clearing cached LCS configuration in AxDB"
@@ -240,13 +244,13 @@ function CheckAndInstallExistingCertificate {
 
     if (-not (Test-PathExists -Path $CertificateFile -Type Leaf)) {
         Write-PSFMessage -Level Host -Message "The provided certificate file <c='em'>$CertificateFile</c> does not exist."
-        Stop-PSFFunction -Message "Stopping because the provided certificate file does not exist"
+        Stop-PSFFunction -StepsUpward 1 -Message "Stopping because the provided certificate file does not exist"
         return
     }
 
     if ($CertificatePassword -and -not (Test-PathExists -Path $PrivateKeyFile -Type Leaf)) {
         Write-PSFMessage -Level Host -Message "The provided certificate private key file <c='em'>$PrivateKeyFile</c> does not exist."
-        Stop-PSFFunction -Message "Stopping because the provided certificate private key file does not exist"
+        Stop-PSFFunction -StepsUpward 1 -Message "Stopping because the provided certificate private key file does not exist"
         return
     }
 
@@ -256,7 +260,7 @@ function CheckAndInstallExistingCertificate {
     if ($existingCertificate) {
         Write-PSFMessage -Level Warning -Message "A certificate with the same thumbprint as the provided certificate <c='em'>$CertificateFile</c> already exists in <c='em'>$certificateStoreLocation</c>."
         if (-not $Force) {
-            Stop-PSFFunction -Message "Stopping because a certificate with the same thumbprint as the provided certificate already exists"
+            Stop-PSFFunction -StepsUpward 1 -Message "Stopping because a certificate with the same thumbprint as the provided certificate already exists"
             return
         }
         Write-PSFMessage -Level Host -Message "Deleting and installing the provided certificate."
@@ -294,7 +298,7 @@ function CreateAndInstallNewCertificate {
     if ($existingCertificate) {
         Write-PSFMessage -Level Warning -Message "A certificate with name <c='em'>$CertificateName</c> already exists in <c='em'>$certificateStoreLocation</c> with expiration date <c='em'>$($existingCertificate.NotAfter)</c>."
         if (-not $Force) {
-            Stop-PSFFunction -Message "Stopping because a certificate with the same name already exists"
+            Stop-PSFFunction -StepsUpward 1 -Message "Stopping because a certificate with the same name already exists"
             return
         }
         Write-PSFMessage -Level Host -Message "Deleting and re-creating the certificate."
@@ -305,7 +309,7 @@ function CreateAndInstallNewCertificate {
     if (Test-PathExists -Path $NewCertificateFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
         Write-PSFMessage -Level Warning -Message "A certificate file with the same name as the new certificate file <c='em'>$NewCertificateFile</c> already exists."
         if (-not $Force) {
-            Stop-PSFFunction -Message "Stopping because a certificate file with the same name already exists"
+            Stop-PSFFunction -StepsUpward 1 -Message "Stopping because a certificate file with the same name already exists"
             return
         }
         Write-PSFMessage -Level Host -Message "The existing certificate file will be overwritten."
@@ -313,7 +317,7 @@ function CreateAndInstallNewCertificate {
     if ($CertificatePassword -and (Test-PathExists -Path $NewCertificatePrivateKeyFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
         Write-PSFMessage -Level Warning -Message "A certificate private key file with the same name as the new certificate private key file <c='em'>$NewCertificatePrivateKeyFile</c> already exists."
         if (-not $Force) {
-            Stop-PSFFunction -Message "Stopping because a certificate private key file with the same name already exists"
+            Stop-PSFFunction -StepsUpward 1 -Message "Stopping because a certificate private key file with the same name already exists"
             return
         }
         Write-PSFMessage -Level Host -Message "The existing certificate private key file will be overwritten."
@@ -359,7 +363,8 @@ function Grant-NetworkServiceReadPermissionToCertificate {
 
     if (-not (Test-PathExists -Path $keyFullPath -Type Leaf)) {
         Write-PSFMessage -Level Host -Message "Unable to get the private key container to set read permission for NetworkService."
-        Stop-PSFFunction -Message "Stopping because the private key container to set read permission for NetworkService could not be retrieved"
+        Stop-PSFFunction -StepsUpward 1 -Message "Stopping because the private key container to set read permission for NetworkService could not be retrieved"
+        return
     }
 
     # Grant NetworkService account access to certificate if it does not already have it
@@ -415,7 +420,7 @@ function Update-WebConfig {
     if (Test-PathExists -Path $webConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
         Write-PSFMessage -Level Warning -Message "Backup of web.config already exists."
         if (-not $Force) {
-            Stop-PSFFunction -Message "Stopping because a backup of web.config already exists"
+            Stop-PSFFunction -StepsUpward 1 -Message "Stopping because a backup of web.config already exists"
             return
         }
         Write-PSFMessage -Level Host -Message "Backup of web.config will be overwritten."
@@ -424,7 +429,8 @@ function Update-WebConfig {
     $webConfigFile = Join-Path -Path $AOSPath $WebConfig
     if (-not (Test-PathExists -Path $webConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
         Write-PSFMessage -Level Host -Message "Unable to find the web.config file."
-        Stop-PSFFunction -Message "Stopping because the web.config file could not be found"
+        Stop-PSFFunction -StepsUpward 1 -Message "Stopping because the web.config file could not be found"
+        return
     }
     [xml]$xml = Get-Content $webConfigFile
     $nodes = ($xml.configuration.appSettings).ChildNodes
@@ -458,7 +464,7 @@ function Update-WifConfig {
     if (Test-PathExists -Path $wifConfigFileBackup -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
         Write-PSFMessage -Level Warning -Message "Backup of Wif.config already exists."
         if (-not $Force) {
-            Stop-PSFFunction -Message "Stopping because a backup of Wif.config already exists"
+            Stop-PSFFunction -StepsUpward 1 -Message "Stopping because a backup of Wif.config already exists"
             return
         }
         Write-PSFMessage -Level Host -Message "Backup of Wif.config will be overwritten."
@@ -467,7 +473,8 @@ function Update-WifConfig {
     $wifConfigFile = Join-Path -Path $AOSPath $WifConfig
     if (-not (Test-PathExists -Path $wifConfigFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
         Write-PSFMessage -Level Host -Message "Unable to find the Wif.config file."
-        Stop-PSFFunction -Message "Stopping because the Wif.config file could not be found"
+        Stop-PSFFunction -StepsUpward 1 -Message "Stopping because the Wif.config file could not be found"
+        return
     }
     [xml]$xml = Get-Content $wifConfigFile
     $audienceUris = $xml.'system.identityModel'.identityConfiguration.securityTokenHandlers.securityTokenHandlerConfiguration.audienceUris
