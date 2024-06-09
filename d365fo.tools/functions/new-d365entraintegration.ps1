@@ -1,4 +1,4 @@
-﻿
+
 <#
     .SYNOPSIS
         Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).
@@ -348,11 +348,16 @@ function New-D365EntraIntegration {
     }
     [xml]$xml = Get-Content $wifConfigFile
     $audienceUris = $xml.'system.identityModel'.identityConfiguration.securityTokenHandlers.securityTokenHandlerConfiguration.audienceUris
-    $audienceUriElement = $xml.CreateElement('add')
-    $audienceUriElement.SetAttribute('value', "spn:$ClientId")
-    $audienceUris.AppendChild($audienceUriElement)
-    $xml.Save($wifConfigFile)
-    Write-PSFMessage -Level Host -Message "Wif.config was updated with the audience URIs."
+    $existingAudienceUri = $audienceUris.ChildNodes | Where-Object {$_.value -eq "spn:$ClientId"}
+    if (-not $existingAudienceUri) {
+        $audienceUriElement = $xml.CreateElement('add')
+        $audienceUriElement.SetAttribute('value', "spn:$ClientId")
+        $audienceUris.AppendChild($audienceUriElement)
+        $xml.Save($wifConfigFile)
+        Write-PSFMessage -Level Host -Message "Wif.config was updated with the audience URI."
+    } else {
+        Write-PSFMessage -Level Host -Message "Audience URI already exists in Wif.config."
+    }
 
     # Step 6: Clear cached LCS configuration in AxDB
     Write-PSFMessage -Level Verbose -Message "Step 6: Starting clearing cached LCS configuration in AxDB"
