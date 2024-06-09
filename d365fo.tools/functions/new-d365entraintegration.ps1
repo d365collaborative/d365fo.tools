@@ -148,7 +148,6 @@ function New-D365EntraIntegration {
     $certificateThumbprint = ""
 
     # Steps 1 and 2: Create or use existing certificate and install it to the certificate store
-
     # Check and install provided certificate file
     if ($PSCmdlet.ParameterSetName -eq "ExistingCertificate") {
         Write-PSFMessage -Level Verbose -Message "Steps 1+2: Starting installation of existing certificate"
@@ -160,59 +159,18 @@ function New-D365EntraIntegration {
         }
         $certificateThumbprint = CheckAndInstallExistingCertificate @params
     }
-
-    # Create and install certificate
+    # Create and install new certificate
     if ($PSCmdlet.ParameterSetName -eq "NewCertificate") {
         Write-PSFMessage -Level Verbose -Message "Steps 1+2: Starting creation of new certificate"
-        #Check for existing certificate
-        $existingCertificate = Get-ChildItem -Path $certificateStoreLocation -ErrorAction SilentlyContinue | Where-Object {$_.Subject -Match "$CertificateName"}
-        if ($existingCertificate) {
-            Write-PSFMessage -Level Warning -Message "A certificate with name <c='em'>$CertificateName</c> already exists in <c='em'>$certificateStoreLocation</c> with expiration date <c='em'>$($existingCertificate.NotAfter)</c>."
-            if (-not $Force) {
-                Stop-PSFFunction -Message "Stopping because a certificate with the same name already exists"
-                return
-            }
-            Write-PSFMessage -Level Host -Message "Deleting and re-creating the certificate."
-            $existingCertificate | Remove-Item
+        $params = @{
+            CertificateName = $CertificateName
+            CertificateExpirationYears = $CertificateExpirationYears
+            NewCertificateFile = $NewCertificateFile
+            NewCertificatePrivateKeyFile = $NewCertificatePrivateKeyFile
+            CertificatePassword = $CertificatePassword
+            Force = $Force
         }
-
-        # Check for existing certificate file
-        if (Test-PathExists -Path $NewCertificateFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
-            Write-PSFMessage -Level Warning -Message "A certificate file with the same name as the new certificate file <c='em'>$NewCertificateFile</c> already exists."
-            if (-not $Force) {
-                Stop-PSFFunction -Message "Stopping because a certificate file with the same name already exists"
-                return
-            }
-            Write-PSFMessage -Level Host -Message "The existing certificate file will be overwritten."
-        }
-        if ($CertificatePassword -and (Test-PathExists -Path $NewCertificatePrivateKeyFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
-            Write-PSFMessage -Level Warning -Message "A certificate private key file with the same name as the new certificate private key file <c='em'>$NewCertificatePrivateKeyFile</c> already exists."
-            if (-not $Force) {
-                Stop-PSFFunction -Message "Stopping because a certificate private key file with the same name already exists"
-                return
-            }
-            Write-PSFMessage -Level Host -Message "The existing certificate private key file will be overwritten."
-        }
-
-        # Create certificate
-        $certificateParams = @{
-            Subject = "CN=$CertificateName"
-            CertStoreLocation = $certificateStoreLocation
-            KeyExportPolicy = 'Exportable'
-            KeySpec = 'Signature'
-            KeyLength = 2048
-            KeyAlgorithm = 'RSA'
-            HashAlgorithm = 'SHA256'
-            NotAfter = (Get-Date).AddYears($CertificateExpirationYears)
-        }
-        $certificate = New-SelfSignedCertificate @certificateParams
-        $certificateThumbprint = $certificate.Thumbprint
-        $null = Export-Certificate -Cert $certificate -FilePath $NewCertificateFile -Force:$Force
-        Write-PSFMessage -Level Host -Message "Certificate <c='em'>$CertificateName</c> created and saved to <c='em'>$NewCertificateFile</c>."
-        if ($CertificatePassword) {
-            $null = Export-PfxCertificate -Cert $certificate -FilePath $NewCertificatePrivateKeyFile -Password $CertificatePassword -Force:$Force
-            Write-PSFMessage -Level Host -Message "Certificate private key file <c='em'>$NewCertificatePrivateKeyFile</c> created."
-        }
+        $certificateThumbprint = CreateAndInstallNewCertificate @params
     }
 
     # Sanity checks before next steps
@@ -394,5 +352,74 @@ function CheckAndInstallExistingCertificate {
     }
     $certificate = Import-Certificate -FilePath $CertificateFile -CertStoreLocation $certificateStoreLocation
     Write-PSFMessage -Level Host -Message "Certificate <c='em'>$CertificateFile</c> installed to <c='em'>$certificateStoreLocation</c>."
+    $certificate.Thumbprint
+}
+
+function CreateAndInstallNewCertificate {
+    param (
+        [Parameter(Mandatory)]
+        [string] $CertificateName,
+
+        [Parameter(Mandatory)]
+        [int] $CertificateExpirationYears,
+
+        [Parameter(Mandatory)]
+        [string] $NewCertificateFile,
+
+        [string] $NewCertificatePrivateKeyFile,
+
+        [Security.SecureString] $CertificatePassword,
+
+        [switch] $Force
+    )
+
+    # Check for existing certificate
+    $existingCertificate = Get-ChildItem -Path $certificateStoreLocation -ErrorAction SilentlyContinue | Where-Object {$_.Subject -Match "$CertificateName"}
+    if ($existingCertificate) {
+        Write-PSFMessage -Level Warning -Message "A certificate with name <c='em'>$CertificateName</c> already exists in <c='em'>$certificateStoreLocation</c> with expiration date <c='em'>$($existingCertificate.NotAfter)</c>."
+        if (-not $Force) {
+            Stop-PSFFunction -Message "Stopping because a certificate with the same name already exists"
+            return
+        }
+        Write-PSFMessage -Level Host -Message "Deleting and re-creating the certificate."
+        $existingCertificate | Remove-Item
+    }
+
+    # Check for existing certificate file
+    if (Test-PathExists -Path $NewCertificateFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue) {
+        Write-PSFMessage -Level Warning -Message "A certificate file with the same name as the new certificate file <c='em'>$NewCertificateFile</c> already exists."
+        if (-not $Force) {
+            Stop-PSFFunction -Message "Stopping because a certificate file with the same name already exists"
+            return
+        }
+        Write-PSFMessage -Level Host -Message "The existing certificate file will be overwritten."
+    }
+    if ($CertificatePassword -and (Test-PathExists -Path $NewCertificatePrivateKeyFile -Type Leaf -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
+        Write-PSFMessage -Level Warning -Message "A certificate private key file with the same name as the new certificate private key file <c='em'>$NewCertificatePrivateKeyFile</c> already exists."
+        if (-not $Force) {
+            Stop-PSFFunction -Message "Stopping because a certificate private key file with the same name already exists"
+            return
+        }
+        Write-PSFMessage -Level Host -Message "The existing certificate private key file will be overwritten."
+    }
+
+    # Create certificate
+    $certificateParams = @{
+        Subject = "CN=$CertificateName"
+        CertStoreLocation = $certificateStoreLocation
+        KeyExportPolicy = 'Exportable'
+        KeySpec = 'Signature'
+        KeyLength = 2048
+        KeyAlgorithm = 'RSA'
+        HashAlgorithm = 'SHA256'
+        NotAfter = (Get-Date).AddYears($CertificateExpirationYears)
+    }
+    $certificate = New-SelfSignedCertificate @certificateParams
+    $null = Export-Certificate -Cert $certificate -FilePath $NewCertificateFile -Force:$Force
+    Write-PSFMessage -Level Host -Message "Certificate <c='em'>$CertificateName</c> created and saved to <c='em'>$NewCertificateFile</c>."
+    if ($CertificatePassword) {
+        $null = Export-PfxCertificate -Cert $certificate -FilePath $NewCertificatePrivateKeyFile -Password $CertificatePassword -Force:$Force
+        Write-PSFMessage -Level Host -Message "Certificate private key file <c='em'>$NewCertificatePrivateKeyFile</c> created."
+    }
     $certificate.Thumbprint
 }
