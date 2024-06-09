@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Enable the Microsoft Entra ID integration on a cloud hosted environment (CHE).
@@ -152,38 +152,12 @@ function New-D365EntraIntegration {
     # Check and install provided certificate file
     if ($PSCmdlet.ParameterSetName -eq "ExistingCertificate") {
         Write-PSFMessage -Level Verbose -Message "Steps 1+2: Starting installation of existing certificate"
-        if (-not (Test-PathExists -Path $ExistingCertificateFile -Type Leaf)) {
-            Write-PSFMessage -Level Host -Message "The provided certificate file <c='em'>$ExistingCertificateFile</c> does not exist."
-            Stop-PSFFunction -Message "Stopping because the provided certificate file does not exist"
-            return
+        $params = @{
+            CertificateFile = $ExistingCertificateFile
+            PrivateKeyFile = $ExistingCertificatePrivateKeyFile
+            CertificatePassword = $CertificatePassword
         }
-
-        if ($CertificatePassword -and -not (Test-PathExists -Path $ExistingCertificatePrivateKeyFile -Type Leaf)) {
-            Write-PSFMessage -Level Host -Message "The provided certificate private key file <c='em'>$ExistingCertificatePrivateKeyFile</c> does not exist."
-            Stop-PSFFunction -Message "Stopping because the provided certificate private key file does not exist"
-            return
-        }
-
-        $certificate = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($ExistingCertificateFile)
-        # Check for existing certificate that has the same thumbprint as the provided certificate
-        $existingCertificate = Get-ChildItem -Path $certificateStoreLocation -ErrorAction SilentlyContinue | Where-Object {$_.Thumbprint -eq $certificate.Thumbprint}
-        if ($existingCertificate) {
-            Write-PSFMessage -Level Warning -Message "A certificate with the same thumbprint as the provided certificate <c='em'>$ExistingCertificateFile</c> already exists in <c='em'>$certificateStoreLocation</c>."
-            if (-not $Force) {
-                Stop-PSFFunction -Message "Stopping because a certificate with the same thumbprint as the provided certificate already exists"
-                return
-                
-            }
-            Write-PSFMessage -Level Host -Message "Deleting and installing the provided certificate."
-            $existingCertificate | Remove-Item
-        }
-        # Install certificate
-        if ($CertificatePassword) {
-            $null = Import-PfxCertificate -FilePath $ExistingCertificatePrivateKeyFile -CertStoreLocation $certificateStoreLocation -Password $CertificatePassword
-        }
-        $certificate = Import-Certificate -FilePath $ExistingCertificateFile -CertStoreLocation $certificateStoreLocation
-        $certificateThumbprint = $certificate.Thumbprint
-        Write-PSFMessage -Level Host -Message "Certificate <c='em'>$ExistingCertificateFile</c> installed to <c='em'>$certificateStoreLocation</c>."
+        $certificateThumbprint = CheckAndInstallCertificate @params
     }
 
     # Create and install certificate
@@ -375,4 +349,49 @@ function New-D365EntraIntegration {
     if ($PSCmdlet.ParameterSetName -eq "NewCertificate") {
         Write-PSFMessage -Level Host -Message "The certificate file <c='em'>$NewCertificateFile</c> must be uploaded to the Azure application, see https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app#add-a-certificate."
     }
+}
+
+function CheckAndInstallCertificate {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string] $CertificateFile,
+
+        [Parameter(Mandatory = $false)]
+        [string] $PrivateKeyFile,
+
+        [Parameter(Mandatory = $false)]
+        [Security.SecureString] $CertificatePassword
+    )
+
+    if (-not (Test-PathExists -Path $CertificateFile -Type Leaf)) {
+        Write-PSFMessage -Level Host -Message "The provided certificate file <c='em'>$CertificateFile</c> does not exist."
+        Stop-PSFFunction -Message "Stopping because the provided certificate file does not exist"
+        return
+    }
+
+    if ($CertificatePassword -and -not (Test-PathExists -Path $PrivateKeyFile -Type Leaf)) {
+        Write-PSFMessage -Level Host -Message "The provided certificate private key file <c='em'>$PrivateKeyFile</c> does not exist."
+        Stop-PSFFunction -Message "Stopping because the provided certificate private key file does not exist"
+        return
+    }
+
+    $certificate = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($CertificateFile)
+    # Check for existing certificate that has the same thumbprint as the provided certificate
+    $existingCertificate = Get-ChildItem -Path $certificateStoreLocation -ErrorAction SilentlyContinue | Where-Object {$_.Thumbprint -eq $certificate.Thumbprint}
+    if ($existingCertificate) {
+        Write-PSFMessage -Level Warning -Message "A certificate with the same thumbprint as the provided certificate <c='em'>$CertificateFile</c> already exists in <c='em'>$certificateStoreLocation</c>."
+        if (-not $Force) {
+            Stop-PSFFunction -Message "Stopping because a certificate with the same thumbprint as the provided certificate already exists"
+            return
+        }
+        Write-PSFMessage -Level Host -Message "Deleting and installing the provided certificate."
+        $existingCertificate | Remove-Item
+    }
+    # Install certificate
+    if ($CertificatePassword) {
+        $null = Import-PfxCertificate -FilePath $PrivateKeyFile -CertStoreLocation $certificateStoreLocation -Password $CertificatePassword
+    }
+    $certificate = Import-Certificate -FilePath $CertificateFile -CertStoreLocation $certificateStoreLocation
+    Write-PSFMessage -Level Host -Message "Certificate <c='em'>$CertificateFile</c> installed to <c='em'>$certificateStoreLocation</c>."
+    $certificate.Thumbprint
 }
