@@ -76,11 +76,6 @@
         Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years.
         
     .EXAMPLE
-        PS C:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -AddAppRegistrationToWifConfig
-        
-        Enables the Entra ID integration with a new self-signed certificate named "CHEAuth" which expires after 2 years and adds the application registration to the wif.config.
-        
-    .EXAMPLE
         PS C:\> New-D365EntraIntegration -ClientId e70cac82-6a7c-4f9e-a8b9-e707b961e986 -CertificateName "SelfsignedCert"
         
         Enables the Entra ID integration with a new self-signed certificate with the name "Selfsignedcert" that expires after 2 years.
