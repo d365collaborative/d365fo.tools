@@ -231,6 +231,7 @@ function New-D365EntraIntegration {
 }
 
 function CheckAndInstallExistingCertificate {
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string] $CertificateFile,
@@ -276,6 +277,7 @@ function CheckAndInstallExistingCertificate {
 }
 
 function CreateAndInstallNewCertificate {
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string] $CertificateName,
@@ -345,6 +347,7 @@ function CreateAndInstallNewCertificate {
 }
 
 function Grant-NetworkServiceReadPermissionToCertificate {
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [System.Security.Cryptography.X509Certificates.X509Certificate2] $certificateObject
@@ -398,6 +401,7 @@ function Grant-NetworkServiceReadPermissionToCertificate {
 }
 
 function Update-WebConfig {
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string] $AOSPath,
@@ -440,11 +444,14 @@ function Update-WebConfig {
     $infraThumb.value = $CertificateThumbprint
     $graphThumb = $nodes | Where-Object -Property Key -eq "GraphApi.GraphAPIServicePrincipalCert"
     $graphThumb.value = $CertificateThumbprint
-    $xml.Save($webConfigFile)
-    Write-PSFMessage -Level Host -Message "web.config was updated with the application ID and the thumbprint of the certificate."
+    if ($PSCmdlet.ShouldProcess($WebConfig, "Update")) {
+        $xml.Save($webConfigFile)
+        Write-PSFMessage -Level Host -Message "web.config was updated with the application ID and the thumbprint of the certificate."
+    }
 }
 
 function Update-WifConfig {
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string] $AOSPath,
@@ -483,8 +490,10 @@ function Update-WifConfig {
         $audienceUriElement = $xml.CreateElement('add')
         $audienceUriElement.SetAttribute('value', "spn:$ClientId")
         $audienceUris.AppendChild($audienceUriElement)
-        $xml.Save($wifConfigFile)
-        Write-PSFMessage -Level Host -Message "Wif.config was updated with the audience URI."
+        if ($PSCmdlet.ShouldProcess($WifConfig, "Update")) {
+            $xml.Save($wifConfigFile)
+            Write-PSFMessage -Level Host -Message "Wif.config was updated with the audience URI."
+        }
     } else {
         Write-PSFMessage -Level Host -Message "Audience URI already exists in Wif.config."
     }
