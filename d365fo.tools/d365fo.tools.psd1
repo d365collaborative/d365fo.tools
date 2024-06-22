@@ -1,4 +1,4 @@
-@{
+﻿@{
 	# Script module or binary module file associated with this manifest
 	RootModule        = 'd365fo.tools.psm1'
 
@@ -34,7 +34,6 @@
 		, @{ ModuleName = 'ImportExcel'; ModuleVersion = '7.1.0' }
 	)
 	
-
 	# Assemblies that must be loaded prior to importing this module
 	# RequiredAssemblies = @('bin\d365fo.tools.dll')
 
@@ -177,6 +176,7 @@
 		'Get-D365WindowsActivationStatus',
 
 		'Import-D365AadUser',
+		'Import-D365EntraIdUser',
 		'Import-D365AadApplication',
 		'Import-D365Bacpac',
 		'Import-D365Dacpac',
