@@ -95,7 +95,8 @@ function Start-LcsUploadV2 {
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string] $Token,
+        [Alias('Token')]
+        [string] $BearerToken,
 
         [Parameter(Mandatory = $true)]
         [int] $ProjectId,
