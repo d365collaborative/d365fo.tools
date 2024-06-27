@@ -6,8 +6,8 @@
     .DESCRIPTION
         Start the flow of actions to upload a file to LCS
         
-    .PARAMETER Token
-        The token to be used for the http request against the LCS API
+    .PARAMETER BearerToken
+        The token you want to use when working against the LCS api
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
