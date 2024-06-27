@@ -119,6 +119,13 @@ function Start-LcsUploadV2 {
     begin {
         Invoke-TimeSignal -Start
         
+        if ($Description) {
+            $jsonDescription = $Description
+        }
+        else {
+            $jsonDescription = $null
+        }
+
         $fileTypeValue = [int]$FileType
         $jsonPayload = @{
             Name            = $Name
