@@ -34,10 +34,24 @@ function Import-D365EntraIdUser {
         [Parameter(Mandatory = $false, Position = 9)]
         [string] $CertificateName,
 
-        [Parameter(Mandatory = $false, Position = 12, ParameterSetName = "UserListImport")]
+        [Parameter(Mandatory = $false, Position = 10)]
+        [string] $IdPrefix = "",
+
+        [Parameter(Mandatory = $false, Position = 11)]
+        [string] $NameSuffix = "",
+
+        [Parameter(Mandatory = $false, Position = 12)]
+        [ValidateSet('Login', 'FirstName', 'UserPrincipalName')]
+        [string] $IdValue = "Login",
+
+        [Parameter(Mandatory = $false, Position = 13)]
+        [ValidateSet('FirstName', 'DisplayName')]
+        [string] $NameValue = "DisplayName",
+
+        [Parameter(Mandatory = $false, Position = 14, ParameterSetName = "UserListImport")]
         [switch] $SkipEntraID,
 
-        [Parameter(Mandatory = $false, Position = 13, ParameterSetName = "GroupNameImport")]
+        [Parameter(Mandatory = $false, Position = 15, ParameterSetName = "GroupNameImport")]
         [switch] $ForceExactGroupName
 
       )
