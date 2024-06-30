@@ -6,8 +6,8 @@
     .DESCRIPTION
         Start the flow of actions to upload a file to LCS
         
-    .PARAMETER Token
-        The token to be used for the http request against the LCS API
+    .PARAMETER BearerToken
+        The token you want to use when working against the LCS api
         
     .PARAMETER ProjectId
         The project id for the Dynamics 365 for Finance & Operations project inside LCS
@@ -95,7 +95,8 @@ function Start-LcsUploadV2 {
     [Cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string] $Token,
+        [Alias('Token')]
+        [string] $BearerToken,
 
         [Parameter(Mandatory = $true)]
         [int] $ProjectId,
@@ -123,7 +124,7 @@ function Start-LcsUploadV2 {
         $jsonPayload = @{
             Name            = $Name
             FileName        = $Filename
-            FileDescription = $jsonDescription
+            FileDescription = $Description
             SizeByte        = 0
             FileType        = $fileTypeValue
         } | ConvertTo-Json
