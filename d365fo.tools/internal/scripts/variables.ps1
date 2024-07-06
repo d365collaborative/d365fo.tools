@@ -94,6 +94,25 @@ $RegSplat = @{
 $RegValue = $( if (Test-RegistryValue @RegSplat) { Join-Path (Get-ItemPropertyValue @RegSplat) "InstallationRecords" } else { "" } )
 $Script:InstallationRecordsDir = $RegValue
 
+# On a local VHD, the information about the installed service models may not be available.
+# As a fallback, this list of known service model names may be used.
+$Script:FallbackInstallationServiceModelNames = @(
+    "ALMService",
+    "AOSService",
+    "BIService",
+    "DevToolsService",
+    "DIXFService",
+    "MROneBox",
+    "PayrollTaxModule",
+    "PerfSDK",
+    "ReportingService",
+    "RetailCloudPos",
+    "RetailHQConfiguration",
+    "RetailSDK",
+    "RetailSelfService",
+    "RetailServer"
+)
+
 $Script:UserIsAdmin = $env:UserName -like "*admin*"
 
 $Script:TfDir = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\"

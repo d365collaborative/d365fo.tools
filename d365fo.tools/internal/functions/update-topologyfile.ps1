@@ -52,8 +52,14 @@ function Update-TopologyFile {
 
     if ($null -eq $models -or $models.Count -eq 0) {
         Write-PSFMessage -Level Warning "No installed service models found."
-        Write-PSFMessage -Level Output "On a local VHD environment, this can be caused by an empty C:\Logs\InstallationRecords\ServiceModelInstallationRecords folder."
-        return $false
+        Write-PSFMessage -Level Output "Using fallback list of known service model names."
+        $serviceModelNames = $Script:FallbackInstallationServiceModelNames
+        $models = $serviceModelNames | ForEach-Object {
+            [PSCustomObject]@{
+                Name = $_
+            }
+        }
+
     }
 
     foreach ($name in $models.Name) {
