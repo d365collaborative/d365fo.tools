@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Update the topology file
@@ -49,7 +49,7 @@ function Update-TopologyFile {
     $machine = $xml.TopologyData.MachineList.Machine
     $machine.Name = $env:computername
                 
-    $serviceModelList = $machine.ServiceModelList
+    $serviceModelList = $xml.SelectSingleNode("//ServiceModelList")
     $null = $serviceModelList.RemoveAll()
  
     [System.Collections.ArrayList] $Files2Process = New-Object -TypeName "System.Collections.ArrayList"
