@@ -15,19 +15,22 @@ Invoke the AxUpdateInstaller.exe file from Software Deployable Package (SDP)
 ### QuickInstall (Default)
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-QuickInstallAll] [[-Step] <Int32>]
- [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+ [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
+ [-TopologyFile <String>] [-UseExistingTopologyFile] [<CommonParameters>]
 ```
 
 ### DevInstall
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-DevInstall] [[-Step] <Int32>]
- [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+ [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
+ [-TopologyFile <String>] [-UseExistingTopologyFile] [<CommonParameters>]
 ```
 
 ### Manual
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-Command] <String> [[-Step] <Int32>]
- [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [<CommonParameters>]
+ [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
+ [-TopologyFile <String>] [-UseExistingTopologyFile] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -85,6 +88,21 @@ Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -Runboo
 ```
 
 Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step.
+
+### EXAMPLE 7
+```
+Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology -TopologyFile "c:\temp\MyTopology.xml"
+```
+
+Update the MyTopology.xml file with all the installed services on the machine.
+
+### EXAMPLE 8
+```
+Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -TopologyFile "c:\temp\MyTopology.xml" -UseExistingTopologyFile
+```
+
+Run all manual steps in one single operation using the MyTopology.xml file.
+The topology file is not updated.
 
 ## PARAMETERS
 
@@ -251,6 +269,37 @@ Accept wildcard characters: False
 Instruct the cmdlet to only output the command that you would have to execute by hand
 
 Will include full path to the executable and the needed parameters based on your selection
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TopologyFile
+Provide a custom topology file to use.
+By default, the cmdlet will use the DefaultTopologyData.xml file in the package directory.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: DefaultTopologyData.xml
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseExistingTopologyFile
+Use this switch to indicate that the topology file is already updated and should not be updated again.
 
 ```yaml
 Type: SwitchParameter

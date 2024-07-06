@@ -62,10 +62,10 @@
         Instruct the cmdlet to only output the command that you would have to execute by hand
         
         Will include full path to the executable and the needed parameters based on your selection
-
+        
     .PARAMETER TopologyFile
         Provide a custom topology file to use. By default, the cmdlet will use the DefaultTopologyData.xml file in the package directory.
-
+        
     .PARAMETER UseExistingTopologyFile
         Use this switch to indicate that the topology file is already updated and should not be updated again.
         
@@ -103,15 +103,15 @@
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
         
         Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology -TopologyFile "c:\temp\MyTopology.xml"
-
+        
         Update the MyTopology.xml file with all the installed services on the machine.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -TopologyFile "c:\temp\MyTopology.xml" -UseExistingTopologyFile
-
+        
         Run all manual steps in one single operation using the MyTopology.xml file. The topology file is not updated.
         
     .NOTES
