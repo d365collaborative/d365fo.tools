@@ -138,7 +138,11 @@ function Invoke-D365SDPInstall {
 
         [switch] $ShowOriginalProgress,
 
-        [switch] $OutputCommandOnly
+        [switch] $OutputCommandOnly,
+
+        [string] $TopologyFile = "DefaultTopologyData.xml",
+        
+        [switch] $UseExistingTopologyFile
     )
     
     if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
@@ -189,10 +193,12 @@ function Invoke-D365SDPInstall {
         $Path = $absolutePath
     }
 
-    # $Util = Join-Path $Path "AXUpdateInstaller.exe"
     $executable = Join-Path $Path "AXUpdateInstaller.exe"
 
-    $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
+    
+    if (-not ([System.IO.Path]::IsPathRooted($TopologyFile) -or (Split-Path -Path $TopologyFile -IsAbsolute))) {
+        $TopologyFile = Join-Path -Path $Path -ChildPath $TopologyFile
+    }
 
     if (-not (Test-PathExists -Path $topologyFile, $executable -Type Leaf)) { return }
         
@@ -214,16 +220,17 @@ function Invoke-D365SDPInstall {
         $Command = $Command.ToLowerInvariant()
         $runbookFile = Join-Path $Path "$runbookId.xml"
         $serviceModelFile = Join-Path $Path 'DefaultServiceModelData.xml'
-        $topologyFile = Join-Path $Path 'DefaultTopologyData.xml'
                         
         if ($Command -eq 'runall') {
             Write-PSFMessage -Level Verbose "Running all manual steps in one single operation"
 
             #Update topology file (first command)
-            $ok = Update-TopologyFile -Path $Path
-            if (-not $ok) {
-                Write-PSFMessage -Level Warning "Failed to update topology file."
-                return
+            if (-not $UseExistingTopologyFile) {
+                $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile
+                if (-not $ok) {
+                    Write-PSFMessage -Level Warning "Failed to update topology file."
+                    return
+                }
             }
 
             $params = @(
@@ -265,7 +272,11 @@ function Invoke-D365SDPInstall {
                 'settopology' {
                     Write-PSFMessage -Level Verbose "Updating topology file xml."
                    
-                    $ok = Update-TopologyFile -Path $Path
+                    if ($UseExistingTopologyFile) {
+                        Write-PSFMessage -Level Warning "The SetTopology command is used to update a topology file. The UseExistingTopologyFile switch should not be used with this command."
+                        return
+                    }
+                    $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile
                     if (-not $ok) {
                         Write-PSFMessage -Level Warning "Failed to update topology file."
                     }
