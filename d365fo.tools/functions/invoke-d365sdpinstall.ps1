@@ -254,7 +254,7 @@ function Invoke-D365SDPInstall {
                 "-topologyFile=`"$topologyFile`""
                 "-serviceModelFile=`"$serviceModelFile`""
                 "-runbookFile=`"$runbookFile`""
-            ) 
+            )
             
             #Generate (second command)
             Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
