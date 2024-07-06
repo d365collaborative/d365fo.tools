@@ -50,6 +50,12 @@ function Update-TopologyFile {
  
     $models = [Microsoft.Dynamics.AX.AXInstallationInfo.AXInstallationInfo]::GetInstalledServiceModel()
 
+    if ($null -eq $models -or $models.Count -eq 0) {
+        Write-PSFMessage -Level Warning "No installed service models found."
+        Write-PSFMessage -Level Output "On a local VHD environment, this can be caused by an empty C:\Logs\InstallationRecords\ServiceModelInstallationRecords folder."
+        return $false
+    }
+
     foreach ($name in $models.Name) {
         $element = $xml.CreateElement('string')
         $element.InnerText = $name

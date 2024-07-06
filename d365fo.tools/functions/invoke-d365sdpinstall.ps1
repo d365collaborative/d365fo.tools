@@ -221,39 +221,41 @@ function Invoke-D365SDPInstall {
 
             #Update topology file (first command)
             $ok = Update-TopologyFile -Path $Path
-
-            if ($ok) {
-                $params = @(
-                    "generate"
-                    "-runbookId=`"$runbookId`""
-                    "-topologyFile=`"$topologyFile`""
-                    "-serviceModelFile=`"$serviceModelFile`""
-                    "-runbookFile=`"$runbookFile`""
-                )
-                
-                #Generate (second command)
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
-
-                if (Test-PSFFunctionInterrupt) { return }
-
-                $params = @(
-                    "import"
-                    "-runbookFile=`"$runbookFile`""
-                )
-
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
-
-                if (Test-PSFFunctionInterrupt) { return }
-
-                $params = @(
-                    "execute"
-                    "-runbookId=`"$runbookId`""
-                )
-
-                Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
-
-                if (Test-PSFFunctionInterrupt) { return }
+            if (-not $ok) {
+                Write-PSFMessage -Level Warning "Failed to update topology file."
+                return
             }
+
+            $params = @(
+                "generate"
+                "-runbookId=`"$runbookId`""
+                "-topologyFile=`"$topologyFile`""
+                "-serviceModelFile=`"$serviceModelFile`""
+                "-runbookFile=`"$runbookFile`""
+            ) 
+            
+            #Generate (second command)
+            Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+            if (Test-PSFFunctionInterrupt) { return }
+
+            $params = @(
+                "import"
+                "-runbookFile=`"$runbookFile`""
+            )
+
+            Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+            if (Test-PSFFunctionInterrupt) { return }
+
+            $params = @(
+                "execute"
+                "-runbookId=`"$runbookId`""
+            )
+
+            Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+            if (Test-PSFFunctionInterrupt) { return }
 
             Write-PSFMessage -Level Verbose "All manual steps complete."
         }
@@ -264,6 +266,9 @@ function Invoke-D365SDPInstall {
                     Write-PSFMessage -Level Verbose "Updating topology file xml."
                    
                     $ok = Update-TopologyFile -Path $Path
+                    if (-not $ok) {
+                        Write-PSFMessage -Level Warning "Failed to update topology file."
+                    }
                     $RunCommand = $false
                 }
                 'generate' {
