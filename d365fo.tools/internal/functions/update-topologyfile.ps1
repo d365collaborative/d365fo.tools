@@ -10,7 +10,7 @@
         Path to the folder where the Microsoft.Dynamics.AX.AXInstallationInfo.dll assembly is located
         
         Should only contain a path to a folder, not a file
-
+        
     .PARAMETER TopologyFile
         Path to the topology file to update
         

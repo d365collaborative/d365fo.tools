@@ -141,24 +141,50 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter TopologyFile' {
+			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['TopologyFile']
+			$parameter.Name | Should -Be 'TopologyFile'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter UseExistingTopologyFile' {
+			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['UseExistingTopologyFile']
+			$parameter.Name | Should -Be 'UseExistingTopologyFile'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset QuickInstall" {
 		<#
 		QuickInstall -Path
-		QuickInstall -Path -MetaDataDir -QuickInstallAll -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly
+		QuickInstall -Path -MetaDataDir -QuickInstallAll -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile
 		#>
 	}
  	Describe "Testing parameterset DevInstall" {
 		<#
 		DevInstall -Path
-		DevInstall -Path -MetaDataDir -DevInstall -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly
+		DevInstall -Path -MetaDataDir -DevInstall -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile
 		#>
 	}
  	Describe "Testing parameterset Manual" {
 		<#
 		Manual -Path -Command
-		Manual -Path -MetaDataDir -Command -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly
+		Manual -Path -MetaDataDir -Command -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile
 		#>
 	}
 
