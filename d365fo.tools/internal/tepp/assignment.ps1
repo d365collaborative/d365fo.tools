@@ -14,7 +14,9 @@ Register-PSFTeppArgumentCompleter -Command Get-D365LcsAssetValidationStatus -Par
 Register-PSFTeppArgumentCompleter -Command Get-D365LcsDatabaseBackups -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
 Register-PSFTeppArgumentCompleter -Command Get-D365LcsDatabaseOperationStatus -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
 Register-PSFTeppArgumentCompleter -Command Get-D365LcsDeploymentStatus -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
-
+Register-PSFTeppArgumentCompleter -Command Get-D365LcsEnvironmentHistory -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
+Register-PSFTeppArgumentCompleter -Command Get-D365LcsEnvironmentMetadata -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
+Register-PSFTeppArgumentCompleter -Command Get-D365LcsSharedAssetFile -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
 
 Register-PSFTeppArgumentCompleter -Command Invoke-D365LcsDatabaseExport -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
 Register-PSFTeppArgumentCompleter -Command Invoke-D365LcsDatabaseRefresh -Parameter LcsApiUri -Name d365fo.tools.lcs.api.urls
