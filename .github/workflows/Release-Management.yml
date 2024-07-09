@@ -1,0 +1,29 @@
+on:
+  workflow_dispatch:
+    inputs:
+      gallery_publish:
+        description: "Publish to the PowerShell Gallery?"
+        default: false
+        required: false
+        type: boolean
+      github_release:
+        description: "Create a GitHub release?"
+        default: false
+        required: false
+        type: boolean
+      module_validation:
+        description: "Skip module validation?"
+        default: false
+        required: false
+        type: boolean
+
+jobs:
+  call-tmpl-build-release:
+    uses: fh-inway/d365.psmodule-alm/.github/workflows/tmpl-build-release.yml@main
+    with:
+      module: 'd365fo.tools'
+      skippublish: not(${{ inputs.gallery_publish }})
+      skipghrelease: not(${{ inputs.github_release }})
+      skipValidation: not(${{ inputs.module_validation }})
+    secrets:
+      apikey: ${{ secrets.ApiKey }}
