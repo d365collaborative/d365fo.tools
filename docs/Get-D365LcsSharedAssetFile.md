@@ -15,8 +15,8 @@ Get information for assets from the shared asset library of LCS
 ```
 Get-D365LcsSharedAssetFile [[-ProjectId] <Int32>] [[-FileType] <LcsAssetFileType>] [[-AssetName] <String>]
  [[-AssetVersion] <String>] [[-AssetFilename] <String>] [[-AssetDescription] <String>] [[-AssetId] <String>]
- [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest] [[-RetryTimeout] <TimeSpan>] [-EnableException]
- [<CommonParameters>]
+ [[-BearerToken] <String>] [[-LcsApiUri] <String>] [-Latest] [-SkipSasGeneration] [[-RetryTimeout] <TimeSpan>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -120,6 +120,20 @@ Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -RetryTimeout "00
 
 This will list all Software Deployable Packages in the shared asset library and allow for the cmdlet to retry for no more than 1 minute.
 It will search for SoftwareDeployablePackage by using the FileType parameter.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
+### EXAMPLE 9
+```
+Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -SkipSasGeneration
+```
+
+This will list all Software Deployable Packages in the shared asset library, but skip the SAS / Download generation
+It will search for SoftwareDeployablePackage by using the FileType parameter.
+
+This will increase the speed getting the list of assets - but you will not get a downloadable link.
 
 All default values will come from the configuration available from Get-D365LcsApiConfig.
 
@@ -338,6 +352,23 @@ Instruct the cmdlet to only fetch the latest file from the Asset Library from LC
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: GetLatest
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SkipSasGeneration
+Instruct the cmdlet to only fetch the meta data from the asset file (entry)
+
+This is to speed up the listing of entries, in some of the larger areas in the Shared Asset Library
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

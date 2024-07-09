@@ -93,6 +93,11 @@
     .PARAMETER Latest
         Instruct the cmdlet to only fetch the latest file from the Asset Library from LCS
         
+    .PARAMETER SkipSasGeneration
+        Instruct the cmdlet to only fetch the meta data from the asset file (entry)
+        
+        This is to speed up the listing of entries, in some of the larger areas in the Shared Asset Library
+        
     .PARAMETER RetryTimeout
         The retry timeout, before the cmdlet should quit retrying based on the 429 status code
         
@@ -200,6 +205,18 @@
         
         The default values can be configured using Set-D365LcsApiConfig.
         
+    .EXAMPLE
+        PS C:\> Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -SkipSasGeneration
+        
+        This will list all Software Deployable Packages in the shared asset library, but skip the SAS / Download generation
+        It will search for SoftwareDeployablePackage by using the FileType parameter.
+        
+        This will increase the speed getting the list of assets - but you will not get a downloadable link.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+        
     .LINK
         Get-D365LcsApiConfig
         
@@ -246,6 +263,8 @@ function Get-D365LcsSharedAssetFile {
         [Alias('GetLatest')]
         [switch] $Latest,
 
+        [switch] $SkipSasGeneration,
+
         [Timespan] $RetryTimeout = "00:00:00",
 
         [switch] $EnableException
@@ -257,14 +276,26 @@ function Get-D365LcsSharedAssetFile {
         $BearerToken = "Bearer $BearerToken"
     }
 
-    $assets = Get-LcsSharedAssetFile -BearerToken $BearerToken -LcsApiUri $LcsApiUri -FileType $([int]$FileType) -RetryTimeout $RetryTimeout
+    $colTemp = Get-LcsSharedAssetFile -BearerToken $BearerToken -LcsApiUri $LcsApiUri -FileType $([int]$FileType) -RetryTimeout $RetryTimeout
+
+    $assets = $colTemp | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" -Property "*", "Id as AssetId", `
+    @{Name = "ProductVersion"; Expression = { [System.Version]$($_.Name.Split(" ") | Select-Object -Last 1 ) } }, `
+    @{Name = "ProductBuild"; Expression = { [System.Version]$($_.FileName.Split("_") | Select-Object -First 1 -Skip 1) } }
 
     if (Test-PSFFunctionInterrupt) { return }
 
     if ($Latest) {
         $latestSharedAsset = $assets | Sort-Object -Property "ModifiedDate" -Descending | Select-Object -First 1
-        $latestSharedAsset = Get-LcsFileAsset -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri -AssetId $latestSharedAsset.Id -RetryTimeout $RetryTimeout
-        $latestSharedAsset | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" "*", "Id as AssetId"
+
+        if ($SkipSasGeneration -eq $false) {
+            $latestSharedAsset = Get-LcsFileAsset -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri -AssetId $latestSharedAsset.Id -RetryTimeout $RetryTimeout
+            $latestSharedAsset | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" -Property "*", "Id as AssetId", `
+            @{Name = "ProductVersion"; Expression = { [System.Version]$($_.Name.Split(" ") | Select-Object -Last 1 ) } }, `
+            @{Name = "ProductBuild"; Expression = { [System.Version]$($_.FileName.Split("_") | Select-Object -First 1 -Skip 1) } }
+        }
+        else {
+            $latestSharedAsset
+        }
     }
     else {
         foreach ($obj in $assets) {
@@ -274,8 +305,15 @@ function Get-D365LcsSharedAssetFile {
             if ($obj.FileDescription -NotLike $AssetDescription) { continue }
             if ($obj.Id -NotLike $AssetId) { continue }
 
-            $obj = Get-LcsFileAsset -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri -AssetId $obj.Id -RetryTimeout $RetryTimeout
-            $obj | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" "*", "Id as AssetId"
+            if ($SkipSasGeneration -eq $false) {
+                $obj = Get-LcsFileAsset -BearerToken $BearerToken -ProjectId $ProjectId -LcsApiUri $LcsApiUri -AssetId $obj.Id -RetryTimeout $RetryTimeout
+                $obj | Select-PSFObject -TypeName "D365FO.TOOLS.Lcs.Asset.File" -Property "*", "Id as AssetId", `
+                @{Name = "ProductVersion"; Expression = { [System.Version]$($_.Name.Split(" ") | Select-Object -Last 1 ) } }, `
+                @{Name = "ProductBuild"; Expression = { [System.Version]$($_.FileName.Split("_") | Select-Object -First 1 -Skip 1) } }
+            }
+            else {
+                $obj
+            }
         }
     }
 
