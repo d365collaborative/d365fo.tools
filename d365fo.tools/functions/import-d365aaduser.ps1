@@ -167,6 +167,12 @@ function Import-D365AadUser {
         [string] $AadGroupId
     )
 
+    $azureADModule = Get-Module -Name "AzureAD" -ListAvailable
+    if ($null -eq $azureADModule) {
+        Write-PSFMessage -Level Host -Message "AzureAD module is not installed. Trying to install it now." -Color Yellow
+        Install-Module -Name "AzureAD" -Force -AllowClobber -Scope CurrentUser
+    }
+
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
     $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;

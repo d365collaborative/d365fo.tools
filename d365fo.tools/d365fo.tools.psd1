@@ -30,12 +30,10 @@
 	RequiredModules   = @(
 		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' }
 		, @{ ModuleName = 'Az.Storage'; ModuleVersion = '1.11.0' }
-		, @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
 		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.3.0' }
 		, @{ ModuleName = 'ImportExcel'; ModuleVersion = '7.1.0' }
 	)
 	
-
 	# Assemblies that must be loaded prior to importing this module
 	# RequiredAssemblies = @('bin\d365fo.tools.dll')
 
@@ -178,6 +176,7 @@
 		'Get-D365WindowsActivationStatus',
 
 		'Import-D365AadUser',
+		'Import-D365EntraIdUser',
 		'Import-D365AadApplication',
 		'Import-D365Bacpac',
 		'Import-D365Dacpac',
