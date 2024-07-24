@@ -65,6 +65,8 @@
 		'Clear-D365MonitorData',
 		'Clear-D365TempDbTables',
 		'ConvertTo-D365Dacpac',
+		
+		'Copy-D365AotObjectsIntoModel',
 
 		'Publish-D365SsrsReport',
 
