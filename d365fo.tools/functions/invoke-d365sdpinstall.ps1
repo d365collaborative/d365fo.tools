@@ -68,7 +68,7 @@
         
     .PARAMETER UseExistingTopologyFile
         Use this switch to indicate that the topology file is already updated and should not be updated again.
-
+        
     .PARAMETER UnifiedDevelopmentEnvironment
         Use this switch to install the package in a Unified Development Environment (UDE).
         
@@ -116,10 +116,10 @@
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -TopologyFile "c:\temp\MyTopology.xml" -UseExistingTopologyFile
         
         Run all manual steps in one single operation using the MyTopology.xml file. The topology file is not updated.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -MetaDataDir "c:\MyRepository\Metadata" -UnifiedDevelopmentEnvironment
-
+        
         Install the modules contained in the c:\temp\ directory into the c:\MyRepository\Metadata directory.
         
     .NOTES
@@ -127,7 +127,7 @@
         Author: Mötz Jensen (@Splaxi)
         
         Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
-
+        
     .LINK
         Invoke-D365SDPInstallUDE
         

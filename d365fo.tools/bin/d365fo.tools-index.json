@@ -8980,7 +8980,7 @@
     },
     {
         "CommandName":  "Invoke-D365SDPInstall",
-        "Description":  "A cmdlet that wraps some of the cumbersome work into a streamlined process.\nThe process are detailed in the Microsoft documentation here:\nhttps://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deployment/install-deployable-package",
+        "Description":  "A cmdlet that wraps some of the cumbersome work into a streamlined process.\nThe process for a legacy (i.e. non unified) environment are detailed in the Microsoft documentation here:\nhttps://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deployment/install-deployable-package",
         "Params":  [
                        [
                            "Path",
@@ -9077,15 +9077,60 @@
                            false,
                            "false",
                            "False"
+                       ],
+                       [
+                           "UnifiedDevelopmentEnvironment",
+                           "Use this switch to install the package in a Unified Development Environment (UDE).",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ]
                    ],
         "Alias":  "",
         "Author":  "Tommy Skaue (@skaue)",
-        "Synopsis":  "Invoke the AxUpdateInstaller.exe file from Software Deployable Package (SDP)",
+        "Synopsis":  "Install a Software Deployable Package (SDP)",
         "Name":  "Invoke-D365SDPInstall",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\package.zip\" -QuickInstallAll\nThis will install the package contained in the c:\\temp\\package.zip file using a runbook in memory while executing.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -DevInstall\nThis will install the extracted package in c:\\temp\\ using a runbook in memory while executing.\nThis command is to be used on Microsoft Hosted Tier1 development environment, where you don\u0027t have access to the administrator user account on the vm.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetTopology\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Generate -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Import -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Execute -RunbookId \u0027MyRunbook\u0027\nManual operations that first create Topology XML from current environment, then generate runbook with id \u0027MyRunbook\u0027, then import it and finally execute it.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RunAll\nCreate Topology XML from current environment. Using default runbook id \u0027Runbook\u0027 and run all the operations from generate, to import to execute.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RerunStep -Step 18 -RunbookId \u0027MyRunbook\u0027\nRerun runbook with id \u0027MyRunbook\u0027 from step 18.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetStepComplete -Step 24 -RunbookId \u0027MyRunbook\u0027\nMark step 24 complete in runbook with id \u0027MyRunbook\u0027 and continue the runbook from the next step.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetTopology -TopologyFile \"c:\\temp\\MyTopology.xml\"\nUpdate the MyTopology.xml file with all the installed services on the machine.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RunAll -TopologyFile \"c:\\temp\\MyTopology.xml\" -UseExistingTopologyFile\nRun all manual steps in one single operation using the MyTopology.xml file. The topology file is not updated.",
-        "Syntax":  "Invoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-QuickInstallAll]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile \u003cString\u003e] [-UseExistingTopologyFile] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-DevInstall]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile \u003cString\u003e] [-UseExistingTopologyFile] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [-Command] \u003cString\u003e [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile \u003cString\u003e] [-UseExistingTopologyFile] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\package.zip\" -QuickInstallAll\nThis will install the package contained in the c:\\temp\\package.zip file using a runbook in memory while executing.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -DevInstall\nThis will install the extracted package in c:\\temp\\ using a runbook in memory while executing.\nThis command is to be used on Microsoft Hosted Tier1 development environment, where you don\u0027t have access to the administrator user account on the vm.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetTopology\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Generate -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Import -RunbookId \u0027MyRunbook\u0027\r\nPS C:\\\u003e Invoke-D365SDPInstall -Path \"c:\\temp\\\" -Command Execute -RunbookId \u0027MyRunbook\u0027\nManual operations that first create Topology XML from current environment, then generate runbook with id \u0027MyRunbook\u0027, then import it and finally execute it.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RunAll\nCreate Topology XML from current environment. Using default runbook id \u0027Runbook\u0027 and run all the operations from generate, to import to execute.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RerunStep -Step 18 -RunbookId \u0027MyRunbook\u0027\nRerun runbook with id \u0027MyRunbook\u0027 from step 18.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetStepComplete -Step 24 -RunbookId \u0027MyRunbook\u0027\nMark step 24 complete in runbook with id \u0027MyRunbook\u0027 and continue the runbook from the next step.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command SetTopology -TopologyFile \"c:\\temp\\MyTopology.xml\"\nUpdate the MyTopology.xml file with all the installed services on the machine.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -Command RunAll -TopologyFile \"c:\\temp\\MyTopology.xml\" -UseExistingTopologyFile\nRun all manual steps in one single operation using the MyTopology.xml file. The topology file is not updated.\n-------------------------- EXAMPLE 9 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstall -Path \"c:\\temp\\\" -MetaDataDir \"c:\\MyRepository\\Metadata\" -UnifiedDevelopmentEnvironment\nInstall the modules contained in the c:\\temp\\ directory into the c:\\MyRepository\\Metadata directory.",
+        "Syntax":  "Invoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-QuickInstallAll]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile \u003cString\u003e] [-UseExistingTopologyFile] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-DevInstall]] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile \u003cString\u003e] [-UseExistingTopologyFile] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [-Command] \u003cString\u003e [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile \u003cString\u003e] [-UseExistingTopologyFile] [\u003cCommonParameters\u003e]\nInvoke-D365SDPInstall [-Path] \u003cString\u003e [[-MetaDataDir] \u003cString\u003e] [[-Step] \u003cInt32\u003e] [[-RunbookId] \u003cString\u003e] [-LogPath \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile \u003cString\u003e] [-UseExistingTopologyFile] [-UnifiedDevelopmentEnvironment] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365SDPInstallUDE",
+        "Description":  "A cmdlet that wraps some of the cumbersome work into a streamlined process.\nIt first checks if the package is a zip file and extracts it if necessary.\nThen it checks if the package contains the necessary files and modules.\nFinally, it extracts the module zip files into the metadata directory.",
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the package that you want to install into the environment\nThe cmdlet supports a path to a zip-file or directory with the unpacked contents.",
+                           "File,Hotfix",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "MetaDataDir",
+                           "The path to the meta data directory for the environment",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "LogPath",
+                           "The path where the log file(s) will be saved",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\SdpInstall\")"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (@FH-Inway)",
+        "Synopsis":  "Install a Software Deployable Package (SDP) in a unified development environment",
+        "Name":  "Invoke-D365SDPInstallUDE",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365SDPInstallUDE -Path \"c:\\temp\\package.zip\" -MetaDataDir \"c:\\MyRepository\\Metadata\"\nThis will install the modules contained in the c:\\temp\\package.zip file into the c:\\MyRepository\\Metadata directory.",
+        "Syntax":  "Invoke-D365SDPInstallUDE [-Path] \u003cString\u003e [-MetaDataDir] \u003cString\u003e [-LogPath \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365SeleniumDownload",
