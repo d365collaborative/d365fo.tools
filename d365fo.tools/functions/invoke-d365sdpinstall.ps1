@@ -1,11 +1,11 @@
 ﻿
 <#
     .SYNOPSIS
-        Invoke the AxUpdateInstaller.exe file from Software Deployable Package (SDP)
+        Install a Software Deployable Package (SDP)
         
     .DESCRIPTION
         A cmdlet that wraps some of the cumbersome work into a streamlined process.
-        The process are detailed in the Microsoft documentation here:
+        The process for a legacy (i.e. non unified) environment are detailed in the Microsoft documentation here:
         https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deployment/install-deployable-package
         
     .PARAMETER Path
@@ -68,6 +68,9 @@
         
     .PARAMETER UseExistingTopologyFile
         Use this switch to indicate that the topology file is already updated and should not be updated again.
+
+    .PARAMETER UnifiedDevelopmentEnvironment
+        Use this switch to install the package in a Unified Development Environment (UDE).
         
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
@@ -113,12 +116,20 @@
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -TopologyFile "c:\temp\MyTopology.xml" -UseExistingTopologyFile
         
         Run all manual steps in one single operation using the MyTopology.xml file. The topology file is not updated.
+
+    .EXAMPLE
+        PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -MetaDataDir "c:\MyRepository\Metadata" -UnifiedDevelopmentEnvironment
+
+        Install the modules contained in the c:\temp\ directory into the c:\MyRepository\Metadata directory.
         
     .NOTES
         Author: Tommy Skaue (@skaue)
         Author: Mötz Jensen (@Splaxi)
         
         Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
+
+    .LINK
+        Invoke-D365SDPInstallUDE
         
 #>
 function Invoke-D365SDPInstall {
@@ -157,8 +168,16 @@ function Invoke-D365SDPInstall {
 
         [string] $TopologyFile = "DefaultTopologyData.xml",
         
-        [switch] $UseExistingTopologyFile
+        [switch] $UseExistingTopologyFile,
+
+        [Parameter(ParameterSetName = 'UDEInstall')]
+        [switch] $UnifiedDevelopmentEnvironment
     )
+
+    if ($UnifiedDevelopmentEnvironment) {
+        Invoke-D365SDPInstallUDE -Path $Path -MetaDataDir $MetaDataDir -LogPath $LogPath
+        return
+    }
     
     if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
         Write-PSFMessage -Level Host -Message "It seems that you have a <c='em'>Visual Studio</c> running. Please ensure <c='em'>exit</c> Visual Studio and run the cmdlet again."
