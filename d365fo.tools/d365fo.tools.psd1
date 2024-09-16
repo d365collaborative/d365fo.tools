@@ -241,6 +241,7 @@
 		'Invoke-D365RunbookAnalyzer',
 
 		'Invoke-D365SDPInstall',
+		'Invoke-D365SDPInstallUDE',
 		'Invoke-D365SCDPBundleInstall',
 		'Invoke-D365SeleniumDownload',
 		'Invoke-D365SysFlushAodCache',
