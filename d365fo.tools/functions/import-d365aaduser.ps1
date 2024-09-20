@@ -63,6 +63,12 @@
     .PARAMETER AadGroupId
         Azure Active directory user group ID containing users to be imported
         
+    .PARAMETER EmailValue
+        Specify which field to use as EMAIL value when importing the users.
+        Available options 'Mail' / 'UserPrincipalName'
+        
+        Default is 'Mail'
+        
     .EXAMPLE
         PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
         
@@ -164,7 +170,11 @@ function Import-D365AadUser {
         [switch] $ForceExactAadGroupName,
 
         [Parameter(Mandatory = $true, Position = 14, ParameterSetName = "GroupIdImport")]
-        [string] $AadGroupId
+        [string] $AadGroupId,
+
+        [Parameter(Mandatory = $false, Position = 15)]
+        [ValidateSet('Mail', 'UserPrincipalName')]
+        [string] $EmailValue = "Mail"
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -253,10 +263,11 @@ function Import-D365AadUser {
             if ($SkipAzureAd -eq $true) {
                 $name = Get-LoginFromEmail $user
                 $null = $azureAdUsers.Add([PSCustomObject]@{
-                        Mail        = $user
-                        GivenName   = $name
-                        DisplayName = $name
-                        ObjectId    = ''
+                        Mail                = $user
+                        GivenName           = $name
+                        DisplayName         = $name
+                        ObjectId            = ''
+                        UserPrincipalName   = $user
                     })
             }
             else {
@@ -324,14 +335,22 @@ function Import-D365AadUser {
             if ($NameValue -eq 'DisplayName') {
                 $name = $user.DisplayName + $NameSuffix
             }
-
             else {
                 $name = $user.GivenName + $NameSuffix
             }
-            Write-PSFMessage -Level Verbose -Message "Name for user $($user.Mail) : $name"
-            Write-PSFMessage -Level Verbose -Message "Importing $($user.Mail) - SID $sid - Provider $identityProvider"
 
-            Import-AadUserIntoD365FO $SqlCommand $user.Mail $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
+            $email = ""
+            if ($EmailValue -eq 'Mail') {
+                $email = $user.Mail 
+            }
+            else {
+                $email = $user.UserPrincipalName
+            }
+
+            Write-PSFMessage -Level Verbose -Message "Name for user $email : $name"
+            Write-PSFMessage -Level Verbose -Message "Importing $email - SID $sid - Provider $identityProvider"
+
+            Import-AadUserIntoD365FO $SqlCommand $email $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
 
             if (Test-PSFFunctionInterrupt) { return }
         }
