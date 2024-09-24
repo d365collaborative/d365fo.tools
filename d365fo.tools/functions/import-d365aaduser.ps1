@@ -174,7 +174,9 @@ function Import-D365AadUser {
 
         [Parameter(Mandatory = $false, Position = 15)]
         [ValidateSet('Mail', 'UserPrincipalName')]
-        [string] $EmailValue = "Mail"
+        [string] $EmailValue = "Mail",
+
+        [string] $TenantId
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -192,11 +194,11 @@ function Import-D365AadUser {
         Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory"
 
         if ($PSBoundParameters.ContainsKey("AzureAdCredential") -eq $true) {
-            Login-AzAccount -Credential $AzureAdCredential -ErrorAction Stop
+            Login-AzAccount -Credential $AzureAdCredential -ErrorAction Stop -TenantId $TenantId
         }
         else {
             if ($SkipAzureAd -eq $false) {
-                Login-AzAccount -ErrorAction Stop
+                Login-AzAccount -ErrorAction Stop -TenantId $TenantId
             }
         }
     }
