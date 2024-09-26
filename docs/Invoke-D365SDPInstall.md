@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-D365SDPInstall
 
 ## SYNOPSIS
-Invoke the AxUpdateInstaller.exe file from Software Deployable Package (SDP)
+Install a Software Deployable Package (SDP)
 
 ## SYNTAX
 
@@ -33,9 +33,17 @@ Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-Command] <Str
  [-TopologyFile <String>] [-UseExistingTopologyFile] [<CommonParameters>]
 ```
 
+### UDEInstall
+```
+Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [[-Step] <Int32>] [[-RunbookId] <String>]
+ [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile <String>]
+ [-UseExistingTopologyFile] [-UnifiedDevelopmentEnvironment] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 A cmdlet that wraps some of the cumbersome work into a streamlined process.
-The process are detailed in the Microsoft documentation here:
+The process for a legacy (i.e.
+non unified) environment are detailed in the Microsoft documentation here:
 https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deployment/install-deployable-package
 
 ## EXAMPLES
@@ -103,6 +111,13 @@ Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -TopologyFile "c:\temp\My
 
 Run all manual steps in one single operation using the MyTopology.xml file.
 The topology file is not updated.
+
+### EXAMPLE 9
+```
+Invoke-D365SDPInstall -Path "c:\temp\" -MetaDataDir "c:\MyRepository\Metadata" -UnifiedDevelopmentEnvironment
+```
+
+Install the modules contained in the c:\temp\ directory into the c:\MyRepository\Metadata directory.
 
 ## PARAMETERS
 
@@ -313,6 +328,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -UnifiedDevelopmentEnvironment
+Use this switch to install the package in a Unified Development Environment (UDE).
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: UDEInstall
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -327,3 +357,6 @@ Author: Mötz Jensen (@Splaxi)
 Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
 
 ## RELATED LINKS
+
+[Invoke-D365SDPInstallUDE]()
+

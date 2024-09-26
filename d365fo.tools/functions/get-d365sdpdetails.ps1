@@ -91,7 +91,7 @@ function Get-D365SDPDetails {
         [System.IO.Compression.ZipFileExtensions]::ExtractToFile($zipEntry, $pathHotfix, $true)
 
 
-        foreach ($nuget in $($zipArch.Entries | Where-Object Fullname -like "AOSService\Packages\*.nupkg")) {
+        foreach ($nuget in $($zipArch.Entries | Where-Object Fullname -like "AOSService[\/]Packages[\/]*.nupkg")) {
             $pathNuget = "$pathWorkDirectory\$($nuget.name).zip"
             
             # The nuget file contains module name in correct casing
@@ -144,16 +144,16 @@ function Get-D365SDPDetails {
                 Version = $moduleSpec.package.metadata.version
             }
         )
-    }
 
-    # Clear out any inner zip archive objects from memory
-    if ($zipNuget) {
-        $zipArch.Dispose()
-    }
-    
-    if ($fileNuget) {
-        $file.Close()
-        $file.Dispose()
+        # Clear out any inner zip archive objects from memory
+        if ($zipNuget) {
+            $zipNuget.Dispose()
+        }
+        
+        if ($fileNuget) {
+            $fileNuget.Close()
+            $fileNuget.Dispose()
+        }
     }
 
     [xml] $hotfix = Get-Content -Path "$pathWorkDirectory\HotfixInstallationInfo.xml" -Raw
