@@ -2,7 +2,7 @@ Many d365fo.tools cmdlets use default values for their parameters. This makes th
 
 # An example
 
-For example, the [Get-D365Module](https://github.com/d365collaborative/d365fo.tools/blob/development/d365fo.tools/functions/get-d365module.ps1) cmdlet has a `-PackageDirectory` parameter. The documentation for the parameter says *Normally it is located under AOSService directory in "PackagesLocalDirectory" - Default value is fetched from the current configuration on the machine*. Looking at the code of the cmdlet, it specifies the parameter like this: `[string] $PackageDirectory = $Script:PackageDirectory`.
+For example, the [Get-D365Module](https://github.com/d365collaborative/d365fo.tools/blob/master/d365fo.tools/functions/get-d365module.ps1) cmdlet has a `-PackageDirectory` parameter. The documentation for the parameter says *Normally it is located under AOSService directory in "PackagesLocalDirectory" - Default value is fetched from the current configuration on the machine*. Looking at the code of the cmdlet, it specifies the parameter like this: `[string] $PackageDirectory = $Script:PackageDirectory`.
 
 We will come back to this example in the following sections to explain how the default value is determined.
 
@@ -14,7 +14,7 @@ For the purpose of the d365fo.tools module, the script scope lets us define vari
 
 # Setting the default values
 
-The values of the variables in the script scope are set in several internal scripts that get executed when the module is imported. You can see this in the [postimport.ps1](https://github.com/d365collaborative/d365fo.tools/blob/development/d365fo.tools/internal/scripts/postimport.ps1) script, where the [variables.ps1](https://github.com/d365collaborative/d365fo.tools/blob/development/d365fo.tools/internal/scripts/variables.ps1) script is called. This script sets the default values for many variables in the module. 
+The values of the variables in the script scope are set in several internal scripts that get executed when the module is imported. You can see this in the [postimport.ps1](https://github.com/d365collaborative/d365fo.tools/blob/master/d365fo.tools/internal/scripts/postimport.ps1) script, where the [variables.ps1](https://github.com/d365collaborative/d365fo.tools/blob/master/d365fo.tools/internal/scripts/variables.ps1) script is called. This script sets the default values for many variables in the module. 
 
 ## It depends
 
@@ -37,7 +37,7 @@ The common theme for these variables is that they are based on configuration val
 
 Another important thing to note is that the configuration values are persisted between sessions. This means that the user only has to set the configuration values once, and they will be used as default values for the variables in all future sessions of the module.
 
-This also applies to the `Update-ModuleVariables` function, but the configuration values are not set by the user, but by the module itself. The configuration values are specified in the [configuration.ps1](https://github.com/d365collaborative/d365fo.tools/blob/development/d365fo.tools/internal/configurations/configuration.ps1) script. To understand how those configurations work, we first need to learn about the PSFramework module.
+This also applies to the `Update-ModuleVariables` function, but the configuration values are not set by the user, but by the module itself. The configuration values are specified in the [configuration.ps1](https://github.com/d365collaborative/d365fo.tools/blob/master/d365fo.tools/internal/configurations/configuration.ps1) script. To understand how those configurations work, we first need to learn about the PSFramework module.
 
 ## PSFramework
 
