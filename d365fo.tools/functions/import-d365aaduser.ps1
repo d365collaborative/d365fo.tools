@@ -205,7 +205,7 @@ function Import-D365AadUser {
     $canonicalProvider = Get-CanonicalIdentityProvider
 
     try {
-        Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory"
+        Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory with tenant id '$TenantId'"
 
         if ($PSBoundParameters.ContainsKey("AzureAdCredential") -eq $true) {
             Login-AzAccount -Credential $AzureAdCredential -ErrorAction Stop -TenantId $TenantId
