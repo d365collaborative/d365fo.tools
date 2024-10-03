@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Publish wiki folder to repository wiki
         uses: FH-Inway/github-wiki-publish-action@rsync

@@ -15,7 +15,7 @@ jobs:
     name: Prerequisites
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       uses: actions/cache@v4
       with:
@@ -30,7 +30,7 @@ jobs:
     runs-on: windows-latest
     needs: prerequisites
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
       uses: actions/cache@v4
@@ -57,7 +57,7 @@ jobs:
     runs-on: windows-latest
     needs: prerequisites
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
       uses: actions/cache@v4
@@ -84,7 +84,7 @@ jobs:
     runs-on: windows-latest
     needs: Prerequisites
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
       uses: actions/cache@v4
@@ -111,7 +111,7 @@ jobs:
     runs-on: windows-latest
     needs: prerequisites
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
       uses: actions/cache@v4
