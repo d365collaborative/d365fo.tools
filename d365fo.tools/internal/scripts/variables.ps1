@@ -39,6 +39,7 @@ Update-ModuleVariables
 $environment = Get-ApplicationEnvironment
 
 $Script:AOSPath = $environment.Aos.AppRoot
+$Script:TenantId = $environment.Aad.TenantDomainGUID
 
 $dataAccess = $environment.DataAccess
 
