@@ -112,6 +112,8 @@
         Author: Charles Colombel (@dropshind)
         Author: Mötz Jensen (@Splaxi)
         Author: Miklós Molnár (@scifimiki)
+        Author: Gert Van der Heyden (@gertvdh)
+        Author: Florian Hopfner (@FH-Inway)
         
         At no circumstances can this cmdlet be used to import users into a PROD environment.
         
