@@ -17,7 +17,7 @@
 Write-Host "Working on the machine named: $($env:computername)"
 Write-Host "The user running is: $($env:UserName)"
 
-$modules = @("PSFramework", "PSScriptAnalyzer", "Az.Storage", "AzureAd", "PSNotification", "PSOAuthHelper", "ImportExcel")
+$modules = @("PSFramework", "PSScriptAnalyzer", "Az.Storage", "PSOAuthHelper", "ImportExcel")
 
 foreach ($item in $modules) {
     $module = Get-Module -Name $item -ErrorAction SilentlyContinue
