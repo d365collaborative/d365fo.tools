@@ -18,7 +18,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
-        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1, **/buildtools.ps1') }}
+        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1', '**/buildtools.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
       shell: powershell
