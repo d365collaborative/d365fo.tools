@@ -176,7 +176,8 @@ function Import-D365AadUser {
         [ValidateSet('Mail', 'UserPrincipalName')]
         [string] $EmailValue = "Mail",
 
-        [string] $TenantId
+        [Parameter(Mandatory = $false, Position = 16)]
+        [string] $TenantId = $Script:TenantId
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
