@@ -12,10 +12,10 @@ jobs:
     name: Generate text
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1', '**/buildtools.ps1') }}
@@ -40,7 +40,7 @@ jobs:
       shell: powershell
       run: build\generate-findcommandindex.ps1
     - name: Create a pull request for changes
-      uses: peter-evans/create-pull-request@v5
+      uses: peter-evans/create-pull-request@v7
       with:
         commit-message: | 
           🤖 Fix best practice deviations
