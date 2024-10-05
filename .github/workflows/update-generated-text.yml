@@ -48,3 +48,4 @@ jobs:
           This pull request was automatically created by the d365fo.tools-Generate-Text action'
         title: '🤖 Fix best practice deviations'
         body: 'This pull request was automatically created by the d365fo.tools-Generate-Text action. See [Building tools](https://github.com/d365collaborative/d365fo.tools/wiki/Building-tools) for more information.'
+        branch: 'update-generated-text/pull-request-patch-for-branch-${{ github.ref_name }}'        
