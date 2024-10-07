@@ -17,7 +17,7 @@ Used to import Aad users into D365FO
 Import-D365AadUser [-Users] <String[]> [[-StartupCompany] <String>] [[-DatabaseServer] <String>]
  [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-IdPrefix] <String>]
  [[-NameSuffix] <String>] [[-IdValue] <String>] [[-NameValue] <String>] [[-AzureAdCredential] <PSCredential>]
- [-SkipAzureAd] [<CommonParameters>]
+ [-SkipAzureAd] [[-EmailValue] <String>] [[-TenantId] <String>] [<CommonParameters>]
 ```
 
 ### GroupNameImport
@@ -25,7 +25,7 @@ Import-D365AadUser [-Users] <String[]> [[-StartupCompany] <String>] [[-DatabaseS
 Import-D365AadUser [-AadGroupName] <String> [[-StartupCompany] <String>] [[-DatabaseServer] <String>]
  [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-IdPrefix] <String>]
  [[-NameSuffix] <String>] [[-IdValue] <String>] [[-NameValue] <String>] [[-AzureAdCredential] <PSCredential>]
- [-ForceExactAadGroupName] [<CommonParameters>]
+ [-ForceExactAadGroupName] [[-EmailValue] <String>] [[-TenantId] <String>] [<CommonParameters>]
 ```
 
 ### GroupIdImport
@@ -33,7 +33,7 @@ Import-D365AadUser [-AadGroupName] <String> [[-StartupCompany] <String>] [[-Data
 Import-D365AadUser [[-StartupCompany] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
  [[-SqlUser] <String>] [[-SqlPwd] <String>] [[-IdPrefix] <String>] [[-NameSuffix] <String>]
  [[-IdValue] <String>] [[-NameValue] <String>] [[-AzureAdCredential] <PSCredential>] [-AadGroupId] <String>
- [<CommonParameters>]
+ [[-EmailValue] <String>] [[-TenantId] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -89,6 +89,15 @@ Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -SkipAzureAd
 Imports Claire and Allen as users.
 Will NOT make you connect to the Azure Active Directory(AAD).
 The needed details will be based on the e-mail address only, and the rest will be blanked.
+
+### EXAMPLE 7
+```
+Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -TenantId "99999999-aaaa-bbbb-cccc-9999999999"
+```
+
+Imports Claire and Allen as users.
+Uses tenant id "99999999-aaaa-bbbb-cccc-9999999999"
+when connecting to Azure Active Directory(AAD).
 
 ## PARAMETERS
 
@@ -334,6 +343,41 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EmailValue
+Specify which field to use as EMAIL value when importing the users.
+Available options 'Mail' / 'UserPrincipalName'
+
+Default is 'Mail'
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 16
+Default value: Mail
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TenantId
+The TenantId to use when connecting to Azure Active Directory
+
+Uses the tenant id of the current environment if not specified.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 17
+Default value: $Script:TenantId
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -348,6 +392,8 @@ Author: Rasmus Andersen (@ITRasmus)
 Author: Charles Colombel (@dropshind)
 Author: Mötz Jensen (@Splaxi)
 Author: Miklós Molnár (@scifimiki)
+Author: Gert Van der Heyden (@gertvdh)
+Author: Florian Hopfner (@FH-Inway)
 
 At no circumstances can this cmdlet be used to import users into a PROD environment.
 
