@@ -15,9 +15,9 @@ jobs:
     name: Prerequisites
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
@@ -30,10 +30,10 @@ jobs:
     runs-on: windows-latest
     needs: prerequisites
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
@@ -46,7 +46,7 @@ jobs:
       run: build\vsts-validate.ps1 -TestGeneral $true -TestFunctions $false -Exclude "PSScriptAnalyzer.Tests.ps1"
     - name: Publish Test Results **/TEST-*.xml
       if: always()
-      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
       with:
         files: '**/TEST-*.xml'
         check_name: 'General Unit Tests Results'
@@ -57,10 +57,10 @@ jobs:
     runs-on: windows-latest
     needs: prerequisites
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
@@ -73,7 +73,7 @@ jobs:
       run: build\vsts-validate-psscriptanalyzer.ps1 -TestPublic $true -TestInternal $false
     - name: Publish Test Results **/TEST-*.xml
       if: always()
-      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
       with:
         files: '**/TEST-*.xml'
         check_name: 'Public Functions Unit Tests Results'
@@ -84,10 +84,10 @@ jobs:
     runs-on: windows-latest
     needs: Prerequisites
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
@@ -100,7 +100,7 @@ jobs:
       run: build\vsts-validate-psscriptanalyzer.ps1 -TestPublic $false -TestInternal $true
     - name: Publish Test Results **/TEST-*.xml
       if: always()
-      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
       with:
         files: '**/TEST-*.xml'
         check_name: 'Internal Functions Unit Tests Results'
@@ -111,10 +111,10 @@ jobs:
     runs-on: windows-latest
     needs: prerequisites
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
         key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1') }}
@@ -127,7 +127,7 @@ jobs:
       run: build\vsts-validate.ps1 -TestGeneral $false -TestFunctions $true
     - name: Publish Test Results **/TEST-*.xml
       if: always()
-      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
       with:
         files: '**/TEST-*.xml'
         check_name: 'Individual Unit Tests Results'

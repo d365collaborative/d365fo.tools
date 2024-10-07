@@ -14,6 +14,7 @@ foreach ($item in $modules) {
         Write-Host "Installing $item" -ForegroundColor Cyan
         Install-Module -Name $item -Force -Confirm:$false -Scope CurrentUser -AllowClobber -SkipPublisherCheck
     }
-
+    
     Import-Module $item -Force
+    Get-Module -Name $item
 }
