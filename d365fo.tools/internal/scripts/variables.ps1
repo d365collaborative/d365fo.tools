@@ -78,6 +78,9 @@ elseif ($environment.Infrastructure.HostName -like "*sandbox.ax.dynamics.com*") 
 elseif ($environment.Infrastructure.HostName -like "*sandbox.operations.*dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::MSHostedTier2
 }
+elseif ($environment.Infrastructure.HostName -eq "UnifiedDevelopmentEnvironment") {
+    $Script:EnvironmentType = [EnvironmentType]::UnifiedDevelopmentEnvironment
+}
 
 $Script:Url = $environment.Infrastructure.HostUrl
 $Script:DatabaseUserName = $dataAccess.SqlUser

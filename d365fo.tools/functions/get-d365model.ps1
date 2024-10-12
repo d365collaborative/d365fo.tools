@@ -185,7 +185,9 @@ function Get-D365Model {
 
         [string] $BinDir = "$Script:BinDir\bin",
 
-        [string] $PackageDirectory = $Script:PackageDirectory
+        [string] $PackageDirectory = $Script:PackageDirectory,
+
+        [string] $MetaDataDir = $Script:MetaDataDir
     )
 
     begin {
@@ -221,7 +223,7 @@ function Get-D365Model {
             Write-PSFMessage -Level Verbose -Message "Machine is onebox. Initializing DiskProvider too."
 
             $diskProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.DiskProvider.DiskProviderConfiguration
-            $diskProviderConfiguration.AddMetadataPath($PackageDirectory)
+            $diskProviderConfiguration.AddMetadataPath($MetaDataDir)
             $metadataProviderFactoryViaDisk = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
             $metadataProviderViaDisk = $metadataProviderFactoryViaDisk.CreateDiskProvider($diskProviderConfiguration)
 
