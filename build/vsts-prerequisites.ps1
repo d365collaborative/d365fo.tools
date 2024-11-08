@@ -2,7 +2,7 @@
 Write-Host "The user running is: $($env:UserName)"
 
 # $modules = @("PSFramework", "Az.Storage", "AzureAd", "PSNotification", "PSOAuthHelper", "PowerShellGet", "PackageManagement","ImportExcel","PSScriptAnalyzer")
-$modules = @("PSFramework", "PSScriptAnalyzer", "Az.Storage", "AzureAd", "PSNotification", "PSOAuthHelper", "ImportExcel")
+$modules = @("PSFramework", "PSScriptAnalyzer", "Az.Storage", "PSOAuthHelper", "ImportExcel")
 
 Write-Host "Installing Pester, maximum version 4.99.99" -ForegroundColor Cyan
 Install-Module "Pester" -MaximumVersion 4.99.99 -Force -Confirm:$false -Scope CurrentUser -AllowClobber -SkipPublisherCheck
