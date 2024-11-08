@@ -68,10 +68,10 @@
         Available options 'Mail' / 'UserPrincipalName'
         
         Default is 'Mail'
-
+        
     .PARAMETER TenantId
         The TenantId to use when connecting to Azure Active Directory
-
+        
         Uses the tenant id of the current environment if not specified.
         
     .EXAMPLE
@@ -109,11 +109,11 @@
         Imports Claire and Allen as users.
         Will NOT make you connect to the Azure Active Directory(AAD).
         The needed details will be based on the e-mail address only, and the rest will be blanked.
-
+        
     .EXAMPLE
         PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -TenantId "99999999-aaaa-bbbb-cccc-9999999999"
         
-        Imports Claire and Allen as users. Uses tenant id "99999999-aaaa-bbbb-cccc-9999999999" 
+        Imports Claire and Allen as users. Uses tenant id "99999999-aaaa-bbbb-cccc-9999999999"
         when connecting to Azure Active Directory(AAD).
         
     .NOTES

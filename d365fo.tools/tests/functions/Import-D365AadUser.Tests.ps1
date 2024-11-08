@@ -206,24 +206,50 @@
 			$parameter.ParameterSets['GroupIdImport'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['GroupIdImport'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter EmailValue' {
+			$parameter = (Get-Command Import-D365AadUser).Parameters['EmailValue']
+			$parameter.Name | Should -Be 'EmailValue'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 15
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter TenantId' {
+			$parameter = (Get-Command Import-D365AadUser).Parameters['TenantId']
+			$parameter.Name | Should -Be 'TenantId'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 16
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset UserListImport" {
 		<#
 		UserListImport -Users
-		UserListImport -Users -StartupCompany -DatabaseServer -DatabaseName -SqlUser -SqlPwd -IdPrefix -NameSuffix -IdValue -NameValue -AzureAdCredential -SkipAzureAd
+		UserListImport -Users -StartupCompany -DatabaseServer -DatabaseName -SqlUser -SqlPwd -IdPrefix -NameSuffix -IdValue -NameValue -AzureAdCredential -SkipAzureAd -EmailValue -TenantId
 		#>
 	}
  	Describe "Testing parameterset GroupNameImport" {
 		<#
 		GroupNameImport -AadGroupName
-		GroupNameImport -AadGroupName -StartupCompany -DatabaseServer -DatabaseName -SqlUser -SqlPwd -IdPrefix -NameSuffix -IdValue -NameValue -AzureAdCredential -ForceExactAadGroupName
+		GroupNameImport -AadGroupName -StartupCompany -DatabaseServer -DatabaseName -SqlUser -SqlPwd -IdPrefix -NameSuffix -IdValue -NameValue -AzureAdCredential -ForceExactAadGroupName -EmailValue -TenantId
 		#>
 	}
  	Describe "Testing parameterset GroupIdImport" {
 		<#
 		GroupIdImport -AadGroupId
-		GroupIdImport -StartupCompany -DatabaseServer -DatabaseName -SqlUser -SqlPwd -IdPrefix -NameSuffix -IdValue -NameValue -AzureAdCredential -AadGroupId
+		GroupIdImport -StartupCompany -DatabaseServer -DatabaseName -SqlUser -SqlPwd -IdPrefix -NameSuffix -IdValue -NameValue -AzureAdCredential -AadGroupId -EmailValue -TenantId
 		#>
 	}
 
