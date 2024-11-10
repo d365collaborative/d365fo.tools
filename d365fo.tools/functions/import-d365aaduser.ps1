@@ -208,11 +208,11 @@ function Import-D365AadUser {
         Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory with tenant id '$TenantId'"
 
         if ($PSBoundParameters.ContainsKey("AzureAdCredential") -eq $true) {
-            Login-AzAccount -Credential $AzureAdCredential -ErrorAction Stop -TenantId $TenantId
+            Connect-AzAccount -Credential $AzureAdCredential -ErrorAction Stop -TenantId $TenantId
         }
         else {
             if ($SkipAzureAd -eq $false) {
-                Login-AzAccount -ErrorAction Stop -TenantId $TenantId
+                Connect-AzAccount -ErrorAction Stop -TenantId $TenantId
             }
         }
     }
