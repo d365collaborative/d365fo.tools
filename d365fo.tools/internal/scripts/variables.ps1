@@ -36,55 +36,61 @@ $Script:MRConfigFile = 'C:\FinancialReporting\Server\ApplicationService\bin\MRSe
 #Update all module variables
 Update-ModuleVariables
 
+# Environment variables
 $environment = Get-ApplicationEnvironment
 
-$Script:AOSPath = $environment.Aos.AppRoot
+$Script:TenantId = $environment.Aad.TenantDomainGUID
+
+$aos = $environment.Aos
+$Script:AOSPath = $aos.AppRoot
+$Script:PackageDirectory = $aos.PackageDirectory
+$Script:MetaDataDir = $aos.MetadataDirectory
 
 $dataAccess = $environment.DataAccess
-
 $Script:DatabaseServer = $dataAccess.DbServer
-
 $Script:DatabaseName = $dataAccess.Database
+$Script:DatabaseUserName = $dataAccess.SqlUser
+$Script:DatabaseUserPassword = $dataAccess.SqlPwd
 
-$Script:BinDir = $environment.Common.BinDir
-
-$Script:PackageDirectory = $environment.Aos.PackageDirectory
-
-$Script:MetaDataDir = $environment.Aos.MetadataDirectory
-
-$Script:BinDirTools = $environment.Common.DevToolsBinDir
+$common = $environment.Common
+$Script:BinDir = $common.BinDir
+$Script:BinDirTools = $common.DevToolsBinDir
+$Script:IsOnebox = $common.IsOneboxEnvironment
 
 $Script:ServerRole = [ServerRole]::Unknown
-$RoleVaule = $(If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") { "Development" } Else { $environment.Monitoring.MARole })
-
+$RoleVaule = $(
+    If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {
+        "Development"
+    } Else {
+        $environment.Monitoring.MARole
+    }
+)
 if ($null -ne $RoleVaule) {
     $Script:ServerRole = [ServerRole][Enum]::Parse([type]"ServerRole", $RoleVaule, $true);
 }
 
+$infrastructure = $environment.Infrastructure
 $Script:EnvironmentType = [EnvironmentType]::Unknown
 $Script:CanUseTrustedConnection = $false
-if ($environment.Infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
+if ($infrastructure.HostName -like "*cloud.onebox.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::LocalHostedTier1
     $Script:CanUseTrustedConnection = $true
 }
-elseif ($environment.Infrastructure.HostName -match "(cloudax|axcloud).*dynamics.com") {
+elseif ($infrastructure.HostName -match "(cloudax|axcloud).*dynamics.com") {
     $Script:EnvironmentType = [EnvironmentType]::AzureHostedTier1
     $Script:CanUseTrustedConnection = $true
 }
-elseif ($environment.Infrastructure.HostName -like "*sandbox.ax.dynamics.com*") {
+elseif ($infrastructure.HostName -like "*sandbox.ax.dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::MSHostedTier1
     $Script:CanUseTrustedConnection = $true
 }
-elseif ($environment.Infrastructure.HostName -like "*sandbox.operations.*dynamics.com*") {
+elseif ($infrastructure.HostName -like "*sandbox.operations.*dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::MSHostedTier2
 }
+$Script:Url = $infrastructure.HostUrl
 
-$Script:Url = $environment.Infrastructure.HostUrl
-$Script:DatabaseUserName = $dataAccess.SqlUser
-$Script:DatabaseUserPassword = $dataAccess.SqlPwd
 $Script:Company = "DAT"
 
-$Script:IsOnebox = $environment.Common.IsOneboxEnvironment
 
 $RegSplat = @{
     Path = "HKLM:\SOFTWARE\Microsoft\Dynamics\Deployment\"

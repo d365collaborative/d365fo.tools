@@ -63,6 +63,17 @@
     .PARAMETER AadGroupId
         Azure Active directory user group ID containing users to be imported
         
+    .PARAMETER EmailValue
+        Specify which field to use as EMAIL value when importing the users.
+        Available options 'Mail' / 'UserPrincipalName'
+        
+        Default is 'Mail'
+        
+    .PARAMETER TenantId
+        The TenantId to use when connecting to Azure Active Directory
+        
+        Uses the tenant id of the current environment if not specified.
+        
     .EXAMPLE
         PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com"
         
@@ -99,6 +110,12 @@
         Will NOT make you connect to the Azure Active Directory(AAD).
         The needed details will be based on the e-mail address only, and the rest will be blanked.
         
+    .EXAMPLE
+        PS C:\> Import-D365AadUser -Users "Claire@contoso.com","Allen@contoso.com" -TenantId "99999999-aaaa-bbbb-cccc-9999999999"
+        
+        Imports Claire and Allen as users. Uses tenant id "99999999-aaaa-bbbb-cccc-9999999999"
+        when connecting to Azure Active Directory(AAD).
+        
     .NOTES
         Tags: User, Users, Security, Configuration, Permission, AAD, Azure Active Directory, Group, Groups
         
@@ -106,6 +123,8 @@
         Author: Charles Colombel (@dropshind)
         Author: Mötz Jensen (@Splaxi)
         Author: Miklós Molnár (@scifimiki)
+        Author: Gert Van der Heyden (@gertvdh)
+        Author: Florian Hopfner (@FH-Inway)
         
         At no circumstances can this cmdlet be used to import users into a PROD environment.
         
@@ -164,7 +183,14 @@ function Import-D365AadUser {
         [switch] $ForceExactAadGroupName,
 
         [Parameter(Mandatory = $true, Position = 14, ParameterSetName = "GroupIdImport")]
-        [string] $AadGroupId
+        [string] $AadGroupId,
+
+        [Parameter(Mandatory = $false, Position = 15)]
+        [ValidateSet('Mail', 'UserPrincipalName')]
+        [string] $EmailValue = "Mail",
+
+        [Parameter(Mandatory = $false, Position = 16)]
+        [string] $TenantId = $Script:TenantId
     )
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
@@ -179,14 +205,14 @@ function Import-D365AadUser {
     $canonicalProvider = Get-CanonicalIdentityProvider
 
     try {
-        Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory"
+        Write-PSFMessage -Level Verbose -Message "Trying to connect to the Azure Active Directory with tenant id '$TenantId'"
 
         if ($PSBoundParameters.ContainsKey("AzureAdCredential") -eq $true) {
-            $null = Connect-AzureAD  -ErrorAction Stop -Credential $AzureAdCredential
+            Connect-AzAccount -Credential $AzureAdCredential -ErrorAction Stop -TenantId $TenantId
         }
         else {
             if ($SkipAzureAd -eq $false) {
-                $null = Connect-AzureAD  -ErrorAction Stop
+                Connect-AzAccount -ErrorAction Stop -TenantId $TenantId
             }
         }
     }
@@ -202,16 +228,31 @@ function Import-D365AadUser {
 
         if ($PSCmdlet.ParameterSetName -eq 'GroupIdImport') {
             Write-PSFMessage -Level Verbose -Message "Search AadGroup by its ID : $AadGroupId"
-            $group = Get-AzureADGroup -ObjectId $AadGroupId
+
+            $resObj = Invoke-AzRestMethod -Uri "https://graph.microsoft.com/v1.0/groups/$AadGroupId"
+
+            if ($resObj.StatusCode -like "2**") {
+                $group = $resObj.Content | ConvertFrom-Json
+            }
         }
         else {
             if ($ForceExactAadGroupName) {
                 Write-PSFMessage -Level Verbose -Message "Search AadGroup by its exactly name : $AadGroupName"
-                $group = Get-AzureADGroup -Filter "DisplayName eq '$AadGroupName'"
+
+                $resObj = Invoke-AzRestMethod -Uri "https://graph.microsoft.com/v1.0/groups?`$filter=DisplayName eq '$AadGroupName'"
+
+                if ($resObj.StatusCode -like "2**") {
+                    $group = $resObj.Content | ConvertFrom-Json | Select-Object -ExpandProperty value
+                }
             }
             else {
                 Write-PSFMessage -Level Verbose -Message "Search AadGroup by searching with its name : $AadGroupName"
-                $group = Get-AzureADGroup -SearchString $AadGroupName
+
+                $resObj = Invoke-AzRestMethod -Uri "https://graph.microsoft.com/v1.0/groups?`$filter=startswith(DisplayName,'$AadGroupName')"
+
+                if ($resObj.StatusCode -like "2**") {
+                    $group = $resObj.Content | ConvertFrom-Json | Select-Object -ExpandProperty value
+                }
             }
         }
 
@@ -233,16 +274,22 @@ function Import-D365AadUser {
             return
         }
 
-        $userlist = Get-AzureADGroupMember -ObjectId $group[0].ObjectId
+        $resMembersObj = Invoke-AzRestMethod -Uri "https://graph.microsoft.com/v1.0/groups/$($group.id)/members"
+
+        if ($resMembersObj.StatusCode -like "2**") {
+            $userlist = $resMembersObj.Content | ConvertFrom-Json | Select-Object -ExpandProperty value
+        }
 
         foreach ($user in $userlist) {
-            if ($user.ObjectType -eq "User") {
-                $azureAdUser = Get-AzureADUser -ObjectId $user.ObjectId
-                if ($null -eq $azureAdUser.Mail) {
+            if ($user.'@odata.type' -eq "#microsoft.graph.user") {
+
+                $azureAdUser = Invoke-AzRestMethod -Uri "https://graph.microsoft.com/v1.0/users/$($user.id)"
+
+                if ($null -eq $azureAdUser.mail) {
                     Write-PSFMessage -Level Critical "User $($user.ObjectId) did not have an Mail"
                 }
                 else {
-                    $null = $azureAdUsers.Add((Get-AzureADUser -ObjectId $user.ObjectId))
+                    $null = $azureAdUsers.Add($azureAdUser)
                 }
             }
         }
@@ -253,14 +300,19 @@ function Import-D365AadUser {
             if ($SkipAzureAd -eq $true) {
                 $name = Get-LoginFromEmail $user
                 $null = $azureAdUsers.Add([PSCustomObject]@{
-                        Mail        = $user
-                        GivenName   = $name
-                        DisplayName = $name
-                        ObjectId    = ''
+                        mail              = $user
+                        givenName         = $name
+                        displayName       = $name
+                        ObjectId          = ''
+                        userPrincipalName = $user
                     })
             }
             else {
-                $aadUser = Get-AzureADUser -SearchString $user
+                $resObj = Invoke-AzRestMethod -Uri "https://graph.microsoft.com/v1.0/users?`$filter=mail eq '$user' or userPrincipalName eq '$user'"
+
+                if ($resObj.StatusCode -like "2**") {
+                    $aadUser = $resObj.Content | ConvertFrom-Json | Select-Object -ExpandProperty value | Select-Object -First 1
+                }
 
                 if ($null -eq $aadUser) {
                     Write-PSFMessage -Level Critical "Could not find user $user in AzureAAd"
@@ -305,7 +357,7 @@ function Import-D365AadUser {
             if ($IdValue -eq 'Login') {
                 $id = $IdPrefix + $(Get-LoginFromEmail $user.Mail)
             }
-            elseif($IdValue -eq 'UserPrincipalName') {
+            elseif ($IdValue -eq 'UserPrincipalName') {
                 $id = $IdPrefix + $user.UserPrincipalName
             }
             else {
@@ -314,24 +366,32 @@ function Import-D365AadUser {
             
             if ($id.Length -gt 20) {
                 $oldId = $id
-                $id = $id -replace '^(.{0,20}).*','$1'
+                $id = $id -replace '^(.{0,20}).*', '$1'
                 Write-PSFMessage -Level Host -Message "The id <c='em'>'$oldId'</c> does not fit the <c='em'>20 character limit</c> on UserInfo table's ID field and will be truncated to <c='em'>'$id'</c>"
             }
             
-            Write-PSFMessage -Level Verbose -Message "Id for user $($user.Mail) : $id"
 
             $name = ""
             if ($NameValue -eq 'DisplayName') {
                 $name = $user.DisplayName + $NameSuffix
             }
-
             else {
                 $name = $user.GivenName + $NameSuffix
             }
-            Write-PSFMessage -Level Verbose -Message "Name for user $($user.Mail) : $name"
-            Write-PSFMessage -Level Verbose -Message "Importing $($user.Mail) - SID $sid - Provider $identityProvider"
 
-            Import-AadUserIntoD365FO $SqlCommand $user.Mail $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
+            $email = ""
+            if ($EmailValue -eq 'Mail') {
+                $email = $user.Mail
+            }
+            else {
+                $email = $user.UserPrincipalName
+            }
+
+            Write-PSFMessage -Level Verbose -Message "Id for user $email : $id"
+            Write-PSFMessage -Level Verbose -Message "Name for user $email : $name"
+            Write-PSFMessage -Level Verbose -Message "Importing $email - SID $sid - Provider $identityProvider"
+
+            Import-AadUserIntoD365FO $SqlCommand $email $name $id $sid $StartupCompany $identityProvider $networkDomain $user.ObjectId
 
             if (Test-PSFFunctionInterrupt) { return }
         }
