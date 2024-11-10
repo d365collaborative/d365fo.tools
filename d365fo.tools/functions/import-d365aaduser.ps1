@@ -381,7 +381,7 @@ function Import-D365AadUser {
 
             $email = ""
             if ($EmailValue -eq 'Mail') {
-                $email = $user.Mail 
+                $email = $user.Mail
             }
             else {
                 $email = $user.UserPrincipalName

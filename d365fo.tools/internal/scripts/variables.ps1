@@ -59,10 +59,10 @@ $Script:IsOnebox = $common.IsOneboxEnvironment
 
 $Script:ServerRole = [ServerRole]::Unknown
 $RoleVaule = $(
-    If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") { 
-        "Development" 
+    If ($environment.Monitoring.MARole -eq "" -or $environment.Monitoring.MARole -eq "dev") {
+        "Development"
     } Else {
-        $environment.Monitoring.MARole 
+        $environment.Monitoring.MARole
     }
 )
 if ($null -ne $RoleVaule) {
