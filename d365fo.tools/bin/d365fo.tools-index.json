@@ -9953,6 +9953,35 @@
         "Syntax":  "Publish-D365SsrsReport [[-Module] \u003cString[]\u003e] [[-ReportName] \u003cString[]\u003e] [[-LogFile] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [[-ToolsBasePath] \u003cString\u003e] [[-ReportServerIp] \u003cString[]\u003e] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Publish-D365WebResources",
+        "Description":  "Deploys the Dynamics 365 for Finance and Operations web resources to the AOS service web root path.",
+        "Params":  [
+                       [
+                           "PackageDirectory",
+                           "Path to the package directory containing the web resources.",
+                           "",
+                           false,
+                           "false",
+                           "$Script:PackageDirectory"
+                       ],
+                       [
+                           "AosServiceWebRootPath",
+                           "Path to the AOS service web root path.",
+                           "",
+                           false,
+                           "false",
+                           "$Script:AOSPath"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (@FH-Inway)",
+        "Synopsis":  "Deploy web resources",
+        "Name":  "Publish-D365WebResources",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003ePublish-D365WebResources\nThis will deploy the web resources to the AOS service web root path.",
+        "Syntax":  "Publish-D365WebResources [[-PackageDirectory] \u003cPathDirectoryParameter\u003e] [[-AosServiceWebRootPath] \u003cPathDirectoryParameter\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Register-D365AzureStorageConfig",
         "Description":  "Register all Azure Storage Configurations",
         "Tags":  [

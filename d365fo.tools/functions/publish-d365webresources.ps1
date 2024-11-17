@@ -1,21 +1,22 @@
+﻿
 <#
     .SYNOPSIS
         Deploy web resources
-
+        
     .DESCRIPTION
         Deploys the Dynamics 365 for Finance and Operations web resources to the AOS service web root path.
-
+        
     .PARAMETER PackageDirectory
         Path to the package directory containing the web resources.
-
+        
     .PARAMETER AosServiceWebRootPath
         Path to the AOS service web root path.
-
+        
     .EXAMPLE
         PS C:\> Publish-D365WebResources
-
+        
         This will deploy the web resources to the AOS service web root path.
-
+        
     .NOTES
         Author: Florian Hopfner (@FH-Inway)
 #>

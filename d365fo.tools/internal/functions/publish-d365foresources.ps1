@@ -1,27 +1,28 @@
+﻿
 <#
     .SYNOPSIS
         Publish resources
-
+        
     .DESCRIPTION
         Publishes Dynamics 365 for Finance and Operations resources to the publishing directory.
-
+        
     .PARAMETER ResourceTypes
         The types of resources to publish.
-
+        
     .PARAMETER PublishingDirectory
         The directory to publish the resources to. Each resource type will be published to a subdirectory.
-
+        
     .PARAMETER PackageDirectory
         The directory containing the resources.
-
+        
     .PARAMETER AosServiceWebRootPath
         The path to the AOS service web root containing the metadata assemblies to access the resources.
-
+        
     .EXAMPLE
         PS C:\> Publish-D365FOResources -ResourceTypes Images,Scripts,Styles,Html -PublishingDirectory C:\temp\resources
-
+        
         This will publish the resources of the types Images, Scripts, Styles, and Html to the directory C:\temp\resources.
-
+        
     .NOTES
         Author: Florian Hopfner (@FH-Inway)
 #>
