@@ -65,8 +65,6 @@
 		'Clear-D365TempDbTables',
 		'ConvertTo-D365Dacpac',
 
-		'Publish-D365SsrsReport',
-
 		'Disable-D365MaintenanceMode'
 		'Disable-D365SqlChangeTracking',
 		'Disable-D365User',
@@ -260,6 +258,9 @@
 		'New-D365ISVLicense',
 		'New-D365ModuleToRemove',
 		'New-D365TopologyFile',
+
+		'Publish-D365WebResources',
+		'Publish-D365SsrsReport',
 
 		'Register-D365AzureStorageConfig',
 		
