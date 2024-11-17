@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Publish resources
@@ -33,7 +33,7 @@ function Publish-D365FOResources {
         [string[]] $ResourceTypes,
 
         [Parameter(Mandatory = $true)]
-        [PsfDirectory] $PublishingDirectory,
+        [string] $PublishingDirectory,
 
         [Parameter(Mandatory = $false)]
         [PsfDirectory] $PackageDirectory = $Script:PackageDirectory,
