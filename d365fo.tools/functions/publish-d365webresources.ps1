@@ -59,7 +59,7 @@ function Publish-D365WebResources {
         $resourceFilePath = Join-Path $resourcePath $resource.FileName
 
         $copyFile = $false
-        if (-not (Test-PathExists -Path $resourceFilePath -Type Leaf)) {
+        if (-not (Test-PathExists -Path $resourceFilePath -Type Leaf -WarningAction SilentlyContinue -ErrorAction SilentlyContinue)) {
             Write-PSFMessage -Level Debug -Message "Web resource '$resourceName' does not exist. Will be deployed."
             $copyFile = $true
         }
