@@ -1,4 +1,4 @@
-﻿
+
 <#
     .SYNOPSIS
         Publish resources
@@ -172,9 +172,9 @@ function Test-PublishResource {
     $resourceTimestamp = $ResourceData.ResourceTimestamp
 
     $isAResourceTypeToPublish = $AllowedResourceTypes -contains $resourceType
-    if (-not $isAResourceTypeToPublish) { 
+    if (-not $isAResourceTypeToPublish) {
         Write-PSFMessage -Level Debug -Message "Resource '$resourceName' of type '$resourceType' is not a resource type to publish. Skipping."
-        return $false 
+        return $false
     }
 
     if (-not (Test-PathExists -Path $ResourceFilePath -Type Leaf -WarningAction SilentlyContinue -ErrorAction SilentlyContinue)) {
