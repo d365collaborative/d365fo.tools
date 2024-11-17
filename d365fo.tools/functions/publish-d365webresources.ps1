@@ -21,6 +21,7 @@
         Author: Florian Hopfner (@FH-Inway)
 #>
 function Publish-D365WebResources {
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', 'Publish-D365WebResources')]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false)]

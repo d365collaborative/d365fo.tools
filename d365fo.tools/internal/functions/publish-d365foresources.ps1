@@ -27,6 +27,7 @@
         Author: Florian Hopfner (@FH-Inway)
 #>
 function Publish-D365FOResources {
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', 'Publish-D365FOResources')]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -77,6 +78,7 @@ function Publish-D365FOResources {
 }
 
 function Import-Assemblies {
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', 'Import-Assemblies')]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
