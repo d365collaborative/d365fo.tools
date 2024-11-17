@@ -158,6 +158,7 @@ function Publish-Resource {
 
 function Test-PublishResource {
     [CmdletBinding()]
+    [OutputType([System.Boolean])]
     param (
         [Parameter(Mandatory = $true)]
         [hashtable] $ResourceData,
