@@ -1778,7 +1778,7 @@
     },
     {
         "CommandName":  "Get-D365AzureStorageFile",
-        "Description":  "Get all files from an Azure Storage Account",
+        "Description":  "Get information for files from an Azure Storage Account",
         "Tags":  [
                      "Azure",
                      "Azure Storage",
@@ -1790,7 +1790,7 @@
         "Params":  [
                        [
                            "AccountId",
-                           "Storage Account Name / Storage Account Id where you want to look for files",
+                           "Storage Account Name / Storage Account Id where file information should be retrieved from",
                            "",
                            false,
                            "false",
@@ -1806,7 +1806,7 @@
                        ],
                        [
                            "SAS",
-                           "The SAS key that you have created for the storage account or blob container",
+                           "The SAS key for the storage account or blob container",
                            "",
                            false,
                            "false",
@@ -1814,7 +1814,7 @@
                        ],
                        [
                            "Container",
-                           "Name of the blob container inside the storage account you want to look for files",
+                           "Name of the blob container inside the storage account where file information should be retrieved from",
                            "Blobname,Blob",
                            false,
                            "false",
@@ -1822,7 +1822,7 @@
                        ],
                        [
                            "Name",
-                           "Name of the file you are looking for\nAccepts wildcards for searching. E.g. -Name \"Application*Adaptor\"\nDefault value is \"*\" which will search for all packages",
+                           "Name of the files information should be retrieved for\nAccepts wildcards for searching. E.g. -Name \"Application*Adaptor\"\nDefault value is \"*\" which will search for all files",
                            "FileName",
                            false,
                            "false",
@@ -1830,7 +1830,7 @@
                        ],
                        [
                            "Latest",
-                           "Instruct the cmdlet to only fetch the latest file from the Azure Storage Account",
+                           "Instruct the cmdlet to only fetch the information of the latest file from the Azure Storage Account",
                            "GetLatest",
                            true,
                            "false",
@@ -1839,10 +1839,10 @@
                    ],
         "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get a file from Azure",
+        "Synopsis":  "Get file information from Azure Storage",
         "Name":  "Get-D365AzureStorageFile",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\"\nThis will get all files in the blob container \"backupfiles\".\r\nIt will use the AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" to gain access.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\" -Latest\nThis will get the latest (newest) file from the blob container \"backupfiles\".\r\nIt will use the AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" to gain access to the container.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\" -Name \"*UAT*\"\nThis will get all files in the blob container \"backupfiles\" that fits the \"*UAT*\" search value.\r\nIt will use the AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" to gain access to the container.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -Container \"backupfiles\" -Latest\nThis will get the latest (newest) file from the blob container \"backupfiles\".\r\nIt will use the SAS key \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" to gain access to the container.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\"\nThis will get information for all files in the blob container \"backupfiles\".\r\nIt will use the AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" to gain access.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\" -Latest\nThis will get information for the latest (newest) file from the blob container \"backupfiles\".\r\nIt will use the AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" to gain access to the container.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" -Container \"backupfiles\" -Name \"*UAT*\"\nThis will get information for all files in the blob container \"backupfiles\" that fits the \"*UAT*\" search value.\r\nIt will use the AccessToken \"xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51\" to gain access to the container.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365AzureStorageFile -AccountId \"miscfiles\" -SAS \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" -Container \"backupfiles\" -Latest\nThis will get information for the latest (newest) file from the blob container \"backupfiles\".\r\nIt will use the SAS key \"sv2018-03-28\u0026siunlisted\u0026src\u0026sigAUOpdsfpoWE976ASDhfjkasdf(5678sdfhk\" to gain access to the container.",
         "Syntax":  "Get-D365AzureStorageFile [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] [-Name \u003cString\u003e] [\u003cCommonParameters\u003e]\nGet-D365AzureStorageFile [-AccountId \u003cString\u003e] [-AccessToken \u003cString\u003e] [-SAS \u003cString\u003e] [-Container \u003cString\u003e] -Latest [\u003cCommonParameters\u003e]"
     },
     {
