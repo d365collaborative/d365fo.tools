@@ -103,7 +103,7 @@ function Get-D365AzureStorageFile {
     }
 
     try {
-        $files = Get-AzStorageBlob -Container $($Container.ToLower()) -Context $storageContext | 
+        $files = Get-AzStorageBlob -Container $($Container.ToLower()) -Context $storageContext |
             Sort-Object -Descending { $_.LastModified }
 
         $selectParams = @{
@@ -111,8 +111,8 @@ function Get-D365AzureStorageFile {
             Property = "Name", "Length as Size to PSFSize", "LastModified"
         }
         if ($Latest) {
-            $files | 
-                Select-Object -First 1 | 
+            $files |
+                Select-Object -First 1 |
                 Select-PSFObject @selectParams
         }
         else {
