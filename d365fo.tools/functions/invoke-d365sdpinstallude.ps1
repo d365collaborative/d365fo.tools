@@ -103,6 +103,13 @@ function Invoke-D365SDPInstallUDE {
           return
       }
 
+      # Delete existing module folder if it exists
+      $moduleFolderPath = Join-Path -Path $MetaDataDir -ChildPath $($_.Name)
+      if (Test-Path -Path $moduleFolderPath) {
+          Remove-Item -Path $moduleFolderPath -Recurse -Force
+          Write-PSFMessage -Level Verbose -Message "Deleted existing module folder $moduleFolderPath"
+      }
+
       # Unzip to $MetaDataDir
       $moduleZipPath = Join-Path -Path $MetaDataDir -ChildPath $($_.Name)
       Expand-Archive -Path $moduleZip.FullName -DestinationPath $moduleZipPath
