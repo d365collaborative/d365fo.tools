@@ -1,5 +1,4 @@
-﻿
-<#
+﻿<#
     .SYNOPSIS
         Removes a Database
         
@@ -37,8 +36,7 @@
 #>
 
 function Remove-D365Database {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
     param (
         [string] $DatabaseServer = $Script:DatabaseServer,
 
@@ -72,12 +70,16 @@ function Remove-D365Database {
         }
 
         if ($srv.ServerType -ne "SqlAzureDatabase") {
-            $srv.KillAllProcesses("$DatabaseName")
+            if ($PSCmdlet.ShouldProcess("$DatabaseName", "Kill all processes")) {
+                $srv.KillAllProcesses("$DatabaseName")
+            }
         }
     
         Write-PSFMessage -Level Verbose -Message "Dropping $DatabaseName" -Target $DatabaseName
     
-        $db.Drop()
+        if ($PSCmdlet.ShouldProcess("$DatabaseName", "Drop database")) {
+            $db.Drop()
+        }
     }
     catch {
         $messageString = "Something went wrong while <c='em'>removing the Database."
