@@ -180,30 +180,43 @@
 			$parameter.ParameterSets['UDEInstall'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['UDEInstall'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter IncludeFallbackRetailServiceModels' {
+			$parameter = (Get-Command Invoke-D365SDPInstall).Parameters['IncludeFallbackRetailServiceModels']
+			$parameter.Name | Should -Be 'IncludeFallbackRetailServiceModels'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset QuickInstall" {
 		<#
 		QuickInstall -Path
-		QuickInstall -Path -MetaDataDir -QuickInstallAll -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile
+		QuickInstall -Path -MetaDataDir -QuickInstallAll -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile -IncludeFallbackRetailServiceModels
 		#>
 	}
  	Describe "Testing parameterset DevInstall" {
 		<#
 		DevInstall -Path
-		DevInstall -Path -MetaDataDir -DevInstall -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile
+		DevInstall -Path -MetaDataDir -DevInstall -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile -IncludeFallbackRetailServiceModels
 		#>
 	}
  	Describe "Testing parameterset Manual" {
 		<#
 		Manual -Path -Command
-		Manual -Path -MetaDataDir -Command -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile
+		Manual -Path -MetaDataDir -Command -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile -IncludeFallbackRetailServiceModels
 		#>
 	}
  	Describe "Testing parameterset UDEInstall" {
 		<#
 		UDEInstall -Path
-		UDEInstall -Path -MetaDataDir -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile -UnifiedDevelopmentEnvironment
+		UDEInstall -Path -MetaDataDir -Step -RunbookId -LogPath -ShowOriginalProgress -OutputCommandOnly -TopologyFile -UseExistingTopologyFile -UnifiedDevelopmentEnvironment -IncludeFallbackRetailServiceModels
 		#>
 	}
 
