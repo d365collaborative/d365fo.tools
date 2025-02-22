@@ -24,6 +24,15 @@
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
+
+    .PARAMETER Confirm
+        This parameter will prompt you for confirmation before executing steps of the command that have a high impact.
+
+    .PARAMETER WhatIf
+        This parameter will simulate the actions of the command. No changes will be made.
+
+    .PARAMETER Force
+        This parameter will suppress the confirmation prompt. It can be used as an alternative to -Confirm:$false
         
     .EXAMPLE
         PS C:\> Remove-D365Database -DatabaseName "ExportClone"
@@ -46,8 +55,14 @@ function Remove-D365Database {
 
         [string] $SqlPwd = $Script:DatabaseUserPassword,
 
-        [switch] $EnableException
+        [switch] $EnableException,
+
+        [switch] $Force
     )
+
+    if ($Force -and -not $PSBoundParameters.ContainsKey('Confirm')) {
+        $ConfirmPreference = 'None'
+    }
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
     
