@@ -20,7 +20,7 @@
         Include fallback retail service models in the topology file
 
         This parameter is to support backward compatibility in this scenario:
-        Installing the first update on a local VHD where the information about the installed service 
+        Installing the first update on a local VHD where the information about the installed service
         models may not be available and where the retail components are installed.
         More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
         

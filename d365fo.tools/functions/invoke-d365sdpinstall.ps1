@@ -76,7 +76,7 @@
         Include fallback retail service models in the topology file
 
         This parameter is to support backward compatibility in this scenario:
-        Installing the first update on a local VHD where the information about the installed service 
+        Installing the first update on a local VHD where the information about the installed service
         models may not be available and where the retail components are installed.
         More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
         
@@ -129,6 +129,13 @@
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -MetaDataDir "c:\MyRepository\Metadata" -UnifiedDevelopmentEnvironment
         
         Install the modules contained in the c:\temp\ directory into the c:\MyRepository\Metadata directory.
+
+    .EXAMPLE
+        Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -IncludeFallbackRetailServiceModels
+
+        Create Topology XML from current environment. If the current environment does not have the information about the installed service models, a fallback list of known service model names will be used.
+        This fallback list includes the retail service models.
+        Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
         
     .NOTES
         Author: Tommy Skaue (@skaue)
