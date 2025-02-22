@@ -71,6 +71,14 @@
         
     .PARAMETER UnifiedDevelopmentEnvironment
         Use this switch to install the package in a Unified Development Environment (UDE).
+
+    .PARAMETER IncludeFallbackRetailServiceModels
+        Include fallback retail service models in the topology file
+
+        This parameter is to support backward compatibility in this scenario:
+        Installing the first update on a local VHD where the information about the installed service 
+        models may not be available and where the retail components are installed.
+        More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
         
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
@@ -171,7 +179,9 @@ function Invoke-D365SDPInstall {
         [switch] $UseExistingTopologyFile,
 
         [Parameter(ParameterSetName = 'UDEInstall')]
-        [switch] $UnifiedDevelopmentEnvironment
+        [switch] $UnifiedDevelopmentEnvironment,
+
+        [switch] $IncludeFallbackRetailServiceModels
     )
 
     if ($UnifiedDevelopmentEnvironment) {
@@ -260,7 +270,7 @@ function Invoke-D365SDPInstall {
 
             #Update topology file (first command)
             if (-not $UseExistingTopologyFile) {
-                $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile
+                $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile -IncludeFallbackRetailServiceModels:$IncludeFallbackRetailServiceModels
                 if (-not $ok) {
                     Write-PSFMessage -Level Warning "Failed to update topology file."
                     return
@@ -310,7 +320,7 @@ function Invoke-D365SDPInstall {
                         Write-PSFMessage -Level Warning "The SetTopology command is used to update a topology file. The UseExistingTopologyFile switch should not be used with this command."
                         return
                     }
-                    $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile
+                    $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile -IncludeFallbackRetailServiceModels:$IncludeFallbackRetailServiceModels
                     if (-not $ok) {
                         Write-PSFMessage -Level Warning "Failed to update topology file."
                     }

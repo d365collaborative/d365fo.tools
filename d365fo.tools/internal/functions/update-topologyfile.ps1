@@ -15,6 +15,14 @@
         Path to the topology file to update
         
         If not specified, the default topology file will be used
+
+    .PARAMETER IncludeFallbackRetailServiceModels
+        Include fallback retail service models in the topology file
+
+        This parameter is to support backward compatibility in this scenario:
+        Installing the first update on a local VHD where the information about the installed service 
+        models may not be available and where the retail components are installed.
+        More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
         
     .EXAMPLE
         PS C:\> Update-TopologyFile -Path "c:\temp\UpdatePackageFolder" -TopologyFile "c:\temp\d365fo.tools\DefaultTopologyData.xml"
@@ -36,7 +44,9 @@ function Update-TopologyFile {
         [Parameter(Mandatory = $true)]
         [string]$Path,
 
-        [string]$TopologyFile
+        [string]$TopologyFile,
+
+        [switch]$IncludeFallbackRetailServiceModels
     )
     
     if (-not $TopologyFile) {
@@ -62,7 +72,13 @@ function Update-TopologyFile {
     if ($null -eq $models -or $models.Count -eq 0) {
         Write-PSFMessage -Level Warning "No installed service models found."
         Write-PSFMessage -Level Output "Using fallback list of known service model names."
-        $serviceModelNames = $Script:FallbackInstallationServiceModelNames
+        $serviceModelNames = $Script:FallbackInstallationCoreServiceModelNames
+        if ($IncludeFallbackRetailServiceModels) {
+            $serviceModelNames += $Script:FallbackInstallationRetailServiceModelNames
+        }
+        else {
+            Write-PSFMessage -Level Output "The fallback list of known service model names does not include the retail service models. To include them, use the -IncludeFallbackRetailServiceModels switch. See https://github.com/d365collaborative/d365fo.tools/issues/878 for more information."
+        }
         $models = $serviceModelNames | ForEach-Object {
             [PSCustomObject]@{
                 Name = $_
