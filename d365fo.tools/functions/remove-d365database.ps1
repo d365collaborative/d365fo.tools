@@ -39,7 +39,7 @@
         PS C:\> Remove-D365Database
         
         This will remove the "AxDB" database from the default SQL Server instance that is registered on the machine.
-    
+        
     .EXAMPLE
         PS C:\> Remove-D365Database -DatabaseName "ExportClone"
         

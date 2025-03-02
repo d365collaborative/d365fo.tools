@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-D365Database
 
 ## SYNOPSIS
-Removes a Database
+Removes a database
 
 ## SYNTAX
 
@@ -18,11 +18,19 @@ Remove-D365Database [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-S
 ```
 
 ## DESCRIPTION
-Removes a Database
+Removes a database.
+By default, if no other database is specified, the AxDB database will be removed.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
+```
+Remove-D365Database
+```
+
+This will remove the "AxDB" database from the default SQL Server instance that is registered on the machine.
+
+### EXAMPLE 2
 ```
 Remove-D365Database -DatabaseName "ExportClone"
 ```
@@ -145,7 +153,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-This parameter will prompt you for confirmation before executing steps of the command that have a high impact.
+This parameter will prompt you for confirmation before executing steps of the command that have a medium impact.
 
 ```yaml
 Type: SwitchParameter
@@ -168,5 +176,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 Author: Mötz Jensen (@Splaxi)
+Author: Florian Hopfner (@FH-Inway)
 
 ## RELATED LINKS
