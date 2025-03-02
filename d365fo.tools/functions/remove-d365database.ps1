@@ -1,4 +1,4 @@
-﻿
+
 <#
     .SYNOPSIS
         Removes a database
@@ -105,7 +105,7 @@ function Remove-D365Database {
         }
     }
     catch {
-        $messageString = "Something went wrong while <c='em'>removing the Database."
+        $messageString = "Something went wrong while <c='em'>removing the Database</c>."
         Write-PSFMessage -Level Host -Message $messageString
         Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
         return
