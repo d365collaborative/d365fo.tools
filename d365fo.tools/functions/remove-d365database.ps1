@@ -1,10 +1,10 @@
-
+﻿
 <#
     .SYNOPSIS
-        Removes a Database
+        Removes a database
         
     .DESCRIPTION
-        Removes a Database
+        Removes a database. By default, if no other database is specified, the AxDB database will be removed.
         
     .PARAMETER DatabaseServer
         The name of the database server
@@ -27,7 +27,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .PARAMETER Confirm
-        This parameter will prompt you for confirmation before executing steps of the command that have a high impact.
+        This parameter will prompt you for confirmation before executing steps of the command that have a medium impact.
         
     .PARAMETER WhatIf
         This parameter will simulate the actions of the command. No changes will be made.
@@ -36,12 +36,18 @@
         This parameter will suppress the confirmation prompt. It can be used as an alternative to -Confirm:$false
         
     .EXAMPLE
+        PS C:\> Remove-D365Database
+        
+        This will remove the "AxDB" database from the default SQL Server instance that is registered on the machine.
+    
+    .EXAMPLE
         PS C:\> Remove-D365Database -DatabaseName "ExportClone"
         
         This will remove the "ExportClone" from the default SQL Server instance that is registered on the machine.
         
     .NOTES
         Author: Mötz Jensen (@Splaxi)
+        Author: Florian Hopfner (@FH-Inway)
         
 #>
 
@@ -95,6 +101,7 @@ function Remove-D365Database {
     
         if ($PSCmdlet.ShouldProcess("$DatabaseName", "Drop database")) {
             $db.Drop()
+            Write-PSFMessage -Level Output -Message "Database $DatabaseName was removed."
         }
     }
     catch {
