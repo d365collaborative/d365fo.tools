@@ -1,4 +1,4 @@
-﻿
+
 <#
     .SYNOPSIS
         Removes a Database
@@ -46,7 +46,7 @@
 #>
 
 function Remove-D365Database {
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
     param (
         [string] $DatabaseServer = $Script:DatabaseServer,
 
