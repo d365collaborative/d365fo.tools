@@ -1,4 +1,4 @@
-
+﻿
 <#
     .SYNOPSIS
         Removes a database
@@ -87,7 +87,7 @@ function Remove-D365Database {
         $db = $srv.Databases["$DatabaseName"]
 
         if (!$db) {
-            Write-PSFMessage -Level Verbose -Message "Database $DatabaseName not found. Nothing to remove."
+            Write-PSFMessage -Level Warning -Message "Database $DatabaseName not found. Nothing to remove."
             return
         }
 
