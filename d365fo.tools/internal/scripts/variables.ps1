@@ -102,7 +102,7 @@ $Script:InstallationRecordsDir = $RegValue
 
 # On a local VHD, the information about the installed service models may not be available.
 # As a fallback, this list of known service model names may be used.
-$Script:FallbackInstallationServiceModelNames = @(
+$Script:FallbackInstallationCoreServiceModelNames = @(
     "ALMService",
     "AOSService",
     "BIService",
@@ -111,7 +111,12 @@ $Script:FallbackInstallationServiceModelNames = @(
     "MROneBox",
     "PayrollTaxModule",
     "PerfSDK",
-    "ReportingService",
+    "ReportingService"
+)
+# Starting with version 10.0.41, Microsoft has released VHD images without the retail components
+# preinstalled. The retail components are only included in the fallback list if the user
+# explicitly requests it.
+$Script:FallbackInstallationRetailServiceModelNames = @(
     "RetailCloudPos",
     "RetailHQConfiguration",
     "RetailSDK",

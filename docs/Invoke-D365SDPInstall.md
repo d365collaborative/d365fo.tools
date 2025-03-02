@@ -16,28 +16,29 @@ Install a Software Deployable Package (SDP)
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-QuickInstallAll] [[-Step] <Int32>]
  [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
- [-TopologyFile <String>] [-UseExistingTopologyFile] [<CommonParameters>]
+ [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [<CommonParameters>]
 ```
 
 ### DevInstall
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-DevInstall] [[-Step] <Int32>]
  [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
- [-TopologyFile <String>] [-UseExistingTopologyFile] [<CommonParameters>]
+ [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [<CommonParameters>]
 ```
 
 ### Manual
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-Command] <String> [[-Step] <Int32>]
  [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
- [-TopologyFile <String>] [-UseExistingTopologyFile] [<CommonParameters>]
+ [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [<CommonParameters>]
 ```
 
 ### UDEInstall
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [[-Step] <Int32>] [[-RunbookId] <String>]
  [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile <String>]
- [-UseExistingTopologyFile] [-UnifiedDevelopmentEnvironment] [<CommonParameters>]
+ [-UseExistingTopologyFile] [-UnifiedDevelopmentEnvironment] [-IncludeFallbackRetailServiceModels]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -118,6 +119,16 @@ Invoke-D365SDPInstall -Path "c:\temp\" -MetaDataDir "c:\MyRepository\Metadata" -
 ```
 
 Install the modules contained in the c:\temp\ directory into the c:\MyRepository\Metadata directory.
+
+### EXAMPLE 10
+```
+Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -IncludeFallbackRetailServiceModels
+```
+
+Create Topology XML from current environment.
+If the current environment does not have the information about the installed service models, a fallback list of known service model names will be used.
+This fallback list includes the retail service models.
+Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
 
 ## PARAMETERS
 
@@ -334,6 +345,26 @@ Use this switch to install the package in a Unified Development Environment (UDE
 ```yaml
 Type: SwitchParameter
 Parameter Sets: UDEInstall
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeFallbackRetailServiceModels
+Include fallback retail service models in the topology file
+
+This parameter is to support backward compatibility in this scenario:
+Installing the first update on a local VHD where the information about the installed service
+models may not be available and where the retail components are installed.
+More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False

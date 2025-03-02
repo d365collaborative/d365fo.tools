@@ -72,6 +72,14 @@
     .PARAMETER UnifiedDevelopmentEnvironment
         Use this switch to install the package in a Unified Development Environment (UDE).
         
+    .PARAMETER IncludeFallbackRetailServiceModels
+        Include fallback retail service models in the topology file
+        
+        This parameter is to support backward compatibility in this scenario:
+        Installing the first update on a local VHD where the information about the installed service
+        models may not be available and where the retail components are installed.
+        More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
         
@@ -122,6 +130,13 @@
         
         Install the modules contained in the c:\temp\ directory into the c:\MyRepository\Metadata directory.
         
+    .EXAMPLE
+        Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -IncludeFallbackRetailServiceModels
+        
+        Create Topology XML from current environment. If the current environment does not have the information about the installed service models, a fallback list of known service model names will be used.
+        This fallback list includes the retail service models.
+        Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
+        
     .NOTES
         Author: Tommy Skaue (@skaue)
         Author: Mötz Jensen (@Splaxi)
@@ -171,7 +186,9 @@ function Invoke-D365SDPInstall {
         [switch] $UseExistingTopologyFile,
 
         [Parameter(ParameterSetName = 'UDEInstall')]
-        [switch] $UnifiedDevelopmentEnvironment
+        [switch] $UnifiedDevelopmentEnvironment,
+
+        [switch] $IncludeFallbackRetailServiceModels
     )
 
     if ($UnifiedDevelopmentEnvironment) {
@@ -260,7 +277,7 @@ function Invoke-D365SDPInstall {
 
             #Update topology file (first command)
             if (-not $UseExistingTopologyFile) {
-                $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile
+                $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile -IncludeFallbackRetailServiceModels:$IncludeFallbackRetailServiceModels
                 if (-not $ok) {
                     Write-PSFMessage -Level Warning "Failed to update topology file."
                     return
@@ -310,7 +327,7 @@ function Invoke-D365SDPInstall {
                         Write-PSFMessage -Level Warning "The SetTopology command is used to update a topology file. The UseExistingTopologyFile switch should not be used with this command."
                         return
                     }
-                    $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile
+                    $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile -IncludeFallbackRetailServiceModels:$IncludeFallbackRetailServiceModels
                     if (-not $ok) {
                         Write-PSFMessage -Level Warning "Failed to update topology file."
                     }
