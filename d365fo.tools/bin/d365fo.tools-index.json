@@ -10064,7 +10064,7 @@
     },
     {
         "CommandName":  "Remove-D365Database",
-        "Description":  "Removes a Database",
+        "Description":  "Removes a database. By default, if no other database is specified, the AxDB database will be removed.",
         "Params":  [
                        [
                            "DatabaseServer",
@@ -10105,15 +10105,39 @@
                            false,
                            "false",
                            "False"
+                       ],
+                       [
+                           "Force",
+                           "This parameter will suppress the confirmation prompt. It can be used as an alternative to -Confirm:$false",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "WhatIf",
+                           "This parameter will simulate the actions of the command. No changes will be made.",
+                           "wi",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Confirm",
+                           "This parameter will prompt you for confirmation before executing steps of the command that have a medium impact.",
+                           "cf",
+                           false,
+                           "false",
+                           ""
                        ]
                    ],
         "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Removes a Database",
+        "Synopsis":  "Removes a database",
         "Name":  "Remove-D365Database",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRemove-D365Database -DatabaseName \"ExportClone\"\nThis will remove the \"ExportClone\" from the default SQL Server instance that is registered on the machine.",
-        "Syntax":  "Remove-D365Database [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRemove-D365Database\nThis will remove the \"AxDB\" database from the default SQL Server instance that is registered on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRemove-D365Database -DatabaseName \"ExportClone\"\nThis will remove the \"ExportClone\" from the default SQL Server instance that is registered on the machine.",
+        "Syntax":  "Remove-D365Database [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-EnableException] [-Force] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Remove-D365LcsAssetFile",

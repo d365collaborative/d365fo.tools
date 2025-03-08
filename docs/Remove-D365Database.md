@@ -8,21 +8,29 @@ schema: 2.0.0
 # Remove-D365Database
 
 ## SYNOPSIS
-Removes a Database
+Removes a database
 
 ## SYNTAX
 
 ```
 Remove-D365Database [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
- [[-SqlPwd] <String>] [-EnableException] [<CommonParameters>]
+ [[-SqlPwd] <String>] [-EnableException] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Removes a Database
+Removes a database.
+By default, if no other database is specified, the AxDB database will be removed.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
+```
+Remove-D365Database
+```
+
+This will remove the "AxDB" database from the default SQL Server instance that is registered on the machine.
+
+### EXAMPLE 2
 ```
 Remove-D365Database -DatabaseName "ExportClone"
 ```
@@ -112,6 +120,53 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Force
+This parameter will suppress the confirmation prompt.
+It can be used as an alternative to -Confirm:$false
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+This parameter will simulate the actions of the command.
+No changes will be made.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+This parameter will prompt you for confirmation before executing steps of the command that have a medium impact.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -121,5 +176,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 Author: Mötz Jensen (@Splaxi)
+Author: Florian Hopfner (@FH-Inway)
 
 ## RELATED LINKS

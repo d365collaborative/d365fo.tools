@@ -48,6 +48,8 @@ You can also visit the **'docs'** folder in this repository (look at the top). C
 
 Since the project started we have adopted and extended the comment based help inside each cmdlet / function. This means that every single command contains at least one fully working example on how to run it and what to expect from the cmdlet.
 
+If you are just starting out with the module (and maybe with PowerShell as well), consider setting the [`$ConfirmPreference`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_preference_variables#confirmpreference) to `Medium` or `Low`. This will increase the number of prompts you will receive to confirm executing a command. It will help to avoid accidentally running a command that you didn't intend to run.
+
 **Getting help inside the PowerShell console**
 
 Getting help is as easy as writing **Get-Help CommandName**
