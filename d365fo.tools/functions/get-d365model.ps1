@@ -207,6 +207,7 @@ function Get-D365Model {
         Write-PSFMessage -Level Verbose -Message "Intializing RuntimeProvider."
 
         $runtimeProviderConfiguration = New-Object Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration -ArgumentList $PackageDirectory
+        $runtimeProviderConfiguration.AddRootAndIncludes($MetaDataDir, $null)
         $metadataProviderFactoryViaRuntime = New-Object Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory
         $metadataProviderViaRuntime = $metadataProviderFactoryViaRuntime.CreateRuntimeProvider($runtimeProviderConfiguration)
 
