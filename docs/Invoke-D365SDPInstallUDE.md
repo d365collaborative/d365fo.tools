@@ -13,7 +13,8 @@ Install a Software Deployable Package (SDP) in a unified development environment
 ## SYNTAX
 
 ```
-Invoke-D365SDPInstallUDE [-Path] <String> [-MetaDataDir] <String> [-LogPath <String>] [<CommonParameters>]
+Invoke-D365SDPInstallUDE [-Path] <String> [-MetaDataDir] <String> [-LogPath <String>] [-Force]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -76,6 +77,21 @@ Aliases: LogDir
 Required: False
 Position: Named
 Default value: $(Join-Path -Path $Script:DefaultTempPath -ChildPath "Logs\SdpInstall")
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+{{ Fill Force Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

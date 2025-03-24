@@ -16,28 +16,31 @@ Install a Software Deployable Package (SDP)
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-QuickInstallAll] [[-Step] <Int32>]
  [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
- [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [<CommonParameters>]
+ [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [-Force]
+ [<CommonParameters>]
 ```
 
 ### DevInstall
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-DevInstall] [[-Step] <Int32>]
  [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
- [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [<CommonParameters>]
+ [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [-Force]
+ [<CommonParameters>]
 ```
 
 ### Manual
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-Command] <String> [[-Step] <Int32>]
  [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
- [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [<CommonParameters>]
+ [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [-Force]
+ [<CommonParameters>]
 ```
 
 ### UDEInstall
 ```
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [[-Step] <Int32>] [[-RunbookId] <String>]
  [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile <String>]
- [-UseExistingTopologyFile] [-UnifiedDevelopmentEnvironment] [-IncludeFallbackRetailServiceModels]
+ [-UseExistingTopologyFile] [-UnifiedDevelopmentEnvironment] [-IncludeFallbackRetailServiceModels] [-Force]
  [<CommonParameters>]
 ```
 
@@ -361,6 +364,21 @@ This parameter is to support backward compatibility in this scenario:
 Installing the first update on a local VHD where the information about the installed service
 models may not be available and where the retail components are installed.
 More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+{{ Fill Force Description }}
 
 ```yaml
 Type: SwitchParameter

@@ -188,7 +188,9 @@ function Invoke-D365SDPInstall {
         [Parameter(ParameterSetName = 'UDEInstall')]
         [switch] $UnifiedDevelopmentEnvironment,
 
-        [switch] $IncludeFallbackRetailServiceModels
+        [switch] $IncludeFallbackRetailServiceModels,
+
+        [switch] $Force
     )
 
     if ($UnifiedDevelopmentEnvironment) {
