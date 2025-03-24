@@ -20,6 +20,11 @@
     .PARAMETER LogPath
         The path where the log file(s) will be saved
         
+    .PARAMETER Force
+        Instruct the cmdlet to overwrite the "extracted" folder if it exists
+        
+        Used when the input is a zip file, that will auto extract to a folder named like the zip file.
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstallUDE -Path "c:\temp\package.zip" -MetaDataDir "c:\MyRepository\Metadata"
         

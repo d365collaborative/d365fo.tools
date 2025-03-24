@@ -80,6 +80,11 @@
         models may not be available and where the retail components are installed.
         More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
         
+    .PARAMETER Force
+        Instruct the cmdlet to overwrite the "extracted" folder if it exists
+        
+        Used when the input is a zip file, that will auto extract to a folder named like the zip file.
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
         

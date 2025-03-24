@@ -378,7 +378,9 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-{{ Fill Force Description }}
+Instruct the cmdlet to overwrite the "extracted" folder if it exists
+
+Used when the input is a zip file, that will auto extract to a folder named like the zip file.
 
 ```yaml
 Type: SwitchParameter
