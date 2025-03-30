@@ -80,6 +80,11 @@
         models may not be available and where the retail components are installed.
         More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
         
+    .PARAMETER Force
+        Instruct the cmdlet to overwrite the "extracted" folder if it exists
+        
+        Used when the input is a zip file, that will auto extract to a folder named like the zip file.
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
         
@@ -188,7 +193,9 @@ function Invoke-D365SDPInstall {
         [Parameter(ParameterSetName = 'UDEInstall')]
         [switch] $UnifiedDevelopmentEnvironment,
 
-        [switch] $IncludeFallbackRetailServiceModels
+        [switch] $IncludeFallbackRetailServiceModels,
+
+        [switch] $Force
     )
 
     if ($UnifiedDevelopmentEnvironment) {
@@ -225,12 +232,23 @@ function Invoke-D365SDPInstall {
         Unblock-File -Path $Path
         
         $extractedPath = $path.Remove($path.Length - 4)
-        if (!(Test-Path $extractedPath)) {
-            Expand-Archive -Path $Path -DestinationPath $extractedPath
-            
-            #lets work with the extracted directory from now on
-            $Path = $extractedPath
+
+        if (-not $Force) {
+            if (-not (Test-PathExists -Path $extractedPath -Type Container -ShouldNotExist)) {
+                Write-PSFMessage -Level Host -Message "The directory at the <c='em'>$extractedPath</c> location already exists. If you want to override it - set the <c='em'>Force</c> parameter to clear the folder and extract the content into it."
+                Stop-PSFFunction -Message "Stopping because output path was already present."
+                return
+            }
         }
+
+        Get-ChildItem -Path $extractedPath -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -Confirm:$false
+        
+        # To allow the file system to flush the files
+        # Allows the human to see the folder being wiped
+        Start-Sleep -Seconds 2
+
+        Expand-Archive -Path $Path -DestinationPath $extractedPath -Force
+        $Path = $extractedPath
     }
 
     # Input is a relative path which needs to be converted to an absolute path.
