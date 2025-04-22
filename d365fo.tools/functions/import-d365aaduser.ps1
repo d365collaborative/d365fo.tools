@@ -311,7 +311,7 @@ function Import-D365AadUser {
                 $resObj = Invoke-AzRestMethod -Uri "https://graph.microsoft.com/v1.0/users?`$filter=mail eq '$user' or userPrincipalName eq '$user'"
 
                 if ($resObj.StatusCode -like "2**") {
-                    $aadUser = $resObj.Content | ConvertFrom-Json | Select-Object -ExpandProperty value | Select-Object -First 1
+                    $aadUser = $resObj.Content | ConvertFrom-Json | Select-Object -ExpandProperty value | Select-Object -First 1 @{Name = 'ObjectId';Expression = {$_.Id}},mail,givenName,displayName,userPrincipalName
                 }
 
                 if ($null -eq $aadUser) {
