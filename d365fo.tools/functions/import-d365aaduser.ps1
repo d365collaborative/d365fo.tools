@@ -283,7 +283,11 @@ function Import-D365AadUser {
         foreach ($user in $userlist) {
             if ($user.'@odata.type' -eq "#microsoft.graph.user") {
 
-                $azureAdUser = Invoke-AzRestMethod -Uri "https://graph.microsoft.com/v1.0/users/$($user.id)"
+                $resObj = Invoke-AzRestMethod -Uri "https://graph.microsoft.com/v1.0/users/$($user.id)"
+
+                if ($resObj.StatusCode -like "2**") {
+                    $azureAdUser = $resObj.Content | ConvertFrom-Json | Select-Object -First 1 @{Name = 'ObjectId';Expression = {$_.Id}},mail,givenName,displayName,userPrincipalName
+                }
 
                 if ($null -eq $azureAdUser.mail) {
                     Write-PSFMessage -Level Critical "User $($user.ObjectId) did not have an Mail"
