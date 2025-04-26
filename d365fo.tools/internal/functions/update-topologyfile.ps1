@@ -134,7 +134,7 @@ function Repair-InstalledServiceModelIssue {
     # Compare models and fallback list of known service model names
     $fallbackModelsNotInInstalledList = $fallbackServiceModels | Where-Object { $_ -notin $models }
     if ($fallbackModelsNotInInstalledList.Count -gt 0) {
-        Write-PSFMessage -Level Warning "The following service models are in the fallback list of known service model names, but not installed: $($fallbackModelsNotInInstalledList -join ', ')"
+        Write-PSFMessage -Level Warning "The following service models are in the fallback list of known service model names, but not listed as installed: $($fallbackModelsNotInInstalledList -join ', ')"
         if ($ForceFallbackServiceModels) {
             $useFallbackServiceModels = $true
         }
