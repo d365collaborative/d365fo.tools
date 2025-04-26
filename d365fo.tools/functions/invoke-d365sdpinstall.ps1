@@ -2,31 +2,31 @@
 <#
     .SYNOPSIS
         Install a Software Deployable Package (SDP)
-
+        
     .DESCRIPTION
         A cmdlet that wraps some of the cumbersome work into a streamlined process.
         The process for a legacy (i.e. non unified) environment are detailed in the Microsoft documentation here:
         https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deployment/install-deployable-package
-
+        
     .PARAMETER Path
         Path to the update package that you want to install into the environment
-
+        
         The cmdlet supports a path to a zip-file or directory with the unpacked contents.
-
+        
     .PARAMETER MetaDataDir
         The path to the meta data directory for the environment
-
+        
         Default path is the same as the aos service PackagesLocalDirectory
-
+        
     .PARAMETER QuickInstallAll
         Use this switch to let the runbook reside in memory. You will not get a runbook on disc which you can examine for steps
-
+        
     .PARAMETER DevInstall
         Use this when running on developer box without administrator privileges (Run As Administrator)
-
+        
     .PARAMETER Command
         The command you want the cmdlet to execute when it runs the AXUpdateInstaller.exe
-
+        
         Valid options are:
         SetTopology
         Generate
@@ -37,135 +37,135 @@
         SetStepComplete
         Export
         VersionCheck
-
+        
         The default value is "SetTopology"
-
+        
     .PARAMETER Step
         The step number that you want to work against
-
+        
     .PARAMETER RunbookId
         The runbook id of the runbook that you want to work against
-
+        
         Default value is "Runbook"
-
+        
     .PARAMETER LogPath
         The path where the log file(s) will be saved
-
+        
         When running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to show the standard output in the console
-
+        
         Default is $false which will silence the standard output
-
+        
     .PARAMETER OutputCommandOnly
         Instruct the cmdlet to only output the command that you would have to execute by hand
-
+        
         Will include full path to the executable and the needed parameters based on your selection
-
+        
     .PARAMETER TopologyFile
         Provide a custom topology file to use. By default, the cmdlet will use the DefaultTopologyData.xml file in the package directory.
-
+        
     .PARAMETER UseExistingTopologyFile
         Use this switch to indicate that the topology file is already updated and should not be updated again.
-
+        
     .PARAMETER UnifiedDevelopmentEnvironment
         Use this switch to install the package in a Unified Development Environment (UDE).
-
+        
     .PARAMETER IncludeFallbackRetailServiceModels
         Include fallback retail service models in the topology file
-
+        
         This parameter is to support backward compatibility in this scenario:
         Installing the first update on a local VHD where the information about the installed service
         models may not be available and where the retail components are installed.
         More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
-
+        
     .PARAMETER Force
         Instruct the cmdlet to overwrite the "extracted" folder if it exists
-
+        
         Used when the input is a zip file, that will auto extract to a folder named like the zip file.
-
+        
     .PARAMETER ForceFallbackServiceModels
         Force the use of the fallback list of known service model names
-
+        
         This parameter supports update scenarios primarily on local VHDs where the information about
         the installed service models may be incomplete. In such a case, the user receives a warning
         and a suggestion to use this parameter.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
-
+        
         This will install the package contained in the c:\temp\package.zip file using a runbook in memory while executing.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -DevInstall
-
+        
         This will install the extracted package in c:\temp\ using a runbook in memory while executing.
-
+        
         This command is to be used on Microsoft Hosted Tier1 development environment, where you don't have access to the administrator user account on the vm.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Generate -RunbookId 'MyRunbook'
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Import -RunbookId 'MyRunbook'
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command Execute -RunbookId 'MyRunbook'
-
+        
         Manual operations that first create Topology XML from current environment, then generate runbook with id 'MyRunbook', then import it and finally execute it.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll
-
+        
         Create Topology XML from current environment. Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command RerunStep -Step 18 -RunbookId 'MyRunbook'
-
+        
         Rerun runbook with id 'MyRunbook' from step 18.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetStepComplete -Step 24 -RunbookId 'MyRunbook'
-
+        
         Mark step 24 complete in runbook with id 'MyRunbook' and continue the runbook from the next step.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command SetTopology -TopologyFile "c:\temp\MyTopology.xml"
-
+        
         Update the MyTopology.xml file with all the installed services on the machine.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -TopologyFile "c:\temp\MyTopology.xml" -UseExistingTopologyFile
-
+        
         Run all manual steps in one single operation using the MyTopology.xml file. The topology file is not updated.
-
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\" -MetaDataDir "c:\MyRepository\Metadata" -UnifiedDevelopmentEnvironment
-
+        
         Install the modules contained in the c:\temp\ directory into the c:\MyRepository\Metadata directory.
-
+        
     .EXAMPLE
         Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -IncludeFallbackRetailServiceModels
-
+        
         Create Topology XML from current environment. If the current environment does not have the information about the installed service models, a fallback list of known service model names will be used.
         This fallback list includes the retail service models.
         Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
-
+        
     .EXAMPLE
         Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -ForceFallbackServiceModels
-
+        
         Create Topology XML from current environment. If the current environment does have no or only partial information about the installed service models, a fallback list of known service model names will be used.
         This fallback list does not include the retail service models.
         Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
-
+        
     .NOTES
         Author: Tommy Skaue (@skaue)
         Author: Mötz Jensen (@Splaxi)
         Author: Florian Hopfner (@FH-Inway)
-
+        
         Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
-
+        
     .LINK
         Invoke-D365SDPInstallUDE
-
+        
 #>
 function Invoke-D365SDPInstall {
     [CmdletBinding(DefaultParameterSetName = 'QuickInstall')]

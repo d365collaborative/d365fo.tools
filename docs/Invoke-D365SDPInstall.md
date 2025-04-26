@@ -17,7 +17,7 @@ Install a Software Deployable Package (SDP)
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-QuickInstallAll] [[-Step] <Int32>]
  [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
  [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [-Force]
- [<CommonParameters>]
+ [-ForceFallbackServiceModels] [<CommonParameters>]
 ```
 
 ### DevInstall
@@ -25,7 +25,7 @@ Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-QuickInstallA
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-DevInstall] [[-Step] <Int32>]
  [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
  [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [-Force]
- [<CommonParameters>]
+ [-ForceFallbackServiceModels] [<CommonParameters>]
 ```
 
 ### Manual
@@ -33,7 +33,7 @@ Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-DevInstall] [
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-Command] <String> [[-Step] <Int32>]
  [[-RunbookId] <String>] [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly]
  [-TopologyFile <String>] [-UseExistingTopologyFile] [-IncludeFallbackRetailServiceModels] [-Force]
- [<CommonParameters>]
+ [-ForceFallbackServiceModels] [<CommonParameters>]
 ```
 
 ### UDEInstall
@@ -41,7 +41,7 @@ Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [-Command] <Str
 Invoke-D365SDPInstall [-Path] <String> [[-MetaDataDir] <String>] [[-Step] <Int32>] [[-RunbookId] <String>]
  [-LogPath <String>] [-ShowOriginalProgress] [-OutputCommandOnly] [-TopologyFile <String>]
  [-UseExistingTopologyFile] [-UnifiedDevelopmentEnvironment] [-IncludeFallbackRetailServiceModels] [-Force]
- [<CommonParameters>]
+ [-ForceFallbackServiceModels] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -131,6 +131,16 @@ Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -IncludeFallbackRetailSer
 Create Topology XML from current environment.
 If the current environment does not have the information about the installed service models, a fallback list of known service model names will be used.
 This fallback list includes the retail service models.
+Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
+
+### EXAMPLE 11
+```
+Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -ForceFallbackServiceModels
+```
+
+Create Topology XML from current environment.
+If the current environment does have no or only partial information about the installed service models, a fallback list of known service model names will be used.
+This fallback list does not include the retail service models.
 Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
 
 ## PARAMETERS
@@ -394,6 +404,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ForceFallbackServiceModels
+Force the use of the fallback list of known service model names
+
+This parameter supports update scenarios primarily on local VHDs where the information about
+the installed service models may be incomplete.
+In such a case, the user receives a warning
+and a suggestion to use this parameter.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -404,6 +434,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 Author: Tommy Skaue (@skaue)
 Author: Mötz Jensen (@Splaxi)
+Author: Florian Hopfner (@FH-Inway)
 
 Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
 

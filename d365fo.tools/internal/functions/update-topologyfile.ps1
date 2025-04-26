@@ -2,47 +2,47 @@
 <#
     .SYNOPSIS
         Update the topology file
-
+        
     .DESCRIPTION
         Update the topology file based on the already installed list of services on the machine
-
+        
     .PARAMETER Path
         Path to the folder where the Microsoft.Dynamics.AX.AXInstallationInfo.dll assembly is located
-
+        
         Should only contain a path to a folder, not a file
-
+        
     .PARAMETER TopologyFile
         Path to the topology file to update
-
+        
         If not specified, the default topology file will be used
-
+        
     .PARAMETER IncludeFallbackRetailServiceModels
         Include fallback retail service models in the topology file
-
+        
         This parameter is to support backward compatibility in this scenario:
         Installing the first update on a local VHD where the information about the installed service
         models may not be available and where the retail components are installed.
         More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
-
+        
     .PARAMETER ForceFallbackServiceModels
         Force the use of the fallback list of known service model names
-
+        
         This parameter supports update scenarios primarily on local VHDs where the information about
         the installed service models may be incomplete. In such a case, the user receives a warning
         and a suggestion to use this parameter.
-
+        
     .EXAMPLE
         PS C:\> Update-TopologyFile -Path "c:\temp\UpdatePackageFolder" -TopologyFile "c:\temp\d365fo.tools\DefaultTopologyData.xml"
-
+        
         This will update the "c:\temp\d365fo.tools\DefaultTopologyData.xml" file with all the installed services on the machine.
-
+        
     .NOTES
         # Credit http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
-
+        
         Author: Tommy Skaue (@Skaue)
         Author: Mötz Jensen (@Splaxi)
         Author: Florian Hopfner (@FH-Inway)
-
+        
 #>
 function Update-TopologyFile {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
