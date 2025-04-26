@@ -111,7 +111,7 @@ function Repair-InstalledServiceModelIssue {
     [OutputType([System.Collections.ArrayList])]
     param (
         [Parameter(Mandatory = $true)]
-        [PSCustomObject[]]$InstalledModels,
+        [string[]]$InstalledModels,
 
         [string]$TopologyFile,
 
