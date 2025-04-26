@@ -85,6 +85,13 @@
 
         Used when the input is a zip file, that will auto extract to a folder named like the zip file.
 
+    .PARAMETER ForceFallbackServiceModels
+        Force the use of the fallback list of known service model names
+
+        This parameter supports update scenarios primarily on local VHDs where the information about
+        the installed service models may be incomplete. In such a case, the user receives a warning
+        and a suggestion to use this parameter.
+
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
 
@@ -142,9 +149,17 @@
         This fallback list includes the retail service models.
         Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
 
+    .EXAMPLE
+        Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -ForceFallbackServiceModels
+
+        Create Topology XML from current environment. If the current environment does have no or only partial information about the installed service models, a fallback list of known service model names will be used.
+        This fallback list does not include the retail service models.
+        Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
+
     .NOTES
         Author: Tommy Skaue (@skaue)
         Author: Mötz Jensen (@Splaxi)
+        Author: Florian Hopfner (@FH-Inway)
 
         Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
 

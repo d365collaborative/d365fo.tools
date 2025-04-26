@@ -24,6 +24,13 @@
         models may not be available and where the retail components are installed.
         More information about this can be found at https://github.com/d365collaborative/d365fo.tools/issues/878
 
+    .PARAMETER ForceFallbackServiceModels
+        Force the use of the fallback list of known service model names
+
+        This parameter supports update scenarios primarily on local VHDs where the information about
+        the installed service models may be incomplete. In such a case, the user receives a warning
+        and a suggestion to use this parameter.
+
     .EXAMPLE
         PS C:\> Update-TopologyFile -Path "c:\temp\UpdatePackageFolder" -TopologyFile "c:\temp\d365fo.tools\DefaultTopologyData.xml"
 
