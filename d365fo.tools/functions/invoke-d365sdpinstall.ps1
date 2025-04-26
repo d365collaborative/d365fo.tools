@@ -303,7 +303,7 @@ function Invoke-D365SDPInstall {
                     IncludeFallbackRetailServiceModels = $IncludeFallbackRetailServiceModels
                     ForceFallbackServiceModels = $ForceFallbackServiceModels
                 }
-                $ok = Update-TopologyFile $params
+                $ok = Update-TopologyFile @params
                 if (-not $ok) {
                     Write-PSFMessage -Level Warning "Failed to update topology file."
                     return
@@ -359,7 +359,7 @@ function Invoke-D365SDPInstall {
                         IncludeFallbackRetailServiceModels = $IncludeFallbackRetailServiceModels
                         ForceFallbackServiceModels = $ForceFallbackServiceModels
                     }
-                    $ok = Update-TopologyFile $params
+                    $ok = Update-TopologyFile @params
                     if (-not $ok) {
                         Write-PSFMessage -Level Warning "Failed to update topology file."
                     }

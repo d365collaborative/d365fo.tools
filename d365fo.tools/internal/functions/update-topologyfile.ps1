@@ -72,7 +72,7 @@ function Update-TopologyFile {
         IncludeFallbackRetailServiceModels = $IncludeFallbackRetailServiceModels
         ForceFallbackServiceModels = $ForceFallbackServiceModels
     }
-    $models = Repair-InstalledServiceModelIssue $params
+    $models = Repair-InstalledServiceModelIssue @params
 
     foreach ($name in $models.Name) {
         $element = $xml.CreateElement('string')
