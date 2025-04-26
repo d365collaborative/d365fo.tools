@@ -74,7 +74,7 @@ function Update-TopologyFile {
     }
     $models = Repair-InstalledServiceModelIssue @params
 
-    foreach ($name in $models.Name) {
+    foreach ($name in $models) {
         $element = $xml.CreateElement('string')
         $element.InnerText = $name
         $serviceModelList.AppendChild($element)
@@ -101,9 +101,7 @@ function Get-InstalledServiceModelNameList {
 
     $models = [Microsoft.Dynamics.AX.AXInstallationInfo.AXInstallationInfo]::GetInstalledServiceModel()
     $installedModelNames = $models | ForEach-Object {
-        [PSCustomObject]@{
-            Name = $_
-        }
+        $_.Name
      }
      $installedModelNames
 }
@@ -124,7 +122,7 @@ function Repair-InstalledServiceModelIssue {
 
     Write-PSFMessage -Level Verbose "Handling installed service model issues"
 
-    $models = $installedModels
+    $models = $InstalledModels
     $useFallbackServiceModels = $false
     $fallbackServiceModels = $Script:FallbackInstallationCoreServiceModelNames
 
@@ -154,11 +152,7 @@ function Repair-InstalledServiceModelIssue {
         else {
             Write-PSFMessage -Level Output "The fallback list of known service model names does not include the retail service models. To include them, use the -IncludeFallbackRetailServiceModels switch. See https://github.com/d365collaborative/d365fo.tools/issues/878 for more information."
         }
-        $models = $serviceModelNames | ForEach-Object {
-            [PSCustomObject]@{
-                Name = $_
-            }
-        }
+        $models = $serviceModelNames
     }
 
     $models
