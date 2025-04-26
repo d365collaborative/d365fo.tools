@@ -109,7 +109,6 @@ $Script:FallbackInstallationCoreServiceModelNames = @(
     "DevToolsService",
     "DIXFService",
     "MROneBox",
-    "PayrollTaxModule",
     "PerfSDK",
     "ReportingService"
 )
@@ -137,7 +136,7 @@ $Script:DefaultTempPath = "c:\temp\d365fo.tools"
 foreach ($item in (Get-PSFConfig -FullName d365fo.tools.active*)) {
     $nameTemp = $item.FullName -replace "^d365fo.tools.", ""
     $name = ($nameTemp -Split "\." | ForEach-Object { (Get-Culture).TextInfo.ToTitleCase($_) } ) -Join ""
-    
+
     New-Variable -Name $name -Value $item.Value -Scope Script
 }
 
@@ -173,7 +172,7 @@ Update-AzureStorageVariables
     else {
         $val = $($_.Value)
     }
-   
+
     Write-PSFMessage -Level Verbose -Message "$($_.Name) - $val" -Target $val -FunctionName "Variables.ps1"
 }
 
