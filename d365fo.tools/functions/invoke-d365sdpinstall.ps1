@@ -85,6 +85,13 @@
         
         Used when the input is a zip file, that will auto extract to a folder named like the zip file.
         
+    .PARAMETER ForceFallbackServiceModels
+        Force the use of the fallback list of known service model names
+        
+        This parameter supports update scenarios primarily on local VHDs where the information about
+        the installed service models may be incomplete. In such a case, the user receives a warning
+        and a suggestion to use this parameter.
+        
     .EXAMPLE
         PS C:\> Invoke-D365SDPInstall -Path "c:\temp\package.zip" -QuickInstallAll
         
@@ -142,9 +149,17 @@
         This fallback list includes the retail service models.
         Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
         
+    .EXAMPLE
+        Invoke-D365SDPInstall -Path "c:\temp\" -Command RunAll -ForceFallbackServiceModels
+        
+        Create Topology XML from current environment. If the current environment does have no or only partial information about the installed service models, a fallback list of known service model names will be used.
+        This fallback list does not include the retail service models.
+        Using default runbook id 'Runbook' and run all the operations from generate, to import to execute.
+        
     .NOTES
         Author: Tommy Skaue (@skaue)
         Author: Mötz Jensen (@Splaxi)
+        Author: Florian Hopfner (@FH-Inway)
         
         Inspired by blogpost http://dev.goshoom.net/en/2016/11/installing-deployable-packages-with-powershell/
         
@@ -175,7 +190,7 @@ function Invoke-D365SDPInstall {
 
         [Parameter(Mandatory = $false, Position = 4 )]
         [int] $Step,
-        
+
         [Parameter(Mandatory = $false, Position = 5 )]
         [string] $RunbookId = "Runbook",
 
@@ -187,7 +202,7 @@ function Invoke-D365SDPInstall {
         [switch] $OutputCommandOnly,
 
         [string] $TopologyFile = "DefaultTopologyData.xml",
-        
+
         [switch] $UseExistingTopologyFile,
 
         [Parameter(ParameterSetName = 'UDEInstall')]
@@ -195,14 +210,16 @@ function Invoke-D365SDPInstall {
 
         [switch] $IncludeFallbackRetailServiceModels,
 
-        [switch] $Force
+        [switch] $Force,
+
+        [switch] $ForceFallbackServiceModels
     )
 
     if ($UnifiedDevelopmentEnvironment) {
         Invoke-D365SDPInstallUDE -Path $Path -MetaDataDir $MetaDataDir -LogPath $LogPath
         return
     }
-    
+
     if ((Get-Process -Name "devenv" -ErrorAction SilentlyContinue).Count -gt 0) {
         Write-PSFMessage -Level Host -Message "It seems that you have a <c='em'>Visual Studio</c> running. Please ensure <c='em'>exit</c> Visual Studio and run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of running Visual Studio."
@@ -230,7 +247,7 @@ function Invoke-D365SDPInstall {
     #Test if input is a zipFile that needs to be extracted first
     if ($Path.EndsWith(".zip")) {
         Unblock-File -Path $Path
-        
+
         $extractedPath = $path.Remove($path.Length - 4)
 
         if (-not $Force) {
@@ -242,7 +259,7 @@ function Invoke-D365SDPInstall {
         }
 
         Get-ChildItem -Path $extractedPath -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -Confirm:$false
-        
+
         # To allow the file system to flush the files
         # Allows the human to see the folder being wiped
         Start-Sleep -Seconds 2
@@ -264,13 +281,13 @@ function Invoke-D365SDPInstall {
 
     $executable = Join-Path $Path "AXUpdateInstaller.exe"
 
-    
+
     if (-not ([System.IO.Path]::IsPathRooted($TopologyFile) -or (Split-Path -Path $TopologyFile -IsAbsolute))) {
         $TopologyFile = Join-Path -Path $Path -ChildPath $TopologyFile
     }
 
     if (-not (Test-PathExists -Path $topologyFile, $executable -Type Leaf)) { return }
-        
+
     Get-ChildItem -Path $Path -Recurse | Unblock-File
 
     if ($QuickInstallAll) {
@@ -289,13 +306,19 @@ function Invoke-D365SDPInstall {
         $Command = $Command.ToLowerInvariant()
         $runbookFile = Join-Path $Path "$runbookId.xml"
         $serviceModelFile = Join-Path $Path 'DefaultServiceModelData.xml'
-                        
+
         if ($Command -eq 'runall') {
             Write-PSFMessage -Level Verbose "Running all manual steps in one single operation"
 
             #Update topology file (first command)
             if (-not $UseExistingTopologyFile) {
-                $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile -IncludeFallbackRetailServiceModels:$IncludeFallbackRetailServiceModels
+                $params = @{
+                    Path = $Path
+                    TopologyFile = $TopologyFile
+                    IncludeFallbackRetailServiceModels = $IncludeFallbackRetailServiceModels
+                    ForceFallbackServiceModels = $ForceFallbackServiceModels
+                }
+                $ok = Update-TopologyFile @params
                 if (-not $ok) {
                     Write-PSFMessage -Level Warning "Failed to update topology file."
                     return
@@ -309,7 +332,7 @@ function Invoke-D365SDPInstall {
                 "-serviceModelFile=`"$serviceModelFile`""
                 "-runbookFile=`"$runbookFile`""
             )
-            
+
             #Generate (second command)
             Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
 
@@ -340,12 +363,18 @@ function Invoke-D365SDPInstall {
             switch ($Command) {
                 'settopology' {
                     Write-PSFMessage -Level Verbose "Updating topology file xml."
-                   
+
                     if ($UseExistingTopologyFile) {
                         Write-PSFMessage -Level Warning "The SetTopology command is used to update a topology file. The UseExistingTopologyFile switch should not be used with this command."
                         return
                     }
-                    $ok = Update-TopologyFile -Path $Path -TopologyFile $TopologyFile -IncludeFallbackRetailServiceModels:$IncludeFallbackRetailServiceModels
+                    $params = @{
+                        Path = $Path
+                        TopologyFile = $TopologyFile
+                        IncludeFallbackRetailServiceModels = $IncludeFallbackRetailServiceModels
+                        ForceFallbackServiceModels = $ForceFallbackServiceModels
+                    }
+                    $ok = Update-TopologyFile @params
                     if (-not $ok) {
                         Write-PSFMessage -Level Warning "Failed to update topology file."
                     }
@@ -353,7 +382,7 @@ function Invoke-D365SDPInstall {
                 }
                 'generate' {
                     Write-PSFMessage -Level Verbose "Generating runbook file."
-                    
+
                     $params = @(
                         "generate"
                         "-runbookId=`"$runbookId`""
@@ -364,7 +393,7 @@ function Invoke-D365SDPInstall {
                 }
                 'import' {
                     Write-PSFMessage -Level Verbose "Importing runbook file."
-                    
+
                     $params = @(
                         "import"
                         "-runbookfile=`"$runbookFile`""
@@ -372,7 +401,7 @@ function Invoke-D365SDPInstall {
                 }
                 'execute' {
                     Write-PSFMessage -Level Verbose "Executing runbook file."
-                   
+
                     $params = @(
                         "execute"
                         "-runbookId=`"$runbookId`""
@@ -380,7 +409,7 @@ function Invoke-D365SDPInstall {
                 }
                 'rerunstep' {
                     Write-PSFMessage -Level Verbose "Rerunning runbook step number $step."
-                   
+
                     $params = @(
                         "execute"
                         "-runbookId=`"$runbookId`""
@@ -389,7 +418,7 @@ function Invoke-D365SDPInstall {
                 }
                 'setstepcomplete' {
                     Write-PSFMessage -Level Verbose "Marking step $step complete and continuing from next step."
-                   
+
                     $params = @(
                         "execute"
                         "-runbookId=`"$runbookId`""
@@ -407,7 +436,7 @@ function Invoke-D365SDPInstall {
                 }
                 'versioncheck' {
                     Write-PSFMessage -Level Verbose "Running version check on runbook."
-                    
+
                     $params = @(
                         "execute"
                         "-runbookId=`"$runbookId`""
@@ -425,5 +454,5 @@ function Invoke-D365SDPInstall {
     }
 
     Invoke-TimeSignal -End
-    
+
 }
