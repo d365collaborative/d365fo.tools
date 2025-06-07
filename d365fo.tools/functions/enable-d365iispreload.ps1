@@ -14,7 +14,9 @@
 #>
 function Enable-D365IISPreload {
     [CmdletBinding()]
-    param ()
+    param (
+        [string]$BaseUrl = ""
+    )
 
     if (-not (Get-Module -ListAvailable -Name WebAdministration)) {
         Write-Host "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
@@ -32,6 +34,26 @@ function Enable-D365IISPreload {
 
     # Enable Preload on the website
     Set-ItemProperty "IIS:\Sites\$site" -Name applicationDefaults.preloadEnabled -Value $true
+
+    if (-not $BaseUrl) {
+        try {
+            $baseUrlObj = Get-D365Url
+            if ($baseUrlObj -and $baseUrlObj.Url) {
+                $BaseUrl = $baseUrlObj.Url.TrimEnd('/')
+            }
+        } catch {
+            Write-Verbose "Could not determine base URL using Get-D365Url. Defaulting to root."
+            $BaseUrl = ""
+        }
+    }
+
+    # Set the initializationPage for application initialization
+    try {
+        $initPage = if ($BaseUrl) { "$BaseUrl/?mi=DefaultDashboard" } else { "/?mi=DefaultDashboard" }
+        Set-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "initializationPage" -value $initPage -location $site -ErrorAction Stop
+    } catch {
+        Write-Verbose "Application Initialization not installed or not available. Skipping initializationPage."
+    }
 
     # Try to set doAppInitAfterRestart if Application Initialization is installed
     try {
