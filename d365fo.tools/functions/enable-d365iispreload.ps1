@@ -15,19 +15,30 @@
 function Enable-D365IISPreload {
     [CmdletBinding()]
     param ()
+
+    if (-not (Get-Module -ListAvailable -Name WebAdministration)) {
+        Write-Host "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
+        return
+    }
+
     Import-Module WebAdministration -ErrorAction Stop
+
     $appPool = "AOSService"
     $site = "AOSService"
+
     # Set Application Pool to AlwaysRunning and Idle Time-out to 0
     Set-ItemProperty "IIS:\AppPools\$appPool" -Name startMode -Value AlwaysRunning
     Set-ItemProperty "IIS:\AppPools\$appPool" -Name processModel.idleTimeout -Value ([TimeSpan]::Zero)
+
     # Enable Preload on the website
     Set-ItemProperty "IIS:\Sites\$site" -Name applicationDefaults.preloadEnabled -Value $true
+
     # Try to set doAppInitAfterRestart if Application Initialization is installed
     try {
         Set-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "doAppInitAfterRestart" -value "True" -location $site -ErrorAction Stop
     } catch {
         Write-Verbose "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
     }
+
     Write-Host "IIS Preload enabled for $site."
 }

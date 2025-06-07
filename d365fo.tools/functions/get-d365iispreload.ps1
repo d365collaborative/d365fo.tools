@@ -15,18 +15,28 @@
 function Get-D365IISPreload {
     [CmdletBinding()]
     param ()
+
+    if (-not (Get-Module -ListAvailable -Name WebAdministration)) {
+        Write-Host "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
+        return
+    }
+
     Import-Module WebAdministration -ErrorAction Stop
+
     $appPool = "AOSService"
     $site = "AOSService"
+
     $startMode = (Get-ItemProperty "IIS:\AppPools\$appPool" -Name startMode).startMode
     $idleTimeout = (Get-ItemProperty "IIS:\AppPools\$appPool" -Name processModel.idleTimeout)."processModel.idleTimeout"
     $preloadEnabled = (Get-ItemProperty "IIS:\Sites\$site" -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
+
     $doAppInitAfterRestart = $null
     try {
         $doAppInitAfterRestart = (Get-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "doAppInitAfterRestart" -location $site -ErrorAction Stop).Value
     } catch {
         $doAppInitAfterRestart = "Not available"
     }
+
     [PSCustomObject]@{
         AppPool = $appPool
         StartMode = $startMode
