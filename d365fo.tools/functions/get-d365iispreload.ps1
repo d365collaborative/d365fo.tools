@@ -37,6 +37,14 @@ function Get-D365IISPreload {
         $doAppInitAfterRestart = "Not available"
     }
 
+    $preloadPage = $null
+    try {
+        $preloadPage = (Get-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "initializationPage" -location $site -ErrorAction Stop).Value
+        if (-not $preloadPage) { $preloadPage = "Not configured" }
+    } catch {
+        $preloadPage = "Not available"
+    }
+
     [PSCustomObject]@{
         AppPool = $appPool
         StartMode = $startMode
@@ -44,5 +52,6 @@ function Get-D365IISPreload {
         Site = $site
         PreloadEnabled = $preloadEnabled
         DoAppInitAfterRestart = $doAppInitAfterRestart
+        PreloadPage = $preloadPage
     }
 }
