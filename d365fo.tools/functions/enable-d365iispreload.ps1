@@ -7,8 +7,17 @@
         - Sets Idle Time-out to 0
         - Enables Preload on the AOSService website
         - Sets doAppInitAfterRestart to true (if Application Initialization is installed)
+        - Optionally sets the initializationPage to a custom base URL
+    .PARAMETER BaseUrl
+        The base URL to use for the initializationPage setting in IIS Application Initialization.
+        If not provided, the function will attempt to determine the base URL automatically using Get-D365Url.
+        Example: https://usnconeboxax1aos.cloud.onebox.dynamics.com
     .EXAMPLE
         Enable-D365IISPreload
+        This will enable IIS Preload and set the initializationPage using the automatically detected base URL.
+    .EXAMPLE
+        Enable-D365IISPreload -BaseUrl "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
+        This will enable IIS Preload and set the initializationPage to https://usnconeboxax1aos.cloud.onebox.dynamics.com/?mi=DefaultDashboard
     .NOTES
         Author: Copilot (based on Denis Trunin's article)
 #>
