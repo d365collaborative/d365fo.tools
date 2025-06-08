@@ -34,6 +34,17 @@ function Enable-D365IISPreload {
 
     Import-Module WebAdministration -ErrorAction Stop
 
+    # Backup IIS Preload configuration before making changes
+    $backupDir = Join-Path $Script:DefaultTempPath "IISConfigBackup"
+    if (-not (Test-Path $backupDir)) {
+        New-Item -Path $backupDir -ItemType Directory | Out-Null
+    }
+    $timestamp = Get-Date -Format 'yyyyMMdd_HHmmss'
+    $iisConfigBackupFile = Join-Path $backupDir ("IISPreloadConfig.$timestamp.json")
+    $preloadConfig = Get-D365IISPreload | ConvertTo-Json -Depth 5
+    $preloadConfig | Out-File -FilePath $iisConfigBackupFile -Encoding UTF8
+    Write-Host "IIS Preload configuration backed up to $iisConfigBackupFile"
+
     $appPool = "AOSService"
     $site = "AOSService"
 
