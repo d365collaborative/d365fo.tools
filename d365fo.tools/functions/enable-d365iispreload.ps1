@@ -28,7 +28,7 @@ function Enable-D365IISPreload {
     )
 
     if (-not (Get-Module -ListAvailable -Name WebAdministration)) {
-        Write-Host "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
+        Write-PSFMessage -Level Warning -Message "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
         return
     }
 
@@ -43,16 +43,19 @@ function Enable-D365IISPreload {
     $iisConfigBackupFile = Join-Path $backupDir ("IISPreloadConfig.$timestamp.json")
     $preloadConfig = Get-D365IISPreload | ConvertTo-Json -Depth 5
     $preloadConfig | Out-File -FilePath $iisConfigBackupFile -Encoding UTF8
-    Write-Host "IIS Preload configuration backed up to $iisConfigBackupFile"
+    Write-PSFMessage -Level Host -Message "IIS Preload configuration backed up to $iisConfigBackupFile"
 
     $appPool = "AOSService"
     $site = "AOSService"
 
     # Set Application Pool to AlwaysRunning and Idle Time-out to 0
+    Write-PSFMessage -Level Verbose -Message "Setting Application Pool '$appPool' startMode to 'AlwaysRunning'"
     Set-ItemProperty "IIS:\AppPools\$appPool" -Name startMode -Value AlwaysRunning
+    Write-PSFMessage -Level Verbose -Message "Setting Application Pool '$appPool' idleTimeout to '0'"
     Set-ItemProperty "IIS:\AppPools\$appPool" -Name processModel.idleTimeout -Value ([TimeSpan]::Zero)
 
     # Enable Preload on the website
+    Write-PSFMessage -Level Verbose -Message "Setting Site '$site' applicationDefaults.preloadEnabled to 'True'"
     Set-ItemProperty "IIS:\Sites\$site" -Name applicationDefaults.preloadEnabled -Value $true
 
     if (-not $BaseUrl) {
@@ -62,7 +65,7 @@ function Enable-D365IISPreload {
                 $BaseUrl = $baseUrlObj.Url.TrimEnd('/')
             }
         } catch {
-            Write-Verbose "Could not determine base URL using Get-D365Url. Defaulting to root."
+            Write-PSFMessage -Level Verbose -Message "Could not determine base URL using Get-D365Url. Defaulting to root."
             $BaseUrl = ""
         }
     }
@@ -70,18 +73,20 @@ function Enable-D365IISPreload {
     # Set the initializationPage for application initialization
     try {
         $initPage = if ($BaseUrl) { "$BaseUrl/?mi=DefaultDashboard" } else { "/?mi=DefaultDashboard" }
+        Write-PSFMessage -Level Verbose -Message "Setting Site '$site' initializationPage to '$initPage'"
         # Add initializationPage property using Add-WebConfigurationProperty (without hostName)
         Add-WebConfigurationProperty -pspath 'MACHINE/WEBROOT/APPHOST' -location $site -filter "system.webServer/applicationInitialization" -name "." -value @{initializationPage=$initPage} -ErrorAction Stop
     } catch {
-        Write-Verbose "Application Initialization not installed or not available. Skipping initializationPage."
+        Write-PSFMessage -Level Verbose -Message "Application Initialization not installed or not available. Skipping initializationPage."
     }
 
     # Try to set doAppInitAfterRestart if Application Initialization is installed
     try {
+        Write-PSFMessage -Level Verbose -Message "Setting Site '$site' doAppInitAfterRestart to 'True'"
         Set-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "doAppInitAfterRestart" -value "True" -location $site -ErrorAction Stop
     } catch {
-        Write-Verbose "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
+        Write-PSFMessage -Level Verbose -Message "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
     }
 
-    Write-Host "IIS Preload enabled for $site."
+    Write-PSFMessage -Level Host -Message "IIS Preload enabled for $site."
 }

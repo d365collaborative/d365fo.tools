@@ -17,7 +17,7 @@ function Get-D365IISPreload {
     param ()
 
     if (-not (Get-Module -ListAvailable -Name WebAdministration)) {
-        Write-Host "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
+        Write-PSFMessage -Level Warning -Message "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
         return
     }
 

@@ -19,7 +19,7 @@ function Disable-D365IISPreload {
     param ()
 
     if (-not (Get-Module -ListAvailable -Name WebAdministration)) {
-        Write-Host "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
+        Write-PSFMessage -Level Warning -Message "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
         return
     }
 
@@ -45,7 +45,7 @@ function Disable-D365IISPreload {
         }
     }
     if ($backupFile) {
-        Write-Host "Restoring IIS Preload configuration from backup: $backupFile"
+        Write-PSFMessage -Level Host -Message "Restoring IIS Preload configuration from backup: $backupFile"
         $preloadConfig = Get-Content $backupFile | ConvertFrom-Json
         if ($preloadConfig.StartMode) { $startMode = $preloadConfig.StartMode }
         if ($preloadConfig.IdleTimeout) { $idleTimeout = $preloadConfig.IdleTimeout }
@@ -55,20 +55,24 @@ function Disable-D365IISPreload {
     }
 
     # Set Application Pool Start Mode and Idle Time-out
+    Write-PSFMessage -Level Verbose -Message "Setting Application Pool '$appPool' startMode to '$startMode'"
     Set-ItemProperty "IIS:\AppPools\$appPool" -Name startMode -Value $startMode
+    Write-PSFMessage -Level Verbose -Message "Setting Application Pool '$appPool' idleTimeout to '$idleTimeout'"
     Set-ItemProperty "IIS:\AppPools\$appPool" -Name processModel.idleTimeout -Value $idleTimeout
 
     # Set Preload on the website
+    Write-PSFMessage -Level Verbose -Message "Setting Site '$site' applicationDefaults.preloadEnabled to '$preloadEnabled'"
     Set-ItemProperty "IIS:\Sites\$site" -Name applicationDefaults.preloadEnabled -Value $preloadEnabled
 
     # Set doAppInitAfterRestart if Application Initialization is installed
     try {
+        Write-PSFMessage -Level Verbose -Message "Setting Site '$site' doAppInitAfterRestart to '$doAppInitAfterRestart'"
         Set-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "doAppInitAfterRestart" -value $doAppInitAfterRestart -location $site -ErrorAction Stop
     } catch {
-        Write-Verbose "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
+        Write-PSFMessage -Level Verbose -Message "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
     }
 
-    Write-Host "INFO: The initializationPage setting cannot be removed automatically. Please remove or adjust the initializationPage entry in IIS manually if required."
+    Write-PSFMessage -Level Host -Message "INFO: The initializationPage setting cannot be removed automatically. Please remove or adjust the initializationPage entry in IIS manually if required."
     
-    Write-Host "IIS Preload disabled for $site."
+    Write-PSFMessage -Level Host -Message "IIS Preload disabled for $site."
 }
