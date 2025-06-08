@@ -49,7 +49,7 @@ function Disable-D365IISPreload {
         $preloadConfig = Get-Content $backupFile | ConvertFrom-Json
         if ($preloadConfig.StartMode) { $startMode = $preloadConfig.StartMode }
         if ($preloadConfig.IdleTimeout) { $idleTimeout = $preloadConfig.IdleTimeout }
-        if ($preloadConfig.PreloadEnabled -ne $null) { $preloadEnabled = $preloadConfig.PreloadEnabled }
+        if ($null -ne $preloadConfig.PreloadEnabled) { $preloadEnabled = $preloadConfig.PreloadEnabled }
         if ($preloadConfig.DoAppInitAfterRestart) { $doAppInitAfterRestart = $preloadConfig.DoAppInitAfterRestart }
         if ($preloadConfig.PreloadPage) { $preloadPage = $preloadConfig.PreloadPage }
     }
