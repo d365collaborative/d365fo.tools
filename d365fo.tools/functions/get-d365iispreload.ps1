@@ -39,8 +39,12 @@ function Get-D365IISPreload {
 
     $preloadPage = $null
     try {
-        $preloadPage = (Get-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "initializationPage" -location $site -ErrorAction Stop).Value
-        if (-not $preloadPage) { $preloadPage = "Not configured" }
+        $initPages = Get-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "." -location $site -ErrorAction Stop
+        if ($initPages -and $initPages.Collection -and $initPages.Collection.Count -gt 0) {
+            $preloadPage = $initPages.Collection[0].initializationPage
+        } else {
+            $preloadPage = "Not configured"
+        }
     } catch {
         $preloadPage = "Not available"
     }
