@@ -40,5 +40,12 @@ function Disable-D365IISPreload {
         Write-Verbose "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
     }
 
+    # Remove the initializationPage if Application Initialization is installed
+    try {
+        Clear-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "initializationPage" -location $site -ErrorAction Stop
+    } catch {
+        Write-Verbose "Application Initialization not installed or not available. Skipping removal of initializationPage."
+    }
+
     Write-Host "IIS Preload disabled for $site."
 }
