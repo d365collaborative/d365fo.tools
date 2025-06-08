@@ -70,7 +70,8 @@ function Enable-D365IISPreload {
     # Set the initializationPage for application initialization
     try {
         $initPage = if ($BaseUrl) { "$BaseUrl/?mi=DefaultDashboard" } else { "/?mi=DefaultDashboard" }
-        Set-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "initializationPage" -value $initPage -location $site -ErrorAction Stop
+        # Add initializationPage property using Add-WebConfigurationProperty (without hostName)
+        Add-WebConfigurationProperty -pspath 'MACHINE/WEBROOT/APPHOST' -location $site -filter "system.webServer/applicationInitialization" -name "." -value @{initializationPage=$initPage} -ErrorAction Stop
     } catch {
         Write-Verbose "Application Initialization not installed or not available. Skipping initializationPage."
     }
