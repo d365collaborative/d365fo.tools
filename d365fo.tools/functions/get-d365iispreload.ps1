@@ -26,8 +26,10 @@ function Get-D365IISPreload {
     $appPool = "AOSService"
     $site = "AOSService"
 
-    $startMode = Get-ItemProperty "IIS:\AppPools\$appPool" -Name startMode
-    $idleTimeout = (Get-ItemProperty "IIS:\AppPools\$appPool" -Name processModel.idleTimeout).Value
+    $startModeProperty = Get-ItemProperty "IIS:\AppPools\$appPool" -Name startMode
+    $startMode = $startModeProperty.Trim() # Ensure we get the value as a string without additional NoteProperty
+    $idleTimeoutValue = (Get-ItemProperty "IIS:\AppPools\$appPool" -Name processModel.idleTimeout).Value
+    $idleTimeout = if ($idleTimeoutValue -eq [TimeSpan]::Zero) { "0" } else { $idleTimeoutValue.ToString() }
     $preloadEnabled = (Get-ItemProperty "IIS:\Sites\$site" -Name applicationDefaults.preloadEnabled).Value
 
     $doAppInitAfterRestart = $null
