@@ -49,14 +49,29 @@ function Enable-D365IISPreload {
     $site = "AOSService"
 
     # Set Application Pool to AlwaysRunning and Idle Time-out to 0
+    $setAppPoolStartModeParams = @{
+        Path  = "IIS:\AppPools\$appPool"
+        Name  = 'startMode'
+        Value = 'AlwaysRunning'
+    }
     Write-PSFMessage -Level Verbose -Message "Setting Application Pool '$appPool' startMode to 'AlwaysRunning'"
-    Set-ItemProperty "IIS:\AppPools\$appPool" -Name startMode -Value AlwaysRunning
+    Set-ItemProperty @setAppPoolStartModeParams
+    $setAppPoolIdleTimeoutParams = @{
+        Path  = "IIS:\AppPools\$appPool"
+        Name  = 'processModel.idleTimeout'
+        Value = ([TimeSpan]::Zero)
+    }
     Write-PSFMessage -Level Verbose -Message "Setting Application Pool '$appPool' idleTimeout to '0'"
-    Set-ItemProperty "IIS:\AppPools\$appPool" -Name processModel.idleTimeout -Value ([TimeSpan]::Zero)
+    Set-ItemProperty @setAppPoolIdleTimeoutParams
 
     # Enable Preload on the website
+    $setSitePreloadParams = @{
+        Path  = "IIS:\Sites\$site"
+        Name  = 'applicationDefaults.preloadEnabled'
+        Value = $true
+    }
     Write-PSFMessage -Level Verbose -Message "Setting Site '$site' applicationDefaults.preloadEnabled to 'True'"
-    Set-ItemProperty "IIS:\Sites\$site" -Name applicationDefaults.preloadEnabled -Value $true
+    Set-ItemProperty @setSitePreloadParams
 
     if (-not $BaseUrl) {
         try {
@@ -74,16 +89,31 @@ function Enable-D365IISPreload {
     try {
         $initPage = if ($BaseUrl) { "$BaseUrl/?mi=DefaultDashboard" } else { "/?mi=DefaultDashboard" }
         Write-PSFMessage -Level Verbose -Message "Setting Site '$site' initializationPage to '$initPage'"
-        # Add initializationPage property using Add-WebConfigurationProperty (without hostName)
-        Add-WebConfigurationProperty -pspath 'MACHINE/WEBROOT/APPHOST' -location $site -filter "system.webServer/applicationInitialization" -name "." -value @{initializationPage=$initPage} -ErrorAction Stop
+        $addInitPageParams = @{
+            pspath      = 'MACHINE/WEBROOT/APPHOST'
+            location    = $site
+            filter      = 'system.webServer/applicationInitialization'
+            name        = '.'
+            value       = @{ initializationPage = $initPage }
+            ErrorAction = 'Stop'
+        }
+        Add-WebConfigurationProperty @addInitPageParams
     } catch {
         Write-PSFMessage -Level Verbose -Message "Application Initialization not installed or not available. Skipping initializationPage."
     }
 
     # Try to set doAppInitAfterRestart if Application Initialization is installed
     try {
+        $setDoAppInitParams = @{
+            pspath      = 'MACHINE/WEBROOT/APPHOST'
+            filter      = 'system.webServer/applicationInitialization'
+            name        = 'doAppInitAfterRestart'
+            value       = 'True'
+            location    = $site
+            ErrorAction = 'Stop'
+        }
         Write-PSFMessage -Level Verbose -Message "Setting Site '$site' doAppInitAfterRestart to 'True'"
-        Set-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "doAppInitAfterRestart" -value "True" -location $site -ErrorAction Stop
+        Set-WebConfigurationProperty @setDoAppInitParams
     } catch {
         Write-PSFMessage -Level Verbose -Message "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
     }

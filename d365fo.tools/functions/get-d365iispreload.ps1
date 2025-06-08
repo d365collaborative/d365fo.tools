@@ -32,16 +32,30 @@ function Get-D365IISPreload {
     $idleTimeout = if ($idleTimeoutValue -eq [TimeSpan]::Zero) { "0" } else { $idleTimeoutValue.ToString() }
     $preloadEnabled = (Get-ItemProperty "IIS:\Sites\$site" -Name applicationDefaults.preloadEnabled).Value
 
+    $getDoAppInitParams = @{
+        pspath      = 'MACHINE/WEBROOT/APPHOST'
+        filter      = 'system.webServer/applicationInitialization'
+        name        = 'doAppInitAfterRestart'
+        location    = $site
+        ErrorAction = 'Stop'
+    }
     $doAppInitAfterRestart = $null
     try {
-        $doAppInitAfterRestart = (Get-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "doAppInitAfterRestart" -location $site -ErrorAction Stop).Value
+        $doAppInitAfterRestart = (Get-WebConfigurationProperty @getDoAppInitParams).Value
     } catch {
         $doAppInitAfterRestart = "Not available"
     }
 
+    $getInitPagesParams = @{
+        pspath      = 'MACHINE/WEBROOT/APPHOST'
+        filter      = 'system.webServer/applicationInitialization'
+        name        = '.'
+        location    = $site
+        ErrorAction = 'Stop'
+    }
     $preloadPage = $null
     try {
-        $initPages = Get-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "." -location $site -ErrorAction Stop
+        $initPages = Get-WebConfigurationProperty @getInitPagesParams
         if ($initPages -and $initPages.Collection -and $initPages.Collection.Count -gt 0) {
             $preloadPage = $initPages.Collection[0].initializationPage
         } else {

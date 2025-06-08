@@ -55,19 +55,38 @@ function Disable-D365IISPreload {
     }
 
     # Set Application Pool Start Mode and Idle Time-out
+    $setAppPoolStartModeParams = @{
+        Path  = "IIS:\AppPools\$appPool"
+        Name  = 'startMode'
+        Value = $startMode
+    }
     Write-PSFMessage -Level Verbose -Message "Setting Application Pool '$appPool' startMode to '$startMode'"
-    Set-ItemProperty "IIS:\AppPools\$appPool" -Name startMode -Value $startMode
+    Set-ItemProperty @setAppPoolStartModeParams
+    $setAppPoolIdleTimeoutParams = @{
+        Path  = "IIS:\AppPools\$appPool"
+        Name  = 'processModel.idleTimeout'
+        Value = $idleTimeout
+    }
     Write-PSFMessage -Level Verbose -Message "Setting Application Pool '$appPool' idleTimeout to '$idleTimeout'"
-    Set-ItemProperty "IIS:\AppPools\$appPool" -Name processModel.idleTimeout -Value $idleTimeout
-
-    # Set Preload on the website
+    Set-ItemProperty @setAppPoolIdleTimeoutParams
+    $setSitePreloadParams = @{
+        Path  = "IIS:\Sites\$site"
+        Name  = 'applicationDefaults.preloadEnabled'
+        Value = $preloadEnabled
+    }
     Write-PSFMessage -Level Verbose -Message "Setting Site '$site' applicationDefaults.preloadEnabled to '$preloadEnabled'"
-    Set-ItemProperty "IIS:\Sites\$site" -Name applicationDefaults.preloadEnabled -Value $preloadEnabled
-
-    # Set doAppInitAfterRestart if Application Initialization is installed
+    Set-ItemProperty @setSitePreloadParams
     try {
+        $setDoAppInitParams = @{
+            pspath      = 'MACHINE/WEBROOT/APPHOST'
+            filter      = 'system.webServer/applicationInitialization'
+            name        = 'doAppInitAfterRestart'
+            value       = $doAppInitAfterRestart
+            location    = $site
+            ErrorAction = 'Stop'
+        }
         Write-PSFMessage -Level Verbose -Message "Setting Site '$site' doAppInitAfterRestart to '$doAppInitAfterRestart'"
-        Set-WebConfigurationProperty -pspath "MACHINE/WEBROOT/APPHOST" -filter "system.webServer/applicationInitialization" -name "doAppInitAfterRestart" -value $doAppInitAfterRestart -location $site -ErrorAction Stop
+        Set-WebConfigurationProperty @setDoAppInitParams
     } catch {
         Write-PSFMessage -Level Verbose -Message "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
     }
