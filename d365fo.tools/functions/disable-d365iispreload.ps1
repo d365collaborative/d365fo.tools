@@ -54,6 +54,15 @@ function Disable-D365IISPreload {
         if ($null -ne $preloadConfig.PreloadEnabled) { $preloadEnabled = $preloadConfig.PreloadEnabled }
         if ($preloadConfig.DoAppInitAfterRestart) { $doAppInitAfterRestart = $preloadConfig.DoAppInitAfterRestart }
         if ($preloadConfig.PreloadPage) { $preloadPage = $preloadConfig.PreloadPage }
+        # Uninstall IIS Application Initialization feature if it was not installed in the backup
+        if ($preloadConfig.IISApplicationInitFeature -eq 'Not installed') {
+            Write-PSFMessage -Level Host -Message "Uninstalling IIS Application Initialization feature (Web-AppInit) as per backup state."
+            try {
+                Uninstall-WindowsFeature -Name Web-AppInit -Confirm:$false | Out-Null
+            } catch {
+                Write-PSFMessage -Level Warning -Message "Failed to uninstall IIS Application Initialization feature. $_"
+            }
+        }
     }
 
     # Set Application Pool Start Mode and Idle Time-out

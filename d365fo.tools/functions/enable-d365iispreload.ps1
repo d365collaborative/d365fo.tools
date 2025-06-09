@@ -29,6 +29,14 @@ function Enable-D365IISPreload {
         [string]$BaseUrl = ""
     )
 
+    # Ensure IIS Application Initialization feature is installed
+    $iisAppInitFeature = Get-WindowsFeature -Name Web-AppInit -ErrorAction SilentlyContinue
+    if (-not ($iisAppInitFeature -and $iisAppInitFeature.Installed)) {
+        Write-PSFMessage -Level Host -Message "IIS Application Initialization (Web-AppInit) feature is not installed. Installing..."
+        Install-WindowsFeature -Name Web-AppInit -IncludeAllSubFeature -IncludeManagementTools -ErrorAction Stop | Out-Null
+        Write-PSFMessage -Level Host -Message "IIS Application Initialization feature installed."
+    }
+
     if (-not (Get-Module -ListAvailable -Name WebAdministration)) {
         Write-PSFMessage -Level Warning -Message "The 'WebAdministration' module is not installed. Please install it with: Install-WindowsFeature -Name Web-WebServer -IncludeManagementTools or Install-Module -Name WebAdministration -Scope CurrentUser"
         return

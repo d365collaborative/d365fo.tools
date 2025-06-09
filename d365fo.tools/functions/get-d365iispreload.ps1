@@ -25,6 +25,9 @@ function Get-D365IISPreload {
 
     Import-Module WebAdministration -ErrorAction Stop
 
+    $iisAppInitFeature = Get-WindowsFeature -Name Web-AppInit -ErrorAction SilentlyContinue
+    $iisAppInitState = if ($iisAppInitFeature -and $iisAppInitFeature.Installed) { 'Installed' } else { 'Not installed' }
+
     $appPool = "AOSService"
     $site = "AOSService"
 
@@ -75,5 +78,6 @@ function Get-D365IISPreload {
         PreloadEnabled = $preloadEnabled
         DoAppInitAfterRestart = $doAppInitAfterRestart
         PreloadPage = $preloadPage
+        IISApplicationInitFeature = $iisAppInitState
     }
 }
