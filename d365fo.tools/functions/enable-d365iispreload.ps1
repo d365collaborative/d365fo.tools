@@ -1,7 +1,8 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Enables IIS Preload for the AOSService application pool and website.
-
+        
     .DESCRIPTION
         Configures IIS to preload the AOSService application, improving startup time after X++ compile.
         - Sets Application Pool Start Mode to AlwaysRunning
@@ -9,30 +10,30 @@
         - Enables Preload on the AOSService website
         - Sets doAppInitAfterRestart to true (if Application Initialization is installed)
         - Optionally sets the initializationPage to a custom base URL
-    
+        
     .PARAMETER BaseUrl
         The base URL to use for the initializationPage setting in IIS Application Initialization.
         If not provided, the function will attempt to determine the base URL automatically using Get-D365Url.
         Example: https://usnconeboxax1aos.cloud.onebox.dynamics.com
-
+        
     .EXAMPLE
         PS C:\> Enable-D365IISPreload
-
+        
         This will enable IIS Preload and set the initializationPage using the automatically detected base URL.
-
+        
     .EXAMPLE
         PS C:\> Enable-D365IISPreload -BaseUrl "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
-
+        
         This will enable IIS Preload and set the initializationPage to https://usnconeboxax1aos.cloud.onebox.dynamics.com/?mi=DefaultDashboard
-
+        
     .NOTES
         Author: Florian Hopfner (FH-Inway)
         Based on Denis Trunin's article "Enable IIS Preload to Speed Up Restart After X++ Compile" (https://www.linkedin.com/pulse/enable-iis-preload-speed-up-restart-after-x-compile-denis-trunin-86j5c)
         Written with GitHub Copilot GPT-4.1, mostly in agent mode. See commits for prompts.
-
+        
     .LINK
         Get-D365IISPreload
-
+        
     .LINK
         Disable-D365IISPreload
 #>

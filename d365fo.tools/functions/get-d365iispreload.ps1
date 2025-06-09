@@ -1,14 +1,15 @@
-﻿<#
+﻿
+<#
     .SYNOPSIS
         Gets IIS Preload status for the AOSService application pool and website.
-
+        
     .DESCRIPTION
         Returns the current IIS Preload configuration for the AOSService application:
         - Application Pool Start Mode
         - Idle Time-out
         - Website Preload Enabled
         - doAppInitAfterRestart (if Application Initialization is installed)
-
+        
     .OUTPUTS
         System.Management.Automation.PSCustomObject
         A custom object containing the following properties:
@@ -20,20 +21,20 @@
         - DoAppInitAfterRestart: Indicates if doAppInitAfterRestart is enabled (if Application Initialization is installed)
         - PreloadPage: The initialization page configured for preload (if any)
         - IISApplicationInitFeature: State of the IIS Application Initialization feature (Installed/Not installed)
-
+        
     .EXAMPLE
         PS C:\> Get-D365IISPreload
-
+        
         Retrieves the IIS Preload configuration for the AOSService application pool and website.
-
+        
     .NOTES
         Author: Florian Hopfner (FH-Inway)
         Based on Denis Trunin's article "Enable IIS Preload to Speed Up Restart After X++ Compile" (https://www.linkedin.com/pulse/enable-iis-preload-speed-up-restart-after-x-compile-denis-trunin-86j5c)
         Written with GitHub Copilot GPT-4.1, mostly in agent mode. See commits for prompts.
-
+        
     .LINK
         Enable-D365IISPreload
-
+        
     .LINK
         Disable-D365IISPreload
 #>
