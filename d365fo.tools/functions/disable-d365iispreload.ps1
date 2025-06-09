@@ -78,11 +78,10 @@ function Disable-D365IISPreload {
     Set-ItemProperty @setSitePreloadParams
     try {
         $setDoAppInitParams = @{
-            pspath      = 'MACHINE/WEBROOT/APPHOST'
+            pspath      = "MACHINE/WEBROOT/APPHOST/$site"
             filter      = 'system.webServer/applicationInitialization'
             name        = 'doAppInitAfterRestart'
             value       = $doAppInitAfterRestart
-            location    = $site
             ErrorAction = 'Stop'
         }
         Write-PSFMessage -Level Verbose -Message "Setting Site '$site' doAppInitAfterRestart to '$doAppInitAfterRestart'"
@@ -91,7 +90,52 @@ function Disable-D365IISPreload {
         Write-PSFMessage -Level Verbose -Message "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
     }
 
-    Write-PSFMessage -Level Host -Message "INFO: The initializationPage setting cannot be removed automatically. Please remove or adjust the initializationPage entry in IIS manually if required."
+    # Reset or remove initializationPage setting
+    $getInitPagesParams = @{
+        pspath      = 'MACHINE/WEBROOT/APPHOST'
+        filter      = 'system.webServer/applicationInitialization'
+        name        = '.'
+        location    = $site
+        ErrorAction = 'Stop'
+    }
+    $initPages = Get-WebConfigurationProperty @getInitPagesParams
+    if ($initPages -and $initPages.Collection -and $initPages.Collection.Count -gt 0) {
+        $currentPreloadPage = $initPages.Collection[0].initializationPage
+    } 
+    if ($currentPreloadPage) {
+        if ($preloadPage -and $preloadPage -ne "Not configured" -and $preloadPage -ne "Not available") {
+            try {
+                Write-PSFMessage -Level Verbose -Message "Setting Site '$site' initializationPage to '$preloadPage'"
+                $setInitPageParams = @{
+                    pspath      = "MACHINE/WEBROOT/APPHOST/$site"
+                    filter      = 'system.webServer/applicationInitialization'
+                    name        = '.'
+                    value       = @{ initializationPage = $preloadPage }
+                    AtElement   = @{ initializationPage = $currentPreloadPage }
+                    ErrorAction = 'Stop'
+                }
+                Set-WebConfigurationProperty @setInitPageParams
+            } catch {
+                Write-PSFMessage -Level Verbose -Message "Preload page $preloadPage cannot be set. Application Initialization may not be installed or not available. Skipping initializationPage."
+            }
+        } else {
+            try {
+                Write-PSFMessage -Level Verbose -Message "Removing initializationPage from Site '$site'"
+                if ($currentPreloadPage) {
+                    $removeInitPageParams = @{
+                        pspath      = "MACHINE/WEBROOT/APPHOST/$site"
+                        filter      = 'system.webServer/applicationInitialization'
+                        name        = '.'
+                        AtElement   = @{ initializationPage = $currentPreloadPage }
+                        ErrorAction = 'Stop'
+                    }
+                    Remove-WebConfigurationProperty @removeInitPageParams
+                }
+            } catch {
+                Write-PSFMessage -Level Verbose -Message "Failed to remove initializationPage from Site '$site'. It may not exist."
+            }
+        }
+    }
     
     Write-PSFMessage -Level Host -Message "IIS Preload disabled for $site."
 }

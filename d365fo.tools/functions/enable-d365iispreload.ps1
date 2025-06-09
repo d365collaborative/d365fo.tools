@@ -90,8 +90,7 @@ function Enable-D365IISPreload {
         $initPage = if ($BaseUrl) { "$BaseUrl/?mi=DefaultDashboard" } else { "/?mi=DefaultDashboard" }
         Write-PSFMessage -Level Verbose -Message "Setting Site '$site' initializationPage to '$initPage'"
         $addInitPageParams = @{
-            pspath      = 'MACHINE/WEBROOT/APPHOST'
-            location    = $site
+            pspath      = "MACHINE/WEBROOT/APPHOST/$site"
             filter      = 'system.webServer/applicationInitialization'
             name        = '.'
             value       = @{ initializationPage = $initPage }
@@ -99,23 +98,22 @@ function Enable-D365IISPreload {
         }
         Add-WebConfigurationProperty @addInitPageParams
     } catch {
-        Write-PSFMessage -Level Verbose -Message "Application Initialization not installed or not available. Skipping initializationPage."
+        Write-PSFMessage -Level Verbose -Message "Preload page $initPage cannot be set. Application Initialization may not be installed or not available. Skipping initializationPage."
     }
 
     # Try to set doAppInitAfterRestart if Application Initialization is installed
     try {
         $setDoAppInitParams = @{
-            pspath      = 'MACHINE/WEBROOT/APPHOST'
+            pspath      = "MACHINE/WEBROOT/APPHOST/$site"
             filter      = 'system.webServer/applicationInitialization'
             name        = 'doAppInitAfterRestart'
             value       = 'True'
-            location    = $site
             ErrorAction = 'Stop'
         }
         Write-PSFMessage -Level Verbose -Message "Setting Site '$site' doAppInitAfterRestart to 'True'"
         Set-WebConfigurationProperty @setDoAppInitParams
     } catch {
-        Write-PSFMessage -Level Verbose -Message "Application Initialization not installed or not available. Skipping doAppInitAfterRestart."
+        Write-PSFMessage -Level Verbose -Message "doAppInitAfterRestart cannot be set. Application Initialization may not be installed or not available. Skipping doAppInitAfterRestart."
     }
 
     Write-PSFMessage -Level Host -Message "IIS Preload enabled for $site."
