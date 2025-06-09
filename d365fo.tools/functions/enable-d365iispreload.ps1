@@ -19,7 +19,9 @@
         Enable-D365IISPreload -BaseUrl "https://usnconeboxax1aos.cloud.onebox.dynamics.com"
         This will enable IIS Preload and set the initializationPage to https://usnconeboxax1aos.cloud.onebox.dynamics.com/?mi=DefaultDashboard
     .NOTES
-        Author: Copilot (based on Denis Trunin's article)
+        Author: Florian Hopfner (FH-Inway)
+        Based on Denis Trunin's article "Enable IIS Preload to Speed Up Restart After X++ Compile" (https://www.linkedin.com/pulse/enable-iis-preload-speed-up-restart-after-x-compile-denis-trunin-86j5c)
+        Written with GitHub Copilot GPT-4.1, mostly in agent mode. See commits for prompts.
 #>
 function Enable-D365IISPreload {
     [CmdletBinding()]
