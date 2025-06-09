@@ -162,4 +162,13 @@ function Disable-D365IISPreload {
     }
     
     Write-PSFMessage -Level Host -Message "IIS Preload disabled for $site."
+
+    # Restart IIS service to apply changes
+    try {
+        Write-PSFMessage -Level Host -Message "Restarting IIS service (W3SVC) to apply changes..."
+        Restart-Service -Name 'W3SVC' -Force -ErrorAction Stop
+        Write-PSFMessage -Level Host -Message "IIS service restarted successfully."
+    } catch {
+        Write-PSFMessage -Level Warning -Message "Failed to restart IIS service (W3SVC): $_"
+    }
 }
