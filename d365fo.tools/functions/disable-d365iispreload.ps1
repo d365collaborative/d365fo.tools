@@ -1,6 +1,7 @@
-<#
+﻿<#
     .SYNOPSIS
         Disables IIS Preload for the AOSService application pool and website.
+
     .DESCRIPTION
         Reverts IIS Preload settings for the AOSService application:
         - Sets Application Pool Start Mode to OnDemand
@@ -9,12 +10,23 @@
         - Sets doAppInitAfterRestart to false (if Application Initialization is installed)
         - Restores previous IIS Preload configuration from backup if available
         - Restores or removes the initializationPage property as appropriate
+        - Uninstalls IIS Application Initialization feature if it was not installed in the backup
+
     .EXAMPLE
-        Disable-D365IISPreload
+        PS C:\> Disable-D365IISPreload
+
+        Disables IIS Preload for the AOSService application pool and website, restoring previous settings from backup if available.
+
     .NOTES
         Author: Florian Hopfner (FH-Inway)
         Based on Denis Trunin's article "Enable IIS Preload to Speed Up Restart After X++ Compile" (https://www.linkedin.com/pulse/enable-iis-preload-speed-up-restart-after-x-compile-denis-trunin-86j5c)
         Written with GitHub Copilot GPT-4.1, mostly in agent mode. See commits for prompts.
+
+    .LINK
+        Get-D365IISPreload
+
+    .LINK
+        Enable-D365IISPreload
 #>
 function Disable-D365IISPreload {
     [CmdletBinding()]
