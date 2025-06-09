@@ -124,7 +124,7 @@ function Disable-D365IISPreload {
     $initPages = Get-WebConfigurationProperty @getInitPagesParams
     if ($initPages -and $initPages.Collection -and $initPages.Collection.Count -gt 0) {
         $currentPreloadPage = $initPages.Collection[0].initializationPage
-    } 
+    }
     if ($currentPreloadPage) {
         if ($preloadPage -and $preloadPage -ne "Not configured" -and $preloadPage -ne "Not available") {
             try {
