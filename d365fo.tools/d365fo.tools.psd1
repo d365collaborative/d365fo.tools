@@ -70,12 +70,13 @@
 		'Disable-D365User',
 		'Disable-D365Flight',
 		'Disable-D365Exception',
-
+		'Disable-D365IISPreload',
 		'Enable-D365Exception',
 		'Enable-D365MaintenanceMode',
 		'Enable-D365SqlChangeTracking',
 		'Enable-D365User',
 		'Enable-D365Flight',
+		'Enable-D365IISPreload',
 
 		'Export-D365BacpacModelFile',
 		'Export-D365Model',
@@ -114,7 +115,8 @@
 		'Get-D365ExternalIP',
 
 		'Get-D365Flight',
-		
+		'Get-D365IISPreload',
+
 		'Get-D365JsonService',
 
 		'Get-D365InstalledHotfix',

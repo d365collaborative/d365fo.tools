@@ -805,6 +805,23 @@
         "Syntax":  "Disable-D365Flight [-FlightName] \u003cString\u003e [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Disable-D365IISPreload",
+        "Description":  "Reverts IIS Preload settings for the AOSService application:\n- Sets Application Pool Start Mode to OnDemand\n- Sets Idle Time-out to 0 (default)\n- Disables Preload on the AOSService website\n- Sets doAppInitAfterRestart to false (if Application Initialization is installed)\n- Restores previous IIS Preload configuration from backup if available\n- Restores or removes the initializationPage property as appropriate\n- Uninstalls IIS Application Initialization feature if it was not installed in the backup",
+        "Params":  [
+
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (FH-Inway)",
+        "Synopsis":  "Disables IIS Preload for the AOSService application pool and website.",
+        "Name":  "Disable-D365IISPreload",
+        "Links":  [
+                      null,
+                      null
+                  ],
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eDisable-D365IISPreload\nDisables IIS Preload for the AOSService application pool and website, restoring previous settings from backup if available.",
+        "Syntax":  "Disable-D365IISPreload [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Disable-D365MaintenanceMode",
         "Description":  "Sets the Dynamics 365 environment back into operating / running state after it has been in maintenance mode.",
         "Tags":  [
@@ -1095,6 +1112,30 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eEnable-D365Flight -FlightName DMFEnableAllCompanyExport\nEnables the flight DMFEnableAllCompanyExport",
         "Syntax":  "Enable-D365Flight [-FlightName] \u003cString\u003e [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Enable-D365IISPreload",
+        "Description":  "Configures IIS to preload the AOSService application, improving startup time after X++ compile.\n- Sets Application Pool Start Mode to AlwaysRunning\n- Sets Idle Time-out to 0\n- Enables Preload on the AOSService website\n- Sets doAppInitAfterRestart to true (if Application Initialization is installed)\n- Optionally sets the initializationPage to a custom base URL",
+        "Params":  [
+                       [
+                           "BaseUrl",
+                           "The base URL to use for the initializationPage setting in IIS Application Initialization.\r\nIf not provided, the function will attempt to determine the base URL automatically using Get-D365Url.\r\nExample: https://usnconeboxax1aos.cloud.onebox.dynamics.com",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (FH-Inway)",
+        "Synopsis":  "Enables IIS Preload for the AOSService application pool and website.",
+        "Name":  "Enable-D365IISPreload",
+        "Links":  [
+                      null,
+                      null
+                  ],
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eEnable-D365IISPreload\nThis will enable IIS Preload and set the initializationPage using the automatically detected base URL.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eEnable-D365IISPreload -BaseUrl \"https://usnconeboxax1aos.cloud.onebox.dynamics.com\"\nThis will enable IIS Preload and set the initializationPage to https://usnconeboxax1aos.cloud.onebox.dynamics.com/?mi=DefaultDashboard",
+        "Syntax":  "Enable-D365IISPreload [[-BaseUrl] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Enable-D365MaintenanceMode",
@@ -2611,6 +2652,23 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365Flight\nThis will list all flights that are configured on the environment.\r\nIt will show the name and the enabled status.\nA result set example:\nFlightName                         Enabled FlightServiceId\r\n----------                         ------- ---------------\r\nWHSWorkCancelForcedFlight          1       12719367\r\nTAMRebateGlobalEnableFeature       1       12719367\r\nEnablePerfInfoSimpleLoggerV2       1       12719367\r\nEnablePerfInfoLogODataV2           1       12719367\r\nEnablePerfInfoLogEtwRequestTableV2 1       12719367\r\nEnablePerfInfoCursorLayerV2        1       12719367\r\nEnablePerfInfoFormEngineLayerV2    1       12719367\r\nEnablePerfInfoMutexWaitLayerV2     1       12719367\r\nEnablePerfInfoSecurityLayerV2      1       12719367\r\nEnablePerfInfoSessionLayerV2       1       12719367\r\nEnablePerfInfoSQLLayerV2           1       12719367\r\nEnablePerfInfoXppContainerLayerV2  1       12719367\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Flight -FlightName WHSWorkCancelForcedFlight\nThis will list the flight with the specified name on the environment.\r\nIt will show the name and the enabled status.\nA result set example:\nFlightName                         Enabled FlightServiceId\r\n----------                         ------- ---------------\r\nWHSWorkCancelForcedFlight          1       12719367\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Flight -FlightName WHS*\nThis will list the flight with the specified pattern on the environment.\r\nIt will filter the output to match the \"WHS*\" pattern.\r\nIt will show the name and the enabled status.\nA result set example:\nFlightName                         Enabled FlightServiceId\r\n----------                         ------- ---------------\r\nWHSWorkCancelForcedFlight          1       12719367",
         "Syntax":  "Get-D365Flight [[-FlightName] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Get-D365IISPreload",
+        "Description":  "Returns the current IIS Preload configuration for the AOSService application:\n- Application Pool Start Mode\n- Idle Time-out\n- Website Preload Enabled\n- doAppInitAfterRestart (if Application Initialization is installed)",
+        "Params":  [
+
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (FH-Inway)",
+        "Synopsis":  "Gets IIS Preload status for the AOSService application pool and website.",
+        "Name":  "Get-D365IISPreload",
+        "Links":  [
+                      null,
+                      null
+                  ],
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365IISPreload\nRetrieves the IIS Preload configuration for the AOSService application pool and website.",
+        "Syntax":  "Get-D365IISPreload [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365InstalledHotfix",
