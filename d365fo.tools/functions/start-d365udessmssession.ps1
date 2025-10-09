@@ -18,8 +18,6 @@ function Start-D365UdeSsmsSession {
             return
         }
 
-        if (Test-PSFFunctionInterrupt) { return }
-
         # Hack to get the SSMS executable path from the registry
         $ssmsInstalled = Get-ChildItem `
             -Path Registry::HKEY_CLASSES_ROOT\ssms.*\shell\Open\Command | `
@@ -31,6 +29,12 @@ function Start-D365UdeSsmsSession {
         $executablePath = $ssmsInstalled | `
             Where-Object { $_ -match "Microsoft SQL Server Management Studio $($Version)\b" } | `
             Select-Object -First 1
+
+        if ([string]::IsNullOrWhiteSpace($executablePath)) {
+            Write-PSFMessage -Level Host -Message "Could not find a valid SSMS executable for version <c='em'>$Version</c>. Please ensure the version is installed or try a different version."
+            Stop-PSFFunction -Message "Stopping because SSMS executable was not found."
+            return
+        }
 
         & $executablePath -S $($udeCreds.Server) -d $($udeCreds.Database) -U $($udeCreds.Username)
     }

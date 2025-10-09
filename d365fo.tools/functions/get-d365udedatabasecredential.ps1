@@ -4,8 +4,6 @@
         [Alias("Name")]
         [string] $Id = "*",
 
-        [switch] $Latest,
-
         [switch] $ShowPassword
     )
 
