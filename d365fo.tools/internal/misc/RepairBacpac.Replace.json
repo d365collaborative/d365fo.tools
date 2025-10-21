@@ -2,5 +2,9 @@
     {
         "Search": "<Property Name=\"AutoDrop\" Value=\"True\" />",
         "Replace": ""
+    },
+    {
+        "Search": "<Property Name=\"QueryStoreCaptureMode\" Value=\"4\" />",
+        "Replace": "<Property Name=\"QueryStoreCaptureMode\" Value=\"2\" />"
     }
 ]
