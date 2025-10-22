@@ -10636,6 +10636,131 @@
         "Syntax":  "Repair-D365BacpacModelFile [-Path] \u003cString\u003e [[-OutputPath] \u003cString\u003e] [[-PathRepairSimple] \u003cString\u003e] [[-PathRepairQualifier] \u003cString\u003e] [[-PathRepairReplace] \u003cString\u003e] [-KeepFiles] [-Force] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Request-D365DatabaseJITAccess",
+        "Description":  "Utilize the D365FO Power Platform OData API to request just in time access (JIT) to a UDE database\n\nThis will allow you to get temporary database credentials for connecting to the database directly\n\nIf no credentials are provided (ClientId/ClientSecret or Credential), the function will automatically use interactive authentication via Azure PowerShell.",
+        "Tags":  [
+                     "JIT",
+                     "Database",
+                     "Access",
+                     "UDE",
+                     "OData",
+                     "RestApi"
+                 ],
+        "Params":  [
+                       [
+                           "Url",
+                           "URL / URI for the D365FO Power Platform environment that provides the JIT access API.\nNote: This is not the URL of the D365FO environment itself (aka the Finance and Operations URL). Instead, it is the URL of the Power Platform environment (aka the Environment URL) that the D365FO \r\nenvironment is integrated with.\nFor example: \"https://operations-acme-uat.crm4.dynamics.com/\"",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClientId",
+                           "The ClientId obtained from the Azure Portal when you created a Registered Application",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClientSecretAsPlainString",
+                           "The ClientSecret obtained from the Azure Portal when you created a Registered Application\nThis is the plain text version of the ClientSecret parameter.\nEither ClientSecretAsPlainString, ClientSecretAsSecureString, or Credential must be provided.",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClientSecretAsSecureString",
+                           "The ClientSecret obtained from the Azure Portal when you created a Registered Application\nThis is the secure string version of the ClientSecret parameter.\nEither ClientSecretAsPlainString, ClientSecretAsSecureString, or Credential must be provided.",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Credential",
+                           "The Credential object containing Username (ClientId) and Password (ClientSecret)\nThe Username will be used as ClientId\r\nThe Password will be used as ClientSecret\nEither ClientSecretAsPlainString, ClientSecretAsSecureString, or Credential must be provided.",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Tenant",
+                           "Azure Active Directory (AAD) tenant id (Guid) that the D365FO environment is connected to, that you want to access",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "ClientIPAddress",
+                           "The IP address of the client that needs database access\nDefault value is \"127.0.0.1\" which will be replaced with the public IP address of the client as determined by querying \"https://icanhazip.com\"",
+                           "",
+                           false,
+                           "false",
+                           "127.0.0.1"
+                       ],
+                       [
+                           "Role",
+                           "The database role to assign to the JIT access\nValid options are \"Reader\" and \"Writer\"\nDefault value is \"Reader\"",
+                           "",
+                           false,
+                           "false",
+                           "Reader"
+                       ],
+                       [
+                           "Reason",
+                           "The reason for requesting JIT database access\nDefault value is \"Administrative access via d365fo.tools\"",
+                           "",
+                           false,
+                           "false",
+                           "Administrative access via d365fo.tools"
+                       ],
+                       [
+                           "SQLServerManagementStudioPath",
+                           "The full path to the SQL Server Management Studio executable (ssms.exe)\nIf provided, the function will automatically open SQL Server Management Studio and connect to the database using the obtained credentials.\nExample: \"C:\\Program Files\\Microsoft SQL Server Management Studio 21\\Release\\Common7\\IDE\\SSMS.exe\"\nNote: Since version 18, SQL Server Management Studio does no longer allow providing the password directly in the command line. The password will be copied to clipboard instead for easy pasting. It \r\nwill be cleared from clipboard after 60 seconds.\nNote: After SQL Server Management Studio has been started this way, it will display a \"Connect to the following server?\" warning dialog. Confirm it with \"Yes\". Next, because of the missing password, \r\na \"Connect to server\" error dialog will be shown. Confirm it with \"OK\". Finally, a \"Connect to server\" form will be shown where the password can be pasted and the connection be established with the \r\n\"Connect\" button. Answering \"No\" on the first warning dialog will take you directly to the \"Connect to server\" form, but the database information will not be pre-filled.\nNote: The connection may fail at first because it takes some time until the client\u0027s IP address is whitelisted in the Azure SQL Database firewall rules. If that happens, just try again after a minute \r\nor so.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "RawOutput",
+                           "Instructs the cmdlet to include the outer structure of the response received from the endpoint\nThe output will still be a PSCustomObject",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "OutputAsJson",
+                           "Instructs the cmdlet to convert the output to a Json string",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "EnableException",
+                           "This parameters disables user-friendly warnings and enables the throwing of exceptions\r\nThis is less user friendly, but allows catching exceptions in calling scripts\r\nUsually this parameter is not used directly, but via the Enable-D365Exception cmdlet\r\nSee https://github.com/d365collaborative/d365fo.tools/wiki/Exception-handling#what-does-the--enableexception-parameter-do for further information",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Florian Hopfner (@FH-Inway)",
+        "Synopsis":  "Request just in time (JIT) database access for a unified development environment (UDE)",
+        "Name":  "Request-D365DatabaseJITAccess",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRequest-D365DatabaseJITAccess -Url \"https://operations-acme-uat.crm4.dynamics.com/\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\"\nThis will request JIT database access for the D365FO environment using interactive authentication.\r\nIt will prompt you to sign in with your Azure AD credentials if not already signed in.\r\nIt will use the client\u0027s IP address, role \"Reader\", and reason \"Administrative access via d365fo.tools\".\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://operations-acme-uat.crm4.dynamics.com/\".\r\nIt will authenticate against the Azure Active Directory with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRequest-D365DatabaseJITAccess -Url \"https://operations-acme-uat.crm4.dynamics.com/\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" \r\n-ClientSecretAsPlainString \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\"\nThis will request JIT database access for the D365FO environment.\r\nIt will use the client\u0027s IP address, role \"Reader\", and reason \"Administrative access via d365fo.tools\".\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://operations-acme-uat.crm4.dynamics.com/\".\r\nIt will authenticate against the \"https://login.microsoftonline.com/e674da86-7ee5-40a7-b777-1111111111111/oauth2/token\" url with the specified Tenant parameter: \r\n\"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecretAsPlainString parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eRequest-D365DatabaseJITAccess -Url \"https://operations-acme-uat.crm4.dynamics.com/\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" \r\n-ClientSecretAsPlainString \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\" -ClientIPAddress \"192.168.1.100\" -Role \"Writer\" -Reason \"Development work\"\nThis will request JIT database access for the D365FO environment with Writer privileges.\r\nIt will use the client IP address \"192.168.1.100\", role \"Writer\", and reason \"Development work\".\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://operations-acme-uat.crm4.dynamics.com/\".\r\nIt will authenticate against the Azure Active Directory with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecretAsPlainString parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eRequest-D365DatabaseJITAccess -Url \"https://operations-acme-uat.crm4.dynamics.com/\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" \r\n-ClientSecretAsPlainString \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\" -OutputAsJson\nThis will request JIT database access for the D365FO environment and display the result as json.\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://operations-acme-uat.crm4.dynamics.com/\".\r\nIt will authenticate against the Azure Active Directory with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the specified ClientSecretAsPlainString parameter: \"Vja/VmdxaLOPR+alkjfsadffelkjlfw234522\".\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003e$clientSecretSecure = Read-Host -AsSecureString \"Enter the Client Secret\"\nPS C:\\\u003e Request-D365DatabaseJITAccess -Url \"https://operations-acme-uat.crm4.dynamics.com/\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -ClientId \"dea8d7a9-1602-4429-b138-111111111111\" \r\n-ClientSecretAsSecureString $clientSecretSecure\nThis will prompt the user to enter the client secret securely (the input will be masked).\r\nThen it will request JIT database access for the D365FO environment using the secure string for authentication.\r\nIt will use the client\u0027s IP address, role \"Reader\", and reason \"Administrative access via d365fo.tools\".\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://operations-acme-uat.crm4.dynamics.com/\".\r\nIt will authenticate against the Azure Active Directory with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the specified ClientId parameter: \"dea8d7a9-1602-4429-b138-111111111111\".\r\nIt will authenticate with the client secret provided through the secure prompt.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003e$credential = Get-Credential -UserName \"dea8d7a9-1602-4429-b138-111111111111\" -Message \"Enter the Client Secret\"\nPS C:\\\u003e Request-D365DatabaseJITAccess -Url \"https://operations-acme-uat.crm4.dynamics.com/\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -Credential $credential\nThis will prompt the user to enter the client secret through a secure credential dialog (using the ClientId as the username).\r\nThen it will request JIT database access for the D365FO environment using the credential for authentication.\r\nIt will use the client\u0027s IP address, role \"Reader\", and reason \"Administrative access via d365fo.tools\".\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://operations-acme-uat.crm4.dynamics.com/\".\r\nIt will authenticate against the Azure Active Directory with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".\r\nIt will authenticate with the client id and secret provided through the credential object.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eRequest-D365DatabaseJITAccess -Url \"https://operations-acme-uat.crm4.dynamics.com/\" -Tenant \"e674da86-7ee5-40a7-b777-1111111111111\" -SQLServerManagementStudioPath \"C:\\Program Files\\Microsoft \r\nSQL Server Management Studio 21\\Release\\Common7\\IDE\\SSMS.exe\"\nThis will request JIT database access for the D365FO environment using interactive authentication.\r\nIt will open SQL Server Management Studio and connect to the database using the obtained credentials.\r\nIt will use the client\u0027s IP address, role \"Reader\", and reason \"Administrative access via d365fo.tools\".\r\nIt will contact the D365FO instance specified in the Url parameter: \"https://operations-acme-uat.crm4.dynamics.com/\".\r\nIt will authenticate against the Azure Active Directory with the specified Tenant parameter: \"e674da86-7ee5-40a7-b777-1111111111111\".",
+        "Syntax":  "Request-D365DatabaseJITAccess -Url \u003cString\u003e -Tenant \u003cString\u003e [-ClientIPAddress \u003cString\u003e] [-Role \u003cString\u003e] [-Reason \u003cString\u003e] [-SQLServerManagementStudioPath \u003cString\u003e] [-RawOutput] [-OutputAsJson] [-EnableException] [\u003cCommonParameters\u003e]\nRequest-D365DatabaseJITAccess -Url \u003cString\u003e -ClientId \u003cString\u003e -ClientSecretAsSecureString \u003cSecureString\u003e -Tenant \u003cString\u003e [-ClientIPAddress \u003cString\u003e] [-Role \u003cString\u003e] [-Reason \u003cString\u003e] [-SQLServerManagementStudioPath \u003cString\u003e] [-RawOutput] [-OutputAsJson] [-EnableException] [\u003cCommonParameters\u003e]\nRequest-D365DatabaseJITAccess -Url \u003cString\u003e -ClientId \u003cString\u003e -ClientSecretAsPlainString \u003cString\u003e -Tenant \u003cString\u003e [-ClientIPAddress \u003cString\u003e] [-Role \u003cString\u003e] [-Reason \u003cString\u003e] [-SQLServerManagementStudioPath \u003cString\u003e] [-RawOutput] [-OutputAsJson] [-EnableException] [\u003cCommonParameters\u003e]\nRequest-D365DatabaseJITAccess -Url \u003cString\u003e -Credential \u003cPSCredential\u003e -Tenant \u003cString\u003e [-ClientIPAddress \u003cString\u003e] [-Role \u003cString\u003e] [-Reason \u003cString\u003e] [-SQLServerManagementStudioPath \u003cString\u003e] [-RawOutput] [-OutputAsJson] [-EnableException] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Restart-D365Environment",
         "Description":  "Restart the different services in a Dynamics 365 Finance \u0026 Operations environment",
         "Tags":  [

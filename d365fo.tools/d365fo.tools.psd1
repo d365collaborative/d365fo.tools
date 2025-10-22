@@ -272,6 +272,8 @@
 		'Remove-D365Model',
 		'Remove-D365User',
 
+		'Request-D365DatabaseJITAccess',
+
 		'Rename-D365Instance',
 		'Rename-D365ComputerName',
 
