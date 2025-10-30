@@ -4,6 +4,7 @@
     AzureHostedTier1
     MSHostedTier1
     MSHostedTier2
+    UnifiedDevelopmentEnvironment
 }
 
 enum ServerRole {
