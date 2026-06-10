@@ -24,6 +24,7 @@
         This is useful if the credentials that you are using only have access to a specific database, and not the default "master" database
 
         Default value is fetched from the current configuration on the machine
+        
     .PARAMETER SqlUser
         The login name for the SQL Server instance
         
@@ -45,7 +46,7 @@
 
         This will show all databases on the default SQL Server / Azure SQL Database instance, by establishing the connection against the AXDB database instead of the default "master" database.
         
-        .NOTES
+    .NOTES
         Tags: Database, DB, Servicing
         
         Author: Mötz Jensen (@Splaxi)
@@ -69,7 +70,7 @@ function Get-D365Database {
 
     $UseTrustedConnection = Test-TrustedConnection $PSBoundParameters
 
-        $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
+    $SqlParams = @{ DatabaseServer = $DatabaseServer; DatabaseName = $DatabaseName;
         SqlUser = $SqlUser; SqlPwd = $SqlPwd
     }
 
