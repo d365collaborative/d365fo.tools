@@ -9,7 +9,7 @@
         https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deployment/install-deployable-package
         
     .PARAMETER Path
-        Path to the update package that you want to install into the environment
+        Path to the update package that you want to install into the enhvironment
         
         The cmdlet supports a path to a zip-file or directory with the unpacked contents.
         
@@ -38,7 +38,7 @@
         Export
         VersionCheck
         
-        The default value is "SetTopology"
+        
         
     .PARAMETER Step
         The step number that you want to work against
@@ -186,7 +186,7 @@ function Invoke-D365SDPInstall {
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Manual', Position = 3 )]
         [ValidateSet('SetTopology', 'Generate', 'Import', 'Execute', 'RunAll', 'ReRunStep', 'SetStepComplete', 'Export', 'VersionCheck')]
-        [string] $Command = 'SetTopology',
+        [string] $Command,
 
         [Parameter(Mandatory = $false, Position = 4 )]
         [int] $Step,
