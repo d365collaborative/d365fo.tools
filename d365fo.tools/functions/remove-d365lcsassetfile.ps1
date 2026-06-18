@@ -90,7 +90,7 @@ function Remove-D365LcsAssetFile {
         [int] $ProjectId = $Script:LcsApiProjectId,
 
         [Parameter(Mandatory = $true)]
-        [string] $AssetId = "",
+        [string] $AssetId,
         
         [Alias('Token')]
         [string] $BearerToken = $Script:LcsApiBearerToken,
