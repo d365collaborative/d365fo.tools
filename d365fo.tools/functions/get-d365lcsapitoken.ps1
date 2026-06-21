@@ -160,7 +160,7 @@ function Get-D365LcsApiToken {
         [string] $Username,
 
         [Parameter(Mandatory = $true)]
-        [SecureStringTransform()]
+        [SecureStringTransformAttribute()]
         [securestring] $Password,
 
         [Parameter(Mandatory = $false)]
