@@ -3,6 +3,8 @@
 # ArgumentTransformationAttribute: auto-converts plain [string] to [securestring]
 # so existing callers using -Password "plaintext" continue to work unchanged.
 # ──────────────────────────────────────────────────────────────────────────────
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "",
+    Justification = "This is intentionally allowing plain text for backward compatibility with existing scripts. Callers can still pass a SecureString directly for stricter handling.")]
 class SecureStringTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
     [object] Transform([System.Management.Automation.EngineIntrinsics] $engineIntrinsics, [object] $inputData) {
         if ($inputData -is [securestring]) {
