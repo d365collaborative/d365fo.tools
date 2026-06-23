@@ -7,6 +7,12 @@
     , 'Get-AxDataEntities'
 )
 
+# These commands cannot be tested with the generic approach below.
+# They are tested by Help.Example.Separate.Tests.ps1 with a more custom approach.
+$separateExampleTestCommands = @(
+    'Get-D365LcsApiToken'
+)
+
 enum LcsAssetFileType {
     Model = 1
     ProcessDataPackage = 4
@@ -17,9 +23,10 @@ enum LcsAssetFileType {
 }
 
 $commandsRaw = Get-Command -Module d365fo.tools
+$excludedCommands = @($excludeCommands + $separateExampleTestCommands)
 
-if ($excludeCommands.Count -gt 0) {
-    $commands = $commandsRaw | Select-String -Pattern $excludeCommands -SimpleMatch -NotMatch
+if ($excludedCommands.Count -gt 0) {
+    $commands = $commandsRaw | Select-String -Pattern $excludedCommands -SimpleMatch -NotMatch
 
 } else {
     $commands = $commandsRaw

@@ -1,8 +1,9 @@
-﻿
-# ──────────────────────────────────────────────────────────────────────────────
+﻿# ──────────────────────────────────────────────────────────────────────────────
 # ArgumentTransformationAttribute: auto-converts plain [string] to [securestring]
 # so existing callers using -Password "plaintext" continue to work unchanged.
 # ──────────────────────────────────────────────────────────────────────────────
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "",
+    Justification = "This is intentionally allowing plain text for backward compatibility with existing scripts. Callers can still pass a SecureString directly for stricter handling.")]
 class SecureStringTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
     [object] Transform([System.Management.Automation.EngineIntrinsics] $engineIntrinsics, [object] $inputData) {
         if ($inputData -is [securestring]) {
@@ -16,7 +17,6 @@ class SecureStringTransformAttribute : System.Management.Automation.ArgumentTran
         )
     }
 }
-
 <#
     .SYNOPSIS
         Get a valid OAuth 2.0 access token for LCS
@@ -36,13 +36,13 @@ class SecureStringTransformAttribute : System.Management.Automation.ArgumentTran
 
     .PARAMETER Password
         The password of the account that you want to impersonate
-
+        
         Accepts either a [securestring] or a plain [string]. Plain strings are automatically
         converted to a [securestring] so that existing scripts do not require modification.
-
+        
         It is recommended to pass a [securestring] (e.g. from Read-Host -AsSecureString) to
         avoid storing credentials as plain text in your scripts.
-
+        
     .PARAMETER LcsApiUri
         URI / URL to the LCS API you want to use
 
@@ -119,7 +119,18 @@ class SecureStringTransformAttribute : System.Management.Automation.ArgumentTran
         All default values will come from the configuration available from Get-D365LcsApiConfig.
 
         The default values can be configured using Set-D365LcsApiConfig.
-
+        
+    .EXAMPLE
+        PS C:\> $securePass = Read-Host -Prompt "Enter password" -AsSecureString
+        PS C:\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password $securePass
+        
+        This will obtain a valid OAuth 2.0 access token using a SecureString password.
+        Using Read-Host -AsSecureString ensures the password is never stored as plain text in memory or script history.
+        
+        All default values will come from the configuration available from Get-D365LcsApiConfig.
+        
+        The default values can be configured using Set-D365LcsApiConfig.
+        
     .LINK
         Get-D365LcsApiConfig
 
@@ -160,7 +171,7 @@ function Get-D365LcsApiToken {
         [string] $Username,
 
         [Parameter(Mandatory = $true)]
-        [SecureStringTransform()]
+        [SecureStringTransformAttribute()]
         [securestring] $Password,
 
         [Parameter(Mandatory = $false)]

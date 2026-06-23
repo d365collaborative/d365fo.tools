@@ -146,7 +146,7 @@ Using default runbook id 'Runbook' and run all the operations from generate, to 
 ## PARAMETERS
 
 ### -Path
-Path to the update package that you want to install into the environment
+Path to the update package that you want to install into the enhvironment
 
 The cmdlet supports a path to a zip-file or directory with the unpacked contents.
 
@@ -224,8 +224,6 @@ SetStepComplete
 Export
 VersionCheck
 
-The default value is "SetTopology"
-
 ```yaml
 Type: String
 Parameter Sets: Manual
@@ -233,7 +231,7 @@ Aliases:
 
 Required: True
 Position: 4
-Default value: SetTopology
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
