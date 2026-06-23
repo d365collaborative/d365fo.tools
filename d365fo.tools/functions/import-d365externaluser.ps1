@@ -81,7 +81,6 @@
         The e-mail address / sign-in e-mail address will be registered as "John@contoso.com".
         
     .EXAMPLE
-        PS C:\> Connect-AzAccount
         PS C:\> Import-D365ExternalUser -Id "John" -Name "John Doe" -Email "John@contoso.com" -UpdateObjectId
         
         This will import an user from an external Azure Active Directory and resolve the user's
