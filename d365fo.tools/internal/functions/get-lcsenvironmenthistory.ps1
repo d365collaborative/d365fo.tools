@@ -62,11 +62,11 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Get-LcsEnvironmentHistory -ProjectId 123456789 -Token "Bearer JldjfafLJdfjlfsalfd..." -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsEnvironmentHistory -ProjectId 123456789 -Token "JldjfafLJdfjlfsalfd..." -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will list the first page of environment history data from the LCS API.
         The ProjectId "123456789" is the desired project.
-        The Token "Bearer JldjfafLJdfjlfsalfd..." is the authentication to be used.
+        The Token "JldjfafLJdfjlfsalfd..." is the authentication to be used.
         The EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" is the specific environment that we want history data from.
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
