@@ -146,7 +146,7 @@ Using default runbook id 'Runbook' and run all the operations from generate, to 
 ## PARAMETERS
 
 ### -Path
-Path to the update package that you want to install into the enhvironment
+Path to the update package that you want to install into the environment
 
 The cmdlet supports a path to a zip-file or directory with the unpacked contents.
 
