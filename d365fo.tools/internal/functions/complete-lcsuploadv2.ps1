@@ -53,10 +53,10 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Complete-LcsUploadV2 -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Complete-LcsUploadV2 -Token "JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will commit the upload process for the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
-        The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
+        The http request will be using the "JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .NOTES
