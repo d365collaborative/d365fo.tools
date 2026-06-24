@@ -9058,7 +9058,7 @@
         "Params":  [
                        [
                            "Path",
-                           "Path to the update package that you want to install into the enhvironment\nThe cmdlet supports a path to a zip-file or directory with the unpacked contents.",
+                           "Path to the update package that you want to install into the environment\nThe cmdlet supports a path to a zip-file or directory with the unpacked contents.",
                            "File,Hotfix",
                            true,
                            "false",
