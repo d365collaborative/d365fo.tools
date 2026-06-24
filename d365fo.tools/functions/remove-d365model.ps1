@@ -49,6 +49,11 @@
         It will remove the folders inside the PackagesLocalDirectory location.
         This is helpful when dealing with source control and you want to remove the model entirely.
         
+    .EXAMPLE
+        PS C:\> Get-D365Model -Name "MyModel" | Remove-D365Model
+
+        This will retrieve the "MyModel" model and pipe it directly to Remove-D365Model for deletion.
+
     .NOTES
         Tags: ModelUtil, Axmodel, Model, Remove, Delete, Source Control, Vsts, Azure DevOps
         
@@ -60,7 +65,8 @@ function Remove-D365Model {
     [CmdletBinding()]
     
     param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias("ModelName")]
         [string] $Model,
 
         [Parameter(Mandatory = $false)]
@@ -76,19 +82,25 @@ function Remove-D365Model {
         [switch] $OutputCommandOnly
     )
 
-    Invoke-TimeSignal -Start
-    
-    Invoke-ModelUtil -Command "Delete" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
-
-    if (Test-PSFFunctionInterrupt) { return }
-
-    $modelPath = Join-Path $MetaDataDir $Model
-
-    if ($DeleteFolders) {
-        if (-not (Test-PathExists -Path $modelPath -Type Container)) { return }
-
-        Remove-Item $modelPath -Force  -Recurse -ErrorAction SilentlyContinue
+    begin {
+        Invoke-TimeSignal -Start
     }
 
-    Invoke-TimeSignal -End
+    process {
+        Invoke-ModelUtil -Command "Delete" -Path $Path -BinDir $BinDir -MetaDataDir $MetaDataDir -Model $Model -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly
+
+        if (Test-PSFFunctionInterrupt) { return }
+
+        $modelPath = Join-Path $MetaDataDir $Model
+
+        if ($DeleteFolders) {
+            if (-not (Test-PathExists -Path $modelPath -Type Container)) { return }
+
+            Remove-Item $modelPath -Force  -Recurse -ErrorAction SilentlyContinue
+        }
+    }
+
+    end {
+        Invoke-TimeSignal -End
+    }
 }
