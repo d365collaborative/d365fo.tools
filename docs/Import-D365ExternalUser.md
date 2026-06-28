@@ -14,8 +14,9 @@ Import an user from an external Azure Active Directory (AAD)
 
 ```
 Import-D365ExternalUser [-Id] <String> [-Name] <String> [-Email] <String> [[-Enabled] <Int32>]
- [[-Company] <String>] [[-Language] <String>] [[-DatabaseServer] <String>] [[-DatabaseName] <String>]
- [[-SqlUser] <String>] [[-SqlPwd] <String>] [<CommonParameters>]
+ [[-Company] <String>] [[-Language] <String>] [-UpdateObjectId] [[-ObjectId] <String>]
+ [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>] [[-SqlPwd] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,6 +33,30 @@ This will import an user from an external Azure Active Directory.
 The new user will get the system wide Id "John".
 The name of the new user will be "John Doe".
 The e-mail address / sign-in e-mail address will be registered as "John@contoso.com".
+
+### EXAMPLE 2
+```
+Connect-AzAccount
+```
+
+PS C:\\\> Import-D365ExternalUser -Id "John" -Name "John Doe" -Email "John@contoso.com" -UpdateObjectId
+
+This will import an user from an external Azure Active Directory and resolve the user's
+ObjectId from Microsoft Graph to store in D365FO.
+
+Connect-AzAccount is required before using -UpdateObjectId.
+
+Resolving the ObjectId is necessary to avoid login failures in environments that have had
+their database restored from a Tier-2 environment, where the UserInfo OBJECTID column would
+otherwise be copied from the environment's admin user.
+
+### EXAMPLE 3
+```
+Import-D365ExternalUser -Id "John" -Name "John Doe" -Email "John@contoso.com" -ObjectId "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+```
+
+This will import an user from an external Azure Active Directory and use the supplied
+ObjectId directly, without making a Microsoft Graph API call.
 
 ## PARAMETERS
 
@@ -137,6 +162,51 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -UpdateObjectId
+Switch to look up the user's Azure AD ObjectId from Microsoft Graph and store it in D365FO.
+
+When this switch is enabled, the cmdlet calls Microsoft Graph
+(https://graph.microsoft.com/v1.0/users) to resolve the ObjectId for the given Email address
+and passes it to the underlying SQL import.
+This fixes a known issue where restoring a
+Tier-2 database to a Tier-1 environment causes user sign-in failures because the UserInfo
+table's OBJECTID column is incorrectly copied from the admin user.
+
+Requires an active Azure connection (Connect-AzAccount) before calling this cmdlet.
+
+Without this switch, ObjectId is left empty and existing behavior is preserved.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ObjectId
+Explicitly provide the Azure AD ObjectId for the user being imported.
+
+Use this when you already know the ObjectId and want to avoid the Graph API call.
+If both -UpdateObjectId and -ObjectId are specified, the explicitly provided -ObjectId
+value takes precedence and no Graph lookup is performed.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DatabaseServer
 The name of the database server
 
@@ -151,7 +221,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: $Script:DatabaseServer
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -166,7 +236,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: $Script:DatabaseName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -181,7 +251,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: $Script:DatabaseUserName
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -196,7 +266,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: $Script:DatabaseUserPassword
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -214,6 +284,6 @@ Tags: User, Users, Security, Configuration, Permission, AAD, Azure Active Direct
 
 Author: Anderson Joyle (@AndersonJoyle)
 
-Author: Mötz Jensen (@Splaxi)
+Author: M ¶tz Jensen (@Splaxi)
 
 ## RELATED LINKS

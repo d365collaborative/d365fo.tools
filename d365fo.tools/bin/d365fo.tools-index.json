@@ -5898,6 +5898,22 @@
                            "en-us"
                        ],
                        [
+                           "UpdateObjectId",
+                           "Switch to look up the user\u0027s Azure AD ObjectId from Microsoft Graph and store it in D365FO.\nWhen this switch is enabled, the cmdlet calls Microsoft Graph\r\n(https://graph.microsoft.com/v1.0/users) to resolve the ObjectId for the given Email address\r\nand passes it to the underlying SQL import. This fixes a known issue where restoring a\r\nTier-2 database to a Tier-1 environment causes user sign-in failures because the UserInfo\r\ntable\u0027s OBJECTID column is incorrectly copied from the admin user.\nRequires an active Azure connection (Connect-AzAccount) before calling this cmdlet.\nWithout this switch, ObjectId is left empty and existing behavior is preserved.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "ObjectId",
+                           "Explicitly provide the Azure AD ObjectId for the user being imported.\nUse this when you already know the ObjectId and want to avoid the Graph API call.\r\nIf both -UpdateObjectId and -ObjectId are specified, the explicitly provided -ObjectId\r\nvalue takes precedence and no Graph lookup is performed.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
                            "DatabaseServer",
                            "The name of the database server\nIf on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)\nIf Azure use the full address to the database server, e.g. server.database.windows.net",
                            "",
@@ -5935,8 +5951,8 @@
         "Synopsis":  "Import an user from an external Azure Active Directory (AAD)",
         "Name":  "Import-D365ExternalUser",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365ExternalUser -Id \"John\" -Name \"John Doe\" -Email \"John@contoso.com\"\nThis will import an user from an external Azure Active Directory.\r\nThe new user will get the system wide Id \"John\".\r\nThe name of the new user will be \"John Doe\".\r\nThe e-mail address / sign-in e-mail address will be registered as \"John@contoso.com\".",
-        "Syntax":  "Import-D365ExternalUser [-Id] \u003cString\u003e [-Name] \u003cString\u003e [-Email] \u003cString\u003e [[-Enabled] \u003cInt32\u003e] [[-Company] \u003cString\u003e] [[-Language] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365ExternalUser -Id \"John\" -Name \"John Doe\" -Email \"John@contoso.com\"\nThis will import an user from an external Azure Active Directory.\r\nThe new user will get the system wide Id \"John\".\r\nThe name of the new user will be \"John Doe\".\r\nThe e-mail address / sign-in e-mail address will be registered as \"John@contoso.com\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eConnect-AzAccount\nPS C:\\\u003e Import-D365ExternalUser -Id \"John\" -Name \"John Doe\" -Email \"John@contoso.com\" -UpdateObjectId\nThis will import an user from an external Azure Active Directory and resolve the user\u0027s\r\nObjectId from Microsoft Graph to store in D365FO.\nConnect-AzAccount is required before using -UpdateObjectId.\nResolving the ObjectId is necessary to avoid login failures in environments that have had\r\ntheir database restored from a Tier-2 environment, where the UserInfo OBJECTID column would\r\notherwise be copied from the environment\u0027s admin user.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eImport-D365ExternalUser -Id \"John\" -Name \"John Doe\" -Email \"John@contoso.com\" -ObjectId \"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\"\nThis will import an user from an external Azure Active Directory and use the supplied\r\nObjectId directly, without making a Microsoft Graph API call.",
+        "Syntax":  "Import-D365ExternalUser [-Id] \u003cString\u003e [-Name] \u003cString\u003e [-Email] \u003cString\u003e [[-Enabled] \u003cInt32\u003e] [[-Company] \u003cString\u003e] [[-Language] \u003cString\u003e] [-UpdateObjectId] [[-ObjectId] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Import-D365Model",
