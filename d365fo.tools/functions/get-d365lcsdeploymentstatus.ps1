@@ -80,13 +80,13 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Get-D365LcsDeploymentStatus -ProjectId 123456789 -ActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-D365LcsDeploymentStatus -ProjectId 123456789 -ActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will check the deployment status of specific activity against an environment.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
         The activity is identified by the ActivityId 123456789, which is obtained from the Invoke-D365LcsDeployment execution.
         The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-        The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
+        The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
