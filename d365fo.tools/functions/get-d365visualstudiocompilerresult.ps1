@@ -86,6 +86,11 @@
         Total Errors: 2
         Total Warnings: 11819
         
+    .EXAMPLE
+        PS C:\> Get-D365Module -Name "MyModule" | Get-D365VisualStudioCompilerResult
+
+        This will retrieve the "MyModule" module and pipe it to Get-D365VisualStudioCompilerResult to display the compiler output for that module.
+
     .NOTES
         Tags: Compiler, Build, Errors, Warnings, Tasks
         
@@ -109,6 +114,7 @@ function Get-D365VisualStudioCompilerResult {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [OutputType('[PsCustomObject]')]
     param (
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias("ModuleName")]
         [string] $Module = "*",
 
@@ -121,46 +127,52 @@ function Get-D365VisualStudioCompilerResult {
         [string] $PackageDirectory = $Script:PackageDirectory
     )
 
-    Invoke-TimeSignal -Start
+    begin {
+        Invoke-TimeSignal -Start
+    }
 
-    if (-not (Test-PathExists -Path $PackageDirectory -Type Container)) { return }
+    process {
+        if (-not (Test-PathExists -Path $PackageDirectory -Type Container)) { return }
 
-    $buildOutputFiles = Get-ChildItem -Path "$PackageDirectory\$Module\BuildModelResult.log" -ErrorAction SilentlyContinue -Force
+        $buildOutputFiles = Get-ChildItem -Path "$PackageDirectory\$Module\BuildModelResult.log" -ErrorAction SilentlyContinue -Force
 
-    $outputCollection = New-Object System.Collections.Generic.List[System.Object]
+        $outputCollection = New-Object System.Collections.Generic.List[System.Object]
 
-    foreach ($result in $buildOutputFiles) {
+        foreach ($result in $buildOutputFiles) {
+            
+            $res = Get-CompilerResult -Path $result.FullName
+
+            if ($null -ne $res) {
+                $outputCollection.Add($res)
+            }
+        }
+
+        $totalErrors = 0
+        $totalWarnings = 0
+
+        $resCol = @($outputCollection.ToArray())
         
-        $res = Get-CompilerResult -Path $result.FullName
+        $totalWarnings = ($resCol | Measure-Object -Property Warnings -Sum).Sum
+        $totalErrors = ($resCol | Measure-Object -Property Errors -Sum).Sum
 
-        if ($null -ne $res) {
-            $outputCollection.Add($res)
+        if ($ErrorsOnly) {
+            $resCol = @($resCol | Where-Object Errors -gt 0)
+        }
+
+        if ($OutputAsObjects) {
+            $resCol
+        }
+        else {
+            $resCol | format-table File, @{Label = "Warnings"; Expression = { $e = [char]27; $color = "93"; "$e[${color}m$($_.Warnings)${e}[0m" }; Align = 'right' }, @{Label = "Errors"; Expression = { $e = [char]27; $color = "91"; "$e[${color}m$($_.Errors)${e}[0m" }; Align = 'right' }
+        }
+        
+        if ($OutputTotals) {
+            Write-PSFHostColor -String "<c='Red'>Total Errors: $totalErrors</c>"
+            Write-PSFHostColor -String "<c='Yellow'>Total Warnings: $totalWarnings</c>"
         }
     }
 
-    $totalErrors = 0
-    $totalWarnings = 0
-
-    $resCol = @($outputCollection.ToArray())
-    
-    $totalWarnings = ($resCol | Measure-Object -Property Warnings -Sum).Sum
-    $totalErrors = ($resCol | Measure-Object -Property Errors -Sum).Sum
-
-    if ($ErrorsOnly) {
-        $resCol = @($resCol | Where-Object Errors -gt 0)
+    end {
+        Invoke-TimeSignal -End
     }
-
-    if ($OutputAsObjects) {
-        $resCol
-    }
-    else {
-        $resCol | format-table File, @{Label = "Warnings"; Expression = { $e = [char]27; $color = "93"; "$e[${color}m$($_.Warnings)${e}[0m" }; Align = 'right' }, @{Label = "Errors"; Expression = { $e = [char]27; $color = "91"; "$e[${color}m$($_.Errors)${e}[0m" }; Align = 'right' }
-    }
-    
-    if ($OutputTotals) {
-        Write-PSFHostColor -String "<c='Red'>Total Errors: $totalErrors</c>"
-        Write-PSFHostColor -String "<c='Yellow'>Total Warnings: $totalWarnings</c>"
-    }
-
-    Invoke-TimeSignal -End
 }

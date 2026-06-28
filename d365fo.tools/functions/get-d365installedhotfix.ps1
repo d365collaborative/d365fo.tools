@@ -52,6 +52,11 @@
         
         This will display all installed hotfixes found for all models that matches the search for "*retail*" and only with KB's that matches the search for "*43*" found on this machine
         
+    .EXAMPLE
+        PS C:\> Get-D365Model -Name "MyModel" | Get-D365InstalledHotfix
+
+        This will retrieve the "MyModel" model and pipe it to Get-D365InstalledHotfix to list all hotfixes installed for that model.
+
     .NOTES
         Tags: Hotfix, Servicing, Model, Models, KB, Patch, Patching, PackagesLocalDirectory
         
@@ -77,7 +82,8 @@ function Get-D365InstalledHotfix {
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 2 )]
         [string] $PackageDirectory = $Script:PackageDirectory,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 3, ValueFromPipelineByPropertyName = $true)]
+        [Alias("ModelName")]
         [string] $Model = "*",
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 4 )]
