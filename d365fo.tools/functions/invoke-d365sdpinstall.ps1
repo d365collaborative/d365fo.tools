@@ -9,7 +9,7 @@
         https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/deployment/install-deployable-package
         
     .PARAMETER Path
-        Path to the update package that you want to install into the enhvironment
+        Path to the update package that you want to install into the environment
         
         The cmdlet supports a path to a zip-file or directory with the unpacked contents.
         

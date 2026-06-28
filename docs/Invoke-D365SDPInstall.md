@@ -224,8 +224,6 @@ SetStepComplete
 Export
 VersionCheck
 
-The default value is "SetTopology"
-
 ```yaml
 Type: String
 Parameter Sets: Manual
@@ -233,7 +231,7 @@ Aliases:
 
 Required: True
 Position: 4
-Default value: SetTopology
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

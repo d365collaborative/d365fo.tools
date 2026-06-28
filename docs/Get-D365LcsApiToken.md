@@ -13,8 +13,8 @@ Get a valid OAuth 2.0 access token for LCS
 ## SYNTAX
 
 ```
-Get-D365LcsApiToken [[-ClientId] <String>] [-Username] <String> [-Password] <String> [[-LcsApiUri] <String>]
- [-EnableException] [<CommonParameters>]
+Get-D365LcsApiToken [[-ClientId] <String>] [-Username] <String> [-Password] <SecureString>
+ [[-LcsApiUri] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -74,6 +74,20 @@ All default values will come from the configuration available from Get-D365LcsAp
 
 The default values can be configured using Set-D365LcsApiConfig.
 
+### EXAMPLE 5
+```
+$securePass = Read-Host -Prompt "Enter password" -AsSecureString
+```
+
+PS C:\\\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password $securePass
+
+This will obtain a valid OAuth 2.0 access token using a SecureString password.
+Using Read-Host -AsSecureString ensures the password is never stored as plain text in memory or script history.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
 ## PARAMETERS
 
 ### -ClientId
@@ -113,8 +127,16 @@ Accept wildcard characters: False
 ### -Password
 The password of the account that you want to impersonate
 
+Accepts either a \[securestring\] or a plain \[string\].
+Plain strings are automatically
+converted to a \[securestring\] so that existing scripts do not require modification.
+
+It is recommended to pass a \[securestring\] (e.g.
+from Read-Host -AsSecureString) to
+avoid storing credentials as plain text in your scripts.
+
 ```yaml
-Type: String
+Type: SecureString
 Parameter Sets: (All)
 Aliases:
 

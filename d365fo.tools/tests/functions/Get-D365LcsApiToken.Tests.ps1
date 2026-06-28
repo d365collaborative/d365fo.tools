@@ -40,7 +40,7 @@
 		It 'Should have the expected parameter Password' {
 			$parameter = (Get-Command Get-D365LcsApiToken).Parameters['Password']
 			$parameter.Name | Should -Be 'Password'
-			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.ParameterType.ToString() | Should -Be System.Security.SecureString
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'

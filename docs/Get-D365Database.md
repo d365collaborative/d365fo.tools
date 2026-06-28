@@ -36,6 +36,13 @@ Get-D365Database -Name AXDB_ORIGINAL
 
 This will show if the AXDB_ORIGINAL database exists on the default SQL Server / Azure SQL Database instance.
 
+### EXAMPLE 3
+```
+Get-D365Database -DatabaseName AXDB
+```
+
+This will show all databases on the default SQL Server / Azure SQL Database instance, by establishing the connection against the AXDB database instead of the default "master" database.
+
 ## PARAMETERS
 
 ### -Name
@@ -76,7 +83,11 @@ Accept wildcard characters: False
 ```
 
 ### -DatabaseName
-The name of the database
+The name of the database that you want to connect to, to retrieve the list of databases from
+
+This is useful if the credentials that you are using only have access to a specific database, and not the default "master" database
+
+Default value is fetched from the current configuration on the machine
 
 ```yaml
 Type: String
