@@ -168,6 +168,7 @@
 		'Get-D365TfsUri',
 		'Get-D365TfsWorkspace',
 
+		'Get-D365UdeDatabaseCredential',
 		'Get-D365Url',
 		'Get-D365User',
 		'Get-D365UserAuthenticationDetail',
@@ -310,6 +311,8 @@
 		'Set-D365SqlPackagePath',
 		'Set-D365SysAdmin',
 
+		'Set-D365UdeDatabaseCredential',
+
 		'Set-D365WebConfigDatabase',
 		'Set-D365WebServerType',
 
@@ -323,6 +326,8 @@
 		'Start-D365EnvironmentV2',
 		'Start-D365EventTrace',
 
+		'Start-D365UdeSsmsSession',
+		
 		'Stop-D365Environment',
 		'Stop-D365EventTrace',
 

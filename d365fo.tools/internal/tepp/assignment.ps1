@@ -34,3 +34,8 @@ Register-PSFTeppArgumentCompleter -Command Add-D365BroadcastMessageConfig -Param
 #Event Trace
 Register-PSFTeppArgumentCompleter -Command Start-D365EventTrace -Parameter ProviderName -Name d365fo.tools.event.trace.providers
 Register-PSFTeppArgumentCompleter -Command Start-D365EventTrace -Parameter OutputFormat -Name d365fo.tools.event.trace.format.options
+
+#UDE Credentials
+Register-PSFTeppArgumentCompleter -Command Get-D365UdeDatabaseCredential -Parameter Id -Name "d365fo.tools.ude.credentials"
+Register-PSFTeppArgumentCompleter -Command Start-D365UdeSsmsSession -Parameter Id -Name "d365fo.tools.ude.credentials"
+Register-PSFTeppArgumentCompleter -Command Set-D365UdeDatabaseCredential -Parameter Id -Name "d365fo.tools.ude.credentials"

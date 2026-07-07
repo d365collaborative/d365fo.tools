@@ -40,3 +40,5 @@ Set-PSFConfig -FullName "d365fo.tools.path.rsatplayback" -Value "C:\Users\$($env
 Set-PSFConfig -FullName "d365fo.tools.path.azcopy" -Value "C:\temp\d365fo.tools\AzCopy\AzCopy.exe" -Initialize -Description "Path to the default location where AzCopy.exe is located."
 
 Set-PSFConfig -FullName "d365fo.tools.path.nuget" -Value "C:\temp\d365fo.tools\nuget\nuget.exe" -Initialize -Description "Path to the default location where nuget.exe is located."
+
+Set-PSFConfig -FullName "d365fo.tools.ude.credentials" -Value @{} -Initialize -Description "Object that stores different Ude Database credentials and their details."
