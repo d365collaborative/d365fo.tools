@@ -101,7 +101,7 @@ function Invoke-D365GenerateReportDataEntity {
 
             Write-PSFMessage -Level Verbose -Message "Working on: $elementName (DataEntity)" -Target $elementName
             
-            $element = $metadataProvider.DataEntityViews.Read($elementName)
+            $element = [Microsoft.Dynamics.AX.Metadata.Storage.Extension.ExtensionMethods]::ReadDataEntityViewWithExtensions($metadataProvider, $elementName, $null, $null)
 
             #filter out system fields
             $fields = @()
