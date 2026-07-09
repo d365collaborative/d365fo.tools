@@ -119,7 +119,6 @@
 
 		'Get-D365JsonService',
 
-		'Get-D365InstalledHotfix',
 		'Get-D365InstalledPackage',
 		'Get-D365InstalledService',
 		'Get-D365InstanceName',
