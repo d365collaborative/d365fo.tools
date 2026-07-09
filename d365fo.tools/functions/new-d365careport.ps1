@@ -79,10 +79,10 @@
         
     .EXAMPLE
         PS C:\> Get-D365Model -Name "MyOverLayerModel" | New-D365CAReport
-
+        
         This will retrieve the "MyOverLayerModel" model (which includes its Module property) and pipe it to New-D365CAReport.
         Both the Module and Model parameters are bound from the pipeline object, generating a CAR report for that model.
-
+        
     .NOTES
         Author: Tommy Skaue (@Skaue)
         

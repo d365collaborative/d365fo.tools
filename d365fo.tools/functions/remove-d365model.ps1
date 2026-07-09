@@ -51,9 +51,9 @@
         
     .EXAMPLE
         PS C:\> Get-D365Model -Name "MyModel" | Remove-D365Model
-
+        
         This will retrieve the "MyModel" model and pipe it directly to Remove-D365Model for deletion.
-
+        
     .NOTES
         Tags: ModelUtil, Axmodel, Model, Remove, Delete, Source Control, Vsts, Azure DevOps
         

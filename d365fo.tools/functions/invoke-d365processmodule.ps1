@@ -97,13 +97,13 @@
         * Publish-D365SsrsReport with the required parameters to deploy all reports of current module
         
         The default output from all the different steps will be silenced.
-
+        
     .EXAMPLE
         PS C:\> Get-D365Module -Name "MyModule" | Invoke-D365ProcessModule -ExecuteCompile -ExecuteSync
-
+        
         This will retrieve the "MyModule" module from the environment and pipe it directly to Invoke-D365ProcessModule.
         The module will be compiled and the database will be synchronized.
-
+        
     .NOTES
         Tags: Compile, Model, Servicing, Database, Synchronization
         
