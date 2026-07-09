@@ -39,6 +39,13 @@ This will remove the "CustomModelName" model from the D365FO environment.
 It will remove the folders inside the PackagesLocalDirectory location.
 This is helpful when dealing with source control and you want to remove the model entirely.
 
+### EXAMPLE 3
+```
+Get-D365Model -Name "MyModel" | Remove-D365Model
+```
+
+This will retrieve the "MyModel" model and pipe it directly to Remove-D365Model for deletion.
+
 ## PARAMETERS
 
 ### -Model
@@ -47,12 +54,12 @@ Name of the model that you want to work against
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModelName
 
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

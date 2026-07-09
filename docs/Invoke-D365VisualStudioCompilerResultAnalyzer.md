@@ -75,6 +75,13 @@ c:\temp\d365fo.tools\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatf
 c:\temp\d365fo.tools\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx
 c:\temp\d365fo.tools\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx
 
+### EXAMPLE 4
+```
+Get-D365Module -Name "MyModule" | Invoke-D365VisualStudioCompilerResultAnalyzer
+```
+
+This will retrieve the "MyModule" module and pipe it to Invoke-D365VisualStudioCompilerResultAnalyzer, which generates an Excel report of the compiler results for that module.
+
 ## PARAMETERS
 
 ### -Module
@@ -90,7 +97,7 @@ Aliases: ModuleName
 Required: False
 Position: 1
 Default value: *
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

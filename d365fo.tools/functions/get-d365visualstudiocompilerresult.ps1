@@ -88,9 +88,9 @@
         
     .EXAMPLE
         PS C:\> Get-D365Module -Name "MyModule" | Get-D365VisualStudioCompilerResult
-
+        
         This will retrieve the "MyModule" module and pipe it to Get-D365VisualStudioCompilerResult to display the compiler output for that module.
-
+        
     .NOTES
         Tags: Compiler, Build, Errors, Warnings, Tasks
         

@@ -87,6 +87,13 @@ K:\AosService\PackagesLocalDirectory\CustomModule\BuildModelResult.log          
 Total Errors: 2
 Total Warnings: 11819
 
+### EXAMPLE 5
+```
+Get-D365Module -Name "MyModule" | Get-D365VisualStudioCompilerResult
+```
+
+This will retrieve the "MyModule" module and pipe it to Get-D365VisualStudioCompilerResult to display the compiler output for that module.
+
 ## PARAMETERS
 
 ### -Module
@@ -102,7 +109,7 @@ Aliases: ModuleName
 Required: False
 Position: 1
 Default value: *
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

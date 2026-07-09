@@ -2671,69 +2671,6 @@
         "Syntax":  "Get-D365IISPreload [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Get-D365InstalledHotfix",
-        "Description":  "Get all relevant details for installed hotfixes on environments that are not on a \"One Version\" version. This cmdlet is deprecated since 2021-10-05 and will be removed by 2022-04-05.",
-        "Tags":  [
-                     "Hotfix",
-                     "Servicing",
-                     "Model",
-                     "Models",
-                     "KB",
-                     "Patch",
-                     "Patching",
-                     "PackagesLocalDirectory"
-                 ],
-        "Params":  [
-                       [
-                           "BinDir",
-                           "The path to the bin directory for the environment\nDefault path is the same as the AOS Service PackagesLocalDirectory\\bin",
-                           "",
-                           false,
-                           "false",
-                           "\"$Script:BinDir\\bin\""
-                       ],
-                       [
-                           "PackageDirectory",
-                           "Path to the PackagesLocalDirectory\nDefault path is the same as the AOS Service PackagesLocalDirectory",
-                           "",
-                           false,
-                           "false",
-                           "$Script:PackageDirectory"
-                       ],
-                       [
-                           "Model",
-                           "Name of the model that you want to work against\nAccepts wildcards for searching. E.g. -Model \"*Retail*\"\nDefault value is \"*\" which will search for all models",
-                           "",
-                           false,
-                           "false",
-                           "*"
-                       ],
-                       [
-                           "Name",
-                           "Name of the hotfix that you are looking for\nAccepts wildcards for searching. E.g. -Name \"7045*\"\nDefault value is \"*\" which will search for all hotfixes",
-                           "",
-                           false,
-                           "false",
-                           "*"
-                       ],
-                       [
-                           "KB",
-                           "KB number of the hotfix that you are looking for\nAccepts wildcards for searching. E.g. -KB \"4045*\"\nDefault value is \"*\" which will search for all KB\u0027s",
-                           "",
-                           false,
-                           "false",
-                           "*"
-                       ]
-                   ],
-        "Alias":  "",
-        "Author":  "Mötz Jensen (@Splaxi)",
-        "Synopsis":  "Get installed hotfix (DEPRECATED)",
-        "Name":  "Get-D365InstalledHotfix",
-        "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365InstalledHotfix\nThis will display all installed hotfixes found on this machine\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365InstalledHotfix -Model \"*retail*\"\nThis will display all installed hotfixes found for all models that matches the search for \"*retail*\" found on this machine\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365InstalledHotfix -Model \"*retail*\" -KB \"*43*\"\nThis will display all installed hotfixes found for all models that matches the search for \"*retail*\" and only with KB\u0027s that matches the search for \"*43*\" found on this machine",
-        "Syntax":  "Get-D365InstalledHotfix [[-BinDir] \u003cString\u003e] [[-PackageDirectory] \u003cString\u003e] [[-Model] \u003cString\u003e] [[-Name] \u003cString\u003e] [[-KB] \u003cString\u003e] [\u003cCommonParameters\u003e]"
-    },
-    {
         "CommandName":  "Get-D365InstalledPackage",
         "Description":  "Get installed package from the machine running the AOS service for Dynamics 365 Finance \u0026 Operations",
         "Tags":  [
@@ -5169,7 +5106,7 @@
                            "Name of the module that you want to work against\nDefault value is \"*\" which will search for all modules",
                            "ModuleName",
                            false,
-                           "false",
+                           "true (ByPropertyName)",
                            "*"
                        ],
                        [
@@ -5210,7 +5147,7 @@
         "Synopsis":  "Get the compiler outputs presented",
         "Name":  "Get-D365VisualStudioCompilerResult",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult\nThis will return the compiler output for all modules.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationCommon\\BuildModelResult.log                    55      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationFoundation\\BuildModelResult.log               692      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationPlatform\\BuildModelResult.log                 155      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationSuite\\BuildModelResult.log                  10916      0\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult -ErrorsOnly\nThis will return the compiler output for all modules where there was errors in.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult -ErrorsOnly -OutputAsObjects\nThis will return the compiler output for all modules where there was errors in.\r\nThe output will be PSObjects, which can be assigned to a variable and used for futher analysis.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult -OutputTotals\nThis will return the compiler output for all modules and write a total overview to the console.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationCommon\\BuildModelResult.log                    55      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationFoundation\\BuildModelResult.log               692      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationPlatform\\BuildModelResult.log                 155      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationSuite\\BuildModelResult.log                  10916      0\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\nTotal Errors: 2\r\nTotal Warnings: 11819",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult\nThis will return the compiler output for all modules.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationCommon\\BuildModelResult.log                    55      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationFoundation\\BuildModelResult.log               692      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationPlatform\\BuildModelResult.log                 155      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationSuite\\BuildModelResult.log                  10916      0\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult -ErrorsOnly\nThis will return the compiler output for all modules where there was errors in.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult -ErrorsOnly -OutputAsObjects\nThis will return the compiler output for all modules where there was errors in.\r\nThe output will be PSObjects, which can be assigned to a variable and used for futher analysis.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365VisualStudioCompilerResult -OutputTotals\nThis will return the compiler output for all modules and write a total overview to the console.\nA result set example:\nFile                                                                                     Warnings Errors\r\n----                                                                                     -------- ------\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationCommon\\BuildModelResult.log                    55      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationFoundation\\BuildModelResult.log               692      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationPlatform\\BuildModelResult.log                 155      0\r\nK:\\AosService\\PackagesLocalDirectory\\ApplicationSuite\\BuildModelResult.log                  10916      0\r\nK:\\AosService\\PackagesLocalDirectory\\CustomModule\\BuildModelResult.log                          1      2\nTotal Errors: 2\r\nTotal Warnings: 11819\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365Module -Name \"MyModule\" | Get-D365VisualStudioCompilerResult\nThis will retrieve the \"MyModule\" module and pipe it to Get-D365VisualStudioCompilerResult to display the compiler output for that module.",
         "Syntax":  "Get-D365VisualStudioCompilerResult [[-Module] \u003cString\u003e] [-ErrorsOnly] [-OutputTotals] [-OutputAsObjects] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
@@ -8808,7 +8745,7 @@
                            "Name of the module that you want to process\nAccepts wildcards for searching. E.g. -Module \"Application*Adaptor\"\nDefault value is \"*\" which will search for all modules",
                            "ModuleName",
                            true,
-                           "false",
+                           "true (ByPropertyName)",
                            ""
                        ],
                        [
@@ -8897,7 +8834,7 @@
         "Synopsis":  "Process a specific or multiple modules (compile, deploy reports and sync)",
         "Name":  "Invoke-D365ProcessModule",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteCompile\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Invoke-D365ModuleFullCompile with the needed parameters to compile current module value package.\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteSync\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Invoke-D365DBSyncPartial with the needed parameters to sync current module value table and extension elements.\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteDeployReports\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Publish-D365SsrsReport with the required parameters to deploy all reports of current module\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteCompile -ExecuteSync -ExecuteDeployReports\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Invoke-D365ModuleFullCompile with the needed parameters to compile current module package.\r\n* Invoke-D365DBSyncPartial with the needed parameters to sync current module table and extension elements.\r\n* Publish-D365SsrsReport with the required parameters to deploy all reports of current module\nThe default output from all the different steps will be silenced.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteCompile\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Invoke-D365ModuleFullCompile with the needed parameters to compile current module value package.\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteSync\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Invoke-D365DBSyncPartial with the needed parameters to sync current module value table and extension elements.\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteDeployReports\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Publish-D365SsrsReport with the required parameters to deploy all reports of current module\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365ProcessModule -Module \"Application*Adaptor\" -ExecuteCompile -ExecuteSync -ExecuteDeployReports\nRetrieve the list of installed packages / modules where the name fits the search \"Application*Adaptor\".\nFor every value of the list perform the following:\r\n* Invoke-D365ModuleFullCompile with the needed parameters to compile current module package.\r\n* Invoke-D365DBSyncPartial with the needed parameters to sync current module table and extension elements.\r\n* Publish-D365SsrsReport with the required parameters to deploy all reports of current module\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365Module -Name \"MyModule\" | Invoke-D365ProcessModule -ExecuteCompile -ExecuteSync\nThis will retrieve the \"MyModule\" module from the environment and pipe it directly to Invoke-D365ProcessModule.\r\nThe module will be compiled and the database will be synchronized.",
         "Syntax":  "Invoke-D365ProcessModule [-Module] \u003cString\u003e [-ExecuteCompile] [-ExecuteSync] [-ExecuteDeployReports] [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString\u003e] [[-BinDir] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
@@ -9463,7 +9400,7 @@
                            "Name of the module that you want to work against\nDefault value is \"*\" which will search for all modules",
                            "ModuleName",
                            false,
-                           "false",
+                           "true (ByPropertyName)",
                            "*"
                        ],
                        [
@@ -9504,7 +9441,7 @@
         "Synopsis":  "Analyze the Visual Studio compiler output log",
         "Name":  "Invoke-D365VisualStudioCompilerResultAnalyzer",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365VisualStudioCompilerResultAnalyzer\nThis will analyse all compiler output log files generated from Visual Studio.\nA result set example:\nFile                                                            Filename\r\n----                                                            --------\r\nc:\\temp\\d365fo.tools\\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365VisualStudioCompilerResultAnalyzer -SkipWarnings\nThis will analyse all compiler output log files generated from Visual Studio.\r\nIt will exclude all warnings from the output.\nA result set example:\nFile                                                            Filename\r\n----                                                            --------\r\nc:\\temp\\d365fo.tools\\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365VisualStudioCompilerResultAnalyzer -SkipTasks\nThis will analyse all compiler output log files generated from Visual Studio.\r\nIt will exclude all tasks from the output.\nA result set example:\nFile                                                            Filename\r\n----                                                            --------\r\nc:\\temp\\d365fo.tools\\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365VisualStudioCompilerResultAnalyzer\nThis will analyse all compiler output log files generated from Visual Studio.\nA result set example:\nFile                                                            Filename\r\n----                                                            --------\r\nc:\\temp\\d365fo.tools\\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365VisualStudioCompilerResultAnalyzer -SkipWarnings\nThis will analyse all compiler output log files generated from Visual Studio.\r\nIt will exclude all warnings from the output.\nA result set example:\nFile                                                            Filename\r\n----                                                            --------\r\nc:\\temp\\d365fo.tools\\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365VisualStudioCompilerResultAnalyzer -SkipTasks\nThis will analyse all compiler output log files generated from Visual Studio.\r\nIt will exclude all tasks from the output.\nA result set example:\nFile                                                            Filename\r\n----                                                            --------\r\nc:\\temp\\d365fo.tools\\ApplicationCommon-CompilerResults.xlsx     ApplicationCommon-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationFoundation-CompilerResults.xlsx ApplicationFoundation-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationPlatform-CompilerResults.xlsx   ApplicationPlatform-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx\r\nc:\\temp\\d365fo.tools\\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365Module -Name \"MyModule\" | Invoke-D365VisualStudioCompilerResultAnalyzer\nThis will retrieve the \"MyModule\" module and pipe it to Invoke-D365VisualStudioCompilerResultAnalyzer, which generates an Excel report of the compiler results for that module.",
         "Syntax":  "Invoke-D365VisualStudioCompilerResultAnalyzer [[-Module] \u003cString\u003e] [[-OutputPath] \u003cString\u003e] [-SkipWarnings] [-SkipTasks] [[-PackageDirectory] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
@@ -9686,15 +9623,15 @@
                            "Name of the Module to analyse",
                            "ModuleName,Package",
                            true,
-                           "false",
+                           "true (ByPropertyName)",
                            ""
                        ],
                        [
                            "Model",
                            "Name of the Model to analyse",
-                           "",
+                           "ModelName",
                            true,
-                           "false",
+                           "true (ByPropertyName)",
                            ""
                        ],
                        [
@@ -9767,7 +9704,7 @@
         "Synopsis":  "Generate the Customization\u0027s Analysis Report (CAR)",
         "Name":  "New-D365CAReport",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -SuffixWithModule\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\r\nIt will append the module name to the desired output file, which will then be \"c:\\temp\\d365fo.tools\\CAReport-ApplicationSuite.xlsx\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -PackagesRoot\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the binary metadata to look for the module and model.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\"\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eNew-D365CAReport -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -SuffixWithModule\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the default value for the OutputPath parameter, which is \"c:\\temp\\d365fo.tools\\CAReport.xlsx\".\r\nIt will append the module name to the desired output file, which will then be \"c:\\temp\\d365fo.tools\\CAReport-ApplicationSuite.xlsx\".\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eNew-D365CAReport -OutputPath \"c:\\temp\\CAReport.xlsx\" -module \"ApplicationSuite\" -model \"MyOverLayerModel\" -PackagesRoot\nThis will generate a CAR report against MyOverLayerModel in the ApplicationSuite Module.\r\nIt will use the binary metadata to look for the module and model.\r\nIt will use the \"c:\\temp\\CAReport.xlsx\" value for the OutputPath parameter.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365Model -Name \"MyOverLayerModel\" | New-D365CAReport\nThis will retrieve the \"MyOverLayerModel\" model (which includes its Module property) and pipe it to New-D365CAReport.\r\nBoth the Module and Model parameters are bound from the pipeline object, generating a CAR report for that model.",
         "Syntax":  "New-D365CAReport [[-OutputPath] \u003cString\u003e] [-Module] \u003cString\u003e [-Model] \u003cString\u003e [-SuffixWithModule] [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-XmlLog] \u003cString\u003e] [-PackagesRoot] [[-LogPath] \u003cString\u003e] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
@@ -10305,9 +10242,9 @@
                        [
                            "Model",
                            "Name of the model that you want to work against",
-                           "",
+                           "ModelName",
                            true,
-                           "false",
+                           "true (ByPropertyName)",
                            ""
                        ],
                        [
@@ -10356,7 +10293,7 @@
         "Synopsis":  "Remove a model from Dynamics 365 for Finance \u0026 Operations",
         "Name":  "Remove-D365Model",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRemove-D365Model -Model CustomModelName\nThis will remove the \"CustomModelName\" model from the D365FO environment.\r\nIt will NOT remove the folders inside the PackagesLocalDirectory location.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRemove-D365Model -Model CustomModelName -DeleteFolders\nThis will remove the \"CustomModelName\" model from the D365FO environment.\r\nIt will remove the folders inside the PackagesLocalDirectory location.\r\nThis is helpful when dealing with source control and you want to remove the model entirely.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRemove-D365Model -Model CustomModelName\nThis will remove the \"CustomModelName\" model from the D365FO environment.\r\nIt will NOT remove the folders inside the PackagesLocalDirectory location.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRemove-D365Model -Model CustomModelName -DeleteFolders\nThis will remove the \"CustomModelName\" model from the D365FO environment.\r\nIt will remove the folders inside the PackagesLocalDirectory location.\r\nThis is helpful when dealing with source control and you want to remove the model entirely.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Model -Name \"MyModel\" | Remove-D365Model\nThis will retrieve the \"MyModel\" model and pipe it directly to Remove-D365Model for deletion.",
         "Syntax":  "Remove-D365Model [-Model] \u003cString\u003e [[-BinDir] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [-DeleteFolders] [-ShowOriginalProgress] [-OutputCommandOnly] [\u003cCommonParameters\u003e]"
     },
     {
