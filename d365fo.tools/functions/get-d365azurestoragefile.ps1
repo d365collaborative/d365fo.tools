@@ -90,7 +90,7 @@ function Get-D365AzureStorageFile {
 
     Invoke-TimeSignal -Start
 
-    if ([string]::IsNullOrEmpty($SAS)) {
+    if (-not $SAS) {
         Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with AccessToken"
 
         $storageContext = New-AzStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
