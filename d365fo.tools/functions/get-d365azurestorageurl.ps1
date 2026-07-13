@@ -71,9 +71,9 @@ function Get-D365AzureStorageUrl {
         [switch] $OutputAsHashtable
     )
 
-    if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
-        ([string]::IsNullOrEmpty($Container)) -or
-        ([string]::IsNullOrEmpty($SAS))) {
+    if ((-not $AccountId) -or
+        (-not $Container) -or
+        (-not $SAS)) {
         Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return
