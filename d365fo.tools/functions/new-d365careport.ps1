@@ -77,6 +77,12 @@
         It will use the binary metadata to look for the module and model.
         It will use the "c:\temp\CAReport.xlsx" value for the OutputPath parameter.
         
+    .EXAMPLE
+        PS C:\> Get-D365Model -Name "MyOverLayerModel" | New-D365CAReport
+        
+        This will retrieve the "MyOverLayerModel" model (which includes its Module property) and pipe it to New-D365CAReport.
+        Both the Module and Model parameters are bound from the pipeline object, generating a CAR report for that model.
+        
     .NOTES
         Author: Tommy Skaue (@Skaue)
         
@@ -91,12 +97,13 @@ function New-D365CAReport {
         [Alias('Path')]
         [string] $OutputPath = (Join-Path $Script:DefaultTempPath "CAReport.xlsx"),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [Alias('Package')]
         [Alias("ModuleName")]
         [string] $Module,
         
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Alias("ModelName")]
         [string] $Model,
 
         [switch] $SuffixWithModule,
@@ -116,37 +123,47 @@ function New-D365CAReport {
 
         [switch] $OutputCommandOnly
     )
-    
-    if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
 
-    $executable = Join-Path $BinDir "xppbp.exe"
-    if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
-
-    if ($SuffixWithModule) {
-        $OutputPath = $OutputPath.Replace(".xlsx", "-$Module.xlsx")
+    begin {
+        Invoke-TimeSignal -Start
     }
 
-    $params = @(
-        "-metadata=`"$MetaDataDir`"",
-        "-all",
-        "-module=`"$Module`"",
-        "-model=`"$Model`"",
-        "-xmlLog=`"$XmlLog`"",
-        "-car=`"$OutputPath`""
-    )
+    process {
+        if (-not (Test-PathExists -Path $MetaDataDir, $BinDir -Type Container)) { return }
 
-    if ($PackagesRoot -eq $true) {
-        $params += "-packagesroot=`"$MetaDataDir`""
+        $executable = Join-Path $BinDir "xppbp.exe"
+        if (-not (Test-PathExists -Path $executable -Type Leaf)) { return }
+
+        if ($SuffixWithModule) {
+            $OutputPath = $OutputPath.Replace(".xlsx", "-$Module.xlsx")
+        }
+
+        $params = @(
+            "-metadata=`"$MetaDataDir`"",
+            "-all",
+            "-module=`"$Module`"",
+            "-model=`"$Model`"",
+            "-xmlLog=`"$XmlLog`"",
+            "-car=`"$OutputPath`""
+        )
+
+        if ($PackagesRoot -eq $true) {
+            $params += "-packagesroot=`"$MetaDataDir`""
+        }
+
+        Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
+
+        Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
+
+        if (Test-PSFFunctionInterrupt) { return }
+
+        [PSCustomObject]@{
+            File     = $OutputPath
+            Filename = (Split-Path $OutputPath -Leaf)
+        }
     }
 
-    Write-PSFMessage -Level Verbose -Message "Starting the $executable with the parameter options." -Target $param
-
-    Invoke-Process -Executable $executable -Params $params -ShowOriginalProgress:$ShowOriginalProgress -OutputCommandOnly:$OutputCommandOnly -LogPath $LogPath
-
-    if (Test-PSFFunctionInterrupt) { return }
-
-    [PSCustomObject]@{
-        File     = $OutputPath
-        Filename = (Split-Path $OutputPath -Leaf)
+    end {
+        Invoke-TimeSignal -End
     }
 }
