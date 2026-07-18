@@ -114,9 +114,9 @@ function Invoke-D365AzureStorageDownload {
             return
         }
 
-        if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
-            ([string]::IsNullOrEmpty($Container)) -or
-            (([string]::IsNullOrEmpty($AccessToken)) -and ([string]::IsNullOrEmpty($SAS)))) {
+        if ((-not $AccountId) -or
+            (-not $Container) -or
+            ((-not $AccessToken) -and (-not $SAS))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
             return
@@ -129,7 +129,7 @@ function Invoke-D365AzureStorageDownload {
 
         try {
 
-            if ([string]::IsNullOrEmpty($SAS)) {
+            if (-not $SAS) {
                 Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with AccessToken"
 
                 $storageContext = New-AzStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
