@@ -93,7 +93,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -Name "Release-2019-05-05" -Filename "Release-2019-05-05.zip" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -Name "Release-2019-05-05" -Filename "Release-2019-05-05.zip" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will start the upload of a file to the Asset Library.
         The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
@@ -102,7 +102,7 @@
         The name inside the Asset Library is based on the Name "Release-2019-05-05".
         The file name inside the Asset Library is based on the FileName "Release-2019-05-05.zip".
         The description inside the Asset Library is based on the FileDescription "Build based on sprint: SuperSprint-1".
-        The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
+        The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE

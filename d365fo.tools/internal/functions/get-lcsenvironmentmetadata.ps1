@@ -71,28 +71,28 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Get-LcsEnvironmentMetadata -ProjectId 123456789 -Token "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsEnvironmentMetadata -ProjectId 123456789 -Token "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will list the first page of environment metadata from the LCS API, across all available environments.
         The ProjectId "123456789" is the desired project.
-        The Token "Bearer JldjfafLJdfjlfsalfd..." is the authentication to be used.
+        The Token "JldjfafLJdfjlfsalfd..." is the authentication to be used.
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
-        PS C:\> Get-LcsEnvironmentMetadata -ProjectId 123456789 -Token "Bearer JldjfafLJdfjlfsalfd..." -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsEnvironmentMetadata -ProjectId 123456789 -Token "JldjfafLJdfjlfsalfd..." -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will list the first page of environment metadata from the LCS API.
         The ProjectId "123456789" is the desired project.
-        The Token "Bearer JldjfafLJdfjlfsalfd..." is the authentication to be used.
+        The Token "JldjfafLJdfjlfsalfd..." is the authentication to be used.
         The EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" is the specific environment that we want metadata from.
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .EXAMPLE
-        PS C:\> Get-LcsEnvironmentMetadata -ProjectId 123456789 -Token "Bearer JldjfafLJdfjlfsalfd..." -EnvironmentName "Contoso-SIT" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsEnvironmentMetadata -ProjectId 123456789 -Token "JldjfafLJdfjlfsalfd..." -EnvironmentName "Contoso-SIT" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will list the first page of environment metadata from the LCS API.
         The ProjectId "123456789" is the desired project.
-        The Token "Bearer JldjfafLJdfjlfsalfd..." is the authentication to be used.
+        The Token "JldjfafLJdfjlfsalfd..." is the authentication to be used.
         The EnvironmentName "Contoso-SIT" is the specific environment that we want metadata from.
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         

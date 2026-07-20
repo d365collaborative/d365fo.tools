@@ -61,10 +61,10 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Get-LcsDeploymentStatusV2 -ProjectId 123456789 -Token "Bearer JldjfafLJdfjlfsalfd..." -ActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Get-LcsDeploymentStatusV2 -ProjectId 123456789 -Token "JldjfafLJdfjlfsalfd..." -ActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will start the deployment of the file located in the Asset Library with the AssetId "958ae597-f089-4811-abbd-c1190917eaae" in the LCS project with Id 123456789.
-        The http request will be using the "Bearer JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
+        The http request will be using the "JldjfafLJdfjlfsalfd..." token for authentication against the LCS API.
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
         
     .LINK

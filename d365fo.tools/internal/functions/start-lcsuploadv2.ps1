@@ -76,10 +76,10 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Start-LcsUploadV2 -Token "Bearer JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "SoftwareDeployablePackage" -Name "ReadyForTesting" -Filename "ReadyForTesting.zip" -Description "Latest release that fixes it all" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        PS C:\> Start-LcsUploadV2 -Token "JldjfafLJdfjlfsalfd..." -ProjectId 123456789 -FileType "SoftwareDeployablePackage" -Name "ReadyForTesting" -Filename "ReadyForTesting.zip" -Description "Latest release that fixes it all" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
         
         This will contact the NON-EUROPE LCS API and instruct it that we want to upload a new file to the Asset Library.
-        The token "Bearer JldjfafLJdfjlfsalfd..." is used to the authorize against the LCS API.
+        The token "JldjfafLJdfjlfsalfd..." is used to the authorize against the LCS API.
         The ProjectId is 123456789 and FileType is "SoftwareDeployablePackage".
         The file will be named "ReadyForTesting" and the Description will be "Latest release that fixes it all".
         
