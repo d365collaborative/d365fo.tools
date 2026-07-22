@@ -126,9 +126,7 @@ function Start-D365EnvironmentV2 {
     $warningActionValue = "SilentlyContinue"
     if ($ShowOriginalProgress) { $warningActionValue = "Continue" }
 
-    $Params = Get-DeepClone $PSBoundParameters
-    if ($Params.ContainsKey("ShowOriginalProgress")) { $null = $Params.Remove("ShowOriginalProgress") }
-    if ($Params.ContainsKey("OnlyStartTypeAutomatic")) { $null = $Params.Remove("OnlyStartTypeAutomatic") }
+    $Params = $PSBoundParameters | ConvertTo-PSFHashtable -ReferenceCommand Get-ServiceList
 
     $psItemExceptionsFromStartServices = New-Object -TypeName "System.Collections.ArrayList"
     $didServiceStartThrowException = $false

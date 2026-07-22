@@ -124,10 +124,7 @@ function Stop-D365Environment {
     $warningActionValue = "SilentlyContinue"
     if ($ShowOriginalProgress) { $warningActionValue = "Continue" }
 
-    $Params = Get-DeepClone $PSBoundParameters
-    if ($Params.ContainsKey("ComputerName")) { $null = $Params.Remove("ComputerName") }
-    if ($Params.ContainsKey("ShowOriginalProgress")) { $null = $Params.Remove("ShowOriginalProgress") }
-    if ($Params.ContainsKey("Kill")) { $null = $Params.Remove("Kill") }
+    $Params = $PSBoundParameters | ConvertTo-PSFHashtable -ReferenceCommand Get-ServiceList
 
     $Services = Get-ServiceList @Params
     
