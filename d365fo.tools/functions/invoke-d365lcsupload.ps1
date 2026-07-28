@@ -14,6 +14,8 @@
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
+        The "Bearer " prefix is optional. If it is missing, the cmdlet prepends it automatically, so both "Bearer <token>" and "<token>" are accepted.
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER FilePath
@@ -104,6 +106,12 @@
         The description inside the Asset Library is based on the FileDescription "Build based on sprint: SuperSprint-1".
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
+        
+    .EXAMPLE
+        PS C:\> Invoke-D365LcsUpload -ProjectId 123456789 -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -Name "Release-2019-05-05" -Filename "Release-2019-05-05.zip" -FileDescription "Build based on sprint: SuperSprint-1" -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        
+        This is identical to the previous example, but the BearerToken is supplied with the "Bearer " prefix already included.
+        Both forms are valid: the cmdlet prepends "Bearer " automatically when it is missing, so "Bearer JldjfafLJdfjlfsalfd..." and "JldjfafLJdfjlfsalfd..." produce the same result.
         
     .EXAMPLE
         PS C:\> Invoke-D365LcsUpload -FilePath "C:\temp\d365fo.tools\Release-2019-05-05.zip" -FileType "SoftwareDeployablePackage" -FileName "Release-2019-05-05.zip"

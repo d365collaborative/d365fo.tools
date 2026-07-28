@@ -14,6 +14,8 @@
     .PARAMETER BearerToken
         The token you want to use when working against the LCS api
         
+        The "Bearer " prefix is optional. If it is missing, the cmdlet prepends it automatically, so both "Bearer <token>" and "<token>" are accepted.
+        
         Default value can be configured using Set-D365LcsApiConfig
         
     .PARAMETER ActivityId
@@ -88,6 +90,12 @@
         The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
         The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
         The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
+        
+    .EXAMPLE
+        PS C:\> Get-D365LcsDeploymentStatus -ProjectId 123456789 -ActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+        
+        This is identical to the previous example, but the BearerToken is supplied with the "Bearer " prefix already included.
+        Both forms are valid: the cmdlet prepends "Bearer " automatically when it is missing, so "Bearer JldjfafLJdfjlfsalfd..." and "JldjfafLJdfjlfsalfd..." produce the same result.
         
     .EXAMPLE
         PS C:\> Get-D365LcsDeploymentStatus -ActivityId 123456789 -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
