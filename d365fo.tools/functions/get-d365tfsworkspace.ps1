@@ -36,7 +36,7 @@ function Get-D365TfsWorkspace {
         $executable = Join-Path $Path "tf.exe"
         if (!(Test-PathExists -Path $executable -Type Leaf)) { return }
 
-        if ([system.string]::IsNullOrEmpty($TfsUri)) {
+        if (-not $TfsUri) {
             Write-PSFMessage -Level Host -Message "The supplied uri <c='em'>was empty</c>. Please update the active d365 environment configuration or simply supply the -TfsUri to the cmdlet."
             Stop-PSFFunction -Message "Stopping because TFS URI is missing."
             return
