@@ -88,6 +88,20 @@ All default values will come from the configuration available from Get-D365LcsAp
 
 The default values can be configured using Set-D365LcsApiConfig.
 
+### EXAMPLE 6
+```
+$securePass = Read-Host -Prompt "Enter password" -AsSecureString
+```
+
+PS C:\\\> Get-D365LcsApiToken -Username "serviceaccount@domain.com" -Password $securePass
+
+This will obtain a valid OAuth 2.0 access token using a SecureString password.
+Using Read-Host -AsSecureString ensures the password is never stored as plain text in memory or script history.
+
+All default values will come from the configuration available from Get-D365LcsApiConfig.
+
+The default values can be configured using Set-D365LcsApiConfig.
+
 ## PARAMETERS
 
 ### -ClientId

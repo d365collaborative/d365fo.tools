@@ -32,17 +32,25 @@ Deploy a deployable package from the Asset Library from a LCS project using the 
 
 ### EXAMPLE 1
 ```
-Invoke-D365LcsDeployment -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+Invoke-D365LcsDeployment -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
 ```
 
 This will start the deployment of the file located in the Asset Library.
 The LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.
 The file is identified by the AssetId "958ae597-f089-4811-abbd-c1190917eaae", which is obtained either by earlier upload or simply looking in the LCS portal.
 The environment is identified by the EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e", which can be obtained in the LCS portal.
-The request will authenticate with the BearerToken "Bearer JldjfafLJdfjlfsalfd...".
+The request will authenticate with the BearerToken "JldjfafLJdfjlfsalfd...".
 The http request will be going to the LcsApiUri "https://lcsapi.lcs.dynamics.com" (NON-EUROPE).
 
 ### EXAMPLE 2
+```
+Invoke-D365LcsDeployment -ProjectId 123456789 -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -BearerToken "Bearer JldjfafLJdfjlfsalfd..." -LcsApiUri "https://lcsapi.lcs.dynamics.com"
+```
+
+This is identical to the previous example, but the BearerToken is supplied with the "Bearer " prefix already included.
+Both forms are valid: the cmdlet prepends "Bearer " automatically when it is missing, so "Bearer JldjfafLJdfjlfsalfd..." and "JldjfafLJdfjlfsalfd..." produce the same result.
+
+### EXAMPLE 3
 ```
 Invoke-D365LcsDeployment -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e"
 ```
@@ -55,7 +63,7 @@ All default values will come from the configuration available from Get-D365LcsAp
 
 The default values can be configured using Set-D365LcsApiConfig.
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 Invoke-D365LcsDeployment -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -UpdateName "Release_XYZ"
 ```
@@ -69,7 +77,7 @@ All default values will come from the configuration available from Get-D365LcsAp
 
 The default values can be configured using Set-D365LcsApiConfig.
 
-### EXAMPLE 4
+### EXAMPLE 5
 ```
 Invoke-D365LcsDeployment -AssetId "958ae597-f089-4811-abbd-c1190917eaae" -EnvironmentId "13cc7700-c13b-4ea3-81cd-2d26fa72ec5e" -RetryTimeout "00:01:00"
 ```
@@ -152,6 +160,9 @@ Accept wildcard characters: False
 
 ### -BearerToken
 The token you want to use when working against the LCS api
+
+The "Bearer " prefix is optional.
+If it is missing, the cmdlet prepends it automatically, so both "Bearer \<token\>" and "\<token\>" are accepted.
 
 Default value can be configured using Set-D365LcsApiConfig
 
