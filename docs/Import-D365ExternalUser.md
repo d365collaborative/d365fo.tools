@@ -36,10 +36,8 @@ The e-mail address / sign-in e-mail address will be registered as "John@contoso.
 
 ### EXAMPLE 2
 ```
-Connect-AzAccount
+Import-D365ExternalUser -Id "John" -Name "John Doe" -Email "John@contoso.com" -UpdateObjectId
 ```
-
-PS C:\\\> Import-D365ExternalUser -Id "John" -Name "John Doe" -Email "John@contoso.com" -UpdateObjectId
 
 This will import an user from an external Azure Active Directory and resolve the user's
 ObjectId from Microsoft Graph to store in D365FO.
