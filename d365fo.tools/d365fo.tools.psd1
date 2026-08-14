@@ -176,6 +176,7 @@
 		'Get-D365WindowsActivationStatus',
 
 		'Import-D365AadUser',
+		'Import-D365AadGuestUser',
 		'Import-D365AadApplication',
 		'Import-D365Bacpac',
 		'Import-D365Dacpac',
