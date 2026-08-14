@@ -176,6 +176,7 @@
 		'Get-D365WindowsActivationStatus',
 
 		'Import-D365AadUser',
+		'Import-D365AadGuestUser',
 		'Import-D365AadApplication',
 		'Import-D365Bacpac',
 		'Import-D365Dacpac',
@@ -334,6 +335,7 @@
 		'Test-D365LabelIdIsValid',
 						
 		'Update-D365BacpacModelFileSingleTable',
+		'Update-D365AadGuestUser',
 		'Update-D365User'
 	)
 

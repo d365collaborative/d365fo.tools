@@ -552,25 +552,6 @@ New-D365TopologyFile -Path C:\Temp\DefaultTopologyData.xml -Services $Services -
 ```
 *This will read the "DefaultTopologyData.xml" file and update it with the list of services from Get-D365InstalledService output*
 
-## **Working with hotfixes**
-### **Get all installed hotfixes**
-```
-Get-D365InstalledHotfix
-```
-*This will get all installed hotfixes on the machine and display all relevant information*
-
-### **Get all installed hotfixes for specific module**
-```
-Get-D365InstalledHotfix -Model "*retail*"
-```
-*This will get all installed hotfixes that relates to models with retail in their name on the machine and display all relevant information*
-
-### **Get all installed hotfixes for specific module and with specific KB number**
-```
-Get-D365InstalledHotfix -Model "*retail*" -KB "*43*"
-```
-*This will get all installed hotfixes that relates to models with retail in their name and where the KB number must contain **"43"** on the machine and display all relevant information*
-
 ## **Working with models**
 ### **Import a model file**
 ```

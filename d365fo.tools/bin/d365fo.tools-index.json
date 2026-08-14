@@ -5266,6 +5266,125 @@
         "Syntax":  "Import-D365AadApplication [-Name] \u003cString\u003e [-UserId] \u003cString\u003e [-ClientId] \u003cString\u003e [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Import-D365AadGuestUser",
+        "Description":  "Provides a method for importing a comma separated list of Aad guest users into D365FO.",
+        "Tags":  [
+                     "User",
+                     "Users",
+                     "Security",
+                     "Configuration",
+                     "Permission",
+                     "AAD",
+                     "Azure Active Directory",
+                     "Guest"
+                 ],
+        "Params":  [
+                       [
+                           "Users",
+                           "Array of users that you want to import into the D365FO environment",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "StartupCompany",
+                           "Startup company of users imported.\nDefault is DAT",
+                           "",
+                           false,
+                           "false",
+                           "DAT"
+                       ],
+                       [
+                           "DatabaseServer",
+                           "The name of the database server\nIf on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN)\nIf Azure use the full address to the database server, e.g. server.database.windows.net",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseServer"
+                       ],
+                       [
+                           "DatabaseName",
+                           "The name of the database",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseName"
+                       ],
+                       [
+                           "SqlUser",
+                           "The login name for the SQL Server instance",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseUserName"
+                       ],
+                       [
+                           "SqlPwd",
+                           "The password for the SQL Server user",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseUserPassword"
+                       ],
+                       [
+                           "IdPrefix",
+                           "A text that will be prefixed into the ID field. E.g. -IdPrefix \"EXT-\" will import users and set ID starting with \"EXT-...\"",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "NameSuffix",
+                           "A text that will be suffixed into the NAME field. E.g. -NameSuffix \"(Contoso)\" will import users and append \"(Contoso)\"\" to the NAME",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "IdValue",
+                           "Specify which field to use as ID value when importing the users.\r\nAvailable options \u0027Login\u0027 / \u0027FirstName\u0027\nDefault is \u0027Login\u0027",
+                           "",
+                           false,
+                           "false",
+                           "Login"
+                       ],
+                       [
+                           "NameValue",
+                           "Specify which field to use as NAME value when importing the users.\r\nAvailable options \u0027FirstName\u0027 / \u0027DisplayName\u0027\nDefault is \u0027DisplayName\u0027",
+                           "",
+                           false,
+                           "false",
+                           "DisplayName"
+                       ],
+                       [
+                           "AzureAdCredential",
+                           "Use a PSCredential object for connecting with AzureAd",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "TenantId",
+                           "The TenantId to use when connecting to Azure Active Directory\nUses the tenant id of the current environment if not specified.",
+                           "",
+                           false,
+                           "false",
+                           "$Script:TenantId"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Used to import Aad guest users into D365FO",
+        "Name":  "Import-D365AadGuestUser",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eImport-D365AadGuestUser -Users \"Claire@contoso.com\",\"Allen@contoso.com\"\nImports Claire and Allen as guest users\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003e$myPassword = ConvertTo-SecureString \"MyPasswordIsSecret\" -AsPlainText -Force\nPS C:\\\u003e $myCredentials = New-Object System.Management.Automation.PSCredential (\"MyEmailIsAlso\", $myPassword)\nPS C:\\\u003e Import-D365AadGuestUser -Users \"Claire@contoso.com\",\"Allen@contoso.com\" -AzureAdCredential $myCredentials\nThis will import Claire and Allen as guest users.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eImport-D365AadGuestUser -Users \"Claire@contoso.com\",\"Allen@contoso.com\" -TenantId \"99999999-aaaa-bbbb-cccc-9999999999\"\nImports Claire and Allen as guest users. Uses tenant id \"99999999-aaaa-bbbb-cccc-9999999999\"\r\nwhen connecting to Azure Active Directory(AAD).",
+        "Syntax":  "Import-D365AadGuestUser [-Users] \u003cString[]\u003e [[-StartupCompany] \u003cString\u003e] [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [[-IdPrefix] \u003cString\u003e] [[-NameSuffix] \u003cString\u003e] [[-IdValue] \u003cString\u003e] [[-NameValue] \u003cString\u003e] [[-AzureAdCredential] \u003cPSCredential\u003e] [[-TenantId] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Import-D365AadUser",
         "Description":  "Provides a method for importing a AAD UserGroup or a comma separated list of AadUsers into D365FO.",
         "Tags":  [
@@ -12111,6 +12230,85 @@
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\u003eTest-D365LabelIdIsValid -LabelId \"ABC123\"\nThis will test the if the LabelId is valid.\r\nIt will use the \"ABC123\" as the LabelId parameter.\nThe expected result is $true\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\u003eTest-D365LabelIdIsValid -LabelId \"@ABC123\"\nThis will test the if the LabelId is valid.\r\nIt will use the \"@ABC123\" as the LabelId parameter.\nThe expected result is $true\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\u003eTest-D365LabelIdIsValid -LabelId \"@ABC123_1\"\nThis will test the if the LabelId is valid.\r\nIt will use the \"@ABC123_1\" as the LabelId parameter.\nThe expected result is $false\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\u003eTest-D365LabelIdIsValid -LabelId \"ABC.123\" #False\nThis will test the if the LabelId is valid.\r\nIt will use the \"ABC.123\" as the LabelId parameter.\nThe expected result is $false",
         "Syntax":  "Test-D365LabelIdIsValid [-LabelId] \u003cString\u003e [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Update-D365AadGuestUser",
+        "Description":  "Is capable of updating the identity provider and network domain inside the UserInfo table for AAD guest users",
+        "Tags":  [
+                     "User",
+                     "Users",
+                     "Security",
+                     "Configuration",
+                     "Permission",
+                     "AAD",
+                     "Azure Active Directory",
+                     "Guest"
+                 ],
+        "Params":  [
+                       [
+                           "DatabaseServer",
+                           "The name of the database server\nIf on-premises or classic SQL Server, use either short name og Fully Qualified Domain Name (FQDN).\nIf Azure use the full address to the database server, e.g. server.database.windows.net",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseServer"
+                       ],
+                       [
+                           "DatabaseName",
+                           "The name of the database",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseName"
+                       ],
+                       [
+                           "SqlUser",
+                           "The login name for the SQL Server instance",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseUserName"
+                       ],
+                       [
+                           "SqlPwd",
+                           "The password for the SQL Server user",
+                           "",
+                           false,
+                           "false",
+                           "$Script:DatabaseUserPassword"
+                       ],
+                       [
+                           "Email",
+                           "The search string to select which user(s) should be updated.\nThe parameter supports wildcards. E.g. -Email \"*@contoso.com*\"",
+                           "",
+                           true,
+                           "true (ByPropertyName)",
+                           ""
+                       ],
+                       [
+                           "AzureAdCredential",
+                           "Use a PSCredential object for connecting with AzureAd",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "TenantId",
+                           "The TenantId to use when connecting to Azure Active Directory\nUses the tenant id of the current environment if not specified.",
+                           "",
+                           false,
+                           "false",
+                           "$Script:TenantId"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Updates the guest user details in the database",
+        "Name":  "Update-D365AadGuestUser",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"claire@contoso.com\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"*contoso.com\"\nThis will search for all users with an e-mail address containing \u0027contoso.com\u0027 and update them with the identity provider and network domain needed for an AAD guest user\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"claire@contoso.com\" -TenantId \"99999999-aaaa-bbbb-cccc-9999999999\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user.\r\nUses tenant id \"99999999-aaaa-bbbb-cccc-9999999999\" when connecting to Azure Active Directory(AAD).",
+        "Syntax":  "Update-D365AadGuestUser [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-Email] \u003cString\u003e [[-AzureAdCredential] \u003cPSCredential\u003e] [[-TenantId] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Update-D365BacpacModelFileSingleTable",
