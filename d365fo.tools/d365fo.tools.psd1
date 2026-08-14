@@ -335,7 +335,7 @@
 		'Test-D365LabelIdIsValid',
 						
 		'Update-D365BacpacModelFileSingleTable',
-		'Update-D365AddGuestUser',
+		'Update-D365AadGuestUser',
 		'Update-D365User'
 	)
 

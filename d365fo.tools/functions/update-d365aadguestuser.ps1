@@ -4,7 +4,7 @@
         Updates the guest user details in the database
         
     .DESCRIPTION
-        Is capable of updating the identity provider and network domain inside the UserInfo table for AAD guest users
+        Is capable of updating the identity provider, network domain and object id inside the UserInfo table for AAD guest users
         
     .PARAMETER DatabaseServer
         The name of the database server
@@ -36,19 +36,19 @@
         Uses the tenant id of the current environment if not specified.
         
     .EXAMPLE
-        PS C:\> Update-D365AddGuestUser -Email "claire@contoso.com"
+        PS C:\> Update-D365AadGuestUser -Email "claire@contoso.com"
         
-        This will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user
-        
-    .EXAMPLE
-        PS C:\> Update-D365AddGuestUser -Email "*contoso.com"
-        
-        This will search for all users with an e-mail address containing 'contoso.com' and update them with the identity provider and network domain needed for an AAD guest user
+        This will search for the user with the e-mail address claire@contoso.com and update it with the identity provider, network domain and object id needed for an AAD guest user
         
     .EXAMPLE
-        PS C:\> Update-D365AddGuestUser -Email "claire@contoso.com" -TenantId "99999999-aaaa-bbbb-cccc-9999999999"
+        PS C:\> Update-D365AadGuestUser -Email "*contoso.com"
         
-        This will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user.
+        This will search for all users with an e-mail address containing 'contoso.com' and update them with the identity provider, network domain and object id needed for an AAD guest user
+        
+    .EXAMPLE
+        PS C:\> Update-D365AadGuestUser -Email "claire@contoso.com" -TenantId "99999999-aaaa-bbbb-cccc-9999999999"
+        
+        This will search for the user with the e-mail address claire@contoso.com and update it with the identity provider, network domain and object id needed for an AAD guest user.
         Uses tenant id "99999999-aaaa-bbbb-cccc-9999999999" when connecting to Azure Active Directory(AAD).
         
     .NOTES
@@ -59,7 +59,7 @@
         At no circumstances can this cmdlet be used to update users in a PROD environment.
         
 #>
-function Update-D365AddGuestUser {
+function Update-D365AadGuestUser {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
@@ -138,10 +138,11 @@ function Update-D365AddGuestUser {
 
                 $provider = $canonicalProvider
                 $networkDomain = $canonicalProvider
+                $resolvedObjectId = $aadUser.id
 
-                Write-PSFMessage -Level Verbose -Message "Updating $($user.Email) - Provider $provider"
+                Write-PSFMessage -Level Verbose -Message "Updating $($user.Email) - Provider $provider - ObjectId $resolvedObjectId"
 
-                Update-AadGuestUserInD365FO -SqlCommand $SqlCommand -Id $user.UserId -IdentityProvider $provider -NetworkDomain $networkDomain
+                Update-AadGuestUserInD365FO -SqlCommand $SqlCommand -Id $user.UserId -IdentityProvider $provider -NetworkDomain $networkDomain -ObjectId $resolvedObjectId
 
                 if (Test-PSFFunctionInterrupt) { return }
 

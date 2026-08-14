@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Update-D365AddGuestUser
+# Update-D365AadGuestUser
 
 ## SYNOPSIS
 Updates the guest user details in the database
@@ -13,36 +13,36 @@ Updates the guest user details in the database
 ## SYNTAX
 
 ```
-Update-D365AddGuestUser [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
+Update-D365AadGuestUser [[-DatabaseServer] <String>] [[-DatabaseName] <String>] [[-SqlUser] <String>]
  [[-SqlPwd] <String>] [-Email] <String> [[-AzureAdCredential] <PSCredential>] [[-TenantId] <String>]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Is capable of updating the identity provider and network domain inside the UserInfo table for AAD guest users
+Is capable of updating the identity provider, network domain and object id inside the UserInfo table for AAD guest users
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Update-D365AddGuestUser -Email "claire@contoso.com"
+Update-D365AadGuestUser -Email "claire@contoso.com"
 ```
 
-This will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user
+This will search for the user with the e-mail address claire@contoso.com and update it with the identity provider, network domain and object id needed for an AAD guest user
 
 ### EXAMPLE 2
 ```
-Update-D365AddGuestUser -Email "*contoso.com"
+Update-D365AadGuestUser -Email "*contoso.com"
 ```
 
-This will search for all users with an e-mail address containing 'contoso.com' and update them with the identity provider and network domain needed for an AAD guest user
+This will search for all users with an e-mail address containing 'contoso.com' and update them with the identity provider, network domain and object id needed for an AAD guest user
 
 ### EXAMPLE 3
 ```
-Update-D365AddGuestUser -Email "claire@contoso.com" -TenantId "99999999-aaaa-bbbb-cccc-9999999999"
+Update-D365AadGuestUser -Email "claire@contoso.com" -TenantId "99999999-aaaa-bbbb-cccc-9999999999"
 ```
 
-This will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user.
+This will search for the user with the e-mail address claire@contoso.com and update it with the identity provider, network domain and object id needed for an AAD guest user.
 Uses tenant id "99999999-aaaa-bbbb-cccc-9999999999" when connecting to Azure Active Directory(AAD).
 
 ## PARAMETERS

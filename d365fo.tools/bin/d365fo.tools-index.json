@@ -12232,7 +12232,7 @@
         "Syntax":  "Test-D365LabelIdIsValid [-LabelId] \u003cString\u003e [\u003cCommonParameters\u003e]"
     },
     {
-        "CommandName":  "Update-D365AddGuestUser",
+        "CommandName":  "Update-D365AadGuestUser",
         "Description":  "Is capable of updating the identity provider and network domain inside the UserInfo table for AAD guest users",
         "Tags":  [
                      "User",
@@ -12305,10 +12305,10 @@
         "Alias":  "",
         "Author":  "Mötz Jensen (@Splaxi)",
         "Synopsis":  "Updates the guest user details in the database",
-        "Name":  "Update-D365AddGuestUser",
+        "Name":  "Update-D365AadGuestUser",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eUpdate-D365AddGuestUser -Email \"claire@contoso.com\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eUpdate-D365AddGuestUser -Email \"*contoso.com\"\nThis will search for all users with an e-mail address containing \u0027contoso.com\u0027 and update them with the identity provider and network domain needed for an AAD guest user\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eUpdate-D365AddGuestUser -Email \"claire@contoso.com\" -TenantId \"99999999-aaaa-bbbb-cccc-9999999999\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user.\r\nUses tenant id \"99999999-aaaa-bbbb-cccc-9999999999\" when connecting to Azure Active Directory(AAD).",
-        "Syntax":  "Update-D365AddGuestUser [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-Email] \u003cString\u003e [[-AzureAdCredential] \u003cPSCredential\u003e] [[-TenantId] \u003cString\u003e] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"claire@contoso.com\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"*contoso.com\"\nThis will search for all users with an e-mail address containing \u0027contoso.com\u0027 and update them with the identity provider and network domain needed for an AAD guest user\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"claire@contoso.com\" -TenantId \"99999999-aaaa-bbbb-cccc-9999999999\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user.\r\nUses tenant id \"99999999-aaaa-bbbb-cccc-9999999999\" when connecting to Azure Active Directory(AAD).",
+        "Syntax":  "Update-D365AadGuestUser [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-Email] \u003cString\u003e [[-AzureAdCredential] \u003cPSCredential\u003e] [[-TenantId] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Update-D365BacpacModelFileSingleTable",

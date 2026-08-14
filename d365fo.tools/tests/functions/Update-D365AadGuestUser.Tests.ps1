@@ -1,4 +1,4 @@
-﻿Describe "Update-D365AddGuestUser Unit Tests" -Tag "Unit" {
+﻿Describe "Update-D365AadGuestUser Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -8,11 +8,11 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Update-D365AddGuestUser).ParameterSets.Name | Should -Be '__AllParameterSets'
+			(Get-Command Update-D365AadGuestUser).ParameterSets.Name | Should -Be '__AllParameterSets'
 		}
 		
 		It 'Should have the expected parameter DatabaseServer' {
-			$parameter = (Get-Command Update-D365AddGuestUser).Parameters['DatabaseServer']
+			$parameter = (Get-Command Update-D365AadGuestUser).Parameters['DatabaseServer']
 			$parameter.Name | Should -Be 'DatabaseServer'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
@@ -25,7 +25,7 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter DatabaseName' {
-			$parameter = (Get-Command Update-D365AddGuestUser).Parameters['DatabaseName']
+			$parameter = (Get-Command Update-D365AadGuestUser).Parameters['DatabaseName']
 			$parameter.Name | Should -Be 'DatabaseName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
@@ -38,7 +38,7 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter SqlUser' {
-			$parameter = (Get-Command Update-D365AddGuestUser).Parameters['SqlUser']
+			$parameter = (Get-Command Update-D365AadGuestUser).Parameters['SqlUser']
 			$parameter.Name | Should -Be 'SqlUser'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
@@ -51,7 +51,7 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter SqlPwd' {
-			$parameter = (Get-Command Update-D365AddGuestUser).Parameters['SqlPwd']
+			$parameter = (Get-Command Update-D365AadGuestUser).Parameters['SqlPwd']
 			$parameter.Name | Should -Be 'SqlPwd'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
@@ -64,7 +64,7 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter Email' {
-			$parameter = (Get-Command Update-D365AddGuestUser).Parameters['Email']
+			$parameter = (Get-Command Update-D365AadGuestUser).Parameters['Email']
 			$parameter.Name | Should -Be 'Email'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
@@ -77,7 +77,7 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter AzureAdCredential' {
-			$parameter = (Get-Command Update-D365AddGuestUser).Parameters['AzureAdCredential']
+			$parameter = (Get-Command Update-D365AadGuestUser).Parameters['AzureAdCredential']
 			$parameter.Name | Should -Be 'AzureAdCredential'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.PSCredential
 			$parameter.IsDynamic | Should -Be $False
@@ -90,7 +90,7 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter TenantId' {
-			$parameter = (Get-Command Update-D365AddGuestUser).Parameters['TenantId']
+			$parameter = (Get-Command Update-D365AadGuestUser).Parameters['TenantId']
 			$parameter.Name | Should -Be 'TenantId'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
