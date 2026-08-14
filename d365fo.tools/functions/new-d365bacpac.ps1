@@ -296,7 +296,7 @@ function New-D365Bacpac {
             if (Test-PSFFunctionInterrupt) { return }
 
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 1 - Remove database from SQL"
-            Remove-D365Database @Params
+            Remove-D365Database @Params -Confirm:$false
 
             [PSCustomObject]@{
                 File     = $BacpacFile
@@ -337,7 +337,7 @@ function New-D365Bacpac {
             if (Test-PSFFunctionInterrupt) { return }
             
             Write-PSFMessage -Level Verbose -Message "Invoking the Tier 2 - Remove database from Azure DB"
-            Remove-D365Database @Params
+            Remove-D365Database @Params -Confirm:$false
 
             if (Test-PSFFunctionInterrupt) {
                 $messageString = "The bacpac file was created correctly, but there was an error while <c='em'>removing</c> the cloned database."

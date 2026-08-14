@@ -105,9 +105,9 @@ function Invoke-D365AzureStorageUpload {
         [switch] $EnableException
     )
     BEGIN {
-        if (([string]::IsNullOrEmpty($AccountId) -eq $true) -or
-            ([string]::IsNullOrEmpty($Container)) -or
-            (([string]::IsNullOrEmpty($AccessToken)) -and ([string]::IsNullOrEmpty($SAS)))) {
+        if ((-not $AccountId) -or
+            (-not $Container) -or
+            ((-not $AccessToken) -and (-not $SAS))) {
             Write-PSFMessage -Level Host -Message "It seems that you are missing some of the parameters. Please make sure that you either supplied them or have the right configuration saved."
             Stop-PSFFunction -Message "Stopping because of missing parameters"
             return
@@ -121,7 +121,7 @@ function Invoke-D365AzureStorageUpload {
         $FileName = Split-Path -Path $Filepath -Leaf
         try {
 
-            if ([string]::IsNullOrEmpty($SAS)) {
+            if (-not $SAS) {
                 Write-PSFMessage -Level Verbose -Message "Working against Azure Storage Account with AccessToken"
 
                 $storageContext = New-AzStorageContext -StorageAccountName $AccountId.ToLower() -StorageAccountKey $AccessToken
@@ -136,7 +136,7 @@ function Invoke-D365AzureStorageUpload {
 
             Write-PSFMessage -Level Verbose -Message "Start uploading the file to Azure"
 
-            if ([string]::IsNullOrEmpty($ContentType)) {
+            if (-not $ContentType) {
                 $ContentType = [System.Web.MimeMapping]::GetMimeMapping($Filepath) # Available since .NET4.5, so it can be used with PowerShell 5.0 and higher.
 
                 Write-PSFMessage -Level Verbose -Message "Content Type is automatically set to value: $ContentType"

@@ -7,11 +7,11 @@ One of the benefits of having a feature branch is that if you want to submit mul
 ## **Create a new branch from the desktop client**
 
 1. Make sure that you have selected your local repository
-2. Make sure that you have selected the development branch
+2. Make sure that you have selected the master branch
 
 [[images/Branch.001.png]]
 
-3. Click on the **development** branch icon in the top
+3. Click on the **master** branch icon in the top
 4. Click on the **New branch** button in the drop down menu
 
 [[images/Branch.002.png]]
@@ -36,6 +36,6 @@ One of the benefits of having a feature branch is that if you want to submit mul
 [[images/Branch.006.png]]
 
 11. Your default browser will now load and go to github
-12. Make sure that you compared the branch against the **development** branch in the d365fo.tools repository
+12. Make sure that you compared the branch against the **master** branch in the d365fo.tools repository
 
 [[images/Branch.007.png]]

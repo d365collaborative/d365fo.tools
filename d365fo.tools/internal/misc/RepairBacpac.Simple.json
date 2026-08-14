@@ -6,5 +6,9 @@
     {
         "Search": "*<Element Type=\"SqlPermissionStatement\"*ms_db_configwriter*",
         "End": "*</Element>*"
+    },
+	{
+        "Search": "*<Element Type=\"SqlPermissionStatement\"*KillDatabaseConnection*",
+        "End": "*</Element>*"
     }
 ]

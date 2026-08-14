@@ -76,6 +76,14 @@ For every value of the list perform the following:
 
 The default output from all the different steps will be silenced.
 
+### EXAMPLE 5
+```
+Get-D365Module -Name "MyModule" | Invoke-D365ProcessModule -ExecuteCompile -ExecuteSync
+```
+
+This will retrieve the "MyModule" module from the environment and pipe it directly to Invoke-D365ProcessModule.
+The module will be compiled and the database will be synchronized.
+
 ## PARAMETERS
 
 ### -Module
@@ -95,7 +103,7 @@ Aliases: ModuleName
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

@@ -54,8 +54,7 @@ function Get-AzureServiceObjective {
         [switch] $EnableException
     )
     
-    $Params = Get-DeepClone $PSBoundParameters
-    if($Params.ContainsKey("EnableException")){$null = $Params.Remove("EnableException")}
+    $Params = $PSBoundParameters | ConvertTo-PSFHashtable -ReferenceCommand Get-SqlCommand
 
     $sqlCommand = Get-SqlCommand @Params -TrustedConnection $false
 

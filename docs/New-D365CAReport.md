@@ -57,6 +57,14 @@ This will generate a CAR report against MyOverLayerModel in the ApplicationSuite
 It will use the binary metadata to look for the module and model.
 It will use the "c:\temp\CAReport.xlsx" value for the OutputPath parameter.
 
+### EXAMPLE 5
+```
+Get-D365Model -Name "MyOverLayerModel" | New-D365CAReport
+```
+
+This will retrieve the "MyOverLayerModel" model (which includes its Module property) and pipe it to New-D365CAReport.
+Both the Module and Model parameters are bound from the pipeline object, generating a CAR report for that model.
+
 ## PARAMETERS
 
 ### -OutputPath
@@ -87,7 +95,7 @@ Aliases: ModuleName, Package
 Required: True
 Position: 2
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -97,12 +105,12 @@ Name of the Model to analyse
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ModelName
 
 Required: True
 Position: 3
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

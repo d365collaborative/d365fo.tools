@@ -12,13 +12,13 @@ jobs:
     name: Generate text
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache Powershell Modules
       id: cache-powershell-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: C:\Users\runneradmin\Documents\WindowsPowerShell\Modules
-        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1, **/buildtools.ps1') }}
+        key: 20210527|${{ hashFiles('**/vsts-prerequisites.ps1', '**/buildtools.ps1') }}
     - name: Prerequisites
       if: steps.cache-powershell-modules.outputs.cache-hit != 'true'
       shell: powershell
@@ -40,7 +40,7 @@ jobs:
       shell: powershell
       run: build\generate-findcommandindex.ps1
     - name: Create a pull request for changes
-      uses: peter-evans/create-pull-request@v5
+      uses: peter-evans/create-pull-request@v7
       with:
         commit-message: | 
           🤖 Fix best practice deviations
@@ -48,3 +48,4 @@ jobs:
           This pull request was automatically created by the d365fo.tools-Generate-Text action'
         title: '🤖 Fix best practice deviations'
         body: 'This pull request was automatically created by the d365fo.tools-Generate-Text action. See [Building tools](https://github.com/d365collaborative/d365fo.tools/wiki/Building-tools) for more information.'
+        branch: 'update-generated-text/pull-request-patch-for-branch-${{ github.ref_name }}'        

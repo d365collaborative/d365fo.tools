@@ -122,10 +122,7 @@ function Start-D365Environment {
     $warningActionValue = "SilentlyContinue"
     if ($ShowOriginalProgress) { $warningActionValue = "Continue" }
 
-    $Params = Get-DeepClone $PSBoundParameters
-    if ($Params.ContainsKey("ComputerName")) { $null = $Params.Remove("ComputerName") }
-    if ($Params.ContainsKey("ShowOriginalProgress")) { $null = $Params.Remove("ShowOriginalProgress") }
-    if ($Params.ContainsKey("OnlyStartTypeAutomatic")) { $null = $Params.Remove("OnlyStartTypeAutomatic") }
+    $Params = $PSBoundParameters | ConvertTo-PSFHashtable -ReferenceCommand Get-ServiceList
 
     $Services = Get-ServiceList @Params
 

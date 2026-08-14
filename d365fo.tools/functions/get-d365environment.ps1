@@ -123,10 +123,7 @@ function Get-D365Environment {
         return
     }
 
-    $Params = Get-DeepClone $PSBoundParameters
-    if($Params.ContainsKey("ComputerName")){$null = $Params.Remove("ComputerName")}
-    if($Params.ContainsKey("OutputServiceDetailsOnly")){$null = $Params.Remove("OutputServiceDetailsOnly")}
-    if($Params.ContainsKey("OnlyStartTypeAutomatic")){$null = $Params.Remove("OnlyStartTypeAutomatic")}
+    $Params = $PSBoundParameters | ConvertTo-PSFHashtable -ReferenceCommand Get-ServiceList
 
     $Services = Get-ServiceList @Params
 

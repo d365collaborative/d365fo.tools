@@ -171,7 +171,7 @@ function Invoke-D365DbSyncPartial {
             "-tableextensionlist=`"$($SyncExtensionsList -join ',')`"",
             "-verbosity=$($Verbosity.ToLower())",
             "-metadatabinaries=`"$MetadataDir`"",
-            "-connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password=$SqlPwd;`""
+            "-connect=`"server=$DatabaseServer;Database=$DatabaseName; User Id=$SqlUser;Password='$SqlPwd';`""
         )
 
         Write-PSFMessage -Level Debug -Message "Starting the SyncEngine with the parameters." -Target $param

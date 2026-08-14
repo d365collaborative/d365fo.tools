@@ -77,7 +77,7 @@ Function Get-AxDataEntities {
         foreach ($tuple in $dataEntityModelInfos) {
             $elementName = $tuple.Item1
 
-            $element = $metadataProvider.DataEntityViews.Read($elementName)
+            $element = [Microsoft.Dynamics.AX.Metadata.Storage.Extension.ExtensionMethods]::ReadDataEntityViewWithExtensions($metadataProvider, $elementName, $null, $null)
 
             #
             # Build list of DataSources

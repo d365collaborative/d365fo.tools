@@ -111,8 +111,7 @@ function Restart-D365Environment {
 
     Stop-D365Environment @PSBoundParameters | Format-Table
     
-    $parms = Get-DeepClone $PSBoundParameters
-    if ($parms.ContainsKey("Kill")) { $null = $Params.Remove("Kill") }
+    $parms = $PSBoundParameters | ConvertTo-PSFHashtable -ReferenceCommand Start-D365Environment
 
     Start-D365Environment @parms | Format-Table
 }

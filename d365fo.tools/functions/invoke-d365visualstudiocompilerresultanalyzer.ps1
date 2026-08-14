@@ -76,6 +76,11 @@
         c:\temp\d365fo.tools\ApplicationSuite-CompilerResults.xlsx      ApplicationSuite-CompilerResults.xlsx
         c:\temp\d365fo.tools\ApplicationWorkspaces-CompilerResults.xlsx ApplicationWorkspaces-CompilerResults.xlsx
         
+    .EXAMPLE
+        PS C:\> Get-D365Module -Name "MyModule" | Invoke-D365VisualStudioCompilerResultAnalyzer
+        
+        This will retrieve the "MyModule" module and pipe it to Invoke-D365VisualStudioCompilerResultAnalyzer, which generates an Excel report of the compiler results for that module.
+        
     .NOTES
         Tags: Compiler, Build, Errors, Warnings, Tasks
         
@@ -98,6 +103,7 @@ function Invoke-D365VisualStudioCompilerResultAnalyzer {
     [CmdletBinding()]
     [OutputType('')]
     param (
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [Alias("ModuleName")]
         [string] $Module = "*",
 
@@ -110,19 +116,25 @@ function Invoke-D365VisualStudioCompilerResultAnalyzer {
         [string] $PackageDirectory = $Script:PackageDirectory
     )
 
-    Invoke-TimeSignal -Start
-
-    if (-not (Test-PathExists -Path $PackageDirectory -Type Container)) { return }
-    
-    $buildOutputFiles = Get-ChildItem -Path "$PackageDirectory\$Module\BuildModelResult.log" -ErrorAction SilentlyContinue -Force
-
-    foreach ($result in $buildOutputFiles) {
-        
-        $moduleName = Split-Path -Path $result.DirectoryName -Leaf
-        $outputFilePath = Join-Path -Path $OutputPath -ChildPath "$moduleName-CompilerResults.xlsx"
-
-        Invoke-CompilerResultAnalyzer -Path $result.FullName -Identifier $moduleName -OutputPath $outputFilePath -SkipWarnings:$SkipWarnings -SkipTasks:$SkipTasks -PackageDirectory $PackageDirectory
+    begin {
+        Invoke-TimeSignal -Start
     }
 
-    Invoke-TimeSignal -End
+    process {
+        if (-not (Test-PathExists -Path $PackageDirectory -Type Container)) { return }
+        
+        $buildOutputFiles = Get-ChildItem -Path "$PackageDirectory\$Module\BuildModelResult.log" -ErrorAction SilentlyContinue -Force
+
+        foreach ($result in $buildOutputFiles) {
+            
+            $moduleName = Split-Path -Path $result.DirectoryName -Leaf
+            $outputFilePath = Join-Path -Path $OutputPath -ChildPath "$moduleName-CompilerResults.xlsx"
+
+            Invoke-CompilerResultAnalyzer -Path $result.FullName -Identifier $moduleName -OutputPath $outputFilePath -SkipWarnings:$SkipWarnings -SkipTasks:$SkipTasks -PackageDirectory $PackageDirectory
+        }
+    }
+
+    end {
+        Invoke-TimeSignal -End
+    }
 }

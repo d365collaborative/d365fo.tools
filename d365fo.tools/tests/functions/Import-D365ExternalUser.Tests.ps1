@@ -89,6 +89,32 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter UpdateObjectId' {
+			$parameter = (Get-Command Import-D365ExternalUser).Parameters['UpdateObjectId']
+			$parameter.Name | Should -Be 'UpdateObjectId'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter ObjectId' {
+			$parameter = (Get-Command Import-D365ExternalUser).Parameters['ObjectId']
+			$parameter.Name | Should -Be 'ObjectId'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 6
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter DatabaseServer' {
 			$parameter = (Get-Command Import-D365ExternalUser).Parameters['DatabaseServer']
 			$parameter.Name | Should -Be 'DatabaseServer'
@@ -97,7 +123,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 6
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 7
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -110,7 +136,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 7
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 8
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -123,7 +149,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 8
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 9
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -136,7 +162,7 @@
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 9
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 10
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -146,7 +172,7 @@
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -Id -Name -Email
-		__AllParameterSets -Id -Name -Email -Enabled -Company -Language -DatabaseServer -DatabaseName -SqlUser -SqlPwd
+		__AllParameterSets -Id -Name -Email -Enabled -Company -Language -UpdateObjectId -ObjectId -DatabaseServer -DatabaseName -SqlUser -SqlPwd
 		#>
 	}
 

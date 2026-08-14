@@ -28,9 +28,8 @@
 	# To enable the GitHub dependency graph, changes should be synchronized with
 	# https://github.com/d365collaborative/d365fo.tools/blob/master/.github/workflows/dependencies.yml
 	RequiredModules   = @(
-		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.12' }
+		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.9.308' }
 		, @{ ModuleName = 'Az.Storage'; ModuleVersion = '1.11.0' }
-		, @{ ModuleName = 'AzureAd'; ModuleVersion = '2.0.1.16' }
 		, @{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.3.0' }
 		, @{ ModuleName = 'ImportExcel'; ModuleVersion = '7.1.0' }
 	)
@@ -66,19 +65,18 @@
 		'Clear-D365TempDbTables',
 		'ConvertTo-D365Dacpac',
 
-		'Publish-D365SsrsReport',
-
 		'Disable-D365MaintenanceMode'
 		'Disable-D365SqlChangeTracking',
 		'Disable-D365User',
 		'Disable-D365Flight',
 		'Disable-D365Exception',
-
+		'Disable-D365IISPreload',
 		'Enable-D365Exception',
 		'Enable-D365MaintenanceMode',
 		'Enable-D365SqlChangeTracking',
 		'Enable-D365User',
 		'Enable-D365Flight',
+		'Enable-D365IISPreload',
 
 		'Export-D365BacpacModelFile',
 		'Export-D365Model',
@@ -117,10 +115,10 @@
 		'Get-D365ExternalIP',
 
 		'Get-D365Flight',
-		
+		'Get-D365IISPreload',
+
 		'Get-D365JsonService',
 
-		'Get-D365InstalledHotfix',
 		'Get-D365InstalledPackage',
 		'Get-D365InstalledService',
 		'Get-D365InstanceName',
@@ -178,6 +176,7 @@
 		'Get-D365WindowsActivationStatus',
 
 		'Import-D365AadUser',
+		'Import-D365AadGuestUser',
 		'Import-D365AadApplication',
 		'Import-D365Bacpac',
 		'Import-D365Dacpac',
@@ -262,6 +261,9 @@
 		'New-D365ModuleToRemove',
 		'New-D365TopologyFile',
 
+		'Publish-D365WebResources',
+		'Publish-D365SsrsReport',
+
 		'Register-D365AzureStorageConfig',
 		
 		'Remove-D365LcsAssetFile',
@@ -333,6 +335,7 @@
 		'Test-D365LabelIdIsValid',
 						
 		'Update-D365BacpacModelFileSingleTable',
+		'Update-D365AadGuestUser',
 		'Update-D365User'
 	)
 
