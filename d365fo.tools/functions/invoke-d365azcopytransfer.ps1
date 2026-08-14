@@ -138,7 +138,7 @@ function Invoke-D365AzCopyTransfer {
 
         Invoke-TimeSignal -Start
 
-        if (-not [string]::IsNullOrEmpty($FileName)) {
+        if ($FileName) {
             if ($DestinationUri -like "*?*") {
                 $DestinationUri = $DestinationUri.Replace("?", "/$FileName`?")
             }
@@ -189,7 +189,7 @@ function Invoke-D365AzCopyTransfer {
             PSTypeName = 'D365FO.TOOLS.AZCOPYTRANSFER'
         }
 
-        if (-not [string]::IsNullOrEmpty($FileName)) {
+        if ($FileName) {
             $res.FileName = $FileName
         }
 
