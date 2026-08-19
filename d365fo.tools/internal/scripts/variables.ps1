@@ -87,6 +87,9 @@ elseif ($infrastructure.HostName -like "*sandbox.ax.dynamics.com*") {
 elseif ($infrastructure.HostName -like "*sandbox.operations.*dynamics.com*") {
     $Script:EnvironmentType = [EnvironmentType]::MSHostedTier2
 }
+elseif ($environment.Infrastructure.HostName -eq "UnifiedDevelopmentEnvironment") {
+    $Script:EnvironmentType = [EnvironmentType]::UnifiedDevelopmentEnvironment
+}
 $Script:Url = $infrastructure.HostUrl
 
 $Script:Company = "DAT"
