@@ -294,12 +294,12 @@ function Import-D365Bacpac {
         MaxParallelism = $MaxParallelism
     }
 
-    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
+    if ($DiagnosticFile) {
         if (-not (Test-PathExists -Path (Split-Path $DiagnosticFile -Parent) -Type Container -Create)) { return }
         $ImportParams.DiagnosticFile = $DiagnosticFile
     }
 
-    if (-not [system.string]::IsNullOrEmpty($ModelFile)) {
+    if ($ModelFile) {
         if (-not (Test-PathExists -Path $ModelFile -Type Leaf)) { return }
 
         $ImportParams.ModelFile = $ModelFile

@@ -55,7 +55,7 @@ function Test-PathExists {
          
     foreach ($item in $Path) {
 
-        if ([string]::IsNullOrEmpty($item)) {
+        if (-not $item) {
             Stop-PSFFunction -Message "Stopping because path was either null or empty string." -StepsUpward 1
             return
         }

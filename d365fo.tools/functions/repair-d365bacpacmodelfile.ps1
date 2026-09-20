@@ -170,7 +170,7 @@ function Repair-D365BacpacModelFile {
 
         if (Test-PSFFunctionInterrupt) { return }
 
-        if ([string]::IsNullOrEmpty($OutputPath)) {
+        if (-not $OutputPath) {
             $OutputPath = $Path.Replace([System.IO.Path]::GetExtension($path), "-edited$([System.IO.Path]::GetExtension($path))")
         }
 
@@ -203,13 +203,13 @@ function Repair-D365BacpacModelFile {
         Copy-Item -Path $Path -Destination $localInput -Force
 
         $arrSimple = @()
-        if (-not [string]::IsNullOrEmpty($PathRepairSimple)) {
+        if ($PathRepairSimple) {
             # Load all the simple delete instructions
             $arrSimple = Get-Content -Path $PathRepairSimple -Raw | ConvertFrom-Json
         }
 
         $arrReplace = @()
-        if (-not [string]::IsNullOrEmpty($PathRepairReplace)) {
+        if ($PathRepairReplace) {
             # Load all the replace instructions
             $arrReplace = Get-Content -Path $PathRepairReplace -Raw | ConvertFrom-Json
         }
@@ -219,7 +219,7 @@ function Repair-D365BacpacModelFile {
         Repair-BacpacModelSimpleAndReplace -Path $localInput -OutputPath $forOutput -RemoveInstructions $arrSimple -ReplaceInstructions $arrReplace
 
         $arrQualifier = @()
-        if (-not [string]::IsNullOrEmpty($PathRepairQualifier)) {
+        if ($PathRepairQualifier) {
             # Load all the qualification delete instructions
             $arrQualifier = Get-Content -Path $PathRepairQualifier -Raw | ConvertFrom-Json
         }

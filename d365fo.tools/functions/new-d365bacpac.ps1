@@ -233,7 +233,7 @@ function New-D365Bacpac {
         MaxParallelism = $MaxParallelism
     }
 
-    if (-not [system.string]::IsNullOrEmpty($DiagnosticFile)) {
+    if ($DiagnosticFile) {
         if (-not (Test-PathExists -Path (Split-Path $DiagnosticFile -Parent) -Type Container -Create)) { return }
         $ExportParams.DiagnosticFile = $DiagnosticFile
     }
