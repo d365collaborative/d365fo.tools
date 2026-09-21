@@ -15,7 +15,8 @@ Build a package / module (X++ compile + labels, reports optional)
 ```
 Invoke-D365ModuleBuild [-Module] <String> [[-OutputDir] <String>] [[-LogPath] <String>]
  [[-MetaDataDir] <String>] [[-ReferenceDir] <String[]>] [[-BinDir] <String>] [-IncludeReports]
- [-ShowOriginalProgress] [-OutputCommandOnly] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [[-Verbosity] <String>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +24,9 @@ Build a package / module using the builtin "xppc.exe" executable to compile sour
 
 Specify -IncludeReports to also compile reports using "ReportsC.exe"
 
-Prints a per module summary to the console and exits with a terminating error when any module fails
+Returns a result object per module and writes the compiler errors to the console when a module fails
+
+Exits with a terminating error when any module fails
 
 ## EXAMPLES
 
@@ -34,7 +37,8 @@ Invoke-D365ModuleBuild -Module Essence-Temp
 
 This will use the default paths and start the xppc.exe with the needed parameters to compile the Essence-Temp package.
 When the X++ compile succeeds it will start the labelc.exe to compile the labels.
-A summary with error and warning counts is written to the console.
+The build result is returned as an object.
+If the build fails, the compiler errors are written to the console.
 The default output from all the different steps will be silenced.
 
 ### EXAMPLE 2
@@ -194,6 +198,26 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Verbosity
+Controls how much output is written to the console
+
+None only outputs when there are errors.
+Minimal always returns the result object, with the compiler errors on failure.
+Detailed streams the live compiler output.
+Default is None
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
