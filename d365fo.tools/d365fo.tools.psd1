@@ -230,6 +230,7 @@
 		'Invoke-D365LcsUpload',
 
 		'Invoke-D365ModuleCompile',
+		'Invoke-D365ModuleBuild',
 		'Invoke-D365ModuleLabelGeneration',
 		'Invoke-D365ModuleReportsCompile',
 		'Invoke-D365ModuleFullCompile',
