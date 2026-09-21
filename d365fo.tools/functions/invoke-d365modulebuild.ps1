@@ -356,31 +356,31 @@ function Invoke-D365ModuleBuild {
             Write-PSFMessage -Level Host -Message ($summary -join [Environment]::NewLine)
 
             if ($logFailure) {
-                Write-PSFMessage -Level Host -Message $logFailure
+                Write-PSFHostColor -String $logFailure
             }
 
             if ($failed -and (Test-Path -LiteralPath $logFile -PathType Leaf)) {
-                $errorLines = @(Select-String -LiteralPath $logFile -Pattern "error" -SimpleMatch -CaseSensitive:$false -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Line -First 25)
+                $errorLines = @(Select-String -LiteralPath $logFile -Pattern "error", "warning" -SimpleMatch -CaseSensitive:$false -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Line -First 25)
 
                 foreach ($errorLine in $errorLines) {
-                    Write-PSFMessage -Level Host -Message $errorLine
+                    Write-PSFHostColor -String $errorLine
                 }
             }
 
             if ($labelFailure) {
-                Write-PSFMessage -Level Host -Message $labelFailure
+                Write-PSFHostColor -String $labelFailure
 
                 if (Test-Path -LiteralPath $labelErrorFile -PathType Leaf) {
                     $labelErrorLines = @(Get-Content -LiteralPath $labelErrorFile -ErrorAction SilentlyContinue | Select-Object -First 25)
 
                     foreach ($labelErrorLine in $labelErrorLines) {
-                        Write-PSFMessage -Level Host -Message $labelErrorLine
+                        Write-PSFHostColor -String $labelErrorLine
                     }
                 }
             }
 
             if ($reportsFailure) {
-                Write-PSFMessage -Level Host -Message $reportsFailure
+                Write-PSFHostColor -String $reportsFailure
             }
 
             if ($failed) {
