@@ -74,6 +74,11 @@
         This will start the Aos & Batch D365FO services on the machine.
         
     .EXAMPLE
+        PS C:\> Start-D365Environment -FinancialReporter -DMF
+        
+        This will start the FinancialReporter and DMF services on the machine.
+        
+    .EXAMPLE
         PS C:\> Start-D365Environment -DocumentRouting
         
         This will start the DocumentRouting service on the machine.

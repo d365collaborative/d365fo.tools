@@ -67,12 +67,19 @@ Will query the Aos & Batch services on the machine.
 
 ### EXAMPLE 6
 ```
+Get-D365Environment -FinancialReporter -DMF
+```
+
+Will query the FinancialReporter & DMF services on the machine.
+
+### EXAMPLE 7
+```
 Get-D365Environment -DocumentRouting
 ```
 
 Will query the DocumentRouting service on the machine.
 
-### EXAMPLE 7
+### EXAMPLE 8
 ```
 Get-D365Environment -OutputServiceDetailsOnly
 ```
@@ -80,7 +87,7 @@ Get-D365Environment -OutputServiceDetailsOnly
 Will query all D365FO service on the machine.
 Will omit the servername from the output.
 
-### EXAMPLE 8
+### EXAMPLE 9
 ```
 Get-D365Environment -FinancialReporter | Set-Service -StartupType Manual
 ```

@@ -71,12 +71,19 @@ This will start the Aos & Batch D365FO services on the machine.
 
 ### EXAMPLE 6
 ```
+Start-D365EnvironmentV2 -FinancialReporter -DMF
+```
+
+This will start the FinancialReporter and DMF services on the machine.
+
+### EXAMPLE 7
+```
 Start-D365EnvironmentV2 -DocumentRouting
 ```
 
 This will start the DocumentRouting service on the machine.
 
-### EXAMPLE 7
+### EXAMPLE 8
 ```
 Enable-D365Exception
 ```

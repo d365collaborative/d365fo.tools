@@ -67,6 +67,11 @@
         Will query the Aos & Batch services on the machine.
         
     .EXAMPLE
+        PS C:\> Get-D365Environment -FinancialReporter -DMF
+        
+        Will query the FinancialReporter & DMF services on the machine.
+        
+    .EXAMPLE
         PS C:\> Get-D365Environment -DocumentRouting
         
         Will query the DocumentRouting service on the machine.

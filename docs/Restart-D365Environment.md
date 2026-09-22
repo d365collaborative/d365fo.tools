@@ -62,12 +62,19 @@ This will stop the AOS and Batch services and then start the AOS and Batch servi
 
 ### EXAMPLE 5
 ```
+Restart-D365Environment -FinancialReporter -DMF
+```
+
+This will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.
+
+### EXAMPLE 6
+```
 Restart-D365Environment -DocumentRouting
 ```
 
 This will stop the DocumentRouting service and then start the DocumentRouting service again.
 
-### EXAMPLE 6
+### EXAMPLE 7
 ```
 Restart-D365Environment -All -Kill
 ```
