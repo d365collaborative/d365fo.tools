@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - main
     paths:
       - 'd365fo.tools/functions/**'
       - 'd365fo.tools/internal/**'
