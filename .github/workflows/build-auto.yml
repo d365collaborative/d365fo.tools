@@ -1,0 +1,27 @@
+name: d365fo.tools-Auto-Release
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - 'd365fo.tools/functions/**'
+      - 'd365fo.tools/internal/**'
+      - 'd365fo.tools/bin/**'
+      - 'd365fo.tools/xml/**'
+      - 'd365fo.tools/en-us/**'
+      - 'd365fo.tools/d365fo.tools.psd1'
+      - 'd365fo.tools/d365fo.tools.psm1'
+
+jobs:
+  call-tmpl-build-release:
+    uses: fh-inway/d365.psmodule-alm/.github/workflows/tmpl-build-release.yml@main
+    with:
+      module: 'd365fo.tools'
+      autoversion: $True
+      skippublish: $False
+      skipghrelease: false
+      skipValidation: false
+    secrets:
+      apikey: ${{ secrets.ApiKey }}
