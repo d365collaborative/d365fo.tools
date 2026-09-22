@@ -16,6 +16,8 @@
         Aos
         Batch
         Financial Reporter
+        DMF
+        DocumentRouting
         
     .PARAMETER Aos
         Stop the Aos (iis) service
@@ -28,6 +30,9 @@
         
     .PARAMETER DMF
         Start the Data Management Framework service
+
+    .PARAMETER DocumentRouting
+        Stop the Document Routing service
         
     .PARAMETER Kill
         Instructs the cmdlet to kill the service(s) that you want to stop
@@ -63,9 +68,9 @@
         This will stop the Aos & Batch D365FO services on the machine.
         
     .EXAMPLE
-        PS C:\> Stop-D365Environment -FinancialReporter -DMF
+        PS C:\> Stop-D365Environment -DocumentRouting
         
-        This will stop the FinancialReporter and DMF services on the machine.
+        This will stop the DocumentRouting service on the machine.
         
     .EXAMPLE
         PS C:\> Stop-D365Environment -All -Kill
@@ -103,11 +108,14 @@ function Stop-D365Environment {
         [switch] $DMF,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 6 )]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 6 )]
-        [switch] $Kill,
+        [switch] $DocumentRouting,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 7 )]
         [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 7 )]
+        [switch] $Kill,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 8 )]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Default', Position = 8 )]
         [switch] $ShowOriginalProgress
     )
 
@@ -115,7 +123,7 @@ function Stop-D365Environment {
         $All = $false
     }
 
-    if ((-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF))) {
+    if ((-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF)) -and (-not ($DocumentRouting))) {
         Write-PSFMessage -Level Host -Message "You have to use at least <c='em'>one switch</c> when running this cmdlet. Please run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return

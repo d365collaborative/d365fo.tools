@@ -17,6 +17,7 @@
         Batch
         Financial Reporter
         DMF
+        DocumentRouting
         
     .PARAMETER Aos
         Instruct the cmdlet to query the AOS (IIS) service
@@ -29,6 +30,9 @@
         
     .PARAMETER DMF
         Instruct the cmdlet query the DMF service
+
+    .PARAMETER DocumentRouting
+        Instruct the cmdlet query the document routing service
         
     .PARAMETER OnlyStartTypeAutomatic
         Instruct the cmdlet to filter out services that are set to manual start or disabled
@@ -63,9 +67,9 @@
         Will query the Aos & Batch services on the machine.
         
     .EXAMPLE
-        PS C:\> Get-D365Environment -FinancialReporter -DMF
+        PS C:\> Get-D365Environment -DocumentRouting
         
-        Will query the FinancialReporter & DMF services on the machine.
+        Will query the DocumentRouting service on the machine.
         
     .EXAMPLE
         PS C:\> Get-D365Environment -OutputServiceDetailsOnly
@@ -108,6 +112,9 @@ function Get-D365Environment {
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
         [switch] $DMF,
 
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific')]
+        [switch] $DocumentRouting,
+
         [switch] $OnlyStartTypeAutomatic,
 
         [switch] $OutputServiceDetailsOnly
@@ -117,7 +124,7 @@ function Get-D365Environment {
         $All = $false
     }
 
-    if ( (-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF))) {
+    if ( (-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF)) -and (-not ($DocumentRouting))) {
         Write-PSFMessage -Level Host -Message "You have to use at least one switch when running this cmdlet. Please run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return

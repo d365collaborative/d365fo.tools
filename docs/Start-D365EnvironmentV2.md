@@ -19,8 +19,8 @@ Start-D365EnvironmentV2 [-All] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress]
 
 ### Specific
 ```
-Start-D365EnvironmentV2 [-Aos] [-Batch] [-FinancialReporter] [-DMF] [-OnlyStartTypeAutomatic]
- [-ShowOriginalProgress] [<CommonParameters>]
+Start-D365EnvironmentV2 [-Aos] [-Batch] [-FinancialReporter] [-DMF] [-DocumentRouting]
+ [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -71,10 +71,10 @@ This will start the Aos & Batch D365FO services on the machine.
 
 ### EXAMPLE 6
 ```
-Start-D365EnvironmentV2 -FinancialReporter -DMF
+Start-D365EnvironmentV2 -DocumentRouting
 ```
 
-This will start the FinancialReporter and DMF services on the machine.
+This will start the DocumentRouting service on the machine.
 
 ### EXAMPLE 7
 ```
@@ -166,6 +166,21 @@ Aliases:
 
 Required: False
 Position: 5
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DocumentRouting
+Start the Document Routing service
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Specific
+Aliases:
+
+Required: False
+Position: 6
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

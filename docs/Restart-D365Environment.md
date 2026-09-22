@@ -20,8 +20,8 @@ Restart-D365Environment [[-ComputerName] <String[]>] [-All] [-Kill] [-ShowOrigin
 
 ### Specific
 ```
-Restart-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF] [-Kill]
- [-ShowOriginalProgress] [<CommonParameters>]
+Restart-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
+ [-DocumentRouting] [-Kill] [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -62,10 +62,10 @@ This will stop the AOS and Batch services and then start the AOS and Batch servi
 
 ### EXAMPLE 5
 ```
-Restart-D365Environment -FinancialReporter -DMF
+Restart-D365Environment -DocumentRouting
 ```
 
-This will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.
+This will stop the DocumentRouting service and then start the DocumentRouting service again.
 
 ### EXAMPLE 6
 ```
@@ -100,6 +100,7 @@ Aos
 Batch
 Financial Reporter
 DMF
+DocumentRouting
 
 ```yaml
 Type: SwitchParameter
@@ -168,6 +169,21 @@ Aliases:
 
 Required: False
 Position: 6
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DocumentRouting
+Instructs the cmdlet to work against the Document Routing service
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Specific
+Aliases:
+
+Required: False
+Position: 7
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

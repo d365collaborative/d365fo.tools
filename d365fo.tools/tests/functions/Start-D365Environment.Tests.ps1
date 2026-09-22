@@ -95,6 +95,19 @@
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter DocumentRouting' {
+			$parameter = (Get-Command Start-D365Environment).Parameters['DocumentRouting']
+			$parameter.Name | Should -Be 'DocumentRouting'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'Specific'
+			$parameter.ParameterSets.Keys | Should -Contain 'Specific'
+			$parameter.ParameterSets['Specific'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['Specific'].Position | Should -Be 6
+			$parameter.ParameterSets['Specific'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter OnlyStartTypeAutomatic' {
 			$parameter = (Get-Command Start-D365Environment).Parameters['OnlyStartTypeAutomatic']
 			$parameter.Name | Should -Be 'OnlyStartTypeAutomatic'
@@ -132,7 +145,7 @@
  	Describe "Testing parameterset Specific" {
 		<#
 		Specific -
-		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF -OnlyStartTypeAutomatic -ShowOriginalProgress
+		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF -DocumentRouting -OnlyStartTypeAutomatic -ShowOriginalProgress
 		#>
 	}
 

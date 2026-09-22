@@ -17,6 +17,7 @@
         Batch
         Financial Reporter
         DMF
+        DocumentRouting
         
     .PARAMETER Aos
         Instructs the cmdlet to work against the AOS (IIS) service
@@ -29,6 +30,9 @@
         
     .PARAMETER DMF
         Instructs the cmdlet to work against the DMF service
+
+    .PARAMETER DocumentRouting
+        Instructs the cmdlet to work against the Document Routing service
         
     .PARAMETER Kill
         Instructs the cmdlet to kill the service(s) that you want to restart
@@ -62,9 +66,9 @@
         This will stop the AOS and Batch services and then start the AOS and Batch services again.
         
     .EXAMPLE
-        PS C:\> Restart-D365Environment -FinancialReporter -DMF
+        PS C:\> Restart-D365Environment -DocumentRouting
         
-        This will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.
+        This will stop the DocumentRouting service and then start the DocumentRouting service again.
         
     .EXAMPLE
         PS C:\> Restart-D365Environment -All -Kill
@@ -102,6 +106,9 @@ function Restart-D365Environment {
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
         [switch] $DMF,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 6 )]
+        [switch] $DocumentRouting,
 
         [switch] $Kill,
 
