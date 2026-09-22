@@ -95,18 +95,12 @@
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter Kill' {
-			$parameter = (Get-Command Stop-D365Environment).Parameters['Kill']
-			$parameter.Name | Should -Be 'Kill'
+		It 'Should have the expected parameter DocumentRouting' {
+			$parameter = (Get-Command Stop-D365Environment).Parameters['DocumentRouting']
+			$parameter.Name | Should -Be 'DocumentRouting'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
 			$parameter.IsDynamic | Should -Be $False
-			$parameter.ParameterSets.Keys | Should -Be 'Default', 'Specific'
-			$parameter.ParameterSets.Keys | Should -Contain 'Default'
-			$parameter.ParameterSets['Default'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['Default'].Position | Should -Be 6
-			$parameter.ParameterSets['Default'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
-			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'Specific'
 			$parameter.ParameterSets.Keys | Should -Contain 'Specific'
 			$parameter.ParameterSets['Specific'].IsMandatory | Should -Be $False
 			$parameter.ParameterSets['Specific'].Position | Should -Be 6
@@ -114,9 +108,9 @@
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter ShowOriginalProgress' {
-			$parameter = (Get-Command Stop-D365Environment).Parameters['ShowOriginalProgress']
-			$parameter.Name | Should -Be 'ShowOriginalProgress'
+		It 'Should have the expected parameter Kill' {
+			$parameter = (Get-Command Stop-D365Environment).Parameters['Kill']
+			$parameter.Name | Should -Be 'Kill'
 			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be 'Default', 'Specific'
@@ -133,6 +127,25 @@
 			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter ShowOriginalProgress' {
+			$parameter = (Get-Command Stop-D365Environment).Parameters['ShowOriginalProgress']
+			$parameter.Name | Should -Be 'ShowOriginalProgress'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'Default', 'Specific'
+			$parameter.ParameterSets.Keys | Should -Contain 'Default'
+			$parameter.ParameterSets['Default'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['Default'].Position | Should -Be 8
+			$parameter.ParameterSets['Default'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Contain 'Specific'
+			$parameter.ParameterSets['Specific'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['Specific'].Position | Should -Be 8
+			$parameter.ParameterSets['Specific'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
+		}
 	}
 	
 	Describe "Testing parameterset Default" {
@@ -144,7 +157,7 @@
  	Describe "Testing parameterset Specific" {
 		<#
 		Specific -
-		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF -Kill -ShowOriginalProgress
+		Specific -ComputerName -Aos -Batch -FinancialReporter -DMF -DocumentRouting -Kill -ShowOriginalProgress
 		#>
 	}
 

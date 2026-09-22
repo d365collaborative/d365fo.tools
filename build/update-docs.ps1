@@ -5,7 +5,7 @@ $path = "$PSScriptRoot\.."
 
 Import-Module "$path\d365fo.tools" -Force
 
-Remove-Item -Path "$path\docs\*.md"
+Remove-Item -Path "$path\docs\*.md" -Exclude "AGENTS.md"
 $null = New-MarkdownHelp -Module d365fo.tools -OutputFolder "$path\docs" -Force
 
-Get-ChildItem -Path "$path\docs" -Recurse -File | Set-PSMDEncoding
+Get-ChildItem -Path "$path\docs" -Recurse -File -Exclude "AGENTS.md" | Set-PSMDEncoding

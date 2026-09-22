@@ -160,7 +160,7 @@ Default value is "Software Deployable Package"
 Type: LcsAssetFileType
 Parameter Sets: (All)
 Aliases:
-Accepted values: Model, ProcessDataPackage, SoftwareDeployablePackage, GERConfiguration, DataPackage, PowerBIReportModel, ECommercePackage, NuGetPackage, RetailSelfServicePackage, CommerceCloudScaleUnitExtension
+Accepted values: Model, ProcessDataPackage, SoftwareDeployablePackage, GERConfiguration, DataPackage, Backup, PowerBIReportModel, ECommercePackage, NuGetPackage, RetailSelfServicePackage, CommerceCloudScaleUnitExtension
 
 Required: False
 Position: 4

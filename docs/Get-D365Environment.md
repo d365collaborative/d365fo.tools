@@ -20,7 +20,7 @@ Get-D365Environment [[-ComputerName] <String[]>] [-All] [-OnlyStartTypeAutomatic
 
 ### Specific
 ```
-Get-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
+Get-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF] [-DocumentRouting]
  [-OnlyStartTypeAutomatic] [-OutputServiceDetailsOnly] [<CommonParameters>]
 ```
 
@@ -74,13 +74,20 @@ Will query the FinancialReporter & DMF services on the machine.
 
 ### EXAMPLE 7
 ```
+Get-D365Environment -DocumentRouting
+```
+
+Will query the DocumentRouting service on the machine.
+
+### EXAMPLE 8
+```
 Get-D365Environment -OutputServiceDetailsOnly
 ```
 
 Will query all D365FO service on the machine.
 Will omit the servername from the output.
 
-### EXAMPLE 8
+### EXAMPLE 9
 ```
 Get-D365Environment -FinancialReporter | Set-Service -StartupType Manual
 ```
@@ -112,6 +119,7 @@ Aos
 Batch
 Financial Reporter
 DMF
+DocumentRouting
 
 ```yaml
 Type: SwitchParameter
@@ -172,6 +180,21 @@ Accept wildcard characters: False
 
 ### -DMF
 Instruct the cmdlet query the DMF service
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Specific
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DocumentRouting
+Instruct the cmdlet query the document routing service
 
 ```yaml
 Type: SwitchParameter

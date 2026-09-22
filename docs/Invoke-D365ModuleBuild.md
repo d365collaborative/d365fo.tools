@@ -1,4 +1,4 @@
----
+﻿---
 external help file: d365fo.tools-help.xml
 Module Name: d365fo.tools
 online version:
@@ -15,8 +15,7 @@ Build a package / module (X++ compile + labels, reports optional)
 ```
 Invoke-D365ModuleBuild [-Module] <String> [[-OutputDir] <String>] [[-LogPath] <String>]
  [[-MetaDataDir] <String>] [[-ReferenceDir] <String[]>] [[-BinDir] <String>] [-IncludeReports]
- [-ShowOriginalProgress] [-OutputCommandOnly] [[-Verbosity] <String>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+ [-ShowOriginalProgress] [-OutputCommandOnly] [[-Verbosity] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -217,21 +216,6 @@ Aliases:
 
 Required: False
 Position: 7
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

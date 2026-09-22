@@ -20,6 +20,9 @@
         
     .PARAMETER DMF
         Switch to instruct the cmdlet to output the data management service name
+
+    .PARAMETER DocumentRouting
+        Switch to instruct the cmdlet to output the document routing service name
         
     .EXAMPLE
         PS C:\> Get-ServiceList -All
@@ -48,7 +51,10 @@ Function Get-ServiceList {
         [switch] $FinancialReporter,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
-        [switch] $DMF
+        [switch] $DMF,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 6 )]
+        [switch] $DocumentRouting
     )
 
     if ($PSCmdlet.ParameterSetName -eq "Specific") {
@@ -61,11 +67,12 @@ Function Get-ServiceList {
     $batchname = "DynamicsAxBatch"
     $financialname = "MR2012ProcessService"
     $dmfname = "Microsoft.Dynamics.AX.Framework.Tools.DMF.SSISHelperService.exe"
+    $documentroutingname = "DocumentRoutingService"
 
     [System.Collections.ArrayList]$Services = New-Object -TypeName "System.Collections.ArrayList"
 
     if ($All) {
-        $null = $Services.AddRange(@($aosname, $batchname, $financialname, $dmfname))
+        $null = $Services.AddRange(@($aosname, $batchname, $financialname, $dmfname, $documentroutingname))
     }
     else {
         if ($Aos) {
@@ -79,6 +86,9 @@ Function Get-ServiceList {
         }
         if ($DMF) {
             $null = $Services.Add($dmfname)
+        }
+        if ($DocumentRouting) {
+            $null = $Services.Add($documentroutingname)
         }
     }
 

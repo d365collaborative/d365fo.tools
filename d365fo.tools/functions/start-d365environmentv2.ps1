@@ -26,6 +26,9 @@
         
     .PARAMETER DMF
         Start the Data Management Framework service
+
+    .PARAMETER DocumentRouting
+        Start the Document Routing service
         
     .PARAMETER OnlyStartTypeAutomatic
         Instruct the cmdlet to filter out services that are set to manual start or disabled
@@ -72,6 +75,11 @@
         This will start the FinancialReporter and DMF services on the machine.
         
     .EXAMPLE
+        PS C:\> Start-D365EnvironmentV2 -DocumentRouting
+        
+        This will start the DocumentRouting service on the machine.
+        
+    .EXAMPLE
         PS C:\> Enable-D365Exception
         PS C:\> Start-D365EnvironmentV2
         
@@ -105,6 +113,9 @@ function Start-D365EnvironmentV2 {
         [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 4 )]
         [switch] $DMF,
 
+        [Parameter(Mandatory = $false, ParameterSetName = 'Specific', Position = 5 )]
+        [switch] $DocumentRouting,
+
         [switch] $OnlyStartTypeAutomatic,
 
         [switch] $ShowOriginalProgress
@@ -116,7 +127,7 @@ function Start-D365EnvironmentV2 {
         $All = $false
     }
 
-    if ( (-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF))) {
+    if ( (-not ($All)) -and (-not ($Aos)) -and (-not ($Batch)) -and (-not ($FinancialReporter)) -and (-not ($DMF)) -and (-not ($DocumentRouting))) {
         Write-PSFMessage -Level Host -Message "You have to use at least <c='em'>one switch</c> when running this cmdlet. Please run the cmdlet again."
         Stop-PSFFunction -Message "Stopping because of missing parameters"
         return

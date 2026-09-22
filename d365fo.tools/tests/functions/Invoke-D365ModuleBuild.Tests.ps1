@@ -1,4 +1,4 @@
-Describe "Invoke-D365ModuleBuild Unit Tests" -Tag "Unit" {
+﻿Describe "Invoke-D365ModuleBuild Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
@@ -146,7 +146,7 @@ Describe "Invoke-D365ModuleBuild Unit Tests" -Tag "Unit" {
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
 		__AllParameterSets -Module
-		__AllParameterSets -Module -OutputDir -LogPath -MetaDataDir -ReferenceDir -BinDir -IncludeReports -ShowOriginalProgress -OutputCommandOnly -Verbosity -Verbosity
+		__AllParameterSets -Module -OutputDir -LogPath -MetaDataDir -ReferenceDir -BinDir -IncludeReports -ShowOriginalProgress -OutputCommandOnly -Verbosity
 		#>
 	}
 

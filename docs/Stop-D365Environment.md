@@ -19,8 +19,8 @@ Stop-D365Environment [[-ComputerName] <String[]>] [-All] [-Kill] [-ShowOriginalP
 
 ### Specific
 ```
-Stop-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF] [-Kill]
- [-ShowOriginalProgress] [<CommonParameters>]
+Stop-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
+ [-DocumentRouting] [-Kill] [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -70,6 +70,13 @@ This will stop the FinancialReporter and DMF services on the machine.
 
 ### EXAMPLE 6
 ```
+Stop-D365Environment -DocumentRouting
+```
+
+This will stop the DocumentRouting service on the machine.
+
+### EXAMPLE 7
+```
 Stop-D365Environment -All -Kill
 ```
 
@@ -100,6 +107,8 @@ Includes:
 Aos
 Batch
 Financial Reporter
+DMF
+DocumentRouting
 
 ```yaml
 Type: SwitchParameter
@@ -173,6 +182,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DocumentRouting
+Stop the Document Routing service
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Specific
+Aliases:
+
+Required: False
+Position: 7
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Kill
 Instructs the cmdlet to kill the service(s) that you want to stop
 
@@ -182,7 +206,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -199,7 +223,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

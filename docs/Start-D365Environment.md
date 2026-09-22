@@ -21,7 +21,7 @@ Start-D365Environment [[-ComputerName] <String[]>] [-All] [-OnlyStartTypeAutomat
 ### Specific
 ```
 Start-D365Environment [[-ComputerName] <String[]>] [-Aos] [-Batch] [-FinancialReporter] [-DMF]
- [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [<CommonParameters>]
+ [-DocumentRouting] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -77,6 +77,13 @@ Start-D365Environment -FinancialReporter -DMF
 
 This will start the FinancialReporter and DMF services on the machine.
 
+### EXAMPLE 7
+```
+Start-D365Environment -DocumentRouting
+```
+
+This will start the DocumentRouting service on the machine.
+
 ## PARAMETERS
 
 ### -ComputerName
@@ -101,6 +108,8 @@ Includes:
 Aos
 Batch
 Financial Reporter
+DMF
+DocumentRouting
 
 ```yaml
 Type: SwitchParameter
@@ -169,6 +178,21 @@ Aliases:
 
 Required: False
 Position: 6
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DocumentRouting
+Start the Document Routing service
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Specific
+Aliases:
+
+Required: False
+Position: 7
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
