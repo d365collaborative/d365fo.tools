@@ -18,17 +18,23 @@
         "IIS"
         "IISExpress"
 
+    .PARAMETER Confirm
+        Switch parameter to require confirmation before making changes.
+
+    .PARAMETER WhatIf
+        Switch parameter to show what would happen if the cmdlet runs, without making any changes.
+
     .PARAMETER Force
         Switch parameter to force the operation without confirmation.
         
     .EXAMPLE
-        PS C:\> Set-D365WebServerType -RuntimeHostType "IIS"
+        PS C:\> Set-D365WebServerType -RuntimeHostTypeOption "IIS"
         
         This will update the current web server type registered in the "DynamicsDevConfig.xml" file.
         This file is located "K:\AosService\PackagesLocalDirectory\bin".
         It will backup the current "DynamicsDevConfig.xml" file.
         It will replace the value inside the "RuntimeHostType" tag.
-        
+
     .NOTES
         Tag: Web Server, IIS, IIS Express, Development
         
