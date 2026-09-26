@@ -11,7 +11,7 @@
         
         It will look for the file located in the default Package Directory.
         
-    .PARAMETER RuntimeHostTypeOption
+    .PARAMETER RuntimeHostType
         The type of web server you want to use.
         
         Valid options are:
@@ -28,7 +28,7 @@
         Switch parameter to force the operation without confirmation.
         
     .EXAMPLE
-        PS C:\> Set-D365WebServerType -RuntimeHostTypeOption "IIS"
+        PS C:\> Set-D365WebServerType -RuntimeHostType "IIS"
         
         This will update the current web server type registered in the "DynamicsDevConfig.xml" file.
         This file is located "K:\AosService\PackagesLocalDirectory\bin".
@@ -48,8 +48,7 @@ function Set-D365WebServerType {
     param (
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
         [ValidateSet('IIS', 'IISExpress')]
-        [Alias('RuntimeHostType')]
-        [string] $RuntimeHostTypeOption,
+        [string] $RuntimeHostType,
 
         [switch] $Force
     )
@@ -73,20 +72,20 @@ function Set-D365WebServerType {
     process {
         if (Test-PSFFunctionInterrupt) { return }
 
-        if ($PSCmdlet.ShouldProcess($filePath, "Set web server type to '$RuntimeHostTypeOption'")) {
+        if ($PSCmdlet.ShouldProcess($filePath, "Set web server type to '$RuntimeHostType'")) {
             $filePathBackup = $filePath.Replace(".xml", ".xml$((Get-Date).Ticks)")
             Copy-Item -Path $filePath -Destination $filePathBackup -Force
 
             $namespace = @{ns = "http://schemas.microsoft.com/dynamics/2012/03/development/configuration" }
 
             $xmlDoc = [xml] (Get-Content -Path $filePath)
-            $runtimeHostType = Select-Xml -Xml $xmlDoc -XPath "/ns:DynamicsDevConfig/ns:RuntimeHostType" -Namespace $namespace
+            $runtimeHostTypeNode = Select-Xml -Xml $xmlDoc -XPath "/ns:DynamicsDevConfig/ns:RuntimeHostType" -Namespace $namespace
 
-            $oldValue = $runtimeHostType.Node.InnerText
+            $oldValue = $runtimeHostTypeNode.Node.InnerText
 
             Write-PSFMessage -Level Verbose -Message "Old value found in the file was: $oldValue" -Target $oldValue
 
-            $runtimeHostType.Node.InnerText = $RuntimeHostTypeOption
+            $runtimeHostTypeNode.Node.InnerText = $RuntimeHostType
             $xmlDoc.Save($filePath)
         }
     }
