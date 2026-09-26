@@ -11,7 +11,7 @@
         
         It will look for the file located in the default Package Directory.
         
-    .PARAMETER RuntimeHostType
+    .PARAMETER RuntimeHostTypeOption
         The type of web server you want to use.
         
         Valid options are:
