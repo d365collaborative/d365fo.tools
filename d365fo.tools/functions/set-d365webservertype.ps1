@@ -18,6 +18,15 @@
         "IIS"
         "IISExpress"
         
+    .PARAMETER Confirm
+        Switch parameter to require confirmation before making changes.
+        
+    .PARAMETER WhatIf
+        Switch parameter to show what would happen if the cmdlet runs, without making any changes.
+        
+    .PARAMETER Force
+        Switch parameter to force the operation without confirmation.
+        
     .EXAMPLE
         PS C:\> Set-D365WebServerType -RuntimeHostType "IIS"
         
@@ -30,20 +39,25 @@
         Tag: Web Server, IIS, IIS Express, Development
         
         Author: Sander Holvoet (@smholvoet)
-        
         Author: Mötz Jensen (@Splaxi)
+        Author: Florian Hopfner (@FH-Inway)
 #>
 
 function Set-D365WebServerType {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
     param (
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
         [ValidateSet('IIS', 'IISExpress')]
-        [string] $RuntimeHostType
+        [string] $RuntimeHostType,
+
+        [switch] $Force
     )
 
     begin {
+        if ($Force -and -not $PSBoundParameters.ContainsKey('Confirm')) {
+            $ConfirmPreference = 'None'
+        }
+
         if (-not ($script:IsAdminRuntime)) {
             Write-PSFMessage -Level Host -Message "The cmdlet needs <c='em'>administrator permission</c> (Run As Administrator) to be able to update the configuration. Please start an <c='em'>elevated</c> session and run the cmdlet again."
             Stop-PSFFunction -Message "Stopping because the function is not run elevated"
@@ -58,20 +72,22 @@ function Set-D365WebServerType {
     process {
         if (Test-PSFFunctionInterrupt) { return }
 
-        $filePathBackup = $filePath.Replace(".xml", ".xml$((Get-Date).Ticks)")
-        Copy-Item -Path $filePath -Destination $filePathBackup -Force
+        if ($PSCmdlet.ShouldProcess($filePath, "Set web server type to '$RuntimeHostType'")) {
+            $filePathBackup = $filePath.Replace(".xml", ".xml$((Get-Date).Ticks)")
+            Copy-Item -Path $filePath -Destination $filePathBackup -Force
 
-        $namespace = @{ns = "http://schemas.microsoft.com/dynamics/2012/03/development/configuration" }
+            $namespace = @{ns = "http://schemas.microsoft.com/dynamics/2012/03/development/configuration" }
 
-        $xmlDoc = [xml] (Get-Content -Path $filePath)
-        $runtimeHostType = Select-Xml -Xml $xmlDoc -XPath "/ns:DynamicsDevConfig/ns:RuntimeHostType" -Namespace $namespace
+            $xmlDoc = [xml] (Get-Content -Path $filePath)
+            $runtimeHostTypeNode = Select-Xml -Xml $xmlDoc -XPath "/ns:DynamicsDevConfig/ns:RuntimeHostType" -Namespace $namespace
 
-        $oldValue = $runtimeHostType.Node.InnerText
+            $oldValue = $runtimeHostTypeNode.Node.InnerText
 
-        Write-PSFMessage -Level Verbose -Message "Old value found in the file was: $oldValue" -Target $oldValue
+            Write-PSFMessage -Level Verbose -Message "Old value found in the file was: $oldValue" -Target $oldValue
 
-        $runtimeHostType.Node.InnerText = $RuntimeHostType
-        $xmlDoc.Save($filePath)
+            $runtimeHostTypeNode.Node.InnerText = $RuntimeHostType
+            $xmlDoc.Save($filePath)
+        }
     }
 
     end {
