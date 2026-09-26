@@ -40,7 +40,8 @@ function Set-D365WebServerType {
     param (
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
         [ValidateSet('IIS', 'IISExpress')]
-        [string] $RuntimeHostType
+        [Alias('RuntimeHostType')]
+        [string] $RuntimeHostTypeOption
     )
 
     begin {
@@ -70,7 +71,7 @@ function Set-D365WebServerType {
 
         Write-PSFMessage -Level Verbose -Message "Old value found in the file was: $oldValue" -Target $oldValue
 
-        $runtimeHostType.Node.InnerText = $RuntimeHostType
+        $runtimeHostType.Node.InnerText = $RuntimeHostTypeOption
         $xmlDoc.Save($filePath)
     }
 
