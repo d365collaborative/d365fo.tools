@@ -2,40 +2,40 @@
 <#
     .SYNOPSIS
         Invoke a compiler executable quietly and return its exit code
-
+        
     .DESCRIPTION
         Minimal process runner for Invoke-D365ModuleBuild.
-
+        
         Unlike Invoke-Process it never writes the standard output or error
         streams to the console. They are discarded, because the compiler log
         files are the source of truth and the caller parses those for the
         agent friendly summary.
-
+        
         It returns the numeric exit code of the executable, so the caller can
         signal success or failure without any console noise.
-
+        
     .PARAMETER Executable
         Full path to the program / executable that you want to start
-
+        
     .PARAMETER Params
         Array of string parameters that you want to pass to the executable
-
+        
     .PARAMETER ShowOriginalProgress
         Instruct the cmdlet to let the standard output stream live to the console
-
+        
         Default is $false which will discard the standard output
-
+        
     .PARAMETER OutputCommandOnly
         Instruct the cmdlet to only output the command that you would have to execute by hand
-
+        
         Will include full path to the executable and the needed parameters based on your selection
-
+        
     .EXAMPLE
         PS C:\> Invoke-BuildTool -Executable "C:\AOSService\PackagesLocalDirectory\bin\xppc.exe" -Params "-metadata=`"C:\AOSService\PackagesLocalDirectory`"", "-verbose"
-
+        
         This will invoke the xppc.exe executable with discarded output.
         It will return the numeric exit code of the executable.
-
+        
     .NOTES
         Author: Mötz Jensen (@splaxi)
 #>

@@ -17,13 +17,13 @@
         Valid options are:
         "IIS"
         "IISExpress"
-
+        
     .PARAMETER Confirm
         Switch parameter to require confirmation before making changes.
-
+        
     .PARAMETER WhatIf
         Switch parameter to show what would happen if the cmdlet runs, without making any changes.
-
+        
     .PARAMETER Force
         Switch parameter to force the operation without confirmation.
         
@@ -34,7 +34,7 @@
         This file is located "K:\AosService\PackagesLocalDirectory\bin".
         It will backup the current "DynamicsDevConfig.xml" file.
         It will replace the value inside the "RuntimeHostType" tag.
-
+        
     .NOTES
         Tag: Web Server, IIS, IIS Express, Development
         

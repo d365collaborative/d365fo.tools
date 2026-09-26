@@ -2454,7 +2454,7 @@
                        ],
                        [
                            "All",
-                           "Set when you want to query all relevant services\nIncludes:\r\nAos\r\nBatch\r\nFinancial Reporter\r\nDMF",
+                           "Set when you want to query all relevant services\nIncludes:\r\nAos\r\nBatch\r\nFinancial Reporter\r\nDMF\r\nDocumentRouting",
                            "",
                            false,
                            "false",
@@ -2493,6 +2493,14 @@
                            "False"
                        ],
                        [
+                           "DocumentRouting",
+                           "Instruct the cmdlet query the document routing service",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "OnlyStartTypeAutomatic",
                            "Instruct the cmdlet to filter out services that are set to manual start or disabled",
                            "",
@@ -2514,8 +2522,8 @@
         "Synopsis":  "Cmdlet to get the current status for the different services in a Dynamics 365 Finance \u0026 Operations environment",
         "Name":  "Get-D365Environment",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365Environment\nWill query all D365FO service on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Environment -All\nWill query all D365FO service on the machine.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Environment -OnlyStartTypeAutomatic\nWill query all D365FO service on the machine.\r\nIt will filter out all services that are either configured as manual or disabled.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365Environment -ComputerName \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\" -All\nWill query all D365FO service on the different machines.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365Environment -Aos -Batch\nWill query the Aos \u0026 Batch services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eGet-D365Environment -FinancialReporter -DMF\nWill query the FinancialReporter \u0026 DMF services on the machine.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eGet-D365Environment -OutputServiceDetailsOnly\nWill query all D365FO service on the machine.\r\nWill omit the servername from the output.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eGet-D365Environment -FinancialReporter | Set-Service -StartupType Manual\nThis will configure the Financial Reporter services to be start type manual.",
-        "Syntax":  "Get-D365Environment [[-ComputerName] \u003cString[]\u003e] [-All] [-OnlyStartTypeAutomatic] [-OutputServiceDetailsOnly] [\u003cCommonParameters\u003e]\nGet-D365Environment [[-ComputerName] \u003cString[]\u003e] [-Aos] [-Batch] [-FinancialReporter] [-DMF] [-OnlyStartTypeAutomatic] [-OutputServiceDetailsOnly] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365Environment\nWill query all D365FO service on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365Environment -All\nWill query all D365FO service on the machine.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365Environment -OnlyStartTypeAutomatic\nWill query all D365FO service on the machine.\r\nIt will filter out all services that are either configured as manual or disabled.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365Environment -ComputerName \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\" -All\nWill query all D365FO service on the different machines.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365Environment -Aos -Batch\nWill query the Aos \u0026 Batch services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eGet-D365Environment -FinancialReporter -DMF\nWill query the FinancialReporter \u0026 DMF services on the machine.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eGet-D365Environment -DocumentRouting\nWill query the DocumentRouting service on the machine.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eGet-D365Environment -OutputServiceDetailsOnly\nWill query all D365FO service on the machine.\r\nWill omit the servername from the output.\n-------------------------- EXAMPLE 9 --------------------------\nPS C:\\\u003eGet-D365Environment -FinancialReporter | Set-Service -StartupType Manual\nThis will configure the Financial Reporter services to be start type manual.",
+        "Syntax":  "Get-D365Environment [[-ComputerName] \u003cString[]\u003e] [-All] [-OnlyStartTypeAutomatic] [-OutputServiceDetailsOnly] [\u003cCommonParameters\u003e]\nGet-D365Environment [[-ComputerName] \u003cString[]\u003e] [-Aos] [-Batch] [-FinancialReporter] [-DMF] [-DocumentRouting] [-OnlyStartTypeAutomatic] [-OutputServiceDetailsOnly] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365EnvironmentSettings",
@@ -3189,7 +3197,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will list all Software Deployable Packages.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage\nThis will list all Software Deployable Packages.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetFilename \"*MAIN*\"\nThis will list all Software Deployable Packages, that matches the \"*MAIN*\" search pattern in the AssetFilename.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetFilename \"*MAIN*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetName \"*MAIN*\"\nThis will list all Software Deployable Packages, that matches the \"*MAIN*\" search pattern in the AssetName.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetName \"*MAIN*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetDescription \"*TEST*\"\nThis will list all Software Deployable Packages, that matches the \"*TEST*\" search pattern in the AssetDescription.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetDescription \"*TEST*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetId \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\"\nThis will list all Software Deployable Packages, that matches the \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\" search pattern in the AssetId.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetId \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -Latest | Invoke-D365AzCopyTransfer -DestinationUri C:\\Temp\\d365fo.tools -FileName \"Main.zip\" -ShowOriginalProgress\nThis will download the latest Software Deployable Package from the Asset Library in LCS onto your on machine.\r\nIt will list Software Deployable Packages based on the FileType parameter.\r\nIt will list the latest (newest) Software Deployable Package.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -RetryTimeout \"00:01:00\"\nThis will list all Software Deployable Packages, and allow for the cmdlet to retry for no more than 1 minute.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Get-D365LcsAssetFile [[-ProjectId] \u003cInt32\u003e] [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-AssetName] \u003cString\u003e] [[-AssetVersion] \u003cString\u003e] [[-AssetFilename] \u003cString\u003e] [[-AssetDescription] \u003cString\u003e] [[-AssetId] \u003cString\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Get-D365LcsAssetFile [[-ProjectId] \u003cInt32\u003e] [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | Backup | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-AssetName] \u003cString\u003e] [[-AssetVersion] \u003cString\u003e] [[-AssetFilename] \u003cString\u003e] [[-AssetDescription] \u003cString\u003e] [[-AssetId] \u003cString\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365LcsAssetValidationStatus",
@@ -3936,7 +3944,7 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eGet-D365LcsSharedAssetFile -ProjectId 123456789 -FileType SoftwareDeployablePackage -BearerToken \"JldjfafLJdfjlfsalfd...\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will list all Software Deployable Packages in the shared asset library.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage\nThis will list all Software Deployable Packages in the shared asset library.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetFilename \"*MAIN*\"\nThis will list all Software Deployable Packages in the shared asset library that match the \"*MAIN*\" search pattern in the file name of the asset.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetFilename \"*MAIN*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetName \"*MAIN*\"\nThis will list all Software Deployable Packages in the shared asset library that match the \"*MAIN*\" search pattern in the name of the asset.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetName \"*MAIN*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetDescription \"*TEST*\"\nThis will list all Software Deployable Packages in the shared asset library that match the \"*TEST*\" search pattern in the asset description.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetDescription \"*TEST*\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eGet-D365LcsAssetFile -FileType SoftwareDeployablePackage -AssetId \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\"\nThis will list all Software Deployable Packages in the shared asset library that match the \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\" search pattern in the asset id.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\r\nIt will filter the output to match the AssetId \"500dd860-eacf-4e04-9f18-f9c8fe1d8e03\" search pattern.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003e$asset = Get-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -Latest\nPS C:\\\u003e Invoke-D365AzCopyTransfer -SourceUri $asset.FileLocation -DestinationUri C:\\Temp\\d365fo.tools\\$($asset.Filename) -ShowOriginalProgress\nThis will download the latest Software Deployable Package from the shared asset library in LCS onto your local machine.\r\nIt will list Software Deployable Packages based on the FileType parameter.\r\nIt will list the latest (newest) Software Deployable Package.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eGet-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -RetryTimeout \"00:01:00\"\nThis will list all Software Deployable Packages in the shared asset library and allow for the cmdlet to retry for no more than 1 minute.\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 9 --------------------------\nPS C:\\\u003eGet-D365LcsSharedAssetFile -FileType SoftwareDeployablePackage -SkipSasGeneration\nThis will list all Software Deployable Packages in the shared asset library, but skip the SAS / Download generation\r\nIt will search for SoftwareDeployablePackage by using the FileType parameter.\nThis will increase the speed getting the list of assets - but you will not get a downloadable link.\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Get-D365LcsSharedAssetFile [[-ProjectId] \u003cInt32\u003e] [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-AssetName] \u003cString\u003e] [[-AssetVersion] \u003cString\u003e] [[-AssetFilename] \u003cString\u003e] [[-AssetDescription] \u003cString\u003e] [[-AssetId] \u003cString\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [-SkipSasGeneration] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Get-D365LcsSharedAssetFile [[-ProjectId] \u003cInt32\u003e] [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | Backup | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-AssetName] \u003cString\u003e] [[-AssetVersion] \u003cString\u003e] [[-AssetFilename] \u003cString\u003e] [[-AssetDescription] \u003cString\u003e] [[-AssetId] \u003cString\u003e] [[-BearerToken] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-Latest] [-SkipSasGeneration] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Get-D365MaintenanceMode",
@@ -8497,7 +8505,107 @@
                       null
                   ],
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365LcsUpload -ProjectId 123456789 -BearerToken \"JldjfafLJdfjlfsalfd...\" -FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\" -FileType \"SoftwareDeployablePackage\" -Name \r\n\"Release-2019-05-05\" -Filename \"Release-2019-05-05.zip\" -FileDescription \"Build based on sprint: SuperSprint-1\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis will start the upload of a file to the Asset Library.\r\nThe LCS project is identified by the ProjectId 123456789, which can be obtained in the LCS portal.\r\nThe file that will be uploaded is based on the FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\".\r\nThe file type \"Software Deployable Package\" determines where inside the Asset Library the file will end up.\r\nThe name inside the Asset Library is based on the Name \"Release-2019-05-05\".\r\nThe file name inside the Asset Library is based on the FileName \"Release-2019-05-05.zip\".\r\nThe description inside the Asset Library is based on the FileDescription \"Build based on sprint: SuperSprint-1\".\r\nThe request will authenticate with the BearerToken \"JldjfafLJdfjlfsalfd...\".\r\nThe http request will be going to the LcsApiUri \"https://lcsapi.lcs.dynamics.com\" (NON-EUROPE).\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365LcsUpload -ProjectId 123456789 -BearerToken \"Bearer JldjfafLJdfjlfsalfd...\" -FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\" -FileType \"SoftwareDeployablePackage\" -Name \r\n\"Release-2019-05-05\" -Filename \"Release-2019-05-05.zip\" -FileDescription \"Build based on sprint: SuperSprint-1\" -LcsApiUri \"https://lcsapi.lcs.dynamics.com\"\nThis is identical to the previous example, but the BearerToken is supplied with the \"Bearer \" prefix already included.\r\nBoth forms are valid: the cmdlet prepends \"Bearer \" automatically when it is missing, so \"Bearer JldjfafLJdfjlfsalfd...\" and \"JldjfafLJdfjlfsalfd...\" produce the same result.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eInvoke-D365LcsUpload -FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\" -FileType \"SoftwareDeployablePackage\" -FileName \"Release-2019-05-05.zip\"\nThis will start the upload of a file to the Asset Library.\r\nThe file that will be uploaded is based on the FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\".\r\nThe file type \"Software Deployable Package\" determines where inside the Asset Library the file will end up.\r\nThe file name inside the Asset Library is based on the FileName \"Release-2019-05-05.zip\".\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eInvoke-D365LcsUpload -FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\"\nThis will start the upload of a file to the Asset Library.\r\nThe file that will be uploaded is based on the FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\".\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eInvoke-D365LcsUpload -FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\" -RetryTimeout \"00:01:00\"\nThis will start the upload of a file to the Asset Library through the LCS API, and allow for the cmdlet to retry for no more than 1 minute.\r\nThe file that will be uploaded is based on the FilePath \"C:\\temp\\d365fo.tools\\Release-2019-05-05.zip\".\nAll default values will come from the configuration available from Get-D365LcsApiConfig.\nThe default values can be configured using Set-D365LcsApiConfig.",
-        "Syntax":  "Invoke-D365LcsUpload [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-FilePath] \u003cString\u003e [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-Name] \u003cString\u003e] [[-Filename] \u003cString\u003e] [[-FileDescription] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-FailOnErrorMessage] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Invoke-D365LcsUpload [[-ProjectId] \u003cInt32\u003e] [[-BearerToken] \u003cString\u003e] [-FilePath] \u003cString\u003e [[-FileType] {Model | ProcessDataPackage | SoftwareDeployablePackage | GERConfiguration | DataPackage | Backup | PowerBIReportModel | ECommercePackage | NuGetPackage | RetailSelfServicePackage | CommerceCloudScaleUnitExtension}] [[-Name] \u003cString\u003e] [[-Filename] \u003cString\u003e] [[-FileDescription] \u003cString\u003e] [[-LcsApiUri] \u003cString\u003e] [-FailOnErrorMessage] [[-RetryTimeout] \u003cTimeSpan\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "CommandName":  "Invoke-D365ModuleBuild",
+        "Description":  "Build a package / module using the builtin \"xppc.exe\" executable to compile source code and \"labelc.exe\" to compile label files\n\nSpecify -IncludeReports to also compile reports using \"ReportsC.exe\"\n\nReturns a result object per module and writes the compiler errors to the console when a module fails\n\nExits with a terminating error when any module fails",
+        "Tags":  [
+                     "Compile",
+                     "Model",
+                     "Servicing",
+                     "Build",
+                     "X++"
+                 ],
+        "Params":  [
+                       [
+                           "Module",
+                           "The package to build",
+                           "ModuleName",
+                           true,
+                           "true (ByPropertyName)",
+                           ""
+                       ],
+                       [
+                           "OutputDir",
+                           "The path to the folder to save assemblies",
+                           "Output",
+                           false,
+                           "false",
+                           "$Script:MetaDataDir"
+                       ],
+                       [
+                           "LogPath",
+                           "Path where you want to store the log outputs generated from the compiler\nAlso used as the path where the log file(s) will be saved\nWhen running without the ShowOriginalProgress parameter, the log files will be the standard output and the error output from the underlying tool executed",
+                           "LogDir",
+                           false,
+                           "false",
+                           "$(Join-Path -Path $Script:DefaultTempPath -ChildPath \"Logs\\ModuleCompile\")"
+                       ],
+                       [
+                           "MetaDataDir",
+                           "The path to the meta data directory for the environment",
+                           "",
+                           false,
+                           "false",
+                           "$Script:MetaDataDir"
+                       ],
+                       [
+                           "ReferenceDir",
+                           "The full path of one or more folders containing all assemblies referenced from X++ code\nAccepts multiple folders, one \"-referencefolder\" argument is passed to the compiler per folder\nDefault path is the same as the aos service PackagesLocalDirectory",
+                           "",
+                           false,
+                           "false",
+                           "@($Script:MetaDataDir)"
+                       ],
+                       [
+                           "BinDir",
+                           "The path to the bin directory for the environment\nDefault path is the same as the aos service PackagesLocalDirectory\\bin",
+                           "",
+                           false,
+                           "false",
+                           "$Script:BinDirTools"
+                       ],
+                       [
+                           "IncludeReports",
+                           "Instruct the cmdlet to also compile the reports of the module using \"ReportsC.exe\"\nDefault is $false which will skip the reports compile",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "ShowOriginalProgress",
+                           "Instruct the cmdlet to show the standard output in the console\nDefault is $false which will silence the standard output",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "OutputCommandOnly",
+                           "Instruct the cmdlet to only output the command that you would have to execute by hand\nWill include full path to the executable and the needed parameters based on your selection",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "Verbosity",
+                           "Controls how much output is written to the console\nNone only outputs when there are errors. Minimal always returns the result object, with the compiler errors on failure. Detailed streams the live compiler output. Default is None",
+                           "",
+                           false,
+                           "false",
+                           "None"
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Mötz Jensen (@Splaxi)",
+        "Synopsis":  "Build a package / module (X++ compile + labels, reports optional)",
+        "Name":  "Invoke-D365ModuleBuild",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eInvoke-D365ModuleBuild -Module Essence-Temp\nThis will use the default paths and start the xppc.exe with the needed parameters to compile the Essence-Temp package.\r\nWhen the X++ compile succeeds it will start the labelc.exe to compile the labels.\r\nThe build result is returned as an object.\r\nIf the build fails, the compiler errors are written to the console.\r\nThe default output from all the different steps will be silenced.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eInvoke-D365ModuleBuild -Module Essence-Temp -IncludeReports -ShowOriginalProgress\nThis will compile X++, labels and reports for the Essence-Temp package.\r\nThe output from the different steps will be written to the console / host.",
+        "Syntax":  "Invoke-D365ModuleBuild [-Module] \u003cString\u003e [[-OutputDir] \u003cString\u003e] [[-LogPath] \u003cString\u003e] [[-MetaDataDir] \u003cString\u003e] [[-ReferenceDir] \u003cString[]\u003e] [[-BinDir] \u003cString\u003e] [-IncludeReports] [-ShowOriginalProgress] [-OutputCommandOnly] [[-Verbosity] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Invoke-D365ModuleCompile",
@@ -10729,7 +10837,7 @@
                        ],
                        [
                            "All",
-                           "Instructs the cmdlet work against all relevant services\nIncludes:\r\nAos\r\nBatch\r\nFinancial Reporter\r\nDMF",
+                           "Instructs the cmdlet work against all relevant services\nIncludes:\r\nAos\r\nBatch\r\nFinancial Reporter\r\nDMF\r\nDocumentRouting",
                            "",
                            false,
                            "false",
@@ -10768,6 +10876,14 @@
                            "False"
                        ],
                        [
+                           "DocumentRouting",
+                           "Instructs the cmdlet to work against the Document Routing service",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "Kill",
                            "Instructs the cmdlet to kill the service(s) that you want to restart",
                            "",
@@ -10789,8 +10905,8 @@
         "Synopsis":  "Restart the different services",
         "Name":  "Restart-D365Environment",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRestart-D365Environment -All\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -ShowOriginalProgress\nThis will stop all services and then start all services again.\r\nThe progress of Stopping the different services will be written to the console / host.\r\nThe progress of Starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eRestart-D365Environment -ComputerName \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\" -All\nThis will work against the machines: \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\".\r\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eRestart-D365Environment -Aos -Batch\nThis will stop the AOS and Batch services and then start the AOS and Batch services again.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eRestart-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -Kill\nThis will stop all services and then start all services again.\r\nIt will use the Kill parameter to make sure that the services is stopped.",
-        "Syntax":  "Restart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nRestart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRestart-D365Environment -All\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -ShowOriginalProgress\nThis will stop all services and then start all services again.\r\nThe progress of Stopping the different services will be written to the console / host.\r\nThe progress of Starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eRestart-D365Environment -ComputerName \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\" -All\nThis will work against the machines: \"TEST-SB-AOS1\",\"TEST-SB-AOS2\",\"TEST-SB-BI1\".\r\nThis will stop all services and then start all services again.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eRestart-D365Environment -Aos -Batch\nThis will stop the AOS and Batch services and then start the AOS and Batch services again.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eRestart-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services and then start the FinancialReporter and DMF services again.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eRestart-D365Environment -DocumentRouting\nThis will stop the DocumentRouting service and then start the DocumentRouting service again.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eRestart-D365Environment -All -Kill\nThis will stop all services and then start all services again.\r\nIt will use the Kill parameter to make sure that the services is stopped.",
+        "Syntax":  "Restart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nRestart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [[-DocumentRouting]] [-Kill] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Restore-D365DevConfig",
@@ -11651,6 +11767,30 @@
                            true,
                            "true (ByValue, ByPropertyName)",
                            ""
+                       ],
+                       [
+                           "Force",
+                           "Switch parameter to force the operation without confirmation.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "WhatIf",
+                           "Switch parameter to show what would happen if the cmdlet runs, without making any changes.",
+                           "wi",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Confirm",
+                           "Switch parameter to require confirmation before making changes.",
+                           "cf",
+                           false,
+                           "false",
+                           ""
                        ]
                    ],
         "Alias":  "",
@@ -11659,7 +11799,7 @@
         "Name":  "Set-D365WebServerType",
         "Links":  null,
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSet-D365WebServerType -RuntimeHostType \"IIS\"\nThis will update the current web server type registered in the \"DynamicsDevConfig.xml\" file.\r\nThis file is located \"K:\\AosService\\PackagesLocalDirectory\\bin\".\r\nIt will backup the current \"DynamicsDevConfig.xml\" file.\r\nIt will replace the value inside the \"RuntimeHostType\" tag.",
-        "Syntax":  "Set-D365WebServerType [-RuntimeHostType] \u003cString\u003e [\u003cCommonParameters\u003e]"
+        "Syntax":  "Set-D365WebServerType [-RuntimeHostType] \u003cString\u003e [-Force] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Set-D365WorkstationMode",
@@ -11696,7 +11836,7 @@
                        ],
                        [
                            "All",
-                           "Set when you want to start all relevant services\nIncludes:\r\nAos\r\nBatch\r\nFinancial Reporter",
+                           "Set when you want to start all relevant services\nIncludes:\r\nAos\r\nBatch\r\nFinancial Reporter\r\nDMF\r\nDocumentRouting",
                            "",
                            false,
                            "false",
@@ -11735,6 +11875,14 @@
                            "False"
                        ],
                        [
+                           "DocumentRouting",
+                           "Start the Document Routing service",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "OnlyStartTypeAutomatic",
                            "Instruct the cmdlet to filter out services that are set to manual start or disabled",
                            "",
@@ -11756,8 +11904,8 @@
         "Synopsis":  "Cmdlet to start the different services in a Dynamics 365 Finance \u0026 Operations environment",
         "Name":  "Start-D365Environment",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStart-D365Environment\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStart-D365Environment -OnlyStartTypeAutomatic\nThis will start all D365FO services on the machine that are configured for Automatic startup.\r\nIt will exclude all services that are either manual or disabled in their startup configuration.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStart-D365Environment -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\r\nThe progress of starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStart-D365Environment -All\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStart-D365Environment -Aos -Batch\nThis will start the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStart-D365Environment -FinancialReporter -DMF\nThis will start the FinancialReporter and DMF services on the machine.",
-        "Syntax":  "Start-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nStart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStart-D365Environment\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStart-D365Environment -OnlyStartTypeAutomatic\nThis will start all D365FO services on the machine that are configured for Automatic startup.\r\nIt will exclude all services that are either manual or disabled in their startup configuration.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStart-D365Environment -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\r\nThe progress of starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStart-D365Environment -All\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStart-D365Environment -Aos -Batch\nThis will start the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStart-D365Environment -FinancialReporter -DMF\nThis will start the FinancialReporter and DMF services on the machine.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eStart-D365Environment -DocumentRouting\nThis will start the DocumentRouting service on the machine.",
+        "Syntax":  "Start-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nStart-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [[-DocumentRouting]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Start-D365EnvironmentV2",
@@ -11804,6 +11952,14 @@
                            "False"
                        ],
                        [
+                           "DocumentRouting",
+                           "Start the Document Routing service",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "OnlyStartTypeAutomatic",
                            "Instruct the cmdlet to filter out services that are set to manual start or disabled",
                            "",
@@ -11825,8 +11981,8 @@
         "Synopsis":  "Cmdlet to start the different services in a Dynamics 365 Finance \u0026 Operations environment",
         "Name":  "Start-D365EnvironmentV2",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -OnlyStartTypeAutomatic\nThis will start all D365FO services on the machine that are configured for Automatic startup.\r\nIt will exclude all services that are either manual or disabled in their startup configuration.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\r\nThe progress of starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -All\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -Aos -Batch\nThis will start the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -FinancialReporter -DMF\nThis will start the FinancialReporter and DMF services on the machine.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eEnable-D365Exception\nPS C:\\\u003e Start-D365EnvironmentV2\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\r\nIf a service does not start, it will throw an exception.",
-        "Syntax":  "Start-D365EnvironmentV2 [[-All]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nStart-D365EnvironmentV2 [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -OnlyStartTypeAutomatic\nThis will start all D365FO services on the machine that are configured for Automatic startup.\r\nIt will exclude all services that are either manual or disabled in their startup configuration.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\r\nThe progress of starting the different services will be written to the console / host.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -All\nThis will start all D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -Aos -Batch\nThis will start the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -FinancialReporter -DMF\nThis will start the FinancialReporter and DMF services on the machine.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eStart-D365EnvironmentV2 -DocumentRouting\nThis will start the DocumentRouting service on the machine.\n-------------------------- EXAMPLE 8 --------------------------\nPS C:\\\u003eEnable-D365Exception\nPS C:\\\u003e Start-D365EnvironmentV2\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will start all D365FO services on the machine.\r\nIf a service does not start, it will throw an exception.",
+        "Syntax":  "Start-D365EnvironmentV2 [[-All]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]\nStart-D365EnvironmentV2 [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [[-DocumentRouting]] [-OnlyStartTypeAutomatic] [-ShowOriginalProgress] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Start-D365EventTrace",
@@ -11932,7 +12088,7 @@
                        ],
                        [
                            "All",
-                           "Set when you want to stop all relevant services\nIncludes:\r\nAos\r\nBatch\r\nFinancial Reporter",
+                           "Set when you want to stop all relevant services\nIncludes:\r\nAos\r\nBatch\r\nFinancial Reporter\r\nDMF\r\nDocumentRouting",
                            "",
                            false,
                            "false",
@@ -11971,6 +12127,14 @@
                            "False"
                        ],
                        [
+                           "DocumentRouting",
+                           "Stop the Document Routing service",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
                            "Kill",
                            "Instructs the cmdlet to kill the service(s) that you want to stop",
                            "",
@@ -11992,8 +12156,8 @@
         "Synopsis":  "Cmdlet to stop the different services in a Dynamics 365 Finance \u0026 Operations environment",
         "Name":  "Stop-D365Environment",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStop-D365Environment\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStop-D365Environment -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will Stop all D365FO services on the machine.\r\nThe progress of Stopping the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStop-D365Environment -All\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStop-D365Environment -Aos -Batch\nThis will stop the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStop-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStop-D365Environment -All -Kill\nThis will stop all D365FO services on the machine.\r\nIt will use the Kill parameter to make sure that the services is stopped.",
-        "Syntax":  "Stop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [[-Kill]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]\nStop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [[-Kill]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eStop-D365Environment\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eStop-D365Environment -ShowOriginalProgress\nThis will run the cmdlet with the default parameters.\r\nDefault is \"-All\".\r\nThis will Stop all D365FO services on the machine.\r\nThe progress of Stopping the different services will be written to the console / host.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eStop-D365Environment -All\nThis will stop all D365FO services on the machine.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eStop-D365Environment -Aos -Batch\nThis will stop the Aos \u0026 Batch D365FO services on the machine.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eStop-D365Environment -FinancialReporter -DMF\nThis will stop the FinancialReporter and DMF services on the machine.\n-------------------------- EXAMPLE 6 --------------------------\nPS C:\\\u003eStop-D365Environment -DocumentRouting\nThis will stop the DocumentRouting service on the machine.\n-------------------------- EXAMPLE 7 --------------------------\nPS C:\\\u003eStop-D365Environment -All -Kill\nThis will stop all D365FO services on the machine.\r\nIt will use the Kill parameter to make sure that the services is stopped.",
+        "Syntax":  "Stop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-All]] [[-Kill]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]\nStop-D365Environment [[-ComputerName] \u003cString[]\u003e] [[-Aos]] [[-Batch]] [[-FinancialReporter]] [[-DMF]] [[-DocumentRouting]] [[-Kill]] [[-ShowOriginalProgress]] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Stop-D365EventTrace",
@@ -12233,7 +12397,7 @@
     },
     {
         "CommandName":  "Update-D365AadGuestUser",
-        "Description":  "Is capable of updating the identity provider and network domain inside the UserInfo table for AAD guest users",
+        "Description":  "Is capable of updating the identity provider, network domain and object id inside the UserInfo table for AAD guest users",
         "Tags":  [
                      "User",
                      "Users",
@@ -12307,7 +12471,7 @@
         "Synopsis":  "Updates the guest user details in the database",
         "Name":  "Update-D365AadGuestUser",
         "Links":  null,
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"claire@contoso.com\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"*contoso.com\"\nThis will search for all users with an e-mail address containing \u0027contoso.com\u0027 and update them with the identity provider and network domain needed for an AAD guest user\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"claire@contoso.com\" -TenantId \"99999999-aaaa-bbbb-cccc-9999999999\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider and network domain needed for an AAD guest user.\r\nUses tenant id \"99999999-aaaa-bbbb-cccc-9999999999\" when connecting to Azure Active Directory(AAD).",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"claire@contoso.com\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider, network domain and object id needed for an AAD guest user\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"*contoso.com\"\nThis will search for all users with an e-mail address containing \u0027contoso.com\u0027 and update them with the identity provider, network domain and object id needed for an AAD guest user\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eUpdate-D365AadGuestUser -Email \"claire@contoso.com\" -TenantId \"99999999-aaaa-bbbb-cccc-9999999999\"\nThis will search for the user with the e-mail address claire@contoso.com and update it with the identity provider, network domain and object id needed for an AAD guest user.\r\nUses tenant id \"99999999-aaaa-bbbb-cccc-9999999999\" when connecting to Azure Active Directory(AAD).",
         "Syntax":  "Update-D365AadGuestUser [[-DatabaseServer] \u003cString\u003e] [[-DatabaseName] \u003cString\u003e] [[-SqlUser] \u003cString\u003e] [[-SqlPwd] \u003cString\u003e] [-Email] \u003cString\u003e [[-AzureAdCredential] \u003cPSCredential\u003e] [[-TenantId] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
