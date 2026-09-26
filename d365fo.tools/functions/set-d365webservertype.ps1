@@ -43,7 +43,7 @@ function Set-D365WebServerType {
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ValueFromPipeline = $true)]
         [ValidateSet('IIS', 'IISExpress')]
         [Alias('RuntimeHostType')]
-        [string] $RuntimeHostTypeOption
+        [string] $RuntimeHostTypeOption,
 
         [switch] $Force
     )
