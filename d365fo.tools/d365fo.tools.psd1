@@ -129,6 +129,7 @@
 						
 		'Get-D365LcsApiConfig',
 		'Get-D365LcsApiToken',
+		'Get-D365LcsApiTokenInteractive',
 		'Get-D365LcsAssetFile',
 		'Get-D365LcsSharedAssetFile',
 		'Get-D365LcsAssetValidationStatus',
