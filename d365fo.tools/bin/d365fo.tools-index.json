@@ -10278,6 +10278,56 @@
         "Syntax":  "Register-D365AzureStorageConfig [[-ConfigStorageLocation] \u003cString\u003e] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Register-D365EventTraceProvider",
+        "Description":  "Register event manifests from the AOS Monitoring directory to restore missing Event Trace Providers for Dynamics 365 for Finance and Operations.\n\nExisting providers are registered again. Each manifest uses the first matching resource DLL in this order: .Instrumentation.dll, Resource.dll, .dll.\n\nRun from an elevated PowerShell session on the D365FO server. Restart the VM after registration before starting a trace.",
+        "Tags":  [
+                     "ETL",
+                     "EventTracing",
+                     "EventTrace",
+                     "Monitoring"
+                 ],
+        "Params":  [
+                       [
+                           "Path",
+                           "Path to the Monitoring directory containing the event manifests and resource DLLs.\nDefaults to the Monitoring directory below the configured AOS application root.",
+                           "",
+                           false,
+                           "false",
+                           "(Join-Path -Path $Script:AOSPath -ChildPath \"Monitoring\")"
+                       ],
+                       [
+                           "EnableException",
+                           "Disable user-friendly warnings and throw exceptions that can be caught by calling scripts.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "WhatIf",
+                           "Show which event manifests would be registered without changing the installed providers.",
+                           "wi",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Confirm",
+                           "Prompt for confirmation before registering each event manifest.",
+                           "cf",
+                           false,
+                           "false",
+                           ""
+                       ]
+                   ],
+        "Alias":  "",
+        "Synopsis":  "Register D365FO Event Trace Providers",
+        "Name":  "Register-D365EventTraceProvider",
+        "Links":  "https://automaly.com/posts/unable-to-trace-error/",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eRegister-D365EventTraceProvider\nRegister the event manifests from the configured AOS Monitoring directory.\r\nRestart the VM afterwards before starting a trace.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eRegister-D365EventTraceProvider -Path \"K:\\AosService\\WebRoot\\Monitoring\" -WhatIf\nShow which event manifests would be registered from the specified Monitoring directory.\r\nNo providers are changed.",
+        "Syntax":  "Register-D365EventTraceProvider [[-Path] \u003cString\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Remove-D365BroadcastMessageConfig",
         "Description":  "Remove a broadcast message configuration from the configuration store",
         "Tags":  [

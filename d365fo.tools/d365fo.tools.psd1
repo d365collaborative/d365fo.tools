@@ -267,6 +267,7 @@
 		'Publish-D365SsrsReport',
 
 		'Register-D365AzureStorageConfig',
+		'Register-D365EventTraceProvider',
 		
 		'Remove-D365LcsAssetFile',
 		'Remove-D365BroadcastMessageConfig',
