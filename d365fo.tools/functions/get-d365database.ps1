@@ -86,6 +86,7 @@ function Get-D365Database {
         while ($reader.Read() -eq $true) {
             $res = [PSCustomObject]@{
                 Name             = "$($reader.GetString($($reader.GetOrdinal("NAME"))))"
+		LogicalFileName  = "$($reader.GetString($($reader.GetOrdinal("LogicalFileName"))))"
             }
 
             if ($res.Name -NotLike $Name) { continue }
